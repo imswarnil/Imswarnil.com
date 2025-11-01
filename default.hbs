@@ -245,10 +245,11 @@
 			{{!-- Footer. --}}
 			{{> "layout/footer-sidebar" navigation_aria_label=(t "Sidebar Secondary Navigation")}}
 		</aside>
-
 		{{!-- Content. --}}
 		<{{#is "home"}}div{{else}}article{{/is}} id="content" class="content {{post_class}}">
+		{{> "adsense" type="leaderboard"}}
 			{{{body}}}
+	     {{> "adsense" type="leaderboard" class="mb-4" }}
 		</{{#is "home"}}div{{else}}article{{/is}}>
 
 		{{!-- Footer. --}}

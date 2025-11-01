@@ -1,164 +1,132 @@
 {{!-- /partials/adsense.hbs --}}
-{{!--
-  MASTER ADSENSE PARTIAL
-  Client: ca-pub-1291242080282540
-
-  Usage:
-  {{> "adsense" type="responsive-square" }}
-  {{> "adsense" type="leaderboard" }}
-  {{> "adsense" type="large-rectangle" }}
-  {{> "adsense" type="medium-rectangle" }}
-  {{> "adsense" type="mobile-banner" }}
-  {{> "adsense" type="wide-skyscraper" }}
-  {{> "adsense" type="in-article" }}
-  {{> "adsense" type="fluid" }}
-  {{> "adsense" type="autorelaxed" }}
-  {{> "adsense" type="wide-900x250" }}
-
-  You can also override slot:
-  {{> "adsense" type="leaderboard" slot="1234567890" class="mt-6" }}
-
-  NOTE:
-  - We already load the main AdSense script in <head>, but keeping
-    the push() here is fine.
-  - Ads are hidden for members.
+{{!-- Master AdSense partial for Ghost
+     - uses your client: ca-pub-1291242080282540
+     - hides for members
+     - has “Remove ads” CTA
+     - respects your CSS vars
 --}}
 
 {{#unless @member}}
 
-  {{#if type}}
+  {{!-- outer card --}}
+  <div class="ad-card {{#if class}}{{class}}{{/if}} {{#if dark}}ad-card--dark{{/if}}">
+    <div class="ad-card__head">
+      <span class="ad-card__label">{{t "Advertisement"}}</span>
 
-    {{!-- 1. Responsive square (your code) --}}
-    {{#match type "responsive-square"}}
-      <div class="ad-unit ad--responsive-square {{class}}">
-        <ins class="adsbygoogle"
-             style="display:block"
-             data-ad-client="ca-pub-1291242080282540"
-             data-ad-slot="{{#if slot}}{{slot}}{{else}}7663977887{{/if}}"
-             data-ad-format="auto"
-             data-full-width-responsive="true"></ins>
-      </div>
-
-    {{!-- 2. Responsive vertical --}}
-    {{else match type "responsive-vertical"}}
-      <div class="ad-unit ad--responsive-vertical {{class}}">
-        <ins class="adsbygoogle"
-             style="display:block"
-             data-ad-client="ca-pub-1291242080282540"
-             data-ad-slot="{{#if slot}}{{slot}}{{else}}3487917390{{/if}}"
-             data-ad-format="auto"
-             data-full-width-responsive="true"></ins>
-      </div>
-
-    {{!-- 3. Leaderboard 728x90 --}}
-    {{else match type "leaderboard"}}
-      <div class="ad-unit ad--leaderboard {{class}}">
-        <ins class="adsbygoogle"
-             style="display:inline-block;width:728px;height:90px"
-             data-ad-client="ca-pub-1291242080282540"
-             data-ad-slot="{{#if slot}}{{slot}}{{else}}8939839370{{/if}}"></ins>
-      </div>
-
-    {{!-- 4. Large rectangle 336x280 (desktop) → 250x250 (mobile) --}}
-    {{else match type "large-rectangle"}}
-      <div class="ad-unit ad--336x280 {{class}}">
-        <ins class="adsbygoogle"
-             style="display:inline-block;width:336px;height:280px"
-             data-ad-client="ca-pub-1291242080282540"
-             data-ad-slot="{{#if slot}}{{slot}}{{else}}7663977887{{/if}}"></ins>
-      </div>
-
-    {{!-- 5. Medium rectangle 300x250 --}}
-    {{else match type "medium-rectangle"}}
-      <div class="ad-unit ad--300x250 {{class}}">
-        <ins class="adsbygoogle"
-             style="display:inline-block;width:300px;height:250px"
-             data-ad-client="ca-pub-1291242080282540"
-             data-ad-slot="{{#if slot}}{{slot}}{{else}}7663977887{{/if}}"></ins>
-      </div>
-
-    {{!-- 6. Mobile banner 300x50 --}}
-    {{else match type "mobile-banner"}}
-      <div class="ad-unit ad--300x50 {{class}}">
-        <ins class="adsbygoogle"
-             style="display:inline-block;width:300px;height:50px"
-             data-ad-client="ca-pub-1291242080282540"
-             data-ad-slot="{{#if slot}}{{slot}}{{else}}8939839370{{/if}}"></ins>
-      </div>
-
-    {{!-- 7. Wide skyscraper 160x600 (sidebar) --}}
-    {{else match type "wide-skyscraper"}}
-      <div class="ad-unit ad--160x600 {{class}}">
-        <ins class="adsbygoogle"
-             style="display:inline-block;width:160px;height:600px"
-             data-ad-client="ca-pub-1291242080282540"
-             data-ad-slot="{{#if slot}}{{slot}}{{else}}3487917390{{/if}}"></ins>
-      </div>
-
-    {{!-- 8. In-article (your code) --}}
-    {{else match type "in-article"}}
-      <div class="ad-unit ad--in-article {{class}}">
-        <ins class="adsbygoogle"
-             style="display:block; text-align:center;"
-             data-ad-layout="in-article"
-             data-ad-format="fluid"
-             data-ad-client="ca-pub-1291242080282540"
-             data-ad-slot="{{#if slot}}{{slot}}{{else}}6501428979{{/if}}"></ins>
-      </div>
-
-    {{!-- 9. Fluid with layout key (your code) --}}
-    {{else match type "fluid"}}
-      <div class="ad-unit ad--fluid {{class}}">
-        <ins class="adsbygoogle"
-             style="display:block"
-             data-ad-format="fluid"
-             data-ad-layout-key="-6v+f0-19-44+c6"
-             data-ad-client="ca-pub-1291242080282540"
-             data-ad-slot="{{#if slot}}{{slot}}{{else}}9130894804{{/if}}"></ins>
-      </div>
-
-    {{!-- 10. Auto relaxed / multiplex --}}
-    {{else match type "autorelaxed"}}
-      <div class="ad-unit ad--autorelaxed {{class}}">
-        <ins class="adsbygoogle"
-             style="display:block"
-             data-ad-format="autorelaxed"
-             data-ad-client="ca-pub-1291242080282540"
-             data-ad-slot="{{#if slot}}{{slot}}{{else}}6808134701{{/if}}"></ins>
-      </div>
-
-    {{!-- 11. 900x250 horizontal banner you pasted --}}
-    {{else match type "wide-900x250"}}
-      <div class="ad-unit ad--900x250 {{class}}">
-        <ins class="adsbygoogle"
-             style="display:inline-block;width:900px;height:250px"
-             data-ad-client="ca-pub-1291242080282540"
-             data-ad-slot="{{#if slot}}{{slot}}{{else}}3375031396{{/if}}"></ins>
-      </div>
-
-    {{!-- default: responsive square --}}
-    {{else}}
-      <div class="ad-unit ad--responsive-square {{class}}">
-        <ins class="adsbygoogle"
-             style="display:block"
-             data-ad-client="ca-pub-1291242080282540"
-             data-ad-slot="{{#if slot}}{{slot}}{{else}}7663977887{{/if}}"
-             data-ad-format="auto"
-             data-full-width-responsive="true"></ins>
-      </div>
-    {{/match}}
-
-  {{else}}
-    {{!-- If no type passed, show responsive square by default --}}
-    <div class="ad-unit ad--responsive-square {{class}}">
-      <ins class="adsbygoogle"
-           style="display:block"
-           data-ad-client="ca-pub-1291242080282540"
-           data-ad-slot="{{#if slot}}{{slot}}{{else}}7663977887{{/if}}"
-           data-ad-format="auto"
-           data-full-width-responsive="true"></ins>
+      {{!-- show CTA unless turned off --}}
+      {{#if nocta}}
+        {{!-- no link --}}
+      {{else}}
+        <a class="ad-card__cta" href="#/portal/signup">
+          {{t "Remove ads"}}
+        </a>
+      {{/if}}
     </div>
-  {{/if}}
+
+    <div class="ad-card__body">
+      {{#if type}}
+
+        {{!-- 1. Responsive square (your main one) --}}
+        {{#match type "responsive-square"}}
+          <ins class="adsbygoogle ad--responsive"
+               style="display:block"
+               data-ad-client="ca-pub-1291242080282540"
+               data-ad-slot="{{#if slot}}{{slot}}{{else}}7663977887{{/if}}"
+               data-ad-format="auto"
+               data-full-width-responsive="true"></ins>
+
+        {{!-- 2. 336x280 desktop → 250x250 mobile (your complaint one) --}}
+        {{else match type "large-rectangle"}}
+          <ins class="adsbygoogle ad--336x280"
+               style="display:inline-block;width:336px;height:280px"
+               data-ad-client="ca-pub-1291242080282540"
+               data-ad-slot="{{#if slot}}{{slot}}{{else}}7663977887{{/if}}"></ins>
+
+        {{!-- 3. 300x250 standard --}}
+        {{else match type "medium-rectangle"}}
+          <ins class="adsbygoogle ad--300x250"
+               style="display:inline-block;width:300px;height:250px"
+               data-ad-client="ca-pub-1291242080282540"
+               data-ad-slot="{{#if slot}}{{slot}}{{else}}7663977887{{/if}}"></ins>
+
+        {{!-- 4. leaderboard 728x90 --}}
+        {{else match type "leaderboard"}}
+          <ins class="adsbygoogle ad--leaderboard"
+               style="display:inline-block;width:728px;height:90px"
+               data-ad-client="ca-pub-1291242080282540"
+               data-ad-slot="{{#if slot}}{{slot}}{{else}}8939839370{{/if}}"></ins>
+
+        {{!-- 5. vertical / sidebar --}}
+        {{else match type "responsive-vertical"}}
+          <ins class="adsbygoogle ad--vertical"
+               style="display:block"
+               data-ad-client="ca-pub-1291242080282540"
+               data-ad-slot="{{#if slot}}{{slot}}{{else}}3487917390{{/if}}"
+               data-ad-format="auto"
+               data-full-width-responsive="true"></ins>
+
+        {{!-- 6. skyscraper 160x600 --}}
+        {{else match type "wide-skyscraper"}}
+          <ins class="adsbygoogle ad--160x600"
+               style="display:inline-block;width:160px;height:600px"
+               data-ad-client="ca-pub-1291242080282540"
+               data-ad-slot="{{#if slot}}{{slot}}{{else}}3487917390{{/if}}"></ins>
+
+        {{!-- 7. in-article --}}
+        {{else match type "in-article"}}
+          <ins class="adsbygoogle ad--in-article"
+               style="display:block; text-align:center;"
+               data-ad-layout="in-article"
+               data-ad-format="fluid"
+               data-ad-client="ca-pub-1291242080282540"
+               data-ad-slot="{{#if slot}}{{slot}}{{else}}6501428979{{/if}}"></ins>
+
+        {{!-- 8. fluid with layout key --}}
+        {{else match type "fluid"}}
+          <ins class="adsbygoogle ad--fluid"
+               style="display:block"
+               data-ad-format="fluid"
+               data-ad-layout-key="-6v+f0-19-44+c6"
+               data-ad-client="ca-pub-1291242080282540"
+               data-ad-slot="{{#if slot}}{{slot}}{{else}}9130894804{{/if}}"></ins>
+
+        {{!-- 9. autorelaxed / multiplex --}}
+        {{else match type "autorelaxed"}}
+          <ins class="adsbygoogle ad--autorelaxed"
+               style="display:block"
+               data-ad-format="autorelaxed"
+               data-ad-client="ca-pub-1291242080282540"
+               data-ad-slot="{{#if slot}}{{slot}}{{else}}6808134701{{/if}}"></ins>
+
+        {{!-- 10. 900x250 banner --}}
+        {{else match type "wide-900x250"}}
+          <ins class="adsbygoogle ad--900x250"
+               style="display:inline-block;width:900px;height:250px"
+               data-ad-client="ca-pub-1291242080282540"
+               data-ad-slot="{{#if slot}}{{slot}}{{else}}3375031396{{/if}}"></ins>
+
+        {{!-- default fallback --}}
+        {{else}}
+          <ins class="adsbygoogle ad--responsive"
+               style="display:block"
+               data-ad-client="ca-pub-1291242080282540"
+               data-ad-slot="{{#if slot}}{{slot}}{{else}}7663977887{{/if}}"
+               data-ad-format="auto"
+               data-full-width-responsive="true"></ins>
+        {{/match}}
+
+      {{else}}
+        {{!-- no type passed -> responsive --}}
+        <ins class="adsbygoogle ad--responsive"
+             style="display:block"
+             data-ad-client="ca-pub-1291242080282540"
+             data-ad-slot="{{#if slot}}{{slot}}{{else}}7663977887{{/if}}"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+      {{/if}}
+    </div>
+
+  </div>
 
   <script>
     (window.adsbygoogle = window.adsbygoogle || []).push({});
