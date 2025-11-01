@@ -11,62 +11,101 @@
 /* Your custom CSS goes below this line */
 /* assets/css/adsense.css */
 /* basic wrapper so ads don't look sad */
+/* assets/css/adsense.css */
 
 .ad-unit {
     margin: 1.5rem 0;
-    display: block;
+    display: flex;
+    justify-content: center;
     width: 100%;
 }
 
 .ad-unit ins.adsbygoogle {
-    background: transparent;
     border: 0;
+    background: transparent;
 }
 
-/* common sizes (you can tweak to match your layout) */
-.ad-unit--rectangle {
-    max-width: 336px;
-    min-height: 280px;
+/* 728x90 leaderboard */
+.ad--leaderboard ins.adsbygoogle {
+    width: 728px !important;
+    height: 90px !important;
 }
 
-.ad-unit--square {
-    max-width: 250px;
-    min-height: 250px;
+/* 336x280 -> 250x250 on mobile */
+.ad--336x280 ins.adsbygoogle {
+    width: 336px !important;
+    height: 280px !important;
 }
 
-.ad-unit--horizontal {
-    max-width: 728px;
-    min-height: 90px;
+/* 300x250 */
+.ad--300x250 ins.adsbygoogle {
+    width: 300px !important;
+    height: 250px !important;
 }
 
-.ad-unit--vertical {
-    max-width: 300px;
-    min-height: 600px;
+/* 300x50 mobile banner */
+.ad--300x50 ins.adsbygoogle {
+    width: 300px !important;
+    height: 50px !important;
 }
 
-.ad-unit--in-article,
-.ad-unit--fluid {
+/* 160x600 sidebar */
+.ad--160x600 ins.adsbygoogle {
+    width: 160px !important;
+    height: 600px !important;
+}
+
+/* 900x250 */
+.ad--900x250 ins.adsbygoogle {
+    width: 900px !important;
+    height: 250px !important;
     max-width: 100%;
 }
 
-/* make ads nicely centered inside content area */
-.content .ad-unit,
-.post-content .ad-unit,
-.gh-content .ad-unit {
-    display: flex;
-    justify-content: center;
+/* in-article / fluid should just be full width */
+.ad--in-article ins.adsbygoogle,
+.ad--fluid ins.adsbygoogle,
+.ad--autorelaxed ins.adsbygoogle,
+.ad--responsive-square ins.adsbygoogle,
+.ad--responsive-vertical ins.adsbygoogle {
+    width: 100% !important;
 }
 
-/* responsive breakpoints */
-@media (max-width: 768px) {
-
-    .ad-unit,
-    .ad-unit ins.adsbygoogle {
-        max-width: 100% !important;
+/* MOBILE BREAKPOINTS */
+@media (max-width: 900px) {
+    .ad--leaderboard ins.adsbygoogle {
+        width: 100% !important;
+        height: auto !important;
     }
 
-    .ad-unit--horizontal {
-        /* horizontal ad becomes responsive */
+    .ad--900x250 ins.adsbygoogle {
+        width: 100% !important;
+        height: auto !important;
+    }
+}
+
+@media (max-width: 680px) {
+
+    /* 336 -> 250 */
+    .ad--336x280 ins.adsbygoogle {
+        width: 250px !important;
+        height: 250px !important;
+    }
+
+    /* keep centered */
+    .ad-unit {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .ad--300x250 ins.adsbygoogle {
+        width: 250px !important;
+        height: 250px !important;
+    }
+
+    .ad--300x50 ins.adsbygoogle {
+        width: 320px !important;
         max-width: 100%;
     }
 }
