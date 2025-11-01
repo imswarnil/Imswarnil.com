@@ -1,0 +1,18 @@
+<ul class="social-links">
+	{{#if @site.twitter}}
+  <li>
+		<a href="{{social_url type="twitter"}}" class="social-link" target="_blank" rel="noopener noreferrer">
+			{{> "icons-social/twitter"}}
+      <span>{{t "X"}}</span>
+		</a>
+  </li>
+	{{/if}}
+	{{#if @site.facebook}}
+  <li>
+		<a href="{{social_url type="facebook"}}" class="social-link" target="_blank" rel="noopener noreferrer">
+			{{> "icons-social/facebook"}}
+      <span>{{t "Facebook"}}</span>
+		</a>
+  </li>
+	{{/if}}
+</ul>

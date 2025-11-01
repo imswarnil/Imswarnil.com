@@ -1,0 +1,52 @@
+/* stylelint-disable at-rule-no-unknown */
+
+.card-recommendation {
+	position: relative;
+	padding: var(--spacing-8) var(--spacing-8) var(--spacing-7);
+	border-radius: var(--radius-4);
+	background-color: var(--color-background-100);
+	transition: background-color 0.2s ease;
+
+	.card-link {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		outline-offset: var(--spacing-1);
+		border-radius: var(--radius-4);
+	}
+
+	.card-image {
+		display: block;
+		margin-bottom: var(--spacing-9);
+
+		> img {
+			--placeholder--content: "";
+			--placeholder--padding: 0;
+			--placeholder--background-color: var(--color-background-300);
+
+			width: 28px;
+			height: 28px;
+			border-radius: var(--radius-1);
+		}
+	}
+
+	.card-title {
+		font-size: 1rem;
+		font-weight: var(--font-weight-semibold);
+
+		> a {
+			text-decoration: none;
+		}
+	}
+
+	.card-description {
+		margin-top: var(--spacing-4);
+		font-size: var(--font-small);
+	}
+
+	&:hover {
+		background-color: var(--color-background-200);
+	}
+}

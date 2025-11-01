@@ -1,0 +1,20 @@
+assets/**/*
+locales/**/*
+partials/**/*
+*.hbs:!demo-*
+renovate.json
+routes.yaml
+
+# dev build files
+scripts/*
+.distzip
+.eslintignore
+.eslintrc.js
+.gitignore
+.prettierignore
+.prettierrc.js
+.stylelintrc.js
+LICENSE
+package.json
+README.md
+rollup.config.mjs
