@@ -9,3 +9,64 @@
  */
 
 /* Your custom CSS goes below this line */
+/* assets/css/adsense.css */
+/* basic wrapper so ads don't look sad */
+
+.ad-unit {
+    margin: 1.5rem 0;
+    display: block;
+    width: 100%;
+}
+
+.ad-unit ins.adsbygoogle {
+    background: transparent;
+    border: 0;
+}
+
+/* common sizes (you can tweak to match your layout) */
+.ad-unit--rectangle {
+    max-width: 336px;
+    min-height: 280px;
+}
+
+.ad-unit--square {
+    max-width: 250px;
+    min-height: 250px;
+}
+
+.ad-unit--horizontal {
+    max-width: 728px;
+    min-height: 90px;
+}
+
+.ad-unit--vertical {
+    max-width: 300px;
+    min-height: 600px;
+}
+
+.ad-unit--in-article,
+.ad-unit--fluid {
+    max-width: 100%;
+}
+
+/* make ads nicely centered inside content area */
+.content .ad-unit,
+.post-content .ad-unit,
+.gh-content .ad-unit {
+    display: flex;
+    justify-content: center;
+}
+
+/* responsive breakpoints */
+@media (max-width: 768px) {
+
+    .ad-unit,
+    .ad-unit ins.adsbygoogle {
+        max-width: 100% !important;
+    }
+
+    .ad-unit--horizontal {
+        /* horizontal ad becomes responsive */
+        max-width: 100%;
+    }
+}

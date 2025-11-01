@@ -1,0 +1,49 @@
+{{!-- /partials/adsense.hbs --}}
+{{!--
+Usage examples:
+
+{{> "adsense" slot="1234567890" ad_type="rectangle" }}
+{{> "adsense" slot="1234567890" ad_type="in-article" class="mt-4" }}
+{{> "adsense" slot="1234567890" ad_type="horizontal" responsive=true }}
+{{> "adsense" slot="1234567890" ad_type="vertical" }}
+{{> "adsense" slot="1234567890" ad_type="fluid" layout_key="-fh+5s-3d-9w" }}
+
+Notes:
+- We already loaded the AdSense script in <head>, so no script tag here.
+- Will NOT show for logged-in members.
+--}}
+
+{{#unless @member}}
+  {{!-- defaults --}}
+  {{! client = your adsense client id, override when needed }}
+  {{#if client}}
+    {{!-- user provided client --}}
+    {{~var_client=client~}}
+  {{else}}
+    {{!-- fallback (change this to your real one) --}}
+    {{~var_client="ca-pub-1234567890123456"~}}
+  {{/if}}
+
+  {{!-- ad_type affects CSS wrapper --}}
+  {{#if ad_type}}
+    {{~var_type=ad_type~}}
+  {{else}}
+    {{~var_type="rectangle"~}}
+  {{/if}}
+
+  <div class="ad-unit ad-unit--{{var_type}}{{#if class}} {{class}}{{/if}}">
+    <ins class="adsbygoogle"
+         style="display:block;"
+         data-ad-client="{{var_client}}"
+         data-ad-slot="{{slot}}"
+         {{!-- if user said responsive=true --}}
+         {{#if responsive}}data-ad-format="auto" data-full-width-responsive="true"{{/if}}
+         {{!-- fluid layout --}}
+         {{#if layout_key}}data-ad-layout="in-article" data-ad-format="fluid" data-ad-layout-key="{{layout_key}}"{{/if}}>
+    </ins>
+  </div>
+
+  <script>
+    (window.adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+{{/unless}}

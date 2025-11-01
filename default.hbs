@@ -89,6 +89,13 @@
 	{{!-- Custom. --}}
 	<link rel="stylesheet" type="text/css" href="{{asset "custom.css"}}">
 
+	{{!-- partials/adsense-loader.hbs --}}
+{{!-- Load AdSense only for non-members --}}
+     {{#unless @member}}
+       <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1234567890123456" crossorigin="anonymous"></script>
+     {{/unless}}
+
+
 	{{!-- This tag outputs all your advanced SEO meta, structured data, and other important settings, it should always be the last tag before the closing head tag --}}
 	{{ghost_head}}
 </head>
