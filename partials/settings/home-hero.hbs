@@ -9,8 +9,7 @@
 	- Feature Image (from hero page)
 
 	If page title is "(Untitled)": uses site title and hide hero.
- --}}
-
+	
 {{#*inline "get-hero-excerpt"}}
 	{{#if custom_excerpt}}
 		{{> @partial-block excerpt=custom_excerpt}}
@@ -34,3 +33,132 @@
 {{else}}
 	{{> @partial-block hide_title=true title=@site.title}}
 {{/get}}
+
+ --}}
+
+ 
+
+
+<section class="section-hero" style="padding: var(--spacing-9) var(--layout--padding);">
+  <div class="hero-wrap" style="
+    max-width: var(--container-wide--width);
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(280px, 0.9fr);
+    gap: clamp(2rem, 3vw, 3.5rem);
+    align-items: center;
+  ">
+
+    <!-- left column -->
+    <div class="hero-content" style="display:flex;flex-direction:column;gap:var(--spacing-7);">
+      <p style="display:inline-flex;align-items:center;gap:.5rem;padding:.35rem .75rem;border:1px solid var(--color-border);border-radius:999px;font-size:var(--font-x-small);width:max-content;background:var(--color-background-100);">
+        🔴 New: <span style="color:var(--ghost-accent-color);font-weight:600;">Life. Code. Camera. Repeat.</span>
+      </p>
+
+      <header>
+        <h1 style="font-size:clamp(2.35rem, 3.1vw, 3rem);line-height:1.05;letter-spacing:-0.03em;">
+          I’m Swarnil. I make <span style="color:var(--ghost-accent-color);">cinematic tech chaos</span> for the internet.
+        </h1>
+        <p style="margin-top:var(--spacing-6);color:var(--color-secondary);max-width:38rem;">
+          Filmmaker × Software Engineer × YouTuber. Documenting the journey, not just the highlight reel. Subscribe if you like Deadpool energy with Salesforce money.
+        </p>
+      </header>
+
+      <div class="hero-actions" style="display:flex;flex-wrap:wrap;gap:var(--spacing-6);align-items:center;">
+        <a class="button" href="/newsletter">
+          <span class="label-wrapper">
+            <span class="label">Subscribe to Newsletter</span>
+            <span class="label">Let’s go ⚡</span>
+          </span>
+        </a>
+        <a class="button button-transparent" href="/videos">
+          <span class="label-wrapper">
+            <span class="label">Watch Films</span>
+            <span class="label">Play ▶</span>
+          </span>
+        </a>
+        <p style="color:var(--color-secondary);font-size:var(--font-small);">
+          No spam. Only story + creator ops.
+        </p>
+      </div>
+
+      <ul class="social-links">
+        <li><a class="social-link" href="https://youtube.com/" target="_blank" rel="noopener">YouTube</a></li>
+        <li><a class="social-link" href="https://instagram.com/" target="_blank" rel="noopener">Instagram</a></li>
+        <li><a class="social-link" href="/about">About</a></li>
+      </ul>
+    </div>
+
+    <!-- right column -->
+    <aside class="hero-panel" style="
+      border:1px solid var(--color-border);
+      border-radius: var(--radius-5);
+      background: var(--color-background-100);
+      box-shadow: var(--shadow);
+      padding: clamp(1.4rem, 2.1vw, 1.75rem);
+      display:flex;
+      flex-direction:column;
+      gap:1.25rem;
+      min-height: 280px;
+    ">
+      <p style="font-size:var(--font-x-small);text-transform:uppercase;letter-spacing:.04em;color:var(--color-secondary);">
+        Creator dashboard — live
+      </p>
+
+      <div style="display:flex;gap:1rem;align-items:center;">
+        <div class="avatar avatar-large" data-placeholder="S"></div>
+        <div>
+          <p style="font-weight:600;">Imswarnil</p>
+          <p style="color:var(--color-secondary);font-size:var(--font-small);">Filmmaker • Salesforce • Indie web</p>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(3, minmax(0,1fr));gap:.85rem;">
+        <div style="background:var(--color-background);border:1px solid rgba(0,0,0,.04);border-radius:1rem;padding:.6rem .8rem;">
+          <p style="font-size:.7rem;color:var(--color-secondary);">YouTube</p>
+          <p style="font-size:1.3rem;font-weight:600;">17k</p>
+        </div>
+        <div style="background:var(--color-background);border:1px solid rgba(0,0,0,.04);border-radius:1rem;padding:.6rem .8rem;">
+          <p style="font-size:.7rem;color:var(--color-secondary);">Films</p>
+          <p style="font-size:1.3rem;font-weight:600;">42</p>
+        </div>
+        <div style="background:var(--color-background);border:1px solid rgba(0,0,0,.04);border-radius:1rem;padding:.6rem .8rem;">
+          <p style="font-size:.7rem;color:var(--color-secondary);">Newsletter</p>
+          <p style="font-size:1.3rem;font-weight:600;">+128</p>
+        </div>
+      </div>
+
+      <div style="margin-top:.5rem;">
+        <p style="font-size:var(--font-small);color:var(--color-secondary);">
+          “I left YouTube once. Now I’m back with a plot.” — you, probably.
+        </p>
+      </div>
+
+      <a href="/start-here" class="button button-background-200" style="width:fit-content;">
+        <span class="label-wrapper">
+          <span class="label">Start from Episode 1</span>
+          <span class="label">Binge 📺</span>
+        </span>
+      </a>
+    </aside>
+
+  </div>
+</section>
+
+<!-- responsive -->
+<style>
+@media (max-width: 991px) {
+  .section-hero .hero-wrap {
+    grid-template-columns: 1fr !important;
+  }
+  .section-hero .hero-content {
+    text-align: left;
+  }
+  .section-hero .hero-actions {
+    justify-content: flex-start;
+  }
+  .section-hero .hero-panel {
+    order: 2;
+  }
+}
+</style>
