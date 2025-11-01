@@ -1,6 +1,6 @@
 /* assets/css/adsense.css */
-
-.ad-card {
+/* uses your vars from :root */
+.ad-box {
     --ad-bg: var(--color-background, #fff);
     --ad-border: var(--color-border, rgba(128, 128, 128, 0.2));
     --ad-fg: var(--color-foreground, #4d4d4d);
@@ -9,54 +9,63 @@
     background: var(--ad-bg);
     border: 1px solid var(--ad-border);
     border-radius: var(--ad-radius);
-    padding: 0.75rem 0.75rem 0.5rem;
-    margin: 1.5rem 0;
-    display: flex;
-    flex-direction: column;
-    gap: 0.6rem;
+    margin: 1.25rem 0;
+    overflow: hidden;
 }
 
-.ad-card__head {
+/* top border with "Advertisement" + "Remove ads" */
+.ad-box__top {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: .5rem;
+    gap: .4rem;
+    padding: .45rem .75rem .35rem;
+    border-bottom: 1px dashed var(--ad-border);
+    background: color-mix(in srgb, var(--ad-bg) 92%, rgba(0, 0, 0, 0) 8%);
 }
 
-.ad-card__label {
-    font-size: 0.7rem;
+.ad-box__label {
+    font-size: 0.65rem;
     text-transform: uppercase;
     letter-spacing: 0.04em;
     color: var(--color-secondary, #757575);
+    white-space: nowrap;
 }
 
-.ad-card__cta {
-    font-size: 0.7rem;
-    color: var(--color-accent-foreground, var(--color-foreground, #4d4d4d));
+.ad-box__remove {
+    font-size: 0.65rem;
+    color: var(--color-accent-foreground, var(--ad-fg));
     text-decoration: none;
     opacity: .7;
+    border: 1px solid rgba(255, 255, 255, 0);
+    border-radius: calc(var(--ad-radius) / 2);
+    padding: 2px 6px;
 }
 
-.ad-card__cta:hover {
+.ad-box__remove:hover {
     opacity: 1;
-    text-decoration: underline;
+    background: rgba(0, 0, 0, 0.02);
 }
 
-.ad-card__body {
+/* ad body */
+.ad-box__body {
     display: flex;
-    justify-content: center;
     align-items: center;
-    min-height: 80px;
+    justify-content: center;
+    text-align: center;
+    padding: .75rem;
+    min-height: 90px;
 }
 
-.ad-card ins.adsbygoogle {
-    background: transparent;
-    border: 0;
+/* make all <ins> centered */
+.ad-box__body>ins.adsbygoogle {
+    margin-left: auto;
+    margin-right: auto;
 }
 
-/* === FIXED SIZES (desktop) === */
+/* ====== AD SIZE PRESETS (desktop first) ====== */
 
-/* 336x280 */
+/* 336x280 desktop  */
 .ad--336x280 {
     width: 336px !important;
     height: 280px !important;
@@ -68,26 +77,27 @@
     height: 250px !important;
 }
 
-/* 728x90 */
+/* leaderboard */
 .ad--leaderboard {
     width: 728px !important;
     height: 90px !important;
+    max-width: 100%;
 }
 
-/* 160x600 */
+/* skyscraper */
 .ad--160x600 {
     width: 160px !important;
     height: 600px !important;
 }
 
-/* 900x250 */
+/* wide 900 */
 .ad--900x250 {
     width: 900px !important;
     height: 250px !important;
     max-width: 100%;
 }
 
-/* fluid / in-article / responsive just stretch */
+/* responsive types always 100% */
 .ad--responsive,
 .ad--in-article,
 .ad--fluid,
@@ -96,51 +106,58 @@
     width: 100% !important;
 }
 
-/* === RESPONSIVE BREAKPOINTS === */
-@media (max-width: 820px) {
-    .ad--leaderboard {
-        width: 100% !important;
-        height: auto !important;
+/* ====== BREAKPOINTS ====== */
+
+/* tablets: shrink fixed ads a bit + center */
+@media (max-width: 900px) {
+    .ad-box__top {
+        gap: .3rem;
     }
 
-    .ad--900x250 {
-        width: 100% !important;
-        height: auto !important;
-    }
-
-    /* 336x280 → 300x250-ish */
+    /* 336 → 300 */
     .ad--336x280 {
         width: 300px !important;
         height: 250px !important;
     }
 
-    .ad-card {
-        padding: 0.75rem;
+    .ad--leaderboard {
+        width: 100% !important;
+        height: auto !important;
+    }
+
+    .ad-box__body {
+        padding: .6rem;
     }
 }
 
+/* phones */
 @media (max-width: 540px) {
-
-    /* finally 336→250 for mobile */
-    .ad--336x280 {
-        width: 250px !important;
-        height: 250px !important;
+    .ad-box {
+        border-radius: calc(var(--ad-radius) - 2px);
     }
 
+    .ad-box__top {
+        padding: .4rem .55rem .3rem;
+    }
+
+    .ad-box__label {
+        font-size: 0.6rem;
+    }
+
+    .ad-box__remove {
+        font-size: 0.6rem;
+    }
+
+    /* 336 → 250 square on mobile */
+    .ad--336x280,
     .ad--300x250 {
         width: 250px !important;
         height: 250px !important;
     }
 
-    .ad-card {
-        border-radius: calc(var(--radius, .75rem) - 2px);
-    }
-
-    .ad-card__head {
-        gap: .25rem;
-    }
-
-    .ad-card__cta {
-        font-size: 0.65rem;
+    /* center always */
+    .ad-box__body {
+        justify-content: center;
+        text-align: center;
     }
 }
