@@ -36,4 +36,425 @@
 
  --}}
 
+{{!-- partials/home-hero.hbs --}}
+<section class="hero" data-hero>
+  <style>
+    .hero {
+      --page-bg: #f6f7fb;
+      --card: #ffffff;
+      --ink: #0f172a;
+      --muted: #6b7280;
+      --accent: #009ed9;
+      --radius-lg: 1.5rem;
+      --radius-md: 1rem;
+      --radius-sm: .5rem;
+      --border: rgba(15, 23, 42, 0.08);
+      --shadow-sm: 0 10px 30px rgba(15, 23, 42, 0.05);
+      --hero-max: 1180px;
+      width: min(100%, var(--hero-max));
+      margin: 1.5rem auto 2.5rem;
+      padding: 1.5rem;
+      background: radial-gradient(circle at top, rgba(0, 158, 217, 0.05), rgba(246, 247, 251, 0)) , var(--card);
+      border: 1px solid rgba(0, 0, 0, 0.03);
+      border-radius: 1.75rem;
+      box-shadow: var(--shadow-sm);
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+    }
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(circle, rgba(0,0,0,.035) 1px, transparent 0);
+      background-size: 16px 16px;
+      opacity: 0.45;
+      pointer-events: none;
+      z-index: 1;
+    }
+    .hero__grid {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      z-index: 2;
+    }
+    .hero__media {
+      order: -1;
+    }
+    .hero__media-frame {
+      background: #0f172a;
+      border-radius: 1.35rem;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      overflow: hidden;
+      position: relative;
+      min-height: 210px;
+    }
+    .hero__avatar {
+      aspect-ratio: 4 / 3;
+      margin: 0;
+      overflow: hidden;
+      background: linear-gradient(140deg, #111827 0%, #009ed9 52%, #fff 120%);
+    }
+    .hero__avatar img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+    }
+    .hero__media-badges {
+      position: absolute;
+      bottom: .75rem;
+      left: .75rem;
+      display: flex;
+      gap: .5rem;
+      flex-wrap: wrap;
+    }
+    .hero__badge {
+      background: rgba(255, 255, 255, 0.9);
+      color: #0f172a;
+      padding: .35rem .7rem;
+      border-radius: 999px;
+      font-size: .7rem;
+      font-weight: 600;
+      backdrop-filter: saturate(140%);
+    }
+    .hero__video-ratio {
+      position: relative;
+      width: 100%;
+      padding-top: 56.25%;
+      background: #000;
+    }
+    .hero__video-ratio iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+      border-radius: 1.35rem;
+    }
+    .hero__video-back {
+      position: absolute;
+      top: .75rem;
+      left: .75rem;
+      border: 0;
+      background: rgba(15, 23, 42, .65);
+      color: #fff;
+      padding: .3rem .7rem .35rem;
+      border-radius: .75rem;
+      font-size: .7rem;
+      cursor: pointer;
+      backdrop-filter: blur(4px);
+    }
+
+    .hero__content {
+      display: flex;
+      flex-direction: column;
+      gap: .85rem;
+    }
+    .hero__eyebrow {
+      font-size: .75rem;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 600;
+    }
+    .hero__title {
+      font-size: clamp(1.5rem, 2.7vw, 2.35rem);
+      line-height: 1.02;
+      color: var(--ink);
+      letter-spacing: -.02em;
+    }
+    .hero__title strong {
+      color: var(--accent);
+      font-weight: 700;
+    }
+    .hero__subtitle {
+      color: var(--muted);
+      font-size: .95rem;
+      max-width: 38rem;
+    }
+    .hero__meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .5rem .85rem;
+      margin-top: .25rem;
+    }
+    .hero__meta-item {
+      display: flex;
+      align-items: center;
+      gap: .35rem;
+      background: rgba(0, 158, 217, 0.031);
+      border: 1px solid rgba(0, 158, 217, 0.05);
+      border-radius: .85rem;
+      padding: .4rem .6rem .45rem;
+      font-size: .75rem;
+      color: #111827;
+    }
+    .hero__meta-icon {
+      font-size: .85rem;
+    }
+    .hero__stats {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-top: .25rem;
+    }
+    .hero__stat {
+      background: rgba(255,255,255,.75);
+      border: 1px solid rgba(15, 23, 42, .03);
+      border-radius: 1rem;
+      padding: .6rem .85rem .5rem;
+      min-width: 6.25rem;
+    }
+    .hero__stat-num {
+      display: block;
+      font-weight: 700;
+      font-size: 1.2rem;
+      color: #0f172a;
+    }
+    .hero__stat-label {
+      font-size: .7rem;
+      color: #6b7280;
+    }
+    .hero__actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .5rem;
+      margin-top: .5rem;
+    }
+    .btn {
+      border: 0;
+      border-radius: .9rem;
+      padding: .55rem 1.1rem .6rem;
+      font-weight: 600;
+      font-size: .8rem;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      transition: all .15s ease-out;
+    }
+    .btn--primary {
+      background: var(--accent);
+      color: #fff;
+      box-shadow: 0 12px 25px rgba(0, 158, 217, 0.28);
+    }
+    .btn--ghost {
+      background: rgba(15, 23, 42, .04);
+      color: #0f172a;
+    }
+    .hero__social {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .5rem;
+      margin-top: .7rem;
+    }
+    .hero__social-link {
+      display: inline-flex;
+      align-items: center;
+      gap: .35rem;
+      padding: .35rem .75rem .4rem;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.65);
+      border: 1px solid rgba(15, 23, 42, .03);
+      font-size: .72rem;
+      text-decoration: none;
+      color: #0f172a;
+      transition: all .15s ease-out;
+    }
+    .hero__social-link:hover {
+      background: #fff;
+      box-shadow: 0 6px 18px rgba(15, 23, 42, .12);
+    }
+
+    @media (min-width: 860px) {
+      .hero {
+        padding: 1.85rem 1.85rem 2.25rem;
+      }
+      .hero__grid {
+        display: grid;
+        grid-template-columns: minmax(280px, 350px) minmax(0, 1fr);
+        gap: 2rem;
+        align-items: center;
+      }
+      .hero__media {
+        order: 0;
+        position: relative;
+      }
+      .hero__social {
+        position: absolute;
+        right: -5rem;
+        top: 50%;
+        transform: translateY(-50%);
+        flex-direction: column;
+        background: rgba(246,247,251,.8);
+        padding: .5rem;
+        border-radius: 999px;
+        gap: .4rem;
+        border: 1px solid rgba(15, 23, 42, 0.02);
+        box-shadow: 0 14px 35px rgba(15, 23, 42, .05);
+      }
+      .hero__media-frame {
+        min-height: 320px;
+      }
+    }
+
+    @media (max-width: 540px) {
+      .hero {
+        border-radius: 1.25rem;
+        padding: 1.1rem 1rem 1.35rem;
+      }
+      .hero__media-frame {
+        border-radius: 1.1rem;
+      }
+      .hero__actions {
+        flex-direction: row;
+      }
+      .hero__social {
+        position: static;
+        flex-direction: row;
+        background: transparent;
+        box-shadow: none;
+        padding: 0;
+      }
+    }
+  </style>
+
+  <div class="hero__grid">
+    <div class="hero__media">
+      <div class="hero__media-frame">
+        <figure class="hero__avatar" data-hero-image>
+          <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=1200&auto=format&fit=crop&q=80" alt="Imswarnil — filmmaker, software engineer, chaos controller">
+        </figure>
+
+        <div class="hero__video-ratio" data-hero-video hidden>
+          <button type="button" class="hero__video-back" data-hero-back>&larr; Back to profile</button>
+          <iframe
+            src="https://www.youtube.com/embed/LljxI3k3jpI?rel=0&modestbranding=1"
+            title="Watch my reel"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen
+          ></iframe>
+        </div>
+
+        <div class="hero__media-badges">
+          <span class="hero__badge">🎬 Filmmaker</span>
+          <span class="hero__badge">💻 Software Engineer</span>
+          <span class="hero__badge">📺 YouTuber</span>
+        </div>
+
+        <div class="hero__social">
+          <a href="https://youtube.com/@imswarnil" class="hero__social-link" target="_blank" rel="noopener">
+            <span>🔴</span> YouTube
+          </a>
+          <a href="https://instagram.com/imswarnil" class="hero__social-link" target="_blank" rel="noopener">
+            <span>📸</span> Instagram
+          </a>
+          <a href="https://x.com" class="hero__social-link" target="_blank" rel="noopener">
+            <span>🐦</span> X / Twitter
+          </a>
+          <a href="mailto:hello@imswarnil.com" class="hero__social-link">
+            <span>✉</span> Email
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero__content">
+      <p class="hero__eyebrow">👋 Hey, I’m Swarnil — your friendly neighborhood cinematic troublemaker</p>
+      <h1 class="hero__title">
+        I make <strong>stories</strong>, <strong>software</strong> and sometimes <strong>chaos</strong>.
+      </h1>
+      <p class="hero__subtitle">
+        Building films, Ghost sites, Salesforce stuff and an online universe called <strong>Imswarnil</strong>.
+        Also trying to hit 1M subs before the algorithm changes again.
+      </p>
+
+      <div class="hero__meta">
+        <div class="hero__meta-item">
+          <span class="hero__meta-icon">📍</span> Bangalore / MP / Remote
+        </div>
+        <div class="hero__meta-item">
+          <span class="hero__meta-icon">🏢</span> Salesforce / CRM Analytics
+        </div>
+        <div class="hero__meta-item">
+          <span class="hero__meta-icon">🎭</span> Deadpool x Jack Sparrow energy
+        </div>
+      </div>
+
+      <div class="hero__stats">
+        <div class="hero__stat">
+          <span class="hero__stat-num">17k+</span>
+          <span class="hero__stat-label">Old YT Family</span>
+        </div>
+        <div class="hero__stat">
+          <span class="hero__stat-num">50+ </span>
+          <span class="hero__stat-label">Films / Docs</span>
+        </div>
+        <div class="hero__stat">
+          <span class="hero__stat-num">∞</span>
+          <span class="hero__stat-label">Badass Ideas</span>
+        </div>
+      </div>
+
+      <div class="hero__actions">
+        <button type="button" class="btn btn--primary" data-hero-watch>
+          ▶ Watch my story
+        </button>
+        <a href="/about/" class="btn btn--ghost">Read my origin arc</a>
+        <a href="/subscribe/" class="btn btn--ghost">Subscribe on Ghost</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var hero = document.querySelector("[data-hero]");
+      if (!hero) return;
+
+      var watchBtn = hero.querySelector("[data-hero-watch]");
+      var backBtn = hero.querySelector("[data-hero-back]");
+      var imgFrame = hero.querySelector("[data-hero-image]");
+      var videoFrame = hero.querySelector("[data-hero-video]");
+      var iframe = videoFrame ? videoFrame.querySelector("iframe") : null;
+
+      function addAutoplayTo(src) {
+        if (!src) return src;
+        if (src.indexOf("autoplay=1") !== -1) return src;
+        return src + (src.indexOf("?") !== -1 ? "&" : "?") + "autoplay=1";
+      }
+
+      function showVideo() {
+        if (imgFrame) imgFrame.hidden = true;
+        if (videoFrame) videoFrame.hidden = false;
+
+        if (iframe) {
+          var src = iframe.getAttribute("src") || "";
+          iframe.setAttribute("src", addAutoplayTo(src));
+        }
+        hero.classList.add("is-video");
+      }
+
+      function showImage() {
+        if (videoFrame) videoFrame.hidden = true;
+        if (imgFrame) imgFrame.hidden = false;
+
+        if (iframe) {
+          var src = iframe.getAttribute("src") || "";
+          iframe.setAttribute("src", src);
+        }
+        hero.classList.remove("is-video");
+      }
+
+      if (watchBtn) watchBtn.addEventListener("click", showVideo);
+      if (backBtn) backBtn.addEventListener("click", showImage);
+
+      if (window.location.hash === "#story") {
+        showVideo();
+      }
+    })();
+  </script>
+</section>
 
