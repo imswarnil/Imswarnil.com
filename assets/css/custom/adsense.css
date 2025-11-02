@@ -1,9 +1,10 @@
 /* assets/css/adsense.css */
-/* uses your vars from :root */
-.ad-box {
+
+.adsense-block {
     --ad-bg: var(--color-background, #fff);
     --ad-border: var(--color-border, rgba(128, 128, 128, 0.2));
     --ad-fg: var(--color-foreground, #4d4d4d);
+    --ad-muted: var(--color-secondary, #757575);
     --ad-radius: var(--radius, 0.75rem);
 
     background: var(--ad-bg);
@@ -13,150 +14,145 @@
     overflow: hidden;
 }
 
-/* top border with "Advertisement" + "Remove ads" */
-.ad-box__top {
+/* top strip */
+.adsense-block__bar {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: .4rem;
-    padding: .45rem .75rem .35rem;
-    border-bottom: 1px dashed var(--ad-border);
-    background: color-mix(in srgb, var(--ad-bg) 92%, rgba(0, 0, 0, 0) 8%);
+    gap: .5rem;
+    padding: .4rem .6rem;
+    background: var(--color-background-100, #f3f3f3);
+    border-bottom: 1px dashed rgba(128, 128, 128, 0.2);
 }
 
-.ad-box__label {
-    font-size: 0.65rem;
+.adsense-block__label {
+    font-size: .65rem;
     text-transform: uppercase;
-    letter-spacing: 0.04em;
-    color: var(--color-secondary, #757575);
+    letter-spacing: .04em;
+    color: var(--ad-muted);
     white-space: nowrap;
 }
 
-.ad-box__remove {
-    font-size: 0.65rem;
-    color: var(--color-accent-foreground, var(--ad-fg));
+.adsense-block__cta {
+    font-size: .65rem;
+    color: var(--ad-fg);
     text-decoration: none;
-    opacity: .7;
-    border: 1px solid rgba(255, 255, 255, 0);
-    border-radius: calc(var(--ad-radius) / 2);
+    opacity: .75;
+    border-radius: .35rem;
     padding: 2px 6px;
+    border: 1px solid transparent;
 }
 
-.ad-box__remove:hover {
+.adsense-block__cta:hover {
     opacity: 1;
+    border-color: rgba(0, 0, 0, 0.04);
     background: rgba(0, 0, 0, 0.02);
 }
 
-/* ad body */
-.ad-box__body {
+/* body */
+.adsense-block__body {
     display: flex;
     align-items: center;
     justify-content: center;
-    text-align: center;
+    min-height: 80px;
     padding: .75rem;
-    min-height: 90px;
+    text-align: center;
 }
 
-/* make all <ins> centered */
-.ad-box__body>ins.adsbygoogle {
-    margin-left: auto;
-    margin-right: auto;
+/* base for every ins */
+.adsense-unit {
+    display: block;
+    margin: 0 auto;
+    /* google will override with iframe; we just give box */
 }
 
-/* ====== AD SIZE PRESETS (desktop first) ====== */
+/* ====== SIZE PROFILES (desktop) ====== */
 
-/* 336x280 desktop  */
-.ad--336x280 {
-    width: 336px !important;
-    height: 280px !important;
-}
-
-/* 300x250 */
-.ad--300x250 {
-    width: 300px !important;
-    height: 250px !important;
-}
-
-/* leaderboard */
-.ad--leaderboard {
-    width: 728px !important;
-    height: 90px !important;
+/* auto / full responsive ads */
+.adsense-unit--auto,
+.adsense-unit--in-article,
+.adsense-unit--fluid,
+.adsense-unit--autorelaxed,
+.adsense-unit--vertical {
+    width: 100%;
     max-width: 100%;
 }
 
-/* skyscraper */
-.ad--160x600 {
-    width: 160px !important;
-    height: 600px !important;
-}
-
-/* wide 900 */
-.ad--900x250 {
-    width: 900px !important;
-    height: 250px !important;
+/* 336x280 desktop */
+.adsense-unit--336x280 {
+    width: 336px;
+    height: 280px;
     max-width: 100%;
 }
 
-/* responsive types always 100% */
-.ad--responsive,
-.ad--in-article,
-.ad--fluid,
-.ad--autorelaxed,
-.ad--vertical {
-    width: 100% !important;
+/* 300x250 desktop */
+.adsense-unit--300x250 {
+    width: 300px;
+    height: 250px;
+    max-width: 100%;
 }
 
-/* ====== BREAKPOINTS ====== */
+/* 728x90 desktop */
+.adsense-unit--leaderboard {
+    width: 728px;
+    height: 90px;
+    max-width: 100%;
+}
 
-/* tablets: shrink fixed ads a bit + center */
+/* 900x250 wide */
+.adsense-unit--900x250 {
+    width: 900px;
+    height: 250px;
+    max-width: 100%;
+}
+
+/* ====== RESPONSIVE BREAKPOINTS ====== */
+
+/* tablet */
 @media (max-width: 900px) {
-    .ad-box__top {
-        gap: .3rem;
-    }
 
     /* 336 → 300 */
-    .ad--336x280 {
-        width: 300px !important;
-        height: 250px !important;
+    .adsense-unit--336x280 {
+        width: 300px;
+        height: 250px;
     }
 
-    .ad--leaderboard {
-        width: 100% !important;
-        height: auto !important;
+    /* large banners stretch */
+    .adsense-unit--leaderboard,
+    .adsense-unit--900x250 {
+        width: 100%;
+        height: auto;
     }
 
-    .ad-box__body {
+    .adsense-block__body {
         padding: .6rem;
     }
 }
 
-/* phones */
+/* phone */
 @media (max-width: 540px) {
-    .ad-box {
+    .adsense-block {
         border-radius: calc(var(--ad-radius) - 2px);
     }
 
-    .ad-box__top {
-        padding: .4rem .55rem .3rem;
+    .adsense-block__bar {
+        padding: .35rem .5rem;
     }
 
-    .ad-box__label {
-        font-size: 0.6rem;
+    .adsense-block__label,
+    .adsense-block__cta {
+        font-size: .6rem;
     }
 
-    .ad-box__remove {
-        font-size: 0.6rem;
-    }
-
-    /* 336 → 250 square on mobile */
-    .ad--336x280,
-    .ad--300x250 {
-        width: 250px !important;
-        height: 250px !important;
+    /* 336 / 300 → 250 square on mobile */
+    .adsense-unit--336x280,
+    .adsense-unit--300x250 {
+        width: 250px;
+        height: 250px;
     }
 
     /* center always */
-    .ad-box__body {
+    .adsense-block__body {
         justify-content: center;
         text-align: center;
     }
