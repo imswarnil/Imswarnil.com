@@ -1,112 +1,73 @@
 {{!-- partials/adsense.hbs --}}
-{{!-- Show ads only for non-members, because head already loads AdSense --}}
+{{!-- Show ads only for non-members --}}
 {{#unless @member}}
 
 {{!--
-  Usage:
+  Usage Examples:
   {{> "adsense" type="auto" }}
-  {{> "adsense" type="large-rectangle" slot="7663977887" }}
-  {{> "adsense" type="leaderboard" slot="8939839370" }}
-  {{> "adsense" type="in-article" slot="6501428979" }}
+  {{> "adsense" type="square" }}
+  {{> "adsense" type="rectangle" }}
+  {{> "adsense" type="leaderboard" }}
+  {{> "adsense" type="banner" }}
+  {{> "adsense" type="in-article" }}
 --}}
 
-<div class="adsense-block {{#if type}}adsense-block--{{type}}{{/if}} {{#if class}}{{class}}{{/if}}">
-  <div class="adsense-block__bar">
-    <span class="adsense-block__label">{{t "Advertisement"}}</span>
-    <a class="adsense-block__cta" href="#/portal/signup">
-      {{t "Remove ads"}}
-    </a>
-  </div>
-
-  <div class="adsense-block__body">
-    {{!-- Pick ad config based on type --}}
-    {{#if type}}
-
-      {{!-- 1. full responsive / auto --}}
-      {{#match type "auto"}}
-        <ins class="adsbygoogle adsense-unit adsense-unit--auto"
-             data-ad-client="ca-pub-1291242080282540"
-             data-ad-slot="{{#if slot}}{{slot}}{{else}}7663977887{{/if}}"
-             data-ad-format="auto"
-             data-full-width-responsive="true"></ins>
-
-      {{!-- 2. Large rectangle 336x280 -> 300 -> 250 (CSS will handle widths) --}}
-      {{else match type "large-rectangle"}}
-        <ins class="adsbygoogle adsense-unit adsense-unit--336x280"
-             data-ad-client="ca-pub-1291242080282540"
-             data-ad-slot="{{#if slot}}{{slot}}{{else}}7663977887{{/if}}"></ins>
-
-      {{!-- 3. Medium rectangle 300x250 --}}
-      {{else match type "medium-rectangle"}}
-        <ins class="adsbygoogle adsense-unit adsense-unit--300x250"
-             data-ad-client="ca-pub-1291242080282540"
-             data-ad-slot="{{#if slot}}{{slot}}{{else}}7663977887{{/if}}"></ins>
-
-      {{!-- 4. Leaderboard 728x90 --}}
-      {{else match type "leaderboard"}}
-        <ins class="adsbygoogle adsense-unit adsense-unit--leaderboard"
-             data-ad-client="ca-pub-1291242080282540"
-             data-ad-slot="{{#if slot}}{{slot}}{{else}}8939839370{{/if}}"></ins>
-
-      {{!-- 5. Sidebar / vertical --}}
-      {{else match type "vertical"}}
-        <ins class="adsbygoogle adsense-unit adsense-unit--vertical"
-             data-ad-client="ca-pub-1291242080282540"
-             data-ad-slot="{{#if slot}}{{slot}}{{else}}3487917390{{/if}}"
-             data-ad-format="auto"
-             data-full-width-responsive="true"></ins>
-
-      {{!-- 6. In-article --}}
-      {{else match type "in-article"}}
-        <ins class="adsbygoogle adsense-unit adsense-unit--in-article"
-             data-ad-layout="in-article"
-             data-ad-format="fluid"
-             data-ad-client="ca-pub-1291242080282540"
-             data-ad-slot="{{#if slot}}{{slot}}{{else}}6501428979{{/if}}"></ins>
-
-      {{!-- 7. Fluid / multiplex --}}
-      {{else match type "fluid"}}
-        <ins class="adsbygoogle adsense-unit adsense-unit--fluid"
-             data-ad-format="fluid"
-             data-ad-layout-key="-6v+f0-19-44+c6"
-             data-ad-client="ca-pub-1291242080282540"
-             data-ad-slot="{{#if slot}}{{slot}}{{else}}9130894804{{/if}}"></ins>
-
-      {{!-- 8. Auto-relaxed / multiplex --}}
-      {{else match type "autorelaxed"}}
-        <ins class="adsbygoogle adsense-unit adsense-unit--autorelaxed"
-             data-ad-format="autorelaxed"
-             data-ad-client="ca-pub-1291242080282540"
-             data-ad-slot="{{#if slot}}{{slot}}{{else}}6808134701{{/if}}"></ins>
-
-      {{!-- 9. 900x250 wide --}}
-      {{else match type "wide-900x250"}}
-        <ins class="adsbygoogle adsense-unit adsense-unit--900x250"
-             data-ad-client="ca-pub-1291242080282540"
-             data-ad-slot="{{#if slot}}{{slot}}{{else}}3375031396{{/if}}"></ins>
-
-      {{!-- fallback --}}
-      {{else}}
-        <ins class="adsbygoogle adsense-unit adsense-unit--auto"
-             data-ad-client="ca-pub-1291242080282540"
-             data-ad-slot="7663977887"
-             data-ad-format="auto"
-             data-full-width-responsive="true"></ins>
-      {{/match}}
-
-    {{else}}
-      {{!-- no type passed → auto --}}
-      <ins class="adsbygoogle adsense-unit adsense-unit--auto"
+<div class="gh-ad {{#if type}}gh-ad--{{type}}{{/if}} {{#if class}}{{class}}{{/if}}">
+  <div class="gh-ad-label">{{t "Advertisement"}}</div>
+  <div class="gh-ad-container">
+    {{!-- Auto responsive ad --}}
+    {{#match type "auto"}}
+      <ins class="adsbygoogle"
            data-ad-client="ca-pub-1291242080282540"
-           data-ad-slot="7663977887"
+           data-ad-slot="{{#if slot}}{{slot}}{{else}}7663977887{{/if}}"
            data-ad-format="auto"
            data-full-width-responsive="true"></ins>
-    {{/if}}
+
+    {{!-- Square (250x250) --}}
+    {{else match type "square"}}
+      <ins class="adsbygoogle"
+           data-ad-client="ca-pub-1291242080282540"
+           data-ad-slot="{{#if slot}}{{slot}}{{else}}7663977887{{/if}}"
+           data-ad-format="auto"
+           data-full-width-responsive="true"></ins>
+
+    {{!-- Rectangle (336x280) --}}
+    {{else match type "rectangle"}}
+      <ins class="adsbygoogle"
+           data-ad-client="ca-pub-1291242080282540"
+           data-ad-slot="{{#if slot}}{{slot}}{{else}}7663977887{{/if}}"></ins>
+
+    {{!-- Leaderboard (728x90) --}}
+    {{else match type "leaderboard"}}
+      <ins class="adsbygoogle"
+           data-ad-client="ca-pub-1291242080282540"
+           data-ad-slot="{{#if slot}}{{slot}}{{else}}8939839370{{/if}}"></ins>
+
+    {{!-- Banner (468x60) --}}
+    {{else match type "banner"}}
+      <ins class="adsbygoogle"
+           data-ad-client="ca-pub-1291242080282540"
+           data-ad-slot="{{#if slot}}{{slot}}{{else}}8939839370{{/if}}"></ins>
+
+    {{!-- In-article --}}
+    {{else match type "in-article"}}
+      <ins class="adsbygoogle"
+           data-ad-layout="in-article"
+           data-ad-format="fluid"
+           data-ad-client="ca-pub-1291242080282540"
+           data-ad-slot="{{#if slot}}{{slot}}{{else}}6501428979{{/if}}"></ins>
+
+    {{!-- Custom size --}}
+    {{else}}
+      <ins class="adsbygoogle"
+           data-ad-client="ca-pub-1291242080282540"
+           data-ad-slot="{{#if slot}}{{slot}}{{else}}7663977887{{/if}}"
+           data-ad-format="auto"
+           data-full-width-responsive="true"></ins>
+    {{/match}}
   </div>
 </div>
 
-<script>
-  (window.adsbygoogle = window.adsbygoogle || []).push({});
-</script>
+<script>(window.adsbygoogle = window.adsbygoogle || []).push({});</script>
 
 {{/unless}}

@@ -1,0 +1,43 @@
+{{!< default}}
+
+<section class="timeline">
+  <aside class="timeline__aside">
+    <div class="timeline__aside-inner">
+      <h1 class="timeline__title">Timeline</h1>
+      <p class="timeline__subtitle">Posts tagged with <code>#timeline</code></p>
+      <div class="timeline__stats">
+        <span>{{pagination.total}} events</span>
+      </div>
+    </div>
+  </aside>
+
+  <div class="timeline__body">
+    <ol class="timeline__list">
+      {{#foreach posts}}
+        {{!-- Optional month label: show at start or when month changes (simple version: show on @first) --}}
+        {{#if @first}}
+          <li class="timeline__label">
+            <span>{{date format="MMMM YYYY"}}</span>
+          </li>
+        {{/if}}
+
+        <li class="timeline__item">
+          <div class="timeline__dot" aria-hidden="true"></div>
+          <article class="timeline__card">
+            {{!-- ✅ correct partial path --}}
+            {{> "components/card-post" style="list" show_excerpt=true}}
+            <div class="timeline__meta">
+              <time datetime="{{date format="YYYY-MM-DD"}}">{{date format="MMM D, YYYY"}}</time>
+              {{#if primary_tag}}
+                <span class="timeline__sep">•</span>
+                <a href="{{primary_tag.url}}">{{primary_tag.name}}</a>
+              {{/if}}
+            </div>
+          </article>
+        </li>
+      {{/foreach}}
+    </ol>
+
+    {{pagination}}
+  </div>
+</section>

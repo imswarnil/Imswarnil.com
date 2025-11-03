@@ -1,159 +1,199 @@
-/* assets/css/adsense.css */
-
-.adsense-block {
-    --ad-bg: var(--color-background, #fff);
-    --ad-border: var(--color-border, rgba(128, 128, 128, 0.2));
-    --ad-fg: var(--color-foreground, #4d4d4d);
-    --ad-muted: var(--color-secondary, #757575);
-    --ad-radius: var(--radius, 0.75rem);
-
-    background: var(--ad-bg);
-    border: 1px solid var(--ad-border);
-    border-radius: var(--ad-radius);
-    margin: 1.25rem 0;
-    overflow: hidden;
+/* AdSense Styles - Minimal Design */
+.gh-ad {
+  margin: var(--spacing-7) 0;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-2);
+  background: var(--color-background);
+  overflow: hidden;
+  max-width: 100%;
 }
 
-/* top strip */
-.adsense-block__bar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: .5rem;
-    padding: .4rem .6rem;
-    background: var(--color-background-100, #f3f3f3);
-    border-bottom: 1px dashed rgba(128, 128, 128, 0.2);
+/* Small advertisement label */
+.gh-ad-label {
+  font-size: 0.625rem;
+  font-weight: var(--font-weight-medium);
+  color: var(--color-mute);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  text-align: center;
+  padding: var(--spacing-2) var(--spacing-3);
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-background-100);
+  line-height: 1;
 }
 
-.adsense-block__label {
-    font-size: .65rem;
-    text-transform: uppercase;
-    letter-spacing: .04em;
-    color: var(--ad-muted);
-    white-space: nowrap;
+/* Ad container - ensures proper containment */
+.gh-ad-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 90px;
+  padding: var(--spacing-5);
+  text-align: center;
+  width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
 }
 
-.adsense-block__cta {
-    font-size: .65rem;
-    color: var(--ad-fg);
-    text-decoration: none;
-    opacity: .75;
-    border-radius: .35rem;
-    padding: 2px 6px;
-    border: 1px solid transparent;
+/* Base ad unit styles - ensures ads stay within container */
+.gh-ad-container ins {
+  display: block;
+  margin: 0 auto;
+  max-width: 100%;
+  overflow: hidden;
 }
 
-.adsense-block__cta:hover {
-    opacity: 1;
-    border-color: rgba(0, 0, 0, 0.04);
-    background: rgba(0, 0, 0, 0.02);
+/* Auto responsive */
+.gh-ad--auto .gh-ad-container {
+  padding: var(--spacing-6);
 }
 
-/* body */
-.adsense-block__body {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 80px;
-    padding: .75rem;
-    text-align: center;
+.gh-ad--auto .gh-ad-container ins {
+  width: 100%;
 }
 
-/* base for every ins */
-.adsense-unit {
-    display: block;
-    margin: 0 auto;
-    /* google will override with iframe; we just give box */
+/* Square ads (250x250) */
+.gh-ad--square .gh-ad-container {
+  min-height: 250px;
+  padding: var(--spacing-6);
 }
 
-/* ====== SIZE PROFILES (desktop) ====== */
-
-/* auto / full responsive ads */
-.adsense-unit--auto,
-.adsense-unit--in-article,
-.adsense-unit--fluid,
-.adsense-unit--autorelaxed,
-.adsense-unit--vertical {
-    width: 100%;
-    max-width: 100%;
+.gh-ad--square .gh-ad-container ins {
+  width: 250px;
+  height: 250px;
 }
 
-/* 336x280 desktop */
-.adsense-unit--336x280 {
-    width: 336px;
-    height: 280px;
-    max-width: 100%;
+/* Rectangle ads (336x280) */
+.gh-ad--rectangle .gh-ad-container {
+  min-height: 280px;
+  padding: var(--spacing-6);
 }
 
-/* 300x250 desktop */
-.adsense-unit--300x250 {
-    width: 300px;
-    height: 250px;
-    max-width: 100%;
+.gh-ad--rectangle .gh-ad-container ins {
+  width: 336px;
+  height: 280px;
 }
 
-/* 728x90 desktop */
-.adsense-unit--leaderboard {
-    width: 728px;
-    height: 90px;
-    max-width: 100%;
+/* Leaderboard ads (728x90) */
+.gh-ad--leaderboard .gh-ad-container {
+  min-height: 90px;
+  padding: var(--spacing-5);
 }
 
-/* 900x250 wide */
-.adsense-unit--900x250 {
-    width: 900px;
-    height: 250px;
-    max-width: 100%;
+.gh-ad--leaderboard .gh-ad-container ins {
+  width: 728px;
+  height: 90px;
+}
+
+/* Banner ads (468x60) */
+.gh-ad--banner .gh-ad-container {
+  min-height: 60px;
+  padding: var(--spacing-5);
+}
+
+.gh-ad--banner .gh-ad-container ins {
+  width: 468px;
+  height: 60px;
+}
+
+/* In-article fluid ad */
+.gh-ad--in-article .gh-ad-container {
+  padding: var(--spacing-6);
+}
+
+.gh-ad--in-article .gh-ad-container ins {
+  width: 100%;
 }
 
 /* ====== RESPONSIVE BREAKPOINTS ====== */
 
-/* tablet */
+/* Tablet */
 @media (max-width: 900px) {
-
-    /* 336 → 300 */
-    .adsense-unit--336x280 {
-        width: 300px;
-        height: 250px;
-    }
-
-    /* large banners stretch */
-    .adsense-unit--leaderboard,
-    .adsense-unit--900x250 {
-        width: 100%;
-        height: auto;
-    }
-
-    .adsense-block__body {
-        padding: .6rem;
-    }
+  .gh-ad {
+    margin: var(--spacing-6) 0;
+  }
+  
+  .gh-ad-container {
+    padding: var(--spacing-4);
+  }
+  
+  /* Scale down larger ads for tablet */
+  .gh-ad--rectangle .gh-ad-container ins {
+    width: 300px;
+    height: 250px;
+  }
+  
+  .gh-ad--leaderboard .gh-ad-container ins {
+    width: 100%;
+    max-width: 468px;
+    height: 60px;
+  }
+  
+  .gh-ad--banner .gh-ad-container ins {
+    width: 100%;
+    max-width: 368px;
+    height: 60px;
+  }
 }
 
-/* phone */
+/* Mobile */
 @media (max-width: 540px) {
-    .adsense-block {
-        border-radius: calc(var(--ad-radius) - 2px);
-    }
+  .gh-ad {
+    margin: var(--spacing-5) 0;
+    border-radius: var(--radius-1);
+  }
+  
+  .gh-ad-label {
+    font-size: 0.5625rem;
+    padding: var(--spacing-1) var(--spacing-2);
+  }
+  
+  .gh-ad-container {
+    padding: var(--spacing-3);
+    min-height: 80px;
+  }
+  
+  /* Scale down for mobile */
+  .gh-ad--square .gh-ad-container,
+  .gh-ad--rectangle .gh-ad-container {
+    min-height: 200px;
+    padding: var(--spacing-4);
+  }
+  
+  .gh-ad--square .gh-ad-container ins,
+  .gh-ad--rectangle .gh-ad-container ins {
+    width: 250px;
+    height: 250px;
+  }
+  
+  .gh-ad--leaderboard .gh-ad-container,
+  .gh-ad--banner .gh-ad-container {
+    min-height: 50px;
+    padding: var(--spacing-3);
+  }
+  
+  .gh-ad--leaderboard .gh-ad-container ins,
+  .gh-ad--banner .gh-ad-container ins {
+    width: 100%;
+    height: 50px;
+  }
+}
 
-    .adsense-block__bar {
-        padding: .35rem .5rem;
-    }
-
-    .adsense-block__label,
-    .adsense-block__cta {
-        font-size: .6rem;
-    }
-
-    /* 336 / 300 → 250 square on mobile */
-    .adsense-unit--336x280,
-    .adsense-unit--300x250 {
-        width: 250px;
-        height: 250px;
-    }
-
-    /* center always */
-    .adsense-block__body {
-        justify-content: center;
-        text-align: center;
-    }
+/* Small mobile */
+@media (max-width: 380px) {
+  .gh-ad-container {
+    padding: var(--spacing-2);
+  }
+  
+  .gh-ad--square .gh-ad-container,
+  .gh-ad--rectangle .gh-ad-container {
+    min-height: 150px;
+    padding: var(--spacing-3);
+  }
+  
+  .gh-ad--square .gh-ad-container ins,
+  .gh-ad--rectangle .gh-ad-container ins {
+    width: 200px;
+    height: 200px;
+  }
 }
