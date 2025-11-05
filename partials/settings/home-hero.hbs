@@ -36,425 +36,309 @@
 
  --}}
 
-{{!-- partials/home-hero.hbs --}}
-<section class="hero" data-hero>
-  <style>
-    .hero {
-      --page-bg: #f6f7fb;
-      --card: #ffffff;
-      --ink: #0f172a;
-      --muted: #6b7280;
-      --accent: #009ed9;
-      --radius-lg: 1.5rem;
-      --radius-md: 1rem;
-      --radius-sm: .5rem;
-      --border: rgba(15, 23, 42, 0.08);
-      --shadow-sm: 0 10px 30px rgba(15, 23, 42, 0.05);
-      --hero-max: 1180px;
-      width: min(100%, var(--hero-max));
-      margin: 1.5rem auto 2.5rem;
-      padding: 1.5rem;
-      background: radial-gradient(circle at top, rgba(0, 158, 217, 0.05), rgba(246, 247, 251, 0)) , var(--card);
-      border: 1px solid rgba(0, 0, 0, 0.03);
-      border-radius: 1.75rem;
-      box-shadow: var(--shadow-sm);
-      position: relative;
-      overflow: hidden;
-      z-index: 1;
-    }
-    .hero::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background-image: radial-gradient(circle, rgba(0,0,0,.035) 1px, transparent 0);
-      background-size: 16px 16px;
-      opacity: 0.45;
-      pointer-events: none;
-      z-index: 1;
-    }
-    .hero__grid {
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      gap: 1.5rem;
-      z-index: 2;
-    }
-    .hero__media {
-      order: -1;
-    }
-    .hero__media-frame {
-      background: #0f172a;
-      border-radius: 1.35rem;
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      overflow: hidden;
-      position: relative;
-      min-height: 210px;
-    }
-    .hero__avatar {
-      aspect-ratio: 4 / 3;
-      margin: 0;
-      overflow: hidden;
-      background: linear-gradient(140deg, #111827 0%, #009ed9 52%, #fff 120%);
-    }
-    .hero__avatar img {
-      width: 100%;
-      height: 100%;
-      display: block;
-      object-fit: cover;
-    }
-    .hero__media-badges {
-      position: absolute;
-      bottom: .75rem;
-      left: .75rem;
-      display: flex;
-      gap: .5rem;
-      flex-wrap: wrap;
-    }
-    .hero__badge {
-      background: rgba(255, 255, 255, 0.9);
-      color: #0f172a;
-      padding: .35rem .7rem;
-      border-radius: 999px;
-      font-size: .7rem;
-      font-weight: 600;
-      backdrop-filter: saturate(140%);
-    }
-    .hero__video-ratio {
-      position: relative;
-      width: 100%;
-      padding-top: 56.25%;
-      background: #000;
-    }
-    .hero__video-ratio iframe {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      border: 0;
-      border-radius: 1.35rem;
-    }
-    .hero__video-back {
-      position: absolute;
-      top: .75rem;
-      left: .75rem;
-      border: 0;
-      background: rgba(15, 23, 42, .65);
-      color: #fff;
-      padding: .3rem .7rem .35rem;
-      border-radius: .75rem;
-      font-size: .7rem;
-      cursor: pointer;
-      backdrop-filter: blur(4px);
-    }
 
-    .hero__content {
-      display: flex;
-      flex-direction: column;
-      gap: .85rem;
+<!-- START: Home Hero Section -->
+<style>
+  /* Home Hero Section Styles */
+  .home-hero-custom-wrapper {
+    position: relative;
+    margin: var(--layout--gap, 60px) 0;
+    padding: var(--layout--gap, 60px);
+    background-color: var(--color-background);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-6);
+    overflow: hidden;
+    color: var(--color-white); /* Set default text color to white for visibility */
+  }
+
+  .home-hero-custom-video-bg {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100vw; /* Cover full viewport width */
+    height: 56.25vw; /* 16:9 aspect ratio */
+    min-height: 100%; /* Ensure it covers the full height */
+    min-width: 177.77vh; /* Fallback for aspect ratio */
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    pointer-events: none; /* Make video unclickable */
+  }
+
+  /* Dark Overlay for Text Readability */
+  .home-hero-custom-wrapper::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: var(--color-overlay, rgba(5, 5, 5, 0.7));
+    z-index: 2;
+  }
+
+  .home-hero-custom {
+    position: relative;
+    z-index: 3;
+    display: grid;
+    grid-template-columns: 1fr 42%;
+    align-items: stretch;
+    gap: var(--layout--gap);
+  }
+
+  /* Content Column */
+  .home-hero-custom-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .home-hero-custom-ticker {
+    font-size: var(--font-small);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-white);
+    opacity: 0.7;
+    margin-bottom: var(--spacing-4);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .home-hero-custom-title {
+    font-size: clamp(2.5rem, 5vw, 3.5rem);
+    font-family: var(--font-family-headings);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-white);
+    margin: 0 0 var(--spacing-8);
+    line-height: 1.1;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+  }
+
+  .home-hero-custom-meta {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-6);
+    margin-bottom: var(--spacing-8);
+  }
+
+  .home-hero-custom-meta .meta-item {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-4);
+    font-size: var(--font-small);
+    color: var(--color-white);
+    opacity: 0.9;
+  }
+
+  .home-hero-custom-meta .meta-icon {
+    width: 18px; height: 18px;
+    color: var(--color-white);
+    opacity: 0.6;
+    flex-shrink: 0;
+  }
+
+  .home-hero-custom-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-4);
+    margin-bottom: var(--spacing-9);
+  }
+
+  .home-hero-custom-tags .tag {
+    padding: var(--spacing-2) var(--spacing-5);
+    font-size: var(--font-x-small);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-white);
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: var(--radius-2);
+  }
+
+  .home-hero-custom-stats {
+    display: flex;
+    gap: var(--spacing-8);
+    padding: var(--spacing-8) 0;
+    margin-bottom: var(--spacing-9);
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  .home-hero-custom-stats .stat-item {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .home-hero-custom-stats .stat-number {
+    font-size: 1.75rem;
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-white);
+    line-height: 1;
+  }
+
+  .home-hero-custom-stats .stat-label {
+    font-size: var(--font-x-small);
+    color: var(--color-white);
+    opacity: 0.7;
+    margin-top: var(--spacing-3);
+  }
+
+  .home-hero-custom-form {
+    margin-top: auto;
+  }
+
+  .home-hero-custom-form > label {
+    font-size: var(--font-small);
+    font-weight: var(--font-weight-medium);
+    margin-bottom: var(--spacing-5);
+    color: var(--color-white);
+  }
+  
+  .home-hero-custom-form input {
+      background-color: rgba(255, 255, 255, 0.1) !important;
+      border: 1px solid rgba(255, 255, 255, 0.2) !important;
+      color: var(--color-white) !important;
+  }
+
+  .home-hero-custom-form input::placeholder {
+      color: rgba(255, 255, 255, 0.5) !important;
+  }
+
+  /* Image Column */
+  .home-hero-custom-image-wrapper {
+    position: relative;
+    border-radius: var(--radius-4);
+    overflow: hidden;
+    min-height: 450px;
+  }
+
+  .home-hero-custom-image-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .home-hero-custom-badges {
+    position: absolute;
+    bottom: var(--spacing-6);
+    left: var(--spacing-6);
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-4);
+  }
+
+  .home-hero-custom-badges .badge {
+    padding: var(--spacing-3) var(--spacing-5);
+    font-size: var(--font-small);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-white);
+    background-color: var(--color-overlay);
+    backdrop-filter: blur(10px);
+    border-radius: var(--radius-2);
+  }
+
+  /* Responsive Adjustments */
+  @media (max-width: 991px) {
+    .home-hero-custom-wrapper {
+      padding: var(--spacing-9);
     }
-    .hero__eyebrow {
-      font-size: .75rem;
-      letter-spacing: .05em;
-      text-transform: uppercase;
-      color: var(--muted);
-      font-weight: 600;
+    .home-hero-custom {
+      grid-template-columns: 1fr 0.7fr;
     }
-    .hero__title {
-      font-size: clamp(1.5rem, 2.7vw, 2.35rem);
-      line-height: 1.02;
-      color: var(--ink);
-      letter-spacing: -.02em;
+  }
+
+  @media (max-width: 767px) {
+    .home-hero-custom-wrapper {
+      padding: var(--layout--padding);
     }
-    .hero__title strong {
-      color: var(--accent);
-      font-weight: 700;
+    .home-hero-custom {
+      grid-template-columns: 1fr; /* Stack columns */
+      gap: var(--spacing-9);
     }
-    .hero__subtitle {
-      color: var(--muted);
-      font-size: .95rem;
-      max-width: 38rem;
+    .home-hero-custom-image-wrapper {
+      order: 1;
+      height: 400px;
     }
-    .hero__meta {
-      display: flex;
-      flex-wrap: wrap;
-      gap: .5rem .85rem;
-      margin-top: .25rem;
+    .home-hero-custom-content {
+      order: 2;
+      text-align: center;
     }
-    .hero__meta-item {
-      display: flex;
+    .home-hero-custom-meta, 
+    .home-hero-custom-tags, 
+    .home-hero-custom-stats {
       align-items: center;
-      gap: .35rem;
-      background: rgba(0, 158, 217, 0.031);
-      border: 1px solid rgba(0, 158, 217, 0.05);
-      border-radius: .85rem;
-      padding: .4rem .6rem .45rem;
-      font-size: .75rem;
-      color: #111827;
+      justify-content: center;
     }
-    .hero__meta-icon {
-      font-size: .85rem;
-    }
-    .hero__stats {
-      display: flex;
-      gap: 1rem;
-      flex-wrap: wrap;
-      margin-top: .25rem;
-    }
-    .hero__stat {
-      background: rgba(255,255,255,.75);
-      border: 1px solid rgba(15, 23, 42, .03);
-      border-radius: 1rem;
-      padding: .6rem .85rem .5rem;
-      min-width: 6.25rem;
-    }
-    .hero__stat-num {
-      display: block;
-      font-weight: 700;
-      font-size: 1.2rem;
-      color: #0f172a;
-    }
-    .hero__stat-label {
-      font-size: .7rem;
-      color: #6b7280;
-    }
-    .hero__actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: .5rem;
-      margin-top: .5rem;
-    }
-    .btn {
-      border: 0;
-      border-radius: .9rem;
-      padding: .55rem 1.1rem .6rem;
-      font-weight: 600;
-      font-size: .8rem;
-      cursor: pointer;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: .4rem;
-      transition: all .15s ease-out;
-    }
-    .btn--primary {
-      background: var(--accent);
-      color: #fff;
-      box-shadow: 0 12px 25px rgba(0, 158, 217, 0.28);
-    }
-    .btn--ghost {
-      background: rgba(15, 23, 42, .04);
-      color: #0f172a;
-    }
-    .hero__social {
-      display: flex;
-      flex-wrap: wrap;
-      gap: .5rem;
-      margin-top: .7rem;
-    }
-    .hero__social-link {
-      display: inline-flex;
-      align-items: center;
-      gap: .35rem;
-      padding: .35rem .75rem .4rem;
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.65);
-      border: 1px solid rgba(15, 23, 42, .03);
-      font-size: .72rem;
-      text-decoration: none;
-      color: #0f172a;
-      transition: all .15s ease-out;
-    }
-    .hero__social-link:hover {
-      background: #fff;
-      box-shadow: 0 6px 18px rgba(15, 23, 42, .12);
-    }
+  }
+</style>
 
-    @media (min-width: 860px) {
-      .hero {
-        padding: 1.85rem 1.85rem 2.25rem;
-      }
-      .hero__grid {
-        display: grid;
-        grid-template-columns: minmax(280px, 350px) minmax(0, 1fr);
-        gap: 2rem;
-        align-items: center;
-      }
-      .hero__media {
-        order: 0;
-        position: relative;
-      }
-      .hero__social {
-        position: absolute;
-        right: -5rem;
-        top: 50%;
-        transform: translateY(-50%);
-        flex-direction: column;
-        background: rgba(246,247,251,.8);
-        padding: .5rem;
-        border-radius: 999px;
-        gap: .4rem;
-        border: 1px solid rgba(15, 23, 42, 0.02);
-        box-shadow: 0 14px 35px rgba(15, 23, 42, .05);
-      }
-      .hero__media-frame {
-        min-height: 320px;
-      }
-    }
+<section class="home-hero-custom-wrapper">
+    <!-- YouTube Background Video -->
+    <iframe 
+        class="home-hero-custom-video-bg" 
+        src="https://www.youtube.com/embed/12o3Zgupu_8?autoplay=1&mute=1&loop=1&playlist=12o3Zgupu_8&controls=0&showinfo=0&autohide=1&modestbranding=1&iv_load_policy=3" 
+        title="Background Video" 
+        frameborder="0" 
+        allow="autoplay; encrypted-media">
+    </iframe>
+    
+    <div class="home-hero-custom">
 
-    @media (max-width: 540px) {
-      .hero {
-        border-radius: 1.25rem;
-        padding: 1.1rem 1rem 1.35rem;
-      }
-      .hero__media-frame {
-        border-radius: 1.1rem;
-      }
-      .hero__actions {
-        flex-direction: row;
-      }
-      .hero__social {
-        position: static;
-        flex-direction: row;
-        background: transparent;
-        box-shadow: none;
-        padding: 0;
-      }
-    }
-  </style>
+        <!-- Content Column -->
+        <div class="home-hero-custom-content">
+            <p class="home-hero-custom-ticker">Hi, I'm Swarnil.</p>
+            <h1 class="home-hero-custom-title">Engineer, Creator & Blogger</h1>
+            
+            <div class="home-hero-custom-meta">
+                <div class="meta-item">
+                    <svg class="meta-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L8.6 3.3A2 2 0 0 0 6.9 2H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h16z"></path></svg>
+                    <span>Software Engineer</span>
+                </div>
+                <div class="meta-item">
+                     <svg class="meta-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+                    <span>Google</span>
+                </div>
+                <div class="meta-item">
+                    <svg class="meta-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                    <span>San Francisco, CA</span>
+                </div>
+            </div>
 
-  <div class="hero__grid">
-    <div class="hero__media">
-      <div class="hero__media-frame">
-        <figure class="hero__avatar" data-hero-image>
-          <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=1200&auto=format&fit=crop&q=80" alt="Imswarnil — filmmaker, software engineer, chaos controller">
-        </figure>
+            <div class="home-hero-custom-tags">
+                <span class="tag">Web Development</span>
+                <span class="tag">Content Creation</span>
+                <span class="tag">Open Source</span>
+                <span class="tag">Tech Writing</span>
+            </div>
 
-        <div class="hero__video-ratio" data-hero-video hidden>
-          <button type="button" class="hero__video-back" data-hero-back>&larr; Back to profile</button>
-          <iframe
-            src="https://www.youtube.com/embed/LljxI3k3jpI?rel=0&modestbranding=1"
-            title="Watch my reel"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowfullscreen
-          ></iframe>
+            <div class="home-hero-custom-stats">
+                <div class="stat-item">
+                    <span class="stat-number">10K+</span>
+                    <span class="stat-label">YouTube Subs</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">5K+</span>
+                    <span class="stat-label">Members</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">1M+</span>
+                    <span class="stat-label">Total Views</span>
+                </div>
+            </div>
+
+            <form class="home-hero-custom-form form-subscribe" data-members-form="subscribe">
+                <label for="hero-email-input">Subscribe to my site</label>
+                <div>
+                    <input type="email" id="hero-email-input" placeholder="your-email@example.com" required data-members-email />
+                    <button type="submit" class="button">Subscribe</button>
+                </div>
+            </form>
         </div>
 
-        <div class="hero__media-badges">
-          <span class="hero__badge">🎬 Filmmaker</span>
-          <span class="hero__badge">💻 Software Engineer</span>
-          <span class="hero__badge">📺 YouTuber</span>
+        <!-- Image Column -->
+        <div class="home-hero-custom-image-wrapper">
+            <img src="https://via.placeholder.com/600x800" alt="A portrait of Swarnil">
+            <div class="home-hero-custom-badges">
+                <span class="badge">YouTuber</span>
+                <span class="badge">Blogger</span>
+                <span class="badge">Engineer</span>
+            </div>
         </div>
-
-        <div class="hero__social">
-          <a href="https://youtube.com/@imswarnil" class="hero__social-link" target="_blank" rel="noopener">
-            <span>🔴</span> YouTube
-          </a>
-          <a href="https://instagram.com/imswarnil" class="hero__social-link" target="_blank" rel="noopener">
-            <span>📸</span> Instagram
-          </a>
-          <a href="https://x.com" class="hero__social-link" target="_blank" rel="noopener">
-            <span>🐦</span> X / Twitter
-          </a>
-          <a href="mailto:hello@imswarnil.com" class="hero__social-link">
-            <span>✉</span> Email
-          </a>
-        </div>
-      </div>
     </div>
-
-    <div class="hero__content">
-      <p class="hero__eyebrow">👋 Hey, I’m Swarnil — your friendly neighborhood cinematic troublemaker</p>
-      <h1 class="hero__title">
-        I make <strong>stories</strong>, <strong>software</strong> and sometimes <strong>chaos</strong>.
-      </h1>
-      <p class="hero__subtitle">
-        Building films, Ghost sites, Salesforce stuff and an online universe called <strong>Imswarnil</strong>.
-        Also trying to hit 1M subs before the algorithm changes again.
-      </p>
-
-      <div class="hero__meta">
-        <div class="hero__meta-item">
-          <span class="hero__meta-icon">📍</span> Bangalore / MP / Remote
-        </div>
-        <div class="hero__meta-item">
-          <span class="hero__meta-icon">🏢</span> Salesforce / CRM Analytics
-        </div>
-        <div class="hero__meta-item">
-          <span class="hero__meta-icon">🎭</span> Deadpool x Jack Sparrow energy
-        </div>
-      </div>
-
-      <div class="hero__stats">
-        <div class="hero__stat">
-          <span class="hero__stat-num">17k+</span>
-          <span class="hero__stat-label">Old YT Family</span>
-        </div>
-        <div class="hero__stat">
-          <span class="hero__stat-num">50+ </span>
-          <span class="hero__stat-label">Films / Docs</span>
-        </div>
-        <div class="hero__stat">
-          <span class="hero__stat-num">∞</span>
-          <span class="hero__stat-label">Badass Ideas</span>
-        </div>
-      </div>
-
-      <div class="hero__actions">
-        <button type="button" class="btn btn--primary" data-hero-watch>
-          ▶ Watch my story
-        </button>
-        <a href="/about/" class="btn btn--ghost">Read my origin arc</a>
-        <a href="/subscribe/" class="btn btn--ghost">Subscribe on Ghost</a>
-      </div>
-    </div>
-  </div>
-
-  <script>
-    (function () {
-      var hero = document.querySelector("[data-hero]");
-      if (!hero) return;
-
-      var watchBtn = hero.querySelector("[data-hero-watch]");
-      var backBtn = hero.querySelector("[data-hero-back]");
-      var imgFrame = hero.querySelector("[data-hero-image]");
-      var videoFrame = hero.querySelector("[data-hero-video]");
-      var iframe = videoFrame ? videoFrame.querySelector("iframe") : null;
-
-      function addAutoplayTo(src) {
-        if (!src) return src;
-        if (src.indexOf("autoplay=1") !== -1) return src;
-        return src + (src.indexOf("?") !== -1 ? "&" : "?") + "autoplay=1";
-      }
-
-      function showVideo() {
-        if (imgFrame) imgFrame.hidden = true;
-        if (videoFrame) videoFrame.hidden = false;
-
-        if (iframe) {
-          var src = iframe.getAttribute("src") || "";
-          iframe.setAttribute("src", addAutoplayTo(src));
-        }
-        hero.classList.add("is-video");
-      }
-
-      function showImage() {
-        if (videoFrame) videoFrame.hidden = true;
-        if (imgFrame) imgFrame.hidden = false;
-
-        if (iframe) {
-          var src = iframe.getAttribute("src") || "";
-          iframe.setAttribute("src", src);
-        }
-        hero.classList.remove("is-video");
-      }
-
-      if (watchBtn) watchBtn.addEventListener("click", showVideo);
-      if (backBtn) backBtn.addEventListener("click", showImage);
-
-      if (window.location.hash === "#story") {
-        showVideo();
-      }
-    })();
-  </script>
 </section>
-
+<!-- END: Home Hero Section -->
