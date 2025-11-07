@@ -20,11 +20,43 @@
 				</span>
 			{{/if}}
 
+
 			{{#has tag="#video"}}
-				<span class="card-post-icon" data-tippy-content="{{t "Video Post"}}">
+				<span class="card-post-icon" data-tippy-content="{{t "Video"}}">
 					{{> "icons/video"}}
 				</span>
 			{{/has}}
+
+            {{#has tag="#project"}}
+				<span class="card-post-icon" data-tippy-content="{{t "Project"}}">
+					{{> "icons/project"}}
+				</span>
+			{{/has}}
+
+          {{#has tag="#code"}}
+				<span class="card-post-icon" data-tippy-content="{{t "Code Snippet"}}">
+					{{> "icons/code"}}
+				</span>
+			{{/has}}
+
+            {{#has tag="#course"}}
+				<span class="card-post-icon" data-tippy-content="{{t "Course"}}">
+					{{> "icons/course"}}
+				</span>
+			{{/has}}
+
+           {{#has tag="#web-series"}}
+				<span class="card-post-icon" data-tippy-content="{{t "Web Series"}}">
+					{{> "icons/web-series"}}
+				</span>
+			{{/has}}
+
+            {{#has tag="#blog"}}
+				<span class="card-post-icon" data-tippy-content="{{t "Blog"}}">
+					{{> "icons/blog"}}
+				</span>
+			{{/has}}
+
 
 			{{#unless access}}
 				<span

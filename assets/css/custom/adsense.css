@@ -1,14 +1,19 @@
-/* AdSense Styles - Minimal Design */
+/*
+/* AdSense Styles - Minimal & Integrated Design
+/* ---------------------------------------------------------- */
+
+/* Main ad block styling */
 .gh-ad {
-  margin: var(--spacing-7) 0;
-  border: 1px solid var(--color-border);
+  /* REDUCED: Vertical margin is smaller for a tighter layout */
+  margin: var(--spacing-6) 0;
+  /* REMOVED: No border for a seamless look */
+  border: none;
+  /* Kept for structure, but visually less prominent without a border */
   border-radius: var(--radius-2);
-  background: var(--color-background);
+  background: transparent; /* Changed to transparent to blend with the page */
   overflow: hidden;
   max-width: 100%;
 }
-
-
 
 /* Ad container - ensures proper containment */
 .gh-ad-container {
@@ -16,7 +21,8 @@
   align-items: center;
   justify-content: center;
   min-height: 90px;
-  padding: var(--spacing-5);
+  /* REDUCED: Minimal padding inside the ad block */
+  padding: var(--spacing-2);
   text-align: center;
   width: 100%;
   box-sizing: border-box;
@@ -31,81 +37,73 @@
   overflow: hidden;
 }
 
-/* Auto responsive */
-.gh-ad--auto .gh-ad-container {
-  padding: var(--spacing-6);
+/*
+  Set a consistent, minimal padding for all ad types.
+  This simplifies the code and ensures all ads have the same tight spacing.
+*/
+.gh-ad--auto .gh-ad-container,
+.gh-ad--square .gh-ad-container,
+.gh-ad--rectangle .gh-ad-container,
+.gh-ad--leaderboard .gh-ad-container,
+.gh-ad--banner .gh-ad-container,
+.gh-ad--in-article .gh-ad-container {
+  padding: var(--spacing-2); /* A very small 4px padding */
 }
 
-.gh-ad--auto .gh-ad-container ins {
-  width: 100%;
-}
 
-/* Square ads (250x250) */
+/* Specific ad dimensions remain the same */
 .gh-ad--square .gh-ad-container {
   min-height: 250px;
-  padding: var(--spacing-6);
 }
-
 .gh-ad--square .gh-ad-container ins {
   width: 250px;
   height: 250px;
 }
 
-/* Rectangle ads (336x280) */
 .gh-ad--rectangle .gh-ad-container {
   min-height: 280px;
-  padding: var(--spacing-6);
 }
-
 .gh-ad--rectangle .gh-ad-container ins {
   width: 336px;
   height: 280px;
 }
 
-/* Leaderboard ads (728x90) */
 .gh-ad--leaderboard .gh-ad-container {
   min-height: 90px;
-  padding: var(--spacing-5);
 }
-
 .gh-ad--leaderboard .gh-ad-container ins {
   width: 728px;
   height: 90px;
 }
 
-/* Banner ads (468x60) */
 .gh-ad--banner .gh-ad-container {
   min-height: 60px;
-  padding: var(--spacing-5);
 }
-
 .gh-ad--banner .gh-ad-container ins {
   width: 468px;
   height: 60px;
-}
-
-/* In-article fluid ad */
-.gh-ad--in-article .gh-ad-container {
-  padding: var(--spacing-6);
 }
 
 .gh-ad--in-article .gh-ad-container ins {
   width: 100%;
 }
 
-/* ====== RESPONSIVE BREAKPOINTS ====== */
+
+/* ====== RESPONSIVE BREAKPOINTS (with reduced spacing) ====== */
 
 /* Tablet */
 @media (max-width: 900px) {
   .gh-ad {
-    margin: var(--spacing-6) 0;
+    /* REDUCED: Smaller margin on tablets */
+    margin: var(--spacing-5) 0;
   }
   
   .gh-ad-container {
-    padding: var(--spacing-4);
+    /* CONSISTENT: Kept minimal padding */
+    padding: var(--spacing-2);
   }
   
-  /* Scale down larger ads for tablet */
+  /* Scale down larger ads for tablet (no changes here, dimensions are correct) */
   .gh-ad--rectangle .gh-ad-container ins {
     width: 300px;
     height: 250px;
@@ -127,21 +125,18 @@
 /* Mobile */
 @media (max-width: 540px) {
   .gh-ad {
-    margin: var(--spacing-5) 0;
-    border-radius: var(--radius-1);
+    /* REDUCED: Even smaller margin on mobile */
+    margin: var(--spacing-4) 0;
   }
-
   
   .gh-ad-container {
-    padding: var(--spacing-3);
-    min-height: 80px;
+    min-height: 50px; /* Adjusted for smaller mobile ads */
   }
-  
-  /* Scale down for mobile */
+
+  /* Scale down for mobile (no changes to dimensions) */
   .gh-ad--square .gh-ad-container,
   .gh-ad--rectangle .gh-ad-container {
     min-height: 200px;
-    padding: var(--spacing-4);
   }
   
   .gh-ad--square .gh-ad-container ins,
@@ -153,7 +148,6 @@
   .gh-ad--leaderboard .gh-ad-container,
   .gh-ad--banner .gh-ad-container {
     min-height: 50px;
-    padding: var(--spacing-3);
   }
   
   .gh-ad--leaderboard .gh-ad-container ins,
@@ -165,14 +159,9 @@
 
 /* Small mobile */
 @media (max-width: 380px) {
-  .gh-ad-container {
-    padding: var(--spacing-2);
-  }
-  
   .gh-ad--square .gh-ad-container,
   .gh-ad--rectangle .gh-ad-container {
     min-height: 150px;
-    padding: var(--spacing-3);
   }
   
   .gh-ad--square .gh-ad-container ins,
