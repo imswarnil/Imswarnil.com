@@ -1,0 +1,33 @@
+{{!< default}}
+
+{{!-- Courses page hero (uses /courses/ page content) --}}
+{{#page}}
+  <header class="container-wide page-header">
+    <h1 class="page-title">{{title}}</h1>
+    {{#if custom_excerpt}}
+      <p class="page-excerpt">{{custom_excerpt}}</p>
+    {{/if}}
+  </header>
+{{/page}}
+
+<div class="container-wide">
+  <section class="courses-grid">
+    {{#foreach posts}}
+      <article class="course-card">
+        <h2 class="course-card-title">
+          <a href="{{url}}">{{title}}</a>
+        </h2>
+
+        {{#if feature_image}}
+          <a href="{{url}}" class="course-card-image">
+            <img src="{{feature_image}}" alt="{{title}}">
+          </a>
+        {{/if}}
+
+        {{#if custom_excerpt}}
+          <p class="course-card-excerpt">{{custom_excerpt}}</p>
+        {{/if}}
+      </article>
+    {{/foreach}}
+  </section>
+</div>

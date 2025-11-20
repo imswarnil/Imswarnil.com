@@ -1,0 +1,55 @@
+{{!-- Lesson detail layout --}}
+
+{{!-- Find parent course by same primary tag + #courses-col --}}
+{{#get "posts"
+	filter="tag:hash-courses-col+tag:{{primary_tag.slug}}"
+	include="tags"
+	limit="1"
+	as |courses|
+}}
+	{{#foreach courses}}
+		{{#with this as |course|}}
+			<nav class="lesson-breadcrumb container-wide">
+				<a href="{{course.url}}" class="lesson-breadcrumb-back">
+					← {{t "Back to"}} {{course.title}}
+				</a>
+			</nav>
+		{{/with}}
+	{{/foreach}}
+{{/get}}
+
+<header class="post-header container-wide">
+	<div class="post-header-info">
+		<h1 class="post-title">{{title}}</h1>
+
+		<ul class="post-meta">
+			{{#if authors}}
+				{{> "post/meta-author"}}
+				<li class="separator">&bull;</li>
+			{{/if}}
+			<li>
+				<time class="post-meta-date" datetime="{{date format="YYYY-MM-DD"}}">
+					{{date format="MMMM D, YYYY"}}
+				</time>
+			</li>
+			{{#if reading_time}}
+				<li class="separator">&bull;</li>
+				<li>
+					<span class="post-meta-time">
+						{{reading_time minute=(t "1 min read") minutes=(t "% min read")}}
+					</span>
+				</li>
+			{{/if}}
+		</ul>
+	</div>
+</header>
+
+{{> "post/media"}}
+
+<div class="container-narrow">
+	<article class="post-content">
+		{{content}}
+	</article>
+</div>
+
+{{> "post/comments"}}

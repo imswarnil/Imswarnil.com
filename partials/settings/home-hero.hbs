@@ -1,37 +1,384 @@
-{{!--
-	Get data from page with slug "home-hero" and handle different content scenarios.
+{{!< default}}
 
-	Data sources (in order of priority):
-	- Title (falls back to site title if page title is "(Untitled)")
-	- Custom Excerpt (highest priority)
-	- Auto-generated Excerpt (from content)
-	- Site Description (fallback when no hero page exists)
-	- Feature Image (from hero page)
+<div class="container-wide">
+    
+    <div class="section-hero personal-hero">
+        
+        {{!-- BACKGROUND DECORATION: Just Grid + Shapes (No Text) --}}
+        <div class="hero-bg-grid"></div>
+        <div class="hero-shape shape-1"></div>
+        <div class="hero-shape shape-2"></div>
 
-	If page title is "(Untitled)": uses site title and hide hero.
- --}}
+        {{!-- 1. CONTENT SIDE --}}
+        <div class="section-hero-content">
+            
+            {{!-- Main Title --}}
+            <h1 class="hero-title">Hi, I'm Swarnil. <br>I document my life.</h1>
+
+            {{!-- Bio --}}
+            <p class="hero-description">
+                I'm a Software Engineer and YouTuber based in Bangalore. I build software, break things, and document the entire journey to help others learn from my experiments.
+            </p>
+
+            {{!-- Location & Role (Updated) --}}
+            <div class="hero-meta-row">
+                <div class="meta-item location">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                    <span>Bangalore, IN</span>
+                </div>
+                <div class="meta-divider"></div>
+                <div class="meta-item role">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="3" rx="2"/><line x1="8" x2="16" y1="21" y2="21"/><line x1="12" x2="12" y1="17" y2="21"/></svg>
+                    <span>Software Engineer at <strong>Twilio</strong></span>
+                </div>
+            </div>
+
+            {{!-- Action Buttons --}}
+            <div class="post-header-buttons hero-actions">
+                <a href="/about/" class="button">
+                    <span class="label">Read My Story</span>
+                    <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+                </a>
+                <a href="https://youtube.com/@yourchannel" target="_blank" class="button button-transparent">
+                    <span class="label">Watch Videos</span>
+                    <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+                </a>
+            </div>
+
+            {{!-- Stats --}}
+            <div class="hero-community-stats">
+                <div class="community-item">
+                    <strong>10K+</strong> <span>Subscribers</span>
+                </div>
+                <div class="community-divider"></div>
+                <div class="community-item">
+                    <strong>50+</strong> <span>Videos</span>
+                </div>
+                <div class="community-divider"></div>
+                <div class="community-item">
+                    <strong>5+</strong> <span>Years Coding</span>
+                </div>
+            </div>
+        </div>
+
+        {{!-- 2. IMAGE SIDE (Heavy Glitch + Floating Icons) --}}
+        <figure class="section-hero-image personal-image-wrapper">
+            
+            {{!-- Glitch Wrapper --}}
+            <div class="tv-glitch-wrapper">
+                <div class="glitch-container">
+                    {{!-- Main Image --}}
+                    <div class="glitch-img-box">
+                         <picture>
+                            <source srcset="/content/images/size/w300/format/webp/2025/11/IMG-20230704-WA0001.jpg 300w,
+                                /content/images/size/w400/format/webp/2025/11/IMG-20230704-WA0001.jpg 400w,
+                                /content/images/size/w600/format/webp/2025/11/IMG-20230704-WA0001.jpg 600w,
+                                /content/images/size/w1200/format/webp/2025/11/IMG-20230704-WA0001.jpg 1200w" sizes="(max-width: 991.98px) 90vw, 40vw" type="image/webp">
+                            <img src="/content/images/2025/11/IMG-20230704-WA0001.jpg" class="base-img" alt="Swarnil">
+                        </picture>
+                    </div>
+                    
+                    {{!-- Glitch Overlays (Scanlines + RGB Shift + Noise) --}}
+                    <div class="glitch-overlay-red"></div>
+                    <div class="glitch-overlay-blue"></div>
+                    <div class="static-noise"></div>
+                    <div class="scanlines"></div>
+                </div>
+            </div>
+
+            {{!-- 7 FLOATING ICONS (Animated) --}}
+            
+            {{!-- 1. YouTube --}}
+            <a href="https://youtube.com/@yourchannel" class="floating-social-icon float-1" aria-label="YouTube">
+               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+            </a>
+            {{!-- 2. X / Twitter --}}
+            {{#if @site.twitter}}
+            <a href="{{twitter_url @site.twitter}}" class="floating-social-icon float-2" aria-label="X (Twitter)">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+            </a>
+            {{else}}
+            <a href="#" class="floating-social-icon float-2" aria-label="X (Twitter)">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+            </a>
+            {{/if}}
+            {{!-- 3. LinkedIn --}}
+            <a href="#" class="floating-social-icon float-3" aria-label="LinkedIn">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M20.5 2h-17A1.5 1.5 0 002 3.5v17A1.5 1.5 0 003.5 22h17a1.5 1.5 0 001.5-1.5v-17A1.5 1.5 0 0020.5 2zM8 19H5v-9h3zM6.5 8.25A1.75 1.75 0 118.3 6.5a1.78 1.78 0 01-1.8 1.75zM19 19h-3v-4.74c0-1.42-.6-1.93-1.38-1.93A1.74 1.74 0 0013 14.19a.6.6 0 000 .14V19h-3v-9h2.9v1.3a3.11 3.11 0 012.7-1.4c1.55 0 3.36.86 3.36 3.66z"/></svg>
+            </a>
+            {{!-- 4. GitHub --}}
+            <a href="#" class="floating-social-icon float-4" aria-label="GitHub">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+            </a>
+            {{!-- 5. Instagram --}}
+            <a href="#" class="floating-social-icon float-5" aria-label="Instagram">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+            </a>
+            {{!-- 6. Facebook --}}
+            {{#if @site.facebook}}
+            <a href="{{facebook_url @site.facebook}}" class="floating-social-icon float-6" aria-label="Facebook">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M9.101 23.691v-7.98H6.627v-3.667h2.474v-1.58c0-4.085 1.848-5.978 5.858-5.978.401 0 .955.042 1.468.103a8.68 8.68 0 0 1 1.141.195v3.325a8.623 8.623 0 0 0-.653-.036c-2.148 0-2.797 1.603-2.797 4.16v1.972h3.614l-.299 3.667h-3.315v7.98h-5.018z"/></svg>
+            </a>
+            {{else}}
+            <a href="#" class="floating-social-icon float-6" aria-label="Facebook">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M9.101 23.691v-7.98H6.627v-3.667h2.474v-1.58c0-4.085 1.848-5.978 5.858-5.978.401 0 .955.042 1.468.103a8.68 8.68 0 0 1 1.141.195v3.325a8.623 8.623 0 0 0-.653-.036c-2.148 0-2.797 1.603-2.797 4.16v1.972h3.614l-.299 3.667h-3.315v7.98h-5.018z"/></svg>
+            </a>
+            {{/if}}
+            {{!-- 7. Ghost/Website --}}
+            <a href="{{@site.url}}" class="floating-social-icon float-7" aria-label="Website">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 1 0 10 10A10.011 10.011 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8.009 8.009 0 0 1-8 8z"/><path d="M12 6a6 6 0 1 0 6 6 6.006 6.006 0 0 0-6-6zm0 10a4 4 0 1 1 4-4 4.005 4.005 0 0 1-4 4z"/></svg>
+            </a>
+
+        </figure>
+
+    </div>
+</div>
+
+<style>
+    /* --- PERSONAL HERO COMPONENT --- */
+    .personal-hero {
+        position: relative;
+        padding: var(--spacing-9) var(--layout--padding);
+        margin-top: var(--spacing-8);
+        align-items: center;
+        overflow: visible; 
+        border-radius: var(--radius-5);
+        background-color: var(--color-background);
+        isolation: isolate;
+        min-height: 650px;
+        overflow: hidden;
+    }
+
+    /* --- 1. BACKGROUND DECORATIONS (Grid Only) --- */
+    
+    .hero-bg-grid {
+        position: absolute; top: 0; left: 0; right: 0; bottom: 0; z-index: -1; opacity: 0.25;
+        background-size: 40px 40px;
+        background-image:
+            linear-gradient(to right, var(--color-border) 1px, transparent 1px),
+            linear-gradient(to bottom, var(--color-border) 1px, transparent 1px);
+        mask-image: radial-gradient(circle at center, black 40%, transparent 95%);
+        -webkit-mask-image: radial-gradient(circle at center, black 40%, transparent 95%);
+    }
+
+    .hero-shape {
+        position: absolute; background-color: var(--ghost-accent-color); border-radius: 50%;
+        filter: blur(70px); opacity: 0.1; z-index: -1;
+    }
+    .shape-1 { width: 250px; height: 250px; top: 0; left: 10%; }
+    .shape-2 { width: 350px; height: 350px; bottom: 0; right: 10%; background-color: var(--color-secondary); }
+
+    /* --- 2. CONTENT SIDE --- */
+
+    .hero-title {
+        font-size: clamp(2.5rem, 5vw, 4rem);
+        line-height: 1.1;
+        margin-bottom: var(--spacing-5);
+        font-weight: var(--font-weight-bold);
+    }
+
+    .hero-description {
+        font-size: var(--font-large);
+        color: var(--color-secondary);
+        margin-bottom: var(--spacing-6);
+        max-width: 540px;
+        line-height: 1.5;
+    }
+
+    /* Location & Role */
+    .hero-meta-row {
+        display: flex; flex-wrap: wrap; align-items: center; gap: var(--spacing-4);
+        margin-bottom: var(--spacing-8); color: var(--color-foreground); font-size: var(--font-small); font-weight: var(--font-weight-medium);
+    }
+    .meta-item { display: flex; align-items: center; gap: 6px; }
+    .meta-item svg { color: var(--ghost-accent-color); opacity: 0.8; }
+    .meta-divider { width: 4px; height: 4px; background-color: var(--color-border); border-radius: 50%; }
+    
+    .meta-item strong {
+        color: var(--color-contrast);
+        font-weight: var(--font-weight-bold);
+    }
+
+    /* Stats */
+    .hero-community-stats {
+        display: flex; align-items: center; gap: var(--spacing-7); margin-top: var(--spacing-9); padding-top: var(--spacing-7);
+        border-top: 1px solid var(--color-border);
+    }
+    .community-item { display: flex; flex-direction: column; }
+    .community-item strong { font-family: var(--font-family-headings); color: var(--color-contrast); font-size: 1.5rem; line-height: 1; font-weight: var(--font-weight-bold); }
+    .community-item span { color: var(--color-secondary); font-size: var(--font-x-small); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 6px; font-weight: var(--font-weight-medium); }
+    .community-divider { width: 1px; height: 30px; background-color: var(--color-border); }
 
 
-{{#*inline "get-hero-excerpt"}}
-	{{#if custom_excerpt}}
-		{{> @partial-block excerpt=custom_excerpt}}
-	{{else if excerpt}}
-		{{> @partial-block}}
-	{{else}}
-		{{> @partial-block excerpt=false}}
-	{{/if}}
-{{/inline}}
+    /* --- 3. IMAGE SIDE (Heavy Glitch) --- */
 
-{{#get "pages" slug="home-hero" limit="1" as |hero|}}
-	{{#foreach hero}}
-		{{#> "get-hero-excerpt"}}
-			{{#match title '(Untitled)'}}
-				{{> @partial-block title=@site.title hide_title=true excerpt=false feature_image=false hide_subscription=true}}
-			{{else}}
-				{{> @partial-block}}
-			{{/match}}
-		{{/"get-hero-excerpt"}}
-	{{/foreach}}
-{{else}}
-	{{> @partial-block hide_title=true title=@site.title}}
-{{/get}}
+    .personal-image-wrapper {
+        display: flex; justify-content: center; align-items: center; position: relative; height: 500px;
+    }
+
+    /* The Container around the image */
+    .tv-glitch-wrapper {
+        position: relative;
+        width: 100%;
+        max-width: 420px;
+        aspect-ratio: 1 / 1;
+        border-radius: var(--radius-5);
+        border: 1px solid var(--color-border);
+        padding: 12px; 
+        background-color: rgba(255,255,255, 0.03);
+        z-index: 1;
+    }
+
+    /* Inner box that holds the glitch layers */
+    .glitch-container {
+        position: relative;
+        width: 100%; height: 100%;
+        border-radius: var(--radius-4);
+        overflow: hidden;
+        background-color: #000;
+    }
+
+    .glitch-img-box {
+        position: relative;
+        width: 100%; height: 100%;
+        overflow: hidden;
+    }
+
+    .base-img {
+        width: 100%; height: 100%; object-fit: cover;
+        position: relative; z-index: 1;
+    }
+
+    /* RGB Shift & Tearing Effects via Pseudo Elements */
+    .glitch-container:before,
+    .glitch-container:after {
+        content: "";
+        position: absolute;
+        top: 0; left: 0; width: 100%; height: 100%;
+        background: inherit; /* Inherits nothing but acts as layer anchor */
+        z-index: 2;
+        pointer-events: none;
+        opacity: 0.5;
+        mix-blend-mode: hard-light;
+    }
+
+    /* Red Shift Layer */
+    .glitch-overlay-red {
+        position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+        background-color: rgba(255, 0, 0, 0.2);
+        mix-blend-mode: color-dodge;
+        z-index: 3;
+        opacity: 0;
+        animation: glitch-anim-1 2.5s infinite linear alternate-reverse;
+    }
+
+    /* Blue Shift Layer */
+    .glitch-overlay-blue {
+        position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+        background-color: rgba(0, 0, 255, 0.2);
+        mix-blend-mode: exclusion;
+        z-index: 3;
+        opacity: 0;
+        animation: glitch-anim-2 3s infinite linear alternate-reverse;
+    }
+
+    /* Horizontal Slices */
+    .glitch-img-box {
+        animation: glitch-skew 4s infinite cubic-bezier(0.25, 0.46, 0.45, 0.94) both infinite;
+    }
+
+    /* Static Noise */
+    .static-noise {
+        position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.5'/%3E%3C/svg%3E");
+        opacity: 0.15;
+        z-index: 4;
+        pointer-events: none;
+        mix-blend-mode: overlay;
+    }
+
+    /* Scanlines */
+    .scanlines {
+        content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+        background: linear-gradient(to bottom, rgba(0,0,0,0) 50%, rgba(0,0,0,0.25) 50%);
+        background-size: 100% 4px;
+        z-index: 5;
+        pointer-events: none;
+    }
+
+    /* --- GLITCH ANIMATIONS --- */
+    
+    @keyframes glitch-anim-1 {
+        0% { clip-path: inset(20% 0 80% 0); transform: translate(-2px, 0); opacity: 0.5; }
+        20% { clip-path: inset(60% 0 10% 0); transform: translate(2px, 0); opacity: 0; }
+        40% { clip-path: inset(40% 0 50% 0); transform: translate(-2px, 0); opacity: 0.3; }
+        60% { clip-path: inset(80% 0 5% 0); transform: translate(2px, 0); opacity: 0; }
+        80% { clip-path: inset(10% 0 60% 0); transform: translate(-1px, 0); opacity: 0.5; }
+        100% { clip-path: inset(30% 0 30% 0); transform: translate(1px, 0); opacity: 0; }
+    }
+
+    @keyframes glitch-anim-2 {
+        0% { clip-path: inset(10% 0 60% 0); transform: translate(2px, 0); opacity: 0.3; }
+        20% { clip-path: inset(30% 0 20% 0); transform: translate(-2px, 0); opacity: 0; }
+        40% { clip-path: inset(10% 0 80% 0); transform: translate(2px, 0); opacity: 0.5; }
+        60% { clip-path: inset(70% 0 10% 0); transform: translate(-2px, 0); opacity: 0; }
+        80% { clip-path: inset(50% 0 30% 0); transform: translate(2px, 0); opacity: 0.3; }
+        100% { clip-path: inset(0% 0 90% 0); transform: translate(-2px, 0); opacity: 0; }
+    }
+
+    @keyframes glitch-skew {
+        0% { transform: skew(0deg); }
+        20% { transform: skew(-0.5deg); }
+        40% { transform: skew(0.5deg); }
+        60% { transform: skew(-0.2deg); }
+        80% { transform: skew(0.2deg); }
+        100% { transform: skew(0deg); }
+    }
+
+    /* --- 4. FLOATING ICONS --- */
+    
+    .floating-social-icon {
+        position: absolute;
+        width: 36px; height: 36px;
+        background-color: var(--color-background);
+        border: 1px solid var(--color-border);
+        border-radius: 50%;
+        display: flex; align-items: center; justify-content: center;
+        color: var(--color-secondary);
+        box-shadow: var(--shadow);
+        z-index: 10;
+        transition: color 0.2s, transform 0.2s;
+        animation: floatIcon 4s ease-in-out infinite;
+    }
+
+    .floating-social-icon:hover {
+        color: var(--ghost-accent-color);
+        border-color: var(--ghost-accent-color);
+        transform: scale(1.1);
+    }
+    .floating-social-icon svg { width: 16px; height: 16px; }
+
+    .float-1 { top: 5%; right: 10%; animation-delay: 0s; }
+    .float-2 { top: 40%; right: 0%; animation-delay: 1s; }
+    .float-3 { bottom: 10%; right: 10%; animation-delay: 0.5s; }
+    .float-4 { bottom: -5%; left: 45%; animation-delay: 2s; }
+    .float-5 { bottom: 15%; left: 5%; animation-delay: 1.5s; }
+    .float-6 { top: 45%; left: -5%; animation-delay: 3s; }
+    .float-7 { top: 10%; left: 15%; animation-delay: 0.2s; }
+
+    @keyframes floatIcon {
+        0% { transform: translateY(0px); }
+        50% { transform: translateY(-10px); }
+        100% { transform: translateY(0px); }
+    }
+
+    /* Responsive */
+    @media (max-width: 991px) {
+        .personal-hero { flex-direction: column-reverse; text-align: left; gap: var(--spacing-9); }
+        .personal-image-wrapper { height: auto; margin-bottom: var(--spacing-8); }
+        .tv-glitch-wrapper { max-width: 320px; }
+        .float-1 { right: 0; top: 0; }
+        .float-2 { right: -10px; top: 50%; }
+        .float-6 { left: -10px; top: 50%; }
+    }
+</style>
