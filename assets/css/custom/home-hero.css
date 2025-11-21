@@ -1,0 +1,167 @@
+/* --- PERSONAL HERO COMPONENT --- */
+.personal-hero {
+    position: relative;
+    padding: var(--spacing-9) var(--layout--padding);
+    margin-top: var(--spacing-8);
+    align-items: center;
+    overflow: visible; 
+    border-radius: var(--radius-5);
+    background-color: var(--color-background);
+    isolation: isolate;
+    min-height: 650px;
+    overflow: hidden;
+}
+
+/* --- 1. BACKGROUND DECORATION (Grid) --- */
+.hero-bg-grid {
+    position: absolute; top: 0; left: 0; right: 0; bottom: 0; z-index: -1; opacity: 0.25;
+    background-size: 40px 40px;
+    background-image:
+        linear-gradient(to right, var(--color-border) 1px, transparent 1px),
+        linear-gradient(to bottom, var(--color-border) 1px, transparent 1px);
+    mask-image: radial-gradient(circle at center, black 40%, transparent 95%);
+    -webkit-mask-image: radial-gradient(circle at center, black 40%, transparent 95%);
+}
+
+.hero-shape {
+    position: absolute; background-color: var(--ghost-accent-color); border-radius: 50%;
+    filter: blur(70px); opacity: 0.1; z-index: -1;
+}
+.shape-1 { width: 250px; height: 250px; top: 0; left: 10%; }
+.shape-2 { width: 350px; height: 350px; bottom: 0; right: 10%; background-color: var(--color-secondary); }
+
+/* --- 2. CONTENT SIDE --- */
+.hero-title {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    line-height: 1.1;
+    margin-bottom: var(--spacing-5);
+    font-weight: var(--font-weight-bold);
+}
+
+.hero-description {
+    font-size: var(--font-large);
+    color: var(--color-secondary);
+    margin-bottom: var(--spacing-6);
+    max-width: 540px;
+    line-height: 1.5;
+}
+
+/* Location & Role */
+.hero-meta-row {
+    display: flex; flex-wrap: wrap; align-items: center; gap: var(--spacing-4);
+    margin-bottom: var(--spacing-8); color: var(--color-foreground); font-size: var(--font-small); font-weight: var(--font-weight-medium);
+}
+.meta-item { display: flex; align-items: center; gap: 6px; }
+.meta-item svg { color: var(--ghost-accent-color); opacity: 0.8; }
+.meta-divider { width: 4px; height: 4px; background-color: var(--color-border); border-radius: 50%; }
+
+.meta-item strong {
+    color: var(--color-contrast);
+    font-weight: var(--font-weight-bold);
+}
+
+/* Stats */
+.hero-community-stats {
+    display: flex; align-items: center; gap: var(--spacing-7); margin-top: var(--spacing-9); padding-top: var(--spacing-7);
+    border-top: 1px solid var(--color-border);
+}
+.community-item { display: flex; flex-direction: column; }
+.community-item strong { font-family: var(--font-family-headings); color: var(--color-contrast); font-size: 1.5rem; line-height: 1; font-weight: var(--font-weight-bold); }
+.community-item span { color: var(--color-secondary); font-size: var(--font-x-small); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 6px; font-weight: var(--font-weight-medium); }
+.community-divider { width: 1px; height: 30px; background-color: var(--color-border); }
+
+
+/* --- 3. IMAGE SIDE (B&W -> COLOR REVEAL) --- */
+
+.personal-image-wrapper {
+    display: flex; justify-content: center; align-items: center; position: relative; height: 500px;
+}
+
+.square-image-container {
+    position: relative;
+    width: 100%;
+    max-width: 440px;
+    aspect-ratio: 1 / 1;
+    border-radius: var(--radius-5);
+    border: 1px solid var(--color-border);
+    padding: 12px; 
+    background-color: rgba(255,255,255, 0.03);
+    z-index: 1;
+}
+
+/* REVEAL BOX */
+.image-reveal-box {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: var(--radius-4);
+    overflow: hidden;
+    background-color: #000;
+}
+
+.bw-to-color-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    
+    /* START STATE: Grayscale */
+    filter: grayscale(100%);
+    transition: filter 0.5s ease, transform 0.5s ease;
+}
+
+/* ON HOVER: Reveal Color */
+.square-image-container:hover .bw-to-color-img {
+    filter: grayscale(0%);
+    transform: scale(1.03); /* Slight zoom effect */
+}
+
+
+/* --- 4. FLOATING ICONS --- */
+
+.floating-social-icon {
+    position: absolute;
+    width: 36px; height: 36px;
+    background-color: var(--color-background);
+    border: 1px solid var(--color-border);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--color-secondary);
+    box-shadow: var(--shadow);
+    z-index: 10;
+    transition: color 0.2s, transform 0.2s;
+    animation: floatIcon 4s ease-in-out infinite;
+}
+
+.floating-social-icon:hover {
+    color: var(--ghost-accent-color);
+    border-color: var(--ghost-accent-color);
+    transform: scale(1.1);
+}
+.floating-social-icon svg { width: 16px; height: 16px; }
+
+.float-1 { top: 5%; right: 10%; animation-delay: 0s; }
+.float-2 { top: 40%; right: 0%; animation-delay: 1s; }
+.float-3 { bottom: 10%; right: 10%; animation-delay: 0.5s; }
+.float-4 { bottom: -5%; left: 45%; animation-delay: 2s; }
+.float-5 { bottom: 15%; left: 5%; animation-delay: 1.5s; }
+.float-6 { top: 45%; left: -5%; animation-delay: 3s; }
+.float-7 { top: 10%; left: 15%; animation-delay: 0.2s; }
+
+@keyframes floatIcon {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
+}
+
+/* Responsive */
+@media (max-width: 991px) {
+    .personal-hero { flex-direction: column-reverse; text-align: left; gap: var(--spacing-9); }
+    .personal-image-wrapper { height: auto; margin-bottom: var(--spacing-8); }
+    .square-image-container { max-width: 320px; }
+    
+    /* Pull icons closer on mobile */
+    .float-1 { right: 0; top: 0; }
+    .float-2 { right: -10px; top: 50%; }
+    .float-6 { left: -10px; top: 50%; }
+}
