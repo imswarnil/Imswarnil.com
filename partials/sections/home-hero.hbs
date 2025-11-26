@@ -13,12 +13,6 @@
             
             {{!-- 2. LEFT COLUMN: Copy & Content --}}
             <div class="home-hero__copy">
-                
-                {{!-- Status Pill --}}
-                <a href="#contact" class="home-hero__status" aria-label="{{t "Contact for work"}}">
-                    <span class="home-hero__status-dot"></span>
-                    <span class="home-hero__status-text">{{t "Available for new projects"}}</span>
-                </a>
 
                 {{!-- Title & Intro --}}
                 <h1 class="home-hero__title" itemprop="name">
@@ -58,10 +52,7 @@
                     </div>
                 </div>
 
-                {{!-- 
-                    Ghost Subscribe Partial 
-                    Wrapped in a div to control width/spacing in this specific hero context 
-                --}}
+                {{!-- Subscribe --}}
                 <div class="home-hero__subscribe-wrapper">
                     {{> "form-subscribe" label=true}}
                     <p class="home-hero__subscribe-note">
@@ -85,18 +76,6 @@
                     <div class="home-hero__stat-item">
                         <span class="home-hero__stat-val">2.4M</span>
                         <span class="home-hero__stat-label">Total Views</span>
-                    </div>
-                </div>
-
-                {{!-- Social Proof / Trusted By (New Content Rich Element) --}}
-                <div class="home-hero__proof">
-                    <span>Featured in:</span>
-                    <div class="proof-logos">
-                        {{!-- Simple text logos or SVGs --}}
-                        <span class="proof-logo">Ghost</span>
-                        <span class="proof-logo">ProductHunt</span>
-                        <span class="proof-logo">IndieHackers</span>
-                        <span class="proof-logo">Medium</span>
                     </div>
                 </div>
 
@@ -130,7 +109,6 @@
 
                         {{!-- B: Video Layer --}}
                         <div class="home-hero__video-layer">
-                            {{!-- Replace 'uV3eTXpEBOg' with your VIDEO ID --}}
                             <iframe id="hero-youtube-iframe" 
                                 src="https://www.youtube.com/embed/uV3eTXpEBOg?enablejsapi=1&rel=0&controls=0&modestbranding=1&showinfo=0&iv_load_policy=3" 
                                 title="Video Story" 
@@ -190,10 +168,17 @@
     /* --- Container --- */
     .home-hero {
         position: relative;
-        padding: var(--spacing-10) 0;
+        padding: var(--spacing-11) 0 var(--spacing-12);
         overflow: hidden;
         background-color: var(--color-background);
     }
+
+    .home-hero .container-wide {
+        max-width: var(--layout--container, 1100px);
+        margin: 0 auto;
+        padding: 0 var(--layout--padding);
+    }
+
     .home-hero__bg-grid {
         position: absolute; inset: 0; pointer-events: none; z-index: 0;
         background-image:
@@ -210,64 +195,47 @@
     .home-hero__grid {
         position: relative; z-index: 1;
         display: grid;
-        grid-template-columns: 1fr 450px;
+        grid-template-columns: minmax(0, 1.1fr) minmax(0, 420px);
         gap: var(--spacing-10);
         align-items: center;
+        max-width: 1100px;
+        margin: 0 auto;
     }
 
     /* --- Left Column: Copy --- */
     .home-hero__copy {
         display: flex; flex-direction: column; align-items: flex-start;
+        gap: var(--spacing-6);
     }
-
-    /* Status Pill */
-    .home-hero__status {
-        display: inline-flex; align-items: center; gap: 8px;
-        padding: 6px 14px; border-radius: 30px;
-        background: var(--color-background-100);
-        border: 1px solid var(--color-border);
-        color: var(--color-foreground);
-        text-decoration: none;
-        margin-bottom: var(--spacing-6);
-        transition: border-color 0.2s;
-        box-shadow: var(--shadow);
-    }
-    .home-hero__status:hover { border-color: var(--color-secondary); }
-    .home-hero__status-dot { 
-        width: 8px; height: 8px; background: #22c55e; 
-        border-radius: 50%; animation: pulse 2s infinite; 
-    }
-    .home-hero__status-text { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
-    @keyframes pulse { 0% {box-shadow:0 0 0 0 rgba(34,197,94,0.4);} 70% {box-shadow:0 0 0 6px rgba(34,197,94,0);} 100% {box-shadow:0 0 0 0 rgba(34,197,94,0);} }
 
     /* Typography */
     .home-hero__greeting {
         display: block; font-size: var(--font-small); font-weight: 700;
-        color: var(--ghost-accent-color); margin-bottom: var(--spacing-3); text-transform: uppercase; letter-spacing: 0.5px;
+        color: var(--ghost-accent-color); margin-bottom: var(--spacing-2); text-transform: uppercase; letter-spacing: 0.5px;
     }
     .home-hero__wave { display: inline-block; font-size: 1.4em; animation: wave 2.5s infinite; transform-origin: 70% 70%; margin-right: 5px; }
     @keyframes wave { 0%,100%{transform:rotate(0deg);} 10%,30%{transform:rotate(14deg);} 20%{transform:rotate(-8deg);} 40%{transform:rotate(-4deg);} 50%{transform:rotate(10deg);} }
 
     .home-hero__title {
-        font-size: clamp(2.8rem, 5vw, 4.5rem);
+        font-size: clamp(2.8rem, 5vw, 4.2rem);
         font-weight: 800; line-height: 1.1;
         color: var(--color-contrast);
-        margin-bottom: var(--spacing-3); letter-spacing: -0.02em;
+        margin-bottom: var(--spacing-1); letter-spacing: -0.02em;
     }
     
     .home-hero__subtitle {
         font-size: clamp(1.2rem, 2vw, 1.6rem); color: var(--color-foreground);
-        font-weight: 500; margin-bottom: var(--spacing-6);
+        font-weight: 500; margin-bottom: var(--spacing-3);
     }
     
     .home-hero__bio {
-        font-size: 1.1rem; color: var(--color-secondary); line-height: 1.6;
-        max-width: 540px; margin-bottom: var(--spacing-8);
+        font-size: 1.05rem; color: var(--color-secondary); line-height: 1.7;
+        max-width: 560px; margin-bottom: var(--spacing-4);
     }
 
     /* Work Info */
     .home-hero__work {
-        display: flex; flex-wrap: wrap; gap: var(--spacing-6); margin-bottom: var(--spacing-8); width: 100%;
+        display: flex; flex-wrap: wrap; gap: var(--spacing-5); margin-bottom: var(--spacing-5); width: 100%;
     }
     .home-hero__work-item { display: flex; align-items: center; gap: 12px; }
     .home-hero__work-icon {
@@ -277,18 +245,17 @@
         color: var(--ghost-accent-color); flex-shrink: 0;
     }
     .home-hero__work-info { display: flex; flex-direction: column; line-height: 1.2; }
-    .home-hero__work-label { font-size: 0.7rem; color: var(--color-secondary); }
+    .home-hero__work-label { font-size: 0.7rem; color: var(--color-secondary); text-transform: uppercase; letter-spacing: 0.05em; }
     .home-hero__work-company { font-size: 0.9rem; color: var(--color-contrast); font-weight: 600; }
 
     /* Subscribe Wrapper */
     .home-hero__subscribe-wrapper {
-        width: 100%; max-width: 480px; margin-bottom: var(--spacing-9);
+        width: 100%; max-width: 480px; margin-bottom: var(--spacing-6);
     }
     .home-hero__subscribe-wrapper .form-subscribe {
         max-width: 100%;
         margin-bottom: 8px;
     }
-    /* Enforce styling on the included partial */
     .home-hero__subscribe-wrapper .form-subscribe input {
         background-color: var(--color-background);
         border: 1px solid var(--color-border);
@@ -301,30 +268,22 @@
 
     /* Stats */
     .home-hero__stats {
-        display: flex; align-items: center;
+        display: inline-flex; align-items: center;
         background: var(--color-background-100);
         border: 1px solid var(--color-border);
         border-radius: var(--radius-4);
-        padding: var(--spacing-4) var(--spacing-6);
-        gap: var(--spacing-6);
-        margin-bottom: var(--spacing-8);
+        padding: var(--spacing-3) var(--spacing-5);
+        gap: var(--spacing-5);
     }
     .home-hero__stat-item { display: flex; flex-direction: column; }
     .home-hero__stat-val { font-size: 1.2rem; font-weight: 800; color: var(--color-contrast); line-height: 1; }
     .home-hero__stat-label { font-size: 0.7rem; text-transform: uppercase; color: var(--color-secondary); margin-top: 2px; font-weight: 600; }
-    .home-hero__stat-sep { width: 1px; height: 30px; background: var(--color-border); }
-
-    /* Social Proof */
-    .home-hero__proof {
-        display: flex; align-items: center; gap: 15px; font-size: 0.8rem; color: var(--color-secondary);
-    }
-    .proof-logos { display: flex; gap: 20px; opacity: 0.7; }
-    .proof-logo { font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+    .home-hero__stat-sep { width: 1px; height: 26px; background: var(--color-border); }
 
     /* --- Right Column: Media --- */
     .home-hero__media-wrap {
         position: relative; width: 100%;
-        aspect-ratio: 1 / 1; /* Square default */
+        aspect-ratio: 1 / 1;
         transition: aspect-ratio 0.5s cubic-bezier(0.2, 1, 0.2, 1);
     }
     .home-hero__media-wrap.mode-video { aspect-ratio: 16/9; }
@@ -336,7 +295,7 @@
         border-radius: var(--radius-5);
         background-color: var(--color-background-100);
         border: 1px solid var(--color-border);
-        padding: 8px; /* Frame effect */
+        padding: 8px;
         box-shadow: var(--shadow);
         overflow: hidden;
         transition: border-radius 0.5s;
@@ -365,7 +324,6 @@
     }
     .home-hero__video-layer iframe { width: 100%; height: 100%; border-radius: var(--radius-4); }
 
-    /* Toggle States */
     .home-hero__card.is-playing .home-hero__image-layer { opacity: 0; visibility: hidden; pointer-events: none; }
     .home-hero__card.is-playing .home-hero__video-layer { opacity: 1; z-index: 3; pointer-events: auto; }
 
@@ -391,12 +349,12 @@
 
     /* Social Rail */
     .home-hero__socials {
-        position: absolute; right: -22px; top: 50%; transform: translateY(-50%);
+        position: absolute; right: 8px; top: 50%; transform: translateY(-50%);
         display: flex; flex-direction: column; gap: 12px;
         list-style: none; padding: 0; margin: 0; z-index: 10;
     }
     .home-hero__socials a {
-        width: 36px; height: 36px;
+        width: 34px; height: 34px;
         background: var(--color-background);
         border: 1px solid var(--color-border);
         border-radius: 50%;
@@ -411,25 +369,49 @@
 
     /* --- RESPONSIVE --- */
     @media (max-width: 991px) {
-        .home-hero__grid { grid-template-columns: 1fr; gap: var(--spacing-8); }
-        
-        /* Move Media to TOP and add margin below it */
-        .home-hero__media-wrap { 
-            order: -1; 
-            max-width: 450px; 
-            margin: 0 auto var(--spacing-9) auto; /* Spacing below image */
+        .home-hero {
+            padding: var(--spacing-9) 0 var(--spacing-10);
+        }
+        .home-hero__grid { 
+            grid-template-columns: 1fr; 
+            gap: var(--spacing-8); 
         }
         
-        .home-hero__copy { align-items: center; text-align: center; }
-        .home-hero__status { margin: 0 auto var(--spacing-5); }
-        .home-hero__work { justify-content: center; text-align: left; }
-        .home-hero__stats { justify-content: center; }
-        .home-hero__proof { justify-content: center; }
+        .home-hero__media-wrap { 
+            order: -1; 
+            max-width: 420px; 
+            margin: 0 auto var(--spacing-8) auto;
+        }
+        
+        .home-hero__copy { 
+            align-items: center; 
+            text-align: center; 
+        }
+        .home-hero__work { 
+            justify-content: center; 
+            text-align: left; 
+        }
+        .home-hero__stats { 
+            justify-content: center; 
+        }
         
         .home-hero__socials {
             top: auto; bottom: -18px; left: 50%; right: auto;
             transform: translateX(-50%);
             flex-direction: row;
+        }
+    }
+
+    @media (max-width: 640px) {
+        .home-hero__title {
+            font-size: clamp(2.2rem, 8vw, 2.6rem);
+        }
+        .home-hero__bio {
+            font-size: 0.98rem;
+        }
+        .home-hero__stats {
+            width: 100%;
+            justify-content: space-between;
         }
     }
 </style>
@@ -447,14 +429,12 @@
         if(btn && card && iframe) {
             btn.addEventListener('click', () => {
                 if (!isPlaying) {
-                    // Play
                     card.classList.add('is-playing');
                     wrap.classList.add('mode-video');
                     iframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
                     isPlaying = true;
                     btn.setAttribute('aria-label', 'Pause video');
                 } else {
-                    // Pause & Revert
                     iframe.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
                     card.classList.remove('is-playing');
                     wrap.classList.remove('mode-video');

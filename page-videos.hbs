@@ -1,0 +1,511 @@
+{{!< default}}
+{{!-- VIDEOS ARCHIVE PAGE (slug: "videos") --}}
+
+{{#page}}
+
+    {{!-- ========================= --}}
+    {{!-- FULL-WIDTH HERO BANNER   --}}
+    {{!-- ========================= --}}
+    <section
+        class="videos-hero-banner"
+        {{#if feature_image}}
+            style="background-image: url('{{feature_image}}');"
+        {{/if}}
+    >
+        <div class="videos-hero-overlay"></div>
+
+        <div class="videos-hero-inner container-wide">
+            <div class="videos-hero-content">
+                <p class="videos-hero-eyebrow">Videos</p>
+
+                <h1 class="videos-hero-title">
+                    {{title}}
+                </h1>
+
+                {{#if custom_excerpt}}
+                    <p class="videos-hero-subtitle">
+                        {{custom_excerpt}}
+                    </p>
+                {{/if}}
+
+                <div class="videos-hero-meta">
+                    {{!-- Total videos count: internal tag #video (slug: hash-video) --}}
+                    {{#get "posts" filter="tags:[hash-video]" limit="1"}}
+                        {{#if posts}}
+                            <span class="videos-hero-pill">
+                                <span class="videos-hero-pill-label">Total videos</span>
+                                <span class="videos-hero-pill-value">{{pagination.total}}</span>
+                            </span>
+                        {{/if}}
+                    {{/get}}
+
+                    <a href="#all-videos" class="button videos-hero-button">
+                        Browse all videos
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {{!-- Optional intro content under hero --}}
+    {{#if html}}
+        <div class="post-content container-wide videos-intro">
+            {{content}}
+        </div>
+    {{/if}}
+
+{{else}}
+    <h1 class="screen-reader-text">{{t "Videos"}}</h1>
+{{/page}}
+
+<main class="container-wide videos-page">
+    <section id="all-videos" class="section videos-section">
+        <header class="videos-section-header">
+            <h2 class="videos-section-title">All videos</h2>
+            <p class="videos-section-subtitle">
+                Deep dives, stories, and experiments – all in video form.
+            </p>
+        </header>
+
+        {{!-- Only posts tagged with internal #video --}}
+        {{#get "posts"
+            filter="tags:[hash-video]"
+            include="tags,authors"
+            order="published_at desc"
+            limit="50"}}
+
+            {{#if posts}}
+                <div class="video-archive-grid">
+                    {{#foreach posts}}
+                        <article class="video-card">
+                            <a href="{{url}}" class="video-card__link">
+
+                                {{!-- Thumbnail with play overlay --}}
+                                <div class="video-card__thumb">
+                                    {{#if feature_image}}
+                                        <img src="{{feature_image}}" alt="{{title}}">
+                                    {{/if}}
+
+                                    <div class="video-card__thumb-overlay">
+                                        <span class="video-card__play-icon" aria-hidden="true">▶</span>
+                                        <span class="video-card__watch-label">Watch</span>
+                                    </div>
+                                </div>
+
+                                <div class="video-card__content">
+                                    <h3 class="video-card__title">
+                                        {{title}}
+                                    </h3>
+
+                                    {{#if custom_excerpt}}
+                                        <p class="video-card__excerpt">
+                                            {{custom_excerpt}}
+                                        </p>
+                                    {{else if excerpt}}
+                                        <p class="video-card__excerpt">
+                                            {{excerpt}}
+                                        </p>
+                                    {{/if}}
+
+                                    <div class="video-card__meta">
+                                        <div class="video-card__meta-left">
+                                            {{#if primary_tag}}
+                                                <span class="video-chip video-chip--category">
+                                                    {{primary_tag.name}}
+                                                </span>
+                                            {{/if}}
+
+                                            {{!-- Optional: mark as “Series” if it also has #webseries --}}
+                                            {{#has tag="hash-webseries"}}
+                                                <span class="video-chip video-chip--series">
+                                                    Series
+                                                </span>
+                                            {{/has}}
+                                        </div>
+
+                                        <div class="video-card__meta-right">
+                                            <time class="video-card__date" datetime="{{date format="YYYY-MM-DD"}}">
+                                                {{date format="MMM D, YYYY"}}
+                                            </time>
+
+                                            {{#if reading_time}}
+                                                <span class="video-card__dot">•</span>
+                                                <span class="video-card__time">
+                                                    {{reading_time minute=(t "% min") minutes=(t "% min")}}
+                                                </span>
+                                            {{/if}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </article>
+                    {{/foreach}}
+                </div>
+            {{else}}
+                <p class="videos-empty">
+                    No videos yet. Tag a post with the internal tag <code>#video</code>.
+                </p>
+            {{/if}}
+
+        {{/get}}
+    </section>
+</main>
+
+<style>
+.videos-page {
+    margin-bottom: 4rem;
+}
+
+.videos-intro {
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+/* HERO */
+
+.videos-hero-banner {
+    position: relative;
+    margin-top: 2.5rem;
+    margin-bottom: 2.5rem;
+    min-height: 260px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #000;
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    border-radius: var(--radius-5, 24px);
+    overflow: hidden;
+}
+
+.videos-hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.65);
+}
+
+.videos-hero-inner {
+    position: relative;
+    z-index: 1;
+    padding: 2.4rem 1.5rem;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+}
+
+.videos-hero-content {
+    max-width: 42rem;
+    margin-inline: auto;
+    color: var(--color-white, #fff);
+}
+
+.videos-hero-eyebrow {
+    margin: 0 0 0.5rem;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    opacity: 0.85;
+}
+
+.videos-hero-title {
+    margin: 0 0 0.75rem;
+    font-family: var(--font-family-headings);
+    font-size: 2.1rem;
+    line-height: 1.2;
+}
+
+.videos-hero-subtitle {
+    margin: 0;
+    font-size: 0.95rem;
+    opacity: 0.9;
+}
+
+.videos-hero-meta {
+    margin-top: 1.3rem;
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    align-items: center;
+    justify-content: center;
+}
+
+.videos-hero-pill {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.35rem;
+    padding: 0.4rem 0.8rem;
+    border-radius: 999px;
+    border: 1px solid rgba(255,255,255,0.28);
+    font-size: 0.8rem;
+    background: rgba(0,0,0,0.35);
+}
+
+.videos-hero-pill-label {
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    opacity: 0.85;
+}
+
+.videos-hero-pill-value {
+    font-weight: 600;
+}
+
+.videos-hero-button {
+    font-size: 0.9rem;
+    padding-inline: 1.2rem;
+    padding-block: 0.6rem;
+}
+
+/* SECTION HEADER */
+
+.videos-section {
+    margin-top: 1.5rem;
+}
+
+.videos-section-header {
+    margin-bottom: 1.5rem;
+}
+
+.videos-section-title {
+    margin: 0 0 0.3rem;
+}
+
+.videos-section-subtitle {
+    margin: 0;
+    font-size: 0.95rem;
+    color: var(--color-secondary);
+}
+
+/* GRID */
+
+.video-archive-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.75rem;
+}
+
+/* CARD */
+
+.video-card {
+    background: var(--color-background);
+    border-radius: var(--radius-4, 18px);
+    border: 1px solid var(--color-border);
+    box-shadow: 0 14px 40px rgba(0,0,0,0.06);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition:
+        transform 160ms ease-out,
+        box-shadow 160ms ease-out,
+        border-color 160ms ease-out,
+        background-color 160ms ease-out;
+    position: relative;
+}
+
+.video-card__link {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    color: inherit;
+    text-decoration: none;
+}
+
+.video-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 18px 48px rgba(0,0,0,0.10);
+    border-color: rgba(0,0,0,0.18);
+}
+
+/* THUMB */
+
+.video-card__thumb {
+    position: relative;
+    padding-top: 56.25%;
+    overflow: hidden;
+    background: var(--color-background-200);
+}
+
+.video-card__thumb img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.video-card__thumb-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.6), transparent 40%);
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    padding: 0.7rem 0.8rem;
+}
+
+.video-card__play-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 999px;
+    border: 1px solid rgba(255,255,255,0.8);
+    font-size: 0.9rem;
+    color: #fff;
+    background: rgba(0,0,0,0.4);
+}
+
+.video-card__watch-label {
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.11em;
+    color: rgba(255,255,255,0.9);
+}
+
+/* CONTENT */
+
+.video-card__content {
+    padding: 0.95rem 1.05rem 0.85rem;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.video-card__title {
+    font-family: var(--font-family-headings);
+    font-size: 1rem;
+    margin: 0 0 0.4rem;
+    line-height: 1.4;
+}
+
+.video-card__excerpt {
+    margin: 0 0 0.7rem;
+    font-size: 0.9rem;
+    color: var(--color-secondary);
+}
+
+/* META */
+
+.video-card__meta {
+    margin-top: auto;
+    padding-top: 0.6rem;
+    border-top: 1px dashed var(--color-border);
+    display: flex;
+    justify-content: space-between;
+    gap: 0.75rem;
+    align-items: center;
+}
+
+.video-card__meta-left {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+}
+
+.video-chip {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.15rem 0.6rem;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    line-height: 1.4;
+    border: 1px solid var(--color-border);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-secondary);
+    background: var(--color-background-100);
+}
+
+.video-chip--series {
+    border-style: dashed;
+}
+
+.video-card__meta-right {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 0.8rem;
+    color: var(--color-secondary);
+}
+
+.video-card__date,
+.video-card__time {
+    white-space: nowrap;
+}
+
+.video-card__dot {
+    opacity: 0.7;
+}
+
+/* EMPTY */
+
+.videos-empty {
+    margin-top: 1rem;
+    font-size: 0.95rem;
+    color: var(--color-secondary);
+}
+
+/* DARK MODE */
+
+[data-color-scheme="dark"] .video-card {
+    background: var(--color-background-100);
+    border-color: rgba(255,255,255,0.12);
+    box-shadow: 0 14px 40px rgba(0,0,0,0.6);
+}
+
+[data-color-scheme="dark"] .video-card:hover {
+    border-color: rgba(255,255,255,0.22);
+    box-shadow: 0 20px 56px rgba(0,0,0,0.8);
+}
+
+[data-color-scheme="dark"] .video-chip {
+    background: rgba(255,255,255,0.03);
+    border-color: rgba(255,255,255,0.14);
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 1200px) {
+    .video-archive-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .videos-hero-title {
+        font-size: 1.9rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .videos-hero-banner {
+        margin-top: 1.8rem;
+        margin-bottom: 2rem;
+        min-height: 220px;
+    }
+
+    .videos-hero-inner {
+        padding: 2rem 1.25rem;
+    }
+
+    .videos-hero-title {
+        font-size: 1.6rem;
+    }
+
+    .videos-hero-meta {
+        flex-direction: column;
+    }
+
+    .video-card__meta {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+@media (max-width: 640px) {
+    .video-archive-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+</style>

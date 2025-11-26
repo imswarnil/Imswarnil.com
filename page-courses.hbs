@@ -1,26 +1,73 @@
 {{!< default}}
+{{!-- COURSES ARCHIVE PAGE (slug: "courses") --}}
 
-{{!-- COURSES LISTING PAGE (slug: "courses") --}}
+{{#page}}
 
-{{#post}}
-
-<header class="container-wide post-header">
-    <div class="post-header-info">
-        <h1 class="post-title">{{title}}</h1>
-
-        {{#if custom_excerpt}}
-            <p class="post-excerpt">{{custom_excerpt}}</p>
+    {{!-- ========================= --}}
+    {{!-- FULL-WIDTH HERO BANNER   --}}
+    {{!-- ========================= --}}
+    <section
+        class="courses-hero-banner"
+        {{#if feature_image}}
+            style="background-image: url('{{feature_image}}');"
         {{/if}}
-    </div>
-</header>
+    >
+        <div class="courses-hero-overlay"></div>
+
+        <div class="courses-hero-inner container-wide">
+            <div class="courses-hero-content">
+                <p class="courses-hero-eyebrow">Courses</p>
+
+                <h1 class="courses-hero-title">
+                    {{title}}
+                </h1>
+
+                {{#if custom_excerpt}}
+                    <p class="courses-hero-subtitle">
+                        {{custom_excerpt}}
+                    </p>
+                {{/if}}
+
+                <div class="courses-hero-meta">
+                    {{!-- Total courses count --}}
+                    {{#get "posts" filter="tag:hash-course" limit="1"}}
+                        {{#if posts}}
+                            <span class="courses-hero-pill">
+                                <span class="courses-hero-pill-label">Total courses</span>
+                                <span class="courses-hero-pill-value">{{pagination.total}}</span>
+                            </span>
+                        {{/if}}
+                    {{/get}}
+
+                    <a href="#all-courses" class="button courses-hero-button">
+                        Browse all courses
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {{!-- Optional intro content under hero --}}
+    {{#if html}}
+        <div class="post-content container-wide courses-intro">
+            {{content}}
+        </div>
+    {{/if}}
+
+{{else}}
+    <h1 class="screen-reader-text">{{t "Courses"}}</h1>
+{{/page}}
 
 <main class="container-wide courses-page">
-    <section class="courses-list">
-        <header class="courses-list-header">
-            <h2 class="courses-list-title">All courses</h2>
+    <section id="all-courses" class="section courses-section">
+        <header class="courses-section-header">
+            <h2 class="courses-section-title">All courses</h2>
+            <p class="courses-section-subtitle">
+                Structured, bingeable learning paths. Pick a track, follow the lessons, ship better work.
+            </p>
         </header>
 
-        {{!-- Fetch all course posts (tag:hash-course) --}}
+        {{!-- Only posts with internal tag #course --}}
         {{#get "posts"
             filter="tag:hash-course"
             include="tags,authors"
@@ -28,101 +75,292 @@
             limit="50"}}
 
             {{#if posts}}
-                <div class="courses-grid">
+                <div class="course-archive-grid">
                     {{#foreach posts}}
-                        <article class="course-card">
-                            <a href="{{url}}" class="course-card-link">
-                                {{#if feature_image}}
-                                    <div class="course-card-media">
+                        <article class="course-archive-card">
+                            <a href="{{url}}" class="course-archive-card__link">
+
+                                {{!-- Thumbnail --}}
+                                <div class="course-archive-card__media">
+                                    {{#if feature_image}}
                                         <img src="{{feature_image}}" alt="{{title}}">
-                                    </div>
-                                {{/if}}
-
-                                <div class="course-card-body">
-                                    <h3 class="course-card-title">{{title}}</h3>
-
-                                    {{#if custom_excerpt}}
-                                        <p class="course-card-excerpt">{{custom_excerpt}}</p>
                                     {{/if}}
+                                </div>
 
-                                    <div class="course-card-meta">
-                                        {{#if primary_tag}}
-                                            <span class="meta-pill meta-pill--course-tag">
-                                                {{primary_tag.name}}
-                                            </span>
+                                <div class="course-archive-card__content">
+
+                                    {{!-- Top: track / level / free-paid --}}
+                                    <header class="course-archive-card__header">
+                                        <div class="course-archive-card__pills">
+                                            {{#if primary_tag}}
+                                                <span class="course-pill course-pill--track">
+                                                    {{primary_tag.name}}
+                                                </span>
+                                            {{/if}}
+
+                                            {{!-- Difficulty from internal tags --}}
+                                            {{#foreach tags visibility="internal"}}
+                                                {{#has slug="beginner"}}
+                                                    <span class="course-pill course-pill--level">
+                                                        Beginner
+                                                    </span>
+                                                {{/has}}
+                                                {{#has slug="intermediate"}}
+                                                    <span class="course-pill course-pill--level">
+                                                        Intermediate
+                                                    </span>
+                                                {{/has}}
+                                                {{#has slug="advanced"}}
+                                                    <span class="course-pill course-pill--level">
+                                                        Advanced
+                                                    </span>
+                                                {{/has}}
+                                            {{/foreach}}
+
+                                            {{!-- Free / Paid --}}
+                                            {{#has tag="hash-free"}}
+                                                <span class="course-pill course-pill--free">
+                                                    Free
+                                                </span>
+                                            {{/has}}
+                                            {{#has tag="hash-paid"}}
+                                                <span class="course-pill course-pill--paid">
+                                                    Paid
+                                                </span>
+                                            {{/has}}
+                                        </div>
+                                    </header>
+
+                                    {{!-- Title + description --}}
+                                    <div class="course-archive-card__body">
+                                        <h3 class="course-archive-card__title">
+                                            {{title}}
+                                        </h3>
+
+                                        {{#if custom_excerpt}}
+                                            <p class="course-archive-card__excerpt">
+                                                {{custom_excerpt}}
+                                            </p>
+                                        {{else if excerpt}}
+                                            <p class="course-archive-card__excerpt">
+                                                {{excerpt}}
+                                            </p>
                                         {{/if}}
-
-                                        {{!-- Difficulty from internal tags --}}
-                                        {{#foreach tags visibility="internal"}}
-                                            {{#has slug="beginner"}}
-                                                <span class="meta-pill meta-pill--level">Beginner</span>
-                                            {{/has}}
-                                            {{#has slug="intermediate"}}
-                                                <span class="meta-pill meta-pill--level">Intermediate</span>
-                                            {{/has}}
-                                            {{#has slug="advanced"}}
-                                                <span class="meta-pill meta-pill--level">Advanced</span>
-                                            {{/has}}
-                                        {{/foreach}}
                                     </div>
+
+                                    {{!-- Footer: instructor + meta --}}
+                                    <footer class="course-archive-card__footer">
+
+                                        {{!-- Instructor --}}
+                                        <div class="course-archive-card__instructor">
+                                            {{#primary_author}}
+                                                <div class="course-archive-card__avatar">
+                                                    {{> "components/avatar" src=profile_image}}
+                                                </div>
+                                                <div class="course-archive-card__instructor-info">
+                                                    <span class="course-archive-card__instructor-label">
+                                                        Instructor
+                                                    </span>
+                                                    <span class="course-archive-card__instructor-name">
+                                                        {{name}}
+                                                    </span>
+                                                </div>
+                                            {{/primary_author}}
+                                        </div>
+
+                                        {{!-- Lessons + duration --}}
+                                        <div class="course-archive-card__meta">
+                                            {{#if primary_tag}}
+                                                {{#get "posts"
+                                                    filter="primary_tag:{{primary_tag.slug}}+tag:hash-lesson"
+                                                    limit="200"}}
+                                                    {{#if posts}}
+                                                        <div class="course-meta-item">
+                                                            <span class="course-meta-dot"></span>
+                                                            <span class="course-meta-label">
+                                                                {{pagination.total}} lessons
+                                                            </span>
+                                                        </div>
+                                                    {{/if}}
+                                                {{/get}}
+                                            {{/if}}
+
+                                            {{#if reading_time}}
+                                                <div class="course-meta-item">
+                                                    <span class="course-meta-dot"></span>
+                                                    <span class="course-meta-label">
+                                                        {{reading_time minute=(t "Approx. % min") minutes=(t "Approx. % min")}}
+                                                    </span>
+                                                </div>
+                                            {{/if}}
+                                        </div>
+                                    </footer>
                                 </div>
                             </a>
                         </article>
                     {{/foreach}}
                 </div>
             {{else}}
-                <p>No courses yet. Start by creating a post with internal tag <code>#course</code>.</p>
+                <p class="courses-empty">
+                    No courses yet. Start by creating a post with internal tag <code>#course</code>.
+                </p>
             {{/if}}
 
         {{/get}}
     </section>
 </main>
 
-{{/post}}
-
-
 <style>
 /* ================================
-   COURSES PAGE LAYOUT
+   PAGE SPACING
    ================================ */
 
 .courses-page {
     margin-bottom: 4rem;
 }
 
-/* Header inside page already uses .post-header styles from theme */
-
-/* Section wrapper */
-.courses-list {
-    margin-top: 2rem;
-}
-
-/* "All courses" heading */
-.courses-list-header {
+.courses-intro {
+    margin-top: 1.5rem;
     margin-bottom: 1.5rem;
 }
 
-.courses-list-title {
-    font-family: var(--font-family-headings);
-    font-size: 1.4rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    margin: 0;
+/* ================================
+   HERO – BG IMAGE + BLACK TINT
+   ================================ */
+
+.courses-hero-banner {
+    position: relative;
+    margin-top: 2.5rem;
+    margin-bottom: 2.5rem;
+    min-height: 280px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #000; /* fallback */
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    border-radius: var(--radius-5, 24px);
+    overflow: hidden;
 }
 
-/* Grid */
-.courses-grid {
+.courses-hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.65);
+}
+
+.courses-hero-inner {
+    position: relative;
+    z-index: 1;
+    padding: 2.6rem 1.5rem;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+}
+
+.courses-hero-content {
+    max-width: 42rem;
+    margin-inline: auto;
+    color: var(--color-white, #fff);
+}
+
+.courses-hero-eyebrow {
+    margin: 0 0 0.5rem;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    opacity: 0.85;
+}
+
+.courses-hero-title {
+    margin: 0 0 0.75rem;
+    font-family: var(--font-family-headings);
+    font-size: 2.2rem;
+    line-height: 1.2;
+}
+
+.courses-hero-subtitle {
+    margin: 0;
+    font-size: 0.95rem;
+    opacity: 0.9;
+}
+
+/* Hero meta row */
+.courses-hero-meta {
+    margin-top: 1.3rem;
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    align-items: center;
+    justify-content: center;
+}
+
+.courses-hero-pill {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.35rem;
+    padding: 0.4rem 0.8rem;
+    border-radius: 999px;
+    border: 1px solid rgba(255,255,255,0.28);
+    font-size: 0.8rem;
+    background: rgba(0,0,0,0.35);
+}
+
+.courses-hero-pill-label {
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    opacity: 0.85;
+}
+
+.courses-hero-pill-value {
+    font-weight: 600;
+}
+
+.courses-hero-button {
+    font-size: 0.9rem;
+    padding-inline: 1.2rem;
+    padding-block: 0.6rem;
+}
+
+/* ================================
+   SECTION HEADER
+   ================================ */
+
+.courses-section {
+    margin-top: 1.5rem;
+}
+
+.courses-section-header {
+    margin-bottom: 1.5rem;
+}
+
+.courses-section-title {
+    margin: 0 0 0.3rem;
+}
+
+.courses-section-subtitle {
+    margin: 0;
+    font-size: 0.95rem;
+    color: var(--color-secondary);
+}
+
+/* ================================
+   COURSE GRID
+   ================================ */
+
+.course-archive-grid {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 1.75rem;
 }
 
 /* Card */
-.course-card {
+.course-archive-card {
     background: var(--color-background);
     border-radius: var(--radius-4, 18px);
     border: 1px solid var(--color-border);
-    box-shadow: var(--shadow-soft, 0 14px 40px rgba(0,0,0,0.06));
+    box-shadow: 0 14px 40px rgba(0,0,0,0.06);
     overflow: hidden;
     display: flex;
     flex-direction: column;
@@ -134,7 +372,7 @@
     position: relative;
 }
 
-.course-card-link {
+.course-archive-card__link {
     display: flex;
     flex-direction: column;
     height: 100%;
@@ -142,22 +380,22 @@
     text-decoration: none;
 }
 
-/* Hover state */
-.course-card:hover {
+/* Hover lift */
+.course-archive-card:hover {
     transform: translateY(-4px);
     box-shadow: 0 18px 48px rgba(0,0,0,0.10);
     border-color: rgba(0,0,0,0.18);
 }
 
-/* Media (image) */
-.course-card-media {
+/* Thumbnail */
+.course-archive-card__media {
     position: relative;
     padding-top: 56.25%; /* 16:9 */
     overflow: hidden;
     background: var(--color-background-200);
 }
 
-.course-card-media img {
+.course-archive-card__media img {
     position: absolute;
     inset: 0;
     width: 100%;
@@ -166,43 +404,26 @@
     display: block;
 }
 
-/* Body */
-.course-card-body {
-    padding: 1.1rem 1.2rem 1rem;
+/* Content */
+.course-archive-card__content {
+    padding: 1.05rem 1.1rem 0.9rem;
     display: flex;
     flex-direction: column;
-    gap: 0.55rem;
+    height: 100%;
 }
 
-.course-card-title {
-    font-family: var(--font-family-headings);
-    font-size: 1rem;
-    margin: 0;
-    line-height: 1.4;
+/* Header pills */
+.course-archive-card__header {
+    margin-bottom: 0.6rem;
 }
 
-.course-card-title a {
-    text-decoration: none;
-    color: var(--color-contrast);
-}
-
-/* Excerpt */
-.course-card-excerpt {
-    margin: 0;
-    font-size: 0.9rem;
-    color: var(--color-secondary);
-}
-
-/* Meta row (chips) */
-.course-card-meta {
+.course-archive-card__pills {
     display: flex;
     flex-wrap: wrap;
     gap: 0.35rem;
-    margin-top: 0.2rem;
 }
 
-/* Pills / chips */
-.meta-pill {
+.course-pill {
     display: inline-flex;
     align-items: center;
     padding: 0.15rem 0.6rem;
@@ -210,64 +431,195 @@
     font-size: 0.75rem;
     line-height: 1.4;
     border: 1px solid var(--color-border);
-    color: var(--color-secondary);
     text-transform: uppercase;
     letter-spacing: 0.06em;
-}
-
-.meta-pill--course-tag {
+    color: var(--color-secondary);
     background: var(--color-background-100);
 }
 
-.meta-pill--level {
+.course-pill--track {
+    font-weight: 500;
+}
+
+.course-pill--level {
     background: var(--color-background-200);
 }
 
+.course-pill--free {
+    border-style: dashed;
+}
+
+.course-pill--paid {
+    border-style: solid;
+}
+
+/* Title + excerpt */
+.course-archive-card__body {
+    flex: 1 1 auto;
+}
+
+.course-archive-card__title {
+    font-family: var(--font-family-headings);
+    font-size: 1rem;
+    margin: 0 0 0.4rem;
+    line-height: 1.4;
+}
+
+.course-archive-card__excerpt {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--color-secondary);
+}
+
+/* Footer */
+.course-archive-card__footer {
+    margin-top: 0.9rem;
+    padding-top: 0.7rem;
+    border-top: 1px dashed var(--color-border);
+    display: flex;
+    justify-content: space-between;
+    gap: 0.75rem;
+    align-items: center;
+}
+
+/* Instructor */
+.course-archive-card__instructor {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+}
+
+.course-archive-card__avatar {
+    width: 28px;
+    height: 28px;
+    border-radius: 999px;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.course-archive-card__instructor-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.course-archive-card__instructor-label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-secondary);
+}
+
+.course-archive-card__instructor-name {
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+/* Meta row */
+.course-archive-card__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    justify-content: flex-end;
+}
+
+.course-meta-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.8rem;
+    color: var(--color-secondary);
+}
+
+.course-meta-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 999px;
+    background: var(--color-secondary);
+}
+
 /* Empty state */
-.courses-list > p {
+.courses-empty {
     margin-top: 1rem;
     font-size: 0.95rem;
     color: var(--color-secondary);
 }
 
 /* ================================
+   DARK MODE TWEAKS
+   ================================ */
+
+[data-color-scheme="dark"] .course-archive-card {
+    background: var(--color-background-100);
+    border-color: rgba(255,255,255,0.12);
+    box-shadow: 0 14px 40px rgba(0,0,0,0.6);
+}
+
+[data-color-scheme="dark"] .course-archive-card:hover {
+    border-color: rgba(255,255,255,0.22);
+    box-shadow: 0 20px 56px rgba(0,0,0,0.8);
+}
+
+[data-color-scheme="dark"] .course-pill {
+    background: rgba(255,255,255,0.03);
+    border-color: rgba(255,255,255,0.14);
+}
+
+/* ================================
    RESPONSIVE
    ================================ */
 
-@media (max-width: 1100px) {
-    .courses-grid {
+@media (max-width: 1200px) {
+    .course-archive-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .courses-hero-title {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 960px) {
+    .course-archive-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .courses-hero-title {
+        font-size: 1.8rem;
     }
 }
 
 @media (max-width: 768px) {
-    .courses-grid {
+    .courses-hero-banner {
+        margin-top: 1.8rem;
+        margin-bottom: 2rem;
+        min-height: 220px;
+    }
+
+    .courses-hero-inner {
+        padding: 2rem 1.25rem;
+    }
+
+    .courses-hero-title {
+        font-size: 1.6rem;
+    }
+
+    .courses-hero-meta {
+        flex-direction: column;
+    }
+
+    .course-archive-card__footer {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .course-archive-card__meta {
+        justify-content: flex-start;
+    }
+}
+
+@media (max-width: 640px) {
+    .course-archive-grid {
         grid-template-columns: minmax(0, 1fr);
     }
-
-    .courses-list {
-        margin-top: 1.5rem;
-    }
-}
-
-/* ================================
-   DARK MODE TWEAKS
-   ================================ */
-
-[data-color-scheme="dark"] .course-card {
-    background: var(--color-background-100);
-    border-color: rgba(255,255,255,0.10);
-    box-shadow: 0 14px 40px rgba(0,0,0,0.6);
-}
-
-[data-color-scheme="dark"] .course-card:hover {
-    border-color: rgba(255,255,255,0.20);
-    box-shadow: 0 20px 56px rgba(0,0,0,0.8);
-}
-
-[data-color-scheme="dark"] .meta-pill--course-tag,
-[data-color-scheme="dark"] .meta-pill--level {
-    background: rgba(255,255,255,0.04);
-    border-color: rgba(255,255,255,0.14);
 }
 </style>
