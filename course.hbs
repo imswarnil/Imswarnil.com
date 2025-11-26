@@ -1,0 +1,62 @@
+{{!< default}}
+
+{{#post}}
+{{#contentFor "body-class"}} post-template-course{{/contentFor}}
+
+<article class="content post {{post_class}}">
+    
+    {{!-- Course Hero Header --}}
+    <header class="post-header container-wide">
+        <div class="post-header-info">
+            <span class="post-meta-time" style="text-transform: uppercase; color: var(--ghost-accent-color); font-weight: bold;">Course Overview</span>
+            <h1 class="post-title">{{title}}</h1>
+            <div class="post-excerpt" style="margin-top: 1rem; opacity: 0.8;">
+                {{excerpt}}
+            </div>
+        </div>
+    </header>
+
+    {{!-- Featured Image --}}
+    {{#if feature_image}}
+        {{> "post/media"}}
+    {{/if}}
+
+    <div class="container-wide" style="margin-top: var(--spacing-9);">
+        <div class="post-content-grid">
+            <div class="post-content-wrapper">
+                
+                {{!-- Course Description Content --}}
+                <div class="post-content">
+                    {{content}}
+                </div>
+
+                {{!-- Curriculum Section --}}
+                <div id="curriculum" style="margin-top: var(--spacing-9); padding-top: var(--spacing-7); border-top: 1px solid var(--color-border);">
+                    <h2 style="margin-bottom: var(--spacing-6);">Course Curriculum</h2>
+
+                    {{!-- 
+                        LOGIC: Fetch posts that have the internal tag #lesson 
+                        AND have the same Primary Tag as this Course page.
+                    --}}
+                    {{#get "posts" filter="tags:hash-lesson+tags:{{primary_tag.slug}}" order="published_at asc"}}
+                        {{#if posts}}
+                            <div class="course-curriculum-list" style="border: 1px solid var(--color-border); border-radius: var(--radius-3); overflow: hidden;">
+                                {{#foreach posts}}
+                                    <a href="{{url}}" style="display: flex; align-items: center; padding: var(--spacing-5); border-bottom: 1px solid var(--color-border); text-decoration: none; color: var(--color-foreground); transition: background 0.2s;">
+                                        <span style="margin-right: 15px; font-weight: bold; color: var(--ghost-accent-color);">{{@number}}.</span>
+                                        <span style="flex: 1; font-weight: 500;">{{title}}</span>
+                                        <span style="font-size: 0.8em; color: var(--color-secondary);">Start &rarr;</span>
+                                    </a>
+                                {{/foreach}}
+                            </div>
+                        {{else}}
+                            <p>No lessons uploaded yet.</p>
+                        {{/if}}
+                    {{/get}}
+                </div>
+
+            </div>
+        </div>
+    </div>
+</article>
+{{/post}}

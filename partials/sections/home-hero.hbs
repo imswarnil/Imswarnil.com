@@ -1,26 +1,467 @@
-{{#if hide_title}}
-	<h1 class="screen-reader-text">{{title}}</h1>
-{{else}}
-	<div class="section-hero{{#if feature_image}} has-feature-image{{/if}}">
-		{{#if feature_image}}
-			<figure class="section-hero-image">
-				{{> "components/image" fast="true" size=image_size src=feature_image alt=feature_image_alt altElse=title}}
-				{{#if feature_image_caption}}
-					<figcaption>{{feature_image_caption}}</figcaption>
-				{{/if}}
-			</figure>
-		{{/if}}
+{{!-- 
+    PARTIAL: partials/hero-home.hbs
+    USAGE: {{> "hero-home"}}
+--}}
 
-		<div class="section-hero-content">
-			<h1>{{title}}</h1>
+<section class="home-hero" itemscope itemtype="https://schema.org/Person">
+    
+    {{!-- 1. Background Decoration (Animated Grid) --}}
+    <div class="home-hero__bg-grid" aria-hidden="true"></div>
 
-			{{#if excerpt}}
-				<p>{{excerpt}}</p>
-			{{/if}}
+    <div class="container-wide">
+        <div class="home-hero__grid">
+            
+            {{!-- 2. LEFT COLUMN: Copy & Content --}}
+            <div class="home-hero__copy">
+                
+                {{!-- Status Pill --}}
+                <a href="#contact" class="home-hero__status" aria-label="{{t "Contact for work"}}">
+                    <span class="home-hero__status-dot"></span>
+                    <span class="home-hero__status-text">{{t "Available for new projects"}}</span>
+                </a>
 
-			{{#unless hide_subscription}}
-				{{> "form-subscribe" label=true}}
-			{{/unless}}
-		</div>
-	</div>
-{{/if}}
+                {{!-- Title & Intro --}}
+                <h1 class="home-hero__title" itemprop="name">
+                    <span class="home-hero__greeting">
+                        <span class="home-hero__wave" aria-hidden="true">👋</span> {{t "Hi, I’m"}}
+                    </span> 
+                    {{@site.title}}
+                </h1>
+
+                <p class="home-hero__subtitle" itemprop="jobTitle">Creative Engineer &amp; Filmmaker</p>
+
+                <p class="home-hero__bio" itemprop="description">
+                    {{@site.description}}
+                </p>
+
+                {{!-- "Where I Work" Section --}}
+                <div class="home-hero__work">
+                    <div class="home-hero__work-item" itemprop="worksFor" itemscope itemtype="https://schema.org/Organization">
+                        <div class="home-hero__work-icon">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+                        </div>
+                        <div class="home-hero__work-info">
+                            <span class="home-hero__work-label">{{t "Software Engineer at"}}</span>
+                            <strong class="home-hero__work-company" itemprop="name">Imswarnil Studio</strong>
+                        </div>
+                    </div>
+                    <div class="home-hero__work-item" itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">
+                        <div class="home-hero__work-icon">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                        </div>
+                        <div class="home-hero__work-info">
+                            <span class="home-hero__work-label">{{t "Based in"}}</span>
+                            <strong class="home-hero__work-company">
+                                <span itemprop="addressLocality">Bengaluru</span>, <span itemprop="addressCountry">India</span>
+                            </strong>
+                        </div>
+                    </div>
+                </div>
+
+                {{!-- 
+                    Ghost Subscribe Partial 
+                    Wrapped in a div to control width/spacing in this specific hero context 
+                --}}
+                <div class="home-hero__subscribe-wrapper">
+                    {{> "form-subscribe" label=true}}
+                    <p class="home-hero__subscribe-note">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:6px;"><path d="M20 6L9 17l-5-5"></path></svg>
+                        {{t "Join 17k+ subscribers for weekly insights."}}
+                    </p>
+                </div>
+
+                {{!-- Stats --}}
+                <div class="home-hero__stats">
+                    <div class="home-hero__stat-item">
+                        <span class="home-hero__stat-val">17K+</span>
+                        <span class="home-hero__stat-label">Subscribers</span>
+                    </div>
+                    <div class="home-hero__stat-sep"></div>
+                    <div class="home-hero__stat-item">
+                        <span class="home-hero__stat-val">5+</span>
+                        <span class="home-hero__stat-label">Years Exp.</span>
+                    </div>
+                    <div class="home-hero__stat-sep"></div>
+                    <div class="home-hero__stat-item">
+                        <span class="home-hero__stat-val">2.4M</span>
+                        <span class="home-hero__stat-label">Total Views</span>
+                    </div>
+                </div>
+
+                {{!-- Social Proof / Trusted By (New Content Rich Element) --}}
+                <div class="home-hero__proof">
+                    <span>Featured in:</span>
+                    <div class="proof-logos">
+                        {{!-- Simple text logos or SVGs --}}
+                        <span class="proof-logo">Ghost</span>
+                        <span class="proof-logo">ProductHunt</span>
+                        <span class="proof-logo">IndieHackers</span>
+                        <span class="proof-logo">Medium</span>
+                    </div>
+                </div>
+
+            </div>
+
+            {{!-- 3. RIGHT COLUMN: Media (Image/Video) --}}
+            <div class="home-hero__media-wrap">
+                <figure class="home-hero__figure">
+                    
+                    <div class="home-hero__card" id="hero-card">
+                        
+                        {{!-- A: Static Image Layer --}}
+                        <div class="home-hero__image-layer">
+                            {{#if @site.cover_image}}
+                                <img 
+                                    srcset="{{img_url @site.cover_image size="s"}} 300w,
+                                            {{img_url @site.cover_image size="m"}} 600w,
+                                            {{img_url @site.cover_image size="l"}} 1000w"
+                                    sizes="(max-width: 1000px) 90vw, 500px"
+                                    src="{{img_url @site.cover_image size="l"}}"
+                                    alt="{{@site.title}} Portrait"
+                                    itemprop="image"
+                                    width="800" height="800"
+                                    loading="eager"
+                                    fetchpriority="high"
+                                >
+                            {{else}}
+                                <div class="home-hero__placeholder">{{t "Upload Cover Image"}}</div>
+                            {{/if}}
+                        </div>
+
+                        {{!-- B: Video Layer --}}
+                        <div class="home-hero__video-layer">
+                            {{!-- Replace 'uV3eTXpEBOg' with your VIDEO ID --}}
+                            <iframe id="hero-youtube-iframe" 
+                                src="https://www.youtube.com/embed/uV3eTXpEBOg?enablejsapi=1&rel=0&controls=0&modestbranding=1&showinfo=0&iv_load_policy=3" 
+                                title="Video Story" 
+                                frameborder="0" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                                allowfullscreen>
+                            </iframe>
+                        </div>
+
+                        {{!-- Play/Pause Button --}}
+                        <button type="button" class="home-hero__toggle-btn" id="hero-toggle-btn" aria-label="{{t "Play video"}}">
+                            <span class="icon-play">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                            </span>
+                            <span class="icon-pause">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="none"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
+                            </span>
+                        </button>
+                    </div>
+
+                    {{!-- Social Rail --}}
+                    <ul class="home-hero__socials">
+                        {{#if @site.twitter}}
+                        <li><a href="{{twitter_url @site.twitter}}" target="_blank" rel="noopener" aria-label="Twitter"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg></a></li>
+                        {{/if}}
+                        {{#if @site.facebook}}
+                        <li><a href="{{facebook_url @site.facebook}}" target="_blank" rel="noopener" aria-label="Facebook"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg></a></li>
+                        {{/if}}
+                        <li><a href="https://github.com/" target="_blank" rel="noopener" aria-label="GitHub"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg></a></li>
+                        <li><a href="https://linkedin.com/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg></a></li>
+                    </ul>
+                </figure>
+            </div>
+        </div>
+    </div>
+</section>
+
+{{!-- 4. SEO SCHEMA --}}
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "{{@site.title}}",
+    "url": "{{@site.url}}",
+    "jobTitle": "Creative Engineer",
+    "image": "{{img_url @site.cover_image absolute='true'}}",
+    "sameAs": [
+        {{#if @site.twitter}}"{{twitter_url @site.twitter}}",{{/if}}
+        {{#if @site.facebook}}"{{facebook_url @site.facebook}}",{{/if}}
+        "https://www.linkedin.com/"
+    ]
+}
+</script>
+
+{{!-- 5. CSS STYLES --}}
+<style>
+    /* --- Container --- */
+    .home-hero {
+        position: relative;
+        padding: var(--spacing-10) 0;
+        overflow: hidden;
+        background-color: var(--color-background);
+    }
+    .home-hero__bg-grid {
+        position: absolute; inset: 0; pointer-events: none; z-index: 0;
+        background-image:
+            linear-gradient(to right, rgba(128,128,128,0.08) 1px, transparent 1px),
+            linear-gradient(to bottom, rgba(128,128,128,0.08) 1px, transparent 1px);
+        background-size: 40px 40px;
+        mask-image: radial-gradient(circle at center, black 0%, transparent 80%);
+        -webkit-mask-image: radial-gradient(circle at center, black 0%, transparent 80%);
+        animation: home-hero-grid-pan 60s linear infinite;
+    }
+    @keyframes home-hero-grid-pan { 0% { background-position: 0 0; } 100% { background-position: 40px 40px; } }
+
+    /* --- Grid Layout --- */
+    .home-hero__grid {
+        position: relative; z-index: 1;
+        display: grid;
+        grid-template-columns: 1fr 450px;
+        gap: var(--spacing-10);
+        align-items: center;
+    }
+
+    /* --- Left Column: Copy --- */
+    .home-hero__copy {
+        display: flex; flex-direction: column; align-items: flex-start;
+    }
+
+    /* Status Pill */
+    .home-hero__status {
+        display: inline-flex; align-items: center; gap: 8px;
+        padding: 6px 14px; border-radius: 30px;
+        background: var(--color-background-100);
+        border: 1px solid var(--color-border);
+        color: var(--color-foreground);
+        text-decoration: none;
+        margin-bottom: var(--spacing-6);
+        transition: border-color 0.2s;
+        box-shadow: var(--shadow);
+    }
+    .home-hero__status:hover { border-color: var(--color-secondary); }
+    .home-hero__status-dot { 
+        width: 8px; height: 8px; background: #22c55e; 
+        border-radius: 50%; animation: pulse 2s infinite; 
+    }
+    .home-hero__status-text { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+    @keyframes pulse { 0% {box-shadow:0 0 0 0 rgba(34,197,94,0.4);} 70% {box-shadow:0 0 0 6px rgba(34,197,94,0);} 100% {box-shadow:0 0 0 0 rgba(34,197,94,0);} }
+
+    /* Typography */
+    .home-hero__greeting {
+        display: block; font-size: var(--font-small); font-weight: 700;
+        color: var(--ghost-accent-color); margin-bottom: var(--spacing-3); text-transform: uppercase; letter-spacing: 0.5px;
+    }
+    .home-hero__wave { display: inline-block; font-size: 1.4em; animation: wave 2.5s infinite; transform-origin: 70% 70%; margin-right: 5px; }
+    @keyframes wave { 0%,100%{transform:rotate(0deg);} 10%,30%{transform:rotate(14deg);} 20%{transform:rotate(-8deg);} 40%{transform:rotate(-4deg);} 50%{transform:rotate(10deg);} }
+
+    .home-hero__title {
+        font-size: clamp(2.8rem, 5vw, 4.5rem);
+        font-weight: 800; line-height: 1.1;
+        color: var(--color-contrast);
+        margin-bottom: var(--spacing-3); letter-spacing: -0.02em;
+    }
+    
+    .home-hero__subtitle {
+        font-size: clamp(1.2rem, 2vw, 1.6rem); color: var(--color-foreground);
+        font-weight: 500; margin-bottom: var(--spacing-6);
+    }
+    
+    .home-hero__bio {
+        font-size: 1.1rem; color: var(--color-secondary); line-height: 1.6;
+        max-width: 540px; margin-bottom: var(--spacing-8);
+    }
+
+    /* Work Info */
+    .home-hero__work {
+        display: flex; flex-wrap: wrap; gap: var(--spacing-6); margin-bottom: var(--spacing-8); width: 100%;
+    }
+    .home-hero__work-item { display: flex; align-items: center; gap: 12px; }
+    .home-hero__work-icon {
+        width: 36px; height: 36px; border-radius: 50%;
+        background: var(--color-background-100);
+        display: flex; align-items: center; justify-content: center;
+        color: var(--ghost-accent-color); flex-shrink: 0;
+    }
+    .home-hero__work-info { display: flex; flex-direction: column; line-height: 1.2; }
+    .home-hero__work-label { font-size: 0.7rem; color: var(--color-secondary); }
+    .home-hero__work-company { font-size: 0.9rem; color: var(--color-contrast); font-weight: 600; }
+
+    /* Subscribe Wrapper */
+    .home-hero__subscribe-wrapper {
+        width: 100%; max-width: 480px; margin-bottom: var(--spacing-9);
+    }
+    .home-hero__subscribe-wrapper .form-subscribe {
+        max-width: 100%;
+        margin-bottom: 8px;
+    }
+    /* Enforce styling on the included partial */
+    .home-hero__subscribe-wrapper .form-subscribe input {
+        background-color: var(--color-background);
+        border: 1px solid var(--color-border);
+        box-shadow: var(--shadow);
+    }
+    .home-hero__subscribe-note {
+        font-size: 0.8rem; color: var(--color-secondary);
+        margin-left: 10px; display: flex; align-items: center;
+    }
+
+    /* Stats */
+    .home-hero__stats {
+        display: flex; align-items: center;
+        background: var(--color-background-100);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-4);
+        padding: var(--spacing-4) var(--spacing-6);
+        gap: var(--spacing-6);
+        margin-bottom: var(--spacing-8);
+    }
+    .home-hero__stat-item { display: flex; flex-direction: column; }
+    .home-hero__stat-val { font-size: 1.2rem; font-weight: 800; color: var(--color-contrast); line-height: 1; }
+    .home-hero__stat-label { font-size: 0.7rem; text-transform: uppercase; color: var(--color-secondary); margin-top: 2px; font-weight: 600; }
+    .home-hero__stat-sep { width: 1px; height: 30px; background: var(--color-border); }
+
+    /* Social Proof */
+    .home-hero__proof {
+        display: flex; align-items: center; gap: 15px; font-size: 0.8rem; color: var(--color-secondary);
+    }
+    .proof-logos { display: flex; gap: 20px; opacity: 0.7; }
+    .proof-logo { font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+
+    /* --- Right Column: Media --- */
+    .home-hero__media-wrap {
+        position: relative; width: 100%;
+        aspect-ratio: 1 / 1; /* Square default */
+        transition: aspect-ratio 0.5s cubic-bezier(0.2, 1, 0.2, 1);
+    }
+    .home-hero__media-wrap.mode-video { aspect-ratio: 16/9; }
+
+    .home-hero__figure { position: relative; width: 100%; height: 100%; margin: 0; }
+
+    .home-hero__card {
+        position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+        border-radius: var(--radius-5);
+        background-color: var(--color-background-100);
+        border: 1px solid var(--color-border);
+        padding: 8px; /* Frame effect */
+        box-shadow: var(--shadow);
+        overflow: hidden;
+        transition: border-radius 0.5s;
+    }
+    .home-hero__card.is-playing { border-radius: var(--radius-4); }
+
+    .home-hero__image-layer, .home-hero__video-layer, .home-hero__placeholder {
+        position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    }
+    
+    .home-hero__image-layer {
+        z-index: 2; border-radius: var(--radius-4); overflow: hidden;
+        background: #000; transition: opacity 0.5s ease, visibility 0.5s;
+    }
+    .home-hero__image-layer img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s; }
+    .home-hero__image-layer:hover img { transform: scale(1.03); }
+
+    .home-hero__placeholder {
+        display: flex; align-items: center; justify-content: center;
+        background: var(--color-background-200); color: var(--color-secondary);
+        border-radius: var(--radius-4); font-weight: bold;
+    }
+
+    .home-hero__video-layer {
+        z-index: 1; opacity: 0; pointer-events: none; transition: opacity 0.5s ease; background: #000;
+    }
+    .home-hero__video-layer iframe { width: 100%; height: 100%; border-radius: var(--radius-4); }
+
+    /* Toggle States */
+    .home-hero__card.is-playing .home-hero__image-layer { opacity: 0; visibility: hidden; pointer-events: none; }
+    .home-hero__card.is-playing .home-hero__video-layer { opacity: 1; z-index: 3; pointer-events: auto; }
+
+    /* Play Button */
+    .home-hero__toggle-btn {
+        position: absolute; bottom: 20px; left: 20px;
+        width: 48px; height: 48px;
+        border-radius: 50%;
+        background-color: rgba(255,255,255,0.9); color: #000;
+        border: none; display: flex; align-items: center; justify-content: center;
+        cursor: pointer; z-index: 10;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        backdrop-filter: blur(8px);
+        transition: transform 0.2s;
+    }
+    @media (prefers-color-scheme: dark) {
+        .home-hero__toggle-btn { background-color: rgba(30,30,30, 0.8); color: #fff; border:1px solid rgba(255,255,255,0.1); }
+    }
+    .home-hero__toggle-btn:hover { transform: scale(1.1); }
+    .icon-pause { display: none; }
+    .home-hero__card.is-playing .icon-play { display: none; }
+    .home-hero__card.is-playing .icon-pause { display: block; }
+
+    /* Social Rail */
+    .home-hero__socials {
+        position: absolute; right: -22px; top: 50%; transform: translateY(-50%);
+        display: flex; flex-direction: column; gap: 12px;
+        list-style: none; padding: 0; margin: 0; z-index: 10;
+    }
+    .home-hero__socials a {
+        width: 36px; height: 36px;
+        background: var(--color-background);
+        border: 1px solid var(--color-border);
+        border-radius: 50%;
+        display: flex; align-items: center; justify-content: center;
+        color: var(--color-secondary);
+        box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        transition: all 0.2s;
+    }
+    .home-hero__socials a:hover {
+        color: var(--ghost-accent-color); border-color: var(--ghost-accent-color); transform: scale(1.1);
+    }
+
+    /* --- RESPONSIVE --- */
+    @media (max-width: 991px) {
+        .home-hero__grid { grid-template-columns: 1fr; gap: var(--spacing-8); }
+        
+        /* Move Media to TOP and add margin below it */
+        .home-hero__media-wrap { 
+            order: -1; 
+            max-width: 450px; 
+            margin: 0 auto var(--spacing-9) auto; /* Spacing below image */
+        }
+        
+        .home-hero__copy { align-items: center; text-align: center; }
+        .home-hero__status { margin: 0 auto var(--spacing-5); }
+        .home-hero__work { justify-content: center; text-align: left; }
+        .home-hero__stats { justify-content: center; }
+        .home-hero__proof { justify-content: center; }
+        
+        .home-hero__socials {
+            top: auto; bottom: -18px; left: 50%; right: auto;
+            transform: translateX(-50%);
+            flex-direction: row;
+        }
+    }
+</style>
+
+{{!-- 6. JAVASCRIPT LOGIC --}}
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const btn = document.getElementById('hero-toggle-btn');
+        const card = document.getElementById('hero-card');
+        const wrap = document.querySelector('.home-hero__media-wrap');
+        const iframe = document.getElementById('hero-youtube-iframe');
+        
+        let isPlaying = false;
+
+        if(btn && card && iframe) {
+            btn.addEventListener('click', () => {
+                if (!isPlaying) {
+                    // Play
+                    card.classList.add('is-playing');
+                    wrap.classList.add('mode-video');
+                    iframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+                    isPlaying = true;
+                    btn.setAttribute('aria-label', 'Pause video');
+                } else {
+                    // Pause & Revert
+                    iframe.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+                    card.classList.remove('is-playing');
+                    wrap.classList.remove('mode-video');
+                    isPlaying = false;
+                    btn.setAttribute('aria-label', 'Play video');
+                }
+            });
+        }
+    });
+</script>

@@ -22,7 +22,7 @@
 	{{/if}}
 {{/inline}}
 
-{{#get "pages" slug="home-hero" limit="1" as |hero|}}
+{{#get "pages" slug="about" limit="1" as |hero|}}
 	{{#foreach hero}}
 		{{#> "get-hero-excerpt"}}
 			{{#match title '(Untitled)'}}

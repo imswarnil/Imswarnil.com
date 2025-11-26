@@ -1,0 +1,204 @@
+{{#contentFor "body-class"}} post-template-lesson{{/contentFor}}
+
+<style>
+    /* --- Layout --- */
+    .lesson-layout {
+        display: grid;
+        grid-template-columns: 1fr 340px;
+        gap: var(--spacing-9);
+        margin-top: var(--spacing-8);
+        align-items: start;
+    }
+
+    /* --- Sidebar Styling --- */
+    .lesson-sidebar-sticky {
+        position: sticky;
+        top: 100px;
+        display: flex;
+        flex-direction: column;
+        gap: var(--spacing-6);
+    }
+
+    .sidebar-card {
+        background-color: var(--color-background);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-4);
+        overflow: hidden;
+        /* box-shadow: var(--shadow); Optional based on preference */ 
+    }
+
+    /* --- Timeline Styling --- */
+    .timeline-wrapper {
+        padding: var(--spacing-6);
+        max-height: 60vh;
+        overflow-y: auto;
+    }
+
+    .timeline-heading {
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        color: var(--color-secondary);
+        margin-bottom: var(--spacing-5);
+        font-weight: 700;
+        display: block;
+        border-bottom: 1px solid var(--color-border);
+        padding-bottom: var(--spacing-2);
+    }
+
+    .timeline-list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        position: relative;
+    }
+
+    /* Vertical Line */
+    .timeline-list::before {
+        content: '';
+        position: absolute;
+        top: 8px;
+        bottom: 20px;
+        left: 7px;
+        width: 2px;
+        background-color: var(--color-border);
+        z-index: 0;
+    }
+
+    .timeline-item {
+        position: relative;
+        padding-left: 28px;
+        margin-bottom: 12px;
+        z-index: 1;
+    }
+
+    /* The Dot */
+    .timeline-dot {
+        position: absolute;
+        left: 0;
+        top: 6px;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        background-color: var(--color-background);
+        border: 2px solid var(--color-border);
+        transition: all 0.2s ease;
+        z-index: 2;
+    }
+
+    .timeline-link {
+        display: block;
+        text-decoration: none;
+        font-size: 0.9rem;
+        color: var(--color-foreground);
+        line-height: 1.4;
+        transition: color 0.2s;
+    }
+
+    .timeline-link:hover {
+        color: var(--ghost-accent-color);
+    }
+
+    /* --- Active State (Current Lesson) --- */
+    .timeline-item.current .timeline-dot {
+        background-color: var(--ghost-accent-color);
+        border-color: var(--ghost-accent-color);
+        box-shadow: 0 0 0 3px rgba(var(--ghost-accent-color-rgb), 0.15);
+    }
+
+    .timeline-item.current .timeline-link {
+        font-weight: 700;
+        color: var(--color-contrast);
+    }
+
+    /* --- Responsive --- */
+    @media (max-width: 991px) {
+        .lesson-layout { grid-template-columns: 1fr; }
+        .lesson-sidebar { order: 2; }
+    }
+</style>
+
+<div class="container-wide">
+    <div class="lesson-layout">
+        
+        {{!-- 1. LEFT: LESSON CONTENT --}}
+        <div class="lesson-content">
+            
+            <header class="lesson-header" style="margin-bottom: var(--spacing-7);">
+                {{!-- Back Link --}}
+                {{#get "posts" filter="tags:hash-course+tags:{{primary_tag.slug}}" limit="1"}}
+                    {{#foreach posts}}
+                    <a href="{{url}}" style="text-decoration:none; display:inline-block; margin-bottom: var(--spacing-3); color: var(--color-secondary); font-size: var(--font-small); font-weight: 500;">
+                        &larr; {{t "Back to Course"}}
+                    </a>
+                    {{/foreach}}
+                {{/get}}
+                
+                <h1 class="post-title">{{title}}</h1>
+            </header>
+
+            {{#if feature_image}}
+                <div class="post-media" style="margin-bottom: var(--spacing-7);">
+                    <figure class="post-featured-image">
+                        <img src="{{img_url feature_image}}" alt="{{title}}">
+                    </figure>
+                </div>
+            {{/if}}
+
+            {{!-- Main Content --}}
+            <div class="post-content">
+                {{content}}
+            </div>
+
+            {{!-- Footer Navigation --}}
+            <div class="section-read-next" style="display: flex; justify-content: space-between; margin-top: var(--spacing-9); padding-top: var(--spacing-6); border-top: 1px solid var(--color-border);">
+                {{#prev_post in="primary_tag"}}
+                    <a href="{{url}}" class="button button-transparent">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:5px;"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                        {{t "Previous"}}
+                    </a>
+                {{/prev_post}}
+                
+                {{#next_post in="primary_tag"}}
+                    <a href="{{url}}" class="button">
+                        {{t "Next Lesson"}}
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-left:5px;"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                    </a>
+                {{/next_post}}
+            </div>
+        </div>
+
+        {{!-- 2. RIGHT: SIDEBAR --}}
+        <aside class="lesson-sidebar">
+            <div class="lesson-sidebar-sticky">
+                
+                {{!-- A. Table of Contents (Using your partial) --}}
+                <div class="sidebar-card" style="padding: var(--spacing-2);">
+                    {{> "post/toc" class="toc-sidebar"}}
+                </div>
+
+                {{!-- B. Course Timeline --}}
+                <div class="sidebar-card timeline-wrapper">
+                    <span class="timeline-heading">{{primary_tag.name}}</span>
+                    
+                    {{!-- Fetch lessons in this course --}}
+                    {{#get "posts" filter="tags:hash-lesson+tags:{{primary_tag.slug}}" order="published_at asc"}}
+                        <ul class="timeline-list">
+                            {{#foreach posts}}
+                                {{!-- Add 'current' class if this is the active post --}}
+                                <li class="timeline-item {{#if current}}current{{/if}}">
+                                    <span class="timeline-dot"></span>
+                                    <a href="{{url}}" class="timeline-link">
+                                        {{title}}
+                                    </a>
+                                </li>
+                            {{/foreach}}
+                        </ul>
+                    {{/get}}
+                </div>
+
+            </div>
+        </aside>
+
+    </div>
+</div>
