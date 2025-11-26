@@ -1,0 +1,273 @@
+{{!< default}}
+
+{{!-- COURSES LISTING PAGE (slug: "courses") --}}
+
+{{#post}}
+
+<header class="container-wide post-header">
+    <div class="post-header-info">
+        <h1 class="post-title">{{title}}</h1>
+
+        {{#if custom_excerpt}}
+            <p class="post-excerpt">{{custom_excerpt}}</p>
+        {{/if}}
+    </div>
+</header>
+
+<main class="container-wide courses-page">
+    <section class="courses-list">
+        <header class="courses-list-header">
+            <h2 class="courses-list-title">All courses</h2>
+        </header>
+
+        {{!-- Fetch all course posts (tag:hash-course) --}}
+        {{#get "posts"
+            filter="tag:hash-course"
+            include="tags,authors"
+            order="published_at asc"
+            limit="50"}}
+
+            {{#if posts}}
+                <div class="courses-grid">
+                    {{#foreach posts}}
+                        <article class="course-card">
+                            <a href="{{url}}" class="course-card-link">
+                                {{#if feature_image}}
+                                    <div class="course-card-media">
+                                        <img src="{{feature_image}}" alt="{{title}}">
+                                    </div>
+                                {{/if}}
+
+                                <div class="course-card-body">
+                                    <h3 class="course-card-title">{{title}}</h3>
+
+                                    {{#if custom_excerpt}}
+                                        <p class="course-card-excerpt">{{custom_excerpt}}</p>
+                                    {{/if}}
+
+                                    <div class="course-card-meta">
+                                        {{#if primary_tag}}
+                                            <span class="meta-pill meta-pill--course-tag">
+                                                {{primary_tag.name}}
+                                            </span>
+                                        {{/if}}
+
+                                        {{!-- Difficulty from internal tags --}}
+                                        {{#foreach tags visibility="internal"}}
+                                            {{#has slug="beginner"}}
+                                                <span class="meta-pill meta-pill--level">Beginner</span>
+                                            {{/has}}
+                                            {{#has slug="intermediate"}}
+                                                <span class="meta-pill meta-pill--level">Intermediate</span>
+                                            {{/has}}
+                                            {{#has slug="advanced"}}
+                                                <span class="meta-pill meta-pill--level">Advanced</span>
+                                            {{/has}}
+                                        {{/foreach}}
+                                    </div>
+                                </div>
+                            </a>
+                        </article>
+                    {{/foreach}}
+                </div>
+            {{else}}
+                <p>No courses yet. Start by creating a post with internal tag <code>#course</code>.</p>
+            {{/if}}
+
+        {{/get}}
+    </section>
+</main>
+
+{{/post}}
+
+
+<style>
+/* ================================
+   COURSES PAGE LAYOUT
+   ================================ */
+
+.courses-page {
+    margin-bottom: 4rem;
+}
+
+/* Header inside page already uses .post-header styles from theme */
+
+/* Section wrapper */
+.courses-list {
+    margin-top: 2rem;
+}
+
+/* "All courses" heading */
+.courses-list-header {
+    margin-bottom: 1.5rem;
+}
+
+.courses-list-title {
+    font-family: var(--font-family-headings);
+    font-size: 1.4rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin: 0;
+}
+
+/* Grid */
+.courses-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.75rem;
+}
+
+/* Card */
+.course-card {
+    background: var(--color-background);
+    border-radius: var(--radius-4, 18px);
+    border: 1px solid var(--color-border);
+    box-shadow: var(--shadow-soft, 0 14px 40px rgba(0,0,0,0.06));
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition:
+        transform 160ms ease-out,
+        box-shadow 160ms ease-out,
+        border-color 160ms ease-out,
+        background-color 160ms ease-out;
+    position: relative;
+}
+
+.course-card-link {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    color: inherit;
+    text-decoration: none;
+}
+
+/* Hover state */
+.course-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 18px 48px rgba(0,0,0,0.10);
+    border-color: rgba(0,0,0,0.18);
+}
+
+/* Media (image) */
+.course-card-media {
+    position: relative;
+    padding-top: 56.25%; /* 16:9 */
+    overflow: hidden;
+    background: var(--color-background-200);
+}
+
+.course-card-media img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* Body */
+.course-card-body {
+    padding: 1.1rem 1.2rem 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+}
+
+.course-card-title {
+    font-family: var(--font-family-headings);
+    font-size: 1rem;
+    margin: 0;
+    line-height: 1.4;
+}
+
+.course-card-title a {
+    text-decoration: none;
+    color: var(--color-contrast);
+}
+
+/* Excerpt */
+.course-card-excerpt {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--color-secondary);
+}
+
+/* Meta row (chips) */
+.course-card-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    margin-top: 0.2rem;
+}
+
+/* Pills / chips */
+.meta-pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.15rem 0.6rem;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    line-height: 1.4;
+    border: 1px solid var(--color-border);
+    color: var(--color-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+.meta-pill--course-tag {
+    background: var(--color-background-100);
+}
+
+.meta-pill--level {
+    background: var(--color-background-200);
+}
+
+/* Empty state */
+.courses-list > p {
+    margin-top: 1rem;
+    font-size: 0.95rem;
+    color: var(--color-secondary);
+}
+
+/* ================================
+   RESPONSIVE
+   ================================ */
+
+@media (max-width: 1100px) {
+    .courses-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    .courses-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .courses-list {
+        margin-top: 1.5rem;
+    }
+}
+
+/* ================================
+   DARK MODE TWEAKS
+   ================================ */
+
+[data-color-scheme="dark"] .course-card {
+    background: var(--color-background-100);
+    border-color: rgba(255,255,255,0.10);
+    box-shadow: 0 14px 40px rgba(0,0,0,0.6);
+}
+
+[data-color-scheme="dark"] .course-card:hover {
+    border-color: rgba(255,255,255,0.20);
+    box-shadow: 0 20px 56px rgba(0,0,0,0.8);
+}
+
+[data-color-scheme="dark"] .meta-pill--course-tag,
+[data-color-scheme="dark"] .meta-pill--level {
+    background: rgba(255,255,255,0.04);
+    border-color: rgba(255,255,255,0.14);
+}
+</style>

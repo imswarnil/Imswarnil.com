@@ -1,0 +1,120 @@
+{{!< default}}
+{{!-- COURSE LESSON TEMPLATE --}}
+
+{{#post}}
+
+{{#contentFor "body-class"}}
+    post-template-course-lesson post-has-sidebar
+    {{#> "with-sidebar"}} post-has-sidebar{{/"with-sidebar"}}
+    {{#unless access}} post-locked{{/unless}}
+{{/contentFor}}
+
+<header class="post-header container-wide course-lesson-header">
+    <div class="post-header-info">
+        <nav class="course-breadcrumb" aria-label="Breadcrumb">
+            <a href="{{@site.url}}">Home</a>
+            <span class="sep">›</span>
+            <a href="{{@site.url}}/courses/">Courses</a>
+
+            {{#if primary_tag}}
+                <span class="sep">›</span>
+                <a href="{{@site.url}}/course/{{primary_tag.slug}}/">
+                    {{primary_tag.name}}
+                </a>
+            {{/if}}
+
+            <span class="sep">›</span>
+            <span class="current">{{title}}</span>
+        </nav>
+
+        <h1 class="post-title">{{title}}</h1>
+
+        <ul class="post-meta">
+            {{#if authors}}
+                {{> "post/meta-author"}}
+                <li class="separator">&bull;</li>
+            {{/if}}
+
+            <li>
+                <time class="post-meta-date" datetime="{{date format="YYYY-MM-DD"}}">
+                    {{date format="MMMM D, YYYY"}}
+                </time>
+            </li>
+
+            {{#if reading_time}}
+                <li class="separator">&bull;</li>
+                <li>
+                    <span class="post-meta-time">
+                        {{reading_time minute=(t "1 min read") minutes=(t "% min read")}}
+                    </span>
+                </li>
+            {{/if}}
+        </ul>
+    </div>
+
+    <div class="post-header-buttons">
+        {{> "post/button-comments"}}
+        {{> "post/button-share"}}
+    </div>
+</header>
+
+<main class="container-wide course-lesson-layout">
+    <div class="course-lesson-grid">
+
+        {{!-- LEFT: LESSON CONTENT --}}
+        <article class="course-lesson-main">
+            {{!-- Featured image / video --}}
+            {{> "post/media"}}
+
+            {{!-- Content --}}
+            <section class="course-lesson-content">
+                {{> "post/content"}}
+            </section>
+
+            {{!-- Read-next (can show next lesson or whatever Ghost decides) --}}
+            <section class="course-lesson-read-next">
+                {{> "post/read-next"}}
+            </section>
+
+            {{!-- Subscription (mobile) --}}
+            <section class="course-lesson-subscription">
+                {{> "sections/subscription"}}
+            </section>
+
+            {{!-- Comments --}}
+            <section class="course-lesson-comments">
+                {{> "post/comments"}}
+            </section>
+        </article>
+
+        {{!-- RIGHT: SIDEBAR --}}
+        <aside class="course-lesson-sidebar" aria-label="Course sidebar">
+
+            {{!-- Mini course card --}}
+            {{#if primary_tag}}
+                <section class="course-card course-card--compact">
+                    <div class="course-card-body">
+                        <h2 class="course-card-title">
+                            <a href="{{@site.url}}/course/{{primary_tag.slug}}/">
+                                {{primary_tag.name}}
+                            </a>
+                        </h2>
+
+                        {{!-- Optional short desc from tag description --}}
+                        {{#if primary_tag.description}}
+                            <p class="course-card-description">
+                                {{primary_tag.description}}
+                            </p>
+                        {{/if}}
+                    </div>
+                </section>
+            {{/if}}
+
+            {{!-- Curriculum with current lesson highlight --}}
+            {{> "course/curriculum" current_id=id}}
+
+        </aside>
+    </div>
+</main>
+
+{{/post}}

@@ -1,0 +1,36 @@
+{{#contentFor "body-class"}} post-template-project{{/contentFor}}
+
+<div class="container-wide" style="margin-top:var(--spacing-9);">
+    <div style="display:grid; grid-template-columns: 1fr 300px; gap:var(--spacing-9);">
+        
+        {{!-- Main Gallery/Content --}}
+        <div>
+            {{#if feature_image}}
+                <img src="{{img_url feature_image}}" style="width:100%; border-radius:var(--radius-4); margin-bottom:var(--spacing-7);">
+            {{/if}}
+            <div class="post-content">
+                <h1 class="post-title" style="font-size:3rem;">{{title}}</h1>
+                {{content}}
+            </div>
+        </div>
+
+        {{!-- Project Details Sidebar --}}
+        <aside style="position:sticky; top:100px; align-self:start;">
+            <div style="background:var(--color-background-100); padding:var(--spacing-6); border-radius:var(--radius-4); border:1px solid var(--color-border);">
+                <h3 style="margin-bottom:var(--spacing-5);">Project Info</h3>
+                <div style="margin-bottom:15px;">
+                    <strong>Client</strong><br>
+                    <span style="color:var(--color-secondary);">{{#if custom_excerpt}}{{custom_excerpt}}{{else}}Personal Project{{/if}}</span>
+                </div>
+                <div style="margin-bottom:15px;">
+                    <strong>Year</strong><br>
+                    <span style="color:var(--color-secondary);">{{date format="YYYY"}}</span>
+                </div>
+                <div style="margin-bottom:15px;">
+                    <strong>Tech</strong><br>
+                    <span style="color:var(--color-secondary);">{{tags separator=", "}}</span>
+                </div>
+            </div>
+        </aside>
+    </div>
+</div>

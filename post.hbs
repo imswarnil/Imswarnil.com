@@ -2,17 +2,28 @@
 
 {{#post}}
 
-    {{!-- 1. IF TAG IS #COURSE -> LOAD COURSE LAYOUT --}}
+    {{!-- 1. COURSES & LESSONS --}}
     {{#has tag="#course"}}
         {{> "post/post-course"}}
-
-    {{!-- 2. IF TAG IS #LESSON -> LOAD LESSON LAYOUT --}}
     {{else has tag="#lesson"}}
         {{> "post/post-lesson"}}
 
-    {{!-- 3. ELSE -> LOAD STANDARD BLOG LAYOUT (Your original code) --}}
+    {{!-- 2. WEB SERIES & EPISODES --}}
+    {{else has tag="#webseries"}}
+        {{> "post/post-webseries"}}
+    {{else has tag="#episode"}}
+        {{> "post/post-episode"}}
+
+    {{!-- 3. VIDEOS --}}
+    {{else has tag="#video"}}
+        {{> "post/post-video"}}
+
+    {{!-- 4. PROJECTS --}}
+    {{else has tag="#project"}}
+        {{> "post/post-project"}}
+
+    {{!-- 5. STANDARD BLOG POST (Fallback) --}}
     {{else}}
-    
         {{#contentFor "body-class"}} post-template-default{{#> "with-sidebar"}} post-has-sidebar{{/"with-sidebar"}}{{#unless access}} post-locked{{/unless}}{{/contentFor}}
 
         <header class="post-header container-wide">
@@ -41,32 +52,11 @@
             </div>
         </header>
 
-        {{!-- Media (featured image and video). --}}
         {{> "post/media"}}
-
-        {{!-- Content. --}}
         {{> "post/content"}}
-
-        {{!-- Read next. --}}
         {{> "post/read-next"}}
-
-        {{!-- Subscription (show on --breakpoint-max-lg) --}}
         {{> "sections/subscription"}}
-
-        {{!-- Comments. --}}
         {{> "post/comments"}}
-
     {{/has}}
 
 {{/post}}
-
-
-
-
-
-
-
-
-
-
-
