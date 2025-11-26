@@ -1,0 +1,64 @@
+{{!-- Single Video Post Layout --}}
+<header class="post-header container-wide">
+  <div class="post-header-info">
+    <h1 class="post-title">{{title}}</h1>
+
+    <ul class="post-meta">
+      {{#if authors}}
+        {{> "post/meta-author"}}
+        <li class="separator">&bull;</li>
+      {{/if}}
+      <li>
+        <time class="post-meta-date" datetime="{{date format="YYYY-MM-DD"}}">
+          {{date format="MMMM D, YYYY"}}
+        </time>
+      </li>
+      {{#if reading_time}}
+        <li class="separator">&bull;</li>
+        <li>
+          <span class="post-meta-time">
+            {{reading_time minute=(t "1 min read") minutes=(t "% min read")}}
+          </span>
+        </li>
+      {{/if}}
+    </ul>
+  </div>
+
+  <div class="post-header-buttons">
+    {{> "post/button-share"}}
+  </div>
+</header>
+
+<div class="post-media container-wide">
+  {{!-- If you use feature_image as thumbnail + YouTube embed in content --}}
+  {{#if feature_image}}
+    <figure class="post-featured-image">
+      {{> "components/image" fast="true" src=feature_image alt=feature_image_alt altElse=title}}
+    </figure>
+  {{/if}}
+
+  {{!-- If you mark this post with #video-preview and put YouTube iframe first in content,
+       this will render that video as hero using your existing partial. --}}
+  {{> "post/featured-video-preview"}}
+</div>
+
+<div class="post-content-grid">
+  <div class="post-content-wrapper">
+
+    {{!-- Tags (optional) --}}
+    {{> "post/tags" class="container"}}
+
+    <article class="post-content">
+      {{{html}}}
+    </article>
+
+    {{> "post/card-author"}}
+    {{> "post/read-next"}}
+  </div>
+
+  {{!-- Sidebar with TOC + subscribe reusing existing styles --}}
+  {{> "post/sidebar"}}
+</div>
+
+{{> "post/comments"}}
+{{> "sections/subscription"}}
