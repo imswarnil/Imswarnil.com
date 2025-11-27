@@ -1,26 +1,307 @@
+{{!-- 
+    PARTIAL: sections/hero.hbs
+    DESIGN: Grid Background, Center Align, Double Frame Tilt Image, Social Border
+--}}
+
 {{#if hide_title}}
-	<h1 class="screen-reader-text">{{title}}</h1>
+    <h1 class="screen-reader-text">{{title}}</h1>
 {{else}}
-	<div class="section-hero{{#if feature_image}} has-feature-image{{/if}}">
-		{{#if feature_image}}
-			<figure class="section-hero-image">
-				{{> "components/image" fast="true" size=image_size src=feature_image alt=feature_image_alt altElse=title}}
-				{{#if feature_image_caption}}
-					<figcaption>{{feature_image_caption}}</figcaption>
-				{{/if}}
-			</figure>
-		{{/if}}
 
-		<div class="section-hero-content">
-			<h1>{{title}}</h1>
+<section class="hero-modern" itemscope itemtype="https://schema.org/Person">
+    
+    {{!-- 1. Background Grid with Corner Fade --}}
+    <div class="hero-modern-bg" aria-hidden="true"></div>
 
-			{{#if excerpt}}
-				<p>{{excerpt}}</p>
-			{{/if}}
+        <div class="hero-modern-grid">
+            
+            {{!-- 2. CONTENT COLUMN (Center Aligned) --}}
+            <div class="hero-modern-content">
+                
+                <p class="hero-greeting">
+                    <span class="wave">👋</span> {{t "Hi, I'm"}}
+                </p>
 
-			{{#unless hide_subscription}}
-				{{> "form-subscribe" label=true}}
-			{{/unless}}
-		</div>
-	</div>
+                <h1 class="hero-title" itemprop="name">{{title}}</h1>
+
+                {{!-- Stacked Meta Info (New Lines) --}}
+                <div class="hero-meta-stack">
+                    
+                    <div class="meta-row" itemprop="jobTitle">
+                        <span class="meta-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></span>
+                        <span class="meta-text">{{t "Creative Engineer & Filmmaker"}}</span>
+                    </div>
+
+                    <div class="meta-row" itemprop="worksFor" itemscope itemtype="https://schema.org/Organization">
+                        <span class="meta-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg></span>
+                        <span class="meta-text">{{t "Software Engineer"}} @ <strong itemprop="name">Imswarnil Studio</strong></span>
+                    </div>
+
+                    <div class="meta-row" itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">
+                        <span class="meta-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg></span>
+                        <span class="meta-text"><span itemprop="addressLocality">Bengaluru</span>, <span itemprop="addressCountry">India</span></span>
+                    </div>
+
+                </div>
+
+                {{!-- Excerpt --}}
+                {{#if excerpt}}
+                    <p class="hero-bio" itemprop="description">{{excerpt}}</p>
+                {{/if}}
+
+                {{!-- Subscription Form --}}
+                {{#unless hide_subscription}}
+                    <div class="hero-subscribe-wrapper">
+                        {{> "form-subscribe" label=true}}
+                    </div>
+                {{/unless}}
+
+            </div>
+
+            {{!-- 3. MEDIA COLUMN (Tilt Effect + Double Frame + Socials) --}}
+            <div class="hero-modern-media">
+                <!-- Tilt Container -->
+                <div class="tilt-card" id="hero-tilt-card">
+                    
+                    <!-- Double Line Border Frame -->
+                    <div class="double-frame">
+                        
+                        <!-- Main Image -->
+                        {{#if feature_image}}
+                        <figure class="hero-image-fig">
+                            <img 
+                                srcset="{{img_url feature_image size="s"}} 300w,
+                                        {{img_url feature_image size="m"}} 600w,
+                                        {{img_url feature_image size="l"}} 1000w"
+                                src="{{img_url feature_image size="l"}}"
+                                alt="{{title}}"
+                                itemprop="image"
+                                loading="eager"
+                            >
+                        </figure>
+                        {{/if}}
+
+                        <!-- Social Icons Embedded in Border -->
+                        <div class="frame-socials">
+                            {{#if @site.twitter}}
+                            <a href="{{twitter_url @site.twitter}}" class="frame-icon" aria-label="Twitter" target="_blank">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg>
+                            </a>
+                            {{/if}}
+                            <a href="#" class="frame-icon" aria-label="GitHub" target="_blank">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+                            </a>
+                            <a href="#" class="frame-icon" aria-label="LinkedIn" target="_blank">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+</section>
+
+<style>
+    /* --- 1. Container & Background --- */
+    .hero-modern {
+        position: relative;
+        padding: var(--spacing-10) 0;
+        background-color: var(--color-background);
+        overflow: hidden;
+        /* Center alignment container */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    /* Grid Lines with Corner Fade */
+    .hero-modern-bg {
+        position: absolute; inset: 0; pointer-events: none; z-index: 0;
+        background-image: 
+            linear-gradient(to right, rgba(128,128,128,0.07) 1px, transparent 1px),
+            linear-gradient(to bottom, rgba(128,128,128,0.07) 1px, transparent 1px);
+        background-size: 40px 40px;
+        /* Vignette Effect */
+        mask-image: radial-gradient(circle at center, black 40%, transparent 100%);
+        -webkit-mask-image: radial-gradient(circle at center, black 40%, transparent 100%);
+    }
+
+    /* Layout Grid */
+    .hero-modern-grid {
+        display: grid;
+        grid-template-columns: 1fr 420px; /* Text | Image */
+        gap: var(--spacing-10);
+        align-items: center;
+        position: relative; z-index: 1;
+    }
+
+    /* --- 2. Content Column --- */
+    .hero-modern-content {
+        display: flex; flex-direction: column; 
+        align-items: flex-start; /* Can change to center if you prefer centering text too */
+    }
+
+    .hero-greeting {
+        font-size: var(--font-small);
+        font-weight: 700; color: var(--ghost-accent-color);
+        text-transform: uppercase; letter-spacing: 1px;
+        margin-bottom: var(--spacing-3);
+    }
+    .wave { display: inline-block; animation: wave 2.5s infinite; transform-origin: 70% 70%; }
+    @keyframes wave { 0%,100%{transform:rotate(0deg);} 10%,30%{transform:rotate(14deg);} 20%{transform:rotate(-8deg);} 40%{transform:rotate(-4deg);} 50%{transform:rotate(10deg);} }
+
+    .hero-title {
+        font-size: clamp(3rem, 6vw, 4.5rem);
+        font-weight: 800; line-height: 1;
+        color: var(--color-contrast);
+        margin-bottom: var(--spacing-6);
+    }
+
+    /* Meta Stack (New Lines) */
+    .hero-meta-stack {
+        display: flex; flex-direction: column; gap: 12px;
+        margin-bottom: var(--spacing-8);
+        border-left: 2px solid var(--color-border);
+        padding-left: var(--spacing-5);
+    }
+
+    .meta-row {
+        display: flex; align-items: center; gap: 12px;
+        font-size: 1rem; color: var(--color-foreground);
+    }
+    .meta-icon {
+        color: var(--ghost-accent-color);
+        display: flex; align-items: center;
+    }
+    .meta-text strong { color: var(--color-contrast); font-weight: 700; }
+
+    .hero-bio {
+        font-size: 1.15rem; line-height: 1.6; color: var(--color-secondary);
+        max-width: 500px; margin-bottom: var(--spacing-8);
+    }
+
+    .hero-subscribe-wrapper { width: 100%; max-width: 450px; }
+
+    /* --- 3. Media Column & Tilt Effect --- */
+    .hero-modern-media {
+        display: flex; justify-content: center; align-items: center;
+        perspective: 1000px; /* Crucial for 3D tilt */
+    }
+
+    .tilt-card {
+        position: relative;
+        width: 100%;
+        aspect-ratio: 1/1; /* Square */
+        transform-style: preserve-3d;
+        transition: transform 0.1s ease-out; /* Smooth movement */
+    }
+
+    /* Double Frame Container */
+    .double-frame {
+        position: relative;
+        width: 100%; height: 100%;
+        /* Inner Shadow/Border */
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-5);
+        background: var(--color-background);
+        padding: 12px; /* Space between image and outer frame */
+        
+        /* The "Double" line effect using shadow */
+        box-shadow: 
+            0 20px 50px rgba(0,0,0,0.15), /* Drop Shadow */
+            0 0 0 10px rgba(128,128,128,0.05); /* Second faint border ring */
+    }
+
+    .hero-image-fig {
+        width: 100%; height: 100%;
+        margin: 0;
+        border-radius: var(--radius-4);
+        overflow: hidden;
+        position: relative;
+    }
+    .hero-image-fig img {
+        width: 100%; height: 100%; object-fit: cover;
+        transition: transform 0.5s;
+    }
+    /* Zoom image slightly on hover */
+    .tilt-card:hover .hero-image-fig img { transform: scale(1.05); }
+
+    /* Socials in Border */
+    .frame-socials {
+        position: absolute;
+        right: -20px; /* Hanging off the edge */
+        top: 50%; transform: translateY(-50%) translateZ(30px); /* Lifted in 3D space */
+        display: flex; flex-direction: column; gap: 12px;
+    }
+
+    .frame-icon {
+        width: 40px; height: 40px;
+        background: var(--color-background);
+        border: 1px solid var(--color-border);
+        border-radius: 50%;
+        display: flex; align-items: center; justify-content: center;
+        color: var(--color-secondary);
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        transition: all 0.2s;
+    }
+    .frame-icon:hover {
+        color: var(--ghost-accent-color);
+        border-color: var(--ghost-accent-color);
+        transform: scale(1.15);
+    }
+
+    /* --- Responsive --- */
+    @media (max-width: 991px) {
+        .hero-modern-grid {
+            grid-template-columns: 1fr;
+            gap: var(--spacing-9);
+            text-align: center;
+        }
+        /* Media First on Mobile */
+        .hero-modern-media { order: -1; max-width: 400px; margin: 0 auto; }
+        
+        /* Center Content */
+        .hero-modern-content { align-items: center; }
+        .hero-meta-stack { border-left: none; padding-left: 0; align-items: center; }
+        
+        /* Horizontal Socials on Mobile */
+        .frame-socials {
+            right: auto; left: 50%; bottom: -20px; top: auto;
+            transform: translateX(-50%) translateZ(30px);
+            flex-direction: row;
+        }
+        .double-frame { box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+    }
+</style>
+
+{{!-- 4. TILT SCRIPT --}}
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const card = document.getElementById('hero-tilt-card');
+    const container = document.querySelector('.hero-modern-media');
+
+    if(card && container) {
+        container.addEventListener('mousemove', (e) => {
+            const rect = container.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            // Calculate rotation (max 15deg)
+            const xPct = x / rect.width;
+            const yPct = y / rect.height;
+            const xRot = (yPct - 0.5) * -15; // Invert Y for natural feel
+            const yRot = (xPct - 0.5) * 15;
+
+            card.style.transform = `rotateX(${xRot}deg) rotateY(${yRot}deg)`;
+        });
+
+        container.addEventListener('mouseleave', () => {
+            // Reset on leave
+            card.style.transform = `rotateX(0deg) rotateY(0deg)`;
+        });
+    }
+});
+</script>
+
 {{/if}}

@@ -3,15 +3,17 @@
 
 {{#contentFor "body-class"}} page-home{{/contentFor}}
 
-{{!-- Top-of-page leaderboard ad --}}
-<div class="container-wide">
-    {{> "adsense" type="leaderboard"}}
-</div>
+
 
 {{!-- Home hero (works from a page with the slug home-nero). --}}
 {{#> "settings/home-hero"}}
 	{{> "sections/home-hero" hide_subscription=false}}
 {{/"settings/home-hero"}}
+
+{{!-- Top-of-page leaderboard ad --}}
+<div class="container-wide">
+    {{> "adsense" type="leaderboard"}}
+</div>
 
 {{!-- Posts. --}}
 {{#> get-posts}}

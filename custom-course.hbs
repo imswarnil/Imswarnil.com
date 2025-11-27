@@ -1,0 +1,867 @@
+{{!< default}}
+{{!-- Custom course template for /course/ collection (tags:hash-course) --}}
+
+{{#post}}
+
+{{#contentFor "body-class"}} post-template-course post-template-default{{/contentFor}}
+
+<article id="content" class="content post-course {{post_class}}">
+
+    <!-- =========================================================
+         SCOPED STYLES 
+         (Uses your theme's variables: --color-*, --spacing-*, --radius-*)
+         ========================================================= -->
+    <style>
+        /* --- Global Layout Wrapper --- */
+        .course-wrapper {
+            width: 100%;
+            max-width: var(--container-wide--width);
+            margin: 0 auto var(--spacing-10);
+            font-family: var(--font-family-body);
+            color: var(--color-foreground);
+            padding-inline: var(--layout--padding);
+        }
+
+        /* --- Grid System (reuses post grid classes) --- */
+        .course-grid.post-content-grid {
+            display: grid;
+            grid-template-columns: 1fr 380px; /* Content | Sidebar */
+            gap: var(--layout--gap);
+            margin-top: var(--spacing-9);
+            align-items: flex-start;
+        }
+
+        .course-content.post-content-wrapper {
+            min-width: 0;
+        }
+
+        /* --- Section Utilities --- */
+        .course-section {
+            margin-bottom: var(--spacing-10);
+        }
+        .course-heading {
+            font-family: var(--font-family-headings);
+            font-size: 1.75rem;
+            font-weight: var(--font-weight-bold);
+            color: var(--color-contrast);
+            margin-bottom: var(--spacing-6);
+            margin-top: 0;
+        }
+
+        /* --- 1. Hero Section (inside .post-header) --- */
+        .course-hero {
+            background-color: var(--color-background-100);
+            border-radius: var(--radius-5);
+            padding: var(--spacing-9);
+            border: 1px solid var(--color-border);
+            margin-top: var(--spacing-8);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .course-hero::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            opacity: 0.35;
+            background-image:
+                linear-gradient(
+                    to right,
+                    color-mix(in srgb, var(--color-border), transparent 65%) 1px,
+                    transparent 1px
+                ),
+                linear-gradient(
+                    to bottom,
+                    color-mix(in srgb, var(--color-border), transparent 65%) 1px,
+                    transparent 1px
+                );
+            background-size: 34px 34px;
+            mask-image: radial-gradient(circle at top left, black, transparent 70%);
+        }
+
+        .hero-inner {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: var(--spacing-9);
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Badge */
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            border-radius: 20px;
+            background: var(--color-background);
+            border: 1px solid var(--color-border);
+            font-size: var(--font-x-small);
+            font-weight: var(--font-weight-bold);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--ghost-accent-color);
+            margin-bottom: var(--spacing-5);
+        }
+        .hero-badge-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 999px;
+            background: var(--ghost-accent-color);
+        }
+
+        /* Title & Text */
+        .hero-title {
+            font-family: var(--font-family-headings);
+            font-size: clamp(2rem, 4vw, 3.5rem);
+            font-weight: var(--font-weight-bold);
+            line-height: 1.1;
+            color: var(--color-contrast);
+            margin-bottom: var(--spacing-4);
+            margin-top: 0;
+        }
+        .hero-excerpt {
+            font-size: 1.1rem;
+            line-height: 1.5;
+            color: var(--color-secondary);
+            margin-bottom: var(--spacing-5);
+            max-width: 40rem;
+        }
+
+        .hero-meta-inline {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: var(--spacing-4);
+            font-size: 0.85rem;
+            color: var(--color-secondary);
+        }
+        .hero-meta-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 10px;
+            border-radius: 999px;
+            border: 1px solid var(--color-border);
+            background: var(--color-background-100);
+        }
+
+        /* Lock banner in hero */
+        .course-locked-banner {
+            margin: 0 0 var(--spacing-5);
+            padding: 0.85rem 1rem;
+            border-radius: var(--radius-4);
+            border: 1px dashed var(--color-border);
+            background: rgba(195, 77, 77, .05);
+            display: flex;
+            gap: 0.75rem;
+            align-items: flex-start;
+            font-size: 0.9rem;
+        }
+        .course-locked-icon {
+            font-size: 1.2rem;
+        }
+        .course-locked-text strong {
+            color: var(--color-error);
+        }
+        .course-locked-text p {
+            margin: 0.25rem 0 0;
+            color: var(--color-secondary);
+        }
+
+        /* Hero Buttons (Reusing theme .button class) */
+        .hero-actions {
+            display: flex;
+            gap: var(--spacing-4);
+            flex-wrap: wrap;
+        }
+        .button.outline {
+            background: transparent;
+            border: 1px solid var(--color-border);
+            color: var(--color-contrast);
+        }
+        .button.outline:hover {
+            background: var(--color-background-200);
+        }
+
+        /* Hero Media */
+        .hero-media {
+            position: relative;
+            aspect-ratio: 16/9;
+            border-radius: var(--radius-4);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            background-color: #000;
+        }
+        .hero-media img {
+            width: 100%; height: 100%; object-fit: cover;
+        }
+        .hero-media-placeholder {
+            width: 100%; height: 100%;
+            display: flex; align-items: center; justify-content: center;
+            color: var(--color-secondary);
+            font-size: 0.9rem;
+            background: radial-gradient(circle at top left, var(--color-background-200), #000);
+        }
+        .play-icon {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 64px; height: 64px; background: #fff; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            color: #000; box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: transform 0.2s;
+        }
+        .hero-media:hover .play-icon { transform: translate(-50%, -50%) scale(1.1); }
+
+        /* --- 2. "What you will learn" Card --- */
+        .learning-card {
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-4);
+            padding: var(--spacing-8);
+            background: var(--color-background);
+            margin-bottom: var(--spacing-9);
+        }
+        .learning-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-5);
+        }
+        .learning-item {
+            display: flex; gap: 12px; align-items: flex-start;
+            font-size: var(--font-small); line-height: 1.5;
+        }
+        .learning-item svg {
+            color: var(--color-success); flex-shrink: 0; width: 20px; height: 20px; margin-top: 2px;
+        }
+
+        /* --- 2.5 Feature cards (hands-on, english, free preview) --- */
+        .course-feature-section {
+            margin-bottom: var(--spacing-10);
+        }
+        .course-feature-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: var(--spacing-5);
+        }
+        .course-feature-card {
+            display: flex;
+            gap: 0.75rem;
+            align-items: flex-start;
+            padding: 0.9rem 1rem;
+            border-radius: var(--radius-4);
+            background: var(--color-background-100);
+            border: 1px solid var(--color-border);
+        }
+        .course-feature-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 999px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            line-height: 1;
+            background: #ffe5e5;
+            color: #e53935; /* red icon */
+            flex-shrink: 0;
+        }
+        .course-feature-title {
+            font-size: 0.95rem;
+            font-weight: var(--font-weight-medium);
+            color: var(--color-contrast);
+            margin: 0 0 0.15rem;
+        }
+        .course-feature-text {
+            margin: 0;
+            font-size: 0.86rem;
+            color: var(--color-foreground);
+        }
+
+        /* --- 3. Curriculum List --- */
+        .curriculum-header {
+            display: flex; justify-content: space-between; align-items: flex-end;
+            margin-bottom: var(--spacing-5); border-bottom: 1px solid var(--color-border);
+            padding-bottom: var(--spacing-3);
+        }
+
+        .lesson-row {
+            display: flex; align-items: flex-start;
+            padding: var(--spacing-4);
+            background-color: var(--color-background);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-3);
+            margin-bottom: 12px;
+            text-decoration: none;
+            transition: border-color 0.2s, transform 0.2s, background-color 0.2s;
+        }
+        .lesson-row:hover {
+            border-color: var(--color-contrast);
+            transform: translateY(-2px);
+            background-color: var(--color-background-100);
+        }
+
+        .lesson-thumb {
+            width: 80px; height: 50px; border-radius: var(--radius-1);
+            object-fit: cover; margin-right: 16px; background: var(--color-background-200);
+            flex-shrink: 0; display: flex; align-items: center; justify-content: center;
+            color: var(--color-secondary);
+            font-size: 0.75rem;
+        }
+        .lesson-info { flex: 1; min-width: 0; }
+        .lesson-title {
+            display: block; font-family: var(--font-family-headings);
+            font-weight: var(--font-weight-medium); color: var(--color-contrast);
+            font-size: 1rem; margin-bottom: 4px;
+            white-space: nowrap; text-overflow: ellipsis; overflow: hidden;
+        }
+        .lesson-meta { font-size: var(--font-x-small); color: var(--color-secondary); }
+
+        .lesson-excerpt-sm {
+            margin-top: 4px;
+            font-size: 0.8rem;
+            color: var(--color-foreground);
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .lesson-status {
+            padding: 4px 10px; border-radius: 20px;
+            font-size: 0.7rem; font-weight: var(--font-weight-bold);
+            text-transform: uppercase; margin-left: 15px;
+            background: var(--color-background-200); color: var(--color-secondary);
+            flex-shrink: 0;
+            align-self: center;
+        }
+        .lesson-row.unlocked .lesson-status {
+            background: var(--ghost-accent-color); color: #fff;
+        }
+
+        .curriculum-empty {
+            font-size: 0.9rem;
+            color: var(--color-secondary);
+        }
+
+        /* --- 4. Overview body --- */
+        .course-overview {
+            line-height: 1.7;
+            font-size: 1.05rem;
+        }
+        .course-overview .post-content {
+            margin: 0;
+        }
+        .course-overview .post-content > *:first-child { margin-top: 0; }
+        .course-overview .post-content > *:last-child { margin-bottom: 0; }
+
+        /* --- 5. Sidebar (Right Column) --- */
+        .course-sidebar.post-sidebar { position: relative; }
+        .course-sidebar .sidebar-sticky { position: sticky; top: 100px; }
+        
+        .sidebar-card {
+            background-color: var(--color-background-100);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-4);
+            padding: var(--spacing-7);
+            margin-bottom: var(--spacing-7);
+            box-shadow: 0 10px 40px -10px rgba(0,0,0,0.05);
+        }
+
+        .details-list { list-style: none; padding: 0; margin: 20px 0; }
+        .details-list li {
+            display: flex; justify-content: space-between;
+            padding: 10px 0; border-bottom: 1px solid var(--color-border);
+            font-size: var(--font-small); color: var(--color-foreground);
+        }
+        .details-list li:last-child { border-bottom: none; }
+
+        /* --- 6. Testimonials (avatar grid) --- */
+        .course-testimonials {
+            margin-top: var(--spacing-10);
+        }
+        .course-testimonials-heading {
+            font-size: 1.4rem;
+            font-weight: var(--font-weight-bold);
+            color: var(--color-contrast);
+            text-align: center;
+            margin-bottom: var(--spacing-6);
+        }
+        .course-testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: var(--spacing-6);
+        }
+        .course-testimonial-card {
+            padding: var(--spacing-6);
+            border-radius: var(--radius-4);
+            border: 1px solid var(--color-border);
+            background: var(--color-background-100);
+            box-shadow: 0 10px 40px -16px rgba(0,0,0,0.08);
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+        .course-testimonial-rating {
+            font-size: 1rem;
+            color: #facc15;
+        }
+        .course-testimonial-quote {
+            font-size: 0.95rem;
+            color: var(--color-foreground);
+            margin: 0;
+        }
+        .course-testimonial-user {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-top: 0.5rem;
+        }
+        .course-testimonial-avatar img {
+            width: 44px;
+            height: 44px;
+            border-radius: 999px;
+            border: 2px solid var(--color-border);
+            object-fit: cover;
+            display: block;
+        }
+        .course-testimonial-meta {
+            font-size: 0.8rem;
+            color: var(--color-secondary);
+        }
+        .course-testimonial-meta strong {
+            display: block;
+            color: var(--color-contrast);
+        }
+
+        /* --- Responsive --- */
+        @media (max-width: 991px) {
+            .hero-inner { grid-template-columns: 1fr; text-align: left; }
+            .hero-actions { justify-content: flex-start; }
+            .hero-media { order: -1; margin-bottom: var(--spacing-7); }
+
+            .course-grid.post-content-grid {
+                grid-template-columns: 1fr;
+            }
+            .course-sidebar.post-sidebar {
+                order: 2;
+                margin-top: var(--spacing-8);
+            }
+            .learning-grid { grid-template-columns: 1fr; }
+            .course-feature-grid {
+                grid-template-columns: repeat(2, minmax(0,1fr));
+            }
+            .course-testimonial-grid {
+                grid-template-columns: repeat(2, minmax(0,1fr));
+            }
+        }
+
+        @media (max-width: 640px) {
+            .course-wrapper {
+                padding-inline: var(--spacing-4);
+            }
+            .course-feature-grid {
+                grid-template-columns: minmax(0,1fr);
+            }
+            .course-testimonial-grid {
+                grid-template-columns: minmax(0,1fr);
+            }
+        }
+    </style>
+
+    <div class="course-wrapper">
+
+        <!-- =========================
+             1. HERO SECTION (POST HEADER)
+             ========================= -->
+        <header class="post-header">
+            <div class="course-hero">
+                <div class="hero-inner">
+                    <!-- Copy -->
+                    <div class="hero-copy">
+                        {{#has tag="#course"}}
+                            <span class="hero-badge">
+                                <span class="hero-badge-dot"></span>
+                                {{t "Premium Course"}}
+                            </span>
+                        {{/has}}
+
+                        <h1 class="hero-title">{{title}}</h1>
+
+                        <div class="hero-meta-inline">
+                            {{#if primary_tag}}
+                                <span class="hero-meta-pill">
+                                    {{primary_tag.name}}
+                                </span>
+                            {{/if}}
+
+                            <span>{{date format="MMMM D, YYYY"}}</span>
+
+                            {{#if reading_time}}
+                                <span>&bull;</span>
+                                <span>{{reading_time minute=(t "1 min read") minutes=(t "% min read")}}</span>
+                            {{/if}}
+                        </div>
+
+                        {{!-- Course excerpt --}}
+                        {{#if custom_excerpt}}
+                            <p class="hero-excerpt">
+                                {{custom_excerpt}}
+                            </p>
+                        {{else if excerpt}}
+                            <p class="hero-excerpt">
+                                {{excerpt}}
+                            </p>
+                        {{/if}}
+
+                        {{!-- LOCK BANNER (uses {{comment}} when locked) --}}
+                        {{#unless access}}
+                            <div class="course-locked-banner">
+                                <div class="course-locked-icon">🔒</div>
+                                <div class="course-locked-text">
+                                    <strong>{{t "This course is for members only."}}</strong>
+                                    {{#if comment}}
+                                        <p>{{comment}}</p>
+                                    {{/if}}
+                                </div>
+                            </div>
+                        {{/unless}}
+                        
+                        <div class="hero-actions">
+                            {{#if access}}
+                                <a href="#curriculum" class="button button-rounded">
+                                    {{t "Start learning"}}
+                                </a>
+                                <a href="#overview" class="button button-rounded button-transparent outline">
+                                    {{t "Read overview"}}
+                                </a>
+                            {{else}}
+                                {{#if @site.members_enabled}}
+                                    <a href="#/portal/signup" class="button button-rounded">
+                                        {{t "Get access"}}
+                                    </a>
+                                {{/if}}
+                                <a href="#curriculum" class="button button-rounded button-transparent outline">
+                                    {{t "View curriculum"}}
+                                </a>
+                            {{/if}}
+                        </div>
+                    </div>
+
+                    <!-- Media -->
+                    <div class="hero-media">
+                        {{#if feature_image}}
+                            <img src="{{img_url feature_image size="l"}}" alt="{{title}}">
+                        {{else}}
+                            <div class="hero-media-placeholder">
+                                {{t "Course cover coming soon"}}
+                            </div>
+                        {{/if}}
+                        <a href="#curriculum" class="play-icon">
+                            <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                                <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- =========================
+             MAIN GRID (Content + Sidebar)
+             ========================= -->
+        <div class="course-grid post-content-grid">
+            
+            <!-- LEFT COLUMN -->
+            <div class="course-content post-content-wrapper">
+                
+                <!-- A. What you'll learn -->
+                <div class="learning-card">
+                    <h3 class="course-heading" style="font-size: 1.4rem;">{{t "What you will learn"}}</h3>
+                    <div class="learning-grid">
+                        <div class="learning-item">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            <span>{{t "Core foundations and key concepts for this course."}}</span>
+                        </div>
+                        <div class="learning-item">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            <span>{{t "Practical, real-world workflows and examples."}}</span>
+                        </div>
+                        <div class="learning-item">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            <span>{{t "How to apply these skills to your own projects."}}</span>
+                        </div>
+                        <div class="learning-item">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            <span>{{t "Bonus tips, patterns, and best practices."}}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- A.2 Feature cards: hands-on, English, free preview -->
+                <section class="course-feature-section" aria-label="Course highlights">
+                    <div class="course-feature-grid">
+                        <article class="course-feature-card">
+                            <div class="course-feature-icon">🛠️</div>
+                            <div>
+                                <h3 class="course-feature-title">{{t "Hands-on learning"}}</h3>
+                                <p class="course-feature-text">
+                                    {{t "Build dashboards, queries and use-cases step-by-step with guided practice."}}
+                                </p>
+                            </div>
+                        </article>
+
+                        <article class="course-feature-card">
+                            <div class="course-feature-icon">🗣️</div>
+                            <div>
+                                <h3 class="course-feature-title">{{t "Simple English"}}</h3>
+                                <p class="course-feature-text">
+                                    {{t "Explained in clear, friendly English so you never feel lost."}}
+                                </p>
+                            </div>
+                        </article>
+
+                        <article class="course-feature-card">
+                            <div class="course-feature-icon">🎁</div>
+                            <div>
+                                <h3 class="course-feature-title">{{t "Free preview"}}</h3>
+                                <p class="course-feature-text">
+                                    {{t "Try selected lessons for free before you fully commit."}}
+                                </p>
+                            </div>
+                        </article>
+                    </div>
+                </section>
+
+                <!-- B. Curriculum (Dynamic lessons) -->
+                <div id="curriculum" class="course-section">
+                    <div class="curriculum-header">
+                        <h2 class="course-heading" style="margin:0;">{{t "Curriculum"}}</h2>
+                        {{#if primary_tag}}
+                            <span style="color: var(--color-secondary); font-size: 0.9rem;">
+                                {{t "Lessons in {tag}" tag=primary_tag.name}}
+                            </span>
+                        {{/if}}
+                    </div>
+
+                    {{#if primary_tag}}
+
+                        {{#get
+                            "posts"
+                            filter=(concat "tag:hash-lesson+tag:" primary_tag.slug)
+                            include="authors,tags"
+                            limit="all"
+                            order="published_at asc"
+                        }}
+                            {{#if posts}}
+                                <div style="border-radius: var(--radius-3);">
+                                    {{#foreach posts}}
+                                        <a href="{{url}}" class="lesson-row{{#if @first}} unlocked{{/if}}">
+                                            {{#if feature_image}}
+                                                <img src="{{img_url feature_image size="s"}}" class="lesson-thumb" alt="{{title}}">
+                                            {{else}}
+                                                <div class="lesson-thumb">
+                                                    {{t "Lesson"}}
+                                                </div>
+                                            {{/if}}
+
+                                            <div class="lesson-info">
+                                                <span class="lesson-title">
+                                                    {{@number}}. {{title}}
+                                                </span>
+                                                <div class="lesson-meta">
+                                                    {{#if reading_time}}
+                                                        <span>{{reading_time minute=(t "1 min") minutes=(t "% min")}}</span>
+                                                        <span>&bull;</span>
+                                                    {{/if}}
+                                                    <span>{{date format="MMM D"}}</span>
+                                                </div>
+
+                                                {{!-- Small excerpt from lesson --}}
+                                                {{#if custom_excerpt}}
+                                                    <p class="lesson-excerpt-sm">{{custom_excerpt}}</p>
+                                                {{else if excerpt}}
+                                                    <p class="lesson-excerpt-sm">{{excerpt}}</p>
+                                                {{/if}}
+                                            </div>
+
+                                            <span class="lesson-status">
+                                                {{#if @first}}{{t "Play"}}{{else}}{{t "Locked"}}{{/if}}
+                                            </span>
+                                        </a>
+                                    {{/foreach}}
+                                </div>
+                            {{else}}
+                                <p class="curriculum-empty">
+                                    {{t "No lessons found. Make sure lessons use the same primary tag and the internal tag #lesson."}}
+                                </p>
+                            {{/if}}
+                        {{/get}}
+
+                    {{else}}
+                        <p class="curriculum-empty">
+                            {{t "Set a primary tag for this course to show lessons."}}
+                        </p>
+                    {{/if}}
+                </div>
+
+                <!-- C. About / Overview -->
+                <div id="overview" class="course-section">
+                    <h2 class="course-heading">{{t "About this course"}}</h2>
+                    <div class="course-overview">
+                        <div class="post-content{{#unless access}} post-content-teaser{{/unless}}">
+                            {{{html}}}
+                        </div>
+
+                        {{#unless access}}
+                            {{> "post/content-cta"}}
+                        {{/unless}}
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT COLUMN (Sidebar) -->
+            <aside class="course-sidebar post-sidebar">
+                <div class="sidebar-sticky">
+                    
+                    <div class="sidebar-card">
+                        {{#if access}}
+                            <a href="#curriculum" class="button button-rounded" style="width:100%; justify-content:center; margin-bottom:15px;">
+                                {{t "Continue learning"}}
+                            </a>
+                        {{else}}
+                            {{#if @site.members_enabled}}
+                                <a href="#/portal/signup" class="button button-rounded" style="width:100%; justify-content:center; margin-bottom:15px;">
+                                    {{t "Get access"}}
+                                </a>
+                            {{/if}}
+                        {{/if}}
+                        
+                        <p style="text-align:center; font-size:0.8rem; color:var(--color-secondary); margin-bottom:20px;">
+                            {{t "Self-paced • Lifetime access • No deadlines."}}
+                        </p>
+
+                        <ul class="details-list">
+                            <li>
+                                <span>{{t "Duration"}}</span>
+                                <strong>
+                                    {{#if reading_time}}
+                                        {{reading_time minute=(t "1 min") minutes=(t "% min")}}
+                                    {{else}}
+                                        {{t "Self-paced"}}
+                                    {{/if}}
+                                </strong>
+                            </li>
+                            <li>
+                                <span>{{t "Level"}}</span>
+                                <strong>{{#if @custom.course_level}}{{@custom.course_level}}{{else}}{{t "All levels"}}{{/if}}</strong>
+                            </li>
+                            <li>
+                                <span>{{t "Certificate"}}</span>
+                                <strong>{{t "Yes"}}</strong>
+                            </li>
+                            <li>
+                                <span>{{t "Access"}}</span>
+                                <strong>{{t "Lifetime"}}</strong>
+                            </li>
+                        </ul>
+
+                        {{#if authors}}
+                            {{#foreach authors}}
+                                <div style="display:flex; align-items:center; gap:15px; padding-top:20px; border-top:1px solid var(--color-border);">
+                                    {{#if profile_image}}
+                                        <img src="{{img_url profile_image size="xs"}}" style="width:48px; height:48px; border-radius:50%; object-fit:cover;" alt="{{name}}">
+                                    {{else}}
+                                        <div style="width:48px; height:48px; border-radius:50%; background:var(--color-background-200);"></div>
+                                    {{/if}}
+                                    <div>
+                                        <strong style="display:block; color:var(--color-contrast);">{{name}}</strong>
+                                        {{#if bio}}
+                                            <span style="font-size:0.8rem; color:var(--color-secondary);">{{bio}}</span>
+                                        {{/if}}
+                                    </div>
+                                </div>
+                            {{/foreach}}
+                        {{/if}}
+                    </div>
+
+                    <div class="sidebar-card" style="text-align:center;">
+                        <h4 style="font-size:0.9rem; margin-bottom:15px; color:var(--color-secondary);">
+                            {{t "Share this course"}}
+                        </h4>
+                        <div style="display:flex; gap:10px; justify-content:center; opacity:0.7;">
+                            <div style="width:32px; height:32px; background:var(--color-background-200); border-radius:50%;"></div>
+                            <div style="width:32px; height:32px; background:var(--color-background-200); border-radius:50%;"></div>
+                            <div style="width:32px; height:32px; background:var(--color-background-200); border-radius:50%;"></div>
+                        </div>
+                    </div>
+
+                </div>
+            </aside>
+
+        </div>
+
+        <!-- =========================
+             4. TESTIMONIAL GRID
+             ========================= -->
+        <section class="course-testimonials">
+            <h2 class="course-testimonials-heading">
+                {{t "What learners are saying"}}
+            </h2>
+
+            <div class="course-testimonial-grid">
+                <article class="course-testimonial-card">
+                    <div class="course-testimonial-rating">★★★★★</div>
+                    <p class="course-testimonial-quote">
+                        {{t "I went from zero to building CRM Analytics dashboards at work in one week."}}
+                    </p>
+                    <div class="course-testimonial-user">
+                        <div class="course-testimonial-avatar">
+                            <img src="https://www.gravatar.com/avatar/default?s=100&d=identicon" alt="Learner 1">
+                        </div>
+                        <div class="course-testimonial-meta">
+                            <strong>Amit</strong>
+                            <span>{{t "Salesforce Developer"}}</span>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="course-testimonial-card">
+                    <div class="course-testimonial-rating">★★★★★</div>
+                    <p class="course-testimonial-quote">
+                        {{t "Short, clear lessons in simple English. Perfect for busy working professionals."}}
+                    </p>
+                    <div class="course-testimonial-user">
+                        <div class="course-testimonial-avatar">
+                            <img src="https://www.gravatar.com/avatar/default?s=100&d=identicon" alt="Learner 2">
+                        </div>
+                        <div class="course-testimonial-meta">
+                            <strong>Sneha</strong>
+                            <span>{{t "CRM Analyst"}}</span>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="course-testimonial-card">
+                    <div class="course-testimonial-rating">★★★★★</div>
+                    <p class="course-testimonial-quote">
+                        {{t "Examples feel exactly like real client projects. This is not just theory."}}
+                    </p>
+                    <div class="course-testimonial-user">
+                        <div class="course-testimonial-avatar">
+                            <img src="https://www.gravatar.com/avatar/default?s=100&d=identicon" alt="Learner 3">
+                        </div>
+                        <div class="course-testimonial-meta">
+                            <strong>Rahul</strong>
+                            <span>{{t "Consultant"}}</span>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+    </div>
+
+    {{> "sections/subscription"}}
+    {{comments}}
+</article>
+
+{{/post}}
