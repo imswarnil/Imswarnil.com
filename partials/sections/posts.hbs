@@ -2,6 +2,7 @@
 	{{#> "settings/post-card"}}
 		<section class="section section-posts section-posts-{{#if photo_card_list}}list{{else}}grid{{/if}}">
 
+			{{!-- Heading --}}
 			{{#if ../title}}
 				<h2>{{../title}}</h2>
 			{{else}}
@@ -30,18 +31,16 @@
 						{{> "components/card-post" style=../post_card_style}}
 					</li>
 
-					{{!-- INLINE AD: after every 3 posts (3rd, 6th, 9th, …) --}}
-					{{#if ../is_home}}
-						{{#has number="nth:3"}}
-							<li class="posts-list-item posts-list-item--ad">
-								<article class="card-post card-post--ad">
-									<div class="card-post-media card-post-media--ad">
-										{{> "adsense" type="square" }}
-									</div>
-								</article>
-							</li>
-						{{/has}}
-					{{/if}}
+					{{!-- INLINE AD TILE: after every 3 posts (3rd, 6th, 9th, ...) --}}
+					{{#has number="nth:3"}}
+						<li class="posts-list-item posts-list-item--ad ad-post-lists">
+							<article class="card-post card-post--ad">
+								<div class="card-post-media card-post-media--ad">
+									{{> "adsense" type="fluid" }}
+								</div>
+							</article>
+						</li>
+					{{/has}}
 
 				{{/foreach}}
 			</ul>
