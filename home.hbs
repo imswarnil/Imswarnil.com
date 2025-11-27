@@ -20,7 +20,7 @@
 
 {{!-- Between posts and authors: medium rectangle / fluid-ish display --}}
 <div class="container-wide home-ad-between-sections">
-    {{> "adsense" type="rectangle" }}
+    {{> "adsense" type="leaderboard" }}
 </div>
 
 {{!-- Authors. --}}
@@ -44,7 +44,7 @@
 
             {{!-- Ad under authors carousel: slim banner --}}
             <div class="section-ad section-ad--authors">
-                {{> "adsense" type="banner" }}
+                {{> "adsense" type="leaderboard" }}
             </div>
 		</section>
 	{{/if}}
@@ -74,7 +74,7 @@
 
             {{!-- Inline section ad for each tag block: fluid/responsive --}}
             <div class="section-ad section-ad--tag">
-                {{> "adsense" type="fluid" }}
+                {{> "adsense" type="leaderboard" }}
             </div>
 
 			{{#get "posts" limit=10 filter="tags:{{slug}}" include="authors,tags,tiers"}}
@@ -102,7 +102,7 @@
 
         {{!-- Bottom-of-page ad: auto/relaxed layout --}}
         <div class="section-ad section-ad--recommendations">
-            {{> "adsense" type="auto" }}
+            {{> "adsense" type="leaderboard" }}
         </div>
 	</section>
 {{/match}}
