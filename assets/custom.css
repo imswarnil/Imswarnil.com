@@ -1,8 +1,8 @@
 /* ==========================================
-   ADSENSE – IMSWARNIL ISLAND STYLE
+   ADSENSE – MINIMAL ISLAND FRAME
    Root:    .gh-ad
-   Elements .gh-ad__bg / __inner / __header / __body / __container
-   Types:   .gh-ad--leaderboard / --banner / --square / --rectangle / --in-article
+   Elements .gh-ad__bg / .gh-ad__body / .gh-ad__container
+   Types:   .gh-ad--auto / --leaderboard / --banner / --square / --rectangle / --vertical / --fluid / --in-article
    ========================================== */
 
 .gh-ad {
@@ -16,7 +16,7 @@
     isolation: isolate;
 }
 
-/* Subtle grid background that fades towards edges */
+/* Subtle grid background */
 .gh-ad__bg {
     position: absolute;
     inset: 0;
@@ -34,63 +34,14 @@
     z-index: 0;
 }
 
-/* Inner card layout */
-.gh-ad__inner {
+/* Inner padding */
+.gh-ad__body {
     position: relative;
     z-index: 1;
-    display: flex;
-    flex-direction: column;
+    padding: var(--spacing-4, 1rem);
 }
 
-/* Header strip */
-.gh-ad__header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: var(--spacing-2, 0.5rem);
-    padding: var(--spacing-2, 0.5rem) var(--spacing-3, 0.75rem);
-    border-bottom: 1px solid color-mix(in srgb,
-            var(--color-border, hsla(0, 0%, 50%, .2)) 75%,
-            transparent 25%);
-    background: color-mix(in srgb,
-            var(--color-background, #ffffff) 90%,
-            var(--color-border, hsla(0, 0%, 50%, .2)) 10%);
-    backdrop-filter: blur(4px);
-}
-
-/* "Ad" pill */
-.gh-ad__label {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0.1rem 0.55rem;
-    font-size: 0.7rem;
-    font-weight: var(--font-weight-medium, 500);
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    border-radius: 999px;
-    border: 1px solid var(--color-border, hsla(0, 0%, 50%, .2));
-    color: var(--color-secondary, #757575);
-    background: color-mix(in srgb,
-            var(--color-background-100, #f3f3f3) 85%,
-            var(--color-white, #ffffff) 15%);
-}
-
-/* Small meta line on the right */
-.gh-ad__meta {
-    font-size: 0.7rem;
-    color: var(--color-mute, #b2b2b2);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-/* Body padding around the ad frame */
-.gh-ad__body {
-    padding: var(--spacing-4, 1rem) var(--spacing-4, 1rem) var(--spacing-4, 1rem) var(--spacing-4, 1rem);
-}
-
-/* Centers each ad with a consistent frame */
+/* Center ad and control frame size */
 .gh-ad__container {
     width: 100%;
     max-width: 100%;
@@ -128,34 +79,52 @@
 }
 
 /* ==========================================
-   TYPE-BASED SIZING (FRAMES)
+   TYPE-BASED SIZING
    ========================================== */
 
-/* Leaderboard: 728x90-style frame */
+/* AUTO – generic frame */
+.gh-ad--auto .gh-ad__container {
+    max-width: 100%;
+    min-height: 120px;
+}
+
+/* Leaderboard – 728x90-style frame */
 .gh-ad--leaderboard .gh-ad__container {
     max-width: 728px;
     min-height: 90px;
 }
 
-/* Banner: 468x60-style frame */
+/* Banner – 468x60-style frame */
 .gh-ad--banner .gh-ad__container {
     max-width: 468px;
     min-height: 60px;
 }
 
-/* Square: 250/300 square frame */
+/* Square – 250/300 square frame */
 .gh-ad--square .gh-ad__container {
     max-width: 320px;
     min-height: 250px;
 }
 
-/* Rectangle: 336x280 / 300x250 frame */
+/* Rectangle – 336x280 / fluid-ish box */
 .gh-ad--rectangle .gh-ad__container {
-    max-width: 336px;
+    max-width: 400px;
     min-height: 280px;
 }
 
-/* In-article: more fluid, full-width card */
+/* Vertical – tall sidebar style */
+.gh-ad--vertical .gh-ad__container {
+    max-width: 300px;
+    min-height: 600px;
+}
+
+/* Fluid – responsive area */
+.gh-ad--fluid .gh-ad__container {
+    max-width: 100%;
+    min-height: 150px;
+}
+
+/* In-article – full-width content frame */
 .gh-ad--in-article .gh-ad__container {
     max-width: 100%;
     min-height: 140px;
@@ -171,33 +140,38 @@
         border-radius: var(--radius-3, 0.5rem);
     }
 
-    .gh-ad__header {
-        padding-inline: var(--spacing-3, 0.75rem);
-    }
-
-    .gh-ad__label,
-    .gh-ad__meta {
-        font-size: 0.65rem;
-    }
-
     .gh-ad__body {
         padding: var(--spacing-3, 0.75rem);
     }
 
+    .gh-ad--auto .gh-ad__container {
+        min-height: 110px;
+    }
+
     .gh-ad--leaderboard .gh-ad__container {
+        max-width: 100%;
         min-height: 70px;
     }
 
     .gh-ad--banner .gh-ad__container {
+        max-width: 100%;
         min-height: 50px;
     }
 
     .gh-ad--square .gh-ad__container,
     .gh-ad--rectangle .gh-ad__container {
+        max-width: 100%;
         min-height: 220px;
     }
 
+    .gh-ad--vertical .gh-ad__container {
+        max-width: 100%;
+        min-height: 320px;
+    }
+
+    .gh-ad--fluid .gh-ad__container,
     .gh-ad--in-article .gh-ad__container {
+        max-width: 100%;
         min-height: 120px;
     }
 }
@@ -213,23 +187,4 @@
 
 :root[data-color-scheme="dark"] .gh-ad__bg {
     opacity: 0.22;
-}
-
-:root[data-color-scheme="dark"] .gh-ad__header {
-    background: color-mix(in srgb,
-            var(--color-background-200, #1f1f1f) 88%,
-            var(--color-border, hsla(0, 0%, 50%, .2)) 12%);
-    border-bottom-color: rgba(255, 255, 255, 0.16);
-}
-
-:root[data-color-scheme="dark"] .gh-ad__label {
-    color: var(--color-secondary, #a0a0a0);
-    background: color-mix(in srgb,
-            var(--color-background-200, #1f1f1f) 80%,
-            var(--color-white, #ffffff) 20%);
-    border-color: rgba(255, 255, 255, 0.2);
-}
-
-:root[data-color-scheme="dark"] .gh-ad__meta {
-    color: var(--color-mute, #c0c0c0);
 }
