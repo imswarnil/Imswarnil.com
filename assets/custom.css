@@ -188,3 +188,67 @@
 :root[data-color-scheme="dark"] .gh-ad__bg {
     opacity: 0.22;
 }
+
+/* Every list item = grid cell */
+.posts-list>.posts-list-item {
+    height: 100%;
+}
+
+/* Ad card behaves like normal card */
+.posts-list-item .card-post--ad {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Media area for ad – same role as feature image */
+.card-post-media--ad {
+    flex: 1 1 auto;
+    display: flex;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    /* change if your cards use another ratio */
+}
+
+/* Inside ad card, kill extra chrome so it fits the card */
+.posts-list-item--ad .gh-ad {
+    margin: 0;
+    border-radius: inherit;
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+    width: 100%;
+    display: flex;
+}
+
+.posts-list-item--ad .gh-ad__body {
+    padding: 0;
+    width: 100%;
+}
+
+.posts-list-item--ad .gh-ad__container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+}
+
+.posts-list-item--ad .gh-ad .adsbygoogle {
+    width: 100%;
+    height: 100%;
+}
+
+/* Hook class if you want special tweaks later */
+.ad-post-lists {
+    /* e.g. margin adjustments, debug outline, etc */
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+    .posts-list-item .card-post--ad {
+        height: auto;
+    }
+
+    .card-post-media--ad {
+        aspect-ratio: 16 / 9;
+    }
+}
