@@ -1,55 +1,63 @@
 {{!-- partials/adsense.hbs --}}
+{{!-- Usage (only type): 
+    {{> "adsense" type="leaderboard" }}
+    {{> "adsense" type="banner" }}
+    {{> "adsense" type="square" }}
+    {{> "adsense" type="rectangle" }}
+    {{> "adsense" type="in-article" }}
+--}}
+
 {{#unless @member}}
-
-<div class="gh-ad {{#if type}}gh-ad--{{type}}{{/if}} {{#if class}}{{class}}{{/if}}">
+<div class="gh-ad {{#if type}}gh-ad--{{type}}{{/if}}">
   <div class="gh-ad-container">
-    {{#match type "auto"}}
+    {{#match type "leaderboard"}}
+      {{!-- Leaderboard 728x90 --}}
       <ins class="adsbygoogle"
+           style="display:block"
            data-ad-client="ca-pub-1291242080282540"
-           data-ad-slot="{{#if slot}}{{slot}}{{else}}7663977887{{/if}}"
-           data-ad-format="auto"
-           data-full-width-responsive="true"></ins>
-
-    {{else match type "square"}}
-      <ins class="adsbygoogle"
-           data-ad-client="ca-pub-1291242080282540"
-           data-ad-slot="{{#if slot}}{{slot}}{{else}}7663977887{{/if}}"
-           data-ad-format="auto"
-           data-full-width-responsive="true"></ins>
-
-    {{else match type "rectangle"}}
-      <ins class="adsbygoogle"
-           data-ad-client="ca-pub-1291242080282540"
-           data-ad-slot="{{#if slot}}{{slot}}{{else}}7663977887{{/if}}"></ins>
-
-    {{else match type "leaderboard"}}
-      <ins class="adsbygoogle"
-           data-ad-client="ca-pub-1291242080282540"
-           data-ad-slot="{{#if slot}}{{slot}}{{else}}8939839370{{/if}}"></ins>
+           data-ad-slot="8939839370"></ins>
 
     {{else match type "banner"}}
+      {{!-- Banner 468x60 --}}
       <ins class="adsbygoogle"
+           style="display:block"
            data-ad-client="ca-pub-1291242080282540"
-           data-ad-slot="{{#if slot}}{{slot}}{{else}}8939839370{{/if}}"></ins>
+           data-ad-slot="8939839370"></ins>
+
+    {{else match type "square"}}
+      {{!-- Square 250x250 / 300x300 --}}
+      <ins class="adsbygoogle"
+           style="display:block"
+           data-ad-client="ca-pub-1291242080282540"
+           data-ad-slot="7663977887"></ins>
+
+    {{else match type "rectangle"}}
+      {{!-- Rectangle 336x280 / 300x250 --}}
+      <ins class="adsbygoogle"
+           style="display:block"
+           data-ad-client="ca-pub-1291242080282540"
+           data-ad-slot="7663977887"></ins>
 
     {{else match type "in-article"}}
+      {{!-- In-article (fluid) --}}
       <ins class="adsbygoogle"
+           style="display:block"
            data-ad-layout="in-article"
            data-ad-format="fluid"
            data-ad-client="ca-pub-1291242080282540"
-           data-ad-slot="{{#if slot}}{{slot}}{{else}}6501428979{{/if}}"></ins>
+           data-ad-slot="6501428979"></ins>
 
-    {{!-- fallback --}}
+    {{!-- Fallback: treat unknown type as rectangle --}}
     {{else}}
       <ins class="adsbygoogle"
+           style="display:block"
            data-ad-client="ca-pub-1291242080282540"
-           data-ad-slot="{{#if slot}}{{slot}}{{else}}7663977887{{/if}}"
-           data-ad-format="auto"
-           data-full-width-responsive="true"></ins>
+           data-ad-slot="7663977887"></ins>
     {{/match}}
   </div>
 </div>
 
-<script>(window.adsbygoogle = window.adsbygoogle || []).push({});</script>
-
+<script>
+  (window.adsbygoogle = window.adsbygoogle || []).push({});
+</script>
 {{/unless}}

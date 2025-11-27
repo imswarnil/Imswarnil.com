@@ -1,19 +1,13 @@
-/**
- * Custom CSS
- *
- * This file is for your custom styles.
- * You can add any CSS rules here to customize the Ghost theme.
- *
- * Note: Changes made directly to this file may be overwritten during theme updates.
- * It's recommended to use the Code Injection feature in Ghost for persistent customizations.
- */
-
-/* Your custom CSS goes below this line */
-/* ================================
+/* ==========================================
    ADSENSE BLOCK – GHOST THEME STYLE
-   Targets: partials/adsense.hbs
-   Classes: .gh-ad, .gh-ad--square, .gh-ad--rectangle, .gh-ad--leaderboard, .gh-ad--banner, .gh-ad--in-article
-   ================================ */
+   Classes:
+   .gh-ad
+   .gh-ad--leaderboard
+   .gh-ad--banner
+   .gh-ad--square
+   .gh-ad--rectangle
+   .gh-ad--in-article
+   ========================================== */
 
 .gh-ad {
     position: relative;
@@ -28,7 +22,7 @@
     overflow: hidden;
 }
 
-/* “Ad / Sponsored” label */
+/* "Ad" label */
 .gh-ad::before {
     content: "Ad";
     position: absolute;
@@ -41,10 +35,9 @@
     border-radius: 999px;
     border: 1px dashed var(--color-border, hsla(0, 0%, 50%, .2));
     color: var(--color-secondary, #757575);
-    background: color-mix(in srgb, var(--color-background, #fff) 85%, var(--color-black, #000) 15%);
+    background: color-mix(in srgb, var(--color-background, #ffffff) 85%, var(--color-black, #000000) 15%);
 }
 
-/* Inner container: keeps ad centered and constrained */
 .gh-ad-container {
     width: 100%;
     max-width: 100%;
@@ -53,13 +46,12 @@
     justify-content: center;
 }
 
-/* Google ad element should stretch nicely */
 .gh-ad .adsbygoogle {
     display: block;
     width: 100%;
 }
 
-/* Hover state for desktop – subtle lift like your cards */
+/* Hover micro-interaction */
 @media (hover: hover) {
     .gh-ad {
         transition:
@@ -77,21 +69,16 @@
     }
 }
 
-/* ================================
-   TYPE VARIANTS / SIZING HINTS
-   ================================ */
+/* -------- Type variants: max widths -------- */
 
-/* Leaderboard: 728x90 style */
 .gh-ad--leaderboard .gh-ad-container {
     max-width: 728px;
 }
 
-/* Banner: 468x60-ish */
 .gh-ad--banner .gh-ad-container {
     max-width: 468px;
 }
 
-/* Square & rectangle: center and cap width */
 .gh-ad--square .gh-ad-container {
     max-width: 320px;
 }
@@ -100,13 +87,13 @@
     max-width: 336px;
 }
 
-/* In-article: full-width, slimmer padding to blend with content */
+/* In-article: more "native" feel */
 .gh-ad--in-article {
     padding-block: var(--spacing-3, 0.75rem);
     margin-block: var(--spacing-6, 1.5rem);
 }
 
-/* On narrow screens, let everything breathe full-width */
+/* Mobile adjustments */
 @media (max-width: 768px) {
     .gh-ad {
         margin: var(--spacing-5, 1.25rem) 0;
@@ -125,17 +112,14 @@
     }
 }
 
-/* ================================
-   DARK MODE (data-color-scheme="dark")
-   ================================ */
-
+/* Dark mode */
 :root[data-color-scheme="dark"] .gh-ad {
     background: var(--color-background-200, #1f1f1f);
     border-color: rgba(255, 255, 255, 0.08);
 }
 
 :root[data-color-scheme="dark"] .gh-ad::before {
-    background: color-mix(in srgb, var(--color-background-200, #1f1f1f) 85%, var(--color-white, #fff) 15%);
+    background: color-mix(in srgb, var(--color-background-200, #1f1f1f) 85%, var(--color-white, #ffffff) 15%);
     color: var(--color-mute, #b2b2b2);
     border-color: rgba(255, 255, 255, 0.12);
 }
