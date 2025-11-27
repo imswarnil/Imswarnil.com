@@ -1,125 +1,196 @@
 /* ==========================================
-   ADSENSE BLOCK – GHOST THEME STYLE
-   Classes:
+   ADSENSE BLOCK – THEMED CONTAINER
    .gh-ad
-   .gh-ad--leaderboard
-   .gh-ad--banner
-   .gh-ad--square
-   .gh-ad--rectangle
-   .gh-ad--in-article
+   .gh-ad-header / .gh-ad-body / .gh-ad-container
+   Type modifiers: .gh-ad--leaderboard / --banner / --square / --rectangle / --in-article
    ========================================== */
 
+/* Outer shell */
 .gh-ad {
     position: relative;
     margin: var(--spacing-7, 2rem) 0;
-    padding: var(--spacing-4, 1rem);
     border-radius: var(--radius-4, 0.75rem);
+    border: 1px dashed var(--color-border, hsla(0, 0%, 50%, .2));
     background: var(--color-background-100, #f3f3f3);
-    border: 1px solid var(--color-border, hsla(0, 0%, 50%, .2));
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+/* Top header strip */
+.gh-ad-header {
     display: flex;
     align-items: center;
-    justify-content: center;
-    overflow: hidden;
+    justify-content: space-between;
+    gap: var(--spacing-2, 0.5rem);
+    padding: var(--spacing-2, 0.5rem) var(--spacing-3, 0.75rem);
+    border-bottom: 1px solid color-mix(in srgb,
+            var(--color-border, hsla(0, 0%, 50%, .2)) 60%,
+            transparent 40%);
+    background: color-mix(in srgb,
+            var(--color-background, #ffffff) 90%,
+            var(--color-border, hsla(0, 0%, 50%, .2)) 10%);
 }
 
 /* "Ad" label */
-.gh-ad::before {
-    content: "Ad";
-    position: absolute;
-    top: var(--spacing-2, 0.5rem);
-    left: var(--spacing-3, 0.75rem);
-    padding: 0.15rem 0.45rem;
-    font-size: 0.65rem;
-    letter-spacing: 0.08em;
+.gh-ad-header-label {
+    font-size: 0.7rem;
+    font-weight: var(--font-weight-medium, 500);
+    letter-spacing: 0.12em;
     text-transform: uppercase;
-    border-radius: 999px;
-    border: 1px dashed var(--color-border, hsla(0, 0%, 50%, .2));
     color: var(--color-secondary, #757575);
-    background: color-mix(in srgb, var(--color-background, #ffffff) 85%, var(--color-black, #000000) 15%);
 }
 
+/* Right-side meta text */
+.gh-ad-header-meta {
+    font-size: 0.7rem;
+    color: var(--color-mute, #b2b2b2);
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+/* Body padding */
+.gh-ad-body {
+    padding: var(--spacing-4, 1rem) var(--spacing-4, 1rem) var(--spacing-4, 1rem) var(--spacing-4, 1rem);
+}
+
+/* Inner container centers the ad */
 .gh-ad-container {
     width: 100%;
     max-width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
+    box-sizing: border-box;
 }
 
+/* The ad element itself */
 .gh-ad .adsbygoogle {
     display: block;
     width: 100%;
+    height: 100%;
 }
 
-/* Hover micro-interaction */
+/* Hover micro-animation (desktop) */
 @media (hover: hover) {
     .gh-ad {
         transition:
-            transform 160ms ease-out,
-            box-shadow 160ms ease-out,
-            border-color 160ms ease-out,
-            background-color 160ms ease-out;
+            transform 140ms ease-out,
+            box-shadow 140ms ease-out,
+            border-color 140ms ease-out,
+            background-color 140ms ease-out;
     }
 
     .gh-ad:hover {
         transform: translateY(-1px);
-        box-shadow: 0 16px 30px rgba(0, 0, 0, 0.06);
-        border-color: rgba(0, 0, 0, 0.18);
+        box-shadow: 0 14px 28px rgba(0, 0, 0, 0.06);
+        border-color: color-mix(in srgb, var(--color-border, hsla(0, 0%, 50%, .2)) 30%, var(--color-black, #000) 10%);
         background: var(--color-background-200, #ededed);
     }
 }
 
-/* -------- Type variants: max widths -------- */
+/* ==========================================
+   TYPE-BASED SIZING
+   ------------------------------------------
+   These define max-width + min-height for
+   a nice "frame" around the ad.
+   ========================================== */
 
+/* Leaderboard: 728x90 */
 .gh-ad--leaderboard .gh-ad-container {
     max-width: 728px;
+    min-height: 90px;
 }
 
+/* Banner: 468x60 */
 .gh-ad--banner .gh-ad-container {
     max-width: 468px;
+    min-height: 60px;
 }
 
+/* Square: 250–300ish */
 .gh-ad--square .gh-ad-container {
     max-width: 320px;
+    min-height: 250px;
 }
 
+/* Rectangle: 336x280 / 300x250 */
 .gh-ad--rectangle .gh-ad-container {
     max-width: 336px;
+    min-height: 280px;
 }
 
-/* In-article: more "native" feel */
-.gh-ad--in-article {
-    padding-block: var(--spacing-3, 0.75rem);
-    margin-block: var(--spacing-6, 1.5rem);
+/* In-article: more fluid, full width */
+.gh-ad--in-article .gh-ad-container {
+    max-width: 100%;
+    min-height: 140px;
 }
 
-/* Mobile adjustments */
+/* ==========================================
+   RESPONSIVE TWEAKS
+   ========================================== */
+
 @media (max-width: 768px) {
     .gh-ad {
         margin: var(--spacing-5, 1.25rem) 0;
-        padding: var(--spacing-3, 0.75rem);
         border-radius: var(--radius-3, 0.5rem);
     }
 
-    .gh-ad::before {
-        top: var(--spacing-1, 0.25rem);
-        left: var(--spacing-2, 0.5rem);
-        font-size: 0.6rem;
+    .gh-ad-header {
+        padding-inline: var(--spacing-3, 0.75rem);
     }
 
-    .gh-ad-container {
-        max-width: 100% !important;
+    .gh-ad-header-label,
+    .gh-ad-header-meta {
+        font-size: 0.65rem;
+    }
+
+    .gh-ad-body {
+        padding: var(--spacing-3, 0.75rem);
+    }
+
+    /* So we don't waste huge vertical space on mobile */
+    .gh-ad--leaderboard .gh-ad-container {
+        min-height: 70px;
+    }
+
+    .gh-ad--banner .gh-ad-container {
+        min-height: 50px;
+    }
+
+    .gh-ad--square .gh-ad-container {
+        min-height: 220px;
+    }
+
+    .gh-ad--rectangle .gh-ad-container {
+        min-height: 220px;
+    }
+
+    .gh-ad--in-article .gh-ad-container {
+        min-height: 120px;
     }
 }
 
-/* Dark mode */
+/* ==========================================
+   DARK MODE
+   ========================================== */
+
 :root[data-color-scheme="dark"] .gh-ad {
     background: var(--color-background-200, #1f1f1f);
-    border-color: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.12);
 }
 
-:root[data-color-scheme="dark"] .gh-ad::before {
-    background: color-mix(in srgb, var(--color-background-200, #1f1f1f) 85%, var(--color-white, #ffffff) 15%);
+:root[data-color-scheme="dark"] .gh-ad-header {
+    background: color-mix(in srgb,
+            var(--color-background-200, #1f1f1f) 85%,
+            var(--color-border, hsla(0, 0%, 50%, .2)) 15%);
+    border-bottom-color: rgba(255, 255, 255, 0.12);
+}
+
+:root[data-color-scheme="dark"] .gh-ad-header-label {
+    color: var(--color-secondary, #a0a0a0);
+}
+
+:root[data-color-scheme="dark"] .gh-ad-header-meta {
     color: var(--color-mute, #b2b2b2);
-    border-color: rgba(255, 255, 255, 0.12);
 }
