@@ -1,5 +1,5 @@
 {{!-- partials/adsense.hbs --}}
-{{!-- Usage:
+{{!-- Usage (only type):
     {{> "adsense" type="leaderboard" }}
     {{> "adsense" type="banner" }}
     {{> "adsense" type="square" }}
@@ -9,57 +9,61 @@
 
 {{#unless @member}}
 <div class="gh-ad {{#if type}}gh-ad--{{type}}{{/if}}">
-  <div class="gh-ad-header">
-    <span class="gh-ad-header-label">Ad</span>
-    <span class="gh-ad-header-meta">Supports this site</span>
-  </div>
+  <div class="gh-ad__bg" aria-hidden="true"></div>
 
-  <div class="gh-ad-body">
-    <div class="gh-ad-container">
-      {{#match type "leaderboard"}}
-        {{!-- Leaderboard 728x90 --}}
-        <ins class="adsbygoogle"
-             style="display:block"
-             data-ad-client="ca-pub-1291242080282540"
-             data-ad-slot="8939839370"></ins>
+  <div class="gh-ad__inner">
+    <div class="gh-ad__header">
+      <span class="gh-ad__label">Ad</span>
+      <span class="gh-ad__meta">Helps keep this site free</span>
+    </div>
 
-      {{else match type "banner"}}
-        {{!-- Banner 468x60 --}}
-        <ins class="adsbygoogle"
-             style="display:block"
-             data-ad-client="ca-pub-1291242080282540"
-             data-ad-slot="8939839370"></ins>
+    <div class="gh-ad__body">
+      <div class="gh-ad__container">
+        {{#match type "leaderboard"}}
+          {{!-- Leaderboard 728x90 --}}
+          <ins class="adsbygoogle"
+               style="display:block"
+               data-ad-client="ca-pub-1291242080282540"
+               data-ad-slot="8939839370"></ins>
 
-      {{else match type "square"}}
-        {{!-- Square 250x250 / 300x300 --}}
-        <ins class="adsbygoogle"
-             style="display:block"
-             data-ad-client="ca-pub-1291242080282540"
-             data-ad-slot="7663977887"></ins>
+        {{else match type "banner"}}
+          {{!-- Banner 468x60 --}}
+          <ins class="adsbygoogle"
+               style="display:block"
+               data-ad-client="ca-pub-1291242080282540"
+               data-ad-slot="8939839370"></ins>
 
-      {{else match type "rectangle"}}
-        {{!-- Rectangle 336x280 / 300x250 --}}
-        <ins class="adsbygoogle"
-             style="display:block"
-             data-ad-client="ca-pub-1291242080282540"
-             data-ad-slot="7663977887"></ins>
+        {{else match type "square"}}
+          {{!-- Square 250x250 / 300x300 --}}
+          <ins class="adsbygoogle"
+               style="display:block"
+               data-ad-client="ca-pub-1291242080282540"
+               data-ad-slot="7663977887"></ins>
 
-      {{else match type "in-article"}}
-        {{!-- In-article (fluid) --}}
-        <ins class="adsbygoogle"
-             style="display:block"
-             data-ad-layout="in-article"
-             data-ad-format="fluid"
-             data-ad-client="ca-pub-1291242080282540"
-             data-ad-slot="6501428979"></ins>
+        {{else match type "rectangle"}}
+          {{!-- Rectangle 336x280 / 300x250 --}}
+          <ins class="adsbygoogle"
+               style="display:block"
+               data-ad-client="ca-pub-1291242080282540"
+               data-ad-slot="7663977887"></ins>
 
-      {{!-- Fallback: treat unknown type as rectangle --}}
-      {{else}}
-        <ins class="adsbygoogle"
-             style="display:block"
-             data-ad-client="ca-pub-1291242080282540"
-             data-ad-slot="7663977887"></ins>
-      {{/match}}
+        {{else match type "in-article"}}
+          {{!-- In-article (fluid) --}}
+          <ins class="adsbygoogle"
+               style="display:block"
+               data-ad-layout="in-article"
+               data-ad-format="fluid"
+               data-ad-client="ca-pub-1291242080282540"
+               data-ad-slot="6501428979"></ins>
+
+        {{!-- Fallback: treat unknown type as rectangle --}}
+        {{else}}
+          <ins class="adsbygoogle"
+               style="display:block"
+               data-ad-client="ca-pub-1291242080282540"
+               data-ad-slot="7663977887"></ins>
+        {{/match}}
+      </div>
     </div>
   </div>
 </div>
