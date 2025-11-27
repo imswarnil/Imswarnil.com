@@ -3,9 +3,9 @@
 
 {{#contentFor "body-class"}} page-home{{/contentFor}}
 
-
+{{!-- Top-of-page leaderboard ad --}}
 <div class="container-wide">
-    {{> "adsense" type="leaderboard" class="post-ad--leaderboard" }}
+    {{> "adsense" type="leaderboard"}}
 </div>
 
 {{!-- Home hero (works from a page with the slug home-nero). --}}
@@ -17,6 +17,11 @@
 {{#> get-posts}}
 	{{> "sections/posts" title=(t "Latest") is_home=true}}
 {{/get-posts}}
+
+{{!-- Between posts and authors: medium rectangle / fluid-ish display --}}
+<div class="container-wide home-ad-between-sections">
+    {{> "adsense" type="rectangle" }}
+</div>
 
 {{!-- Authors. --}}
 {{#get "authors" limit=10 include="count.posts" order="count.posts DESC"}}
@@ -36,6 +41,11 @@
 			{{#> "components/carousel-cards" cards=authors class="slider-cards-author"}}
 				{{> "components/card-author"}}
 			{{/"components/carousel-cards"}}
+
+            {{!-- Ad under authors carousel: slim banner --}}
+            <div class="section-ad section-ad--authors">
+                {{> "adsense" type="banner" }}
+            </div>
 		</section>
 	{{/if}}
 {{/get}}
@@ -48,7 +58,10 @@
 	{{#foreach tags}}
 		<section class="section section-tag">
 			<div class="section-head">
-				<h2 class="section-title"><a href="{{url}}">{{name}}</a><span class="title-tag-dot" {{#if accent_color}}style="color:{{accent_color}};"{{/if}}></span></h2>
+				<h2 class="section-title">
+                    <a href="{{url}}">{{name}}</a>
+                    <span class="title-tag-dot" {{#if accent_color}}style="color:{{accent_color}};"{{/if}}></span>
+                </h2>
 				{{#if description}}
 					<p>{{description}}</p>
 				{{/if}}
@@ -58,6 +71,11 @@
 				<span class="label">{{t "View {tag}" tag=name}}</span>
 				{{> "icons/arrow-narrow-right"}}
 			</a>
+
+            {{!-- Inline section ad for each tag block: fluid/responsive --}}
+            <div class="section-ad section-ad--tag">
+                {{> "adsense" type="fluid" }}
+            </div>
 
 			{{#get "posts" limit=10 filter="tags:{{slug}}" include="authors,tags,tiers"}}
 				{{> "components/carousel-posts"}}
@@ -81,5 +99,10 @@
 		{{/match}}
 
 		{{recommendations limit=12}}
+
+        {{!-- Bottom-of-page ad: auto/relaxed layout --}}
+        <div class="section-ad section-ad--recommendations">
+            {{> "adsense" type="auto" }}
+        </div>
 	</section>
 {{/match}}
