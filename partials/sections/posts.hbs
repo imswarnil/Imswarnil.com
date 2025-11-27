@@ -16,6 +16,14 @@
 					<li>
 						{{> "components/card-post" style=../post_card_style}}
 					</li>
+
+					{{!-- INLINE AD: after 3rd post (index 2) – square, responsive --}}
+					{{#match @index 2}}
+						<li class="posts-list-item posts-list-item--ad">
+							{{> "adsense" type="square" }}
+						</li>
+					{{/match}}
+
 				{{/foreach}}
 			</ul>
 
