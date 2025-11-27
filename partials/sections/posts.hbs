@@ -1,6 +1,8 @@
 {{#if posts}}
 	{{#> "settings/post-card"}}
 		<section class="section section-posts section-posts-{{#if photo_card_list}}list{{else}}grid{{/if}}">
+
+			{{!-- Section heading --}}
 			{{#if ../title}}
 				<h2>{{../title}}</h2>
 			{{else}}
@@ -8,21 +10,39 @@
 			{{/if}}
 
 			{{!-- Pagination prev (show for paged, disable for home). --}}
-			{{#unless is_home}}{{#is "paged"}}{{pagination next=false prepend=".posts-list"}}{{/is}}{{/unless}}
+			{{#unless is_home}}
+				{{#is "paged"}}
+					{{pagination next=false prepend=".posts-list"}}
+				{{/is}}
+			{{/unless}}
 
 			{{!-- Posts list. --}}
-			<ul class="posts-list"{{#if is_home}}{{#unless photo_card_list}}{{#if pagination.next}} data-posts-per-page="{{@config.posts_per_page}}"{{/if}}{{/unless}}{{/if}}>
+			<ul class="posts-list"
+				{{#if is_home}}
+					{{#unless photo_card_list}}
+						{{#if pagination.next}}
+							data-posts-per-page="{{@config.posts_per_page}}"
+						{{/if}}
+					{{/unless}}
+				{{/if}}>
+
 				{{#foreach posts}}
-					<li>
+					<li class="posts-list-item">
 						{{> "components/card-post" style=../post_card_style}}
 					</li>
 
-					{{!-- INLINE AD: after 3rd post (index 2) – square, responsive --}}
-					{{#match @index 3}}
-						<li class="posts-list-item posts-list-item--ad">
-							{{> "adsense" type="auto" }}
-						</li>
-					{{/match}}
+					{{!-- INLINE AD: after every 3 posts (3rd, 6th, 9th, …) --}}
+					{{#if ../is_home}}
+						{{#has number="nth:3"}}
+							<li class="posts-list-item posts-list-item--ad">
+								<article class="card-post card-post--ad">
+									<div class="card-post-media card-post-media--ad">
+										{{> "adsense" type="auto" }}
+									</div>
+								</article>
+							</li>
+						{{/has}}
+					{{/if}}
 
 				{{/foreach}}
 			</ul>
