@@ -9,3 +9,133 @@
  */
 
 /* Your custom CSS goes below this line */
+/* ================================
+   ADSENSE BLOCK – GHOST THEME STYLE
+   Targets: partials/adsense.hbs
+   Classes: .gh-ad, .gh-ad--square, .gh-ad--rectangle, .gh-ad--leaderboard, .gh-ad--banner, .gh-ad--in-article
+   ================================ */
+
+.gh-ad {
+    position: relative;
+    margin: var(--spacing-7, 2rem) 0;
+    padding: var(--spacing-4, 1rem);
+    border-radius: var(--radius-4, 0.75rem);
+    background: var(--color-background-100, #f3f3f3);
+    border: 1px solid var(--color-border, hsla(0, 0%, 50%, .2));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+/* “Ad / Sponsored” label */
+.gh-ad::before {
+    content: "Ad";
+    position: absolute;
+    top: var(--spacing-2, 0.5rem);
+    left: var(--spacing-3, 0.75rem);
+    padding: 0.15rem 0.45rem;
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border-radius: 999px;
+    border: 1px dashed var(--color-border, hsla(0, 0%, 50%, .2));
+    color: var(--color-secondary, #757575);
+    background: color-mix(in srgb, var(--color-background, #fff) 85%, var(--color-black, #000) 15%);
+}
+
+/* Inner container: keeps ad centered and constrained */
+.gh-ad-container {
+    width: 100%;
+    max-width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Google ad element should stretch nicely */
+.gh-ad .adsbygoogle {
+    display: block;
+    width: 100%;
+}
+
+/* Hover state for desktop – subtle lift like your cards */
+@media (hover: hover) {
+    .gh-ad {
+        transition:
+            transform 160ms ease-out,
+            box-shadow 160ms ease-out,
+            border-color 160ms ease-out,
+            background-color 160ms ease-out;
+    }
+
+    .gh-ad:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 16px 30px rgba(0, 0, 0, 0.06);
+        border-color: rgba(0, 0, 0, 0.18);
+        background: var(--color-background-200, #ededed);
+    }
+}
+
+/* ================================
+   TYPE VARIANTS / SIZING HINTS
+   ================================ */
+
+/* Leaderboard: 728x90 style */
+.gh-ad--leaderboard .gh-ad-container {
+    max-width: 728px;
+}
+
+/* Banner: 468x60-ish */
+.gh-ad--banner .gh-ad-container {
+    max-width: 468px;
+}
+
+/* Square & rectangle: center and cap width */
+.gh-ad--square .gh-ad-container {
+    max-width: 320px;
+}
+
+.gh-ad--rectangle .gh-ad-container {
+    max-width: 336px;
+}
+
+/* In-article: full-width, slimmer padding to blend with content */
+.gh-ad--in-article {
+    padding-block: var(--spacing-3, 0.75rem);
+    margin-block: var(--spacing-6, 1.5rem);
+}
+
+/* On narrow screens, let everything breathe full-width */
+@media (max-width: 768px) {
+    .gh-ad {
+        margin: var(--spacing-5, 1.25rem) 0;
+        padding: var(--spacing-3, 0.75rem);
+        border-radius: var(--radius-3, 0.5rem);
+    }
+
+    .gh-ad::before {
+        top: var(--spacing-1, 0.25rem);
+        left: var(--spacing-2, 0.5rem);
+        font-size: 0.6rem;
+    }
+
+    .gh-ad-container {
+        max-width: 100% !important;
+    }
+}
+
+/* ================================
+   DARK MODE (data-color-scheme="dark")
+   ================================ */
+
+:root[data-color-scheme="dark"] .gh-ad {
+    background: var(--color-background-200, #1f1f1f);
+    border-color: rgba(255, 255, 255, 0.08);
+}
+
+:root[data-color-scheme="dark"] .gh-ad::before {
+    background: color-mix(in srgb, var(--color-background-200, #1f1f1f) 85%, var(--color-white, #fff) 15%);
+    color: var(--color-mute, #b2b2b2);
+    border-color: rgba(255, 255, 255, 0.12);
+}

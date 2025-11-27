@@ -3,6 +3,11 @@
 
 {{#contentFor "body-class"}} page-home{{/contentFor}}
 
+
+<div class="container-wide">
+    {{> "adsense" type="leaderboard" class="post-ad--leaderboard" }}
+</div>
+
 {{!-- Home hero (works from a page with the slug home-nero). --}}
 {{#> "settings/home-hero"}}
 	{{> "sections/home-hero" hide_subscription=true}}
