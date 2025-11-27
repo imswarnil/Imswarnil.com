@@ -10,71 +10,8 @@
 
 {{!-- Home hero (works from a page with the slug home-nero). --}}
 {{#> "settings/home-hero"}}
-	{{> "sections/home-hero" hide_subscription=true}}
+	{{> "sections/home-hero" hide_subscription=false}}
 {{/"settings/home-hero"}}
-
-{{!-- Tags. --}}
-{{> "sections/tags" is_home="true"}}
-
-{{!--
-	Featured Carousel.
---}}
-{{#match @custom.featured_section_style "Carousel"}}
-	{{#contentFor "featured-section-styles"}}
-		<link rel="stylesheet" type="text/css" href="{{asset "built/section-featured/carousel.css"}}">
-		<link rel="stylesheet" type="text/css" href="{{asset "vendors/swiper/effect-creative.min.css"}}">
-	{{/contentFor}}
-	{{#contentFor "featured-section-scripts"}}
-		<script src="{{asset "built/section-featured/carousel.js"}}"></script>
-	{{/contentFor}}
-
-	{{!-- Featured. --}}
-	{{#get "posts" limit=8 filter="featured:true" include="authors,tags,tiers"}}
-		{{> "sections/featured-carousel"}}
-	{{/get}}
-
-{{!--
-	Featured Slider.
---}}
-{{else match @custom.featured_section_style "Slider"}}
-	{{#contentFor "featured-section-styles"}}
-		<link rel="stylesheet" type="text/css" href="{{asset "built/section-featured/slider.css"}}">
-	{{/contentFor}}
-	{{#contentFor "featured-section-scripts"}}
-		<script src="{{asset "built/section-featured/slider.js"}}"></script>
-	{{/contentFor}}
-
-	{{!-- Featured. --}}
-	{{#get "posts" limit=8 filter="featured:true" include="authors,tags,tiers"}}
-		{{> "sections/featured-slider"}}
-	{{/get}}
-
-{{!--
-	Featured Grid (some cards are hidden due to available space).
---}}
-{{else match @custom.featured_section_style "Grid"}}
-	{{#contentFor "featured-section-styles"}}
-		<link rel="stylesheet" type="text/css" href="{{asset "built/section-featured/grid.css"}}">
-	{{/contentFor}}
-
-	{{!-- Featured. --}}
-	{{#get "posts" limit=7 filter="featured:true" include="authors,tags,tiers"}}
-		{{> "sections/featured-grid"}}
-	{{/get}}
-
-{{!--
-	Featured Grid List (some cards are hidden due to available space).
---}}
-{{else match @custom.featured_section_style "Grid List"}}
-	{{#contentFor "featured-section-styles"}}
-		<link rel="stylesheet" type="text/css" href="{{asset "built/section-featured/grid-list.css"}}">
-	{{/contentFor}}
-
-	{{!-- Featured. --}}
-	{{#get "posts" limit=7 filter="featured:true" include="authors,tags,tiers"}}
-		{{> "sections/featured-grid-list"}}
-	{{/get}}
-{{/match}}
 
 {{!-- Posts. --}}
 {{#> get-posts}}
