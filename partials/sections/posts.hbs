@@ -2,7 +2,6 @@
 	{{#> "settings/post-card"}}
 		<section class="section section-posts section-posts-{{#if photo_card_list}}list{{else}}grid{{/if}}">
 
-			{{!-- Section heading --}}
 			{{#if ../title}}
 				<h2>{{../title}}</h2>
 			{{else}}
@@ -37,7 +36,7 @@
 							<li class="posts-list-item posts-list-item--ad">
 								<article class="card-post card-post--ad">
 									<div class="card-post-media card-post-media--ad">
-										{{> "adsense" type="auto" }}
+										{{> "adsense" type="square" }}
 									</div>
 								</article>
 							</li>
