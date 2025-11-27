@@ -83,6 +83,10 @@
 	{{!-- Custom. --}}
 	<link rel="stylesheet" type="text/css" href="{{asset "custom.css"}}">
 
+    <script async
+		src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1291242080282540"
+		crossorigin="anonymous"></script>
+
 	{{!-- This tag outputs all your advanced SEO meta, structured data, and other important settings, it should always be the last tag before the closing head tag --}}
 	{{ghost_head}}
 </head>
@@ -183,6 +187,11 @@
 
 		{{!-- Sidebar. --}}
 		<aside class="sidebar" id="sidebar">
+
+
+            <div class="sidebar-ad sidebar-ad--vertical">
+				{{> "adsense" type="auto" }}
+			</div>
 			{{!-- Navigation. --}}
 			{{#if @site.navigation}}
 			<nav class="navigation navigation-sidebar" aria-label="{{t "Sidebar Primary Navigation"}}">
@@ -229,6 +238,11 @@
 				{{/if}}
 			{{/"get-tags"}}
 
+            <div class="sidebar-ad sidebar-ad--vertical">
+				{{> "adsense" type="vertical" }}
+			</div>
+
+
 			{{!-- Footer. --}}
 			{{> "layout/footer-sidebar" navigation_aria_label=(t "Sidebar Secondary Navigation")}}
 		</aside>
@@ -238,6 +252,10 @@
 
 			{{{body}}}
 		</{{#is "home"}}div{{else}}article{{/is}}>
+{{!-- Global below-content ad (tags, pages, etc.) --}}
+		<div class="container-wide layout-ad layout-ad--below-content">
+			{{> "adsense" type="fluid" }}
+		</div>
 
 		{{!-- Footer. --}}
 		{{> "layout/footer"}}
