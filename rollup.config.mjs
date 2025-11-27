@@ -1,4 +1,4 @@
-import { resolve, basename } from 'node:path';
+import { resolve } from 'node:path';
 import { defineConfig } from 'rollup';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
@@ -182,7 +182,7 @@ function buildRollupConfig() {
 				config.plugins.push(
 					// Main CSS
 					postcss({
-						extract: true, // will create assets/built/index.css (default)
+						extract: true,
 						include: mainCss,
 						exclude: additionalCss,
 						inject: false,
@@ -190,41 +190,30 @@ function buildRollupConfig() {
 						plugins: cssPlugins,
 					}),
 
-					// Additional CSS (your section-featured/*.css etc.)
-					...additionalCss.map((file) => {
-						// e.g. file = "assets/css/section-featured/slider.css"
-						// we want to emit: "assets/built/section-featured/slider.css"
-						const filename = basename(file); // slider.css
-						// preserve folder name (section-featured) if present
-						const relativeDir = file
-							.replace(/^assets\/css\//, '')        // section-featured/slider.css
-							.replace(filename, '')                // section-featured/
-							.replace(/\\/g, '/');                  // windows safe
-
-						const outFile = `assets/built/${relativeDir}${filename}`; // assets/built/section-featured/slider.css
-
-						return postcss({
+					// Additional CSS
+					...additionalCss.map((file) =>
+						postcss({
 							include: file,
-							extract: outFile, // IMPORTANT: no resolve(), no ../, no absolute
+							extract: resolve(file.replace('assets/css/', 'assets/built/')),
 							minimize: isProduction,
 							plugins: cssPlugins,
-						});
-					}),
+						}),
+					),
 
 					// Copy plugins
 					isProduction && copy({ targets: buildConfig.copy }),
 					!isProduction &&
-					livereload({
-						watch: [
-							resolve('assets/css'),
-							resolve('assets/js'),
-							resolve('partials'),
-							resolve('*.hbs'),
-						],
-						exts: ['js', 'css', 'hbs'],
-						verbose: true,
-						delay: 300,
-					}),
+						livereload({
+							watch: [
+								resolve('assets/css'),
+								resolve('assets/js'),
+								resolve('partials'),
+								resolve('*.hbs'),
+							],
+							exts: ['js', 'css', 'hbs'],
+							verbose: true,
+							delay: 300,
+						}),
 				);
 			}
 

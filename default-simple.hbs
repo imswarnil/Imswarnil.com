@@ -15,14 +15,8 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
-	{{!-- Custom title for page 404. --}}
-	{{#if (block "title")}}
-		<title>{{block "title"}}</title>
-
 	{{!-- Basic meta - advanced meta is output with {{ghost_head}} below --}}
-	{{else}}
-		<title>{{meta_title page=(t " (Page %)")}}</title>
-	{{/if}}
+	<title>{{meta_title page=(t " (Page %)")}}</title>
 
 	{{!-- Script for theme data --}}
 	{{> "theme-head-script"}}
@@ -70,9 +64,9 @@
 <body class="{{block "body-class"}}">
 	<main class="main">
 		{{!-- Content. --}}
-		<div id="content" class="content">
+		<article id="content" class="content">
 			{{{body}}}
-		</div>
+		</article>
 	</main>
 
 	{{!-- Announcement bar. --}}

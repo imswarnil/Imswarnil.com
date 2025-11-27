@@ -8,14 +8,8 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
-	{{!-- Custom title for page 404. --}}
-	{{#if (block "title")}}
-		<title>{{block "title"}}</title>
-
 	{{!-- Basic meta - advanced meta is output with {{ghost_head}} below --}}
-	{{else}}
-		<title>{{meta_title page=(t " (Page %)")}}</title>
-	{{/if}}
+	<title>{{meta_title page=(t " (Page %)")}}</title>
 
 	{{!-- Script for theme data --}}
 	{{> "theme-head-script"}}
@@ -88,13 +82,6 @@
 
 	{{!-- Custom. --}}
 	<link rel="stylesheet" type="text/css" href="{{asset "custom.css"}}">
-
-	{{!-- partials/adsense-loader.hbs --}}
-{{!-- Load AdSense only for non-members --}}
-     {{#unless @member}}
-       <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1234567890123456" crossorigin="anonymous"></script>
-     {{/unless}}
-
 
 	{{!-- This tag outputs all your advanced SEO meta, structured data, and other important settings, it should always be the last tag before the closing head tag --}}
 	{{ghost_head}}
@@ -245,12 +232,12 @@
 			{{!-- Footer. --}}
 			{{> "layout/footer-sidebar" navigation_aria_label=(t "Sidebar Secondary Navigation")}}
 		</aside>
+
 		{{!-- Content. --}}
-		<{{#is "home"}}div{{else}}article{{/is}} id="content" class="content {{post_class}}">
-		{{> "adsense" type="leaderboard"}}
+		<{{#is "home"}}div{{else}}article{{/is}} id="content" class="content{{#is "post"}} post{{/is}}">
 			{{{body}}}
-	     {{> "adsense" type="leaderboard" class="mb-4" }}
 		</{{#is "home"}}div{{else}}article{{/is}}>
+
 		{{!-- Footer. --}}
 		{{> "layout/footer"}}
 	</main>

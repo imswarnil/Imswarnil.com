@@ -1,91 +1,11 @@
-/* --- COURSE & LESSON STYLES --- */
+/**
+ * Custom CSS
+ *
+ * This file is for your custom styles.
+ * You can add any CSS rules here to customize the Ghost theme.
+ *
+ * Note: Changes made directly to this file may be overwritten during theme updates.
+ * It's recommended to use the Code Injection feature in Ghost for persistent customizations.
+ */
 
-/* Course Curriculum Accordion */
-.course-curriculum-list {
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-4);
-    margin-top: var(--spacing-6);
-}
-
-.course-module.kg-toggle-card {
-    background-color: var(--color-background-100);
-    border: 1px solid var(--color-border);
-    padding: 0;
-    overflow: hidden;
-}
-
-.course-module .kg-toggle-heading {
-    padding: var(--spacing-5) var(--spacing-6);
-    cursor: pointer;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.course-module .kg-toggle-heading:hover {
-    background-color: var(--color-background-200);
-}
-
-.course-module .kg-toggle-content {
-    border-top: 1px solid var(--color-border);
-    padding: 0;
-}
-
-/* Lesson List Items */
-.course-lesson-list {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-}
-
-.course-lesson-list li {
-    border-bottom: 1px solid var(--color-border);
-}
-
-.course-lesson-list li:last-child {
-    border-bottom: none;
-}
-
-.lesson-link {
-    display: flex;
-    align-items: center;
-    padding: var(--spacing-4) var(--spacing-6);
-    text-decoration: none;
-    color: var(--color-foreground);
-    transition: background 0.15s;
-    font-size: var(--font-small);
-}
-
-.lesson-link:hover {
-    background-color: var(--color-background-200);
-    color: var(--color-contrast);
-    text-decoration: none;
-}
-
-.lesson-icon {
-    margin-right: var(--spacing-4);
-    color: var(--color-secondary);
-    display: flex;
-    align-items: center;
-}
-
-.lesson-link:hover .lesson-icon {
-    color: var(--ghost-accent-color);
-}
-
-.lesson-icon svg {
-    width: 16px;
-    height: 16px;
-}
-
-.lesson-title {
-    font-weight: var(--font-weight-medium);
-    flex: 1;
-}
-
-.lesson-meta {
-    font-size: var(--font-x-small);
-    color: var(--color-secondary);
-    margin-left: var(--spacing-4);
-}
+/* Your custom CSS goes below this line */

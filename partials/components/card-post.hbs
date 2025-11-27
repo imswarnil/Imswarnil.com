@@ -20,43 +20,11 @@
 				</span>
 			{{/if}}
 
-
 			{{#has tag="#video"}}
-				<span class="card-post-icon" data-tippy-content="{{t "Video"}}">
+				<span class="card-post-icon" data-tippy-content="{{t "Video Post"}}">
 					{{> "icons/video"}}
 				</span>
 			{{/has}}
-
-            {{#has tag="#project"}}
-				<span class="card-post-icon" data-tippy-content="{{t "Project"}}">
-					{{> "icons/project"}}
-				</span>
-			{{/has}}
-
-          {{#has tag="#code"}}
-				<span class="card-post-icon" data-tippy-content="{{t "Code Snippet"}}">
-					{{> "icons/code"}}
-				</span>
-			{{/has}}
-
-            {{#has tag="#course"}}
-				<span class="card-post-icon" data-tippy-content="{{t "Course"}}">
-					{{> "icons/course"}}
-				</span>
-			{{/has}}
-
-           {{#has tag="#webseries"}}
-				<span class="card-post-icon" data-tippy-content="{{t "Web Series"}}">
-					{{> "icons/web-series"}}
-				</span>
-			{{/has}}
-
-            {{#has tag="#blog"}}
-				<span class="card-post-icon" data-tippy-content="{{t "Blog"}}">
-					{{> "icons/blog"}}
-				</span>
-			{{/has}}
-
 
 			{{#unless access}}
 				<span
@@ -149,7 +117,7 @@
 {{/inline}}
 
 {{!-- Card. --}}
-<article class="card card-post card-post-{{style}}{{class}}{{#if feature_image}} card-has-image{{/if}}{{#if authors}} card-has-author{{/if}} {{post_class}}">
+<article class="card card-post card-post-{{style}}{{class}}{{#if feature_image}} card-has-image{{/if}}{{#if authors}} card-has-author{{/if}}">
 	{{#match style "overlay"}}
 		{{> "card-post-image" reading_time=false}}
 	{{else match style "overlay-simple"}}

@@ -1,4 +1,3 @@
-
 {{!--
 	Get data from page with slug "home-hero" and handle different content scenarios.
 
@@ -22,7 +21,7 @@
 	{{/if}}
 {{/inline}}
 
-{{#get "pages" slug="about" limit="1" as |hero|}}
+{{#get "pages" slug="home-hero" limit="1" as |hero|}}
 	{{#foreach hero}}
 		{{#> "get-hero-excerpt"}}
 			{{#match title '(Untitled)'}}
@@ -35,4 +34,3 @@
 {{else}}
 	{{> @partial-block hide_title=true title=@site.title}}
 {{/get}}
-

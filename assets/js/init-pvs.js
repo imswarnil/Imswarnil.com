@@ -7,6 +7,9 @@ const { pvs } = window;
 if (pvs) {
 	pvs.initClipboard();
 	pvs.initDarkMode();
+	pvs.initLightbox({
+		imageSelector: '.post-media > .post-featured-image > picture',
+	});
 	pvs.initPopup();
 	pvs.initScrollbarWidth();
 	pvs.initPagination();
@@ -14,10 +17,6 @@ if (pvs) {
 	pvs.initDropdown();
 	pvs.initPricingDiscount();
 	pvs.initPricingUrlSync();
-	pvs.registerLightbox({
-		selector:
-			'.kg-gallery-container, .kg-image-card, .kg-gallery-image, .post-featured-image',
-	});
 	pvs.registerFeaturedVideo();
 	pvs.registerFeaturedVideoPreview();
 	pvs.registerTOC();

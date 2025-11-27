@@ -1,7 +1,7 @@
 {{#if @site.members_enabled}}
 	{{#unless @member}}
 		{{#if @custom.subscription_form_title}}
-			<form class="form-subscribe" data-members-form="subscribe" data-members-autoredirect="false">
+			<form class="form-subscribe" data-members-form="subscribe">
 				{{#if label}}
 					<label for="{{#if email_id}}{{email_id}}{{else}}subscribe-email{{/if}}">{{@custom.subscription_form_title}}</label>
 				{{/if}}

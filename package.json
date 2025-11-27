@@ -1,6 +1,6 @@
 {
 	"name": "aspect",
-	"version": "2.0.0",
+	"version": "1.8.1",
 	"description": "Aspect is a premium magazine Ghost theme with grid layout and functional sidebar.",
 	"keywords": [
 		"ghost",
@@ -223,7 +223,7 @@
 		"zippie": "^0.0.1"
 	},
 	"optionalDependencies": {
-		"pvs": "github:priority-vision/pvs#v2.3.0"
+		"pvs": "github:priority-vision/pvs#v2.1.1"
 	},
 	"engines": {
 		"ghost": ">=5.0.0"

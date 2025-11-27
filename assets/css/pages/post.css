@@ -25,6 +25,11 @@
 			background-color: var(--color-border);
 		}
 
+		/* Reset border-radius for opened lightbox. */
+		> [aria-expanded="true"] + picture {
+			border-radius: 0;
+		}
+
 		/* Set aspect ratio. */
 		img {
 			width: 100%;
