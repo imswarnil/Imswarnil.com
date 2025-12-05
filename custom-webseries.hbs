@@ -1,0 +1,189 @@
+{{!< default}}
+
+{{#post}}
+{{#contentFor "body-class"}} post-template-webseries{{/contentFor}}
+
+<article class="content post tag-hash-webseries page">
+
+    {{!-- CINEMATIC CSS --}}
+    <style>
+        .series-hero {
+            position: relative; overflow: hidden; 
+            border-radius: var(--radius-5); margin-top: var(--spacing-8);
+            background: #000; color: #fff; 
+            min-height: 500px; display: flex; align-items: center;
+            border: 1px solid var(--color-border);
+        }
+        .hero-bg {
+            position: absolute; inset: 0; opacity: 0.4; filter: blur(20px);
+            transform: scale(1.1); z-index: 0;
+        }
+        .hero-bg img { width: 100%; height: 100%; object-fit: cover; }
+        .hero-overlay {
+            position: absolute; inset: 0; z-index: 1;
+            background: linear-gradient(to right, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.6) 60%, transparent 100%);
+        }
+        .hero-content {
+            position: relative; z-index: 2; display: flex; gap: 40px; 
+            padding: var(--spacing-10); align-items: center; width: 100%;
+        }
+        .hero-poster {
+            width: 200px; aspect-ratio: 2/3; flex-shrink: 0;
+            border-radius: var(--radius-4); overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.2);
+        }
+        .hero-poster img { width: 100%; height: 100%; object-fit: cover; }
+        
+        .hero-title { 
+            font-family: var(--font-family-headings); font-size: 3.5rem; 
+            font-weight: 800; line-height: 1; color: #fff; margin-bottom: 15px;
+        }
+        .hero-meta { display: flex; gap: 15px; font-size: 0.9rem; opacity: 0.8; margin-bottom: 20px; }
+        .hero-desc { font-size: 1.1rem; line-height: 1.6; opacity: 0.9; margin-bottom: 30px; max-width: 600px; }
+        
+        /* Episode List */
+        .series-layout {
+            display: grid; grid-template-columns: 1fr 320px; gap: var(--layout--gap);
+            margin-top: var(--spacing-9);
+        }
+        .episode-card {
+            display: flex; align-items: center; gap: 20px; padding: 15px;
+            border: 1px solid var(--color-border); border-radius: var(--radius-3);
+            margin-bottom: 15px; text-decoration: none; background: var(--color-background);
+            transition: 0.2s;
+        }
+        .episode-card:hover { border-color: var(--color-contrast); transform: translateY(-2px); }
+        .ep-thumb {
+            width: 120px; aspect-ratio: 16/9; border-radius: var(--radius-2);
+            overflow: hidden; background: #000; flex-shrink: 0;
+        }
+        .ep-thumb img { width: 100%; height: 100%; object-fit: cover; }
+        .ep-info h3 { margin: 0 0 5px 0; font-size: 1.1rem; color: var(--color-contrast); }
+        .ep-meta { font-size: 0.8rem; color: var(--color-secondary); }
+
+        /* Sidebar */
+        .sidebar-card {
+            background: var(--color-background-100); padding: var(--spacing-7);
+            border-radius: var(--radius-4); border: 1px solid var(--color-border);
+        }
+
+        @media(max-width: 900px) {
+            .hero-content { flex-direction: column; text-align: center; }
+            .series-layout { grid-template-columns: 1fr; }
+        }
+    </style>
+
+    <div class="container-wide">
+        
+        {{!-- 1. CINEMATIC HERO --}}
+        <div class="series-hero">
+            <div class="hero-bg">
+                {{#if feature_image}}<img src="{{img_url feature_image size="xl"}}" alt="Background">{{/if}}
+            </div>
+            <div class="hero-overlay"></div>
+            
+            <div class="hero-content">
+                <div class="hero-poster">
+                    {{#if feature_image}}
+                        <img src="{{img_url feature_image size="l"}}" alt="{{title}}">
+                    {{else}}
+                         <div style="width:100%; height:100%; background:#222;"></div>
+                    {{/if}}
+                </div>
+                <div class="hero-text">
+                    <div style="text-transform:uppercase; font-weight:bold; font-size:0.8rem; color:#facc15; margin-bottom:10px;">
+                        {{#if primary_tag}}{{primary_tag.name}}{{else}}Original Series{{/if}}
+                    </div>
+                    <h1 class="hero-title">{{title}}</h1>
+                    <div class="hero-meta">
+                        <span>Season 1</span> &bull; <span>{{date format="YYYY"}}</span> &bull; <span>4K HDR</span>
+                    </div>
+                    <p class="hero-desc">{{custom_excerpt}}</p>
+                    <div style="display:flex; gap:15px; flex-wrap:wrap;">
+                        <a href="#episodes" class="button button-rounded" style="background:#fff; color:#000; border:none;">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" style="margin-right:6px;"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                            {{t "Start Watching"}}
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {{!-- 2. MAIN LAYOUT --}}
+        <div class="series-layout">
+            
+            {{!-- LEFT: Content & Episodes --}}
+            <div class="series-main">
+                
+                {{!-- Synopsis --}}
+                <div class="post-content">
+                    <h2 style="font-size:1.5rem; margin-bottom:20px;">{{t "Synopsis"}}</h2>
+                    {{content}}
+                </div>
+
+                {{!-- Ad Slot --}}
+                <div class="container-wide post-ad post-ad--in-article" style="margin: 40px 0;">
+                    {{> "adsense" type="in-article" }}
+                </div>
+
+                {{!-- Episode List --}}
+                <div id="episodes" style="margin-top:50px;">
+                    <h2 style="font-size:1.5rem; border-bottom:1px solid var(--color-border); padding-bottom:15px; margin-bottom:25px;">
+                        {{t "Episodes"}}
+                    </h2>
+
+                    {{#if primary_tag}}
+                        {{#get "posts" filter=(concat "tags:hash-episode+tags:" primary_tag.slug) order="published_at asc"}}
+                            {{#foreach posts}}
+                            <a href="{{url}}" class="episode-card">
+                                <span style="font-size:2rem; font-weight:800; color:var(--color-border); width:40px; text-align:center;">{{@number}}</span>
+                                <div class="ep-thumb">
+                                    {{#if feature_image}}<img src="{{img_url feature_image size="s"}}" alt="{{title}}">{{/if}}
+                                </div>
+                                <div class="ep-info">
+                                    <h3>{{title}}</h3>
+                                    <div class="ep-meta">{{reading_time}} &bull; {{date format="MMM D, YYYY"}}</div>
+                                    <p style="font-size:0.9rem; color:var(--color-secondary); margin-top:5px; line-height:1.4;">{{excerpt words="20"}}</p>
+                                </div>
+                                <div style="background:var(--color-background-200); padding:8px; border-radius:50%;">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                                </div>
+                            </a>
+                            {{/foreach}}
+                        {{/get}}
+                    {{/if}}
+                </div>
+
+            </div>
+
+            {{!-- RIGHT: Sidebar --}}
+            <aside class="series-sidebar">
+                <div style="position:sticky; top:100px;">
+                    <div class="sidebar-card">
+                        <h3 style="font-size:1rem; text-transform:uppercase; margin-bottom:20px; color:var(--color-secondary);">{{t "Cast & Crew"}}</h3>
+                        <div style="display:flex; flex-direction:column; gap:15px;">
+                            {{#foreach authors}}
+                                <div style="display:flex; align-items:center; gap:12px;">
+                                    <a href="{{url}}" class="avatar">
+                                        {{#if profile_image}}<img src="{{img_url profile_image}}" alt="{{name}}">{{else}}<span class="avatar">{{name.[0]}}</span>{{/if}}
+                                    </a>
+                                    <div>
+                                        <strong style="display:block; font-size:0.9rem;">{{name}}</strong>
+                                        <span style="font-size:0.8rem; color:var(--color-secondary);">Creator</span>
+                                    </div>
+                                </div>
+                            {{/foreach}}
+                        </div>
+                    </div>
+
+                    <div style="margin-top:30px;">
+                         {{> "adsense" type="square" }}
+                    </div>
+                </div>
+            </aside>
+
+        </div>
+    </div>
+
+</article>
+{{/post}}
