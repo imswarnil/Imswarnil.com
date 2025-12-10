@@ -1,0 +1,308 @@
+{{!< default}}
+{{!-- Custom template: custom-video.hbs for video-first posts --}}
+
+{{#post}}
+
+{{!-- BODY CLASSES --}}
+{{#contentFor "body-class"}}
+	post-template-default post-template-video
+	{{#> "with-sidebar"}} post-has-sidebar{{/"with-sidebar"}}
+	{{#unless access}} post-locked{{/unless}}
+{{/contentFor}}
+
+<style>
+/* ===========================
+   VIDEO POST TEMPLATE STYLES
+   =========================== */
+
+.post-template-video .post-header {
+	margin-top: var(--spacing-8);
+	margin-bottom: var(--spacing-6);
+}
+
+/* Layout wrapper reuses your grid style */
+.post-template-video .post-content-grid {
+	display: grid;
+	grid-template-columns: minmax(0, 1.7fr) minmax(0, 360px);
+	gap: var(--layout--gap);
+	align-items: flex-start;
+	margin-top: var(--spacing-7);
+	padding-inline: var(--layout--padding);
+	max-width: var(--container-wide--width);
+	margin-inline: auto;
+}
+
+/* MOBILE: stack layout */
+@media (max-width: 900px) {
+	.post-template-video .post-content-grid {
+		grid-template-columns: minmax(0, 1fr);
+	}
+}
+
+/* VIDEO HERO
+   We assume the first Koenig video/embed card is the hero.
+   You keep the video card as the first block in the editor. */
+
+.post-template-video .post-content {
+	font-family: var(--font-family-body);
+	color: var(--color-foreground);
+}
+
+/* Target the first embed/video card inside content */
+.post-template-video .post-content > .kg-card:first-of-type,
+.post-template-video .post-content > .kg-embed-card:first-of-type,
+.post-template-video .post-content > .kg-video-card:first-of-type {
+	margin-bottom: var(--spacing-7);
+	background: var(--color-background-100);
+	border-radius: var(--radius-4);
+	border: 1px solid var(--color-border);
+	overflow: hidden;
+}
+
+/* Make iframe/video nicely responsive inside hero */
+.post-template-video .post-content > .kg-card:first-of-type iframe,
+.post-template-video .post-content > .kg-card:first-of-type video,
+.post-template-video .post-content > .kg-embed-card:first-of-type iframe,
+.post-template-video .post-content > .kg-video-card:first-of-type video {
+	display: block;
+	width: 100%;
+	height: auto;
+	aspect-ratio: 16 / 9;
+}
+
+/* Content below video */
+.post-template-video .post-content > * + * {
+	margin-top: var(--spacing-5);
+}
+
+/* POST META tweaks */
+.post-template-video .post-header-info {
+	gap: var(--spacing-3);
+}
+
+.post-template-video .post-title {
+	font-family: var(--font-family-headings);
+	font-weight: 700;
+	font-size: 2.1rem;
+	line-height: 1.15;
+	margin-bottom: var(--spacing-2);
+}
+
+@media (max-width: 720px) {
+	.post-template-video .post-title {
+		font-size: 1.7rem;
+	}
+}
+
+.post-template-video .post-meta {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--spacing-2);
+	font-size: 0.9rem;
+	color: var(--color-foreground-muted);
+}
+
+/* TAGS */
+.post-template-video .post-tags {
+	margin-bottom: var(--spacing-4);
+}
+
+/* TIMESTAMPS TABLE
+   In the editor, just add a Markdown table under the video.
+   Optionally add a heading like "Video timestamps" above it. */
+
+.post-template-video .post-content table {
+	width: 100%;
+	border-collapse: collapse;
+	margin-top: var(--spacing-4);
+	margin-bottom: var(--spacing-6);
+	font-size: 0.9rem;
+	background: var(--color-background-100);
+	border-radius: var(--radius-3);
+	overflow: hidden;
+}
+
+.post-template-video .post-content table th,
+.post-template-video .post-content table td {
+	padding: 0.75rem 1rem;
+	border-bottom: 1px solid var(--color-border);
+	text-align: left;
+}
+
+.post-template-video .post-content table thead {
+	background: var(--color-background-200);
+	font-weight: 600;
+}
+
+.post-template-video .post-content table tr:last-child td {
+	border-bottom: none;
+}
+
+/* Make timestamp column look like pills */
+.post-template-video .post-content table td:first-child {
+	white-space: nowrap;
+	font-variant-numeric: tabular-nums;
+}
+
+.post-template-video .post-content table td:first-child code,
+.post-template-video .post-content table td:first-child span {
+	display: inline-block;
+	padding: 0.2rem 0.5rem;
+	border-radius: 999px;
+	border: 1px solid var(--color-border);
+	background: var(--color-background-200);
+	font-size: 0.82rem;
+}
+
+/* SIDEBAR */
+.post-template-video .post-sidebar {
+	position: relative;
+}
+
+.post-template-video .post-sidebar-sticky {
+	position: sticky;
+	top: var(--layout--navbar-height, 5rem);
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-6);
+}
+
+/* Mobile: sidebar below content */
+@media (max-width: 900px) {
+	.post-template-video .post-sidebar-sticky {
+		position: static;
+	}
+}
+
+/* BELOW-CONTENT AD */
+.post-template-video .post-ad--below-content {
+	margin-top: var(--spacing-9);
+	margin-bottom: var(--spacing-9);
+	padding-inline: var(--layout--padding);
+}
+
+/* Tiny polish for comments / subscription sections */
+.post-template-video .section-subscription,
+.post-template-video .post-comments {
+	margin-top: var(--spacing-8);
+}
+
+/* Ensure media above content wrapper doesn’t double-hero.
+   For video posts we rely on the content video card, so we
+   can hide feature image if you don’t want it. Optional: */
+
+.post-template-video .post-media {
+	display: none;
+}
+</style>
+
+<header class="post-header container-wide">
+	<div class="post-header-info">
+		<h1 class="post-title">{{title}}</h1>
+		<ul class="post-meta">
+			{{#if authors}}
+				{{> "post/meta-author"}}
+				<li class="separator">&bull;</li>
+			{{/if}}
+			<li>
+				<time class="post-meta-date" datetime="{{date format="YYYY-MM-DD"}}">
+					{{date format="MMMM D, YYYY"}}
+				</time>
+			</li>
+			{{#if reading_time}}
+				<li class="separator">&bull;</li>
+				<li>
+					<span class="post-meta-time">
+						{{reading_time minute=(t "1 min read") minutes=(t "% min read")}}
+					</span>
+				</li>
+			{{/if}}
+		</ul>
+	</div>
+
+	<div class="post-header-buttons">
+		{{> "post/button-comments"}}
+		{{> "post/button-share"}}
+	</div>
+</header>
+
+{{!-- MAIN CONTENT AREA --}}
+{{#if html}}
+	{{#unless hide_wrapper}}
+	<div class="post-content-grid">
+	{{/unless}}
+
+		{{!-- Tags --}}
+		{{#unless hide_tags}}
+			{{> "post/tags" class="container post-tags"}}
+		{{/unless}}
+
+		<div class="post-content-wrapper">
+			{{!-- TOC (when no sidebar only) --}}
+			{{#> "without-sidebar"}}
+				{{^has tag="#hide-toc"}}
+					{{> "post/toc" class="toc-content container"}}
+				{{/has}}
+			{{/"without-sidebar"}}
+
+			{{!-- CONTENT: first block = video hero card (visually) --}}
+			<div class="post-content{{#unless access}} post-content-teaser{{/unless}}">
+				{{{html}}}
+			</div>
+
+			{{!-- CTA for members --}}
+			{{#unless access}}
+				{{> "post/content-cta"}}
+			{{/unless}}
+
+			{{!-- Author card (shown on small screens) --}}
+			{{> "post/card-author"}}
+		</div>
+
+		{{!-- SIDEBAR --}}
+		{{#> "with-sidebar"}}
+			{{> "adsense" type="rectangle"}}
+
+			<aside class="post-sidebar">
+				{{!-- If you want course-style lessons aside on video posts, keep this. --}}
+				{{> "course/lesson-aside"}}
+
+				{{!-- Author card (hidden on small screens via CSS in base theme) --}}
+				{{> "post/card-author"}}
+
+				<div class="post-sidebar-sticky toc-scroll">
+					{{^has tag="#hide-toc"}}
+						{{> "post/toc"}}
+					{{/has}}
+
+					{{> "form-subscribe" label="true"}}
+
+					{{> "adsense" type="rectangle"}}
+				</div>
+			</aside>
+		{{/"with-sidebar"}}
+
+	{{#unless hide_wrapper}}
+	</div>
+	{{/unless}}
+{{else}}
+	{{#unless access}}
+		{{> "post/content-cta"}}
+	{{/unless}}
+{{/if}}
+
+{{!-- AD: below content, before read-next --}}
+<div class="container-wide post-ad post-ad--below-content">
+	{{> "adsense" type="rectangle"}}
+</div>
+
+{{!-- Read next --}}
+{{> "post/read-next"}}
+
+{{!-- Subscription (mobile) --}}
+{{> "sections/subscription"}}
+
+{{!-- Comments --}}
+{{> "post/comments"}}
+
+{{/post}}

@@ -268,85 +268,6 @@
         transform: translate(-50%, -50%) scale(1.08);
     }
 
-    /* WHAT YOU WILL LEARN */
-    .learning-card {
-        border: 1px solid var(--color-border);
-        border-radius: var(--radius-4);
-        padding: var(--spacing-8);
-        background: var(--color-background);
-        margin-bottom: var(--spacing-9);
-    }
-
-    .learning-grid {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0,1fr));
-        gap: var(--spacing-5);
-    }
-
-    .learning-item {
-        display: flex;
-        gap: 12px;
-        align-items: flex-start;
-        font-size: var(--font-small);
-        line-height: 1.5;
-    }
-
-    .learning-item svg {
-        color: var(--color-success);
-        flex-shrink: 0;
-        width: 20px;
-        height: 20px;
-        margin-top: 2px;
-    }
-
-    /* HIGHLIGHTS */
-    .course-feature-section {
-        margin-bottom: var(--spacing-10);
-    }
-
-    .course-feature-grid {
-        display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: var(--spacing-5);
-    }
-
-    .course-feature-card {
-        display: flex;
-        gap: 0.75rem;
-        align-items: flex-start;
-        padding: 0.9rem 1rem;
-        border-radius: var(--radius-4);
-        background: var(--color-background-100);
-        border: 1px solid var(--color-border);
-    }
-
-    .course-feature-icon {
-        width: 32px;
-        height: 32px;
-        border-radius: 999px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.4rem;
-        line-height: 1;
-        background: #ffe5e5;
-        color: #e53935;
-        flex-shrink: 0;
-    }
-
-    .course-feature-title {
-        font-size: 0.95rem;
-        font-weight: var(--font-weight-medium);
-        color: var(--color-contrast);
-        margin: 0 0 0.15rem;
-    }
-
-    .course-feature-text {
-        margin: 0;
-        font-size: 0.86rem;
-        color: var(--color-foreground);
-    }
-
     /* CURRICULUM */
     .curriculum-header {
         display: flex;
@@ -624,72 +545,6 @@
         letter-spacing: 0.08em;
     }
 
-    /* TESTIMONIALS */
-    .course-testimonials {
-        margin-top: var(--spacing-10);
-    }
-
-    .course-testimonials-heading {
-        font-size: 1.4rem;
-        font-weight: var(--font-weight-bold);
-        color: var(--color-contrast);
-        text-align: center;
-        margin-bottom: var(--spacing-6);
-    }
-
-    .course-testimonial-grid {
-        display: grid;
-        grid-template-columns: repeat(3, minmax(0,1fr));
-        gap: var(--spacing-6);
-    }
-
-    .course-testimonial-card {
-        padding: var(--spacing-6);
-        border-radius: var(--radius-4);
-        border: 1px solid var(--color-border);
-        background: var(--color-background-100);
-        box-shadow: 0 10px 40px -16px rgba(0,0,0,0.08);
-        display: flex;
-        flex-direction: column;
-        gap: 0.75rem;
-    }
-
-    .course-testimonial-rating {
-        font-size: 1rem;
-        color: #facc15;
-    }
-
-    .course-testimonial-quote {
-        font-size: 0.95rem;
-        color: var(--color-foreground);
-        margin: 0;
-    }
-
-    .course-testimonial-user {
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
-        margin-top: 0.5rem;
-    }
-
-    .course-testimonial-avatar img {
-        width: 44px;
-        height: 44px;
-        border-radius: 999px;
-        border: 2px solid var(--color-border);
-        object-fit: cover;
-        display: block;
-    }
-
-    .course-testimonial-meta {
-        font-size: 0.8rem;
-        color: var(--color-secondary);
-    }
-
-    .course-testimonial-meta strong {
-        display: block;
-        color: var(--color-contrast);
-    }
 
     /* DESKTOP: make cards tighter */
     @media (min-width: 768px) {
@@ -731,10 +586,6 @@
             top: auto;
         }
 
-        .learning-grid {
-            grid-template-columns: minmax(0,1fr);
-        }
-
         .course-feature-grid {
             grid-template-columns: repeat(2, minmax(0,1fr));
         }
@@ -743,9 +594,7 @@
             grid-template-columns: repeat(2, minmax(0,1fr));
         }
 
-        .course-testimonial-grid {
-            grid-template-columns: repeat(2, minmax(0,1fr));
-        }
+       
     }
 
     /* MOBILE */
@@ -770,8 +619,7 @@
         }
 
         .course-feature-grid,
-        .course-meta-grid,
-        .course-testimonial-grid {
+        .course-meta-grid {
             grid-template-columns: minmax(0,1fr);
         }
 
@@ -998,76 +846,20 @@
     <!-- MAIN GRID -->
     <div class="course-layout">
 
+
         <!-- LEFT -->
-        <div class="course-main">
+        <div class="course-main"> <div id="overview" class="course-section">
 
-            <!-- WHAT YOU WILL LEARN -->
-            <div class="learning-card">
-                <h3 class="course-heading" style="font-size:1.35rem;">{{t "What you will learn"}}</h3>
+                <div class="course-overview">
+                    <div class="post-content{{#unless access}} post-content-teaser{{/unless}}">
+                        {{{html}}}
+                    </div>
 
-                <div class="learning-grid">
-                    <div class="learning-item">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
-                            <polyline points="20 6 9 17 4 12"></polyline>
-                        </svg>
-                        <span>{{t "Core foundations and key concepts for this course."}}</span>
-                    </div>
-                    <div class="learning-item">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
-                            <polyline points="20 6 9 17 4 12"></polyline>
-                        </svg>
-                        <span>{{t "Practical, real-world workflows and examples."}}</span>
-                    </div>
-                    <div class="learning-item">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
-                            <polyline points="20 6 9 17 4 12"></polyline>
-                        </svg>
-                        <span>{{t "How to apply these skills to your own projects."}}</span>
-                    </div>
-                    <div class="learning-item">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
-                            <polyline points="20 6 9 17 4 12"></polyline>
-                        </svg>
-                        <span>{{t "Patterns, tips, and best practices you can reuse at work."}}</span>
-                    </div>
+                    {{#unless access}}
+                        {{> "post/content-cta"}}
+                    {{/unless}}
                 </div>
             </div>
-
-            <!-- HIGHLIGHTS -->
-            <section class="course-feature-section" aria-label="Course highlights">
-                <div class="course-feature-grid">
-                    <article class="course-feature-card">
-                        <div class="course-feature-icon">🛠️</div>
-                        <div>
-                            <h3 class="course-feature-title">{{t "Hands-on learning"}}</h3>
-                            <p class="course-feature-text">
-                                {{t "Build dashboards, queries and use-cases step-by-step with guided practice."}}
-                            </p>
-                        </div>
-                    </article>
-
-                    <article class="course-feature-card">
-                        <div class="course-feature-icon">🗣️</div>
-                        <div>
-                            <h3 class="course-feature-title">{{t "Simple English"}}</h3>
-                            <p class="course-feature-text">
-                                {{t "Explained in clear, friendly English so you never feel lost."}}
-                            </p>
-                        </div>
-                    </article>
-
-                    <article class="course-feature-card">
-                        <div class="course-feature-icon">🎁</div>
-                        <div>
-                            <h3 class="course-feature-title">{{t "Free preview"}}</h3>
-                            <p class="course-feature-text">
-                                {{t "Try selected lessons for free before you fully commit."}}
-                            </p>
-                        </div>
-                    </article>
-                </div>
-            </section>
-
             <!-- CURRICULUM -->
             <div id="curriculum" class="course-section">
                 <div class="curriculum-header">
@@ -1217,42 +1009,6 @@
             </div>
 
             <!-- OVERVIEW -->
-            <div id="overview" class="course-section">
-                <h2 class="course-heading">{{t "About this course"}}</h2>
-
-                <div class="course-meta-grid">
-                    <div class="course-meta-card">
-                        <div class="course-meta-card-title">{{t "Who is this for?"}}</div>
-                        <div class="course-meta-card-body">
-                            {{t "Beginners and working professionals who want to get productive with CRM Analytics fast."}}
-                        </div>
-                    </div>
-
-                    <div class="course-meta-card">
-                        <div class="course-meta-card-title">{{t "Prerequisites"}}</div>
-                        <div class="course-meta-card-body">
-                            {{t "Basic Salesforce/CRM knowledge is helpful, but not mandatory."}}
-                        </div>
-                    </div>
-
-                    <div class="course-meta-card">
-                        <div class="course-meta-card-title">{{t "What you will build"}}</div>
-                        <div class="course-meta-card-body">
-                            {{t "Realistic dashboards, lenses, and queries that look like client projects."}}
-                        </div>
-                    </div>
-                </div>
-
-                <div class="course-overview">
-                    <div class="post-content{{#unless access}} post-content-teaser{{/unless}}">
-                        {{{html}}}
-                    </div>
-
-                    {{#unless access}}
-                        {{> "post/content-cta"}}
-                    {{/unless}}
-                </div>
-            </div>
         </div>
 
         <!-- SIDEBAR -->
@@ -1373,64 +1129,6 @@
         </aside>
 
     </div>
-
-    <!-- TESTIMONIALS -->
-    <section class="course-testimonials">
-        <h2 class="course-testimonials-heading">
-            {{t "What learners are saying"}}
-        </h2>
-
-        <div class="course-testimonial-grid">
-            <article class="course-testimonial-card">
-                <div class="course-testimonial-rating">★★★★★</div>
-                <p class="course-testimonial-quote">
-                    {{t "I went from zero to building CRM Analytics dashboards at work in one week."}}
-                </p>
-                <div class="course-testimonial-user">
-                    <div class="course-testimonial-avatar">
-                        <img src="https://www.gravatar.com/avatar/default?s=100&d=identicon" alt="Learner 1">
-                    </div>
-                    <div class="course-testimonial-meta">
-                        <strong>Amit</strong>
-                        <span>{{t "Salesforce Developer"}}</span>
-                    </div>
-                </div>
-            </article>
-
-            <article class="course-testimonial-card">
-                <div class="course-testimonial-rating">★★★★★</div>
-                <p class="course-testimonial-quote">
-                    {{t "Short, clear lessons in simple English. Perfect for busy working professionals."}}
-                </p>
-                <div class="course-testimonial-user">
-                    <div class="course-testimonial-avatar">
-                        <img src="https://www.gravatar.com/avatar/default?s=100&d=identicon" alt="Learner 2">
-                    </div>
-                    <div class="course-testimonial-meta">
-                        <strong>Sneha</strong>
-                        <span>{{t "CRM Analyst"}}</span>
-                    </div>
-                </div>
-            </article>
-
-            <article class="course-testimonial-card">
-                <div class="course-testimonial-rating">★★★★★</div>
-                <p class="course-testimonial-quote">
-                    {{t "Examples feel exactly like real client projects. This is not just theory."}}
-                </p>
-                <div class="course-testimonial-user">
-                    <div class="course-testimonial-avatar">
-                        <img src="https://www.gravatar.com/avatar/default?s=100&d=identicon" alt="Learner 3">
-                    </div>
-                    <div class="course-testimonial-meta">
-                        <strong>Rahul</strong>
-                        <span>{{t "Consultant"}}</span>
-                    </div>
-                </div>
-            </article>
-        </div>
-    </section>
-
 </div>
 
 {{> "sections/subscription"}}
