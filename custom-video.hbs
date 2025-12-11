@@ -1,66 +1,617 @@
 {{!< default}}
-{{!-- The tag above means: insert everything in this file into the body of the default.hbs template --}}
+{{!-- YouTube-style video post layout - improved version --}}
 
 {{#post}}
-{{!-- Everything inside the #post block pulls data from the page --}}
 
-{{#contentFor "body-class"}} post-template-default{{#> "with-sidebar"}} post-has-sidebar{{/"with-sidebar"}}{{#unless access}} post-locked{{/unless}}{{/contentFor}}
+{{#contentFor "body-class"}}
+	post-template-default post-template-video
+	{{#unless access}} post-locked{{/unless}}
+{{/contentFor}}
 
-<header class="post-header container-wide">
-	<div class="post-header-info">
-		<h1 class="post-title">{{title}}</h1>
-		<ul class="post-meta">
-			{{#if authors}}
-				{{> "post/meta-author"}}
+<article id="content" class="content post post-video {{post_class}}">
 
-				<li class="separator">&bull;</li>
-			{{/if}}
-			<li>
-				<time class="post-meta-date" datetime="{{date format="YYYY-MM-DD"}}">{{date format="MMMM D, YYYY"}}</time>
-			</li>
-			{{#if reading_time}}
-			<li class="separator">&bull;</li>
-			<li>
-				<span class="post-meta-time">{{reading_time minute=(t "1 min read") minutes=(t "% min read")}}</span>
-			</li>
-			{{/if}}
-		</ul>
+	<style>
+		/* ============================================
+		   LOCAL VARS / TOKENS FOR VIDEO TEMPLATE
+		============================================ */
+		.post-video-wrapper {
+			--pv-gap: min(max(2rem, 3vw), 3rem);
+			--pv-sidebar-width: 340px;
+			--pv-radius: var(--radius-4, 18px);
+			--pv-border: var(--color-border, rgba(0,0,0,0.08));
+			--pv-bg-soft: var(--color-background-100, #f7f7f7);
+			--pv-meta-muted: var(--color-foreground-muted, #777);
+			--pv-sticky-offset: calc( var(--navbar-height, 64px) + 1.5rem );
+		}
+
+		.post-template-video {
+			font-family: var(--font-family-body);
+			color: var(--color-foreground);
+		}
+
+		.post-video-wrapper {
+			max-width: var(--container-wide--width);
+			margin: 0 auto var(--spacing-10);
+			padding-inline: var(--layout--padding);
+		}
+
+		/* ============================================
+		   HEADER (REUSED FEEL, VIDEO-SPECIFIC LAYOUT)
+		============================================ */
+		.post-video-header {
+			margin-top: var(--spacing-7);
+			margin-bottom: var(--spacing-3);
+		}
+
+		.post-video-header-inner {
+			display: flex;
+			align-items: flex-start;
+			justify-content: space-between;
+			gap: var(--spacing-4);
+		}
+
+		.post-video-header-left {
+			min-width: 0;
+		}
+
+		.post-video-header-right {
+			display: flex;
+			align-items: center;
+			gap: var(--spacing-2);
+			flex-wrap: wrap;
+		}
+
+		.post-video-header .post-title {
+			margin-bottom: var(--spacing-2);
+		}
+
+		.post-video-header .post-meta {
+			margin: 0;
+		}
+
+		.post-video-header .post-meta-date,
+		.post-video-header .post-meta-time {
+			color: var(--pv-meta-muted);
+		}
+
+		@media (max-width: 768px) {
+			.post-video-header-inner {
+				flex-direction: column;
+				align-items: flex-start;
+			}
+		}
+
+		/* ============================================
+		   MAIN LAYOUT – LIKE YOUTUBE
+		   LEFT: VIDEO FOCUS
+		   RIGHT: "UP NEXT" SIDEBAR (STICKY)
+		============================================ */
+		.post-video-layout {
+			display: grid;
+			grid-template-columns: minmax(0, 3fr) minmax(0, var(--pv-sidebar-width));
+			gap: var(--pv-gap);
+			margin-top: var(--spacing-3);
+			align-items: flex-start;
+		}
+
+		@media (max-width: 1100px) {
+			.post-video-layout {
+				grid-template-columns: minmax(0, 2.5fr) minmax(0, 1.1fr);
+			}
+		}
+
+		@media (max-width: 900px) {
+			.post-video-layout {
+				grid-template-columns: minmax(0, 1fr);
+			}
+		}
+
+		.post-video-main {
+			min-width: 0;
+		}
+
+		.post-video-sidebar {
+			min-width: 0;
+			position: relative;
+		}
+
+		@media (min-width: 901px) {
+			.post-video-sidebar-inner {
+				position: sticky;
+				top: var(--pv-sticky-offset);
+			}
+		}
+
+		/* ============================================
+		   VIDEO PLAYER – HARD 16:9 + CENTERED
+		============================================ */
+		.post-video-player {
+			border-radius: var(--pv-radius);
+			border: 1px solid var(--pv-border);
+			background: var(--pv-bg-soft);
+			overflow: hidden;
+		}
+
+		/* 16:9 via padding hack so whatever is inside scales nicely */
+		.post-video-player-inner {
+			position: relative;
+			width: 100%;
+			padding-top: 56.25%; /* 16:9 */
+		}
+
+		.post-video-player-inner > * {
+			position: absolute;
+			inset: 0;
+			width: 100%;
+			height: 100%;
+		}
+
+		.post-video-player-inner iframe,
+		.post-video-player-inner video,
+		.post-video-player-inner img {
+			width: 100%;
+			height: 100%;
+			display: block;
+			object-fit: cover;
+		}
+
+		/* ============================================
+		   META BAR UNDER VIDEO
+		============================================ */
+		.post-video-meta-shell {
+			margin-top: var(--spacing-3);
+			padding: var(--spacing-3);
+			border-radius: var(--pv-radius);
+			border: 1px solid var(--pv-border);
+			background: var(--color-background-100);
+		}
+
+		.post-video-meta-bar {
+			display: flex;
+			flex-wrap: wrap;
+			align-items: center;
+			justify-content: space-between;
+			gap: var(--spacing-3);
+		}
+
+		.post-video-meta-left {
+			display: flex;
+			flex-wrap: wrap;
+			align-items: center;
+			column-gap: var(--spacing-2);
+			row-gap: var(--spacing-1);
+			font-size: 0.9rem;
+			color: var(--pv-meta-muted);
+		}
+
+		.post-video-meta-separator {
+			opacity: 0.6;
+		}
+
+		.post-video-meta-tags {
+			display: inline-flex;
+			flex-wrap: wrap;
+			gap: var(--spacing-1);
+			margin-left: var(--spacing-2);
+		}
+
+		.post-video-meta-tag {
+			border-radius: 999px;
+			border: 1px solid var(--pv-border);
+			background: var(--color-background-100);
+			padding: 0.15rem 0.6rem;
+			font-size: 0.75rem;
+			text-transform: uppercase;
+			letter-spacing: 0.08em;
+		}
+
+		.post-video-meta-right {
+			display: flex;
+			align-items: center;
+			flex-wrap: wrap;
+			gap: var(--spacing-2);
+		}
+
+		.post-video-meta-right .button {
+			font-size: 0.85rem;
+			white-space: nowrap;
+		}
+
+		/* "Channel" row – author avatar + name + subscribe */
+		.post-video-channel-row {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			gap: var(--spacing-3);
+			margin-top: var(--spacing-3);
+		}
+
+		.post-video-channel-left {
+			display: flex;
+			align-items: center;
+			gap: var(--spacing-2);
+			min-width: 0;
+		}
+
+		.post-video-channel-avatar {
+			flex-shrink: 0;
+		}
+
+		.post-video-channel-meta {
+			display: flex;
+			flex-direction: column;
+			gap: 0.1rem;
+			min-width: 0;
+		}
+
+		.post-video-channel-name {
+			font-weight: 600;
+			font-size: 0.95rem;
+		}
+
+		.post-video-channel-subtext {
+			font-size: 0.8rem;
+			color: var(--pv-meta-muted);
+		}
+
+		.post-video-channel-right .button {
+			font-size: 0.85rem;
+			font-weight: 600;
+			text-transform: uppercase;
+			letter-spacing: 0.08em;
+		}
+
+		@media (max-width: 640px) {
+			.post-video-meta-shell {
+				padding: var(--spacing-2);
+			}
+
+			.post-video-channel-row {
+				flex-direction: column;
+				align-items: flex-start;
+			}
+		}
+
+		/* ============================================
+		   AD BELOW PLAYER
+		============================================ */
+		.post-video-ad {
+			margin-top: var(--spacing-4);
+			margin-bottom: var(--spacing-3);
+		}
+
+		/* ============================================
+		   DESCRIPTION / CONTENT
+		============================================ */
+		.post-video-content {
+			margin-top: var(--spacing-3);
+		}
+
+		.post-video-content .post-content {
+			margin: 0;
+		}
+
+		.post-video-content .post-content > * + * {
+			margin-top: var(--spacing-3);
+		}
+
+		/* Timestamps table or any table inside content */
+		.post-video-content .post-content table {
+			width: 100%;
+			border-collapse: collapse;
+			border-radius: var(--radius-3);
+			border: 1px solid var(--pv-border);
+			background: var(--color-background-100);
+			overflow: hidden;
+			font-size: 0.9rem;
+		}
+
+		.post-video-content .post-content th,
+		.post-video-content .post-content td {
+			padding: 0.75rem 1rem;
+			border-bottom: 1px solid var(--pv-border);
+			text-align: left;
+		}
+
+		.post-video-content .post-content tr:last-child td {
+			border-bottom: none;
+		}
+
+		@media (max-width: 600px) {
+			.post-video-content .post-content th,
+			.post-video-content .post-content td {
+				padding-inline: 0.6rem;
+			}
+		}
+
+		/* ============================================
+		   SIDEBAR – "UP NEXT"
+		============================================ */
+		.post-video-sidebar-header {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			margin-bottom: var(--spacing-2);
+		}
+
+		.post-video-sidebar-title {
+			font-size: 0.9rem;
+			font-weight: 600;
+			text-transform: uppercase;
+			letter-spacing: 0.14em;
+			color: var(--pv-meta-muted);
+		}
+
+		.post-video-sidebar-list {
+			list-style: none;
+			margin: 0;
+			padding: 0;
+			display: flex;
+			flex-direction: column;
+			row-gap: var(--spacing-2);
+		}
+
+		.post-video-sidebar-item a {
+			display: grid;
+			grid-template-columns: 150px minmax(0, 1fr);
+			gap: var(--spacing-2);
+			text-decoration: none;
+			color: inherit;
+			align-items: center;
+		}
+
+		@media (max-width: 1200px) {
+			.post-video-sidebar-item a {
+				grid-template-columns: 140px minmax(0, 1fr);
+			}
+		}
+
+		@media (max-width: 900px) {
+			.post-video-sidebar-item a {
+				grid-template-columns: 150px minmax(0, 1fr);
+			}
+		}
+
+		.post-video-sidebar-thumb {
+			position: relative;
+			border-radius: var(--radius-2);
+			border: 1px solid var(--pv-border);
+			background: var(--pv-bg-soft);
+			overflow: hidden;
+			aspect-ratio: 16 / 9;
+		}
+
+		.post-video-sidebar-thumb img {
+			width: 100%;
+			height: 100%;
+			display: block;
+			object-fit: cover;
+		}
+
+		.post-video-sidebar-info {
+			display: flex;
+			flex-direction: column;
+			row-gap: 0.25rem;
+			min-width: 0;
+		}
+
+		.post-video-sidebar-title-text {
+			font-size: 0.9rem;
+			font-weight: 600;
+			line-height: 1.3;
+			display: -webkit-box;
+			-webkit-line-clamp: 2;
+			-webkit-box-orient: vertical;
+			overflow: hidden;
+		}
+
+		.post-video-sidebar-meta {
+			font-size: 0.78rem;
+			color: var(--pv-meta-muted);
+			display: flex;
+			flex-direction: column;
+			row-gap: 0.1rem;
+		}
+
+		.post-video-sidebar-item a:hover .post-video-sidebar-title-text {
+			text-decoration: underline;
+		}
+
+		/* ============================================
+		   BELOW CONTENT: AD + READ NEXT + SUB + COMMENTS
+		============================================ */
+		.post-video-below-content {
+			max-width: var(--container-wide--width);
+			margin: var(--spacing-8) auto var(--spacing-6);
+			padding-inline: var(--layout--padding);
+		}
+
+		.post-video-below-content .post-ad {
+			margin-bottom: var(--spacing-5);
+		}
+	</style>
+
+	<div class="post-video-wrapper">
+
+		{{!-- HEADER --}}
+		<header class="post-video-header">
+			<div class="post-video-header-inner">
+				<div class="post-video-header-left">
+					<div class="post-header-info">
+						<h1 class="post-title">{{title}}</h1>
+						<ul class="post-meta">
+							{{#if authors}}
+								{{> "post/meta-author"}}
+								<li class="separator">&bull;</li>
+							{{/if}}
+							<li>
+								<time class="post-meta-date" datetime="{{date format="YYYY-MM-DD"}}">
+									{{date format="MMMM D, YYYY"}}
+								</time>
+							</li>
+							{{#if reading_time}}
+								<li class="separator">&bull;</li>
+								<li>
+									<span class="post-meta-time">
+										{{reading_time minute=(t "1 min read") minutes=(t "% min read")}}
+									</span>
+								</li>
+							{{/if}}
+						</ul>
+					</div>
+				</div>
+
+				<div class="post-video-header-right">
+					{{> "post/button-comments"}}
+					{{> "post/button-share"}}
+				</div>
+			</div>
+		</header>
+
+		{{!-- MAIN SPLIT: VIDEO + SIDEBAR --}}
+		<div class="post-video-layout">
+
+			{{!-- LEFT: VIDEO AREA --}}
+			<main class="post-video-main">
+
+				<section class="post-video-player">
+					<div class="post-video-player-inner">
+						{{> "post/media"}}
+					</div>
+				</section>
+
+				<div class="post-video-meta-shell">
+					<div class="post-video-meta-bar">
+						<div class="post-video-meta-left">
+							{{#if primary_author}}
+								<span>{{primary_author.name}}</span>
+								<span class="post-video-meta-separator">&bull;</span>
+							{{/if}}
+
+							<time datetime="{{date format="YYYY-MM-DD"}}">
+								{{date format="MMMM D, YYYY"}}
+							</time>
+
+							{{#if reading_time}}
+								<span class="post-video-meta-separator">&bull;</span>
+								<span>
+									{{reading_time minute=(t "1 min read") minutes=(t "% min read")}}
+								</span>
+							{{/if}}
+
+							<div class="post-video-meta-tags">
+								<span class="post-video-meta-tag">Video</span>
+								{{#if primary_tag}}
+									<span class="post-video-meta-tag">{{primary_tag.name}}</span>
+								{{/if}}
+							</div>
+						</div>
+
+						<div class="post-video-meta-right">
+							{{> "post/button-share"}}
+						</div>
+					</div>
+
+					{{!-- "Channel" line (author) --}}
+					<div class="post-video-channel-row">
+						<div class="post-video-channel-left">
+							{{#if primary_author}}
+								<div class="post-video-channel-avatar">
+									{{!-- reuse your avatar styles --}}
+									<span class="avatar avatar-large" data-placeholder="{{primary_author.name.[0]}}">
+										{{#if primary_author.profile_image}}
+											<picture>
+												<img
+													src="{{img_url primary_author.profile_image size="xs"}}"
+													alt="{{primary_author.name}}"
+													loading="lazy"
+												/>
+											</picture>
+										{{/if}}
+									</span>
+								</div>
+								<div class="post-video-channel-meta">
+									<div class="post-video-channel-name">
+										{{primary_author.name}}
+									</div>
+									{{#if primary_author.bio}}
+										<div class="post-video-channel-subtext">
+											{{primary_author.bio}}
+										</div>
+									{{/if}}
+								</div>
+							{{/if}}
+						</div>
+
+						<div class="post-video-channel-right">
+							<a href="#comments" class="button button-primary">
+								{{t "Subscribe to updates"}}
+							</a>
+						</div>
+					</div>
+				</div>
+
+				<div class="post-video-ad post-ad post-ad--in-article">
+					{{> "adsense" type="in-article"}}
+				</div>
+
+				<section class="post-video-content">
+					{{> "post/content"}}
+				</section>
+			</main>
+
+			{{!-- RIGHT: UP NEXT SIDEBAR --}}
+			<aside class="post-video-sidebar" aria-label="Up next">
+				<div class="post-video-sidebar-inner">
+					<div class="post-video-sidebar-header">
+						<h2 class="post-video-sidebar-title">{{t "Up next"}}</h2>
+					</div>
+
+					{{#get "posts" filter="tag:hash-video" limit="8" include="authors,tags" as |videos|}}
+						{{#if videos}}
+							<ul class="post-video-sidebar-list">
+								{{#foreach videos}}
+									<li class="post-video-sidebar-item">
+										<a href="{{url}}">
+											<div class="post-video-sidebar-thumb">
+												{{#if feature_image}}
+													<img
+														src="{{img_url feature_image size="s"}}"
+														alt="{{title}}"
+														loading="lazy"
+													/>
+												{{/if}}
+											</div>
+											<div class="post-video-sidebar-info">
+												<div class="post-video-sidebar-title-text">{{title}}</div>
+												<div class="post-video-sidebar-meta">
+													{{#if primary_author}}
+														<span>{{primary_author.name}}</span>
+													{{/if}}
+													<span>{{date format="MMM D, YYYY"}}</span>
+												</div>
+											</div>
+										</a>
+									</li>
+								{{/foreach}}
+							</ul>
+						{{/if}}
+					{{/get}}
+				</div>
+			</aside>
+		</div>
+
+		{{!-- BELOW CONTENT --}}
+		<div class="post-video-below-content">
+			<div class="post-ad post-ad--below-content">
+				{{> "adsense" type="rectangle"}}
+			</div>
+
+			{{> "post/read-next"}}
+			{{> "sections/subscription"}}
+			{{> "post/comments"}}
+		</div>
 	</div>
-
-	<div class="post-header-buttons">
-		{{> "post/button-comments"}}
-		{{> "post/button-share"}}
-	</div>
-</header>
-
-{{!-- AD: below header (horizontal / leaderboard style) --}}
-<div class="container-wide post-ad post-ad--header">
-	{{> "adsense" type="leaderboard" }}
-</div>
-
-{{!-- Media (featured image and video). --}}
-{{> "post/media"}}
-
-{{!-- AD: between media and content (in-article unit) --}}
-<div class="container-wide post-ad post-ad--in-article">
-	{{> "adsense" type="in-article" }}
-</div>
-
-{{!-- Content. --}}
-{{> "post/content"}}
-
-{{!-- AD: below content, before read-next (rectangle / fluid-ish) --}}
-<div class="container-wide post-ad post-ad--below-content">
-	{{> "adsense" type="rectangle" }}
-</div>
-
-{{!-- Read next. --}}
-{{> "post/read-next"}}
-
-{{!-- Subscription (show on --breakpoint-max-lg) --}}
-{{> "sections/subscription"}}
-
-{{!-- Comments. --}}
-{{> "post/comments"}}
+</article>
 
 {{/post}}

@@ -1,11 +1,13 @@
 {{!< default}}
-{{!-- Custom course template for /course/ collection (tags:hash-course) --}}
 
 {{#post}}
 
 {{#contentFor "body-class"}} post-template-course post-template-default{{/contentFor}}
 
 <style>
+    /* =========================================
+       1. LAYOUT & GRID SYSTEM
+       ========================================= */
     .course-wrapper {
         width: 100%;
         max-width: var(--container-wide--width);
@@ -15,209 +17,73 @@
         padding-inline: var(--layout--padding);
     }
 
+    /* The Main Grid Layout */
     .course-layout {
         display: grid;
-        grid-template-columns: minmax(0, 1.7fr) minmax(0, 360px);
-        gap: var(--layout--gap);
-        margin-top: var(--spacing-9);
+        grid-template-columns: minmax(0, 2.2fr) minmax(0, 1fr); /* Wider Content */
+        gap: var(--spacing-9);
         align-items: flex-start;
+        margin-top: var(--spacing-9);
     }
 
-    .course-main {
-        min-width: 0;
-    }
-
-    .course-aside {
-        position: relative;
-    }
-
-    .course-aside-sticky {
-        position: sticky;
-        top: 96px;
-    }
-
-    .course-section {
-        margin-bottom: var(--spacing-10);
-    }
-
-    .course-heading {
-        font-family: var(--font-family-headings);
-        font-size: 1.75rem;
-        font-weight: var(--font-weight-bold);
-        color: var(--color-contrast);
-        margin: 0 0 var(--spacing-6);
-    }
-
-    /* HERO */
-    .course-hero {
-        background-color: var(--color-background-100);
-        border-radius: var(--radius-5);
-        padding: clamp(var(--spacing-6), 4vw, var(--spacing-9));
+    /* "Griddy" Pattern Utility */
+    .technical-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1px;
+        background-color: var(--color-border);
         border: 1px solid var(--color-border);
-        margin-top: var(--spacing-8);
+        border-radius: var(--radius-4);
+        overflow: hidden;
+        margin-bottom: var(--spacing-9);
+    }
+
+    .technical-grid-item {
+        background-color: var(--color-background);
+        padding: var(--spacing-6);
+        transition: background-color 0.2s ease;
+    }
+    
+    .technical-grid-item:hover {
+        background-color: var(--color-background-100);
+    }
+
+    /* =========================================
+       2. HERO SECTION (With Grid Bg)
+       ========================================= */
+    .course-hero {
         position: relative;
+        padding: var(--spacing-9) 0;
+        border-bottom: 1px solid var(--color-border);
         overflow: hidden;
     }
 
-    .course-hero::before {
-        content: "";
+    /* The Grid Background Effect */
+    .course-hero-bg {
         position: absolute;
         inset: 0;
         pointer-events: none;
-        opacity: 0.35;
-        background-image:
-            linear-gradient(to right,
-                color-mix(in srgb, var(--color-border), transparent 65%) 1px,
-                transparent 1px),
-            linear-gradient(to bottom,
-                color-mix(in srgb, var(--color-border), transparent 65%) 1px,
-                transparent 1px);
-        background-size: 34px 34px;
-        mask-image: radial-gradient(circle at top left, black, transparent 70%);
+        z-index: 0;
+        background-image: 
+            linear-gradient(to right, color-mix(in srgb, var(--color-border), transparent 60%) 1px, transparent 1px),
+            linear-gradient(to bottom, color-mix(in srgb, var(--color-border), transparent 60%) 1px, transparent 1px);
+        background-size: 40px 40px;
+        mask-image: radial-gradient(circle at center, black 40%, transparent 100%);
+        -webkit-mask-image: radial-gradient(circle at center, black 40%, transparent 100%);
+        opacity: 0.6;
     }
 
-    .hero-inner {
+    .hero-content-wrapper {
         display: grid;
-        grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+        grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
         gap: var(--spacing-8);
-        align-items: center;
+        align-items: flex-start;
         position: relative;
         z-index: 1;
     }
 
-    .hero-copy {
-        min-width: 0;
-    }
-
-    .course-hero-lock-overlay {
-        position: absolute;
-        top: var(--spacing-6);
-        right: var(--spacing-6);
-        z-index: 2;
-    }
-
-    .hero-lock-pill {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        padding: 4px 9px;
-        border-radius: 999px;
-        border: 1px dashed var(--color-border);
-        font-size: 0.75rem;
-        text-transform: uppercase;
-        letter-spacing: 0.06em;
-        color: var(--color-error);
-        background: rgba(195, 77, 77, .06);
-    }
-
-    .hero-badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        padding: 6px 12px;
-        border-radius: 20px;
-        background: var(--color-background);
-        border: 1px solid var(--color-border);
-        font-size: var(--font-x-small);
-        font-weight: var(--font-weight-bold);
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-        color: var(--ghost-accent-color);
-        margin-bottom: var(--spacing-4);
-        white-space: nowrap;
-    }
-
-    .hero-badge-dot {
-        width: 8px;
-        height: 8px;
-        border-radius: 999px;
-        background: var(--ghost-accent-color);
-    }
-
-    .hero-title {
-        font-family: var(--font-family-headings);
-        font-size: clamp(2rem, 4vw, 3.2rem);
-        font-weight: var(--font-weight-bold);
-        line-height: 1.1;
-        color: var(--color-contrast);
-        margin: 0 0 var(--spacing-4);
-    }
-
-    .hero-meta-inline {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
-        margin-bottom: var(--spacing-3);
-        font-size: 0.85rem;
-        color: var(--color-secondary);
-    }
-
-    .hero-meta-pill {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        padding: 4px 10px;
-        border-radius: 999px;
-        border: 1px solid var(--color-border);
-        background: var(--color-background-100);
-    }
-
-    .hero-meta-label {
-        opacity: 0.7;
-    }
-
-    .hero-meta-value {
-        font-weight: var(--font-weight-medium);
-    }
-
-    .hero-excerpt {
-        font-size: 1.02rem;
-        line-height: 1.55;
-        color: var(--color-secondary);
-        margin: 0 0 var(--spacing-5);
-        max-width: 40rem;
-    }
-
-    .course-locked-banner {
-        margin: 0 0 var(--spacing-4);
-        padding: 0.85rem 1rem;
-        border-radius: var(--radius-4);
-        border: 1px dashed var(--color-border);
-        background: rgba(195, 77, 77, .05);
-        display: flex;
-        gap: 0.75rem;
-        align-items: flex-start;
-        font-size: 0.9rem;
-    }
-
-    .course-locked-icon {
-        font-size: 1.2rem;
-    }
-
-    .course-locked-text strong {
-        color: var(--color-error);
-    }
-
-    .course-locked-text p {
-        margin: 0.25rem 0 0;
-        color: var(--color-secondary);
-    }
-
-    .hero-actions {
-        display: flex;
-        flex-wrap: wrap;
-        gap: var(--spacing-4);
-        margin-top: var(--spacing-4);
-    }
-
-    .button.outline {
-        background: transparent;
-        border: 1px solid var(--color-border);
-        color: var(--color-contrast);
-    }
-
-    .button.outline:hover {
-        background: var(--color-background-200);
+    .hero-content {
+        max-width: 640px;
     }
 
     .hero-media {
@@ -228,904 +94,729 @@
         box-shadow: var(--shadow);
         background-color: #000;
         width: 100%;
+        margin-top: 40px; /* small, not too dramatic */
     }
 
     .hero-media img {
         width: 100%;
         height: 100%;
         object-fit: cover;
-    }
-
-    .hero-media-placeholder {
-        width: 100%;
-        height: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: var(--color-secondary);
-        font-size: 0.9rem;
-        background: radial-gradient(circle at top left, var(--color-background-200), #000);
-    }
-
-    .hero-media .play-icon {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: 64px;
-        height: 64px;
-        background: #fff;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: #000;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.25);
-        transition: transform 0.2s;
-    }
-
-    .hero-media:hover .play-icon {
-        transform: translate(-50%, -50%) scale(1.08);
-    }
-
-    /* CURRICULUM */
-    .curriculum-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-end;
-        gap: var(--spacing-4);
-        margin-bottom: var(--spacing-5);
-        border-bottom: 1px solid var(--color-border);
-        padding-bottom: var(--spacing-3);
-    }
-
-    .curriculum-header-right {
-        font-size: 0.85rem;
-        color: var(--color-secondary);
-        text-align: right;
-    }
-
-    .curriculum-header-right span {
         display: block;
     }
 
-    .lesson-list {
-        margin-top: var(--spacing-3);
+    /* Hero badges & text */
+    .hero-badge-row {
+        display: flex;
+        gap: 10px;
+        margin-bottom: var(--spacing-4);
+        flex-wrap: wrap;
+    }
+
+    .hero-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 4px 10px;
+        border-radius: 999px;
+        background: var(--color-background-200);
+        font-size: 0.7rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--color-contrast);
+    }
+
+    .hero-badge.highlight {
+        background: var(--color-contrast);
+        color: var(--color-background);
+    }
+
+    .course-title {
+        font-family: var(--font-family-headings);
+        font-size: clamp(2.2rem, 5vw, 3.5rem);
+        font-weight: 800;
+        line-height: 1.1;
+        color: var(--color-contrast);
+        margin: 0 0 var(--spacing-4);
+        letter-spacing: -0.02em;
+    }
+
+    .course-excerpt {
+        font-size: 1.05rem;
+        line-height: 1.6;
+        color: var(--color-secondary);
+        margin-bottom: var(--spacing-6);
+        max-width: 42rem;
+    }
+
+    /* Social proof row */
+    .hero-social-proof {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 0.9rem;
+        font-weight: 500;
+    }
+
+    .hero-avatars {
+        display: flex;
+        margin-left: 4px;
+    }
+
+    .hero-avatar-dot {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background: #ddd;
+        border: 2px solid var(--color-background);
+        margin-left: -10px;
+    }
+
+    /* =========================================
+       3. LEFT COLUMN CONTENT
+       ========================================= */
+    .section-title {
+        font-family: var(--font-family-headings);
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--color-contrast);
+        margin: 0 0 var(--spacing-6);
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+    
+    .section-title svg {
+        flex-shrink: 0;
+    }
+    
+    /* What You'll Learn Items */
+    .learn-title {
+        font-weight: 700;
+        color: var(--color-contrast);
+        margin-bottom: 6px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    .learn-desc {
+        font-size: 0.95rem;
+        color: var(--color-secondary);
+        line-height: 1.5;
+        margin: 0;
+    }
+
+    /* Curriculum List */
+    .curriculum-container {
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-4);
+        background-color: var(--color-background);
+        overflow: hidden;
     }
 
     .lesson-row {
         display: flex;
         align-items: center;
-        padding: var(--spacing-3);
-        background-color: var(--color-background-100);
-        border: 1px solid var(--color-border);
-        border-radius: var(--radius-4);
-        margin-bottom: 8px;
-        text-decoration: none;
-        transition: border-color 0.2s, transform 0.2s, background-color 0.2s;
-    }
-
-    .lesson-row.unlocked:hover {
-        border-color: var(--color-contrast);
-        background-color: var(--color-background-200);
-        transform: translateY(-1px);
-    }
-
-    .lesson-row.locked {
-        cursor: default;
-    }
-
-    .lesson-thumb {
-        width: 64px;
-        height: 64px;
-        border-radius: var(--radius-2);
-        object-fit: cover;
-        margin-right: 12px;
-        background: var(--color-background-200);
-        flex-shrink: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: var(--color-secondary);
-        font-size: 0.75rem;
-    }
-
-    .lesson-info {
-        flex: 1;
-        min-width: 0;
-    }
-
-    .lesson-title-line {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        margin-bottom: 2px;
-        flex-wrap: wrap;
-    }
-
-    .lesson-title {
-        display: block;
-        font-family: var(--font-family-headings);
-        font-weight: var(--font-weight-medium);
-        color: var(--color-contrast);
-        font-size: 0.98rem;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-        overflow: hidden;
-    }
-
-    .lesson-chip {
-        padding: 2px 8px;
-        border-radius: 999px;
-        border: 1px solid var(--color-border);
-        font-size: 0.7rem;
-        text-transform: uppercase;
-        letter-spacing: 0.06em;
-        color: var(--color-secondary);
-    }
-
-    .lesson-chip.free {
-        border-color: var(--color-success);
-        color: var(--color-success);
-    }
-
-    .lesson-meta {
-        font-size: var(--font-x-small);
-        color: var(--color-secondary);
-    }
-
-    .lesson-excerpt-sm {
-        margin-top: 2px;
-        font-size: 0.8rem;
-        color: var(--color-foreground);
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-    }
-
-    .lesson-status-block {
-        display: flex;
-        flex-direction: column;
-        gap: 4px;
-        margin-left: 10px;
-        flex-shrink: 0;
-        align-items: flex-end;
-    }
-
-    .lesson-status {
-        padding: 4px 10px;
-        border-radius: 20px;
-        font-size: 0.7rem;
-        font-weight: var(--font-weight-bold);
-        text-transform: uppercase;
-        background: var(--color-background-200);
-        color: var(--color-secondary);
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-    }
-
-    .lesson-status.free {
-        background: var(--ghost-accent-color);
-        color: #fff;
-    }
-
-    .lesson-status.locked {
-        background: rgba(195, 77, 77, .08);
-        color: var(--color-error);
-        border: 1px solid rgba(195, 77, 77, .4);
-    }
-
-    .lesson-status-icon {
-        font-size: 0.9rem;
-    }
-
-    .lesson-status-cta {
-        font-size: 0.75rem;
-        color: var(--ghost-accent-color);
-        text-decoration: none;
-        font-weight: var(--font-weight-medium);
-    }
-
-    .lesson-status-cta:hover {
-        text-decoration: underline;
-    }
-
-    .curriculum-empty {
-        font-size: 0.9rem;
-        color: var(--color-secondary);
-    }
-
-    /* OVERVIEW + META */
-    .course-overview {
-        line-height: 1.7;
-        font-size: 1.05rem;
-    }
-
-    .course-overview .post-content {
-        margin: 0;
-    }
-
-    .course-overview .post-content > *:first-child {
-        margin-top: 0;
-    }
-
-    .course-overview .post-content > *:last-child {
-        margin-bottom: 0;
-    }
-
-    .course-meta-grid {
-        display: grid;
-        grid-template-columns: repeat(3, minmax(0,1fr));
-        gap: var(--spacing-4);
-        margin-bottom: var(--spacing-6);
-    }
-
-    .course-meta-card {
-        border-radius: var(--radius-3);
-        border: 1px dashed var(--color-border);
         padding: var(--spacing-4);
-        font-size: 0.9rem;
-    }
-
-    .course-meta-card-title {
-        font-weight: var(--font-weight-medium);
-        color: var(--color-contrast);
-        margin-bottom: 0.3rem;
-    }
-
-    .course-meta-card-body {
-        color: var(--color-secondary);
-    }
-
-    /* SIDEBAR */
-    .sidebar-card {
-        background-color: var(--color-background-100);
-        border: 1px solid var(--color-border);
-        border-radius: var(--radius-4);
-        padding: var(--spacing-7);
-        margin-bottom: var(--spacing-7);
-        box-shadow: 0 10px 40px -10px rgba(0,0,0,0.05);
-    }
-
-    .sidebar-subtext {
-        text-align: center;
-        font-size: 0.8rem;
-        color: var(--color-secondary);
-        margin-bottom: 20px;
-    }
-
-    .details-list {
-        list-style: none;
-        padding: 0;
-        margin: 20px 0;
-    }
-
-    .details-list li {
-        display: flex;
-        justify-content: space-between;
-        padding: 10px 0;
         border-bottom: 1px solid var(--color-border);
-        font-size: var(--font-small);
-        color: var(--color-foreground);
-        gap: var(--spacing-4);
+        text-decoration: none;
+        transition:
+            background-color 0.15s ease,
+            border-color 0.15s ease,
+            transform 0.15s ease,
+            box-shadow 0.15s ease;
     }
 
-    .details-list li:last-child {
+    .lesson-row:last-child {
         border-bottom: none;
     }
 
-    .details-label {
-        opacity: 0.8;
+    .lesson-row.unlocked:hover {
+        background-color: var(--color-background-100);
+        border-color: var(--color-contrast);
+        transform: translateY(-1px);
+        box-shadow: 0 8px 24px rgba(0,0,0,0.06);
     }
 
-    /* AD PLACEHOLDERS */
-    .sidebar-ad {
-        background: var(--color-background);
-        border-radius: var(--radius-3);
+    .lesson-row.locked {
+        cursor: not-allowed;
+        opacity: 0.8;
+        background-color: var(--color-background-100);
+    }
+
+    .lesson-index {
+        font-family: monospace;
+        color: var(--color-secondary);
+        margin-right: var(--spacing-4);
+        font-size: 0.9rem;
+        opacity: 0.6;
+        flex-shrink: 0;
+    }
+
+    .lesson-title {
+        font-weight: 600;
+        color: var(--color-contrast);
+        font-size: 0.95rem;
+        display: block;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .lesson-meta-row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 0.8rem;
+        color: var(--color-secondary);
+        margin-top: 4px;
+        flex-wrap: wrap;
+    }
+
+    .lesson-status-icon {
+        margin-left: auto;
+        color: var(--color-contrast);
+        opacity: 0.3;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+
+    .lesson-row.unlocked .lesson-status-icon {
+        opacity: 1;
+        color: var(--color-success);
+    }
+
+    /* Testimonials */
+    .testimony-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--spacing-5);
+        margin-bottom: var(--spacing-9);
+    }
+    .testimony-card {
+        background-color: var(--color-background-100);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-4);
+        padding: var(--spacing-6);
+        display: flex;
+        flex-direction: column;
+        gap: var(--spacing-3);
+    }
+    .testimony-header {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-3);
+    }
+    .testimony-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+        flex-shrink: 0;
+    }
+    .testimony-stars {
+        color: #fbbf24;
+        display: flex;
+        gap: 2px;
+        font-size: 0.8rem;
+    }
+    .testimony-body {
+        font-size: 0.95rem;
+        line-height: 1.6;
+        font-style: italic;
+        color: var(--color-foreground);
+    }
+    .testimony-author {
+        font-size: 0.85rem;
+        font-weight: 700;
+        color: var(--color-contrast);
+    }
+
+    /* Prerequisites Box */
+    .prereq-box {
+        background-color: var(--color-background);
         border: 1px dashed var(--color-border);
-        padding: var(--spacing-4);
+        border-radius: var(--radius-4);
+        padding: var(--spacing-6);
+    }
+    .prereq-list {
+        margin: 0;
+        padding-left: 1.5rem;
+    }
+    .prereq-list li {
+        margin-bottom: 8px;
+        color: var(--color-secondary);
+    }
+
+    /* =========================================
+       4. RIGHT SIDEBAR (STICKY)
+       ========================================= */
+    .course-aside {
+        position: sticky;
+        top: 90px;
+        display: flex;
+        flex-direction: column;
+        gap: var(--spacing-6);
+    }
+    
+    /* Enrollment Card */
+    .enroll-card {
+        background: var(--color-background);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-4);
+        overflow: hidden;
+        box-shadow: var(--shadow);
+    }
+
+    .enroll-header {
+        background: var(--color-background-100);
+        padding: var(--spacing-5);
+        border-bottom: 1px solid var(--color-border);
+        text-align: center;
+    }
+
+    .enroll-price {
+        font-family: var(--font-family-headings);
+        font-size: 2rem;
+        font-weight: 800;
+        color: var(--color-contrast);
+    }
+
+    .enroll-price sub {
+        font-size: 0.85rem;
+        color: var(--color-secondary);
+        text-decoration: line-through;
+        margin-left: 6px;
+        bottom: 0;
+    }
+
+    .enroll-body {
+        padding: var(--spacing-6);
+    }
+
+    .enroll-btn {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        padding: 12px;
+        font-size: 1rem;
+        font-weight: 700;
         margin-bottom: var(--spacing-4);
     }
 
-    .sidebar-ad-slot {
-        width: 100%;
-        aspect-ratio: 4/3;
-        border-radius: var(--radius-2);
-        background: var(--color-background-200);
+    .button-primary {
+        background: var(--ghost-accent-color);
+        color: #fff;
+        border-color: transparent;
     }
 
-    .sidebar-ad-label {
-        font-size: 0.7rem;
-        color: var(--color-secondary);
-        margin-top: 8px;
-        text-align: center;
-        text-transform: uppercase;
-        letter-spacing: 0.08em;
+    .button-primary:hover {
+        filter: brightness(1.05);
     }
 
-
-    /* DESKTOP: make cards tighter */
-    @media (min-width: 768px) {
-        .lesson-excerpt-sm {
-            -webkit-line-clamp: 1;
-        }
+    .feature-check-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
     }
 
-    /* TABLET */
-    @media (max-width: 1024px) {
-        .course-wrapper {
-            max-width: 100%;
-            padding-inline: var(--spacing-5);
-        }
+    .feature-check-list li {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 0.9rem;
+        color: var(--color-foreground);
+    }
 
-        .hero-inner {
-            grid-template-columns: minmax(0,1fr);
-            gap: var(--spacing-6);
-        }
+    .feature-check-list svg {
+        color: var(--color-success);
+        flex-shrink: 0;
+    }
 
+    /* Instructor Mini Widget */
+    .instructor-mini {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        padding: var(--spacing-5);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-4);
+        background: var(--color-background-100);
+    }
+
+    /* =========================================
+       5. RESPONSIVE
+       ========================================= */
+    @media (max-width: 992px) {
+        .course-layout {
+            grid-template-columns: 1fr;
+        }
+        .hero-content-wrapper {
+            grid-template-columns: 1fr;
+        }
         .hero-media {
             order: -1;
-            max-width: 640px;
-            margin: 0 auto;
+            margin-top: 0;
         }
-
-        .course-layout {
-            grid-template-columns: minmax(0,1fr);
-            gap: var(--spacing-8);
+        .technical-grid,
+        .testimony-grid {
+            grid-template-columns: 1fr;
         }
-
         .course-aside {
-            order: 2;
-            margin-top: var(--spacing-4);
-        }
-
-        .course-aside-sticky {
             position: static;
             top: auto;
+            order: -1;
+            margin-bottom: var(--spacing-8);
         }
-
-        .course-feature-grid {
-            grid-template-columns: repeat(2, minmax(0,1fr));
-        }
-
-        .course-meta-grid {
-            grid-template-columns: repeat(2, minmax(0,1fr));
-        }
-
-       
     }
-
-    /* MOBILE */
-    @media (max-width: 640px) {
+    
+    @media (max-width: 600px) {
+        .course-hero {
+            padding: var(--spacing-6) 0;
+        }
         .course-wrapper {
             padding-inline: var(--spacing-4);
         }
-
-        .course-hero {
-            margin-top: var(--spacing-6);
-            padding: var(--spacing-6);
+        .testimony-card {
+            padding: var(--spacing-5);
         }
+    }
 
-        .course-hero-lock-overlay {
-            top: var(--spacing-4);
-            right: var(--spacing-4);
-        }
-
-        .hero-actions {
-            flex-direction: column;
-            align-items: stretch;
-        }
-
-        .course-feature-grid,
-        .course-meta-grid {
-            grid-template-columns: minmax(0,1fr);
-        }
-
+    @media (prefers-reduced-motion: reduce) {
         .lesson-row {
-            padding: var(--spacing-4);
-            border-radius: var(--radius-5);
-        }
-
-        .lesson-thumb {
-            width: 64px;
-            height: 64px;
-            margin-right: 12px;
-        }
-
-        .lesson-title {
-            white-space: normal;
-        }
-
-        .lesson-status-block {
-            margin-left: 8px;
-            align-items: flex-end;
-        }
-
-        .curriculum-header {
-            flex-direction: column;
-            align-items: flex-start;
-        }
-
-        .curriculum-header-right {
-            text-align: left;
-        }
-
-        .sidebar-card {
-            padding: var(--spacing-6);
-        }
-
-        .course-layout {
-            gap: var(--spacing-6);
-        }
-
-        .course-aside {
-            margin-top: var(--spacing-2);
+            transition: none;
         }
     }
 </style>
 
-
+{{!-- JSON-LD STRUCTURED DATA FOR COURSE --}}
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "{{title}}",
+    "description": "{{#if custom_excerpt}}{{custom_excerpt}}{{else}}{{excerpt}}{{/if}}",
+    "provider": {
+        "@type": "Organization",
+        "name": "{{@site.title}}",
+        "sameAs": "{{@site.url}}"
+    },
+    "author": {
+        "@type": "Person",
+        "name": "{{primary_author.name}}",
+        "url": "{{primary_author.url}}"
+    },
+    "image": "{{#if feature_image}}{{img_url feature_image absolute="true"}}{{/if}}",
+    "url": "{{url absolute="true"}}",
+    "offers": {
+        "@type": "Offer",
+        "price": "{{#if access}}0{{else}}99{{/if}}",
+        "priceCurrency": "USD",
+        "availability": "https://schema.org/InStock",
+        "url": "{{url absolute="true"}}"
+    },
+    "coursePrerequisites": [
+        "Basic JavaScript knowledge",
+        "Familiarity with HTML/CSS"
+    ],
+    "hasPart": [
+        {{#get "posts" filter=(concat "tag:hash-lesson+tag:" primary_tag.slug) include="tags" limit="all" order="published_at asc" as |lessons|}}
+            {{#foreach lessons}}
+            {
+                "@type": "CreativeWork",
+                "name": "{{title}}",
+                "url": "{{url absolute="true"}}"
+            }{{#unless @last}},{{/unless}}
+            {{/foreach}}
+        {{/get}}
+    ]
+}
+</script>
 
 <div class="course-wrapper">
 
-    <!-- HERO -->
-    <header class="post-header">
-        <div class="course-hero">
-
-            {{#unless access}}
-                <div class="course-hero-lock-overlay">
-                    <span class="hero-lock-pill">
-                        <span>🔒</span> {{t "Members only"}}
-                    </span>
-                </div>
-            {{/unless}}
-
-            <div class="hero-inner">
-                <div class="hero-copy">
-
-                    {{#has tag="#course"}}
-                        <span class="hero-badge">
-                            <span class="hero-badge-dot"></span>
-                            {{#has tag="#free"}}
-                                {{t "Free course"}}
-                            {{else}}
-                                {{t "Premium course"}}
-                            {{/has}}
-                        </span>
-                    {{/has}}
-
-                    <h1 class="hero-title">{{title}}</h1>
-
-                    <div class="hero-meta-inline">
-                        {{#if primary_tag}}
-                            <span class="hero-meta-pill">
-                                <span class="hero-meta-label">{{t "Track"}}</span>
-                                <span class="hero-meta-value">{{primary_tag.name}}</span>
-                            </span>
-                        {{/if}}
-
-                        {{#has tag="#level-beginner"}}
-                            <span class="hero-meta-pill">
-                                <span class="hero-meta-label">{{t "Level"}}</span>
-                                <span class="hero-meta-value">{{t "Beginner"}}</span>
-                            </span>
-                        {{/has}}
-
-                        {{#has tag="#level-intermediate"}}
-                            <span class="hero-meta-pill">
-                                <span class="hero-meta-label">{{t "Level"}}</span>
-                                <span class="hero-meta-value">{{t "Intermediate"}}</span>
-                            </span>
-                        {{/has}}
-
-                        {{#has tag="#level-advanced"}}
-                            <span class="hero-meta-pill">
-                                <span class="hero-meta-label">{{t "Level"}}</span>
-                                <span class="hero-meta-value">{{t "Advanced"}}</span>
-                            </span>
-                        {{/has}}
-
-                        {{#has tag="#free"}}
-                            <span class="hero-meta-pill">
-                                <span class="hero-meta-label">{{t "Price"}}</span>
-                                <span class="hero-meta-value">{{t "Free"}}</span>
-                            </span>
-                        {{/has}}
-                        {{#has tag="#paid"}}
-                            <span class="hero-meta-pill">
-                                <span class="hero-meta-label">{{t "Price"}}</span>
-                                <span class="hero-meta-value">{{t "Members only"}}</span>
-                            </span>
-                        {{/has}}
-
-                        {{!-- Course duration pill (from internal tags) --}}
-                        {{#has tag="#duration-15m,#duration-30m,#duration-45m,#duration-1h,#duration-1h-30m,#duration-2h,#duration-3h-15"}}
-                            <span class="hero-meta-pill">
-                                <span class="hero-meta-label">{{t "Duration"}}</span>
-                                <span class="hero-meta-value">
-                                    {{#has tag="#duration-15m"}}15 min{{/has}}
-                                    {{#has tag="#duration-30m"}}30 min{{/has}}
-                                    {{#has tag="#duration-45m"}}45 min{{/has}}
-                                    {{#has tag="#duration-1h"}}1 h{{/has}}
-                                    {{#has tag="#duration-1h-30m"}}1 h 30 min{{/has}}
-                                    {{#has tag="#duration-2h"}}2 h{{/has}}
-                                    {{#has tag="#duration-3h-15"}}3 h 15 min{{/has}}
-                                </span>
-                            </span>
-                        {{/has}}
-                    </div>
-
-                    {{#if custom_excerpt}}
-                        <p class="hero-excerpt">
-                            {{custom_excerpt}}
-                        </p>
-                    {{else if excerpt}}
-                        <p class="hero-excerpt">
-                            {{excerpt}}
-                        </p>
-                    {{/if}}
-
-                    {{#unless access}}
-                        <div class="course-locked-banner">
-                            <div class="course-locked-icon">🔒</div>
-                            <div class="course-locked-text">
-                                <strong>{{t "This course is for members only."}}</strong>
-                                {{#if comment}}
-                                    <p>{{comment}}</p>
-                                {{/if}}
-                            </div>
-                        </div>
-                    {{/unless}}
-
-                    <div class="hero-actions">
-                        {{#if primary_tag}}
-                            {{#get
-                                "posts"
-                                filter=(concat "tag:hash-lesson+tag:" primary_tag.slug)
-                                limit="1"
-                                order="published_at asc"
-                            }}
-                                {{#if posts}}
-                                    {{#foreach posts}}
-                                        {{#if access}}
-                                            <a href="{{url}}" class="button button-rounded">
-                                                {{t "Start from Lesson 1"}}
-                                            </a>
-                                        {{else}}
-                                            <a href="#curriculum" class="button button-rounded">
-                                                {{t "View lessons"}}
-                                            </a>
-                                        {{/if}}
-                                    {{/foreach}}
-                                {{else}}
-                                    <a href="#curriculum" class="button button-rounded">
-                                        {{t "Start learning"}}
-                                    </a>
-                                {{/if}}
-                            {{/get}}
-                        {{else}}
-                            <a href="#curriculum" class="button button-rounded">
-                                {{t "Start learning"}}
-                            </a>
-                        {{/if}}
-
-                        <a href="#overview" class="button button-rounded button-transparent outline">
-                            {{t "Read overview"}}
-                        </a>
-
-                        {{#unless access}}
-                            {{#if @site.members_enabled}}
-                                <a href="#/portal/signup" class="button button-rounded outline">
-                                    {{t "Become a member"}}
-                                </a>
-                            {{/if}}
-                        {{/unless}}
-                    </div>
-                </div>
-
-                <div class="hero-media">
-                    {{#if feature_image}}
-                        <img src="{{img_url feature_image size="l"}}" alt="{{title}}">
+    <!-- HERO SECTION -->
+    <header class="course-hero">
+        <div class="course-hero-bg" aria-hidden="true"></div>
+        
+        <div class="hero-content-wrapper">
+            
+            <div class="hero-content">
+                <div class="hero-badge-row">
+                    {{#if access}}
+                        <span class="hero-badge highlight">✅ Enrolled</span>
                     {{else}}
-                        <div class="hero-media-placeholder">
-                            {{t "Course cover coming soon"}}
-                        </div>
+                        <span class="hero-badge">{{t "Premium Course"}}</span>
                     {{/if}}
-                    <a href="#curriculum" class="play-icon" aria-label="{{t "Jump to curriculum"}}">
-                        <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-                            <polygon points="5 3 19 12 5 21 5 3"></polygon>
-                        </svg>
-                    </a>
+                    
+                    {{#has tag="#level-beginner"}}<span class="hero-badge">{{t "Beginner"}}</span>{{/has}}
+                    {{#has tag="#level-intermediate"}}<span class="hero-badge">{{t "Intermediate"}}</span>{{/has}}
+                    {{#has tag="#level-advanced"}}<span class="hero-badge">{{t "Advanced"}}</span>{{/has}}
+                    
+                    {{#if reading_time}}<span class="hero-badge">{{reading_time}}</span>{{/if}}
+                </div>
+
+                <h1 class="course-title">{{title}}</h1>
+                
+                {{#if custom_excerpt}}
+                    <p class="course-excerpt">{{custom_excerpt}}</p>
+                {{else}}
+                    <p class="course-excerpt">{{excerpt}}</p>
+                {{/if}}
+
+                <!-- Social Proof / Students -->
+                <div class="hero-social-proof">
+                    <div class="hero-avatars">
+                        <div class="hero-avatar-dot" style="background:#e5e7eb;"></div>
+                        <div class="hero-avatar-dot" style="background:#d1d5db;"></div>
+                        <div class="hero-avatar-dot" style="background:#9ca3af;"></div>
+                    </div>
+                    <span style="color: var(--color-secondary);">Join 1,200+ students</span>
                 </div>
             </div>
+
+            <!-- MEDIA COLUMN -->
+            <div class="hero-media">
+                {{#if feature_image}}
+                    <img src="{{img_url feature_image size="m"}}" alt="{{title}}">
+                {{else}}
+                    <div style="width: 100%; height: 100%; background: var(--color-background-200); display: flex; align-items: center; justify-content: center; color: var(--color-secondary);">
+                        Course Media Placeholder
+                    </div>
+                {{/if}}
+                <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 64px; height: 64px; background: rgba(0,0,0,0.6); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff;">
+                    <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                </div>
+            </div>
+
         </div>
     </header>
 
-    <!-- MAIN GRID -->
+    <!-- MAIN LAYOUT -->
     <div class="course-layout">
 
+        <!-- LEFT COLUMN -->
+        <main class="course-main">
 
-        <!-- LEFT -->
-        <div class="course-main"> <div id="overview" class="course-section">
-
-                <div class="course-overview">
-                    <div class="post-content{{#unless access}} post-content-teaser{{/unless}}">
-                        {{{html}}}
+            <!-- 1. WHAT YOU'LL LEARN -->
+            <section style="margin-bottom: var(--spacing-9);">
+                <h3 class="section-title">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+                    What You'll Learn
+                </h3>
+                
+                <div class="technical-grid">
+                    <div class="technical-grid-item">
+                        <div class="learn-title">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--color-success)" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                            Core Fundamentals
+                        </div>
+                        <p class="learn-desc">Deep dive into the underlying architecture and patterns that power modern applications.</p>
                     </div>
-
-                    {{#unless access}}
-                        {{> "post/content-cta"}}
-                    {{/unless}}
-                </div>
-            </div>
-            <!-- CURRICULUM -->
-            <div id="curriculum" class="course-section">
-                <div class="curriculum-header">
-                    <h2 class="course-heading">{{t "Curriculum"}}</h2>
-                    <div class="curriculum-header-right">
-                        {{#if primary_tag}}
-                            <span>{{t "Lessons in {tag}" tag=primary_tag.name}}</span>
-                        {{else}}
-                            <span>{{t "Group your lessons with a primary tag."}}</span>
-                        {{/if}}
-                        <span>{{t "Tap a lesson to start."}}</span>
+                    <div class="technical-grid-item">
+                        <div class="learn-title">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--color-success)" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                            Production Workflow
+                        </div>
+                        <p class="learn-desc">Setup a professional CI/CD pipeline, linting, testing, and deployment strategy.</p>
+                    </div>
+                    <div class="technical-grid-item">
+                        <div class="learn-title">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--color-success)" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                            Advanced Patterns
+                        </div>
+                        <p class="learn-desc">Master compound components, render props, and custom hooks.</p>
+                    </div>
+                    <div class="technical-grid-item">
+                        <div class="learn-title">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--color-success)" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                            Performance
+                        </div>
+                        <p class="learn-desc">Optimization techniques to ensure your app runs at 60fps on any device.</p>
                     </div>
                 </div>
+            </section>
+
+            <!-- 2. COURSE DESCRIPTION -->
+            <section style="margin-bottom: var(--spacing-9);">
+                <h3 class="section-title">About this Course</h3>
+                <div class="post-content">
+                    {{{html}}}
+                </div>
+            </section>
+
+            <!-- 3. CURRICULUM -->
+            <section id="curriculum" style="margin-bottom: var(--spacing-9);">
+                <h3 class="section-title">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+                    Curriculum
+                </h3>
 
                 {{#if primary_tag}}
-
-                    {{#get
-                        "posts"
-                        filter=(concat "tag:hash-lesson+tag:" primary_tag.slug)
-                        include="authors,tags"
-                        limit="all"
-                        order="published_at asc"
-                    }}
+                    {{#get "posts" filter=(concat "tag:hash-lesson+tag:" primary_tag.slug) include="authors,tags" limit="all" order="published_at asc"}}
                         {{#if posts}}
-                            <div class="lesson-list">
+                            <div class="curriculum-container">
                                 {{#foreach posts}}
-
-                                    {{#if access}}
-                                        <a href="{{url}}" class="lesson-row unlocked">
-                                            {{#if feature_image}}
-                                                <img src="{{img_url feature_image size="s"}}" class="lesson-thumb" alt="{{title}}">
-                                            {{else}}
-                                                <div class="lesson-thumb">
-                                                    {{t "Lesson"}}
-                                                </div>
-                                            {{/if}}
-
-                                            <div class="lesson-info">
-                                                <div class="lesson-title-line">
-                                                    <span class="lesson-title">
-                                                        {{@number}}. {{title}}
-                                                    </span>
-                                                    <span class="lesson-chip free">{{t "Free"}}</span>
-                                                </div>
-
-                                                <div class="lesson-meta">
-                                                    {{!-- lesson duration via internal tags or reading_time --}}
-                                                    {{#has tag="#duration-15m,#duration-30m,#duration-45m,#duration-1h,#duration-1h-30m,#duration-2h,#duration-3h-15"}}
-                                                        {{#has tag="#duration-15m"}}<span>15 min</span>{{/has}}
-                                                        {{#has tag="#duration-30m"}}<span>30 min</span>{{/has}}
-                                                        {{#has tag="#duration-45m"}}<span>45 min</span>{{/has}}
-                                                        {{#has tag="#duration-1h"}}<span>1 h</span>{{/has}}
-                                                        {{#has tag="#duration-1h-30m"}}<span>1 h 30 min</span>{{/has}}
-                                                        {{#has tag="#duration-2h"}}<span>2 h</span>{{/has}}
-                                                        {{#has tag="#duration-3h-15"}}<span>3 h 15 min</span>{{/has}}
-                                                    {{/has}}
-                                                    {{^has tag="#duration-15m,#duration-30m,#duration-45m,#duration-1h,#duration-1h-30m,#duration-2h,#duration-3h-15"}}
-                                                        {{#if reading_time}}
-                                                            <span>{{reading_time minute=(t "1 min") minutes=(t "% min")}}</span>
-                                                        {{/if}}
-                                                    {{/has}}
-                                                </div>
-
-                                                {{#if custom_excerpt}}
-                                                    <p class="lesson-excerpt-sm">{{custom_excerpt}}</p>
-                                                {{else if excerpt}}
-                                                    <p class="lesson-excerpt-sm">{{excerpt}}</p>
-                                                {{/if}}
-                                            </div>
-
-                                            <div class="lesson-status-block">
-                                                <span class="lesson-status free">
-                                                    <span class="lesson-status-icon">▶</span>
-                                                    {{t "Play"}}
-                                                </span>
-                                            </div>
-                                        </a>
-                                    {{else}}
-                                        <div class="lesson-row locked">
-                                            {{#if feature_image}}
-                                                <img src="{{img_url feature_image size="s"}}" class="lesson-thumb" alt="{{title}}">
-                                            {{else}}
-                                                <div class="lesson-thumb">
-                                                    {{t "Lesson"}}
-                                                </div>
-                                            {{/if}}
-
-                                            <div class="lesson-info">
-                                                <div class="lesson-title-line">
-                                                    <span class="lesson-title">
-                                                        {{@number}}. {{title}}
-                                                    </span>
-                                                </div>
-
-                                                <div class="lesson-meta">
-                                                    {{#has tag="#duration-15m,#duration-30m,#duration-45m,#duration-1h,#duration-1h-30m,#duration-2h,#duration-3h-15"}}
-                                                        {{#has tag="#duration-15m"}}<span>15 min</span>{{/has}}
-                                                        {{#has tag="#duration-30m"}}<span>30 min</span>{{/has}}
-                                                        {{#has tag="#duration-45m"}}<span>45 min</span>{{/has}}
-                                                        {{#has tag="#duration-1h"}}<span>1 h</span>{{/has}}
-                                                        {{#has tag="#duration-1h-30m"}}<span>1 h 30 min</span>{{/has}}
-                                                        {{#has tag="#duration-2h"}}<span>2 h</span>{{/has}}
-                                                        {{#has tag="#duration-3h-15"}}<span>3 h 15 min</span>{{/has}}
-                                                    {{/has}}
-                                                    {{^has tag="#duration-15m,#duration-30m,#duration-45m,#duration-1h,#duration-1h-30m,#duration-2h,#duration-3h-15"}}
-                                                        {{#if reading_time}}
-                                                            <span>{{reading_time minute=(t "1 min") minutes=(t "% min")}}</span>
-                                                        {{/if}}
-                                                    {{/has}}
-                                                </div>
-
-                                                {{#if custom_excerpt}}
-                                                    <p class="lesson-excerpt-sm">{{custom_excerpt}}</p>
-                                                {{else if excerpt}}
-                                                    <p class="lesson-excerpt-sm">{{excerpt}}</p>
-                                                {{/if}}
-                                            </div>
-
-                                            <div class="lesson-status-block">
-                                                <span class="lesson-status locked">
-                                                    <span class="lesson-status-icon">🔒</span>
-                                                    {{t "Locked"}}
-                                                </span>
-                                                {{#if @site.members_enabled}}
-                                                    <a href="#/portal/signup" class="lesson-status-cta">
-                                                        {{t "Become a member"}}
-                                                    </a>
+                                    <a href="{{url}}" class="lesson-row {{#if access}}unlocked{{else}}locked{{/if}}">
+                                        <span class="lesson-index">{{@number}}.</span>
+                                        <div style="flex: 1; min-width: 0;">
+                                            <span class="lesson-title">{{title}}</span>
+                                            <div class="lesson-meta-row">
+                                                <span>{{#if reading_time}}{{reading_time}}{{else}}Video{{/if}}</span>
+                                                {{#if access}}
+                                                    <span style="color: var(--color-success); font-weight: 600;">&bull; Free Preview</span>
                                                 {{/if}}
                                             </div>
                                         </div>
-                                    {{/if}}
-
+                                        <div class="lesson-status-icon">
+                                            {{#if access}}
+                                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                                            {{else}}
+                                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                                            {{/if}}
+                                        </div>
+                                    </a>
                                 {{/foreach}}
                             </div>
                         {{else}}
-                            <p class="curriculum-empty">
-                                {{t "No lessons found. Make sure lessons use the same primary tag and the internal tag #lesson."}}
-                            </p>
+                            <p style="color: var(--color-secondary);">Lessons coming soon.</p>
                         {{/if}}
                     {{/get}}
-
                 {{else}}
-                    <p class="curriculum-empty">
-                        {{t "Set a primary tag for this course to show lessons."}}
-                    </p>
+                    <p style="color: var(--color-secondary);">Curriculum loading...</p>
                 {{/if}}
-            </div>
+            </section>
 
-            <!-- OVERVIEW -->
-        </div>
+            <!-- 4. PREREQUISITES & TOOLS -->
+            <section style="margin-bottom: var(--spacing-9);">
+                <div class="technical-grid">
+                    <div class="technical-grid-item">
+                        <h4 style="margin: 0 0 15px 0;">Prerequisites</h4>
+                        <ul class="prereq-list">
+                            <li>Basic understanding of JavaScript</li>
+                            <li>Familiarity with HTML/CSS</li>
+                            <li>Node.js installed on your machine</li>
+                        </ul>
+                    </div>
+                    <div class="technical-grid-item">
+                        <h4 style="margin: 0 0 15px 0;">Tools Used</h4>
+                        <ul class="prereq-list">
+                            <li>VS Code (or any editor)</li>
+                            <li>Google Chrome</li>
+                            <li>Terminal / Command Line</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- 5. TESTIMONIALS -->
+            <section style="margin-bottom: var(--spacing-9);">
+                <h3 class="section-title">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                    Student Reviews
+                </h3>
+                
+                <div class="testimony-grid">
+                    <div class="testimony-card">
+                        <div class="testimony-header">
+                            <img src="https://ui-avatars.com/api/?name=Alex+M&background=0D8ABC&color=fff" class="testimony-avatar" alt="Alex">
+                            <div>
+                                <div style="font-weight: 700; color: var(--color-contrast);">Alex M.</div>
+                                <div class="testimony-stars">★★★★★</div>
+                            </div>
+                        </div>
+                        <p class="testimony-body">"This course completely changed how I think about component architecture. The instructor explains complex topics simply."</p>
+                    </div>
 
-        <!-- SIDEBAR -->
+                    <div class="testimony-card">
+                        <div class="testimony-header">
+                            <img src="https://ui-avatars.com/api/?name=Sarah+K&background=6D28D9&color=fff" class="testimony-avatar" alt="Sarah">
+                            <div>
+                                <div style="font-weight: 700; color: var(--color-contrast);">Sarah K.</div>
+                                <div class="testimony-stars">★★★★★</div>
+                            </div>
+                        </div>
+                        <p class="testimony-body">"I went from junior to senior dev in 6 months, largely thanks to the concepts taught here. Worth every penny."</p>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- 6. FAQ -->
+            <section>
+                <h3 class="section-title">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                    Common Questions
+                </h3>
+                <div class="technical-grid" style="grid-template-columns: 1fr;">
+                    <div class="technical-grid-item">
+                        <div style="font-weight: 700; color: var(--color-contrast); margin-bottom: 4px;">Is this course for beginners?</div>
+                        <div style="font-size: 0.95rem; color: var(--color-secondary);">Yes! We start from the absolute basics and work our way up to advanced concepts.</div>
+                    </div>
+                    <div class="technical-grid-item">
+                        <div style="font-weight: 700; color: var(--color-contrast); margin-bottom: 4px;">Do I get a certificate?</div>
+                        <div style="font-size: 0.95rem; color: var(--color-secondary);">Absolutely. Upon completion of all lessons, you will receive a verifiable certificate.</div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- RIGHT SIDEBAR -->
         <aside class="course-aside">
-            <div class="course-aside-sticky">
-
-                <div class="sidebar-card">
-                    {{#if access}}
-                        {{#if primary_tag}}
-                            {{#get
-                                "posts"
-                                filter=(concat "tag:hash-lesson+tag:" primary_tag.slug)
-                                limit="1"
-                                order="published_at asc"
-                            }}
-                                {{#if posts}}
-                                    {{#foreach posts}}
-                                        <a href="{{url}}" class="button button-rounded" style="width:100%; justify-content:center; margin-bottom:15px;">
-                                            {{t "Continue from Lesson 1"}}
-                                        </a>
-                                    {{/foreach}}
-                                {{else}}
-                                    <a href="#curriculum" class="button button-rounded" style="width:100%; justify-content:center; margin-bottom:15px;">
-                                        {{t "View curriculum"}}
-                                    </a>
-                                {{/if}}
-                            {{/get}}
-                        {{else}}
-                            <a href="#curriculum" class="button button-rounded" style="width:100%; justify-content:center; margin-bottom:15px;">
-                                {{t "View curriculum"}}
-                            </a>
-                        {{/if}}
-                    {{else}}
+            
+            <!-- 1. ENROLLMENT CARD -->
+            <div class="enroll-card">
+                <div class="enroll-header">
+                    <div class="enroll-price">
                         {{#if @site.members_enabled}}
-                            <a href="#/portal/signup" class="button button-rounded" style="width:100%; justify-content:center; margin-bottom:15px;">
-                                {{t "Become a member"}}
-                            </a>
+                            $99 <sub>$199</sub>
+                        {{else}}
+                            Free
                         {{/if}}
+                    </div>
+                    <div style="color: var(--color-secondary); font-size: 0.8rem; margin-top: 4px;">One-time payment. Lifetime access.</div>
+                </div>
+                
+                <div class="enroll-body">
+                    {{#if access}}
+                        <a href="#curriculum" class="button button-primary enroll-btn">Continue Watching</a>
+                    {{else}}
+                        <a href="#/portal/signup" class="button button-primary enroll-btn">Get Instant Access</a>
                     {{/if}}
 
-                    <p class="sidebar-subtext">
-                        {{t "Self-paced • Lifetime access • No deadlines."}}
-                    </p>
+                    <div style="border-bottom: 1px solid var(--color-border); margin: var(--spacing-5) 0;"></div>
 
-                    <ul class="details-list">
+                    <ul class="feature-check-list">
                         <li>
-                            <span class="details-label">{{t "Duration"}}</span>
-                            <strong>
-                                {{#has tag="#duration-15m"}}15 min{{/has}}
-                                {{#has tag="#duration-30m"}}30 min{{/has}}
-                                {{#has tag="#duration-45m"}}45 min{{/has}}
-                                {{#has tag="#duration-1h"}}1 h{{/has}}
-                                {{#has tag="#duration-1h-30m"}}1 h 30 min{{/has}}
-                                {{#has tag="#duration-2h"}}2 h{{/has}}
-                                {{#has tag="#duration-3h-15"}}3 h 15 min{{/has}}
-
-                                {{^has tag="#duration-15m,#duration-30m,#duration-45m,#duration-1h,#duration-1h-30m,#duration-2h,#duration-3h-15"}}
-                                    {{#if reading_time}}
-                                        {{reading_time minute=(t "1 min") minutes=(t "% min")}}
-                                    {{else}}
-                                        {{t "Self-paced"}}
-                                    {{/if}}
-                                {{/has}}
-                            </strong>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            <span>4.5 Hours of HD Video</span>
                         </li>
                         <li>
-                            <span class="details-label">{{t "Certificate"}}</span>
-                            <strong>{{t "Yes"}}</strong>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            <span>Downloadable Source Code</span>
                         </li>
                         <li>
-                            <span class="details-label">{{t "Access"}}</span>
-                            <strong>{{t "Lifetime"}} </strong>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            <span>Access to Discord Community</span>
                         </li>
                     </ul>
-
-                    {{#if authors}}
-                        {{#foreach authors}}
-                            <div style="display:flex; align-items:center; gap:15px; padding-top:20px; border-top:1px solid var(--color-border);">
-                                {{#if profile_image}}
-                                    <img src="{{img_url profile_image size="xs"}}" style="width:48px; height:48px; border-radius:50%; object-fit:cover;" alt="{{name}}">
-                                {{else}}
-                                    <div style="width:48px; height:48px; border-radius:50%; background:var(--color-background-200);"></div>
-                                {{/if}}
-                                <div>
-                                    <strong style="display:block; color:var(--color-contrast);">{{name}}</strong>
-                                    {{#if bio}}
-                                        <span style="font-size:0.8rem; color:var(--color-secondary);">{{bio}}</span>
-                                    {{/if}}
-                                </div>
-                            </div>
-                        {{/foreach}}
-                    {{/if}}
                 </div>
-
-                <div class="sidebar-card">
-                    <div class="sidebar-ad">
-                        <div class="sidebar-ad-slot"></div>
-                        <div class="sidebar-ad-label">{{t "Ad slot – 300x250"}}</div>
-                    </div>
-                    <div class="sidebar-ad">
-                        <div class="sidebar-ad-slot"></div>
-                        <div class="sidebar-ad-label">{{t "Ad slot – 300x250"}}</div>
-                    </div>
-                </div>
-
-                <div class="sidebar-card" style="text-align:center;">
-                    <h4 style="font-size:0.9rem; margin-bottom:15px; color:var(--color-secondary);">
-                        {{t "Share this course"}}
-                    </h4>
-                    <div style="display:flex; gap:10px; justify-content:center; opacity:0.7;">
-                        <div style="width:32px; height:32px; background:var(--color-background-200); border-radius:50%;"></div>
-                        <div style="width:32px; height:32px; background:var(--color-background-200); border-radius:50%;"></div>
-                        <div style="width:32px; height:32px; background:var(--color-background-200); border-radius:50%;"></div>
-                    </div>
-                </div>
-
             </div>
+
+            <!-- 2. INSTRUCTOR WIDGET -->
+          
+            
+            <!-- 3. AD SLOT (Example) -->
+            <div style="padding: var(--spacing-4); border: 1px dashed var(--color-border); border-radius: var(--radius-4); text-align: center; background: var(--color-background-100);">
+                <div style="color: var(--color-secondary); font-size: 0.75rem;">Advertisement</div>
+                <div style="width: 100%; height: 250px; background: var(--color-background-200); margin-top: 10px; border-radius: 4px;"></div>
+            </div>
+
         </aside>
 
     </div>
