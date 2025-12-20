@@ -1,11 +1,65 @@
 <a class="logo" href="{{@site.url}}" aria-label="{{@site.title}}">
-	{{#if @site.logo}}
-		<img {{#if @custom.dark_mode_logo}}class="logo-light" {{/if}}src="{{@site.logo}}" alt="{{@site.title}}">
-	{{else}}
-		<span{{#if @custom.dark_mode_logo}} class="logo-light"{{/if}}>{{@site.title}}</span>
-	{{/if}}
+    {{#if @site.logo}}
+        <img class="logo-image {{#if @custom.dark_mode_logo}}logo-light{{/if}}" src="{{@site.logo}}" alt="{{@site.title}}">
+        
+        {{#if @custom.dark_mode_logo}}
+            <img class="logo-dark" src="{{@custom.dark_mode_logo}}" alt="{{@site.title}}">
+        {{/if}}
+    {{/if}}
 
-	{{#if @custom.dark_mode_logo}}
-		<img class="logo-dark" src="{{@custom.dark_mode_logo}}" alt="{{@site.title}}">
-	{{/if}}
+    <span class="logo-text">{{@site.title}}</span>
 </a>
+
+<style>
+/* Optimized Logo Container */
+.logo {
+    display: inline-flex; /* Keeps it only as wide as content */
+    align-items: center;
+    gap: var(--spacing-2); /* Reduced from spacing-3 to 0.25rem */
+    text-decoration: none;
+    color: var(--color-contrast);
+    transition: opacity 0.2s ease;
+}
+
+.logo:hover {
+    opacity: 0.8;
+}
+
+/* Smaller Image Sizing */
+.logo-image, 
+.logo-dark {
+    height: 26px; /* Reduced from 32px for a sleeker look */
+    width: auto;
+    display: block;
+    flex-shrink: 0; /* Prevents logo from squishing */
+}
+
+/* Fluid Responsive Text */
+.logo-text {
+    font-family: var(--font-family-headings);
+    font-weight: var(--font-weight-bold);
+    /* Fluid size: Min 0.85rem, Max 1rem, scales with screen width */
+    font-size: clamp(0.85rem, 1.5vw, 1rem); 
+    letter-spacing: -0.02em; /* Tighter for a professional feel */
+    line-height: 1;
+    white-space: nowrap;
+}
+
+/* Mobile Specific Tweaks */
+@media (max-width: 480px) {
+    .logo {
+        gap: 6px;
+    }
+    
+    .logo-image, 
+    .logo-dark {
+        height: 22px; /* Even smaller on phones to save header space */
+    }
+    
+    /* Optional: If title is too long for mobile, you can truncate it */
+    .logo-text {
+        max-width: 150px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+}</style>
