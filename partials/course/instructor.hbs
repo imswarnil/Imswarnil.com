@@ -1,0 +1,13 @@
+{{#primary_author}}
+<div style="background: var(--color-background-100); border: 1px solid var(--color-border); padding: var(--spacing-6); border-radius: var(--radius-4);">
+    <h4 style="font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; color: var(--color-secondary); margin-bottom: var(--spacing-4);">Your Instructor</h4>
+    <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+        {{#if profile_image}}<img src="{{img_url profile_image size="xs"}}" style="width: 48px; height: 48px; border-radius: 50%; object-fit: cover;">{{/if}}
+        <div>
+            <div style="font-weight: 700; color: var(--color-contrast); font-size: 1.05rem;">{{name}}</div>
+            {{#if location}}<div style="font-size: 0.8rem; color: var(--color-secondary);">{{location}}</div>{{/if}}
+        </div>
+    </div>
+    {{#if bio}}<p style="font-size: 0.9rem; line-height: 1.6; margin:0; color: var(--color-foreground);">{{bio}}</p>{{/if}}
+</div>
+{{/primary_author}}

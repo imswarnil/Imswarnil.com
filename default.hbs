@@ -198,6 +198,10 @@
 			</nav>
 			{{/if}}
 
+ <div class="sidebar-ad sidebar-ad--vertical">
+				{{> "adsense" type="square" }}
+			</div>
+			
 			{{!-- Tags. --}}
 			{{#> "get-tags" setting=@custom.tags_list_sidebar}}
 				{{#if tags}}
@@ -237,9 +241,7 @@
 				{{/if}}
 			{{/"get-tags"}}
 
-            <div class="sidebar-ad sidebar-ad--vertical">
-				{{> "adsense" type="square" }}
-			</div>
+           
 
 
 			{{!-- Footer. --}}
@@ -250,11 +252,6 @@
 		<{{#is "home"}}div{{else}}article{{/is}} id="content" class="content{{#is "post"}} post{{/is}}">
 			{{{body}}}
 		</{{#is "home"}}div{{else}}article{{/is}}>
-{{!-- Global below-content ad (tags, pages, etc.) --}}
-		<div class="container-wide layout-ad layout-ad--below-content">
-			{{> "adsense" type="fluid" }}
-		</div>
-
 		{{!-- Footer. --}}
 		{{> "layout/footer"}}
 	</main>
