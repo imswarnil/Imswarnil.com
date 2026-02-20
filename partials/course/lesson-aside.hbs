@@ -1,386 +1,254 @@
 {{!-- 
     PARTIAL: course/lessons-aside
-    USAGE: In lesson template sidebar (inside {{#post}})
-           {{> "course/lessons-aside"}}
-    PURPOSE: Show all lessons in the same course (same primary_tag + #lesson),
-             highlight current lesson, show tiny thumb, title, short excerpt.
+    DESIGN: Sticky Sidebar + Mobile Floating Drawer Panel
+    REUSING: --color-*, --spacing-*, --radius-*, --shadow
 --}}
 
-<style>
-    .lesson-sidebar-nav {
-        border-radius: var(--radius-4);
-        border: 1px solid var(--color-border);
-        background: var(--color-background-100);
-        padding: var(--spacing-4);
-        margin-bottom: var(--spacing-6);
-        position: relative;
-    }
-
-    .lesson-sidebar-title {
-        font-size: 0.85rem;
-        font-weight: var(--font-weight-bold);
-        text-transform: uppercase;
-        letter-spacing: 0.09em;
-        color: var(--color-secondary);
-        margin: 0 0 var(--spacing-3);
-    }
-
-    /* subtle vertical spine */
-    .lesson-sidebar-list {
-        list-style: none;
-        margin: 0;
-        padding: 2px 0 0 0;
-        display: flex;
-        flex-direction: column;
-        gap: 4px;
-        position: relative;
-    }
-
-    .lesson-sidebar-list::before {
-        content: "";
-        position: absolute;
-        left: 20px;
-        top: 2px;
-        bottom: 4px;
-        width: 2px;
-        background: linear-gradient(
-            to bottom,
-            color-mix(in srgb, var(--color-border), transparent 10%),
-            color-mix(in srgb, var(--color-border), transparent 40%)
-        );
-        opacity: 0.85;
-        pointer-events: none;
-    }
-
-    .lesson-sidebar-item {
-        border-radius: var(--radius-3);
-        overflow: hidden;
-        position: relative;
-    }
-
-    .lesson-sidebar-link {
-        display: grid;
-        grid-template-columns: auto 1fr auto;
-        gap: 8px;
-        align-items: center;
-        padding: 6px 8px;
-        font-size: 0.82rem;
-        color: var(--color-foreground);
-        text-decoration: none;
-        border-radius: inherit;
-        border: 1px solid transparent;
-        background: transparent;
-        transition: background 0.15s ease-out, border-color 0.15s ease-out, transform 0.15s ease-out;
-        position: relative;
-    }
-
-    /* dot on the spine */
-    .lesson-sidebar-link::before {
-        content: "";
-        position: absolute;
-        left: 18px;
-        top: 50%;
-        transform: translateY(-50%);
-        width: 9px;
-        height: 9px;
-        border-radius: 999px;
-        background: var(--color-background);
-        border: 1px solid var(--color-border);
-        z-index: 1;
-    }
-
-    .lesson-sidebar-link.is-locked {
-        cursor: default;
-    }
-
-    .lesson-sidebar-item:not(.is-active) .lesson-sidebar-link:hover {
-        background: var(--color-background);
-        border-color: var(--color-border);
-        transform: translateY(-1px);
-    }
-
-    /* active state */
-    .lesson-sidebar-item.is-active .lesson-sidebar-link {
-        background: var(--color-background);
-        border-color: var(--ghost-accent-color);
-    }
-
-    .lesson-sidebar-item.is-active .lesson-sidebar-link::before {
-        background: var(--ghost-accent-color);
-        border-color: var(--ghost-accent-color);
-    }
-
-    /* thumb – smaller */
-    .lesson-sidebar-thumb {
-        width: 36px;
-        height: 36px;
-        border-radius: var(--radius-2);
-        overflow: hidden;
-        flex-shrink: 0;
-        border: 1px solid var(--color-border);
-        background: var(--color-background-200);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .lesson-sidebar-thumb img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        display: block;
-    }
-
-    .lesson-sidebar-thumb-placeholder {
-        font-size: 0.7rem;
-        color: var(--color-secondary);
-    }
-
-    /* text block */
-    .lesson-sidebar-text {
-        min-width: 0;
-        display: flex;
-        flex-direction: column;
-        gap: 1px;
-    }
-
-    .lesson-sidebar-topline {
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        min-width: 0;
-    }
-
-    /* NUMBER BADGE */
-    .lesson-sidebar-number {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        min-width: 20px;
-        height: 20px;
-        padding: 0 6px;
-        border-radius: 999px;
-        font-family: var(--font-family-headings);
-        font-weight: var(--font-weight-medium);
-        font-size: 0.7rem;
-        color: var(--color-secondary);
-        border: 1px solid var(--color-border);
-        background: var(--color-background-200);
-    }
-
-    .lesson-sidebar-item.is-active .lesson-sidebar-number {
-        border-color: var(--ghost-accent-color);
-        background: color-mix(in srgb, var(--ghost-accent-color) 12%, var(--color-background));
-        color: var(--ghost-accent-color);
-    }
-
-    .lesson-sidebar-name {
-        font-family: var(--font-family-headings);
-        font-size: 0.86rem;
-        font-weight: var(--font-weight-medium);
-        color: var(--color-contrast);
-        white-space: nowrap;
-        text-overflow: ellipsis;
-        overflow: hidden;
-    }
-
-    /* truncated description */
-    .lesson-sidebar-excerpt {
-        font-size: 0.74rem;
-        color: var(--color-secondary);
-        display: -webkit-box;
-        -webkit-line-clamp: 1;      /* keep it minimal */
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-    }
-
-    /* status pill */
-    .lesson-sidebar-status {
-        font-size: 0.7rem;
-        padding: 2px 7px;
-        border-radius: 999px;
-        border: 1px solid var(--color-border);
-        color: var(--color-secondary);
-        white-space: nowrap;
-    }
-
-    .lesson-sidebar-status--free {
-        border-color: var(--ghost-accent-color);
-        color: var(--ghost-accent-color);
-    }
-
-    .lesson-sidebar-status--locked {
-        border-color: rgba(195,77,77,.5);
-        color: var(--color-error);
-        background: rgba(195,77,77,.06);
-    }
-
-    .lesson-sidebar-status--current {
-        border-color: var(--ghost-accent-color);
-        background: var(--ghost-accent-color);
-        color: #fff;
-    }
-
-    @media (max-width: 640px) {
-        .lesson-sidebar-link {
-            padding: 5px 7px;
-            gap: 6px;
-        }
-
-        .lesson-sidebar-thumb {
-            width: 32px;
-            height: 32px;
-        }
-
-        .lesson-sidebar-name {
-            font-size: 0.82rem;
-        }
-
-        .lesson-sidebar-list::before {
-            left: 18px;
-        }
-
-        .lesson-sidebar-link::before {
-            left: 16px;
-        }
-    }
-</style>
-
-{{!-- DATA + MARKUP --}}
 {{#if primary_tag}}
-    {{#get
-        "posts"
-        filter=(concat "tag:hash-lesson+tag:" primary_tag.slug)
-        include="tags"
-        limit="all"
-        order="published_at asc"
-    }}
-        {{#if posts}}
-            <nav class="lesson-sidebar-nav" aria-label="{{t "Course lessons"}}">
-                <h3 class="lesson-sidebar-title">
-                    {{t "Lessons in this course"}}
-                </h3>
+    {{#get "posts" filter="tag:hash-lesson+tag:{{primary_tag.slug}}" include="tags" limit="all" order="published_at asc" as |lessons|}}
+        {{#if lessons}}
+            <style>
+                /* === 1. SIDEBAR STICKY WRAPPER === */
+                .sw-sidebar-sticky-group {
+                    position: sticky;
+                    top: calc(var(--navbar--height, 70px) + var(--spacing-5));
+                    display: flex;
+                    flex-direction: column;
+                    gap: var(--spacing-6);
+                }
 
-                <ol class="lesson-sidebar-list">
-                    {{#foreach posts}}
-                        {{!-- Compare lesson slug to current page slug (outer post context) --}}
-                        {{#match slug ../../slug}}
-                            {{!-- ACTIVE LESSON --}}
-                            <li class="lesson-sidebar-item is-active">
-                                <div class="lesson-sidebar-link">
-                                    <div class="lesson-sidebar-thumb">
-                                        {{#if feature_image}}
-                                            <img src="{{img_url feature_image size="xs"}}" alt="{{title}}">
-                                        {{else}}
-                                            <span class="lesson-sidebar-thumb-placeholder">▶</span>
-                                        {{/if}}
-                                    </div>
+                .sw-lms-nav {
+                    border: 1px solid var(--color-border);
+                    border-radius: var(--radius-4);
+                    background: var(--color-background-100);
+                    box-shadow: var(--shadow);
+                    overflow: hidden;
+                    display: flex;
+                    flex-direction: column;
+                }
 
-                                    <div class="lesson-sidebar-text">
-                                        <div class="lesson-sidebar-topline">
-                                            <span class="lesson-sidebar-number">
-                                                {{@number}}
-                                            </span>
-                                            <span class="lesson-sidebar-name">
-                                                {{title}}
-                                            </span>
+                .sw-lms-header {
+                    padding: var(--spacing-5) var(--spacing-6);
+                    background: var(--color-background);
+                    border-bottom: 1px solid var(--color-border);
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                }
+
+                .sw-lms-header h3 {
+                    font-size: 0.9rem;
+                    font-weight: 800;
+                    text-transform: uppercase;
+                    letter-spacing: 1px;
+                    margin: 0;
+                    color: var(--color-contrast);
+                }
+
+                /* === 2. THE TIMELINE SPINE === */
+                .sw-lms-list {
+                    list-style: none;
+                    margin: 0;
+                    padding: var(--spacing-4) var(--spacing-3);
+                    position: relative;
+                    max-height: 60vh; /* Shorter to allow items below to show */
+                    overflow-y: auto;
+                }
+
+                .sw-lms-list::before {
+                    content: "";
+                    position: absolute;
+                    left: 31px;
+                    top: var(--spacing-8);
+                    bottom: var(--spacing-8);
+                    width: 2px;
+                    background: var(--color-border);
+                    z-index: 0;
+                }
+
+                .sw-lms-item { position: relative; z-index: 1; margin-bottom: var(--spacing-2); }
+
+                .sw-lms-link {
+                    display: grid;
+                    grid-template-columns: 36px 1fr;
+                    gap: var(--spacing-5);
+                    align-items: center;
+                    padding: var(--spacing-3) var(--spacing-4);
+                    text-decoration: none;
+                    border-radius: var(--radius-3);
+                    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+                }
+
+                .sw-lms-node {
+                    width: 36px; height: 36px; border-radius: 50%;
+                    background: var(--color-background); border: 2px solid var(--color-border);
+                    display: flex; align-items: center; justify-content: center;
+                    font-size: 0.75rem; font-weight: 800; color: var(--color-secondary); z-index: 2;
+                }
+
+                /* Hover & Active */
+                .sw-lms-item:not(.is-active) .sw-lms-link:hover { background: var(--color-background); transform: translateX(5px); }
+                .sw-lms-item.is-active .sw-lms-link { background: var(--color-background); border-color: var(--ghost-accent-color); }
+                .sw-lms-item.is-active .sw-lms-node {
+                    background: var(--ghost-accent-color); border-color: var(--ghost-accent-color);
+                    color: var(--color-background); box-shadow: 0 0 0 4px color-mix(in srgb, var(--ghost-accent-color), transparent 85%);
+                }
+
+                .sw-lms-title { font-family: var(--font-family-headings); font-size: 0.9rem; font-weight: 600; color: var(--color-contrast); line-height: 1.3; }
+                .sw-lms-meta { font-size: 0.75rem; color: var(--color-secondary); display: block; margin-top: 2px; }
+
+                /* === 3. MOBILE FLOATING PANEL (Drawer) === */
+                .mobile-fab {
+                    display: none;
+                    position: fixed;
+                    bottom: var(--spacing-6);
+                    right: var(--spacing-6);
+                    width: 56px;
+                    height: 56px;
+                    border-radius: 50%;
+                    background: var(--ghost-accent-color);
+                    color: var(--color-white);
+                    border: none;
+                    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+                    z-index: 9999;
+                    cursor: pointer;
+                    align-items: center;
+                    justify-content: center;
+                }
+
+                .mobile-drawer {
+                    border: none;
+                    padding: 0;
+                    width: 85%;
+                    max-width: 350px;
+                    height: 100%;
+                    max-height: 100%;
+                    margin-right: 0;
+                    margin-left: auto;
+                    background: var(--color-background);
+                    box-shadow: -10px 0 30px rgba(0,0,0,0.2);
+                    transform: translateX(100%);
+                    transition: transform 0.3s ease;
+                }
+
+                .mobile-drawer[open] {
+                    transform: translateX(0);
+                    display: flex;
+                    flex-direction: column;
+                }
+
+                .mobile-drawer::backdrop {
+                    background: rgba(0,0,0,0.5);
+                    backdrop-filter: blur(4px);
+                }
+
+                .drawer-header {
+                    padding: var(--spacing-6);
+                    border-bottom: 1px solid var(--color-border);
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                }
+
+                /* === 4. RESPONSIVE === */
+                @media (max-width: 991px) {
+                    .sw-sidebar-sticky-group { display: none; } /* Hide Sidebar on mobile */
+                    .mobile-fab { display: flex; } /* Show FAB on mobile */
+                }
+            </style>
+
+            <div class="sw-sidebar-sticky-group">
+                <nav class="sw-lms-nav">
+                    <div class="sw-lms-header">
+                        <h3>{{t "Curriculum"}}</h3>
+                        <span class="post-tag" style="font-size: 0.65rem; border-radius: 20px; font-weight: 700;">{{pagination.total}} Lessons</span>
+                    </div>
+
+                    <ol class="sw-lms-list">
+                        {{#foreach lessons}}
+                            {{#match slug "=" ../../slug}}
+                                <li class="sw-lms-item is-active">
+                                    <div class="sw-lms-link">
+                                        <div class="sw-lms-node">{{@number}}</div>
+                                        <div class="sw-lms-text">
+                                            <span class="sw-lms-title">{{title}}</span>
+                                            <span class="sw-lms-meta" style="color: var(--ghost-accent-color); font-weight: 700;">Now Watching</span>
                                         </div>
-
-                                        {{#if custom_excerpt}}
-                                            <span class="lesson-sidebar-excerpt">
-                                                {{custom_excerpt}}
-                                            </span>
-                                        {{else if excerpt}}
-                                            <span class="lesson-sidebar-excerpt">
-                                                {{excerpt}}
-                                            </span>
-                                        {{/if}}
                                     </div>
+                                </li>
+                            {{else}}
+                                <li class="sw-lms-item {{#unless access}}is-locked{{/unless}}">
+                                    {{#if access}}
+                                        <a href="{{url}}" class="sw-lms-link">
+                                            <div class="sw-lms-node">{{@number}}</div>
+                                            <div class="sw-lms-text"><span class="sw-lms-title">{{title}}</span></div>
+                                        </a>
+                                    {{else}}
+                                        <div class="sw-lms-link">
+                                            <div class="sw-lms-node">🔒</div>
+                                            <div class="sw-lms-text"><span class="sw-lms-title">{{title}}</span></div>
+                                        </div>
+                                    {{/if}}
+                                </li>
+                            {{/match}}
+                        {{/foreach}}
+                    </ol>
 
-                                    <span class="lesson-sidebar-status lesson-sidebar-status--current">
-                                        {{t "Now"}}
-                                    </span>
-                                </div>
-                            </li>
-                        {{else}}
-                            {{!-- OTHER LESSONS --}}
-                            <li class="lesson-sidebar-item">
+                    <div style="padding: var(--spacing-5) var(--spacing-6); border-top: 1px solid var(--color-border); background: var(--color-background-100);">
+                        <a href="{{primary_tag.url}}" class="button button-background-200 button-rounded button-fullwidth" style="text-decoration: none; display: block; text-align: center; font-size: 0.8rem; font-weight: 700;">
+                            ← Return to Course
+                        </a>
+                    </div>
+                </nav>
+
+                {{!-- ITEMS BELOW SIDEBAR (They will stick too) --}}
+                <div class="instructor-mini">
+                    {{#primary_author}}
+                        <img src="{{img_url profile_image size="xs"}}" style="width: 40px; height: 40px; border-radius: 50%;" alt="">
+                        <div>
+                            <div style="font-weight: 700; font-size: 0.9rem;">{{name}}</div>
+                            <div style="font-size: 0.75rem; color: var(--color-secondary);">Instructor</div>
+                        </div>
+                    {{/primary_author}}
+                </div>
+            </div>
+
+            <button class="mobile-fab" onclick="document.getElementById('mobile-course-drawer').showModal()">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+            </button>
+
+            <dialog id="mobile-course-drawer" class="mobile-drawer">
+                <div class="drawer-header">
+                    <span style="font-weight: 800; font-size: 0.9rem; text-transform: uppercase;">Course Map</span>
+                    <button onclick="document.getElementById('mobile-course-drawer').close()" style="background: none; border: none; font-size: 1.5rem; color: var(--color-secondary);">&times;</button>
+                </div>
+                
+                <div style="flex: 1; overflow-y: auto;">
+                    {{!-- Reusing the same list inside the drawer --}}
+                    <ol class="sw-lms-list" style="max-height: none;">
+                        {{#foreach lessons}}
+                            <li class="sw-lms-item {{#match slug "=" ../../slug}}is-active{{/match}} {{#unless access}}is-locked{{/unless}}">
                                 {{#if access}}
-                                    <a href="{{url}}" class="lesson-sidebar-link">
-                                        <div class="lesson-sidebar-thumb">
-                                            {{#if feature_image}}
-                                                <img src="{{img_url feature_image size="xs"}}" alt="{{title}}">
-                                            {{else}}
-                                                <span class="lesson-sidebar-thumb-placeholder">▶</span>
-                                            {{/if}}
-                                        </div>
-
-                                        <div class="lesson-sidebar-text">
-                                            <div class="lesson-sidebar-topline">
-                                                <span class="lesson-sidebar-number">
-                                                    {{@number}}
-                                                </span>
-                                                <span class="lesson-sidebar-name">
-                                                    {{title}}
-                                                </span>
-                                            </div>
-
-                                            {{#if custom_excerpt}}
-                                                <span class="lesson-sidebar-excerpt">
-                                                    {{custom_excerpt}}
-                                                </span>
-                                            {{else if excerpt}}
-                                                <span class="lesson-sidebar-excerpt">
-                                                    {{excerpt}}
-                                                </span>
-                                            {{/if}}
-                                        </div>
-
-                                        <span class="lesson-sidebar-status lesson-sidebar-status--free">
-                                            ▶
-                                        </span>
+                                    <a href="{{url}}" class="sw-lms-link">
+                                        <div class="sw-lms-node">{{@number}}</div>
+                                        <div class="sw-lms-text"><span class="sw-lms-title">{{title}}</span></div>
                                     </a>
                                 {{else}}
-                                    <div class="lesson-sidebar-link is-locked">
-                                        <div class="lesson-sidebar-thumb">
-                                            {{#if feature_image}}
-                                                <img src="{{img_url feature_image size="xs"}}" alt="{{title}}">
-                                            {{else}}
-                                                <span class="lesson-sidebar-thumb-placeholder">🔒</span>
-                                            {{/if}}
-                                        </div>
-
-                                        <div class="lesson-sidebar-text">
-                                            <div class="lesson-sidebar-topline">
-                                                <span class="lesson-sidebar-number">
-                                                    {{@number}}
-                                                </span>
-                                                <span class="lesson-sidebar-name">
-                                                    {{title}}
-                                                </span>
-                                            </div>
-
-                                            {{#if custom_excerpt}}
-                                                <span class="lesson-sidebar-excerpt">
-                                                    {{custom_excerpt}}
-                                                </span>
-                                            {{else if excerpt}}
-                                                <span class="lesson-sidebar-excerpt">
-                                                    {{excerpt}}
-                                                </span>
-                                            {{/if}}
-                                        </div>
-
-                                        <span class="lesson-sidebar-status lesson-sidebar-status--locked">
-                                            🔒
-                                        </span>
+                                    <div class="sw-lms-link">
+                                        <div class="sw-lms-node">🔒</div>
+                                        <div class="sw-lms-text"><span class="sw-lms-title">{{title}}</span></div>
                                     </div>
                                 {{/if}}
                             </li>
-                        {{/match}}
-                    {{/foreach}}
-                </ol>
-            </nav>
+                        {{/foreach}}
+                    </ol>
+                </div>
+
+                <div style="padding: var(--spacing-6); border-top: 1px solid var(--color-border);">
+                    <a href="{{primary_tag.url}}" class="button button-primary button-fullwidth" style="text-align:center;">Back to Home</a>
+                </div>
+            </dialog>
+
         {{/if}}
     {{/get}}
 {{/if}}
