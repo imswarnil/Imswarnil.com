@@ -1,0 +1,51 @@
+{{!--
+	Google AdSense — reusable responsive ad unit
+	================================================================
+	Publisher: ca-pub-1291242080282540
+
+	Renders ONE responsive AdSense unit. It is gated twice:
+	  1. @custom.enable_adsense  — the master on/off switch in Ghost admin
+	     (Settings → Design → Site-wide → "Enable AdSense ads").
+	  2. #hide_adsense_ads       — if the current post/page carries this
+	     internal tag, NO ad is rendered. Note: `has` checks the CURRENT
+	     data context, so this only suppresses ads when the partial is
+	     called inside a {{#post}} / {{#page}} block (which is exactly the
+	     per-post/per-page placements). On listing pages there is no single
+	     post, so only the master switch applies — which is what we want.
+
+	Usage:
+	  {{> "monetization/adsense" slot="7663977887"}}                      → square / auto responsive
+	  {{> "monetization/adsense" slot="1864856299" label="Sponsored"}}    → custom label
+	  {{> "monetization/adsense" slot="6501428979" format="fluid" layout="in-article"}}  → in-article
+	  {{> "monetization/adsense" slot="3375031396" format="autorelaxed"}} → multiplex / related
+
+	Params:
+	  slot       (required) AdSense ad-slot id.
+	  format     data-ad-format. Defaults to "auto" (fully responsive).
+	             Use "fluid" for in-article/in-feed, "autorelaxed" for multiplex.
+	  layout     data-ad-layout (e.g. "in-article"). Optional.
+	  layout_key data-ad-layout-key (in-feed ads only). Optional.
+	  label      Small text shown above the ad. Defaults to "Advertisement".
+	  class      Extra CSS class(es) on the wrapper. Optional.
+	  style      Extra inline style on the <ins>. Optional.
+--}}
+{{#if @custom.enable_adsense}}
+{{^has tag="#hide_adsense_ads"}}
+<div class="ad ad-adsense{{#if class}} {{class}}{{/if}}" aria-hidden="true">
+	{{#if label}}<span class="ad-label">{{label}}</span>{{else}}<span class="ad-label">{{t "Advertisement"}}</span>{{/if}}
+	<ins class="adsbygoogle"
+		style="display:block;{{#if style}}{{style}}{{/if}}"
+		data-ad-client="ca-pub-1291242080282540"
+		data-ad-slot="{{slot}}"
+		data-ad-format="{{#if format}}{{format}}{{else}}auto{{/if}}"
+		{{#if layout}}data-ad-layout="{{layout}}"{{/if}}
+		{{#if layout_key}}data-ad-layout-key="{{layout_key}}"{{/if}}
+		data-full-width-responsive="true"></ins>
+	<script>
+		// Request an ad into the <ins> above. The loader script is added once
+		// in the <head> via partials/monetization/ads-head.hbs.
+		(adsbygoogle = window.adsbygoogle || []).push({});
+	</script>
+</div>
+{{/has}}
+{{/if}}

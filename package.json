@@ -33,6 +33,11 @@
 	"config": {
 		"card_assets": true,
 		"custom": {
+			"enable_adsense": {
+				"type": "boolean",
+				"default": false,
+				"description": "Master switch for AdSense. Tag a post/page #hide_adsense_ads to hide its ads."
+			},
 			"color_scheme": {
 				"type": "select",
 				"options": [

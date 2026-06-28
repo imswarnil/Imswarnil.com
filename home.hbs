@@ -71,6 +71,9 @@
 	{{/get}}
 {{/match}}
 
+{{!-- Ad: before the latest-posts feed (Leaderboard responsive). --}}
+{{> "monetization/adsense" slot="1864856299" class="ad-feed-top"}}
+
 {{!-- Posts. --}}
 {{#> get-posts}}
 	{{> "sections/posts" title=(t "Latest") is_home=true}}

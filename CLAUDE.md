@@ -121,7 +121,28 @@ Configured in `package.json` under `config.custom`. Key settings:
 - `featured_section_style` — Disabled, Carousel, Slider, Grid, Grid List (homepage group)
 - `feature_image_aspect_ratio` — auto, 1/1, 4/3, 3/2, 2/3, 16/9, 21/9 (default), 9/16
 - `show_sidebar` — boolean (post group)
+- `enable_adsense` — boolean master switch for AdSense (default false; see Monetization)
 - Various text settings for subscription form copy, footer copyright, and tag list counts
+
+> Adding/removing a `config.custom` setting only shows up in Ghost admin after a Ghost **restart**. Ghost caps each setting `description` at 100 characters (gscan warns otherwise). The theme is near Ghost's ~20 custom-settings limit — prefer hardcoding over new settings.
+
+## Monetization (Google AdSense)
+
+Self-contained in `partials/monetization/`. Publisher id `ca-pub-1291242080282540` is hardcoded in both partials.
+
+- `monetization/ads-head.hbs` — the loader `<script>`, included once in `default.hbs` `<head>`. Gated by `@custom.enable_adsense`, so a disabled site makes zero AdSense requests.
+- `monetization/adsense.hbs` — one reusable **responsive** ad unit. Double-gated: (1) `@custom.enable_adsense` master switch, (2) `{{^has tag="#hide_adsense_ads"}}` — adding the internal tag `#hide_adsense_ads` to a post/page hides all its ads.
+  - Params: `slot` (required), `format` (default `auto`; use `fluid` for in-article/in-feed, `autorelaxed` for multiplex), `layout`, `layout_key`, `label`, `class`, `style`.
+  - Call it as `{{> "monetization/adsense" slot="..."}}`.
+
+**Important — the `#hide_adsense_ads` gate is context-sensitive.** `has` checks the current data context, so the tag is only honored when the partial is called **inside `{{#post}}`/`{{#page}}`**. Rules of thumb:
+- Per-post/page placements (post.hbs, post/sidebar.hbs, post/content-page.hbs) → tag respected. ✓
+- Listing/feed placements (index.hbs, home.hbs, sections/posts.hbs) → only the master switch applies (no single post → tag N/A).
+- The global footer ad lives in `layout/footer.hbs` wrapped in `{{^is "post, page"}}` so it never shows on posts/pages (which already have in-context ads honoring the tag).
+
+Current placements (≈4–7 ads/page): post = top + in-article + multiplex + pre-comments + sidebar; page = top + in-article; feed = top leaderboard + in-feed (every 4th card via `has number="nth:4"`) + bottom multiplex; footer leaderboard on listings. Slot ids are inline in each template; the full slot catalog (square 7663977887, horizontal 8939839370, etc.) was supplied by the site owner.
+
+Ad CSS (wrapper spacing, `.ad-label`, full-row span for in-feed `.posts-list-ad`) lives in `assets/custom.css` — **not** part of the Rollup build, loaded directly by `default.hbs`.
 
 ## Localization
 

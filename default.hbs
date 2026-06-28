@@ -20,6 +20,9 @@
 	{{!-- Script for theme data --}}
 	{{> "theme-head-script"}}
 
+	{{!-- Google AdSense loader (only output when @custom.enable_adsense is ON). --}}
+	{{> "monetization/ads-head"}}
+
 	{{!-- Script for color scheme --}}
 	{{#if @custom.display_color_scheme_toggle}}
 	{{> "color-scheme-head-script"}}

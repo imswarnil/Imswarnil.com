@@ -1,0 +1,13 @@
+{{!--
+	Google AdSense — loader script
+	================================================================
+	Loaded once in <head> (see default.hbs). Only output when the master
+	switch @custom.enable_adsense is ON, so the site makes zero AdSense
+	network requests while ads are disabled.
+
+	The individual ad units are rendered by partials/monetization/adsense.hbs.
+--}}
+{{#if @custom.enable_adsense}}
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1291242080282540"
+	crossorigin="anonymous"></script>
+{{/if}}
