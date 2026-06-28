@@ -53,7 +53,18 @@ Root-level `.hbs` files are Ghost Handlebars templates:
 - `custom-narrow.hbs`, `page-authors.hbs`, `page-membership.hbs`, `page-recommendations.hbs`, `page-tags.hbs` — custom page templates
 - `signup.hbs`, `signin.hbs`, `error.hbs` — utility templates
 
-Routes are defined in `routes.yaml`: `/signup/` and `/signin/` map to their templates; `/` uses `index.hbs`; `/archive/` uses `archive.hbs`; both use `/{slug}/` permalinks.
+### Routing & content architecture
+
+`routes.yaml` in this theme is the **canonical, version-controlled** routing source, but Ghost only serves routing from `content/settings/routes.yaml` in the install root. **Keep both in sync** — edit this file, then upload it via Ghost Admin (Settings → Labs → Routes) or copy it to `content/settings/routes.yaml` and restart Ghost. See the install-root `CLAUDE.md` for the full sync procedure.
+
+Routing splits the site into tag-filtered modules (not just a flat blog):
+
+- `/` → `index.hbs`, filtered to **exclude** internal tags `#course`, `#lesson`, `#webseries`, `#episode` (keeps modules out of the home feed)
+- `/course/{slug}/` (`tags:hash-course`) and `/course/{primary_tag}/{slug}/` lessons (`tags:hash-lesson`) — Course module
+- `/webseries/{slug}/` (`tags:hash-webseries`) and `/series/{primary_tag}/{slug}/` episodes (`tags:hash-episode`) — Web Series module
+- `/archive/` → `archive.hbs`; `/signup/` → `signup.hbs`; `/signin/` → `signin.hbs`; permalinks `/{slug}/`
+
+Collections with no `template:` use `index.hbs` (lists) and `post.hbs` (posts). To style a module, add a `<name>.hbs` (collection template), a `custom-<name>.hbs` (per-post selectable), or use Ghost's hierarchy (`tag-<slug>.hbs`, `post-<slug>.hbs`). **More modules are planned (projects, videos, courses)** — when adding one, also add its `#`-tag to the home-feed exclusion filter.
 
 ### Partials
 

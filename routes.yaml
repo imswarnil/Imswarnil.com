@@ -1,19 +1,50 @@
+# CANONICAL routing source for Imswarnil.com.
+# Ghost actually serves routing from content/settings/routes.yaml. After editing
+# this file, sync it to the live location (see "Routing" in CLAUDE.md):
+#   - Ghost Admin: Settings > Labs > Routes > Upload routes.yaml, OR
+#   - copy this file to ../../settings/routes.yaml and `ghost restart` from the install root.
+
 routes:
   /signup/:
     template: signup
-    # data: page.signup # When active data will be taken from the  "/signup/" page
+    # data: page.signup # When active data will be taken from the "/signup/" page
   /signin/:
     template: signin
-    # data: page.signin # When active data will be taken from the  "/signin/" page
+    # data: page.signin # When active data will be taken from the "/signin/" page
 
 collections:
+  # 1. MAIN BLOG
+  # Excludes courses, lessons, series, and episodes from the home feed
   /:
     permalink: /{slug}/
     template: index
+    filter: "tag:-[hash-course,hash-lesson,hash-webseries,hash-episode]"
+
+  # 2. COURSE MODULE
+  /course/:
+    permalink: /course/{slug}/
+    filter: "tags:hash-course"
+
+  /lessons/:
+    permalink: /course/{primary_tag}/{slug}/
+    filter: "tags:hash-lesson"
+
+  # 3. WEB SERIES MODULE
+  # URL: site.com/webseries/my-series-name/
+  /webseries/:
+    permalink: /webseries/{slug}/
+    filter: "tags:hash-webseries"
+
+  # URL: site.com/series/my-series-name/episode-1/
+  /episodes/:
+    permalink: /series/{primary_tag}/{slug}/
+    filter: "tags:hash-episode"
+
+  # 4. ARCHIVE
   /archive/:
     permalink: /{slug}/
     template: archive
-    # data: page.archive # When active data will be taken from the  "/archive/" page
+    # data: page.archive # When active data will be taken from the "/archive/" page
 
 taxonomies:
   tag: /tag/{slug}/
