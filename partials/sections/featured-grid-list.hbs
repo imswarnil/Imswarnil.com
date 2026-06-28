@@ -40,7 +40,7 @@
 		<div class="section-list">
 			{{!-- First featured. --}}
 			{{#foreach posts from=1 to=1}}
-				{{> "components/card-post" style="classic" class=" card-post-featured" show_excerpt=true}}
+				{{> "components/card-post" style="classic" class=" card-post-featured" fast=true show_excerpt=true}}
 			{{/foreach}}
 
 			{{#> "get-cards"}}

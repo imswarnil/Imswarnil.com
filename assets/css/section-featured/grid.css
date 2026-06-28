@@ -277,6 +277,10 @@
 		.card-post-featured {
 			grid-row: span 2;
 			height: 100%;
+
+			.card-post-excerpt {
+				-webkit-line-clamp: 2;
+			}
 		}
 
 		.card-post:nth-child(n+6) {

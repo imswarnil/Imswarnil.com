@@ -3,7 +3,7 @@
 	<div class="card-post card-post-featured{{#if class}} {{class}}{{/if}}{{#if feature_image}} card-has-image{{/if}}{{#if has_slider}} card-has-slider{{/if}}{{#primary_author}} card-has-author{{/primary_author}}">
 		{{!-- Feature image. --}}
 		<div class="card-post-image post-card-media">
-			<a href="{{url}}" class="card-post-image-link" tabindex="-1"></a>
+			<a href="{{url}}" class="card-post-image-link" aria-label="{{title}}" tabindex="-1"></a>
 
 			{{#if feature_image}}
 				{{> "components/image" src=feature_image fast=image_fast alt=title}}
@@ -12,7 +12,7 @@
 			{{> "post/featured-video-preview"}}
 
 			<span class="card-post-image-badge">
-				<span><time class="card-post-date" datetime="{{date format="YYYY-MM-DD"}}">{{date format="MMM D, YYYY"}}</time></span>
+				<span><time class="card-post-date" datetime="{{date format="YYYY-MM-DD"}}">{{date format=(t "MMM D, YYYY")}}</time></span>
 
 				{{#if reading_time}}
 					<span class="card-post-time">{{reading_time minute=(t "1 min read") minutes=(t "% min read")}}</span>

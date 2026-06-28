@@ -3,7 +3,7 @@
 	<div class="card-post card-post-featured{{#if class}} {{class}}{{/if}}{{#if feature_image}} card-has-image{{/if}}{{#if has_slider}} card-has-slider{{/if}}{{#primary_author}} card-has-author{{/primary_author}}">
 		{{!-- Feature image. --}}
 		<div class="card-post-image">
-			<a class="card-post-image-link" href="{{url}}" tabindex="-1"></a>
+			<a class="card-post-image-link" href="{{url}}" aria-label="{{title}}" tabindex="-1"></a>
 
 			<div class="card-post-image-parallax post-card-media" data-swiper-parallax-x="20%">
 				{{#if feature_image}}
@@ -82,7 +82,7 @@
 				<span class="card-post-meta-divider">&bull;</span>
 			{{/primary_author}}
 
-			<span><time class="card-post-date" datetime="{{date format="YYYY-MM-DD"}}">{{date format="MMM D, YYYY"}}</time></span>
+			<span><time class="card-post-date" datetime="{{date format="YYYY-MM-DD"}}">{{date format=(t "MMM D, YYYY")}}</time></span>
 
 			{{#if reading_time}}
 				<span class="card-post-meta-divider">&bull;</span>

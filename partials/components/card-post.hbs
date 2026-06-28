@@ -1,10 +1,10 @@
 {{!-- Image. --}}
 {{#*inline "card-post-image"}}
-	<div class="card-post-image post-card-media">
+	<div class="card-post-image post-card-media"{{#unless feature_image}} data-placeholder="{{title}}"{{/unless}}>
 		<a class="card-post-image-link" aria-label="{{title}}" href="{{url}}"></a>
 
 		{{#if feature_image}}
-			{{> "components/image" src=feature_image size="300" alt=title}}
+			{{> "components/image" src=feature_image size="300" alt=title placeholder=title}}
 		{{/if}}
 
 		{{> "post/featured-video-preview"}}
@@ -105,7 +105,7 @@
 
 {{!-- Date. --}}
 {{#*inline "card-post-date"}}
-	<time class="card-post-date" datetime="{{date format="YYYY-MM-DD"}}">{{date format="MMM D, YYYY"}}</time>
+	<time class="card-post-date" datetime="{{date format="YYYY-MM-DD"}}">{{date format=(t "MMM D, YYYY")}}</time>
 {{/inline}}
 
 {{!-- Tags. --}}
@@ -117,7 +117,7 @@
 {{/inline}}
 
 {{!-- Card. --}}
-<article class="card card-post card-post-{{style}}{{class}}{{#if feature_image}} card-has-image{{/if}}{{#if authors}} card-has-author{{/if}}">
+<article class="card card-post card-post-{{style}}{{class}}{{#if feature_image}} card-has-image{{/if}}{{#if authors}} card-has-author{{/if}} {{post_class}}">
 	{{#match style "overlay"}}
 		{{> "card-post-image" reading_time=false}}
 	{{else match style "overlay-simple"}}

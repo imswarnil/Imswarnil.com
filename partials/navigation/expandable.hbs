@@ -14,8 +14,9 @@
 	{{#if nav.dropdown}}
 		<div
 			class="dropdown"
-			aria-labelledby="{{concat "nav-dropdown-toggle-" item.slug "-" @index}}"
-			id="{{concat "nav-dropdown-content-" item.slug "-" @index}}"
+			role="menu"
+			aria-labelledby="{{concat "nav-" nav.name "-dropdown-toggle-" item.slug "-" @index}}"
+			id="{{concat "nav-" nav.name "-dropdown-content-" item.slug "-" @index}}"
 		>
 			<ul>
 
@@ -23,8 +24,9 @@
 	{{else}}
 		<div
 			class="collapse"
-			aria-labelledby="{{concat "nav-collapse-toggle-" item.slug "-" @index}}"
-			id="{{concat "nav-collapse-content-" item.slug "-" @index}}"
+			role="menu"
+			aria-labelledby="{{concat "nav-" nav.name "-collapse-toggle-" item.slug "-" @index}}"
+			id="{{concat "nav-" nav.name "-collapse-content-" item.slug "-" @index}}"
 		>
 			<ul>
 	{{/if}}

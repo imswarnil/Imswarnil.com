@@ -13,9 +13,9 @@
 	<button
 		aria-expanded="false"
 		class="dropdown-toggle"
-		aria-controls="{{concat "nav-dropdown-content-" item.slug "-" @index}}"
+		aria-controls="{{concat "nav-" nav.name "-dropdown-content-" item.slug "-" @index}}"
 		aria-label="{{t "Show {label} dropdown navigation" label=item.label}}"
-		id="{{concat "nav-dropdown-toggle-" item.slug "-" @index}}"
+		id="{{concat "nav-" nav.name "-dropdown-toggle-" item.slug "-" @index}}"
 	></button>
 
 {{!-- Collapse --}}
@@ -23,8 +23,8 @@
 	<button
 		aria-expanded="false"
 		class="collapse-toggle nav-link nav-link-{{item.slug}}"
-		aria-controls="{{concat "nav-collapse-content-" item.slug "-" @index}}"
-		id="{{concat "nav-collapse-toggle-" item.slug "-" @index}}"
+		aria-controls="{{concat "nav-" nav.name "-collapse-content-" item.slug "-" @index}}"
+		id="{{concat "nav-" nav.name "-collapse-toggle-" item.slug "-" @index}}"
 	>
 		{{#if nav.show_icon}}{{> "icons-menu/all" slug=item.slug}}{{/if}}
 		<span class="label">{{item.label}}</span>
@@ -35,9 +35,9 @@
 		<button
 			aria-expanded="false"
 			class="navigation-dropdown-toggle"
-			aria-controls="{{concat "nav-dropdown-content-" item.slug "-" @index}}"
+			aria-controls="{{concat "nav-" nav.name "-dropdown-content-" item.slug "-" @index}}"
 			aria-label="{{t "Show {label} dropdown navigation" label=item.label}}"
-			id="{{concat "nav-dropdown-toggle-" item.slug "-" @index}}"
+			id="{{concat "nav-" nav.name "-dropdown-toggle-" item.slug "-" @index}}"
 		></button>
 	{{/if}}
 {{/if}}

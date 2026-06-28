@@ -67,5 +67,6 @@
 		alt="{{#if alt}}{{alt}}{{else}}{{altElse}}{{/if}}"
 		sizes="{{> "sizes"}}"
 		loading="{{#match fast "true"}}eager{{else match fast true}}eager{{else}}lazy{{/match}}"
+		{{#if placeholder}}data-placeholder="{{placeholder}}"{{/if}}
 	>
 </picture>

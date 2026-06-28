@@ -70,6 +70,12 @@
 		40px + var(--spacing-6) + var(--layout--padding)
 	);
 
+	/* Sidebar scrollbar. */
+	--sidebar--scrollbar--width: 14px;
+	--sidebar--scrollbar--offset: 4px;
+	--sidebar--scrollbar--color: #C1C1C1;
+	--sidebar--scrollbar-hover--color: #7D7D7D;
+
 	/* Button. */
 	--button--padding-v: var(--spacing-4);
 	--button--padding-h: var(--spacing-8);
@@ -145,6 +151,10 @@
 		/* Shadow. */
 		--shadow: 0 20px 60px -10px rgba(0 0 0 / 70%),
 			0 4px 20px -8px rgba(0 0 0 / 70%);
+
+		/* Sidebar scrollbar. */
+		--sidebar--scrollbar--color: #6B6B6B;
+		--sidebar--scrollbar-hover--color: #939393;
 
 		color-scheme: dark;
 	}

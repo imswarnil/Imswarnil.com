@@ -11,16 +11,16 @@
 	.swiper-slide > a {
 		display: block;
 		padding: var(--spacing-3) var(--spacing-6);
+		border-radius: var(--radius-2);
 		color: var(--color-contrast);
 		font-size: var(--font-small);
 		font-weight: var(--font-weight-medium);
 		text-decoration: none;
-		border-radius: var(--radius-2);
-		scroll-margin: var(--navbar--min-height);
 		transition:
 			background-color 0.15s,
 			color 0.15s,
 			transform 0.2s;
+		scroll-margin: var(--navbar--min-height);
 
 		&:hover {
 			transform: translateY(-1px);
@@ -28,8 +28,8 @@
 
 		&:hover,
 		&:focus-visible {
-			color: var(--color-contrast);
 			background-color: var(--color-background-200);
+			color: var(--color-contrast);
 		}
 
 		&:active {
@@ -38,8 +38,8 @@
 	}
 
 	.swiper-slide > .current {
-		color: var(--color-contrast);
 		background-color: var(--color-background-200);
+		color: var(--color-contrast);
 	}
 
 	.swiper-slide {
@@ -50,25 +50,25 @@
 
 	.slider-button {
 		position: absolute;
-		align-items: center;
-		justify-content: center;
 		top: 0;
+		bottom: 0;
+		z-index: 1;
+		justify-content: center;
+		align-items: center;
 		width: 33px;
 		height: auto;
-		bottom: 0;
 		transform: none;
 		transition:
 			opacity 0.15s,
 			visibility 0.15s;
-		z-index: 1;
 
 		&::before {
-			content: '';
 			position: absolute;
 			top: 0;
 			bottom: 0;
-			width: 90px;
 			z-index: -1;
+			width: 90px;
+			content: '';
 		}
 
 		svg {
@@ -121,6 +121,11 @@
 	display: flex;
 	overflow-x: auto;
 	gap: var(--spacing-3);
+	scrollbar-width: none;
+
+	&::-webkit-scrollbar {
+		display: none;
+	}
 }
 
 .slider-tags.swiper-initialized .slider-button:not(.swiper-button-lock) {

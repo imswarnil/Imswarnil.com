@@ -1,6 +1,6 @@
 {
 	"name": "aspect",
-	"version": "1.8.1",
+	"version": "2.1.1",
 	"description": "Aspect is a premium magazine Ghost theme with grid layout and functional sidebar.",
 	"keywords": [
 		"ghost",
@@ -72,7 +72,7 @@
 			},
 			"tags_page_displaying_tags": {
 				"type": "text",
-				"default": "-1",
+				"default": "25",
 				"description": "Learn more here: https://www.priority.vision/docs/aspect/settings-sitewide/tags/"
 			},
 			"post_card_style": {
@@ -112,7 +112,7 @@
 			},
 			"tags_list": {
 				"type": "text",
-				"default": "-1",
+				"default": "25",
 				"group": "homepage",
 				"description": "Learn more here: https://www.priority.vision/docs/thesis/settings-sitewide/tags/"
 			},
@@ -223,7 +223,7 @@
 		"zippie": "^0.0.1"
 	},
 	"optionalDependencies": {
-		"pvs": "github:priority-vision/pvs#v2.1.1"
+		"pvs": "github:priority-vision/pvs#v2.3.4"
 	},
 	"engines": {
 		"ghost": ">=5.0.0"

@@ -30,7 +30,7 @@
 							{{> "post/meta-author"}}
 						{{/if}}
 						<li>
-							<time class="post-meta-date" datetime="{{date format="YYYY-MM-DD"}}">{{date format="MMMM D, YYYY"}}</time>
+							<time class="post-meta-date" datetime="{{date format="YYYY-MM-DD"}}">{{date format=(t "MMMM D, YYYY")}}</time>
 						</li>
 						{{#if reading_time}}
 						<li class="separator">&bull;</li>

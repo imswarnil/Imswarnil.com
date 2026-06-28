@@ -16,7 +16,7 @@
 				<li class="separator">&bull;</li>
 			{{/if}}
 			<li>
-				<time class="post-meta-date" datetime="{{date format="YYYY-MM-DD"}}">{{date format="MMMM D, YYYY"}}</time>
+				<time class="post-meta-date" datetime="{{date format="YYYY-MM-DD"}}">{{date format=(t "MMMM D, YYYY")}}</time>
 			</li>
 			{{#if reading_time}}
 			<li class="separator">&bull;</li>
@@ -33,26 +33,11 @@
 	</div>
 </header>
 
-{{!-- AD: below header (horizontal / leaderboard style) --}}
-<div class="container-wide post-ad post-ad--header">
-	{{> "adsense" type="leaderboard" }}
-</div>
-
 {{!-- Media (featured image and video). --}}
 {{> "post/media"}}
 
-{{!-- AD: between media and content (in-article unit) --}}
-<div class="container-wide post-ad post-ad--in-article">
-	{{> "adsense" type="in-article" }}
-</div>
-
 {{!-- Content. --}}
 {{> "post/content"}}
-
-{{!-- AD: below content, before read-next (rectangle / fluid-ish) --}}
-<div class="container-wide post-ad post-ad--below-content">
-	{{> "adsense" type="rectangle" }}
-</div>
 
 {{!-- Read next. --}}
 {{> "post/read-next"}}
