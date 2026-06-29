@@ -38,6 +38,16 @@
 				"default": false,
 				"description": "Master switch for AdSense. Tag a post/page #hide_adsense_ads to hide its ads."
 			},
+			"ad_free_for": {
+				"type": "select",
+				"options": [
+					"Disabled",
+					"All members",
+					"Paid members"
+				],
+				"default": "Paid members",
+				"description": "Who gets an ad-free experience. Non-members see a Remove ads CTA."
+			},
 			"color_scheme": {
 				"type": "select",
 				"options": [

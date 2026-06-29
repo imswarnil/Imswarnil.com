@@ -1,0 +1,35 @@
+{{!--
+	Google AdSense — single responsive ad unit (markup only)
+	================================================================
+	Rendered by partials/monetization/adsense.hbs AFTER it has decided the ad
+	should be shown, so this file contains no gating — just the unit + label
+	+ optional membership CTA.
+
+	Lazy loading: the <ins> is intentionally rendered WITHOUT the usual inline
+	`adsbygoogle.push({})`. assets/js/monetization/adsense.js uses an
+	IntersectionObserver to request each ad only as it nears the viewport,
+	which keeps unused ad calls off the initial page load.
+--}}
+<div class="ad ad-adsense{{#if class}} {{class}}{{/if}}" aria-hidden="true">
+	<span class="ad-label">{{#if label}}{{label}}{{else}}{{t "Advertisement"}}{{/if}}</span>
+
+	<ins class="adsbygoogle"
+		style="display:block;{{#if style}}{{style}}{{/if}}"
+		data-ad-client="ca-pub-1291242080282540"
+		data-ad-slot="{{slot}}"
+		data-ad-format="{{#if format}}{{format}}{{else}}auto{{/if}}"
+		{{#if layout}}data-ad-layout="{{layout}}"{{/if}}
+		{{#if layout_key}}data-ad-layout-key="{{layout_key}}"{{/if}}
+		data-full-width-responsive="true"></ins>
+
+	{{!-- "Remove ads" CTA — only when requested, members are enabled, and
+	     membership actually removes ads. We are already past the gate, so the
+	     current visitor is NOT ad-free, i.e. exactly who should see this. --}}
+	{{#if cta}}
+		{{^match @custom.ad_free_for "Disabled"}}
+			{{#if @site.members_enabled}}
+				{{> "monetization/membership-cta"}}
+			{{/if}}
+		{{/match}}
+	{{/if}}
+</div>

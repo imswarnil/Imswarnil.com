@@ -128,21 +128,28 @@ Configured in `package.json` under `config.custom`. Key settings:
 
 ## Monetization (Google AdSense)
 
-Self-contained in `partials/monetization/`. Publisher id `ca-pub-1291242080282540` is hardcoded in both partials.
+Self-contained in `partials/monetization/`. Publisher id `ca-pub-1291242080282540` is hardcoded in the partials.
 
+**Partials**
 - `monetization/ads-head.hbs` — the loader `<script>`, included once in `default.hbs` `<head>`. Gated by `@custom.enable_adsense`, so a disabled site makes zero AdSense requests.
-- `monetization/adsense.hbs` — one reusable **responsive** ad unit. Double-gated: (1) `@custom.enable_adsense` master switch, (2) `{{^has tag="#hide_adsense_ads"}}` — adding the internal tag `#hide_adsense_ads` to a post/page hides all its ads.
-  - Params: `slot` (required), `format` (default `auto`; use `fluid` for in-article/in-feed, `autorelaxed` for multiplex), `layout`, `layout_key`, `label`, `class`, `style`.
-  - Call it as `{{> "monetization/adsense" slot="..."}}`.
+- `monetization/adsense.hbs` — the **gate / dispatcher**. Decides whether to show an ad, then delegates markup to `ad-unit.hbs`. This is the partial you call: `{{> "monetization/adsense" slot="..."}}`.
+- `monetization/ad-unit.hbs` — the actual responsive `<ins>` markup + label + optional CTA. Not called directly (rendered by `adsense.hbs` with its inherited context, so params flow through).
+- `monetization/membership-cta.hbs` — "Remove ads — become a member" Portal CTA.
 
-**Important — the `#hide_adsense_ads` gate is context-sensitive.** `has` checks the current data context, so the tag is only honored when the partial is called **inside `{{#post}}`/`{{#page}}`**. Rules of thumb:
-- Per-post/page placements (post.hbs, post/sidebar.hbs, post/content-page.hbs) → tag respected. ✓
-- Listing/feed placements (index.hbs, home.hbs, sections/posts.hbs) → only the master switch applies (no single post → tag N/A).
-- The global footer ad lives in `layout/footer.hbs` wrapped in `{{^is "post, page"}}` so it never shows on posts/pages (which already have in-context ads honoring the tag).
+**Gating — an ad shows only when all hold:**
+1. `@custom.enable_adsense` (master switch).
+2. Post/page is not tagged `#hide_adsense_ads`. **Context-sensitive:** `has` reads the current data context, so the tag is honored only when the partial runs inside `{{#post}}`/`{{#page}}` (the per-post/page placements). On listing/feed pages there's no single post, so only the switch applies.
+3. Visitor isn't ad-free via membership — `@custom.ad_free_for` select: `Paid members` (default, `@member.paid` ad-free), `All members` (`@member` ad-free), `Disabled` (membership never removes ads).
 
-Current placements (≈4–7 ads/page): post = top + in-article + multiplex + pre-comments + sidebar; page = top + in-article; feed = top leaderboard + in-feed (every 4th card via `has number="nth:4"`) + bottom multiplex; footer leaderboard on listings. Slot ids are inline in each template; the full slot catalog (square 7663977887, horizontal 8939839370, etc.) was supplied by the site owner.
+**Membership CTA:** pass `cta=true` to `adsense.hbs` (set on the top placement of post/page/feed). Renders the Portal CTA beneath the ad, but only to visitors who aren't already ad-free and only when `@site.members_enabled` and `ad_free_for != Disabled`.
 
-Ad CSS (wrapper spacing, `.ad-label`, full-row span for in-feed `.posts-list-ad`) lives in `assets/custom.css` — **not** part of the Rollup build, loaded directly by `default.hbs`.
+**Params** (forwarded to `ad-unit.hbs`): `slot` (required), `format` (default `auto`; `fluid` for in-article/in-feed, `autorelaxed` for multiplex), `layout`, `layout_key`, `label`, `class`, `style`, `cta`.
+
+**Placements (≈4–7 ads/page):** post = top(+CTA) + in-article + multiplex + pre-comments + sidebar; page = top(+CTA) + in-article; feed = top leaderboard(+CTA) + in-feed every 4th card (`has number="nth:4"`) + bottom multiplex; footer leaderboard on listings only (`layout/footer.hbs`, wrapped in `{{^is "post, page"}}`). Slot ids are inline in each template.
+
+**Lazy loading:** `ad-unit.hbs` deliberately omits the inline `adsbygoogle.push({})`. `assets/js/monetization/adsense.js` (bundled via `assets/js/index.js`) uses an IntersectionObserver to request each ad ~300px before it enters the viewport, falling back to eager load when IO is unavailable.
+
+**Styling:** `assets/css/custom/adsense.css` — imported by `assets/css/index.css`, so it's part of the Rollup/PostCSS build (processed + minified, auto dark-mode via theme tokens). This is the home for custom build-processed CSS; `assets/custom.css` remains for raw, unprocessed overrides.
 
 ## Localization
 

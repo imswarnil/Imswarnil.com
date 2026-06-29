@@ -1,0 +1,77 @@
+/* AdSense — ad units & membership CTA
+   ==========================================================================
+   Part of the Rollup/PostCSS build (imported from assets/css/index.css), so
+   it is processed, nested, and minified like every other component. Uses the
+   theme design tokens from vars.css, which already flip for dark mode — no
+   separate dark-mode block needed.
+
+   Markup is produced by partials/monetization/*.hbs.
+   ========================================================================== */
+
+/* Ad wrapper -------------------------------------------------------------- */
+.ad-adsense {
+	display: block;
+	margin: var(--spacing-9) auto;
+	max-width: 100%;
+	overflow: hidden;
+	text-align: center;
+}
+
+/* "Advertisement" eyebrow — styled like the theme's small meta labels. */
+.ad-adsense .ad-label {
+	display: block;
+	margin-bottom: var(--spacing-3);
+	font-family: var(--font-family-body);
+	font-size: var(--font-x-small);
+	font-weight: var(--font-weight-medium);
+	line-height: 1;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: var(--color-mute);
+}
+
+/* The <ins> slot. A muted placeholder avoids layout shift while the ad is
+   lazy-loading; it clears once AdSense reports the slot as filled. */
+.ad-adsense .adsbygoogle {
+	display: block;
+	min-height: 1px;
+	overflow: hidden;
+	background-color: var(--color-background-100);
+	border-radius: var(--radius-2);
+
+	&[data-ad-status='filled'] {
+		background-color: transparent;
+	}
+
+	&[data-ad-status='unfilled'] {
+		display: none; /* collapse house-empty slots instead of leaving a gap */
+	}
+}
+
+/* In-feed ad: span the full posts grid row so it never breaks the layout. */
+.posts-list-ad {
+	grid-column: 1 / -1;
+	list-style: none;
+}
+
+/* Sidebar ad spacing. */
+.ad-sidebar {
+	margin-top: var(--spacing-8);
+}
+
+/* Membership CTA --------------------------------------------------------- */
+/* Shown under ads to visitors who could go ad-free by subscribing. */
+.ad-membership-cta {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--spacing-4);
+	align-items: center;
+	justify-content: center;
+	margin-top: var(--spacing-5);
+	font-size: var(--font-small);
+	color: var(--color-secondary);
+
+	& .ad-membership-cta-text {
+		color: var(--color-secondary);
+	}
+}

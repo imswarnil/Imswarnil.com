@@ -1,51 +1,50 @@
 {{!--
-	Google AdSense — reusable responsive ad unit
+	Google AdSense — gate + dispatcher
 	================================================================
 	Publisher: ca-pub-1291242080282540
 
-	Renders ONE responsive AdSense unit. It is gated twice:
-	  1. @custom.enable_adsense  — the master on/off switch in Ghost admin
-	     (Settings → Design → Site-wide → "Enable AdSense ads").
-	  2. #hide_adsense_ads       — if the current post/page carries this
-	     internal tag, NO ad is rendered. Note: `has` checks the CURRENT
-	     data context, so this only suppresses ads when the partial is
-	     called inside a {{#post}} / {{#page}} block (which is exactly the
-	     per-post/per-page placements). On listing pages there is no single
-	     post, so only the master switch applies — which is what we want.
+	Decides WHETHER to show an ad to this visitor. The actual markup lives in
+	partials/monetization/ad-unit.hbs (rendered with this partial's context, so
+	all params below flow straight through).
 
-	Usage:
-	  {{> "monetization/adsense" slot="7663977887"}}                      → square / auto responsive
-	  {{> "monetization/adsense" slot="1864856299" label="Sponsored"}}    → custom label
-	  {{> "monetization/adsense" slot="6501428979" format="fluid" layout="in-article"}}  → in-article
-	  {{> "monetization/adsense" slot="3375031396" format="autorelaxed"}} → multiplex / related
+	An ad is shown only when ALL of these hold:
+	  1. @custom.enable_adsense is ON (master switch, Ghost admin).
+	  2. The post/page is NOT tagged #hide_adsense_ads. NOTE: `has` reads the
+	     current data context, so this is only honoured when the partial is
+	     called inside {{#post}}/{{#page}} (the per-post/page placements). On
+	     listing/feed pages there is no single post, so only the switch applies.
+	  3. The visitor is NOT ad-free via membership (@custom.ad_free_for):
+	       "All members"  → any logged-in @member is ad-free
+	       "Paid members" → only @member.paid is ad-free
+	       "Disabled"     → membership never removes ads
 
-	Params:
+	Params (forwarded to ad-unit):
 	  slot       (required) AdSense ad-slot id.
-	  format     data-ad-format. Defaults to "auto" (fully responsive).
-	             Use "fluid" for in-article/in-feed, "autorelaxed" for multiplex.
+	  format     data-ad-format. Default "auto". "fluid" for in-article/in-feed,
+	             "autorelaxed" for multiplex.
 	  layout     data-ad-layout (e.g. "in-article"). Optional.
-	  layout_key data-ad-layout-key (in-feed ads only). Optional.
-	  label      Small text shown above the ad. Defaults to "Advertisement".
-	  class      Extra CSS class(es) on the wrapper. Optional.
+	  layout_key data-ad-layout-key (in-feed ads). Optional.
+	  label      Eyebrow text. Defaults to "Advertisement".
+	  class      Extra wrapper class(es). Optional.
 	  style      Extra inline style on the <ins>. Optional.
+	  cta        If true, show the "Remove ads — become a member" CTA beneath
+	             the ad (only to visitors who could actually go ad-free).
 --}}
 {{#if @custom.enable_adsense}}
 {{^has tag="#hide_adsense_ads"}}
-<div class="ad ad-adsense{{#if class}} {{class}}{{/if}}" aria-hidden="true">
-	{{#if label}}<span class="ad-label">{{label}}</span>{{else}}<span class="ad-label">{{t "Advertisement"}}</span>{{/if}}
-	<ins class="adsbygoogle"
-		style="display:block;{{#if style}}{{style}}{{/if}}"
-		data-ad-client="ca-pub-1291242080282540"
-		data-ad-slot="{{slot}}"
-		data-ad-format="{{#if format}}{{format}}{{else}}auto{{/if}}"
-		{{#if layout}}data-ad-layout="{{layout}}"{{/if}}
-		{{#if layout_key}}data-ad-layout-key="{{layout_key}}"{{/if}}
-		data-full-width-responsive="true"></ins>
-	<script>
-		// Request an ad into the <ins> above. The loader script is added once
-		// in the <head> via partials/monetization/ads-head.hbs.
-		(adsbygoogle = window.adsbygoogle || []).push({});
-	</script>
-</div>
+
+	{{#match @custom.ad_free_for "All members"}}
+		{{!-- Ad-free for every member; show ad only to non-members. --}}
+		{{#unless @member}}{{> "monetization/ad-unit"}}{{/unless}}
+
+	{{else match @custom.ad_free_for "Paid members"}}
+		{{!-- Ad-free for paid members; show ad to everyone else. --}}
+		{{#unless @member.paid}}{{> "monetization/ad-unit"}}{{/unless}}
+
+	{{else}}
+		{{!-- Membership ad-free disabled: everyone sees ads. --}}
+		{{> "monetization/ad-unit"}}
+	{{/match}}
+
 {{/has}}
 {{/if}}
