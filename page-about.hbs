@@ -1,0 +1,36 @@
+{{!< default}}
+{{!--
+	ABOUT page — auto-applied to the Ghost page with slug "about".
+	A portrait + intro hero beside the page body. Falls back gracefully when
+	there's no feature image or excerpt.
+--}}
+{{#page}}
+{{#contentFor "body-class"}} page-about{{/contentFor}}
+
+<header class="container-wide ptype-about-hero{{#unless feature_image}} ptype-about-hero-plain{{/unless}}">
+	{{#if feature_image}}
+		<div class="ptype-about-portrait">
+			{{> "components/image" fast="true" src=feature_image alt=feature_image_alt altElse=title}}
+		</div>
+	{{/if}}
+	<div class="ptype-about-intro">
+		<span class="ptype-eyebrow">{{t "About"}}</span>
+		<h1 class="post-title">{{title}}</h1>
+		{{#if custom_excerpt}}<p class="ptype-lede">{{custom_excerpt}}</p>{{/if}}
+		<div class="ptype-about-actions">
+			<a class="button" href="#/portal/signup">{{t "Subscribe"}}</a>
+			{{#if @site.twitter}}<a class="button button-background-200" href="https://x.com/{{@site.twitter}}" target="_blank" rel="noopener">{{> "icons-social/twitter"}}</a>{{/if}}
+		</div>
+	</div>
+</header>
+
+{{#if html}}
+<div class="post-content-grid">
+	<div class="post-content-wrapper">
+		<div class="post-content">{{{html}}}</div>
+	</div>
+</div>
+{{/if}}
+
+{{> "sections/subscription"}}
+{{/page}}

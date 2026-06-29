@@ -76,6 +76,15 @@
 				"type": "color",
 				"default": "#000000"
 			},
+			"navigation_style": {
+				"type": "select",
+				"options": [
+					"Sidebar",
+					"Topbar"
+				],
+				"default": "Sidebar",
+				"description": "Sidebar keeps the left menu. Topbar shows a floating island menu bar at the top."
+			},
 			"sidebar_collapsed": {
 				"type": "boolean",
 				"default": false
@@ -128,12 +137,6 @@
 			"tags_list": {
 				"type": "text",
 				"default": "25",
-				"group": "homepage",
-				"description": "Learn more here: https://www.priority.vision/docs/thesis/settings-sitewide/tags/"
-			},
-			"tags_list_sections": {
-				"type": "text",
-				"default": "4",
 				"group": "homepage",
 				"description": "Learn more here: https://www.priority.vision/docs/thesis/settings-sitewide/tags/"
 			},

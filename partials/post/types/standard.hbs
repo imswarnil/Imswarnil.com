@@ -1,0 +1,34 @@
+{{!--
+	STANDARD post layout (default / no type tag).
+	The original article layout: header, media, in-content ads, read-next,
+	subscription and comments. Runs inside the {{#post}} context provided by
+	post.hbs (the dispatcher).
+--}}
+{{> "post/header"}}
+
+{{!-- Media (featured image and video). --}}
+{{> "post/media"}}
+
+{{!-- Ad: top of article (Horizontal responsive). --}}
+{{> "monetization/adsense" slot="8939839370" class="ad-post-top container" cta=true}}
+
+{{!-- Content. --}}
+{{> "post/content"}}
+
+{{!-- Ad: below article body (In-article fluid). --}}
+{{> "monetization/adsense" slot="6501428979" format="fluid" layout="in-article" class="ad-post-bottom container"}}
+
+{{!-- Read next. --}}
+{{> "post/read-next"}}
+
+{{!-- Ad: related/multiplex after read-next. --}}
+{{> "monetization/adsense" slot="3375031396" format="autorelaxed" class="ad-post-multiplex container"}}
+
+{{!-- Subscription (show on --breakpoint-max-lg) --}}
+{{> "sections/subscription"}}
+
+{{!-- Ad: just before comments (Square responsive). --}}
+{{> "monetization/adsense" slot="7663977887" class="ad-post-comments container"}}
+
+{{!-- Comments. --}}
+{{> "post/comments"}}

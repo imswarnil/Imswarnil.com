@@ -1,0 +1,52 @@
+{{!--
+	COURSE lesson  (#lesson)
+	================================================================
+	A single lesson: breadcrumb back to its course, the lesson body with TOC,
+	and a lesson rail (all sibling lessons, current one highlighted).
+--}}
+<nav class="container-wide ptype-breadcrumb" aria-label="{{t "Breadcrumb"}}">
+	{{#get "posts" filter="tag:hash-course+primary_tag:{{primary_tag.slug}}" limit="1" as |course|}}
+		{{#foreach course}}
+			<a href="{{url}}">{{> "icons/arrow-narrow-right" class="ptype-breadcrumb-back"}} {{title}}</a>
+		{{else}}
+			<a href="{{primary_tag.url}}">{{primary_tag.name}}</a>
+		{{/foreach}}
+	{{/get}}
+</nav>
+
+<header class="post-header container-wide ptype-header">
+	<span class="ptype-eyebrow">{{t "Lesson"}}</span>
+	<h1 class="post-title">{{title}}</h1>
+	<ul class="post-meta">
+		{{#if reading_time}}<li><span class="post-meta-time">{{reading_time minute=(t "1 min read") minutes=(t "% min read")}}</span></li>{{/if}}
+	</ul>
+	<div class="post-header-buttons">{{> "post/button-comments"}}{{> "post/button-share"}}</div>
+</header>
+
+{{> "post/media"}}
+
+{{!-- Lesson body + lesson rail. --}}
+<div class="container-wide ptype-lesson-layout">
+	<div class="ptype-lesson-main">
+		{{> "post/content" hide_wrapper=true hide_tags=true}}
+		{{> "monetization/adsense" slot="6501428979" format="fluid" layout="in-article" class="ad-post-bottom"}}
+	</div>
+
+	<aside class="ptype-lesson-rail">
+		<h2 class="ptype-rail-title">{{t "In this course"}}</h2>
+		{{#get "posts" filter="tag:hash-lesson+primary_tag:{{primary_tag.slug}}" order="published_at asc" limit="50" as |lessons|}}
+			<ol class="ptype-rail-list">
+				{{#foreach lessons}}
+				<li class="{{#match id ../id}}is-current{{/match}}">
+					<a href="{{url}}">
+						<span class="ptype-rail-index">{{@number}}</span>
+						<span class="ptype-rail-label">{{title}}</span>
+					</a>
+				</li>
+				{{/foreach}}
+			</ol>
+		{{/get}}
+	</aside>
+</div>
+
+{{> "post/comments"}}

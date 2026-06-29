@@ -110,8 +110,9 @@
 {{!-- Subscription. --}}
 {{> "sections/subscription"}}
 
-{{!-- Tags sections. --}}
-{{#> "get-tags" setting=@custom.tags_list_sections}}
+{{!-- Tags sections. (Count hardcoded — freed a custom-settings slot for
+     navigation_style; the theme is at Ghost's 20-setting cap.) --}}
+{{#> "get-tags" setting="4"}}
 	{{#foreach tags}}
 		<section class="section section-tag">
 			<div class="section-head">

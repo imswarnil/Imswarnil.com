@@ -74,6 +74,7 @@ production stylesheet in assets/built/screen.css using: npm run dev
 @import url('layout/navbar.css');
 @import url('layout/popup.css');
 @import url('layout/sidebar.css');
+@import url('layout/topbar.css');
 
 /* Templates. */
 @import url('templates/error.css');
@@ -96,6 +97,7 @@ production stylesheet in assets/built/screen.css using: npm run dev
 @import url('pages/post-classic.css');
 @import url('pages/post-image.css');
 @import url('pages/post-split.css');
+@import url('pages/post-types.css');
 
 /* Plugin Swiper. */
 @import url('swiper/base.css');

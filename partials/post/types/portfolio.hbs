@@ -1,0 +1,37 @@
+{{!--
+	PROJECT / portfolio  (#project)
+	================================================================
+	A case-study layout: title + lede, a meta panel (year, category, links),
+	the feature image, the write-up (post body) and more projects.
+--}}
+<header class="post-header container-wide ptype-header ptype-project-header">
+	<span class="ptype-eyebrow">{{t "Project"}}</span>
+	<h1 class="post-title">{{title}}</h1>
+	{{#if custom_excerpt}}<p class="ptype-lede">{{custom_excerpt}}</p>{{/if}}
+</header>
+
+<div class="container-wide ptype-project-meta">
+	<dl>
+		<div><dt>{{t "Year"}}</dt><dd><time datetime="{{date format="YYYY"}}">{{date format="YYYY"}}</time></dd></div>
+		{{#if primary_tag}}<div><dt>{{t "Category"}}</dt><dd><a href="{{primary_tag.url}}">{{primary_tag.name}}</a></dd></div>{{/if}}
+		{{#if primary_author}}<div><dt>{{t "By"}}</dt><dd>{{primary_author.name}}</dd></div>{{/if}}
+	</dl>
+	<a class="button ptype-project-cta" href="{{primary_tag.url}}">{{t "More like this"}} {{> "icons/arrow-narrow-right"}}</a>
+</div>
+
+{{> "post/media"}}
+
+{{> "post/content"}}
+
+<section class="container-wide ptype-video-grid-wrap">
+	<h2 class="ptype-section-title">{{t "More projects"}}</h2>
+	{{#get "posts" include="authors,tags" filter="tag:hash-project+id:-{{id}}" order="published_at desc" limit="3" as |projects|}}
+		{{#if projects}}
+			<ul class="posts-list ptype-video-grid">
+				{{#foreach projects}}<li>{{> "components/card-post" style="Classic"}}</li>{{/foreach}}
+			</ul>
+		{{/if}}
+	{{/get}}
+</section>
+
+{{> "post/comments"}}

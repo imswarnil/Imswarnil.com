@@ -1,0 +1,45 @@
+{{!--
+	PRODUCT  (#product)
+	================================================================
+	A product showcase: a two-column top (gallery/feature image beside the
+	title, lede, meta and CTA) then the long description (post body) and more
+	products from the same category.
+--}}
+<div class="container-wide ptype-product-top">
+	<div class="ptype-product-media">
+		{{#if feature_image}}
+			{{> "components/image" fast="true" src=feature_image alt=feature_image_alt altElse=title}}
+		{{/if}}
+	</div>
+
+	<div class="ptype-product-info">
+		<span class="ptype-eyebrow">{{t "Product"}}</span>
+		<h1 class="post-title">{{title}}</h1>
+		{{#if custom_excerpt}}<p class="ptype-lede">{{custom_excerpt}}</p>{{/if}}
+
+		<dl class="ptype-product-meta">
+			{{#if primary_tag}}<div><dt>{{t "Category"}}</dt><dd><a href="{{primary_tag.url}}">{{primary_tag.name}}</a></dd></div>{{/if}}
+			<div><dt>{{t "Published"}}</dt><dd><time datetime="{{date format="YYYY-MM-DD"}}">{{date format=(t "MMMM D, YYYY")}}</time></dd></div>
+		</dl>
+
+		<div class="ptype-product-actions">
+			<a class="button button-lg" href="{{primary_tag.url}}">{{t "Browse category"}}</a>
+			{{> "post/button-share"}}
+		</div>
+	</div>
+</div>
+
+{{> "post/content"}}
+
+<section class="container-wide ptype-video-grid-wrap">
+	<h2 class="ptype-section-title">{{t "More products"}}</h2>
+	{{#get "posts" include="authors,tags" filter="tag:hash-product+id:-{{id}}" order="published_at desc" limit="3" as |products|}}
+		{{#if products}}
+			<ul class="posts-list ptype-video-grid">
+				{{#foreach products}}<li>{{> "components/card-post" style="Classic"}}</li>{{/foreach}}
+			</ul>
+		{{/if}}
+	{{/get}}
+</section>
+
+{{> "post/comments"}}

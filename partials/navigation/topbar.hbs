@@ -1,0 +1,68 @@
+{{!--
+	Floating "island" top navigation  (navigation_style = Topbar)
+	================================================================
+	An alternative to the left sidebar: a detached, rounded, blurred bar
+	pinned to the top of the viewport. Carries everything the sidebar does —
+	brand logo/title, primary navigation, a Tags dropdown, search, color-scheme
+	toggle and the account/login dropdown.
+
+	Reuses existing, already-wired components so it needs no bespoke JS:
+	  - {{navigation}} for the primary menu (labels, no icons)
+	  - .dropdown-toggle + .dropdown for Tags and the account menu
+	  - data-ghost-search for search, components/toggle-color-scheme for theme
+	  - data-popup-toggle="#popup-navigation" for the mobile menu (the popup
+	    markup lives in default.hbs and is always rendered)
+
+	Styling: assets/css/layout/topbar.css (gated by [data-navigation-style="topbar"]).
+--}}
+<div class="topbar-wrap">
+	<div class="topbar" id="topbar">
+
+		{{!-- Brand: mobile menu button + logo. --}}
+		<div class="topbar-brand">
+			<button class="toggle-popup button button-icon button-transparent button-rounded" data-popup-toggle="#popup-navigation" aria-expanded="false" aria-label="{{t 'Open a popup with navigation'}}">
+				{{> "icons/burger"}}
+			</button>
+			{{> "components/logo"}}
+		</div>
+
+		{{!-- Primary navigation + Tags (desktop). --}}
+		<nav class="navigation navigation-topbar" aria-label="{{t "Primary Navigation"}}">
+			{{#if @site.navigation}}
+				{{navigation name="topbar" sidebar=false dropdown=false show_icon=false class="topbar-nav-list"}}
+			{{/if}}
+
+			{{!-- Tags dropdown. --}}
+			{{#> "get-tags" setting=@custom.tags_list_sidebar}}
+				{{#if tags}}
+					<div class="topbar-tags">
+						<button class="dropdown-toggle topbar-tags-toggle nav-link" aria-expanded="false" aria-label="{{t "Show tags navigation"}}">
+							<span class="label">{{t "Tags"}}</span>
+							<svg class="topbar-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+						</button>
+						<div class="dropdown dropdown-tags">
+							<ul>
+								{{#foreach tags}}
+								<li>{{> "components/nav-link" is_tag=true label=name}}</li>
+								{{/foreach}}
+								<li class="nav-separator"></li>
+								<li>{{> "components/nav-link" href=(t "/tags/") slug="tags" label=(t "All tags")}}</li>
+							</ul>
+						</div>
+					</div>
+				{{/if}}
+			{{/"get-tags"}}
+		</nav>
+
+		{{!-- Actions: search, theme, account. --}}
+		<div class="topbar-actions">
+			<button class="search-toggle topbar-icon-button" data-ghost-search aria-label="{{t "Search"}}">
+				{{> "icons/search"}}
+			</button>
+
+			<span class="topbar-theme">{{> "components/toggle-color-scheme"}}</span>
+
+			{{> "navigation/account"}}
+		</div>
+	</div>
+</div>

@@ -1,0 +1,65 @@
+{{!--
+	Account / login dropdown (avatar → menu)
+	================================================================
+	Shared by the sidebar layout's top navbar and the floating topbar
+	(navigation_style = Topbar). Opens via the standard .dropdown-toggle +
+	.dropdown pattern, so it needs no extra JS. Contains: member head, account
+	settings, color-scheme toggle, sign in / out.
+--}}
+<nav class="navigation" aria-label="{{t "User Navigation"}}">
+	<button class="dropdown-toggle" aria-expanded="false" aria-label="{{t "Show user navigation"}}">
+		{{#if @member}}
+			{{> "components/avatar" src=@member.avatar_image name=@member.name}}
+		{{else}}
+			{{> "components/avatar" size="anonymous"}}
+		{{/if}}
+	</button>
+	<div class="dropdown dropdown-user{{#if @member}} dropdown-user-login{{/if}} dropdown-align-left">
+		{{!-- User navigation --}}
+		{{#if @member}}
+		<div class="dropdown-user-head">
+			{{> "components/avatar" size="large" src=@member.avatar_image name=@member.name}}
+			<span class="dropdown-user-name">{{@member.name}}</span>
+			<span class="dropdown-user-mail">{{@member.email}}</span>
+		</div>
+		<hr>
+		<ul>
+			<li>
+				<a href="#/portal/account" class="nav-link">
+					{{> "icons/settings"}}
+					{{t "Account Settings"}}
+				</a>
+			</li>
+			<li>{{> "components/toggle-color-scheme"}}</li>
+			<li class="nav-separator"></li>
+			<li>
+				<a href="javascript:" class="nav-link" data-members-signout>
+					{{> "icons/log-out"}}
+					{{t "Sign out"}}
+				</a>
+			</li>
+		</ul>
+
+		{{!-- Login navigation --}}
+		{{else}}
+		<div class="dropdown-user-head">
+			{{> "components/avatar" size="anonymous"}}
+			<span class="dropdown-user-name">{{t "Anonymous"}}</span>
+		</div>
+		<hr>
+		<ul>
+			<li>
+				{{> "components/toggle-color-scheme"}}
+			</li>
+			{{#if @site.members_enabled}}
+			<li>
+				<a href="{{#match (t "/signin/") "!=" "false"}}{{t "/signin/"}}{{else}}#/portal/signin{{/match}}" class="nav-link">
+					{{> "icons-menu/log-in"}}
+					{{t "Sign in"}}
+				</a>
+			</li>
+			{{/if}}
+		</ul>
+		{{/if}}
+	</div>
+</nav>
