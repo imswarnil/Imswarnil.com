@@ -5,31 +5,26 @@
 /* ---------------------------------------------------------- */
 
 :root {
-	/* Colors — YouTube / Material You (light). */
-	--color-contrast: #0f0f0f;           /* primary text / titles */
-	--color-background: #ffffff;
-	--color-background-100: #f9f9f9;      /* chip bar / raised surfaces */
-	--color-background-200: #f2f2f2;      /* hover */
-	--color-background-300: #e5e5e5;      /* active / dividers-as-fill */
-	--color-border: rgb(0 0 0 / 10%);
-	--color-overlay: rgb(0 0 0 / 80%);
-	--color-foreground: #0f0f0f;          /* body text */
-	--color-secondary: #606060;           /* metadata (views/date) */
-	--color-mute: #909090;
-	--color-success: #2ba640;
-	--color-error: #cc0000;
+	/* Colors. */
+	--color-contrast: #000;
+	--color-background: #fff;
+	--color-background-100: #f3f3f3;
+	--color-background-200: #ededed;
+	--color-background-300: #dadada;
+	--color-border: rgb(128 128 128 / 20%);
+	--color-overlay: rgb(5 5 5 / 70%);
+	--color-foreground: #4d4d4d;
+	--color-secondary: #757575;
+	--color-mute: #b2b2b2;
+	--color-success: #348f3f;
+	--color-error: #c34d4d;
 	--color-white: #fff;
-	--color-black: #0f0f0f;
+	--color-black: #000;
 
-	/* Brand accent — YouTube red. Forced over Ghost's admin accent so the UI
-	   reads as YouTube site-wide; white text on the red. */
-	--ghost-accent-color: #ff0000 !important;
-	--color-accent-foreground: #ffffff;
-
-	/* Font — Roboto (the Material / YouTube typeface). */
-	--font-family-headings: var(--gh-font-heading, 'Roboto', 'Helvetica Neue', Arial, sans-serif);
-	--font-family-body: var(--gh-font-body, 'Roboto', 'Helvetica Neue', Arial, sans-serif);
-	--font-family-button: var(--gh-font-body, 'Roboto', 'Helvetica Neue', Arial, sans-serif);
+	/* Font. */
+	--font-family-headings: var(--gh-font-heading, 'Geist', sans-serif);
+	--font-family-body: var(--gh-font-body, 'Geist', sans-serif);
+	--font-family-button: var(--gh-font-body, 'Geist', sans-serif);
 	--font-x-small: 0.75rem; /* 12px */
 	--font-small: 0.875rem; /* 14px */
 	--font-large: 1.125rem; /* 18px */
@@ -57,7 +52,7 @@
 	--radius-1: 6px;
 	--radius-2: 8px;
 	--radius-3: 10px;
-	--radius-4: 12px; /* YouTube thumbnail / card radius */
+	--radius-4: 14px;
 	--radius-5: 16px;
 	--radius-6: fluid(16px, 30px, 380px, 1500px);
 
@@ -107,7 +102,7 @@
 	--featured-image--max-width: 1300px;
 
 	/* Popup. */
-	--popup--overlay--background-color: #f2f2f2;
+	--popup--overlay--background-color: #e8e8e8;
 
 	/* Avatar. */
 	--avatar--size: 2.25rem; /* 36px */
@@ -125,9 +120,9 @@
 	--dropdown--offset: var(--spacing-5);
 	--dropdown--border-radius: var(--radius-4);
 
-	/* Shadow — Material elevation. */
+	/* Shadow. */
 	--shadow:
-		0 1px 2px rgba(0 0 0 / 12%), 0 4px 14px rgba(0 0 0 / 14%);
+		0 20px 60px -10px rgba(176 169 169 / 24%), 0 4px 20px -8px rgba(0 0 0 / 24%);
 
 	color-scheme: light;
 }
@@ -135,27 +130,27 @@
 /* prettier-ignore */
 @mixin color-scheme-dark :root {
 	& {
-		/* Accent stays YouTube red (forced in :root); foreground white. */
+		--ghost-accent-color: var(--color-dark-accent);
 		--color-accent-foreground: var(--color-dark-accent-foreground, #fff);
-		--color-contrast: #f1f1f1;           /* primary text */
-		--color-background: #0f0f0f;          /* YouTube dark base */
-		--color-background-100: #212121;      /* surfaces / menus */
-		--color-background-200: #272727;      /* hover */
-		--color-background-300: #3f3f3f;      /* active / fills */
-		--color-foreground: #aaaaaa;          /* body text */
-		--color-secondary: #aaaaaa;           /* metadata */
-		--color-mute: #717171;
-		--color-border: rgb(255 255 255 / 12%);
+		--color-contrast: #fff;
+		--color-background: #0f0f0f;
+		--color-background-100: #212121;
+		--color-background-200: #282828;
+		--color-background-300: #3F3F3F;
+		--color-foreground: #aaa;
+		--color-secondary: #808080;
+		--color-mute: #666;
+		--color-border: rgb(153 153 153 / 30%);
 
 		/* Popup. */
 		--popup--overlay--background-color: #212121;
 
 		/* Dropdown. */
-		--dropdown--background-color: #212121;
+		--dropdown--background-color: #1A1A1A;
 
 		/* Shadow. */
-		--shadow: 0 1px 2px rgba(0 0 0 / 40%),
-			0 4px 16px rgba(0 0 0 / 50%);
+		--shadow: 0 20px 60px -10px rgba(0 0 0 / 70%),
+			0 4px 20px -8px rgba(0 0 0 / 70%);
 
 		/* Sidebar scrollbar. */
 		--sidebar--scrollbar--color: #6B6B6B;
