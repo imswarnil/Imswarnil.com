@@ -1,17 +1,12 @@
 {{!--
-	"Remove ads — become a member" CTA
+	"Remove ads" CTA — compact link inside the ad's top pill
 	================================================================
-	Shown beneath an ad to visitors who can go ad-free by subscribing (see the
-	gate in ad-unit.hbs). Opens Ghost Portal:
-	  - "Paid members" ad-free → send free members & anonymous to signup.
-	  - "All members"  ad-free → anonymous to signup; logged-in members never
-	    see this (they are already ad-free).
+	Shown next to the "Advertisement" label to visitors who can go ad-free by
+	subscribing (see the gate in ad-unit.hbs). Opens Ghost Portal:
+	  - logged-in free member → upgrade (account plans)
+	  - anonymous             → signup
 	Ghost Portal automatically intercepts #/portal/* links.
 --}}
-<div class="ad-membership-cta">
-	<span class="ad-membership-cta-text">{{t "Enjoy {site} ad-free." site=@site.title}}</span>
-	<a class="ad-membership-cta-button button button-sm button-background-200"
-		href="{{#if @member}}#/portal/account/plans{{else}}#/portal/signup{{/if}}">
-		{{t "Remove ads"}}
-	</a>
-</div>
+<a class="ad-membership-cta"
+	href="{{#if @member}}#/portal/account/plans{{else}}#/portal/signup{{/if}}"
+	title="{{t "Go ad-free by becoming a member"}}">{{t "Remove ads"}}</a>

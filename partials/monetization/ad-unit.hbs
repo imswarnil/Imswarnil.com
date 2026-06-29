@@ -5,13 +5,30 @@
 	should be shown, so this file contains no gating — just the unit + label
 	+ optional membership CTA.
 
+	Layout: the box has a light border and rounded corners; a small pill
+	(the "Advertisement" label, plus a "Remove ads" link when cta=true) floats
+	centered and overlapping the top border.
+
 	Lazy loading: the <ins> is intentionally rendered WITHOUT the usual inline
 	`adsbygoogle.push({})`. assets/js/monetization/adsense.js uses an
-	IntersectionObserver to request each ad only as it nears the viewport,
-	which keeps unused ad calls off the initial page load.
+	IntersectionObserver to request each ad only as it nears the viewport.
 --}}
 <div class="ad ad-adsense{{#if class}} {{class}}{{/if}}" aria-hidden="true">
-	<span class="ad-label">{{#if label}}{{label}}{{else}}{{t "Advertisement"}}{{/if}}</span>
+	<div class="ad-adsense-head">
+		<span class="ad-label">{{#if label}}{{label}}{{else}}{{t "Advertisement"}}{{/if}}</span>
+
+		{{!-- "Remove ads" — only when requested, members are enabled, and
+		     membership actually removes ads. We are already past the gate, so
+		     the current visitor is NOT ad-free, i.e. exactly who should see it. --}}
+		{{#if cta}}
+			{{^match @custom.ad_free_for "Disabled"}}
+				{{#if @site.members_enabled}}
+					<span class="ad-adsense-head-sep" aria-hidden="true">&bull;</span>
+					{{> "monetization/membership-cta"}}
+				{{/if}}
+			{{/match}}
+		{{/if}}
+	</div>
 
 	<ins class="adsbygoogle"
 		style="display:block;{{#if style}}{{style}}{{/if}}"
@@ -21,15 +38,4 @@
 		{{#if layout}}data-ad-layout="{{layout}}"{{/if}}
 		{{#if layout_key}}data-ad-layout-key="{{layout_key}}"{{/if}}
 		data-full-width-responsive="true"></ins>
-
-	{{!-- "Remove ads" CTA — only when requested, members are enabled, and
-	     membership actually removes ads. We are already past the gate, so the
-	     current visitor is NOT ad-free, i.e. exactly who should see this. --}}
-	{{#if cta}}
-		{{^match @custom.ad_free_for "Disabled"}}
-			{{#if @site.members_enabled}}
-				{{> "monetization/membership-cta"}}
-			{{/if}}
-		{{/match}}
-	{{/if}}
 </div>
