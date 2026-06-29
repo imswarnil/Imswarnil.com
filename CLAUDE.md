@@ -126,6 +126,15 @@ Configured in `package.json` under `config.custom`. Key settings:
 
 > Adding/removing a `config.custom` setting only shows up in Ghost admin after a Ghost **restart**. Ghost caps each setting `description` at 100 characters (gscan warns otherwise). The theme is near Ghost's ~20 custom-settings limit — prefer hardcoding over new settings.
 
+## Home hero
+
+Rich two-column hero rendered on `home.hbs` via `partials/sections/home-hero.hbs` (data wrapper `partials/settings/home-hero.hbs`).
+
+- **Dynamic data** comes from a Ghost **page with slug `home-hero`**: title → name/headline, excerpt → bio (falls back to `@site.description`), feature image → portrait (falls back to `@site.logo`). First stat is the **live total post count** via `{{#get "posts" limit="1"}}{{pagination.total}}{{/get}}`.
+- **Hand-authored bits** (Ghost has no custom fields for them, and we're at the 20 custom-settings cap) are marked `EDIT` inline in the partial: greeting badge, job title, company, city, the two non-live stats, social handles, quick links, and the video embed URL.
+- **Video**: any `[data-hero-video="<embed-url>"]` element (the "Watch video" button + the play overlay on the photo) opens a shared `<dialog id="hero-video-dialog">`. `assets/js/hero-video.js` (bundled via `index.js`) lazily injects an autoplaying iframe and clears it on close. Set the **same embed URL** (`…/embed/VIDEO_ID`) in both places; delete the buttons to drop the video.
+- **Styling**: `assets/css/sections/home-hero.css` (imported by `index.css`). The fading grid backdrop is a `.home-hero::before` layer masked with a radial-gradient; everything is token-based for dark mode. Two columns collapse to one under 880px (photo moves on top).
+
 ## Monetization (Google AdSense)
 
 Self-contained in `partials/monetization/`. Publisher id `ca-pub-1291242080282540` is hardcoded in the partials.
@@ -133,8 +142,11 @@ Self-contained in `partials/monetization/`. Publisher id `ca-pub-129124208028254
 **Partials**
 - `monetization/ads-head.hbs` — the loader `<script>`, included once in `default.hbs` `<head>`. Gated by `@custom.enable_adsense`, so a disabled site makes zero AdSense requests.
 - `monetization/adsense.hbs` — the **gate / dispatcher**. Decides whether to show an ad, then delegates markup to `ad-unit.hbs`. This is the partial you call: `{{> "monetization/adsense" slot="..."}}`.
-- `monetization/ad-unit.hbs` — the actual responsive `<ins>` markup + label + optional CTA. Not called directly (rendered by `adsense.hbs` with its inherited context, so params flow through).
-- `monetization/membership-cta.hbs` — "Remove ads — become a member" Portal CTA.
+- `monetization/ad-unit.hbs` — the responsive `<ins>` inside a contained card: a header row ("Advertisement" left, optional "Remove ads" chip right) then the slot. Not called directly (rendered by `adsense.hbs` with inherited context, so params flow through).
+- `monetization/membership-cta.hbs` — the "Remove ads" chip (Portal CTA).
+- `monetization/advertise.hbs` — **house promo** that sells the site's ad space, linking to the `/advertise/` page. Independent of `@custom.enable_adsense` (always shows where placed) but still respects `#hide_adsense_ads` in post/page context. Create a Ghost page with slug `advertise`. Placed in the post sidebar and at the bottom of every feed (home, index, tag, author, archive).
+
+**UI:** ad units render as a soft contained card (`--color-background-100`, rounded) with a tiny uppercase label; an empty/house-unfilled slot collapses entirely via `.ad-adsense:has(.adsbygoogle[data-ad-status="unfilled"])`. Styles in `assets/css/custom/adsense.css` and `assets/css/custom/advertise.css` (both imported by `index.css`).
 
 **Gating — an ad shows only when all hold:**
 1. `@custom.enable_adsense` (master switch).
@@ -145,7 +157,7 @@ Self-contained in `partials/monetization/`. Publisher id `ca-pub-129124208028254
 
 **Params** (forwarded to `ad-unit.hbs`): `slot` (required), `format` (default `auto`; `fluid` for in-article/in-feed, `autorelaxed` for multiplex), `layout`, `layout_key`, `label`, `class`, `style`, `cta`.
 
-**Placements (≈4–7 ads/page):** post = top(+CTA) + in-article + multiplex + pre-comments + sidebar; page = top(+CTA) + in-article; feed = top leaderboard(+CTA) + in-feed every 4th card (`has number="nth:4"`) + bottom multiplex; footer leaderboard on listings only (`layout/footer.hbs`, wrapped in `{{^is "post, page"}}`). Slot ids are inline in each template.
+**Placements (site-wide):** post = top(+CTA) + in-article + multiplex + pre-comments + sidebar(+advertise); page = top(+CTA) + in-article; home/index = top leaderboard(+CTA) + in-feed every 4th card (`has number="nth:4"`) + bottom multiplex + advertise; tag/author/archive = top leaderboard + in-feed + advertise; footer leaderboard on listings only (`layout/footer.hbs`, `{{^is "post, page"}}`). `error.hbs` has no ads (AdSense policy). Slot ids are inline in each template.
 
 **Lazy loading:** `ad-unit.hbs` deliberately omits the inline `adsbygoogle.push({})`. `assets/js/monetization/adsense.js` (bundled via `assets/js/index.js`) uses an IntersectionObserver to request each ad ~300px before it enters the viewport, falling back to eager load when IO is unavailable.
 

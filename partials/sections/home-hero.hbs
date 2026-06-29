@@ -1,26 +1,117 @@
-{{#if hide_title}}
-	<h1 class="screen-reader-text">{{title}}</h1>
-{{else}}
-	<div class="section-hero{{#if feature_image}} has-feature-image{{/if}}">
-		{{#if feature_image}}
-			<figure class="section-hero-image">
-				{{> "components/image" fast="true" size=image_size src=feature_image alt=feature_image_alt altElse=title}}
-				{{#if feature_image_caption}}
-					<figcaption>{{feature_image_caption}}</figcaption>
+{{!--
+	HOME HERO — rich two-column hero for the homepage.
+	================================================================
+	DYNAMIC data comes from the Ghost page with slug "home-hero"
+	(via partials/settings/home-hero.hbs):
+	    {{title}}         → your name / headline    (falls back to site title)
+	    {{excerpt}}       → short bio / tagline       (falls back to site description)
+	    {{feature_image}} → your portrait photo
+	…plus a live post count for the first stat.
+
+	Everything tagged  EDIT  below is hand-authored here, because Ghost has no
+	custom fields for them: greeting, job title, company, city, stats, video,
+	social handles and quick links. Edit the values in place.
+--}}
+<section class="home-hero">
+	<div class="home-hero-inner">
+
+		{{!-- ── LEFT: content ─────────────────────────────────────────── --}}
+		<div class="home-hero-content">
+
+			{{!-- EDIT: availability / greeting badge. --}}
+			<span class="home-hero-badge">
+				<span class="home-hero-badge-dot"></span>
+				{{t "Available for work"}}
+			</span>
+
+			<h1 class="home-hero-title">{{#if title}}{{title}}{{else}}{{@site.title}}{{/if}}</h1>
+
+			{{!-- EDIT: job title · company · city. --}}
+			<ul class="home-hero-meta">
+				<li>
+					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
+					<span>Software Engineer</span>
+				</li>
+				<li>
+					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M9 22v-4h6v4"/><path d="M8 6h.01M16 6h.01M8 10h.01M16 10h.01M8 14h.01M16 14h.01"/></svg>
+					<span>Acme Corp</span>
+				</li>
+				<li>
+					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+					<span>Bengaluru, India</span>
+				</li>
+			</ul>
+
+			<p class="home-hero-bio">{{#if excerpt}}{{excerpt}}{{else}}{{@site.description}}{{/if}}</p>
+
+			{{!-- Stats. First is LIVE (total published posts); the rest are EDIT. --}}
+			<dl class="home-hero-stats">
+				<div class="home-hero-stat">
+					<dt>{{#get "posts" limit="1"}}{{pagination.total}}{{/get}}+</dt>
+					<dd>{{t "Articles"}}</dd>
+				</div>
+				<div class="home-hero-stat">
+					<dt>5+</dt>
+					<dd>{{t "Years experience"}}</dd>
+				</div>
+				<div class="home-hero-stat">
+					<dt>20+</dt>
+					<dd>{{t "Projects shipped"}}</dd>
+				</div>
+			</dl>
+
+			{{!-- Actions: subscribe to the site + watch a video. --}}
+			<div class="home-hero-actions">
+				{{> "form-subscribe" label=false email_id="hero-subscribe-email"}}
+
+				{{!-- EDIT: paste a YouTube/Vimeo EMBED url (…/embed/VIDEO_ID).
+				     Keep the same url on the play button over the photo below.
+				     Delete this button to hide the video entirely. --}}
+				<button type="button" class="home-hero-video-btn button button-background-200" data-hero-video="https://www.youtube.com/embed/dQw4w9WgXcQ">
+					{{> "icons/video"}}
+					<span>{{t "Watch video"}}</span>
+				</button>
+			</div>
+
+			<div class="home-hero-footer">
+				{{!-- EDIT: social handles. Delete any line you don't use. --}}
+				<ul class="home-hero-socials">
+					<li><a href="https://twitter.com/USERNAME" target="_blank" rel="noopener noreferrer" aria-label="{{t "X"}}">{{> "icons-social/twitter"}}</a></li>
+					<li><a href="https://www.linkedin.com/in/USERNAME" target="_blank" rel="noopener noreferrer" aria-label="{{t "LinkedIn"}}">{{> "icons-social/linkedin"}}</a></li>
+					<li><a href="https://www.instagram.com/USERNAME" target="_blank" rel="noopener noreferrer" aria-label="{{t "Instagram"}}">{{> "icons-social/instagram"}}</a></li>
+					<li><a href="https://www.youtube.com/@USERNAME" target="_blank" rel="noopener noreferrer" aria-label="{{t "YouTube"}}">{{> "icons-social/youtube"}}</a></li>
+					<li><a href="{{@site.url}}" target="_blank" rel="noopener noreferrer" aria-label="{{t "Website"}}">{{> "icons/glob"}}</a></li>
+				</ul>
+
+				{{!-- EDIT: quick links. --}}
+				<ul class="home-hero-links">
+					<li><a href="/about/">{{t "About"}}{{> "icons/arrow-narrow-right"}}</a></li>
+					<li><a href="{{t "/archive/"}}">{{t "Archive"}}{{> "icons/arrow-narrow-right"}}</a></li>
+					<li><a href="/tag/projects/">{{t "Projects"}}{{> "icons/arrow-narrow-right"}}</a></li>
+				</ul>
+			</div>
+		</div>
+
+		{{!-- ── RIGHT: media ──────────────────────────────────────────── --}}
+		<div class="home-hero-media">
+			<div class="home-hero-photo">
+				{{#if feature_image}}
+					{{> "components/image" fast="true" size="m" src=feature_image alt=feature_image_alt altElse=title}}
+				{{else if @site.logo}}
+					<img src="{{@site.logo}}" alt="{{@site.title}}" loading="eager">
 				{{/if}}
-			</figure>
-		{{/if}}
 
-		<div class="section-hero-content">
-			<h1>{{title}}</h1>
-
-			{{#if excerpt}}
-				<p>{{excerpt}}</p>
-			{{/if}}
-
-			{{#unless hide_subscription}}
-				{{> "form-subscribe" label=true}}
-			{{/unless}}
+				{{!-- EDIT: same embed url as the Watch-video button above. --}}
+				<button type="button" class="home-hero-play" data-hero-video="https://www.youtube.com/embed/dQw4w9WgXcQ" aria-label="{{t "Watch video"}}">
+					{{> "icons/video"}}
+				</button>
+			</div>
 		</div>
 	</div>
-{{/if}}
+
+	{{!-- Shared video modal (one per page; opened by any [data-hero-video]). --}}
+	<dialog id="hero-video-dialog" class="hero-video-dialog">
+		<button type="button" class="hero-video-close" data-hero-video-close aria-label="{{t "Close"}}">{{> "icons/x-close"}}</button>
+		<div class="hero-video-frame"></div>
+	</dialog>
+</section>

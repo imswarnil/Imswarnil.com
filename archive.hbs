@@ -19,7 +19,13 @@
 {{!-- Tags. --}}
 {{> "sections/tags" is_home="true"}}
 
+{{!-- Ad: top of archive feed (Leaderboard responsive). --}}
+{{> "monetization/adsense" slot="1864856299" class="ad-archive-top"}}
+
 {{!-- Posts. --}}
 {{#> get-posts page=pagination.page}}
 	{{> "sections/posts"}}
 {{/get-posts}}
+
+{{!-- Advertise-with-us house promo. --}}
+{{> "monetization/advertise"}}

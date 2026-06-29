@@ -82,6 +82,7 @@ production stylesheet in assets/built/screen.css using: npm run dev
 /* Sections. */
 @import url('sections/base.css');
 @import url('sections/hero.css');
+@import url('sections/home-hero.css');
 @import url('sections/posts.css');
 @import url('sections/read-next.css');
 @import url('sections/recommendations.css');
@@ -105,6 +106,7 @@ production stylesheet in assets/built/screen.css using: npm run dev
 
 /* Custom. */
 @import url('custom/adsense.css');
+@import url('custom/advertise.css');
 
 /* Fixed view transition. */
 @import url('./_fixed-view-transition.css');

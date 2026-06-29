@@ -79,6 +79,9 @@
 	{{> "sections/posts" title=(t "Latest") is_home=true}}
 {{/get-posts}}
 
+{{!-- Advertise-with-us house promo. --}}
+{{> "monetization/advertise"}}
+
 {{!-- Authors. --}}
 {{#get "authors" limit=10 include="count.posts" order="count.posts DESC"}}
 	{{#if authors}}

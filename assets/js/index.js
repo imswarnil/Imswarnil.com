@@ -13,6 +13,7 @@ import './monetization/adsense';
 import './card-author';
 import './card-post';
 import './dropdown';
+import './hero-video';
 import './navigation-dropdown';
 import './posts';
 import './search';

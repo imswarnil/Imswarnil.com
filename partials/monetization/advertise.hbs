@@ -1,0 +1,26 @@
+{{!--
+	Advertise-with-us — house promo
+	================================================================
+	Sells the site's ad space. Independent of AdSense (shows whether or not
+	@custom.enable_adsense is on), so the slot always earns its keep. Respects
+	#hide_adsense_ads when rendered inside {{#post}}/{{#page}}.
+
+	Links to the /advertise/ page — create a Ghost page with slug "advertise"
+	describing rates / contact. Edit the copy below to taste.
+
+	Usage: {{> "monetization/advertise"}}  (optional class="…")
+--}}
+{{^has tag="#hide_adsense_ads"}}
+<a class="advertise-card{{#if class}} {{class}}{{/if}}" href="/advertise/">
+	<span class="advertise-card-eyebrow">
+		{{> "icons/flame"}}
+		{{t "Advertise"}}
+	</span>
+	<span class="advertise-card-title">{{t "Your brand here"}}</span>
+	<span class="advertise-card-text">{{t "Reach our readers — promote your product or service in this space."}}</span>
+	<span class="advertise-card-cta">
+		{{t "Get started"}}
+		{{> "icons/arrow-narrow-right"}}
+	</span>
+</a>
+{{/has}}

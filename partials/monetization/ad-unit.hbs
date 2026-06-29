@@ -5,9 +5,9 @@
 	should be shown, so this file contains no gating — just the unit + label
 	+ optional membership CTA.
 
-	Layout: the box has a light border and rounded corners; a small pill
-	(the "Advertisement" label, plus a "Remove ads" link when cta=true) floats
-	centered and overlapping the top border.
+	Layout: a soft contained card with a small header row — "Advertisement" on
+	the left, an optional "Remove ads" chip on the right (when cta=true) — then
+	the responsive ad below.
 
 	Lazy loading: the <ins> is intentionally rendered WITHOUT the usual inline
 	`adsbygoogle.push({})`. assets/js/monetization/adsense.js uses an
@@ -23,7 +23,6 @@
 		{{#if cta}}
 			{{^match @custom.ad_free_for "Disabled"}}
 				{{#if @site.members_enabled}}
-					<span class="ad-adsense-head-sep" aria-hidden="true">&bull;</span>
 					{{> "monetization/membership-cta"}}
 				{{/if}}
 			{{/match}}

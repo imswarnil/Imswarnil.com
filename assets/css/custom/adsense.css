@@ -1,90 +1,73 @@
-/* AdSense — ad units & membership CTA
+/* AdSense — ad units & "Remove ads" CTA
    ==========================================================================
-   Part of the Rollup/PostCSS build (imported from assets/css/index.css), so
-   it is processed, nested, and minified like every other component. Uses the
-   theme design tokens from vars.css, which already flip for dark mode — no
-   separate dark-mode block needed.
-
-   Markup is produced by partials/monetization/*.hbs.
+   Part of the Rollup/PostCSS build (imported from assets/css/index.css).
+   Token-based, so it adapts to dark mode automatically.
+   Markup: partials/monetization/{adsense,ad-unit,membership-cta}.hbs.
    ========================================================================== */
 
-/* Ad box: light border, very rounded corners, padded so the ad never touches
-   the edge. `position: relative` anchors the floating label pill. */
+/* Contained ad card: soft surface, rounded, with a small header row. */
 .ad-adsense {
-	position: relative;
 	display: block;
 	margin: var(--spacing-9) auto;
-	padding: var(--spacing-7);
+	padding: var(--spacing-4) var(--spacing-5) var(--spacing-5);
 	max-width: 100%;
-	border: 1px solid var(--color-border);
-	border-radius: var(--radius-6); /* fluid 16–30px → "very rounded" */
-	text-align: center;
+	background-color: var(--color-background-100);
+	border-radius: var(--radius-4);
 }
 
-/* The floating pill that overlaps the top border, horizontally centered.
-   Holds the "Advertisement" label and, optionally, the "Remove ads" link. */
+/* Collapse the whole unit when AdSense reports no ad (no empty grey box). */
+.ad-adsense:has(.adsbygoogle[data-ad-status='unfilled']) {
+	display: none;
+}
+
+/* Header: "Advertisement" on the left, "Remove ads" on the right. */
 .ad-adsense .ad-adsense-head {
-	position: absolute;
-	top: 0;
-	left: 50%;
-	transform: translate(-50%, -50%);
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--spacing-4);
+	min-height: 22px;
+	margin-bottom: var(--spacing-3);
+}
+
+.ad-adsense .ad-label {
+	font-size: 0.625rem; /* 10px */
+	font-weight: var(--font-weight-semibold);
+	letter-spacing: 0.12em;
+	text-transform: uppercase;
+	color: var(--color-mute);
+}
+
+/* "Remove ads" chip — subtle by default, inverts on hover. */
+.ad-adsense .ad-remove {
 	display: inline-flex;
 	align-items: center;
-	gap: var(--spacing-3);
-	padding: var(--spacing-2) var(--spacing-5);
-	background-color: var(--color-background);
-	border: 1px solid var(--color-border);
-	border-radius: 999px; /* pill */
-	white-space: nowrap;
-	line-height: 1;
-}
-
-/* "Advertisement" eyebrow — small, muted, uppercase. */
-.ad-adsense .ad-label {
-	font-family: var(--font-family-body);
-	font-size: var(--font-x-small);
+	gap: var(--spacing-2);
+	padding: var(--spacing-1) var(--spacing-3);
+	border-radius: 999px;
+	font-size: 0.6875rem; /* 11px */
 	font-weight: var(--font-weight-medium);
-	letter-spacing: 0.08em;
-	text-transform: uppercase;
-	color: var(--color-mute);
+	color: var(--color-secondary);
+	background-color: var(--color-background-200);
+	transition: color 0.15s ease, background-color 0.15s ease;
 }
 
-/* Dot separator between the label and the CTA. */
-.ad-adsense .ad-adsense-head-sep {
-	color: var(--color-mute);
-	font-size: var(--font-x-small);
+.ad-adsense .ad-remove:hover {
+	color: var(--color-background);
+	background-color: var(--color-contrast);
 }
 
-/* Compact "Remove ads" link sitting next to the label. */
-.ad-adsense .ad-membership-cta {
-	font-size: var(--font-x-small);
-	font-weight: var(--font-weight-semibold);
-	letter-spacing: 0.02em;
-	text-transform: uppercase;
-	color: var(--ghost-accent-color);
-	transition: opacity 0.15s ease;
-
-	&:hover {
-		opacity: 0.7;
-	}
+.ad-adsense .ad-remove svg {
+	width: 12px;
+	height: 12px;
 }
 
-/* The <ins> slot. A muted placeholder avoids layout shift while the ad is
-   lazy-loading; it clears once AdSense reports the slot as filled. */
+/* The slot itself. */
 .ad-adsense .adsbygoogle {
 	display: block;
 	min-height: 1px;
 	overflow: hidden;
-	background-color: var(--color-background-100);
-	border-radius: var(--radius-3);
-
-	&[data-ad-status='filled'] {
-		background-color: transparent;
-	}
-
-	&[data-ad-status='unfilled'] {
-		display: none; /* collapse house-empty slots instead of leaving a gap */
-	}
+	border-radius: var(--radius-2);
 }
 
 /* In-feed ad: span the full posts grid row so it never breaks the layout. */
