@@ -1,0 +1,54 @@
+/* YouTube / Material UI layer
+   ==========================================================================
+   Sits on top of the Material design tokens in vars.css. Tokens already do the
+   colour/typography/radius work site-wide; this file adds the few behavioural
+   touches YouTube's UI needs — Medium-weight titles (Roboto renders heavy),
+   pill buttons with a Material press/elevation feel, and rounded thumbnails.
+   All token-based, so it adapts to dark mode automatically.
+   Markup verified: .button, .card-post-title, .post-title, .card-post-image.
+   ========================================================================== */
+
+/* YouTube titles are Roboto Medium, not Bold, and not letter-spaced. */
+.card-post-title,
+.post-title,
+.card-title,
+.card-author-title {
+	font-weight: var(--font-weight-medium);
+	letter-spacing: 0;
+}
+
+/* Thumbnails: YouTube's rounded 12px corners (radius-4) + a soft Material
+   zoom on hover. */
+.card-post-image,
+.card-image {
+	border-radius: var(--radius-4);
+}
+
+.card-post-image img {
+	transition: transform 0.25s ease;
+}
+
+.card-post-image:hover img {
+	transform: scale(1.03);
+}
+
+/* Material buttons: Roboto Medium, pill (already from button radius token),
+   a gentle elevation on hover and a subtle press — the Material tactile feel
+   without a full ripple. */
+.button {
+	font-weight: var(--font-weight-medium);
+	letter-spacing: 0;
+	transition:
+		var(--button--transition), box-shadow 0.18s ease, transform 0.12s ease;
+}
+
+.button:hover {
+	box-shadow: var(--shadow);
+}
+
+.button:active {
+	transform: scale(0.97);
+}
+
+/* Material elevation on raised surfaces (dropdowns, popups already use the
+   --shadow token; nothing extra needed there). Keep cards flat like YouTube. */
