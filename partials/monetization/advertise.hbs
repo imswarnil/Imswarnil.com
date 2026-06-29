@@ -12,6 +12,16 @@
 --}}
 {{^has tag="#hide_adsense_ads"}}
 <a class="advertise-card{{#if class}} {{class}}{{/if}}" href="/advertise/">
+	<span class="advertise-card-avatar">
+		{{#if @site.icon}}
+			<img src="{{img_url @site.icon size="xs"}}" alt="{{@site.title}}" loading="lazy">
+		{{else if @site.logo}}
+			<img src="{{img_url @site.logo size="xs"}}" alt="{{@site.title}}" loading="lazy">
+		{{else}}
+			<span class="advertise-card-avatar-fallback">{{#if @site.title}}{{truncate @site.title characters="1"}}{{/if}}</span>
+		{{/if}}
+	</span>
+
 	<span class="advertise-card-eyebrow">
 		{{> "icons/flame"}}
 		{{t "Advertise"}}
