@@ -3,16 +3,28 @@
    Part of the Rollup/PostCSS build (imported from assets/css/index.css).
    Token-based, so it adapts to dark mode automatically.
    Markup: partials/monetization/{adsense,ad-unit,membership-cta}.hbs.
+
+   Two jobs here:
+   1. Keep every responsive unit inside its parent. AdSense iframes can be
+      wider than the column (esp. with full-width-responsive), so the wrapper
+      AND the <ins> are hard-clipped to 100% width.
+   2. Reserve vertical space per placement (min-height) so the page doesn't
+      jump when an ad loads. Unfilled units collapse, so the reservation only
+      ever applies while loading or once an ad is actually shown.
    ========================================================================== */
 
-/* Contained ad card: soft surface, rounded, with a small header row. */
+/* Contained ad card: soft surface, hairline border, small header row. */
 .ad-adsense {
 	display: block;
+	box-sizing: border-box;
+	width: 100%;
+	max-width: 100%;
 	margin: var(--spacing-9) auto;
 	padding: var(--spacing-4) var(--spacing-5) var(--spacing-5);
-	max-width: 100%;
+	overflow: hidden; /* clip any over-wide AdSense iframe */
 	background-color: var(--color-background-100);
-	border-radius: var(--radius-4);
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius-3);
 }
 
 /* Collapse the whole unit when AdSense reports no ad (no empty grey box). */
@@ -26,14 +38,14 @@
 	align-items: center;
 	justify-content: space-between;
 	gap: var(--spacing-4);
-	min-height: 22px;
+	min-height: 18px;
 	margin-bottom: var(--spacing-3);
 }
 
 .ad-adsense .ad-label {
-	font-size: 0.625rem; /* 10px */
+	font-size: 0.5625rem; /* 9px */
 	font-weight: var(--font-weight-semibold);
-	letter-spacing: 0.12em;
+	letter-spacing: 0.14em;
 	text-transform: uppercase;
 	color: var(--color-mute);
 }
@@ -62,12 +74,44 @@
 	height: 12px;
 }
 
-/* The slot itself. */
+/* The slot itself — always fills the card, never wider than it. */
 .ad-adsense .adsbygoogle {
 	display: block;
+	width: 100%;
+	max-width: 100%;
 	min-height: 1px;
 	overflow: hidden;
-	border-radius: var(--radius-2);
+	border-radius: var(--radius-1);
+}
+
+/* ── Size reservations per placement (prevents layout shift) ──────────────
+   These cap/reserve the AD SLOT height only; the card padding/label add on
+   top. Tuned to common AdSense responsive sizes so loaded ads settle without
+   a visible jump. Reservations vanish when a unit is unfilled (collapsed). */
+
+/* Leaderboard-style tops of feeds/articles: short and wide. */
+.ad-feed-top .adsbygoogle,
+.ad-tag-top .adsbygoogle,
+.ad-author-top .adsbygoogle,
+.ad-archive-top .adsbygoogle,
+.ad-post-top .adsbygoogle,
+.ad-page-top .adsbygoogle,
+.ad-footer .adsbygoogle {
+	min-height: 90px;
+}
+
+/* In-article / in-feed fluid units: medium block. */
+.ad-post-bottom .adsbygoogle,
+.ad-page-bottom .adsbygoogle,
+.ad-feed .adsbygoogle {
+	min-height: 120px;
+}
+
+/* Multiplex / pre-comments / bottom-of-feed: taller content grids. */
+.ad-post-multiplex .adsbygoogle,
+.ad-post-comments .adsbygoogle,
+.ad-feed-bottom .adsbygoogle {
+	min-height: 200px;
 }
 
 /* In-feed ad: span the full posts grid row so it never breaks the layout. */
@@ -76,7 +120,11 @@
 	list-style: none;
 }
 
-/* Sidebar ad spacing. */
+/* Sidebar ad: reserve a medium-rectangle footprint and add breathing room. */
 .ad-sidebar {
 	margin-top: var(--spacing-8);
+}
+
+.ad-sidebar .adsbygoogle {
+	min-height: 250px;
 }
