@@ -3,13 +3,12 @@
 	RESUME / CV — auto-applied to the Ghost page with slug "resume".
 	================================================================
 	All content lives in THIS TEMPLATE (it does not read from posts). Create an
-	empty Ghost page with slug "resume" and edit the content below directly.
-	Every editable spot is marked  EDIT .
+	empty Ghost page with slug "resume" and edit below. Editable spots = EDIT.
 
-	Layout: a responsive two-column header (identity | contact), then a
-	two-column body — main (summary, experience, side projects) + aside
-	(achievements, skills, certifications, education). A Print button gives a
-	clean Save-as-PDF (see @media print in assets/css/pages/resume.css).
+	Layout: responsive two-column header (identity | contact) + a two-column
+	body — main = summary + experience (stepper cards with logo badges) + side
+	projects; aside (STICKY) = achievements, skills, certifications, education.
+	Print button → clean Save-as-PDF (see @media print in pages/resume.css).
 --}}
 {{#contentFor "body-class"}} page-resume{{/contentFor}}
 
@@ -71,80 +70,91 @@
 				</p>
 			</section>
 
+			{{!-- Experience — stepper cards. Each entry = a logo node on the
+			     stepper line + a card. EDIT a logo: swap the .resume-logo span
+			     for <img src="/content/images/company.png" alt="Company">. --}}
 			<section class="resume-section">
 				<h2 class="resume-section-title">{{t "Experience"}}</h2>
 				<ol class="resume-timeline">
 
-					{{!-- EDIT: Twilio --}}
 					<li class="resume-entry">
-						<div class="resume-entry-top">
-							<h3 class="resume-entry-role">CRM Analytics Developer</h3>
-							<span class="resume-entry-period">07/2022 — Present</span>
+						<span class="resume-logo"><span class="resume-logo-text">T</span></span>
+						<div class="resume-entry-card">
+							<div class="resume-entry-top">
+								<div>
+									<h3 class="resume-entry-role">CRM Analytics Developer</h3>
+									<p class="resume-entry-org">Twilio <span class="resume-entry-loc">· Bangalore, India</span></p>
+								</div>
+								<span class="resume-entry-period">07/2022 — Present</span>
+							</div>
+							<p class="resume-entry-desc">
+								Manage CRM Analytics for the GTM Sales Operations team — dashboards that
+								improve AE productivity, measure adoption, and surface insights across
+								sales, service, and operational value streams. Work spans advanced CRMA
+								development, Snowflake integration, performance optimisation, CPQ
+								alignment, and data reliability through continuous modelling and cleanup.
+							</p>
+							<ul class="resume-points">
+								<li>Built productivity dashboards for AEs — Account Insight Cards, Performance Trackers, Usage Metrics, Cross-Sell Views, account planning.</li>
+								<li>Developed Sales &amp; Service Cloud dashboards: Case Insights, Lead Conversion, Account Plan Adoption, Product Usage.</li>
+								<li>Created operational dashboards — Event Monitoring Logs, Apex Error Tracking, Lead Conversion, Credit Approval insights.</li>
+								<li>Integrated Snowflake data into CRM Analytics for unified GTM reporting.</li>
+								<li>Led platform cleanup and field deprecation, remapping logic and datasets during major org restructures.</li>
+								<li>Advanced SAQL, bindings, and interactive dashboard logic to lift interactivity and UX.</li>
+								<li>Delivered POCs, high-priority ad-hoc requests, and resolved data discrepancies across GTM workflows.</li>
+							</ul>
 						</div>
-						<p class="resume-entry-org">Twilio · Bangalore, India</p>
-						<p class="resume-entry-desc">
-							Manage CRM Analytics for the GTM Sales Operations team — building dashboards
-							that improve AE productivity, measure adoption, and provide actionable
-							insights across sales, service, and operational value streams. Work spans
-							advanced CRMA development, Snowflake integration, performance optimisation,
-							CPQ alignment, and data reliability through continuous modelling and cleanup.
-						</p>
-						<ul class="resume-points">
-							<li>Built productivity dashboards for AEs — Account Insight Cards, Performance Trackers, Usage Metrics, Cross-Sell Views, and account planning analytics.</li>
-							<li>Developed Sales Cloud &amp; Service Cloud dashboards: Case Insights, Lead Conversion, Account Plan Adoption, and Product Usage.</li>
-							<li>Created operational dashboards — Event Monitoring Logs, Apex Error Tracking, Lead Conversion Analysis, and Credit Approval insights.</li>
-							<li>Integrated Snowflake data into CRM Analytics for unified reporting and enriched GTM insights.</li>
-							<li>Led platform cleanup and field deprecation projects, remapping logic and adjusting datasets during major org restructures.</li>
-							<li>Performed extensive data modelling, SQL updates, transformations, and dataset optimisation for reliable reporting.</li>
-							<li>Implemented advanced SAQL, bindings, and interactive dashboard logic to improve interactivity and UX.</li>
-							<li>Delivered POCs, handled high-priority ad-hoc requests, and resolved data discrepancies across GTM workflows.</li>
-							<li>Improved analytics adoption by aligning dashboards with business needs alongside Sales Ops, Engineering, and GTM leaders.</li>
-						</ul>
 					</li>
 
-					{{!-- EDIT: Cognizant --}}
 					<li class="resume-entry">
-						<div class="resume-entry-top">
-							<h3 class="resume-entry-role">CRM Analytics Consultant</h3>
-							<span class="resume-entry-period">08/2021 — 06/2022</span>
+						<span class="resume-logo"><span class="resume-logo-text">C</span></span>
+						<div class="resume-entry-card">
+							<div class="resume-entry-top">
+								<div>
+									<h3 class="resume-entry-role">CRM Analytics Consultant</h3>
+									<p class="resume-entry-org">Cognizant <span class="resume-entry-loc">· Bangalore</span></p>
+								</div>
+								<span class="resume-entry-period">08/2021 — 06/2022</span>
+							</div>
+							<p class="resume-entry-desc">
+								CRM Analytics projects for enterprise clients — improving dashboards,
+								enhancing UX, and optimising performance. Handled development
+								independently and supported teams with reporting and documentation.
+							</p>
+							<ul class="resume-points">
+								<li>Redesigned and optimised CRMA dashboards for usability, performance, and interactivity using SAQL, bindings, dataflows, recipes, and clean modelling.</li>
+								<li>Converted business requirements into scalable dashboard designs; supported ad-hoc reporting, issue resolution, and documentation.</li>
+								<li>Independently managed enhancements and fixes, coordinating for reliable dataset performance.</li>
+							</ul>
 						</div>
-						<p class="resume-entry-org">Cognizant · Bangalore</p>
-						<p class="resume-entry-desc">
-							Worked on CRM Analytics projects for enterprise clients — improving
-							dashboards, enhancing UX, and optimising performance. Handled development
-							independently and supported teams with reporting, data preparation, and
-							documentation.
-						</p>
-						<ul class="resume-points">
-							<li>Redesigned and optimised CRMA dashboards for usability, performance, and interactivity using SAQL, bindings, dataflows, recipes, and clean data modelling.</li>
-							<li>Converted business requirements into scalable dashboard designs, supporting ad-hoc reporting, issue resolution, and documentation.</li>
-							<li>Independently managed enhancements and fixes, coordinating with teams for reliable dataset performance.</li>
-						</ul>
 					</li>
 
-					{{!-- EDIT: Accenture --}}
 					<li class="resume-entry">
-						<div class="resume-entry-top">
-							<h3 class="resume-entry-role">Einstein Analytics Developer</h3>
-							<span class="resume-entry-period">03/2018 — 08/2021</span>
+						<span class="resume-logo"><span class="resume-logo-text">A</span></span>
+						<div class="resume-entry-card">
+							<div class="resume-entry-top">
+								<div>
+									<h3 class="resume-entry-role">Einstein Analytics Developer</h3>
+									<p class="resume-entry-org">Accenture <span class="resume-entry-loc">· Bangalore, India</span></p>
+								</div>
+								<span class="resume-entry-period">03/2018 — 08/2021</span>
+							</div>
+							<p class="resume-entry-desc">
+								CRM Analytics for Consumer Goods (Trade Promotion Management) and
+								Telecom — dashboards, packaged-app analytics, and Sales Cloud reporting.
+								Owned modules independently and mentored junior team members.
+							</p>
+							<ul class="resume-points">
+								<li>Built CRMA dashboards for TPM packaged apps and Sales Cloud — datasets, dataflows, SAQL, bindings, dashboard JSON.</li>
+								<li>Managed data preparation, modelling, validation, and optimisation; turned requirements into scalable analytics designs.</li>
+								<li>Delivered features and fixes independently, supported UAT/documentation, and guided juniors in CRMA.</li>
+							</ul>
 						</div>
-						<p class="resume-entry-org">Accenture · Bangalore, India</p>
-						<p class="resume-entry-desc">
-							Worked on CRM Analytics for Consumer Goods (Trade Promotion Management)
-							and Telecom — dashboards, packaged-app analytics, and Sales Cloud
-							reporting. Handled modules independently and supported junior team members.
-						</p>
-						<ul class="resume-points">
-							<li>Built CRMA dashboards for TPM packaged apps and Sales Cloud — datasets, dataflows, SAQL, bindings, and dashboard JSON.</li>
-							<li>Managed data preparation, modelling, validation, and optimisation, turning requirements into scalable analytics designs.</li>
-							<li>Delivered features and fixes independently, supported UAT/documentation, and guided junior team members in CRMA.</li>
-						</ul>
 					</li>
 
 				</ol>
 			</section>
 
-			{{!-- EDIT: side projects --}}
 			<section class="resume-section">
 				<h2 class="resume-section-title">{{t "Side projects"}}</h2>
 				<ul class="resume-list resume-sideprojects">
@@ -166,10 +176,10 @@
 			</section>
 		</div>
 
-		{{!-- ASIDE column ───────────────────────────────────────────── --}}
+		{{!-- ASIDE column (STICKY) ───────────────────────────────────── --}}
 		<aside class="resume-aside">
+		<div class="resume-aside-inner">
 
-			{{!-- EDIT: key achievements --}}
 			<section class="resume-section">
 				<h2 class="resume-section-title">{{t "Key achievements"}}</h2>
 				<ul class="resume-list">
@@ -179,12 +189,11 @@
 					</li>
 					<li>
 						<h3 class="resume-list-title">Tweek Week — Unified CPQ Insights</h3>
-						<p class="resume-list-org">Built a CPQ insights dashboard combining config and pricing in one view; adopted by the team and prioritised for PI11.</p>
+						<p class="resume-list-org">CPQ insights dashboard combining config and pricing in one view; adopted by the team and prioritised for PI11.</p>
 					</li>
 				</ul>
 			</section>
 
-			{{!-- EDIT: skills --}}
 			<section class="resume-section">
 				<h2 class="resume-section-title">{{t "Skills"}}</h2>
 				<h3 class="resume-skills-group">{{t "Technical"}}</h3>
@@ -200,8 +209,8 @@
 					<li>Data Visualization</li>
 					<li>Data Analysis</li>
 					<li>ETL</li>
+					<li>Snowflake</li>
 					<li>Salesforce Admin</li>
-					<li>UX</li>
 					<li>Copado</li>
 					<li>HTML</li>
 					<li>CSS</li>
@@ -218,22 +227,26 @@
 				</ul>
 			</section>
 
-			{{!-- EDIT: training & certification --}}
 			<section class="resume-section">
-				<h2 class="resume-section-title">{{t "Training & certification"}}</h2>
-				<ul class="resume-list">
+				<h2 class="resume-section-title">{{t "Certifications"}}</h2>
+				<ul class="resume-certs">
 					<li>
-						<h3 class="resume-list-title">Salesforce Certified Administrator</h3>
-						<p class="resume-list-org">ADM-201</p>
+						<span class="resume-cert-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>
+						<div>
+							<h3 class="resume-list-title">Salesforce Certified Administrator</h3>
+							<p class="resume-list-org">Salesforce · ADM-201</p>
+						</div>
 					</li>
 					<li>
-						<h3 class="resume-list-title">CRM Analytics Training</h3>
-						<p class="resume-list-org">Instructor-led Einstein Analytics — ANC101, ANC201, ANC301</p>
+						<span class="resume-cert-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>
+						<div>
+							<h3 class="resume-list-title">CRM Analytics Training</h3>
+							<p class="resume-list-org">Instructor-led Einstein Analytics · ANC101, ANC201, ANC301</p>
+						</div>
 					</li>
 				</ul>
 			</section>
 
-			{{!-- EDIT: education --}}
 			<section class="resume-section">
 				<h2 class="resume-section-title">{{t "Education"}}</h2>
 				<ul class="resume-list">
@@ -244,6 +257,7 @@
 					</li>
 				</ul>
 			</section>
+		</div>
 		</aside>
 	</div>
 </article>

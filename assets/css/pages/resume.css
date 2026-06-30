@@ -130,6 +130,20 @@
 	margin-bottom: var(--spacing-10);
 }
 
+/* Sticky aside — stays in view while the experience column scrolls. */
+.resume-aside {
+	align-self: start;
+}
+
+.resume-aside-inner {
+	position: sticky;
+	top: calc(var(--navbar--min-height) + var(--spacing-7));
+}
+
+.resume-aside .resume-section:last-child {
+	margin-bottom: 0;
+}
+
 .resume-section-title {
 	margin: 0 0 var(--spacing-7);
 	padding-bottom: var(--spacing-4);
@@ -145,43 +159,74 @@
 	line-height: 1.7;
 }
 
-/* ── Experience timeline ───────────────────────────────────────────────── */
+/* ── Experience — stepper cards with logo nodes ────────────────────────── */
 .resume-timeline {
-	position: relative;
 	margin: 0;
-	padding: 0 0 0 var(--spacing-8);
+	padding: 0;
 	list-style: none;
-}
-
-.resume-timeline::before {
-	content: '';
-	position: absolute;
-	top: 6px;
-	bottom: 6px;
-	left: 4px;
-	width: 2px;
-	background-color: var(--color-border);
 }
 
 .resume-entry {
 	position: relative;
-	padding-bottom: var(--spacing-9);
+	display: grid;
+	grid-template-columns: 52px minmax(0, 1fr);
+	gap: var(--spacing-6);
+	padding-bottom: var(--spacing-8);
 }
 
 .resume-entry:last-child {
 	padding-bottom: 0;
 }
 
+/* Connector line linking the logo nodes. */
 .resume-entry::before {
 	content: '';
 	position: absolute;
-	top: 6px;
-	left: calc(var(--spacing-8) * -1);
-	width: 11px;
-	height: 11px;
-	border-radius: 50%;
-	background-color: var(--ghost-accent-color);
-	box-shadow: 0 0 0 4px var(--color-background);
+	top: 58px;
+	bottom: -2px;
+	left: 25px;
+	width: 2px;
+	background-color: var(--color-border);
+}
+
+.resume-entry:last-child::before {
+	display: none;
+}
+
+/* Logo node. EDIT the markup to drop in an <img>; it fills this box. */
+.resume-logo {
+	position: relative;
+	z-index: 1;
+	display: grid;
+	place-items: center;
+	width: 52px;
+	height: 52px;
+	border-radius: var(--radius-3);
+	background-color: var(--color-background);
+	border: 1px solid var(--color-border);
+	box-shadow: var(--shadow);
+	overflow: hidden;
+}
+
+.resume-logo img {
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
+	padding: var(--spacing-2);
+}
+
+.resume-logo-text {
+	font-size: 1.3rem;
+	font-weight: var(--font-weight-bold);
+	color: var(--color-contrast);
+}
+
+/* Card. */
+.resume-entry-card {
+	padding: var(--spacing-7);
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius-4);
+	background-color: var(--color-background-100);
 }
 
 .resume-entry-top {
@@ -189,7 +234,8 @@
 	flex-wrap: wrap;
 	align-items: baseline;
 	justify-content: space-between;
-	gap: var(--spacing-4);
+	gap: var(--spacing-3) var(--spacing-5);
+	margin-bottom: var(--spacing-5);
 }
 
 .resume-entry-role {
@@ -197,6 +243,17 @@
 	font-size: var(--font-large);
 	font-weight: var(--font-weight-semibold);
 	color: var(--color-contrast);
+}
+
+.resume-entry-org {
+	margin: var(--spacing-2) 0 0;
+	font-weight: var(--font-weight-medium);
+	color: var(--ghost-accent-color);
+}
+
+.resume-entry-loc {
+	color: var(--color-secondary);
+	font-weight: var(--font-weight-regular);
 }
 
 .resume-entry-period {
@@ -208,16 +265,14 @@
 	color: var(--color-mute);
 }
 
-.resume-entry-org {
-	margin: var(--spacing-2) 0 var(--spacing-4);
-	font-weight: var(--font-weight-medium);
-	color: var(--ghost-accent-color);
-}
-
 .resume-entry-desc {
-	margin: 0;
+	margin: 0 0 var(--spacing-5);
 	color: var(--color-secondary);
 	line-height: 1.6;
+}
+
+.resume-entry-card .resume-entry-desc:last-child {
+	margin-bottom: 0;
 }
 
 /* Bullet points under an experience entry. */
@@ -332,6 +387,38 @@
 	background-color: var(--color-background-100);
 }
 
+/* ── Certifications (check-marked list) ────────────────────────────────── */
+.resume-certs {
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-6);
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.resume-certs > li {
+	display: flex;
+	gap: var(--spacing-5);
+	align-items: flex-start;
+}
+
+.resume-cert-mark {
+	flex: 0 0 auto;
+	display: grid;
+	place-items: center;
+	width: 28px;
+	height: 28px;
+	border-radius: 50%;
+	background-color: color-mix(in srgb, var(--ghost-accent-color) 14%, transparent);
+	color: var(--ghost-accent-color);
+}
+
+.resume-cert-mark svg {
+	width: 15px;
+	height: 15px;
+}
+
 /* ── Responsive ────────────────────────────────────────────────────────── */
 @media (--breakpoint-max-lg) {
 	.resume-body {
@@ -341,6 +428,10 @@
 	.resume-header {
 		grid-template-columns: minmax(0, 1fr);
 		gap: var(--spacing-8);
+	}
+
+	.resume-aside-inner {
+		position: static;
 	}
 }
 
