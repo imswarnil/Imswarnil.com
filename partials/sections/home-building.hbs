@@ -6,8 +6,12 @@
 {{#get "posts" include="tags" filter="tag:hash-building" order="published_at desc" limit="4" as |building|}}
 	{{#if building}}
 	<section class="section home-building">
-		<div class="section-head">
-			<h2 class="section-title">{{t "Currently building"}}</h2>
+		<div class="home-head">
+			<div>
+				<span class="home-eyebrow">{{t "In the workshop"}}</span>
+				<h2 class="home-head-title">{{t "Currently building"}}</h2>
+				<p class="home-head-desc">{{t "Side projects and tools I'm actively working on."}}</p>
+			</div>
 		</div>
 
 		<ul class="home-building-list">

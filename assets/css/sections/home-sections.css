@@ -5,6 +5,66 @@
    Token-based → dark-mode safe.
    ========================================================================== */
 
+/* ── Shared section header (eyebrow · title · description) ─────────────── */
+.home-head {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	align-items: end;
+	gap: var(--spacing-4) var(--spacing-7);
+	width: 100%;
+	margin-bottom: var(--spacing-9);
+}
+
+.home-eyebrow {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--spacing-3);
+	margin-bottom: var(--spacing-4);
+	font-size: var(--font-x-small);
+	font-weight: var(--font-weight-semibold);
+	letter-spacing: 0.12em;
+	text-transform: uppercase;
+	color: var(--ghost-accent-color);
+
+	& svg {
+		width: 14px;
+		height: 14px;
+	}
+}
+
+.home-head-title {
+	margin: 0;
+	font-size: clamp(1.6rem, 3.2vw, 2.4rem);
+	font-weight: var(--font-weight-bold);
+	line-height: 1.1;
+	letter-spacing: -0.02em;
+}
+
+.home-head-desc {
+	max-width: 52ch;
+	margin: var(--spacing-4) 0 0;
+	color: var(--color-secondary);
+	line-height: 1.6;
+}
+
+.home-head-actions {
+	grid-column: 2;
+	grid-row: 1 / span 2;
+	align-self: center;
+}
+
+@media (--breakpoint-max-sm) {
+	.home-head {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.home-head-actions {
+		grid-column: 1;
+		grid-row: auto;
+		justify-self: start;
+	}
+}
+
 /* ── Now ───────────────────────────────────────────────────────────────── */
 .home-now {
 	display: grid;
@@ -14,10 +74,25 @@
 }
 
 .home-now-card {
+	position: relative;
 	padding: var(--spacing-9);
 	border: 1px solid var(--color-border);
 	border-radius: var(--radius-5);
 	background-color: var(--color-background-100);
+	overflow: hidden;
+}
+
+/* Soft accent glow in the corner. */
+.home-now-card::before {
+	content: '';
+	position: absolute;
+	top: -40px;
+	right: -40px;
+	width: 160px;
+	height: 160px;
+	border-radius: 50%;
+	background: radial-gradient(circle, color-mix(in srgb, var(--ghost-accent-color) 18%, transparent), transparent 70%);
+	pointer-events: none;
 }
 
 .home-now-badge {
@@ -239,12 +314,13 @@
 	border: 1px solid var(--color-border);
 	border-radius: var(--radius-3);
 	background-color: var(--color-background-100);
-	transition: border-color 0.15s ease, background-color 0.15s ease;
+	transition: border-color 0.15s ease, background-color 0.15s ease, transform 0.15s ease;
 }
 
 .home-uses-item:hover {
 	border-color: var(--ghost-accent-color);
 	background-color: var(--color-background-200);
+	transform: translateY(-2px);
 }
 
 .home-uses-icon {

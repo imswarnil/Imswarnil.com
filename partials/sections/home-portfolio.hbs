@@ -8,10 +8,14 @@
 {{#get "posts" filter="tag:hash-project" limit="1" as |anyproject|}}
 	{{#if anyproject}}
 	<section class="section home-portfolio">
-		<div class="section-head">
-			<h2 class="section-title">{{t "Portfolio"}}</h2>
-			<a class="section-button button button-sm button-background-200" href="/projects/">
-				<span class="label">{{t "All projects"}}</span>{{> "icons/arrow-narrow-right"}}
+		<div class="home-head">
+			<div>
+				<span class="home-eyebrow">{{t "Selected work"}}</span>
+				<h2 class="home-head-title">{{t "Portfolio"}}</h2>
+				<p class="home-head-desc">{{t "Things I've designed, built and shipped — toggle between work and personal."}}</p>
+			</div>
+			<a class="home-head-actions button button-sm button-background-200" href="/projects/">
+				{{t "All projects"}} {{> "icons/arrow-narrow-right"}}
 			</a>
 		</div>
 

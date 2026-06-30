@@ -6,10 +6,14 @@
 {{#get "posts" include="tags" filter="tag:hash-product" order="published_at desc" limit="10" as |uses|}}
 	{{#if uses}}
 	<section class="section home-uses">
-		<div class="section-head">
-			<h2 class="section-title">{{t "Things I use"}}</h2>
-			<a class="section-button button button-sm button-background-200" href="/products/">
-				<span class="label">{{t "Full toolkit"}}</span>{{> "icons/arrow-narrow-right"}}
+		<div class="home-head">
+			<div>
+				<span class="home-eyebrow">{{t "My setup"}}</span>
+				<h2 class="home-head-title">{{t "Things I use"}}</h2>
+				<p class="home-head-desc">{{t "The hardware, software and services behind my daily work."}}</p>
+			</div>
+			<a class="home-head-actions button button-sm button-background-200" href="/products/">
+				{{t "Full toolkit"}} {{> "icons/arrow-narrow-right"}}
 			</a>
 		</div>
 
