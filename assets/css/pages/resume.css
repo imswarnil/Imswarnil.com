@@ -1,0 +1,273 @@
+/* Résumé / CV page  (page-resume.hbs)
+   ==========================================================================
+   Full-width header + two-column body (Experience timeline | Education /
+   Skills / Projects). Token-based → dark-mode safe. Includes print styles so
+   visitors can "Save as PDF" cleanly.
+   ========================================================================== */
+
+.resume {
+	padding-block: var(--spacing-7) var(--layout--gap);
+}
+
+/* ── Header (full width) ───────────────────────────────────────────────── */
+.resume-header {
+	display: flex;
+	align-items: center;
+	gap: var(--spacing-9);
+	padding-bottom: var(--spacing-9);
+	margin-bottom: var(--spacing-10);
+	border-bottom: 1px solid var(--color-border);
+}
+
+.resume-avatar {
+	flex: 0 0 auto;
+}
+
+.resume-avatar img {
+	width: 104px;
+	height: 104px;
+	border-radius: 50%;
+	object-fit: cover;
+	border: 1px solid var(--color-border);
+}
+
+.resume-name {
+	margin: 0;
+	font-size: clamp(1.9rem, 4vw, 2.8rem);
+	font-weight: var(--font-weight-bold);
+	line-height: 1.1;
+	letter-spacing: -0.02em;
+}
+
+.resume-role {
+	margin: var(--spacing-4) 0 0;
+	font-size: var(--font-large);
+	color: var(--color-secondary);
+}
+
+.resume-actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--spacing-4);
+	margin-top: var(--spacing-7);
+}
+
+.resume-print svg {
+	width: 16px;
+	height: 16px;
+}
+
+/* ── Two-column body ───────────────────────────────────────────────────── */
+.resume-body {
+	display: grid;
+	grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+	gap: var(--layout--gap) var(--spacing-10);
+	align-items: start;
+}
+
+.resume-section {
+	margin-bottom: var(--spacing-10);
+}
+
+.resume-section-title {
+	margin: 0 0 var(--spacing-7);
+	padding-bottom: var(--spacing-4);
+	border-bottom: 2px solid var(--color-contrast);
+	font-size: var(--font-small);
+	font-weight: var(--font-weight-bold);
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+}
+
+.resume-summary {
+	color: var(--color-foreground);
+	line-height: 1.7;
+}
+
+/* ── Experience timeline ───────────────────────────────────────────────── */
+.resume-timeline {
+	position: relative;
+	margin: 0;
+	padding: 0 0 0 var(--spacing-8);
+	list-style: none;
+}
+
+.resume-timeline::before {
+	content: '';
+	position: absolute;
+	top: 6px;
+	bottom: 6px;
+	left: 4px;
+	width: 2px;
+	background-color: var(--color-border);
+}
+
+.resume-entry {
+	position: relative;
+	padding-bottom: var(--spacing-9);
+}
+
+.resume-entry:last-child {
+	padding-bottom: 0;
+}
+
+.resume-entry::before {
+	content: '';
+	position: absolute;
+	top: 6px;
+	left: calc(var(--spacing-8) * -1);
+	width: 11px;
+	height: 11px;
+	border-radius: 50%;
+	background-color: var(--ghost-accent-color);
+	box-shadow: 0 0 0 4px var(--color-background);
+}
+
+.resume-entry-top {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	justify-content: space-between;
+	gap: var(--spacing-4);
+}
+
+.resume-entry-role {
+	margin: 0;
+	font-size: var(--font-large);
+	font-weight: var(--font-weight-semibold);
+	color: var(--color-contrast);
+}
+
+.resume-entry-period {
+	flex: 0 0 auto;
+	font-size: var(--font-x-small);
+	font-weight: var(--font-weight-semibold);
+	letter-spacing: 0.05em;
+	text-transform: uppercase;
+	color: var(--color-mute);
+}
+
+.resume-entry-org {
+	margin: var(--spacing-2) 0 var(--spacing-4);
+	font-weight: var(--font-weight-medium);
+	color: var(--ghost-accent-color);
+}
+
+.resume-entry-desc {
+	margin: 0;
+	color: var(--color-secondary);
+	line-height: 1.6;
+}
+
+/* ── Aside: education / projects lists ─────────────────────────────────── */
+.resume-list {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.resume-list > li {
+	padding-bottom: var(--spacing-6);
+	margin-bottom: var(--spacing-6);
+	border-bottom: 1px solid var(--color-border);
+}
+
+.resume-list > li:last-child {
+	padding-bottom: 0;
+	margin-bottom: 0;
+	border-bottom: 0;
+}
+
+.resume-list-title {
+	margin: 0;
+	font-size: var(--font-small);
+	font-weight: var(--font-weight-semibold);
+	color: var(--color-contrast);
+}
+
+.resume-list-org {
+	margin: var(--spacing-2) 0 0;
+	font-size: var(--font-small);
+	color: var(--color-secondary);
+}
+
+.resume-list-year {
+	display: block;
+	margin-top: var(--spacing-2);
+	font-size: var(--font-x-small);
+	color: var(--color-mute);
+}
+
+.resume-projects a {
+	color: var(--color-foreground);
+	transition: color 0.15s ease;
+}
+
+.resume-projects a:hover {
+	color: var(--ghost-accent-color);
+}
+
+/* ── Skills chips ──────────────────────────────────────────────────────── */
+.resume-skills {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--spacing-3);
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.resume-skills > li {
+	padding: var(--spacing-3) var(--spacing-5);
+	border: 1px solid var(--color-border);
+	border-radius: 999px;
+	font-size: var(--font-x-small);
+	font-weight: var(--font-weight-medium);
+	color: var(--color-foreground);
+	background-color: var(--color-background-100);
+}
+
+/* ── Responsive ────────────────────────────────────────────────────────── */
+@media (--breakpoint-max-lg) {
+	.resume-body {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.resume-header {
+		flex-direction: column;
+		align-items: flex-start;
+		text-align: left;
+	}
+}
+
+/* ── Print / Save as PDF ───────────────────────────────────────────────── */
+@media print {
+	.page-resume .navbar,
+	.page-resume .sidebar,
+	.page-resume .topbar-wrap,
+	.page-resume .footer,
+	.page-resume .ad-adsense,
+	.page-resume .advertise-card,
+	.page-resume .resume-actions {
+		display: none !important;
+	}
+
+	.page-resume .main {
+		display: block !important;
+		min-height: 0 !important;
+	}
+
+	.page-resume .content {
+		padding: 0 !important;
+		max-width: none !important;
+	}
+
+	.page-resume {
+		background: #fff !important;
+		color: #000 !important;
+	}
+
+	.page-resume .resume-entry::before {
+		box-shadow: none;
+	}
+}

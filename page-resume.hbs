@@ -1,0 +1,121 @@
+{{!< default}}
+{{!--
+	RESUME / CV — auto-applied to the Ghost page with slug "resume".
+	================================================================
+	Layout: a full-width header (avatar · name · role · actions) above a
+	two-column body — Experience timeline (main) + Education / Skills /
+	Projects (aside).
+
+	Data sources (all optional; empty blocks self-hide):
+	  · header     → page title (name), custom excerpt (role), feature image
+	  · Summary    → the page body (write it in the Ghost editor)
+	  · Experience → posts tagged #experience  (title=role, primary tag=company)
+	  · Education  → posts tagged #education    (title=qualification, tag=school)
+	  · Skills     → the page's own public tags
+	  · Projects   → posts tagged #project
+	Tip: put each role's date range in its custom excerpt / first line; the
+	year shown comes from the post's publish date.
+--}}
+{{#page}}
+{{#contentFor "body-class"}} page-resume{{/contentFor}}
+
+<article class="resume container-wide">
+
+	{{!-- Full-width header. --}}
+	<header class="resume-header">
+		{{#if feature_image}}
+			<div class="resume-avatar">
+				{{> "components/image" fast="true" src=feature_image alt=feature_image_alt altElse=title}}
+			</div>
+		{{/if}}
+		<div class="resume-headline">
+			<h1 class="resume-name">{{title}}</h1>
+			{{#if custom_excerpt}}<p class="resume-role">{{custom_excerpt}}</p>{{/if}}
+			<div class="resume-actions">
+				<button type="button" class="button button-sm resume-print" onclick="window.print()">
+					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M6 14h12v8H6z"/></svg>
+					{{t "Print / Save PDF"}}
+				</button>
+				<a class="button button-sm button-background-200" href="/about/">{{t "About me"}}</a>
+				{{#if @site.twitter}}<a class="button button-sm button-background-200" href="https://x.com/{{@site.twitter}}" target="_blank" rel="noopener noreferrer">{{> "icons-social/twitter"}}</a>{{/if}}
+			</div>
+		</div>
+	</header>
+
+	{{!-- Two-column body. --}}
+	<div class="resume-body">
+
+		{{!-- Main column. --}}
+		<div class="resume-main">
+			{{#if html}}
+			<section class="resume-section">
+				<h2 class="resume-section-title">{{t "Summary"}}</h2>
+				<div class="post-content resume-summary">{{{html}}}</div>
+			</section>
+			{{/if}}
+
+			{{#get "posts" include="tags" filter="tag:hash-experience" order="published_at desc" limit="50" as |experience|}}
+				{{#if experience}}
+				<section class="resume-section">
+					<h2 class="resume-section-title">{{t "Experience"}}</h2>
+					<ol class="resume-timeline">
+						{{#foreach experience}}
+						<li class="resume-entry">
+							<div class="resume-entry-top">
+								<h3 class="resume-entry-role">{{title}}</h3>
+								<span class="resume-entry-period"><time datetime="{{date format="YYYY-MM-DD"}}">{{date format="YYYY"}}</time></span>
+							</div>
+							{{#if primary_tag}}<p class="resume-entry-org">{{primary_tag.name}}</p>{{/if}}
+							{{#if excerpt}}<p class="resume-entry-desc">{{excerpt words="44"}}</p>{{/if}}
+						</li>
+						{{/foreach}}
+					</ol>
+				</section>
+				{{/if}}
+			{{/get}}
+		</div>
+
+		{{!-- Aside column. --}}
+		<aside class="resume-aside">
+			{{#get "posts" include="tags" filter="tag:hash-education" order="published_at desc" limit="50" as |education|}}
+				{{#if education}}
+				<section class="resume-section">
+					<h2 class="resume-section-title">{{t "Education"}}</h2>
+					<ul class="resume-list">
+						{{#foreach education}}
+						<li>
+							<h3 class="resume-list-title">{{title}}</h3>
+							{{#if primary_tag}}<p class="resume-list-org">{{primary_tag.name}}</p>{{/if}}
+							<time class="resume-list-year" datetime="{{date format="YYYY-MM-DD"}}">{{date format="YYYY"}}</time>
+						</li>
+						{{/foreach}}
+					</ul>
+				</section>
+				{{/if}}
+			{{/get}}
+
+			{{#if tags}}
+			<section class="resume-section">
+				<h2 class="resume-section-title">{{t "Skills"}}</h2>
+				<ul class="resume-skills">
+					{{#foreach tags}}<li>{{name}}</li>{{/foreach}}
+				</ul>
+			</section>
+			{{/if}}
+
+			{{#get "posts" include="tags" filter="tag:hash-project" order="published_at desc" limit="5" as |projects|}}
+				{{#if projects}}
+				<section class="resume-section">
+					<h2 class="resume-section-title">{{t "Selected projects"}}</h2>
+					<ul class="resume-list resume-projects">
+						{{#foreach projects}}
+						<li><a href="{{url}}">{{title}}</a></li>
+						{{/foreach}}
+					</ul>
+				</section>
+				{{/if}}
+			{{/get}}
+		</aside>
+	</div>
+</article>
+{{/page}}

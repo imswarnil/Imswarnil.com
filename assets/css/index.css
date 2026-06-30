@@ -99,6 +99,7 @@ production stylesheet in assets/built/screen.css using: npm run dev
 @import url('pages/post-image.css');
 @import url('pages/post-split.css');
 @import url('pages/post-types.css');
+@import url('pages/resume.css');
 
 /* Plugin Swiper. */
 @import url('swiper/base.css');
