@@ -11,13 +11,6 @@
 {{!-- Tags. --}}
 {{> "sections/tags" is_home="true"}}
 
-{{!-- Personal-brand sections (each self-hides when it has no content). --}}
-{{> "sections/home-now"}}
-{{> "sections/home-portfolio"}}
-{{> "sections/home-building"}}
-{{> "sections/home-uses"}}
-{{> "sections/home-travel"}}
-
 {{!--
 	Featured Carousel.
 --}}
@@ -78,19 +71,10 @@
 	{{/get}}
 {{/match}}
 
-{{!-- Ad: before the latest-posts feed (Leaderboard responsive). --}}
-{{> "monetization/adsense" slot="1864856299" class="ad-feed-top" cta=true}}
-
 {{!-- Posts. --}}
 {{#> get-posts}}
 	{{> "sections/posts" title=(t "Latest") is_home=true}}
 {{/get-posts}}
-
-{{!-- Ad: bottom of feed (Multiplex responsive). --}}
-{{> "monetization/adsense" slot="3375031396" format="autorelaxed" class="ad-feed-bottom"}}
-
-{{!-- Advertise-with-us house promo. --}}
-{{> "monetization/advertise"}}
 
 {{!-- Authors. --}}
 {{#get "authors" limit=10 include="count.posts" order="count.posts DESC"}}
@@ -117,9 +101,8 @@
 {{!-- Subscription. --}}
 {{> "sections/subscription"}}
 
-{{!-- Tags sections. (Count hardcoded — freed a custom-settings slot for
-     navigation_style; the theme is at Ghost's 20-setting cap.) --}}
-{{#> "get-tags" setting="4"}}
+{{!-- Tags sections. --}}
+{{#> "get-tags" setting=@custom.tags_list_sections}}
 	{{#foreach tags}}
 		<section class="section section-tag">
 			<div class="section-head">

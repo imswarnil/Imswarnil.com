@@ -6,16 +6,7 @@
 {{!-- Tags. --}}
 {{> "sections/tags" is_home="true"}}
 
-{{!-- Ad: top of feed (Leaderboard responsive). --}}
-{{> "monetization/adsense" slot="1864856299" class="ad-feed-top" cta=true}}
-
 {{!-- Posts. --}}
 {{#> get-posts}}
 	{{> "sections/posts"}}
 {{/get-posts}}
-
-{{!-- Ad: bottom of feed (Multiplex responsive). --}}
-{{> "monetization/adsense" slot="3375031396" format="autorelaxed" class="ad-feed-bottom"}}
-
-{{!-- Advertise-with-us house promo. --}}
-{{> "monetization/advertise"}}

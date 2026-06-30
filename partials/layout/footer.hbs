@@ -1,11 +1,4 @@
 <footer class="footer">
-	{{!-- Ad: footer leaderboard. Shown only on listing pages (home, tag,
-	     author, archive…); posts/pages carry their own in-context ads and
-	     honour #hide_adsense_ads, so we skip the footer ad there. --}}
-	{{^is "post, page"}}
-		{{> "monetization/adsense" slot="1864856299" class="ad-footer"}}
-	{{/is}}
-
 	{{> "layout/footer-copyright"}}
 
 	{{#if @site.secondary_navigation}}

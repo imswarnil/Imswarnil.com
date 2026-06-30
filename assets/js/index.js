@@ -9,7 +9,6 @@ import '../css/section-featured/grid.css';
 // Import JS.
 import './init-pvs';
 import './button-animation';
-import './monetization/adsense';
 import './card-author';
 import './card-post';
 import './dropdown';

@@ -35,16 +35,10 @@
 			{{/has}}
 		{{/has}}
 
-		{{!-- Ad: top of page (Horizontal responsive). --}}
-		{{> "monetization/adsense" slot="8939839370" class="ad-page-top" cta=true}}
-
 		{{!-- Content. --}}
 		<div class="post-content{{#unless access}} post-content-teaser{{/unless}}">
 			{{{html}}}
 		</div>
-
-		{{!-- Ad: below page content (In-article fluid). --}}
-		{{> "monetization/adsense" slot="6501428979" format="fluid" layout="in-article" class="ad-page-bottom"}}
 
 		{{!-- CTA. --}}
 		{{#unless access}}

@@ -33,21 +33,6 @@
 	"config": {
 		"card_assets": true,
 		"custom": {
-			"enable_adsense": {
-				"type": "boolean",
-				"default": false,
-				"description": "Master switch for AdSense. Tag a post/page #hide_adsense_ads to hide its ads."
-			},
-			"ad_free_for": {
-				"type": "select",
-				"options": [
-					"Disabled",
-					"All members",
-					"Paid members"
-				],
-				"default": "Paid members",
-				"description": "Who gets an ad-free experience. Non-members see a Remove ads CTA."
-			},
 			"color_scheme": {
 				"type": "select",
 				"options": [
@@ -75,15 +60,6 @@
 			"dark_mode_foreground_accent_color": {
 				"type": "color",
 				"default": "#000000"
-			},
-			"navigation_style": {
-				"type": "select",
-				"options": [
-					"Sidebar",
-					"Topbar"
-				],
-				"default": "Sidebar",
-				"description": "Sidebar keeps the left menu. Topbar shows a floating island menu bar at the top."
 			},
 			"sidebar_collapsed": {
 				"type": "boolean",
@@ -137,6 +113,12 @@
 			"tags_list": {
 				"type": "text",
 				"default": "25",
+				"group": "homepage",
+				"description": "Learn more here: https://www.priority.vision/docs/thesis/settings-sitewide/tags/"
+			},
+			"tags_list_sections": {
+				"type": "text",
+				"default": "4",
 				"group": "homepage",
 				"description": "Learn more here: https://www.priority.vision/docs/thesis/settings-sitewide/tags/"
 			},

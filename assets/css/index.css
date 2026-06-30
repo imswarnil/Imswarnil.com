@@ -74,7 +74,6 @@ production stylesheet in assets/built/screen.css using: npm run dev
 @import url('layout/navbar.css');
 @import url('layout/popup.css');
 @import url('layout/sidebar.css');
-@import url('layout/topbar.css');
 
 /* Templates. */
 @import url('templates/error.css');
@@ -83,7 +82,6 @@ production stylesheet in assets/built/screen.css using: npm run dev
 /* Sections. */
 @import url('sections/base.css');
 @import url('sections/hero.css');
-@import url('sections/home-sections.css');
 @import url('sections/posts.css');
 @import url('sections/read-next.css');
 @import url('sections/recommendations.css');
@@ -98,18 +96,12 @@ production stylesheet in assets/built/screen.css using: npm run dev
 @import url('pages/post-classic.css');
 @import url('pages/post-image.css');
 @import url('pages/post-split.css');
-@import url('pages/post-types.css');
-@import url('pages/resume.css');
 
 /* Plugin Swiper. */
 @import url('swiper/base.css');
 @import url('swiper/cards.css');
 @import url('swiper/cards-author.css');
 @import url('swiper/tags.css');
-
-/* Custom. */
-@import url('custom/adsense.css');
-@import url('custom/advertise.css');
 
 /* Fixed view transition. */
 @import url('./_fixed-view-transition.css');

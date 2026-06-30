@@ -16,12 +16,6 @@
 					<li>
 						{{> "components/card-post" style=../post_card_style}}
 					</li>
-					{{!-- Ad: in-feed, injected after every 4th post card. --}}
-					{{#has number="nth:4"}}
-						<li class="posts-list-ad">
-							{{> "monetization/adsense" slot="9130894804" format="fluid" class="ad-feed"}}
-						</li>
-					{{/has}}
 				{{/foreach}}
 			</ul>
 

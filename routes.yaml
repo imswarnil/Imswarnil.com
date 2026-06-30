@@ -1,96 +1,19 @@
-# CANONICAL routing source for Imswarnil.com.
-# Ghost actually serves routing from content/settings/routes.yaml. After editing
-# this file, sync it to the live location (see "Routing" in CLAUDE.md):
-#   - Ghost Admin: Settings > Labs > Routes > Upload routes.yaml, OR
-#   - copy this file to ../../settings/routes.yaml and `ghost restart` from the install root.
-#
-# HOW IT WORKS
-# ------------
-# Each content module is an internal (#-prefixed) tag. The tag does three jobs:
-#   1. routes.yaml puts those posts in a collection at a pretty URL (below);
-#   2. the home feed excludes the tag so modules don't leak into the blog;
-#   3. post.hbs (the dispatcher) reads the tag and renders the matching layout
-#      from partials/post/types/.
-# Internal tags never show on public tag pages, so they're safe as type markers.
-#
-# tag -> URL -> layout (partials/post/types/)
-#   #course        /course/{slug}/                  course-detail
-#   #lesson        /course/{primary_tag}/{slug}/     course-lesson
-#   #webseries     /webseries/{slug}/                standard
-#   #episode       /series/{primary_tag}/{slug}/     standard
-#   #video         /videos/{slug}/                   video         (playlist landing)
-#   #video-detail  /videos/{primary_tag}/{slug}/     video-detail  (single video)
-#   #travel        /travel/{slug}/                   travel
-#   #guide         /guides/{slug}/                   guide
-#   #project       /projects/{slug}/                 portfolio
-#   #product       /products/{slug}/                 product
-#   #timeline      (no collection)                   feeds the /now/ page timeline
-# Pages: slug "about" -> page-about.hbs, slug "now" -> page-now.hbs (auto by slug).
-
 routes:
   /signup/:
     template: signup
+    # data: page.signup # When active data will be taken from the  "/signup/" page
   /signin/:
     template: signin
+    # data: page.signin # When active data will be taken from the  "/signin/" page
 
 collections:
-  # 1. MAIN BLOG — everything not claimed by a module below.
   /:
     permalink: /{slug}/
     template: index
-    filter: "tag:-[hash-course,hash-lesson,hash-webseries,hash-episode,hash-video,hash-video-detail,hash-travel,hash-guide,hash-project,hash-product,hash-timeline]"
-
-  # 2. COURSE MODULE
-  /course/:
-    permalink: /course/{slug}/
-    filter: "tags:hash-course"
-
-  /lessons/:
-    permalink: /course/{primary_tag}/{slug}/
-    filter: "tags:hash-lesson"
-
-  # 3. WEB SERIES MODULE
-  /webseries/:
-    permalink: /webseries/{slug}/
-    filter: "tags:hash-webseries"
-
-  /episodes/:
-    permalink: /series/{primary_tag}/{slug}/
-    filter: "tags:hash-episode"
-
-  # 4. VIDEO MODULE  (playlist landing + single videos)
-  /videos/:
-    permalink: /videos/{slug}/
-    filter: "tags:hash-video"
-
-  /video-episodes/:
-    permalink: /videos/{primary_tag}/{slug}/
-    filter: "tags:hash-video-detail"
-
-  # 5. TRAVEL MODULE
-  /travel/:
-    permalink: /travel/{slug}/
-    filter: "tags:hash-travel"
-
-  # 6. GUIDES MODULE
-  /guides/:
-    permalink: /guides/{slug}/
-    filter: "tags:hash-guide"
-
-  # 7. PROJECTS / PORTFOLIO MODULE
-  /projects/:
-    permalink: /projects/{slug}/
-    filter: "tags:hash-project"
-
-  # 8. PRODUCTS MODULE
-  /products/:
-    permalink: /products/{slug}/
-    filter: "tags:hash-product"
-
-  # 9. ARCHIVE
   /archive/:
     permalink: /{slug}/
     template: archive
+    # data: page.archive # When active data will be taken from the  "/archive/" page
 
 taxonomies:
   tag: /tag/{slug}/

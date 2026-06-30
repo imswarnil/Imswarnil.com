@@ -1,47 +1,51 @@
 {{!< default}}
-{{!--
-	POST DISPATCHER
-	================================================================
-	post.hbs no longer renders a layout directly — it inspects the post's
-	internal (#-prefixed) tag and delegates to a dedicated layout partial in
-	partials/post/types/. Add a new type by:
-	  1. creating partials/post/types/<name>.hbs,
-	  2. adding an {{else has tag="#<name>"}} branch below,
-	  3. routing its #tag in routes.yaml (and excluding it from the home feed).
+{{!-- The tag above means: insert everything in this file into the body of the default.hbs template --}}
 
-	Internal tag → layout:
-	  #course        → course-detail   (course landing + lesson list)
-	  #lesson        → course-lesson   (single lesson + lesson rail)
-	  #video         → video           (playlist landing + episode grid)
-	  #video-detail  → video-detail    (single video + more from playlist)
-	  #travel        → travel          (full-bleed photo story)
-	  #guide         → guide           (reference / long-form + TOC)
-	  #project       → portfolio       (case study + project meta)
-	  #product       → product         (product showcase)
-	  (none)         → standard        (the classic article layout)
---}}
 {{#post}}
+{{!-- Everything inside the #post block pulls data from the page --}}
 
-{{#contentFor "body-class"}} post-template{{#has tag="#course"}} post-type-course{{else has tag="#lesson"}} post-type-lesson{{else has tag="#video"}} post-type-video{{else has tag="#video-detail"}} post-type-video-detail{{else has tag="#travel"}} post-type-travel{{else has tag="#guide"}} post-type-guide{{else has tag="#project"}} post-type-project{{else has tag="#product"}} post-type-product{{else}} post-template-default{{/has}}{{#> "with-sidebar"}} post-has-sidebar{{/"with-sidebar"}}{{#unless access}} post-locked{{/unless}}{{/contentFor}}
+{{#contentFor "body-class"}} post-template-default{{#> "with-sidebar"}} post-has-sidebar{{/"with-sidebar"}}{{#unless access}} post-locked{{/unless}}{{/contentFor}}
 
-{{#has tag="#course"}}
-	{{> "post/types/course-detail"}}
-{{else has tag="#lesson"}}
-	{{> "post/types/course-lesson"}}
-{{else has tag="#video"}}
-	{{> "post/types/video"}}
-{{else has tag="#video-detail"}}
-	{{> "post/types/video-detail"}}
-{{else has tag="#travel"}}
-	{{> "post/types/travel"}}
-{{else has tag="#guide"}}
-	{{> "post/types/guide"}}
-{{else has tag="#project"}}
-	{{> "post/types/portfolio"}}
-{{else has tag="#product"}}
-	{{> "post/types/product"}}
-{{else}}
-	{{> "post/types/standard"}}
-{{/has}}
+<header class="post-header container-wide">
+	<div class="post-header-info">
+		<h1 class="post-title">{{title}}</h1>
+		<ul class="post-meta">
+			{{#if authors}}
+				{{> "post/meta-author"}}
+
+				<li class="separator">&bull;</li>
+			{{/if}}
+			<li>
+				<time class="post-meta-date" datetime="{{date format="YYYY-MM-DD"}}">{{date format=(t "MMMM D, YYYY")}}</time>
+			</li>
+			{{#if reading_time}}
+			<li class="separator">&bull;</li>
+			<li>
+				<span class="post-meta-time">{{reading_time minute=(t "1 min read") minutes=(t "% min read")}}</span>
+			</li>
+			{{/if}}
+		</ul>
+	</div>
+
+	<div class="post-header-buttons">
+		{{> "post/button-comments"}}
+		{{> "post/button-share"}}
+	</div>
+</header>
+
+{{!-- Media (featured image and video). --}}
+{{> "post/media"}}
+
+{{!-- Content. --}}
+{{> "post/content"}}
+
+{{!-- Read next. --}}
+{{> "post/read-next"}}
+
+{{!-- Subscription (show on --breakpoint-max-lg) --}}
+{{> "sections/subscription"}}
+
+{{!-- Comments. --}}
+{{> "post/comments"}}
 
 {{/post}}
