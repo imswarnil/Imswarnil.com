@@ -1,0 +1,431 @@
+/* Home personal-brand sections
+   ==========================================================================
+   Now · Portfolio (work/personal switch) · Building · Uses · Travel globe.
+   Markup: partials/sections/home-{now,portfolio,building,uses,travel}.hbs.
+   Token-based → dark-mode safe.
+   ========================================================================== */
+
+/* ── Now ───────────────────────────────────────────────────────────────── */
+.home-now {
+	display: grid;
+	grid-template-columns: 1.2fr 0.8fr;
+	gap: var(--spacing-9);
+	align-items: center;
+}
+
+.home-now-card {
+	padding: var(--spacing-9);
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius-5);
+	background-color: var(--color-background-100);
+}
+
+.home-now-badge {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--spacing-3);
+	font-size: var(--font-x-small);
+	font-weight: var(--font-weight-semibold);
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+	color: var(--color-secondary);
+}
+
+.home-now-dot {
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+	background-color: var(--color-success);
+	box-shadow: 0 0 0 4px rgb(52 143 63 / 18%);
+}
+
+.home-now-title {
+	margin: var(--spacing-5) 0 var(--spacing-4);
+	font-size: clamp(1.4rem, 2.5vw, 1.9rem);
+}
+
+.home-now-text {
+	margin: 0 0 var(--spacing-7);
+	color: var(--color-secondary);
+	line-height: 1.6;
+}
+
+.home-now-timeline {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+
+	& li {
+		display: flex;
+		gap: var(--spacing-6);
+		padding: var(--spacing-5) 0;
+		border-bottom: 1px solid var(--color-border);
+	}
+
+	& li:last-child {
+		border-bottom: 0;
+	}
+
+	& time {
+		flex: 0 0 auto;
+		width: 56px;
+		font-size: var(--font-x-small);
+		font-weight: var(--font-weight-semibold);
+		text-transform: uppercase;
+		color: var(--color-mute);
+	}
+
+	& a {
+		color: var(--color-foreground);
+		transition: color 0.15s ease;
+	}
+
+	& a:hover {
+		color: var(--ghost-accent-color);
+	}
+}
+
+/* ── Portfolio (work / personal switch) ────────────────────────────────── */
+.home-portfolio-switch {
+	display: inline-flex;
+	gap: var(--spacing-1);
+	margin-bottom: var(--spacing-8);
+	padding: var(--spacing-1);
+	border-radius: 999px;
+	background-color: var(--color-background-100);
+	border: 1px solid var(--color-border);
+}
+
+.home-portfolio-radio {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	opacity: 0;
+	pointer-events: none;
+}
+
+.home-portfolio-switch label {
+	padding: var(--spacing-4) var(--spacing-8);
+	border-radius: 999px;
+	font-size: var(--font-small);
+	font-weight: var(--font-weight-medium);
+	color: var(--color-secondary);
+	cursor: pointer;
+	transition: color 0.15s ease, background-color 0.15s ease;
+}
+
+.home-portfolio-radio:checked + label {
+	background-color: var(--color-contrast);
+	color: var(--color-background);
+}
+
+.home-portfolio-radio:focus-visible + label {
+	outline: 2px solid var(--ghost-accent-color);
+	outline-offset: 2px;
+}
+
+/* CSS-only panel switching via :has(). Work shown by default. */
+.home-portfolio-panel-personal {
+	display: none;
+}
+
+.home-portfolio:has(#pf-personal:checked) .home-portfolio-panel-work {
+	display: none;
+}
+
+.home-portfolio:has(#pf-personal:checked) .home-portfolio-panel-personal {
+	display: block;
+}
+
+.home-portfolio-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+	gap: var(--layout--gap) var(--spacing-9);
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.home-portfolio-empty {
+	color: var(--color-secondary);
+}
+
+/* ── Currently building ────────────────────────────────────────────────── */
+.home-building-list {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+	gap: var(--spacing-7);
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.home-building-link {
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-3);
+	height: 100%;
+	padding: var(--spacing-8);
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius-4);
+	background-color: var(--color-background-100);
+	transition: border-color 0.15s ease, transform 0.15s ease;
+}
+
+.home-building-link:hover {
+	border-color: var(--ghost-accent-color);
+	transform: translateY(-3px);
+}
+
+.home-building-status {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--spacing-3);
+	font-size: var(--font-x-small);
+	font-weight: var(--font-weight-semibold);
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	color: var(--color-secondary);
+}
+
+.home-building-pulse {
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+	background-color: var(--ghost-accent-color);
+	animation: home-building-pulse 1.8s ease-out infinite;
+}
+
+@keyframes home-building-pulse {
+	0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--ghost-accent-color) 50%, transparent); }
+	100% { box-shadow: 0 0 0 8px transparent; }
+}
+
+.home-building-name {
+	margin: 0;
+	font-size: var(--font-large);
+	font-weight: var(--font-weight-semibold);
+	color: var(--color-contrast);
+}
+
+.home-building-text {
+	margin: 0;
+	font-size: var(--font-small);
+	color: var(--color-secondary);
+	line-height: 1.55;
+}
+
+.home-building-tag {
+	margin-top: auto;
+	font-size: var(--font-x-small);
+	color: var(--color-mute);
+}
+
+/* ── Things I use ──────────────────────────────────────────────────────── */
+.home-uses-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+	gap: var(--spacing-5);
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.home-uses-item {
+	display: flex;
+	align-items: center;
+	gap: var(--spacing-5);
+	padding: var(--spacing-5) var(--spacing-6);
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius-3);
+	background-color: var(--color-background-100);
+	transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.home-uses-item:hover {
+	border-color: var(--ghost-accent-color);
+	background-color: var(--color-background-200);
+}
+
+.home-uses-icon {
+	display: grid;
+	place-items: center;
+	flex: 0 0 auto;
+	width: 40px;
+	height: 40px;
+	border-radius: var(--radius-2);
+	overflow: hidden;
+	background-color: var(--color-background-200);
+
+	& img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+}
+
+.home-uses-icon-fallback {
+	font-size: var(--font-large);
+	font-weight: var(--font-weight-bold);
+	text-transform: uppercase;
+	color: var(--color-contrast);
+	overflow: hidden;
+	white-space: nowrap;
+}
+
+.home-uses-body {
+	display: flex;
+	flex-direction: column;
+	min-width: 0;
+}
+
+.home-uses-name {
+	font-weight: var(--font-weight-semibold);
+	color: var(--color-contrast);
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.home-uses-cat {
+	font-size: var(--font-x-small);
+	color: var(--color-mute);
+}
+
+/* ── Travel globe ──────────────────────────────────────────────────────── */
+.home-travel {
+	padding: var(--spacing-10) var(--spacing-9);
+	border-radius: var(--radius-6);
+	background-color: var(--color-background-100);
+	overflow: hidden;
+}
+
+.home-travel-inner {
+	display: grid;
+	grid-template-columns: 0.9fr 1.1fr;
+	gap: var(--spacing-10);
+	align-items: center;
+}
+
+.home-travel-eyebrow {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--spacing-3);
+	font-size: var(--font-x-small);
+	font-weight: var(--font-weight-semibold);
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+	color: var(--ghost-accent-color);
+
+	& svg {
+		width: 15px;
+		height: 15px;
+	}
+}
+
+.home-travel-title {
+	margin: var(--spacing-5) 0 var(--spacing-4);
+	font-size: clamp(1.6rem, 3vw, 2.4rem);
+}
+
+.home-travel-text {
+	max-width: 42ch;
+	margin: 0 0 var(--spacing-7);
+	color: var(--color-secondary);
+	line-height: 1.6;
+}
+
+.home-travel-globe {
+	position: relative;
+	min-height: 320px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+/* Decorative wireframe globe behind the place chips. */
+.home-travel-sphere {
+	position: absolute;
+	width: 300px;
+	height: 300px;
+	border-radius: 50%;
+	border: 1px solid var(--color-border);
+	background:
+		radial-gradient(circle at 32% 28%, color-mix(in srgb, var(--ghost-accent-color) 22%, transparent), transparent 60%),
+		var(--color-background-200);
+	box-shadow: inset -20px -24px 60px rgb(0 0 0 / 12%);
+	animation: home-travel-spin 28s linear infinite;
+}
+
+.home-travel-ring {
+	position: absolute;
+	inset: 0;
+	border-radius: 50%;
+	border: 1px solid var(--color-border);
+}
+
+.home-travel-ring:nth-child(1) { transform: rotateX(72deg); }
+.home-travel-ring:nth-child(2) { transform: rotateY(72deg); }
+.home-travel-ring:nth-child(3) { inset: 22% 0; }
+
+@keyframes home-travel-spin {
+	from { transform: rotate(0deg); }
+	to { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.home-travel-sphere { animation: none; }
+}
+
+/* Destination chips floating over the globe. */
+.home-travel-places {
+	position: relative;
+	z-index: 1;
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--spacing-4);
+	justify-content: center;
+	max-width: 460px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.home-travel-pin {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--spacing-3);
+	padding: var(--spacing-3) var(--spacing-6);
+	border-radius: 999px;
+	border: 1px solid var(--color-border);
+	background-color: var(--color-background);
+	font-size: var(--font-small);
+	font-weight: var(--font-weight-medium);
+	color: var(--color-contrast);
+	box-shadow: var(--shadow);
+	transition: transform 0.15s ease, border-color 0.15s ease;
+}
+
+.home-travel-pin:hover {
+	transform: translateY(-2px);
+	border-color: var(--ghost-accent-color);
+}
+
+.home-travel-dot {
+	width: 7px;
+	height: 7px;
+	border-radius: 50%;
+	background-color: var(--ghost-accent-color);
+}
+
+/* ── Responsive ────────────────────────────────────────────────────────── */
+@media (--breakpoint-max-lg) {
+	.home-now,
+	.home-travel-inner {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.home-travel-globe {
+		min-height: 280px;
+	}
+}

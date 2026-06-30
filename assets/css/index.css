@@ -83,6 +83,7 @@ production stylesheet in assets/built/screen.css using: npm run dev
 /* Sections. */
 @import url('sections/base.css');
 @import url('sections/hero.css');
+@import url('sections/home-sections.css');
 @import url('sections/posts.css');
 @import url('sections/read-next.css');
 @import url('sections/recommendations.css');

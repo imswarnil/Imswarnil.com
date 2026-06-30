@@ -1,0 +1,50 @@
+{{!--
+	HOME · Portfolio with a Work / Personal switch
+	================================================================
+	#project posts, split by an extra #work or #personal tag. The switch is
+	pure CSS (radio + :has) — no JS. Renders nothing if there are no projects.
+	Tag a project #project + #work or #project + #personal to file it.
+--}}
+{{#get "posts" filter="tag:hash-project" limit="1" as |anyproject|}}
+	{{#if anyproject}}
+	<section class="section home-portfolio">
+		<div class="section-head">
+			<h2 class="section-title">{{t "Portfolio"}}</h2>
+			<a class="section-button button button-sm button-background-200" href="/projects/">
+				<span class="label">{{t "All projects"}}</span>{{> "icons/arrow-narrow-right"}}
+			</a>
+		</div>
+
+		<div class="home-portfolio-switch" role="tablist">
+			<input type="radio" id="pf-work" name="pf-switch" class="home-portfolio-radio" checked>
+			<label for="pf-work">{{t "Work"}}</label>
+			<input type="radio" id="pf-personal" name="pf-switch" class="home-portfolio-radio">
+			<label for="pf-personal">{{t "Personal"}}</label>
+		</div>
+
+		<div class="home-portfolio-panel home-portfolio-panel-work">
+			{{#get "posts" include="authors,tags,tiers" filter="tag:hash-project+tag:hash-work" order="published_at desc" limit="6" as |work|}}
+				{{#if work}}
+					<ul class="posts-list home-portfolio-grid">
+						{{#foreach work}}<li>{{> "components/card-post" style="Classic"}}</li>{{/foreach}}
+					</ul>
+				{{else}}
+					<p class="home-portfolio-empty">{{t "Tag a project #project + #work to feature it here."}}</p>
+				{{/if}}
+			{{/get}}
+		</div>
+
+		<div class="home-portfolio-panel home-portfolio-panel-personal">
+			{{#get "posts" include="authors,tags,tiers" filter="tag:hash-project+tag:hash-personal" order="published_at desc" limit="6" as |personal|}}
+				{{#if personal}}
+					<ul class="posts-list home-portfolio-grid">
+						{{#foreach personal}}<li>{{> "components/card-post" style="Classic"}}</li>{{/foreach}}
+					</ul>
+				{{else}}
+					<p class="home-portfolio-empty">{{t "Tag a project #project + #personal to feature it here."}}</p>
+				{{/if}}
+			{{/get}}
+		</div>
+	</section>
+	{{/if}}
+{{/get}}
