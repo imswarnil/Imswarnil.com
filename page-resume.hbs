@@ -2,120 +2,157 @@
 {{!--
 	RESUME / CV — auto-applied to the Ghost page with slug "resume".
 	================================================================
-	Layout: a full-width header (avatar · name · role · actions) above a
-	two-column body — Experience timeline (main) + Education / Skills /
-	Projects (aside).
+	Everything here is written IN THIS TEMPLATE — it does NOT read from posts.
+	To use it: create an (empty) Ghost page with slug "resume", then edit the
+	content below. Every editable spot is marked  EDIT .
 
-	Data sources (all optional; empty blocks self-hide):
-	  · header     → page title (name), custom excerpt (role), feature image
-	  · Summary    → the page body (write it in the Ghost editor)
-	  · Experience → posts tagged #experience  (title=role, primary tag=company)
-	  · Education  → posts tagged #education    (title=qualification, tag=school)
-	  · Skills     → the page's own public tags
-	  · Projects   → posts tagged #project
-	Tip: put each role's date range in its custom excerpt / first line; the
-	year shown comes from the post's publish date.
+	Layout: full-width header, then a two-column body — Experience timeline
+	(main) + Education / Skills / Projects (aside). A Print button gives a
+	clean Save-as-PDF (see the @media print block in assets/css/pages/resume.css).
 --}}
-{{#page}}
 {{#contentFor "body-class"}} page-resume{{/contentFor}}
 
 <article class="resume container-wide">
 
-	{{!-- Full-width header. --}}
+	{{!-- ── Header (full width) ─────────────────────────────────────── --}}
 	<header class="resume-header">
-		{{#if feature_image}}
-			<div class="resume-avatar">
-				{{> "components/image" fast="true" src=feature_image alt=feature_image_alt altElse=title}}
-			</div>
-		{{/if}}
+		{{!-- EDIT: swap the initials for a photo, e.g.
+		     <div class="resume-avatar"><img src="/content/images/me.jpg" alt="Swarnil Singhai"></div> --}}
+		<div class="resume-avatar">
+			<span class="resume-avatar-initials">SS</span>
+		</div>
+
 		<div class="resume-headline">
-			<h1 class="resume-name">{{title}}</h1>
-			{{#if custom_excerpt}}<p class="resume-role">{{custom_excerpt}}</p>{{/if}}
+			<h1 class="resume-name">Swarnil Singhai</h1> {{!-- EDIT: your name --}}
+			<p class="resume-role">Software Engineer · Bengaluru, India</p> {{!-- EDIT: role · location --}}
+
 			<div class="resume-actions">
 				<button type="button" class="button button-sm resume-print" onclick="window.print()">
 					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M6 14h12v8H6z"/></svg>
 					{{t "Print / Save PDF"}}
 				</button>
-				<a class="button button-sm button-background-200" href="/about/">{{t "About me"}}</a>
-				{{#if @site.twitter}}<a class="button button-sm button-background-200" href="https://x.com/{{@site.twitter}}" target="_blank" rel="noopener noreferrer">{{> "icons-social/twitter"}}</a>{{/if}}
+				{{!-- EDIT: contact links --}}
+				<a class="button button-sm button-background-200" href="mailto:hello@imswarnil.com">{{t "Email"}}</a>
+				<a class="button button-sm button-background-200" href="https://www.linkedin.com/in/USERNAME" target="_blank" rel="noopener noreferrer">{{t "LinkedIn"}}</a>
 			</div>
 		</div>
 	</header>
 
-	{{!-- Two-column body. --}}
+	{{!-- ── Two-column body ─────────────────────────────────────────── --}}
 	<div class="resume-body">
 
-		{{!-- Main column. --}}
+		{{!-- MAIN column ────────────────────────────────────────────── --}}
 		<div class="resume-main">
-			{{#if html}}
+
+			{{!-- EDIT: summary --}}
 			<section class="resume-section">
 				<h2 class="resume-section-title">{{t "Summary"}}</h2>
-				<div class="post-content resume-summary">{{{html}}}</div>
+				<p class="resume-summary">
+					Software engineer with a focus on web platforms, developer tooling and
+					content-driven products. I like shipping clean, maintainable systems and
+					writing about what I learn along the way.
+				</p>
 			</section>
-			{{/if}}
 
-			{{#get "posts" include="tags" filter="tag:hash-experience" order="published_at desc" limit="50" as |experience|}}
-				{{#if experience}}
-				<section class="resume-section">
-					<h2 class="resume-section-title">{{t "Experience"}}</h2>
-					<ol class="resume-timeline">
-						{{#foreach experience}}
-						<li class="resume-entry">
-							<div class="resume-entry-top">
-								<h3 class="resume-entry-role">{{title}}</h3>
-								<span class="resume-entry-period"><time datetime="{{date format="YYYY-MM-DD"}}">{{date format="YYYY"}}</time></span>
-							</div>
-							{{#if primary_tag}}<p class="resume-entry-org">{{primary_tag.name}}</p>{{/if}}
-							{{#if excerpt}}<p class="resume-entry-desc">{{excerpt words="44"}}</p>{{/if}}
-						</li>
-						{{/foreach}}
-					</ol>
-				</section>
-				{{/if}}
-			{{/get}}
+			{{!-- EDIT: experience — duplicate a <li class="resume-entry"> per role --}}
+			<section class="resume-section">
+				<h2 class="resume-section-title">{{t "Experience"}}</h2>
+				<ol class="resume-timeline">
+
+					<li class="resume-entry">
+						<div class="resume-entry-top">
+							<h3 class="resume-entry-role">Senior Software Engineer</h3>
+							<span class="resume-entry-period">2022 — Present</span>
+						</div>
+						<p class="resume-entry-org">Acme Corp</p>
+						<ul class="resume-points">
+							<li>Led the rebuild of the core web app, improving load time by 40%.</li>
+							<li>Mentored 3 engineers and owned the front-end architecture.</li>
+							<li>Shipped a design system adopted across 5 product teams.</li>
+						</ul>
+					</li>
+
+					<li class="resume-entry">
+						<div class="resume-entry-top">
+							<h3 class="resume-entry-role">Software Engineer</h3>
+							<span class="resume-entry-period">2020 — 2022</span>
+						</div>
+						<p class="resume-entry-org">Globex</p>
+						<ul class="resume-points">
+							<li>Built and maintained REST/GraphQL APIs serving 1M+ requests/day.</li>
+							<li>Introduced CI/CD pipelines, cutting release time from days to hours.</li>
+						</ul>
+					</li>
+
+					<li class="resume-entry">
+						<div class="resume-entry-top">
+							<h3 class="resume-entry-role">Junior Developer</h3>
+							<span class="resume-entry-period">2018 — 2020</span>
+						</div>
+						<p class="resume-entry-org">Initech</p>
+						<ul class="resume-points">
+							<li>Developed customer-facing features across web and mobile.</li>
+						</ul>
+					</li>
+
+				</ol>
+			</section>
 		</div>
 
-		{{!-- Aside column. --}}
+		{{!-- ASIDE column ───────────────────────────────────────────── --}}
 		<aside class="resume-aside">
-			{{#get "posts" include="tags" filter="tag:hash-education" order="published_at desc" limit="50" as |education|}}
-				{{#if education}}
-				<section class="resume-section">
-					<h2 class="resume-section-title">{{t "Education"}}</h2>
-					<ul class="resume-list">
-						{{#foreach education}}
-						<li>
-							<h3 class="resume-list-title">{{title}}</h3>
-							{{#if primary_tag}}<p class="resume-list-org">{{primary_tag.name}}</p>{{/if}}
-							<time class="resume-list-year" datetime="{{date format="YYYY-MM-DD"}}">{{date format="YYYY"}}</time>
-						</li>
-						{{/foreach}}
-					</ul>
-				</section>
-				{{/if}}
-			{{/get}}
 
-			{{#if tags}}
+			{{!-- EDIT: education --}}
+			<section class="resume-section">
+				<h2 class="resume-section-title">{{t "Education"}}</h2>
+				<ul class="resume-list">
+					<li>
+						<h3 class="resume-list-title">B.Tech, Computer Science</h3>
+						<p class="resume-list-org">Your University</p>
+						<span class="resume-list-year">2014 — 2018</span>
+					</li>
+				</ul>
+			</section>
+
+			{{!-- EDIT: skills — add/remove <li> chips --}}
 			<section class="resume-section">
 				<h2 class="resume-section-title">{{t "Skills"}}</h2>
 				<ul class="resume-skills">
-					{{#foreach tags}}<li>{{name}}</li>{{/foreach}}
+					<li>JavaScript</li>
+					<li>TypeScript</li>
+					<li>React</li>
+					<li>Node.js</li>
+					<li>Ghost</li>
+					<li>PostgreSQL</li>
+					<li>CSS / PostCSS</li>
+					<li>CI/CD</li>
 				</ul>
 			</section>
-			{{/if}}
 
-			{{#get "posts" include="tags" filter="tag:hash-project" order="published_at desc" limit="5" as |projects|}}
-				{{#if projects}}
-				<section class="resume-section">
-					<h2 class="resume-section-title">{{t "Selected projects"}}</h2>
-					<ul class="resume-list resume-projects">
-						{{#foreach projects}}
-						<li><a href="{{url}}">{{title}}</a></li>
-						{{/foreach}}
-					</ul>
-				</section>
-				{{/if}}
-			{{/get}}
+			{{!-- EDIT: selected projects --}}
+			<section class="resume-section">
+				<h2 class="resume-section-title">{{t "Selected projects"}}</h2>
+				<ul class="resume-list resume-projects">
+					<li><a href="/projects/">Project One</a></li>
+					<li><a href="/projects/">Project Two</a></li>
+					<li><a href="/projects/">Project Three</a></li>
+				</ul>
+			</section>
+
+			{{!-- EDIT: languages / interests (optional — delete if unused) --}}
+			<section class="resume-section">
+				<h2 class="resume-section-title">{{t "Languages"}}</h2>
+				<ul class="resume-list">
+					<li>
+						<h3 class="resume-list-title">English</h3>
+						<p class="resume-list-org">Professional</p>
+					</li>
+					<li>
+						<h3 class="resume-list-title">Hindi</h3>
+						<p class="resume-list-org">Native</p>
+					</li>
+				</ul>
+			</section>
 		</aside>
 	</div>
 </article>
-{{/page}}

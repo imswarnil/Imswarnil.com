@@ -31,6 +31,22 @@
 	border: 1px solid var(--color-border);
 }
 
+/* Initials fallback (when there's no photo). */
+.resume-avatar-initials {
+	display: grid;
+	place-items: center;
+	width: 104px;
+	height: 104px;
+	border-radius: 50%;
+	background-color: var(--color-background-100);
+	border: 1px solid var(--color-border);
+	font-size: 2rem;
+	font-weight: var(--font-weight-bold);
+	letter-spacing: 0.02em;
+	text-transform: uppercase;
+	color: var(--color-contrast);
+}
+
 .resume-name {
 	margin: 0;
 	font-size: clamp(1.9rem, 4vw, 2.8rem);
@@ -157,6 +173,22 @@
 	margin: 0;
 	color: var(--color-secondary);
 	line-height: 1.6;
+}
+
+/* Bullet points under an experience entry. */
+.resume-points {
+	margin: 0;
+	padding-left: var(--spacing-7);
+	color: var(--color-secondary);
+	line-height: 1.6;
+}
+
+.resume-points > li {
+	margin-bottom: var(--spacing-3);
+}
+
+.resume-points > li::marker {
+	color: var(--color-mute);
 }
 
 /* ── Aside: education / projects lists ─────────────────────────────────── */
