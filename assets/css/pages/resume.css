@@ -9,18 +9,75 @@
 	padding-block: var(--spacing-7) var(--layout--gap);
 }
 
-/* ── Header (full width) ───────────────────────────────────────────────── */
+/* ── Header (full width, two columns: identity | contact) ──────────────── */
 .resume-header {
-	display: flex;
-	align-items: center;
+	display: grid;
+	grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
 	gap: var(--spacing-9);
+	align-items: center;
 	padding-bottom: var(--spacing-9);
 	margin-bottom: var(--spacing-10);
 	border-bottom: 1px solid var(--color-border);
 }
 
+.resume-id {
+	display: flex;
+	align-items: center;
+	gap: var(--spacing-7);
+}
+
 .resume-avatar {
 	flex: 0 0 auto;
+}
+
+/* Contact column. */
+.resume-contact {
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-6);
+}
+
+.resume-contact-list {
+	display: grid;
+	gap: var(--spacing-4);
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.resume-contact-list > li {
+	display: grid;
+	grid-template-columns: 88px minmax(0, 1fr);
+	gap: var(--spacing-4);
+	align-items: baseline;
+	font-size: var(--font-small);
+}
+
+.resume-contact-label {
+	font-size: var(--font-x-small);
+	font-weight: var(--font-weight-semibold);
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	color: var(--color-mute);
+}
+
+.resume-contact-list a {
+	color: var(--color-foreground);
+	word-break: break-word;
+	transition: color 0.15s ease;
+}
+
+.resume-contact-list a:hover {
+	color: var(--ghost-accent-color);
+}
+
+.resume-print {
+	align-self: flex-start;
+}
+
+.resume-print svg {
+	width: 16px;
+	height: 16px;
 }
 
 .resume-avatar img {
@@ -59,18 +116,6 @@
 	margin: var(--spacing-4) 0 0;
 	font-size: var(--font-large);
 	color: var(--color-secondary);
-}
-
-.resume-actions {
-	display: flex;
-	flex-wrap: wrap;
-	gap: var(--spacing-4);
-	margin-top: var(--spacing-7);
-}
-
-.resume-print svg {
-	width: 16px;
-	height: 16px;
 }
 
 /* ── Two-column body ───────────────────────────────────────────────────── */
@@ -240,6 +285,19 @@
 }
 
 /* ── Skills chips ──────────────────────────────────────────────────────── */
+.resume-skills-group {
+	margin: var(--spacing-6) 0 var(--spacing-4);
+	font-size: var(--font-x-small);
+	font-weight: var(--font-weight-semibold);
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	color: var(--color-secondary);
+}
+
+.resume-skills-group:first-child {
+	margin-top: 0;
+}
+
 .resume-skills {
 	display: flex;
 	flex-wrap: wrap;
@@ -247,6 +305,21 @@
 	margin: 0;
 	padding: 0;
 	list-style: none;
+}
+
+/* "Open source" style badge next to a side-project title. */
+.resume-badge {
+	display: inline-block;
+	margin-left: var(--spacing-3);
+	padding: 2px var(--spacing-4);
+	border-radius: 999px;
+	background-color: var(--color-background-200);
+	font-size: var(--font-x-small);
+	font-weight: var(--font-weight-medium);
+	letter-spacing: 0.02em;
+	text-transform: none;
+	color: var(--color-secondary);
+	vertical-align: middle;
 }
 
 .resume-skills > li {
@@ -266,9 +339,8 @@
 	}
 
 	.resume-header {
-		flex-direction: column;
-		align-items: flex-start;
-		text-align: left;
+		grid-template-columns: minmax(0, 1fr);
+		gap: var(--spacing-8);
 	}
 }
 
@@ -280,7 +352,7 @@
 	.page-resume .footer,
 	.page-resume .ad-adsense,
 	.page-resume .advertise-card,
-	.page-resume .resume-actions {
+	.page-resume .resume-print {
 		display: none !important;
 	}
 
