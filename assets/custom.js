@@ -25,10 +25,20 @@
 	function loadVideo() {
 		if (!frame || frame.querySelector('iframe')) return;
 		const iframe = document.createElement('iframe');
-		iframe.src = `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&rel=0`;
+		const params = new URLSearchParams({
+			autoplay: '1',
+			controls: '0',
+			modestbranding: '1',
+			rel: '0',
+			showinfo: '0',
+			iv_load_policy: '3',
+			disablekb: '1',
+			fs: '0',
+			playsinline: '1',
+		});
+		iframe.src = `https://www.youtube-nocookie.com/embed/${videoId}?${params}`;
 		iframe.title = 'YouTube video player';
 		iframe.allow = 'autoplay; encrypted-media; picture-in-picture';
-		iframe.allowFullscreen = true;
 		frame.appendChild(iframe);
 	}
 
@@ -68,5 +78,18 @@
 	document.addEventListener('keydown', (event) => {
 		if (event.key === 'Escape' && hero.getAttribute('data-phase') === 'playing')
 			close();
+	});
+
+	// Personal / Work toggle.
+	hero.querySelectorAll('[data-mode-btn]').forEach((btn) => {
+		btn.addEventListener('click', () => {
+			const mode = btn.getAttribute('data-mode-btn');
+			hero.setAttribute('data-mode', mode);
+			hero
+				.querySelectorAll('[data-mode-btn]')
+				.forEach((el) =>
+					el.setAttribute('aria-selected', el === btn ? 'true' : 'false'),
+				);
+		});
 	});
 })();

@@ -1,7 +1,7 @@
 {{#if hide_title}}
 	<h1 class="screen-reader-text">{{title}}</h1>
 {{else}}
-	<section class="hero-tv" data-hero-tv data-phase="idle">
+	<section class="hero-tv" data-hero-tv data-phase="idle" data-mode="personal">
 		<div class="hero-tv-bg" aria-hidden="true">
 			<span class="hero-tv-static"></span>
 			<span class="hero-tv-scan"></span>
@@ -10,77 +10,98 @@
 			<span class="hero-tv-vignette"></span>
 		</div>
 
-		<div class="hero-tv-content">
-			<div class="hero-tv-topbar">
-				<span class="hero-tv-live"><span class="hero-tv-live-dot"></span>{{t "On air"}}</span>
-			</div>
+		{{#get "authors" limit=1 include="count.posts" order="count.posts DESC"}}
+			{{#if authors}}
+				{{#foreach authors}}
+					<div class="hero-tv-content">
+						<div class="hero-tv-topbar">
+							{{#if location}}
+								<span class="hero-tv-live"><span class="hero-tv-live-dot"></span>{{t "Live from {location}" location=location}}</span>
+							{{else}}
+								<span class="hero-tv-live"><span class="hero-tv-live-dot"></span>{{t "On air"}}</span>
+							{{/if}}
 
-			<div class="hero-tv-main">
-				<div class="hero-tv-meta">
-					<h1 class="hero-tv-name">{{title}}</h1>
-
-					{{#if @site.description}}
-						<p class="hero-tv-role">{{@site.description}}</p>
-					{{/if}}
-
-					{{#if excerpt}}
-						<p class="hero-tv-intro">{{excerpt}}</p>
-					{{/if}}
-
-					<div class="hero-tv-chips">
-						{{#get "posts" limit=1}}
-							{{#foreach posts}}
-								<a class="hero-tv-chip" href="{{url}}">
-									<span class="hero-tv-chip-k">{{t "Latest post"}}</span>
-									<span class="hero-tv-chip-v">{{title}}</span>
-								</a>
-							{{/foreach}}
-						{{/get}}
-
-						<button class="hero-tv-chip" type="button" data-play>
-							<span class="hero-tv-chip-k">{{> "icons/play"}}{{t "Recent video"}}</span>
-							<span class="hero-tv-chip-v">{{t "Watch my story"}}</span>
-						</button>
-					</div>
-
-					<div class="hero-tv-stats">
-						{{#get "posts" limit=1}}
-							<div class="hero-tv-stat">
-								<span class="hero-tv-stat-n">{{pagination.total}}</span>
-								<span class="hero-tv-stat-l">{{t "Posts"}}</span>
+							<div class="hero-tv-seg" role="tablist" aria-label="{{t "Profile mode"}}">
+								<button class="hero-tv-seg-btn hero-tv-seg-personal" type="button" data-mode-btn="personal" role="tab" aria-selected="true">{{t "Personal"}}</button>
+								<button class="hero-tv-seg-btn hero-tv-seg-work" type="button" data-mode-btn="work" role="tab" aria-selected="false">{{t "Work"}}</button>
 							</div>
-						{{/get}}
-						<span class="hero-tv-stat-rule"></span>
-						{{#get "tags" limit=1 filter="visibility:public"}}
-							<div class="hero-tv-stat">
-								<span class="hero-tv-stat-n">{{pagination.total}}</span>
-								<span class="hero-tv-stat-l">{{t "Topics"}}</span>
+						</div>
+
+						<div class="hero-tv-main">
+							<div class="hero-tv-meta">
+								<h1 class="hero-tv-name">{{../title}}</h1>
+
+								<div class="hero-tv-mode-block mode mode-personal">
+									{{#if @site.description}}
+										<p class="hero-tv-role">{{@site.description}}</p>
+									{{/if}}
+									{{#if ../excerpt}}
+										<p class="hero-tv-intro">{{../excerpt}}</p>
+									{{/if}}
+								</div>
+
+								<div class="hero-tv-mode-block mode mode-work">
+									{{#if @custom.hero_job_role}}
+										<p class="hero-tv-role">
+											{{@custom.hero_job_role}}{{#if @custom.hero_company}} · {{@custom.hero_company}}{{/if}}
+										</p>
+									{{/if}}
+									{{#if ../excerpt}}
+										<p class="hero-tv-intro">{{../excerpt}}</p>
+									{{/if}}
+								</div>
+
+								<div class="hero-tv-chips">
+									{{#get "posts" limit=1}}
+										{{#foreach posts}}
+											<a class="hero-tv-chip" href="{{url}}">
+												<span class="hero-tv-chip-k">{{> "icons/flame"}}{{t "Now streaming"}}</span>
+												<span class="hero-tv-chip-v">{{title}}</span>
+											</a>
+										{{/foreach}}
+									{{/get}}
+
+									<button class="hero-tv-chip" type="button" data-play>
+										<span class="hero-tv-chip-k">{{> "icons/play"}}{{t "On demand"}}</span>
+										<span class="hero-tv-chip-v">{{t "Watch my story"}}</span>
+									</button>
+								</div>
+
+								<div class="hero-tv-stats">
+									{{#get "posts" limit=1}}
+										<div class="hero-tv-stat">
+											<span class="hero-tv-stat-n">{{pagination.total}}</span>
+											<span class="hero-tv-stat-l">{{t "Posts"}}</span>
+										</div>
+									{{/get}}
+									<span class="hero-tv-stat-rule"></span>
+									{{#get "tags" limit=1 filter="visibility:public"}}
+										<div class="hero-tv-stat">
+											<span class="hero-tv-stat-n">{{pagination.total}}</span>
+											<span class="hero-tv-stat-l">{{t "Topics"}}</span>
+										</div>
+									{{/get}}
+								</div>
+
+								<div class="hero-tv-ctas">
+									{{#if @site.members_enabled}}
+										<a
+											class="button hero-tv-btn-solid"
+											href="{{#match (t "/signup/") "!=" "false"}}{{t "/signup/"}}{{else}}#/portal/signup{{/match}}"
+										>
+											<span class="label">{{t "Subscribe"}}</span>
+											{{> "icons/arrow-narrow-right"}}
+										</a>
+									{{/if}}
+
+									<button class="button button-transparent hero-tv-btn-outline" type="button" data-play>
+										{{> "icons/play"}}
+										<span class="label">{{t "Tune in"}}</span>
+									</button>
+								</div>
 							</div>
-						{{/get}}
-					</div>
 
-					<div class="hero-tv-ctas">
-						{{#if @site.members_enabled}}
-							<a
-								class="button hero-tv-btn-solid"
-								href="{{#match (t "/signup/") "!=" "false"}}{{t "/signup/"}}{{else}}#/portal/signup{{/match}}"
-							>
-								<span class="label">{{t "Subscribe"}}</span>
-								{{> "icons/arrow-narrow-right"}}
-							</a>
-						{{/if}}
-
-						<button class="button button-transparent hero-tv-btn-outline" type="button" data-play>
-							{{> "icons/play"}}
-							<span class="label">{{t "Watch my story"}}</span>
-						</button>
-					</div>
-				</div>
-
-				<div class="hero-tv-photo-wrap">
-					{{#get "authors" limit=1 include="count.posts" order="count.posts DESC"}}
-						{{#if authors}}
-							{{#foreach authors}}
+							<div class="hero-tv-photo-wrap">
 								<div class="hero-tv-photo-rel">
 									<div class="hero-tv-photo">
 										{{#if ../feature_image}}
@@ -92,16 +113,25 @@
 										{{/if}}
 									</div>
 
+									{{#if @custom.hero_job_role}}
+										<div class="hero-tv-badge mode mode-work">
+											<span class="hero-tv-badge-role">{{@custom.hero_job_role}}</span>
+											{{#if @custom.hero_company}}
+												<span class="hero-tv-badge-company">{{t "at {company}" company=@custom.hero_company}}</span>
+											{{/if}}
+										</div>
+									{{/if}}
+
 									<div class="hero-tv-social">
 										{{> "components/social-links-author"}}
 									</div>
 								</div>
-							{{/foreach}}
-						{{/if}}
-					{{/get}}
-				</div>
-			</div>
-		</div>
+							</div>
+						</div>
+					</div>
+				{{/foreach}}
+			{{/if}}
+		{{/get}}
 
 		{{!-- Video layer: takes over the same card in place (CRT power-on/off), never a separate popup. --}}
 		<div class="hero-tv-video-layer">
@@ -120,5 +150,7 @@
 				</button>
 			</div>
 		</div>
+
+		<span class="hero-tv-channel" aria-hidden="true">{{@site.title}}</span>
 	</section>
 {{/if}}

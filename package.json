@@ -110,6 +110,18 @@
 				"default": "Carousel",
 				"group": "homepage"
 			},
+			"hero_job_role": {
+				"type": "text",
+				"default": "",
+				"group": "homepage",
+				"description": "Shown in the hero's Work mode, e.g. \"Product Designer\". Location is pulled from the author's profile \"Location\" field."
+			},
+			"hero_company": {
+				"type": "text",
+				"default": "",
+				"group": "homepage",
+				"description": "Shown next to the job role in the hero's Work mode."
+			},
 			"tags_list": {
 				"type": "text",
 				"default": "25",

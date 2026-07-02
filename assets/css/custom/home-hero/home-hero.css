@@ -13,7 +13,8 @@
 	overflow: hidden;
 	display: flex;
 	width: 100%;
-	min-height: fluid(460px, 660px, 380px, 1500px);
+	aspect-ratio: 21 / 9;
+	min-height: fluid(460px, 560px, 380px, 1500px);
 	margin-bottom: var(--layout--gap);
 	border: 1px solid rgb(255 255 255 / 20%);
 	border-radius: var(--radius-5);
@@ -23,6 +24,35 @@
 
 .page-home .hero-tv {
 	margin-top: var(--spacing-9);
+}
+
+/* Below large screens the layout stacks (photo under content), so the
+   cinematic 21/9 shape is dropped in favour of natural, content-driven
+   height — a fixed ratio would crush everything together. */
+@media (--breakpoint-max-lg) {
+	.hero-tv {
+		aspect-ratio: auto;
+	}
+}
+
+/* Small "channel bug" watermark, bottom-right — a nod to broadcast idents. */
+.hero-tv-channel {
+	position: absolute;
+	right: var(--spacing-8);
+	bottom: var(--spacing-6);
+	z-index: 1;
+	color: rgb(255 255 255 / 22%);
+	font-size: var(--font-x-small);
+	font-weight: var(--font-weight-semibold);
+	letter-spacing: 0.14em;
+	text-transform: uppercase;
+	pointer-events: none;
+}
+
+@media (--breakpoint-max-md) {
+	.hero-tv-channel {
+		display: none;
+	}
 }
 
 /* Background layers.
@@ -216,6 +246,8 @@
 
 .hero-tv-topbar {
 	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
 	align-items: center;
 	gap: var(--spacing-7);
 }
@@ -228,12 +260,87 @@
 	font-size: var(--font-small);
 }
 
+@keyframes hero-tv-live-ping {
+	0% {
+		opacity: 0.55;
+		transform: scale(1);
+	}
+
+	100% {
+		opacity: 0;
+		transform: scale(2.6);
+	}
+}
+
 .hero-tv-live-dot {
+	position: relative;
 	width: 7px;
 	height: 7px;
 	border-radius: 50%;
 	background-color: #5ee08a;
 	box-shadow: 0 0 8px #5ee08a;
+}
+
+.hero-tv-live-dot::after {
+	content: '';
+	position: absolute;
+	inset: 0;
+	border-radius: 50%;
+	background-color: #5ee08a;
+	animation: hero-tv-live-ping 1.8s cubic-bezier(0.2, 0.8, 0.4, 1) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.hero-tv-live-dot::after {
+		animation: none;
+		display: none;
+	}
+}
+
+/* Personal / Work toggle.
+   ---------------------------------------------------------- */
+
+.hero-tv-seg {
+	display: inline-flex;
+	gap: var(--spacing-1);
+	padding: var(--spacing-1);
+	border: 1px solid rgb(255 255 255 / 14%);
+	border-radius: 9999px;
+	background-color: rgb(255 255 255 / 8%);
+}
+
+.hero-tv-seg-btn {
+	padding: var(--spacing-4) var(--spacing-7);
+	border: 0;
+	border-radius: 9999px;
+	background-color: transparent;
+	color: rgb(255 255 255 / 62%);
+	font-size: var(--font-small);
+	font-weight: var(--font-weight-semibold);
+	line-height: 1;
+	transition:
+		color 0.15s,
+		background-color 0.15s;
+	cursor: pointer;
+}
+
+.hero-tv[data-mode='personal'] .hero-tv-seg-personal,
+.hero-tv[data-mode='work'] .hero-tv-seg-work {
+	background-color: #fff;
+	color: #111;
+}
+
+/* Mode visibility.
+   Content, photo and floating badges swap between Personal / Work.
+   ---------------------------------------------------------- */
+
+.hero-tv .mode {
+	display: none;
+}
+
+.hero-tv[data-mode='personal'] .mode-personal,
+.hero-tv[data-mode='work'] .mode-work {
+	display: block;
 }
 
 .hero-tv-main {
@@ -472,6 +579,46 @@
 	}
 }
 
+/* Floating role badge, shown on the photo in Work mode. */
+
+.hero-tv-badge.mode {
+	display: none;
+}
+
+.hero-tv[data-mode='work'] .hero-tv-badge.mode-work {
+	position: absolute;
+	top: -14px;
+	left: -14px;
+	z-index: 1;
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-1);
+	max-width: calc(100% + 28px);
+	padding: var(--spacing-4) var(--spacing-6);
+	border: 1px solid rgb(255 255 255 / 16%);
+	border-radius: var(--radius-3);
+	background-color: rgb(15 15 15 / 82%);
+	backdrop-filter: blur(8px);
+	box-shadow: 0 8px 24px rgb(0 0 0 / 40%);
+}
+
+.hero-tv-badge-role {
+	overflow: hidden;
+	color: #fff;
+	font-size: var(--font-small);
+	font-weight: var(--font-weight-semibold);
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.hero-tv-badge-company {
+	overflow: hidden;
+	color: rgb(255 255 255 / 55%);
+	font-size: var(--font-x-small);
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
 /* Video layer.
    The video takes over the same card in-place (CRT power-on/off), it is
    never a separate popup/modal — matches hero.html exactly.
@@ -686,5 +833,42 @@
 
 	.hero-tv-ctas .button {
 		flex: 1;
+	}
+
+	.hero-tv-topbar {
+		justify-content: center;
+	}
+
+	/* Social links + role/company badge read better stacked under the
+	   photo instead of floating over it on small screens. */
+	.hero-tv-social {
+		position: static;
+		display: flex;
+		justify-content: center;
+		margin-top: var(--spacing-6);
+		transform: none;
+	}
+
+	.hero-tv-social .social-links {
+		flex-wrap: wrap;
+		justify-content: center;
+	}
+
+	.hero-tv[data-mode='work'] .hero-tv-badge.mode-work {
+		position: static;
+		max-width: 100%;
+		margin-bottom: var(--spacing-4);
+		text-align: center;
+	}
+}
+
+/* On mobile the video takes over as a 16/9 player instead of stretching
+   to the full (portrait-unfriendly) hero height. */
+@media (--breakpoint-max-md) {
+	.hero-tv[data-phase='powering'],
+	.hero-tv[data-phase='playing'],
+	.hero-tv[data-phase='off'] {
+		min-height: 0;
+		aspect-ratio: 16 / 9;
 	}
 }
