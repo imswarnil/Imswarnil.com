@@ -1,0 +1,180 @@
+=============================================================================
+ SWARNIL THEME — CUSTOMIZATION GUIDE
+ Everything YOU need to do in Ghost Admin to make the theme work.
+ (The theme code handles the rest automatically.)
+=============================================================================
+
+-----------------------------------------------------------------------------
+ 1. ROUTES — REQUIRED, DO THIS FIRST
+-----------------------------------------------------------------------------
+Upload the theme's routes.yaml in Ghost Admin:
+  Settings → Labs → Routes → Upload routes YAML
+Use the routes.yaml at the root of this theme folder.
+Without this, collections (/videos, /courses, /webseries, /projects, ...)
+and nested lesson/episode URLs will NOT work.
+
+-----------------------------------------------------------------------------
+ 2. NAVIGATION
+-----------------------------------------------------------------------------
+Settings → Navigation
+  Primary navigation   → main navbar items (Home, Blog, Videos, Courses, ...)
+  Secondary navigation → footer links
+The theme renders whatever you set here. If nav looks empty, set it here.
+
+-----------------------------------------------------------------------------
+ 3. TAG CONVENTIONS (the heart of this theme)
+-----------------------------------------------------------------------------
+Internal tags start with # (Ghost stores them as hash-xxx). They are
+invisible to readers and drive which collection a post belongs to.
+
+COLLECTION TAGS (pick exactly ONE per post):
+  #blog        → post appears on /blog
+  #video       → /videos          (YouTube video posts)
+  #project     → /projects        (GitHub-style project cards)
+  #course      → /courses         (a course landing post)
+  #lesson      → lesson inside a course (see 3a)
+  #webseries   → /webseries       (a series landing post)
+  #episode     → episode inside a webseries (see 3b)
+  #product     → /products        (things I use / affiliate)
+  #timeline    → /timeline        (life/career events)
+  #changelog   → /changelog
+  #newsletter  → /newsletters     (email-window styled issues)
+  #shop        → /shop            (digital downloads)
+
+3a. COURSES + LESSONS
+  Course post:  tag #course, plus a PUBLIC primary tag naming the course,
+                e.g. "ghost-mastery". URL: /courses/ghost-mastery/
+  Lesson post:  tag #lesson, plus the SAME public primary tag
+                ("ghost-mastery" must be the FIRST tag on the lesson).
+                URL: /courses/ghost-mastery/lesson-1/
+  Duration:     add #duration-1h or #duration-2h-30m to the course post.
+  Free/paid:    use Ghost post access (Public / Members / Paid) — the theme
+                shows lock/membership icons from that.
+  Featured:     mark the course post as Featured in Ghost → special styling.
+  Instructors:  add multiple authors to the course post — all render as
+                instructors.
+  Prerequisites / What you'll learn: in the course post body, add headings
+  named exactly "Prerequisites" and "What you'll learn" — the theme styles
+  the lists under them.
+  Products used: add a product-card/bookmark to a /products post — rendered
+  as a testimonial-style card.
+
+3b. WEBSERIES + EPISODES
+  Series post:   tag #webseries + PUBLIC primary tag, e.g. "startup-diaries".
+                 URL: /webseries/startup-diaries/
+  Episode post:  tag #episode + same public primary tag FIRST.
+                 URL: /webseries/startup-diaries/episode-1/
+  Episode video: put the YouTube URL as the FIRST embed in the episode body.
+  Duration:      #duration-3h-15m on the series post; #duration-24m on each
+                 episode (used in Netflix-style list + TVSeries JSON-LD).
+  Episode order: publish order (oldest = Episode 1). Numbering is automatic.
+  Cast:          add a heading "Cast" in the series post body with a list.
+
+3c. VIDEOS + TIMESTAMPS
+  Video post: tag #video, YouTube URL as first embed.
+  Timestamps: add a markdown/HTML TABLE in the post body with two columns:
+      | Time  | Chapter            |
+      | 0:00  | Intro              |
+      | 2:15  | Setting up Ghost   |
+  Clicking a row seeks the embedded player. The table also becomes
+  Clip JSON-LD (video chapters in Google search).
+
+3d. PROJECTS
+  Project post: tag #project.
+  Skills:       #skill-analytics, #skill-ui/ux, ... → rendered as skill badges.
+  Live URL:     derived from slug with dashes removed:
+                slug "crm-analytics-academy" → https://crmanalyticsacademy.imswarnil.com
+  GitHub repo:  https://github.com/imswarnil/<slug>  (dashed slug works).
+  Gallery:      add a gallery card in the post → shown in "Project images"
+                sidebar section.
+
+3e. TIMELINE EVENTS
+  Timeline post: tag #timeline + ONE event type tag:
+    #event-company-change   (briefcase icon)
+    #event-milestone        (trophy icon)
+    #event-relocation       (map-pin icon)
+    #event-education        (graduation icon)
+    #event-award            (medal icon)
+  Post published DATE = position on the timeline (backdate freely).
+
+3f. PRODUCTS ("things I use")
+  Product post: tag #product + ONE group tag:
+    #group-services, #group-my-setup, #group-skin-care, #group-travel
+    (any #group-xxx works; it becomes a section heading).
+  Affiliate link: the FIRST link in the post body is treated as the
+  affiliate/buy link and pinned in the sidebar.
+
+3g. NOW (homepage "what I'm doing now")
+  Add #now to ANY post → it appears in the home "Now" section.
+  #now + #project = "currently building", #now + #course = "currently
+  creating this course", etc. Remove #now when done.
+
+3h. HERO OVERRIDE
+  Create a post (can be a draft-published hidden post) with slug exactly
+  "hero". Its feature image, title and excerpt drive the homepage hero.
+  No such post → theme renders its built-in default hero.
+
+-----------------------------------------------------------------------------
+ 4. ADSENSE
+-----------------------------------------------------------------------------
+Theme setting (Design & branding → Site-wide): "Enable AdSense" on/off.
+Publisher: ca-pub-1291242080282540 (already wired in).
+ads.txt: this theme serves /ads.txt via routes.yaml automatically with:
+  google.com, pub-1291242080282540, DIRECT, f08c47fec0942fa0
+If your host/CDN overrides ads.txt, upload the file manually instead.
+Ad slots already placed in layouts (in-article, sidebar skyscraper,
+multiplex footer, in-feed). No action needed beyond the toggle.
+
+-----------------------------------------------------------------------------
+ 5. THEME MODES
+-----------------------------------------------------------------------------
+Switcher in navbar: Light / Dark / Salesforce / YouTube / Netflix / Claude.
+Default mode: Design & branding → "Color scheme" custom setting.
+Visitor choice persists in their browser (localStorage).
+
+-----------------------------------------------------------------------------
+ 6. COMMENTS & MEMBERS
+-----------------------------------------------------------------------------
+Comments:  Settings → Membership → Commenting → enable. Theme renders
+           native Ghost comments on posts, lessons, episodes, projects.
+Members:   Settings → Membership → enable signups (needed for the
+           newsletter subscribe form + /signin page + paid courses).
+Newsletter: Settings → Newsletters → have at least one active newsletter.
+
+-----------------------------------------------------------------------------
+ 7. PAGES YOU MUST CREATE IN GHOST ADMIN
+-----------------------------------------------------------------------------
+Create these as Pages (slug must match exactly):
+  contact   → contact page (theme adds socials + Topmate CTA)
+  resume    → your resume content (theme styles it professionally)
+  sponsor   → sponsor pitch (theme adds placements + rates layout)
+  guestbook → suggest-a-topic / guestbook page (linked from /videos)
+
+-----------------------------------------------------------------------------
+ 8. SOCIAL / CONTACT HANDLES
+-----------------------------------------------------------------------------
+Settings → General → Social accounts (Facebook/X).
+Others (YouTube, LinkedIn, GitHub, Instagram, Topmate) are theme settings
+under Design & branding — fill in your URLs there.
+
+-----------------------------------------------------------------------------
+ 9. BUILD & UPLOAD (for development)
+-----------------------------------------------------------------------------
+  npm install          (once)
+  npm run dev          (watch mode while editing)
+  npm run build        (minified CSS)
+  npm run zip          (creates dist/swarnil.zip to upload in Ghost Admin)
+  npm test             (gscan theme validation)
+
+-----------------------------------------------------------------------------
+ 10. QUICK CHECKLIST
+-----------------------------------------------------------------------------
+ [ ] Upload routes.yaml
+ [ ] Set primary + secondary navigation
+ [ ] Enable comments + members
+ [ ] Create pages: contact, resume, sponsor, guestbook
+ [ ] Create "hero" slug post (optional)
+ [ ] Tag existing posts per section 3
+ [ ] Toggle AdSense on
+ [ ] Fill social handle theme settings
+=============================================================================

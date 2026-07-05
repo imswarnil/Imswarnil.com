@@ -1,3 +1,9 @@
+# =============================================================================
+# routes.yaml · Swarnil theme
+# Upload in Ghost Admin → Settings → Labs → Routes.
+# NOTE: Ghost requires trailing slashes on all custom routes.
+# =============================================================================
+
 routes:
   /:
     template: home
@@ -7,53 +13,88 @@ routes:
   /manifest.json/:
     template: manifest
     content_type: application/json
+  /ads.txt/:
+    template: ads-txt
+    content_type: text/plain
   /offline/:
     template: offline
+  /signin/:
+    template: signin
+  /signup/:
+    template: signup
+  /sitemap-visual/:
+    template: sitemap-visual
 
 collections:
-  /videos/:
-    permalink: /videos/{slug}/
-    filter: tag:hash-video
-    template: videos
-  /projects/:
-    permalink: /projects/{slug}/
-    filter: tag:hash-project
-    template: projects
+  # Lessons live INSIDE their course: /courses/{course-tag}/{lesson-slug}/
+  # A lesson's FIRST (primary) tag must be the course's public tag.
+  /lessons-index/:
+    permalink: /courses/{primary_tag}/{slug}/
+    filter: tag:hash-lesson
+    template: lessons
+
   /courses/:
     permalink: /courses/{slug}/
     filter: tag:hash-course
     template: courses
-  /lessons/:
-    permalink: /lessons/{slug}/
-    filter: tag:hash-lesson
-    template: lessons
+
+  # Episodes live INSIDE their series: /webseries/{series-tag}/{episode-slug}/
+  /episodes-index/:
+    permalink: /webseries/{primary_tag}/{slug}/
+    filter: tag:hash-episode
+    order: published_at asc
+    template: episodes
+
   /webseries/:
     permalink: /webseries/{slug}/
     filter: tag:hash-webseries
     template: webseries
-  /episodes/:
-    permalink: /episodes/{slug}/
-    filter: tag:hash-episode
-    template: episodes
+
+  /videos/:
+    permalink: /videos/{slug}/
+    filter: tag:hash-video
+    template: videos
+
+  /projects/:
+    permalink: /projects/{slug}/
+    filter: tag:hash-project
+    template: projects
+
   /products/:
     permalink: /products/{slug}/
     filter: tag:hash-product
     template: products
+
   /timeline/:
     permalink: /timeline/{slug}/
     filter: tag:hash-timeline
+    order: published_at desc
     template: timeline
+
   /changelog/:
     permalink: /changelog/{slug}/
     filter: tag:hash-changelog
     template: changelog
+
   /newsletters/:
     permalink: /newsletters/{slug}/
     filter: tag:hash-newsletter
     template: newsletters
+
+  /shop/:
+    permalink: /shop/{slug}/
+    filter: tag:hash-shop
+    template: shop
+
   /blog/:
     permalink: /blog/{slug}/
+    filter: tag:hash-blog
     template: blog
+
+  # Catch-all archive: everything, lazy-loaded
+  /archive/:
+    permalink: /archive/{slug}/
+    template: archive
 
 taxonomies:
   tag: /tag/{slug}/
