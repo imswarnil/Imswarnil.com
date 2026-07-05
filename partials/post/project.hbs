@@ -129,7 +129,7 @@
 </article>
 
 {{!-- Related projects --}}
-{{#get "posts" filter="tag:hash-project+id:-{id}" include="tags" limit="3" as |related|}}
+{{#get "posts" filter="tag:hash-project+id:-{{id}}" include="tags" limit="3" as |related|}}
 	{{#if related}}
 	<section class="border-t border-line bg-mist/40 py-16">
 		<div class="container-site">

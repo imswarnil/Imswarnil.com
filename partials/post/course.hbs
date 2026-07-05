@@ -13,7 +13,7 @@
 					{{#match visibility "members"}}<span class="chip tooltip" data-tip="Sign up free to unlock">{{> "icons/star"}} Members</span>{{/match}}
 					{{#match visibility "paid"}}<span class="chip !border-transparent !bg-ink !text-paper tooltip" data-tip="Requires a paid plan">{{> "icons/lock"}} Paid</span>{{/match}}
 					<span class="chip" data-duration-tags="{{#foreach tags visibility="internal"}}{{slug}} {{/foreach}}" hidden></span>
-					{{#get "posts" filter="tag:hash-lesson+tags:{primary_tag.slug}" limit="1" as |firstpage counter|}}
+					{{#get "posts" filter="tag:hash-lesson+tags:{{slug}}" limit="1" as |firstpage counter|}}
 						{{#if firstpage}}<span class="chip">{{> "icons/play"}} {{plural counter.total empty="No lessons yet" singular="% lesson" plural="% lessons"}}</span>{{/if}}
 					{{/get}}
 				</div>
@@ -36,7 +36,7 @@
 				</div>
 
 				<div class="mt-8 flex flex-wrap gap-3">
-					{{#get "posts" filter="tag:hash-lesson+tags:{primary_tag.slug}" limit="1" order="published_at asc" as |first|}}
+					{{#get "posts" filter="tag:hash-lesson+tags:{{slug}}" limit="1" order="published_at asc" as |first|}}
 						{{#foreach first}}<a href="{{url}}" class="btn-primary !px-6 !py-3">{{> "icons/play"}} Start course</a>{{/foreach}}
 					{{/get}}
 					<a href="#curriculum" class="btn-ghost !px-6 !py-3">{{> "icons/book"}} Curriculum</a>
@@ -60,7 +60,7 @@
 			<aside class="lg:col-span-5">
 				<div id="curriculum" class="sticky top-28 card-surface p-6 !transform-none">
 					<p class="kicker">{{> "icons/book"}} Curriculum</p>
-					{{#get "posts" filter="tag:hash-lesson+tags:{primary_tag.slug}" limit="50" order="published_at asc" include="tags" as |lessons|}}
+					{{#get "posts" filter="tag:hash-lesson+tags:{{slug}}" limit="50" order="published_at asc" include="tags" as |lessons|}}
 						{{#if lessons}}
 						<ol class="mt-4 space-y-1">
 							{{#foreach lessons}}
@@ -108,7 +108,7 @@
 						}
 						</script>
 						{{else}}
-						<p class="mt-4 text-sm text-silver">Lessons coming soon. Tag lesson posts with <code class="rounded bg-mist px-1 font-mono text-xs">#lesson</code> and make <code class="rounded bg-mist px-1 font-mono text-xs">{{primary_tag.slug}}</code> their first public tag.</p>
+						<p class="mt-4 text-sm text-silver">Lessons coming soon. Tag lesson posts with <code class="rounded bg-mist px-1 font-mono text-xs">#lesson</code> and make <code class="rounded bg-mist px-1 font-mono text-xs">{{slug}}</code> a public tag on the lesson (any position).</p>
 						{{/if}}
 					{{/get}}
 				</div>
@@ -121,7 +121,7 @@
 		<div class="container-site">
 			<p class="kicker">{{> "icons/sparkle"}} Keep learning</p>
 			<h2 class="section-title mt-2">More courses</h2>
-			{{#get "posts" filter="tag:hash-course+id:-{id}" limit="3" include="tags,authors" as |related|}}
+			{{#get "posts" filter="tag:hash-course+id:-{{id}}" limit="3" include="tags,authors" as |related|}}
 				{{#if related}}
 				<div class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
 					{{#foreach related}}

@@ -5,7 +5,7 @@
 	<div class="container-site">
 		<p class="kicker">{{> "icons/sparkle"}} Keep exploring</p>
 		<h2 class="section-title mt-2">More on “{{primary_tag.name}}”</h2>
-		{{#get "posts" filter="tags:[{primary_tag.slug}]+id:-{id}" limit="6" include="tags" as |related|}}
+		{{#get "posts" filter="tags:[{{primary_tag.slug}}]+id:-{{id}}" limit="6" include="tags" as |related|}}
 			{{#if related}}
 			<div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
 				{{#foreach related}}
@@ -31,7 +31,7 @@
 				{{/foreach}}
 			</div>
 			{{else}}
-			{{#get "posts" filter="id:-{id}" limit="3" include="tags" as |fallback|}}
+			{{#get "posts" filter="id:-{{id}}" limit="3" include="tags" as |fallback|}}
 			<div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
 				{{#foreach fallback}}
 				<a href="{{url}}" class="card-surface group flex flex-col gap-3 p-5 !transform-none">

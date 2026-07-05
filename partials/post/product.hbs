@@ -101,7 +101,7 @@
 				<div class="card-surface p-5">
 					<p class="kicker mb-4">{{> "icons/sparkle"}} Also on the shelf</p>
 					{{#has tag="#group-services"}}
-						{{#get "posts" filter="id:-{id}+tag:hash-product+tag:hash-group-services" limit="3" as |related|}}
+						{{#get "posts" filter="id:-{{id}}+tag:hash-product+tag:hash-group-services" limit="3" as |related|}}
 							{{#foreach related}}
 								<a href="{{url}}" class="group -mx-2 flex items-center gap-3 rounded-xl px-2 py-2 transition hover:bg-mist">
 									<span class="h-11 w-11 shrink-0 overflow-hidden rounded-lg border border-line bg-mist">{{#if feature_image}}<img src="{{img_url feature_image size="300"}}" alt="{{title}}" loading="lazy" class="h-full w-full object-cover" />{{/if}}</span>
@@ -110,7 +110,7 @@
 							{{/foreach}}
 						{{/get}}
 					{{else has tag="#group-my-setup"}}
-						{{#get "posts" filter="id:-{id}+tag:hash-product+tag:hash-group-my-setup" limit="3" as |related|}}
+						{{#get "posts" filter="id:-{{id}}+tag:hash-product+tag:hash-group-my-setup" limit="3" as |related|}}
 							{{#foreach related}}
 								<a href="{{url}}" class="group -mx-2 flex items-center gap-3 rounded-xl px-2 py-2 transition hover:bg-mist">
 									<span class="h-11 w-11 shrink-0 overflow-hidden rounded-lg border border-line bg-mist">{{#if feature_image}}<img src="{{img_url feature_image size="300"}}" alt="{{title}}" loading="lazy" class="h-full w-full object-cover" />{{/if}}</span>
@@ -119,7 +119,7 @@
 							{{/foreach}}
 						{{/get}}
 					{{else has tag="#group-skin-care"}}
-						{{#get "posts" filter="id:-{id}+tag:hash-product+tag:hash-group-skin-care" limit="3" as |related|}}
+						{{#get "posts" filter="id:-{{id}}+tag:hash-product+tag:hash-group-skin-care" limit="3" as |related|}}
 							{{#foreach related}}
 								<a href="{{url}}" class="group -mx-2 flex items-center gap-3 rounded-xl px-2 py-2 transition hover:bg-mist">
 									<span class="h-11 w-11 shrink-0 overflow-hidden rounded-lg border border-line bg-mist">{{#if feature_image}}<img src="{{img_url feature_image size="300"}}" alt="{{title}}" loading="lazy" class="h-full w-full object-cover" />{{/if}}</span>
@@ -128,7 +128,7 @@
 							{{/foreach}}
 						{{/get}}
 					{{else has tag="#group-travel"}}
-						{{#get "posts" filter="id:-{id}+tag:hash-product+tag:hash-group-travel" limit="3" as |related|}}
+						{{#get "posts" filter="id:-{{id}}+tag:hash-product+tag:hash-group-travel" limit="3" as |related|}}
 							{{#foreach related}}
 								<a href="{{url}}" class="group -mx-2 flex items-center gap-3 rounded-xl px-2 py-2 transition hover:bg-mist">
 									<span class="h-11 w-11 shrink-0 overflow-hidden rounded-lg border border-line bg-mist">{{#if feature_image}}<img src="{{img_url feature_image size="300"}}" alt="{{title}}" loading="lazy" class="h-full w-full object-cover" />{{/if}}</span>
@@ -137,7 +137,7 @@
 							{{/foreach}}
 						{{/get}}
 					{{else}}
-						{{#get "posts" filter="id:-{id}+tag:hash-product" limit="3" as |related|}}
+						{{#get "posts" filter="id:-{{id}}+tag:hash-product" limit="3" as |related|}}
 							{{#foreach related}}
 								<a href="{{url}}" class="group -mx-2 flex items-center gap-3 rounded-xl px-2 py-2 transition hover:bg-mist">
 									<span class="h-11 w-11 shrink-0 overflow-hidden rounded-lg border border-line bg-mist">{{#if feature_image}}<img src="{{img_url feature_image size="300"}}" alt="{{title}}" loading="lazy" class="h-full w-full object-cover" />{{/if}}</span>

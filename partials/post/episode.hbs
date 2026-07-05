@@ -1,7 +1,7 @@
 {{!-- Theater layout for #episode posts.
      Siblings share this episode's PUBLIC primary tag (= the series tag).
      Series page lives at /webseries/{primary_tag.slug}/. Episode 1 = oldest published. --}}
-{{#get "posts" filter="tag:hash-episode+tag:{primary_tag.slug}" order="published_at asc" limit="50" as |eps|}}
+{{#get "posts" filter="tag:hash-episode+tag:{{primary_tag.slug}}" order="published_at asc" limit="50" as |eps|}}
 <article class="{{post_class}}">
 
 	{{!-- Full-bleed theater player --}}

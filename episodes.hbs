@@ -14,7 +14,7 @@
 							<h2 class="section-title">{{title}}</h2>
 							<a href="{{url}}" class="flex items-center gap-1.5 text-sm font-medium text-silver transition hover:gap-2.5 hover:text-ink">Series page {{> "icons/arrow-right"}}</a>
 						</div>
-						{{#get "posts" filter="tag:hash-episode+tag:{primary_tag.slug}" order="published_at asc" limit="50" as |eps|}}
+						{{#get "posts" filter="tag:hash-episode+tag:{{primary_tag.slug}}" order="published_at asc" limit="50" as |eps|}}
 							{{#if eps}}
 								<ol class="mt-5 space-y-3">
 									{{#foreach eps}}

@@ -10,7 +10,7 @@
 			<div class="card-surface p-6 !transform-none">
 				<p class="kicker">{{> "icons/book"}} Course</p>
 				<h2 class="mt-2 text-xl font-semibold tracking-tight"><a href="{{url}}" class="hover:underline hover:underline-offset-4">{{title}}</a></h2>
-				{{#get "posts" filter="tag:hash-lesson+tags:{primary_tag.slug}" limit="50" order="published_at asc" as |lessons|}}
+				{{#get "posts" filter="tag:hash-lesson+tags:{{primary_tag.slug}}" limit="50" order="published_at asc" as |lessons|}}
 					{{#if lessons}}
 					<ol class="mt-4 space-y-1">
 						{{#foreach lessons}}

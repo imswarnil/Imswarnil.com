@@ -1,7 +1,7 @@
 {{!-- Netflix-style webseries overview.
      Episodes are #episode posts whose PUBLIC primary tag equals this series post's primary tag.
      Episode 1 = oldest published. --}}
-{{#get "posts" filter="tag:hash-episode+tag:{primary_tag.slug}" order="published_at asc" limit="50" as |eps|}}
+{{#get "posts" filter="tag:hash-episode+tag:{{slug}}" order="published_at asc" limit="50" as |eps|}}
 <article class="{{post_class}}">
 
 	{{!-- Backdrop hero --}}
@@ -59,7 +59,7 @@
 						{{/foreach}}
 					</ol>
 				{{else}}
-					<p class="mt-6 rounded-2xl border border-dashed border-line p-8 text-center text-sm text-silver">Episodes drop soon — tag them <code class="rounded bg-mist px-1 font-mono text-xs">#episode</code> with public tag <code class="rounded bg-mist px-1 font-mono text-xs">{{primary_tag.slug}}</code>.</p>
+					<p class="mt-6 rounded-2xl border border-dashed border-line p-8 text-center text-sm text-silver">Episodes drop soon — tag them <code class="rounded bg-mist px-1 font-mono text-xs">#episode</code> with public tag <code class="rounded bg-mist px-1 font-mono text-xs">{{slug}}</code> (any position).</p>
 				{{/if}}
 			</section>
 
