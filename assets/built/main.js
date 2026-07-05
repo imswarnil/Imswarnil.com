@@ -3,7 +3,7 @@
 	'use strict';
 
 	/* ---------- Theme mode switcher (6 modes) ---------- */
-	var DARK_MODES = { dark: 1, youtube: 1, netflix: 1 };
+	var DARK_MODES = { dark: 1, netflix: 1 };
 	function setMode(mode) {
 		var root = document.documentElement;
 		root.setAttribute('data-theme', mode);
@@ -24,20 +24,34 @@
 	});
 	markActiveMode();
 
-	/* ---------- Mega menu panel ---------- */
+	/* ---------- Mega menu panel: centered modal ---------- */
 	var panelBtn = document.getElementById('panel-toggle');
+	var backdrop = document.getElementById('mega-panel-backdrop');
 	var panel = document.getElementById('mega-panel');
-	if (panelBtn && panel) {
+	var panelClose = document.getElementById('panel-close');
+	if (panelBtn && backdrop && panel) {
+		function openPanel() {
+			backdrop.classList.remove('hidden');
+			backdrop.classList.add('flex');
+			panelBtn.setAttribute('aria-expanded', 'true');
+			document.body.style.overflow = 'hidden';
+		}
+		function closePanel() {
+			backdrop.classList.add('hidden');
+			backdrop.classList.remove('flex');
+			panelBtn.setAttribute('aria-expanded', 'false');
+			document.body.style.overflow = '';
+		}
 		panelBtn.addEventListener('click', function (e) {
 			e.stopPropagation();
-			var open = panel.classList.toggle('hidden') === false;
-			panelBtn.setAttribute('aria-expanded', String(open));
+			backdrop.classList.contains('hidden') ? openPanel() : closePanel();
 		});
-		document.addEventListener('click', function (e) {
-			if (!panel.contains(e.target)) panel.classList.add('hidden');
+		if (panelClose) panelClose.addEventListener('click', closePanel);
+		backdrop.addEventListener('click', function (e) {
+			if (!panel.contains(e.target)) closePanel();
 		});
 		document.addEventListener('keydown', function (e) {
-			if (e.key === 'Escape') panel.classList.add('hidden');
+			if (e.key === 'Escape') closePanel();
 		});
 	}
 

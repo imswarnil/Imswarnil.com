@@ -1,0 +1,74 @@
+{{!< default}}
+
+{{!-- Welcome hub — auto-used by Ghost for the page with slug "welcome".
+     Set this as the post-signup redirect in Ghost Admin →
+     Settings → Membership → Portal settings → "After sign up". --}}
+{{#post}}
+<article class="{{post_class}}">
+	<header class="relative overflow-hidden border-b border-line py-16 text-center">
+		<div class="bg-grid pointer-events-none absolute inset-0 fade-mask-b" aria-hidden="true"></div>
+		<div class="container-site relative">
+			<p class="kicker justify-center">{{> "icons/sparkle"}} You're in</p>
+			<h1 class="mx-auto mt-3 max-w-2xl text-4xl font-semibold tracking-tight sm:text-5xl text-balance">
+				{{#if @member}}Welcome, {{@member.name}}{{else}}{{title}}{{/if}}
+			</h1>
+			{{#if custom_excerpt}}<p class="mx-auto mt-5 max-w-xl text-lg leading-relaxed text-silver">{{custom_excerpt}}</p>{{else}}<p class="mx-auto mt-5 max-w-xl text-lg leading-relaxed text-silver">Thanks for joining — here's where to start.</p>{{/if}}
+		</div>
+	</header>
+
+	<div class="container-site py-12">
+		{{#if content}}
+		<div class="mx-auto mb-14 max-w-prose">
+			<section class="gh-content">{{content}}</section>
+		</div>
+		{{/if}}
+
+		<div class="mx-auto grid max-w-5xl gap-5 sm:grid-cols-2 lg:grid-cols-3">
+			<a href="/courses/" class="card-surface group flex flex-col gap-3 p-6">
+				<span class="flex h-11 w-11 items-center justify-center rounded-xl border border-line bg-mist transition group-hover:bg-ink group-hover:text-paper">{{> "icons/book"}}</span>
+				<h2 class="text-lg font-semibold tracking-tight">Start a course</h2>
+				<p class="text-sm leading-relaxed text-silver">Structured, lesson-by-lesson learning with progress tracking built in.</p>
+				<span class="mt-auto inline-flex items-center gap-1 text-sm font-medium">Browse courses {{> "icons/arrow-right" class="h-4 w-4"}}</span>
+			</a>
+			<a href="/videos/" class="card-surface group flex flex-col gap-3 p-6">
+				<span class="flex h-11 w-11 items-center justify-center rounded-xl border border-line bg-mist transition group-hover:bg-ink group-hover:text-paper">{{> "icons/play"}}</span>
+				<h2 class="text-lg font-semibold tracking-tight">Watch a video</h2>
+				<p class="text-sm leading-relaxed text-silver">Tutorials, breakdowns and experiments — filmed, cut and shipped.</p>
+				<span class="mt-auto inline-flex items-center gap-1 text-sm font-medium">Screening room {{> "icons/arrow-right" class="h-4 w-4"}}</span>
+			</a>
+			<a href="/webseries/" class="card-surface group flex flex-col gap-3 p-6">
+				<span class="flex h-11 w-11 items-center justify-center rounded-xl border border-line bg-mist transition group-hover:bg-ink group-hover:text-paper">{{> "icons/film"}}</span>
+				<h2 class="text-lg font-semibold tracking-tight">Binge a series</h2>
+				<p class="text-sm leading-relaxed text-silver">Behind-the-scenes webseries, episode by episode.</p>
+				<span class="mt-auto inline-flex items-center gap-1 text-sm font-medium">Watch now {{> "icons/arrow-right" class="h-4 w-4"}}</span>
+			</a>
+			<a href="/blog/" class="card-surface group flex flex-col gap-3 p-6">
+				<span class="flex h-11 w-11 items-center justify-center rounded-xl border border-line bg-mist transition group-hover:bg-ink group-hover:text-paper">{{> "icons/terminal"}}</span>
+				<h2 class="text-lg font-semibold tracking-tight">Read the blog</h2>
+				<p class="text-sm leading-relaxed text-silver">Field notes on marketing, code and craft.</p>
+				<span class="mt-auto inline-flex items-center gap-1 text-sm font-medium">Field notes {{> "icons/arrow-right" class="h-4 w-4"}}</span>
+			</a>
+			<a href="/newsletters/" class="card-surface group flex flex-col gap-3 p-6">
+				<span class="flex h-11 w-11 items-center justify-center rounded-xl border border-line bg-mist transition group-hover:bg-ink group-hover:text-paper">{{> "icons/mail"}}</span>
+				<h2 class="text-lg font-semibold tracking-tight">Read past issues</h2>
+				<p class="text-sm leading-relaxed text-silver">Every newsletter I've sent, opened like an email.</p>
+				<span class="mt-auto inline-flex items-center gap-1 text-sm font-medium">The Signal {{> "icons/arrow-right" class="h-4 w-4"}}</span>
+			</a>
+			<a href="/contact/" class="card-surface group flex flex-col gap-3 p-6">
+				<span class="flex h-11 w-11 items-center justify-center rounded-xl border border-line bg-mist transition group-hover:bg-ink group-hover:text-paper">{{> "icons/heart"}}</span>
+				<h2 class="text-lg font-semibold tracking-tight">Say hello</h2>
+				<p class="text-sm leading-relaxed text-silver">Socials, email, and a link to book a 1:1 call.</p>
+				<span class="mt-auto inline-flex items-center gap-1 text-sm font-medium">Get in touch {{> "icons/arrow-right" class="h-4 w-4"}}</span>
+			</a>
+		</div>
+
+		{{#if @site.members_enabled}}
+		{{#unless @member}}
+		<div class="mx-auto mt-14 max-w-2xl rounded-2xl border border-dashed border-line p-8 text-center">
+			<p class="text-sm text-silver">Not signed in yet? <a href="/signup/" class="font-medium text-ink underline underline-offset-4">Create a free account</a> to track lesson progress and comment on posts.</p>
+		</div>
+		{{/unless}}
+		{{/if}}
+	</div>
+</article>
+{{/post}}

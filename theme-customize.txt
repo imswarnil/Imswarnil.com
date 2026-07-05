@@ -152,6 +152,9 @@ Create these as Pages (slug must match exactly):
   resume    → your resume content (theme styles it professionally)
   sponsor   → sponsor pitch (theme adds placements + rates layout)
   guestbook → suggest-a-topic / guestbook page (linked from /videos)
+  welcome   → shown to people right after they sign up. Also set this as
+              the redirect in Settings → Membership → Portal settings →
+              "After sign up" → /welcome/, so new members land here.
 
 -----------------------------------------------------------------------------
  8. SOCIAL / CONTACT HANDLES

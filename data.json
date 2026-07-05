@@ -762,6 +762,20 @@
       "created_at": "2026-07-01T09:00:00.000Z",
       "updated_at": "2026-07-01T09:00:00.000Z",
       "published_at": "2026-07-01T09:00:00.000Z"
+     },
+     {
+      "id": "0000000000000000000000b0",
+      "title": "Welcome",
+      "slug": "welcome",
+      "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"<p>You just joined the site \\u2014 glad to have you. Pick a lane below, or just wander.</p>\"}]], \"markups\": [], \"sections\": [[10, 0]]}",
+      "feature_image": "https://picsum.photos/seed/WelcomePage/1200/800",
+      "featured": false,
+      "type": "page",
+      "status": "published",
+      "custom_excerpt": "Thanks for joining — here's where to start.",
+      "created_at": "2026-07-01T09:00:00.000Z",
+      "updated_at": "2026-07-01T09:00:00.000Z",
+      "published_at": "2026-07-01T09:00:00.000Z"
      }
     ],
     "tags": [

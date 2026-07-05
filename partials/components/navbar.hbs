@@ -58,7 +58,7 @@
 				</div>
 
 				{{!-- Everything panel shortcut --}}
-				<button type="button" class="icon-btn tooltip tooltip-bottom" data-tip="Menu panel" id="panel-toggle" aria-expanded="false" aria-controls="mega-panel" aria-label="Open menu panel">
+				<button type="button" class="icon-btn tooltip tooltip-bottom" data-tip="Menu panel" id="panel-toggle" aria-expanded="false" aria-controls="mega-panel-backdrop" aria-label="Open menu panel">
 					<svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><circle cx="3" cy="3" r="1.6"/><circle cx="8" cy="3" r="1.6"/><circle cx="13" cy="3" r="1.6"/><circle cx="3" cy="8" r="1.6"/><circle cx="8" cy="8" r="1.6"/><circle cx="13" cy="8" r="1.6"/><circle cx="3" cy="13" r="1.6"/><circle cx="8" cy="13" r="1.6"/><circle cx="13" cy="13" r="1.6"/></svg>
 				</button>
 
@@ -83,35 +83,50 @@
 			</div>
 		</div>
 
-		{{!-- Mega menu panel — "everything" shortcut grid --}}
-		<div class="mx-auto mt-2 hidden max-w-5xl overflow-hidden rounded-island border border-line bg-paper/95 p-5 shadow-lift backdrop-blur-xl" id="mega-panel">
-			<div class="grid grid-cols-2 gap-x-6 gap-y-1 sm:grid-cols-3 lg:grid-cols-4">
-				<div>
-					<p class="kicker mb-2">Watch</p>
-					<a href="/videos/" class="panel-link">Videos</a>
-					<a href="/webseries/" class="panel-link">Webseries</a>
+		{{!-- Mega menu — centered modal with the full site map --}}
+		<div class="fixed inset-0 z-[60] hidden items-start justify-center overflow-y-auto bg-ink/40 p-4 pt-20 backdrop-blur-sm sm:pt-28" id="mega-panel-backdrop">
+			<div class="w-full max-w-3xl rounded-[2rem] border border-line bg-paper p-6 shadow-lift sm:p-8" id="mega-panel" role="dialog" aria-modal="true" aria-label="Site menu">
+				<div class="mb-6 flex items-center justify-between">
+					{{> "components/logo"}}
+					<button type="button" class="icon-btn" id="panel-close" aria-label="Close menu">{{> "icons/close"}}</button>
 				</div>
-				<div>
-					<p class="kicker mb-2">Learn</p>
-					<a href="/courses/" class="panel-link">Courses</a>
-					<a href="/blog/" class="panel-link">Blog</a>
-					<a href="/newsletters/" class="panel-link">Newsletters</a>
+				<div class="grid grid-cols-2 gap-x-6 gap-y-6 sm:grid-cols-4">
+					<div>
+						<p class="kicker mb-2">Watch</p>
+						<a href="/videos/" class="panel-link">{{> "icons/play" class="h-3.5 w-3.5"}} Videos</a>
+						<a href="/webseries/" class="panel-link">{{> "icons/film" class="h-3.5 w-3.5"}} Webseries</a>
+					</div>
+					<div>
+						<p class="kicker mb-2">Learn</p>
+						<a href="/courses/" class="panel-link">{{> "icons/book" class="h-3.5 w-3.5"}} Courses</a>
+						<a href="/blog/" class="panel-link">Blog</a>
+						<a href="/newsletters/" class="panel-link">Newsletters</a>
+						<a href="/archive/" class="panel-link">Archive</a>
+					</div>
+					<div>
+						<p class="kicker mb-2">Work</p>
+						<a href="/projects/" class="panel-link">{{> "icons/github" class="h-3.5 w-3.5"}} Projects</a>
+						<a href="/timeline/" class="panel-link">Timeline</a>
+						<a href="/resume/" class="panel-link">Resume</a>
+						<a href="/changelog/" class="panel-link">Changelog</a>
+					</div>
+					<div>
+						<p class="kicker mb-2">More</p>
+						<a href="/products/" class="panel-link">Things I use</a>
+						<a href="/shop/" class="panel-link">Shop</a>
+						<a href="/sponsor/" class="panel-link">Sponsor</a>
+						<a href="/contact/" class="panel-link">{{> "icons/mail" class="h-3.5 w-3.5"}} Contact</a>
+						<a href="/sitemap-visual/" class="panel-link">Sitemap</a>
+					</div>
 				</div>
-				<div>
-					<p class="kicker mb-2">Work</p>
-					<a href="/projects/" class="panel-link">Projects</a>
-					<a href="/timeline/" class="panel-link">Timeline</a>
-					<a href="/resume/" class="panel-link">Resume</a>
-					<a href="/changelog/" class="panel-link">Changelog</a>
-				</div>
-				<div>
-					<p class="kicker mb-2">More</p>
-					<a href="/products/" class="panel-link">Things I use</a>
-					<a href="/shop/" class="panel-link">Shop</a>
-					<a href="/sponsor/" class="panel-link">Sponsor</a>
-					<a href="/contact/" class="panel-link">Contact</a>
-					<a href="/sitemap-visual/" class="panel-link">Sitemap</a>
-					<a href="/archive/" class="panel-link">Archive</a>
+				<div class="mt-6 flex flex-wrap items-center justify-between gap-3 border-t border-line pt-5">
+					<div class="flex items-center gap-1">
+						<a href="{{@custom.youtube_url}}" target="_blank" rel="noopener" class="icon-btn" aria-label="YouTube">{{> "icons/youtube"}}</a>
+						<a href="https://github.com/{{@custom.github_repo}}" target="_blank" rel="noopener" class="icon-btn" aria-label="GitHub">{{> "icons/github"}}</a>
+						<a href="https://linkedin.com/in/imswarnil" target="_blank" rel="noopener" class="icon-btn" aria-label="LinkedIn">{{> "icons/linkedin"}}</a>
+						<a href="{{@site.url}}/rss/" class="icon-btn" aria-label="RSS">{{> "icons/rss"}}</a>
+					</div>
+					{{#if @custom.topmate_url}}<a href="{{@custom.topmate_url}}" target="_blank" rel="noopener" class="btn-ghost text-xs">{{> "icons/calendar" class="h-3.5 w-3.5"}} Book a call</a>{{/if}}
 				</div>
 			</div>
 		</div>
