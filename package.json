@@ -17,6 +17,7 @@
 	"license": "MIT",
 	"scripts": {
 		"build": "tailwindcss -i ./assets/css/tailwind.css -o ./assets/built/screen.css --minify",
+		"build:prod": "npm run build",
 		"dev": "tailwindcss -i ./assets/css/tailwind.css -o ./assets/built/screen.css --watch",
 		"test": "gscan .",
 		"zip": "npm run build && mkdir -p dist && zip -r dist/swarnil.zip . -x 'node_modules/*' 'dist/*' '.git/*' '.github/*' '.claude/*' 'data.json'"
