@@ -1,5 +1,7 @@
 // Swarnil service worker — offline support
-const VERSION = 'swarnil-v1';
+// Bump VERSION on breaking asset changes; assets are stale-while-revalidate
+// so normal deploys self-heal on the next visit anyway.
+const VERSION = 'swarnil-v2';
 const OFFLINE_URL = '/offline/';
 const PRECACHE = [OFFLINE_URL, '/'];
 
@@ -26,17 +28,20 @@ self.addEventListener('fetch', (event) => {
 	// Never intercept Ghost admin/api/members traffic
 	if (/^\/(ghost|members|content|r)\//.test(url.pathname)) return;
 
-	// Static assets: cache-first
+	// Static assets: stale-while-revalidate — serve cache instantly but
+	// always refetch in the background so a deploy is picked up next visit.
 	if (url.pathname.startsWith('/assets/') || url.pathname.startsWith('/public/')) {
 		event.respondWith(
-			caches.match(req).then(
-				(hit) =>
-					hit ||
-					fetch(req).then((res) => {
-						const copy = res.clone();
-						caches.open(VERSION).then((cache) => cache.put(req, copy));
-						return res;
-					})
+			caches.open(VERSION).then((cache) =>
+				cache.match(req).then((hit) => {
+					const refresh = fetch(req)
+						.then((res) => {
+							if (res && res.ok) cache.put(req, res.clone());
+							return res;
+						})
+						.catch(() => hit);
+					return hit || refresh;
+				})
 			)
 		);
 		return;
