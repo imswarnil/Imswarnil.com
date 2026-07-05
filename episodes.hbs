@@ -1,0 +1,12 @@
+{{!< default}}
+
+{{> "components/collection-header" kicker="Now streaming" title="Episodes" desc="Every episode across all webseries, newest first."}}
+
+<section class="container-site py-12">
+	<ol class="mx-auto max-w-3xl space-y-3">
+		{{#foreach posts}}
+			{{> "cards/episode"}}
+		{{/foreach}}
+	</ol>
+	{{> "components/pagination"}}
+</section>

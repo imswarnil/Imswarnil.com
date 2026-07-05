@@ -1,19 +1,59 @@
 routes:
-  /signup/:
-    template: signup
-    # data: page.signup # When active data will be taken from the  "/signup/" page
-  /signin/:
-    template: signin
-    # data: page.signin # When active data will be taken from the  "/signin/" page
+  /:
+    template: home
+  /sw.js/:
+    template: sw
+    content_type: application/javascript
+  /manifest.json/:
+    template: manifest
+    content_type: application/json
+  /offline/:
+    template: offline
 
 collections:
-  /:
-    permalink: /{slug}/
-    template: index
-  /archive/:
-    permalink: /{slug}/
-    template: archive
-    # data: page.archive # When active data will be taken from the  "/archive/" page
+  /videos/:
+    permalink: /videos/{slug}/
+    filter: tag:hash-video
+    template: videos
+  /projects/:
+    permalink: /projects/{slug}/
+    filter: tag:hash-project
+    template: projects
+  /courses/:
+    permalink: /courses/{slug}/
+    filter: tag:hash-course
+    template: courses
+  /lessons/:
+    permalink: /lessons/{slug}/
+    filter: tag:hash-lesson
+    template: lessons
+  /webseries/:
+    permalink: /webseries/{slug}/
+    filter: tag:hash-webseries
+    template: webseries
+  /episodes/:
+    permalink: /episodes/{slug}/
+    filter: tag:hash-episode
+    template: episodes
+  /products/:
+    permalink: /products/{slug}/
+    filter: tag:hash-product
+    template: products
+  /timeline/:
+    permalink: /timeline/{slug}/
+    filter: tag:hash-timeline
+    template: timeline
+  /changelog/:
+    permalink: /changelog/{slug}/
+    filter: tag:hash-changelog
+    template: changelog
+  /newsletters/:
+    permalink: /newsletters/{slug}/
+    filter: tag:hash-newsletter
+    template: newsletters
+  /blog/:
+    permalink: /blog/{slug}/
+    template: blog
 
 taxonomies:
   tag: /tag/{slug}/

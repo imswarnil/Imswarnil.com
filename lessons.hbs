@@ -1,0 +1,12 @@
+{{!< default}}
+
+{{> "components/collection-header" kicker="The classroom" title="Lessons" desc="Every lesson across every course, newest first."}}
+
+<section class="container-site py-12">
+	<ol class="mx-auto max-w-3xl space-y-3">
+		{{#foreach posts}}
+			{{> "cards/episode"}}
+		{{/foreach}}
+	</ol>
+	{{> "components/pagination"}}
+</section>

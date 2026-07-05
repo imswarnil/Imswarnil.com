@@ -1,0 +1,23 @@
+<section class="reveal relative py-20">
+	<div class="container-site">
+		<div class="relative overflow-hidden rounded-[2rem] border border-line bg-ink px-6 py-16 text-center text-paper shadow-lift sm:px-16">
+			<div class="pointer-events-none absolute inset-0 opacity-20" style="background-image: radial-gradient(rgb(255 255 255 / .35) 1px, transparent 1px); background-size: 22px 22px" aria-hidden="true"></div>
+			<div class="relative mx-auto max-w-2xl">
+				<p class="mx-auto inline-flex items-center gap-2 rounded-full border border-paper/20 bg-paper/10 px-4 py-1.5 font-mono text-[11px] uppercase tracking-[0.25em]">{{> "icons/mail"}} The Signal</p>
+				<h2 class="mt-6 text-3xl font-semibold tracking-tight sm:text-4xl text-balance">{{@custom.newsletter_title}}</h2>
+				<p class="mt-4 text-[15px] leading-relaxed opacity-70">No noise, no spam — one thoughtful letter whenever there's something worth framing. Unsubscribe anytime.</p>
+				{{#if @site.members_enabled}}
+				<form data-members-form class="mx-auto mt-8 max-w-md">
+					<div class="flex overflow-hidden rounded-full border border-paper/25 bg-paper/10 backdrop-blur transition focus-within:border-paper/60">
+						<input type="email" name="email" data-members-email placeholder="you@email.com" required class="w-full bg-transparent px-5 py-3.5 text-sm text-paper outline-none placeholder:text-paper/40" aria-label="Email address" />
+						<button type="submit" class="shrink-0 bg-paper px-6 text-sm font-semibold text-ink transition hover:opacity-90">Subscribe</button>
+					</div>
+					<p class="mt-3 hidden text-xs opacity-70" data-members-success>✓ Almost in — confirm via the email we just sent.</p>
+					<p class="mt-3 hidden text-xs text-red-300" data-members-error>That didn't work. Mind trying again?</p>
+				</form>
+				{{/if}}
+				<p class="mt-6 font-mono text-[11px] uppercase tracking-[0.2em] opacity-50"><a href="{{@site.url}}/newsletters/" class="underline underline-offset-4 hover:opacity-100">Read past issues →</a></p>
+			</div>
+		</div>
+	</div>
+</section>

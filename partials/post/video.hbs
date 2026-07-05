@@ -1,0 +1,59 @@
+{{!-- Cinema layout for #video posts --}}
+<article class="{{post_class}}">
+	<header class="relative overflow-hidden bg-ink py-14 text-paper dark:border-b dark:border-line">
+		<div class="pointer-events-none absolute inset-0 opacity-[.15]" style="background-image: radial-gradient(rgb(255 255 255 / .4) 1px, transparent 1px); background-size: 22px 22px" aria-hidden="true"></div>
+		<div class="container-site relative">
+			<div class="mx-auto max-w-4xl">
+				<p class="flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.25em] opacity-60">{{> "icons/film"}} Now playing</p>
+				<h1 class="mt-4 text-3xl font-semibold leading-tight tracking-tight sm:text-5xl text-balance">{{title}}</h1>
+				<div class="mt-5 flex flex-wrap items-center gap-4 font-mono text-xs opacity-70">
+					<span class="flex items-center gap-1.5">{{> "icons/calendar"}} {{date published_at format="DD MMM YYYY"}}</span>
+					<span class="flex items-center gap-1.5">{{> "icons/clock"}} {{reading_time minute="1 min"}}</span>
+					{{#foreach tags visibility="public" limit="3"}}<a href="{{url}}" class="underline underline-offset-4 hover:opacity-100">{{name}}</a>{{/foreach}}
+				</div>
+			</div>
+		</div>
+	</header>
+
+	<div class="container-site py-10">
+		<div class="mx-auto grid max-w-6xl gap-10 lg:grid-cols-12">
+			<div class="lg:col-span-8">
+				{{!-- The video embed lives in the post content; first embed renders theater-size --}}
+				<section class="gh-content video-theater">
+					{{content}}
+				</section>
+
+				{{> "components/adsense"}}
+
+				<footer class="mt-8 flex flex-wrap items-center justify-between gap-4 border-t border-line pt-6">
+					<div class="flex flex-wrap gap-2">
+						{{#foreach tags visibility="public"}}<a href="{{url}}" class="chip transition hover:border-ink hover:text-ink">{{name}}</a>{{/foreach}}
+					</div>
+					{{> "post/share"}}
+				</footer>
+
+				{{#if comments}}
+					<section class="mt-12 border-t border-line pt-10">
+						<h2 class="section-title mb-8">Comments</h2>
+						{{comments}}
+					</section>
+				{{/if}}
+			</div>
+
+			{{!-- Up next --}}
+			<aside class="lg:col-span-4">
+				<div class="sticky top-28">
+					<p class="kicker mb-4">{{> "icons/play"}} Up next</p>
+					{{#get "posts" filter="tag:hash-video+id:-{id}" limit="5" as |queue|}}
+						<div class="space-y-3">
+							{{#foreach queue}}
+								{{> "cards/episode"}}
+							{{/foreach}}
+						</div>
+					{{/get}}
+					<a href="{{@site.url}}/videos/" class="btn-ghost mt-5 w-full">Browse all videos</a>
+				</div>
+			</aside>
+		</div>
+	</div>
+</article>

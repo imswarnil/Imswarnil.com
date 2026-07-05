@@ -1,0 +1,40 @@
+{{!< default}}
+
+{{#post}}
+<article class="{{post_class}}">
+	{{> "components/collection-header" kicker="Work with me" title=title desc=custom_excerpt}}
+
+	<div class="container-site py-12">
+		<div class="mx-auto max-w-4xl">
+			{{!-- Placement menu --}}
+			<div class="grid gap-6 sm:grid-cols-3">
+				<div class="card-surface p-6 text-center">
+					<p class="kicker justify-center">{{> "icons/mail"}} Newsletter</p>
+					<p class="mt-3 text-3xl font-semibold tracking-tight">Sponsor<br/>an issue</p>
+					<p class="mt-3 text-sm text-silver">Your product, top of The Signal, read start-to-finish.</p>
+				</div>
+				<div class="card-surface p-6 text-center">
+					<p class="kicker justify-center">{{> "icons/film"}} Video</p>
+					<p class="mt-3 text-3xl font-semibold tracking-tight">30s<br/>integration</p>
+					<p class="mt-3 text-sm text-silver">A native mention inside a video, scripted with you.</p>
+				</div>
+				<div class="card-surface p-6 text-center">
+					<p class="kicker justify-center">{{> "icons/zap"}} Site</p>
+					<p class="mt-3 text-3xl font-semibold tracking-tight">30-day<br/>placement</p>
+					<p class="mt-3 text-sm text-silver">A clean, labeled unit across high-traffic pages.</p>
+				</div>
+			</div>
+
+			<div class="gh-content mt-14">
+				{{content}}
+			</div>
+
+			<div class="mt-12 rounded-[2rem] border border-line bg-ink p-10 text-center text-paper shadow-lift">
+				<h2 class="text-2xl font-semibold tracking-tight sm:text-3xl">Let's make something worth framing</h2>
+				<p class="mx-auto mt-3 max-w-md text-sm opacity-70">Tell me about your product and audience — I reply to every serious pitch within 48 hours.</p>
+				<a href="mailto:{{@custom.sponsor_email}}?subject=Sponsorship%20inquiry" class="btn mt-6 bg-paper text-ink hover:opacity-90 !px-7 !py-3">{{> "icons/mail"}} {{@custom.sponsor_email}}</a>
+			</div>
+		</div>
+	</div>
+</article>
+{{/post}}

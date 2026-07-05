@@ -1,0 +1,31 @@
+{{!-- Netflix-style "Top picks" row: big outlined rank numbers behind cards --}}
+<section class="reveal relative py-16">
+	<div class="container-site">
+		<div class="flex items-end justify-between gap-4">
+			<div>
+				<p class="kicker">{{> "icons/film"}} The screening room</p>
+				<h2 class="section-title mt-2">Latest videos</h2>
+			</div>
+			<a href="{{@site.url}}/videos/" class="btn-ghost shrink-0">All videos {{> "icons/arrow-right"}}</a>
+		</div>
+	</div>
+
+	{{#get "posts" filter="tag:hash-video" limit="8" include="tags" as |videos|}}
+		{{#if videos}}
+		<div class="no-scrollbar mt-8 overflow-x-auto pb-4 fade-mask-x">
+			<div class="container-site">
+				<div class="flex w-max gap-2 pr-8 sm:gap-0">
+					{{#foreach videos limit="8"}}
+						<div class="relative flex items-end pl-0 sm:pl-2">
+							<span class="rank-number relative -mr-7 hidden sm:block">{{@number}}</span>
+							{{> "cards/video" class="w-[17rem] sm:w-[19rem] relative z-10"}}
+						</div>
+					{{/foreach}}
+				</div>
+			</div>
+		</div>
+		{{else}}
+		<div class="container-site mt-8"><p class="rounded-2xl border border-dashed border-line p-10 text-center text-sm text-silver">Tag posts with <code class="rounded bg-mist px-1.5 py-0.5 font-mono text-xs">#video</code> and they premiere here.</p></div>
+		{{/if}}
+	{{/get}}
+</section>

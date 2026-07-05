@@ -1,0 +1,85 @@
+<section class="relative overflow-hidden pb-16 pt-10 sm:pb-24 sm:pt-16">
+	<div class="bg-grid pointer-events-none absolute inset-0 fade-mask-b" aria-hidden="true"></div>
+	<div class="bg-dots pointer-events-none absolute inset-x-0 top-0 h-64 opacity-70" aria-hidden="true"></div>
+
+	<div class="container-site relative grid items-center gap-14 lg:grid-cols-12">
+		{{!-- Copy --}}
+		<div class="lg:col-span-7">
+			<p class="chip animate-fade-in">
+				<span class="relative flex h-2 w-2"><span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-500 opacity-60"></span><span class="relative inline-flex h-2 w-2 rounded-full bg-green-500"></span></span>
+				{{@custom.job_title}} @ <a href="{{@custom.workplace_url}}" class="font-semibold text-ink" target="_blank" rel="noopener">{{@custom.workplace}}</a>
+			</p>
+
+			<h1 class="mt-7 text-[clamp(2.6rem,6.5vw,5rem)] font-semibold leading-[1.04] tracking-[-0.03em]">
+				<span class="hero-line"><span style="--d:.05s">Life looks better</span></span>
+				<span class="hero-line"><span style="--d:.15s">when you frame the</span></span>
+				<span class="hero-line"><span style="--d:.25s"><em class="not-italic underline decoration-line decoration-[6px] underline-offset-8">color</em>
+					<span class="mx-2 inline-flex -translate-y-1 items-center rounded-lg border border-line bg-mist px-3 py-0.5 align-middle font-mono text-[0.35em] font-semibold tracking-widest text-silver">1:1</span></span></span>
+				<span class="hero-line"><span style="--d:.35s">and crop out <span class="text-silver line-through decoration-2">the noise</span><span class="animate-blink">.</span></span></span>
+			</h1>
+
+			<p class="mt-7 max-w-xl animate-fade-in text-lg leading-relaxed text-silver" style="animation-delay:.5s">
+				{{@site.description}}
+			</p>
+
+			<div class="mt-9 flex flex-wrap items-center gap-3 animate-fade-up" style="animation-delay:.6s">
+				<a href="{{@site.url}}/videos/" class="btn-primary !px-6 !py-3">{{> "icons/play"}} Watch my videos</a>
+				<a href="{{@site.url}}/blog/" class="btn-ghost !px-6 !py-3">Read the blog {{> "icons/arrow-right"}}</a>
+				<a href="{{@site.url}}/resume/" class="text-sm font-medium text-silver underline decoration-line underline-offset-4 transition hover:text-ink hover:decoration-ink">View resume</a>
+			</div>
+
+			<div class="mt-12 flex flex-wrap items-center gap-x-8 gap-y-3 font-mono text-[11px] uppercase tracking-[0.2em] text-silver animate-fade-in" style="animation-delay:.75s">
+				<span class="flex items-center gap-2">{{> "icons/film"}} Videos</span>
+				<span class="flex items-center gap-2">{{> "icons/terminal"}} Projects</span>
+				<span class="flex items-center gap-2">{{> "icons/book"}} Courses</span>
+				<span class="flex items-center gap-2">{{> "icons/mail"}} Newsletter</span>
+			</div>
+		</div>
+
+		{{!-- Media stack: video + photos, framed 1:1 --}}
+		<div class="relative hidden lg:col-span-5 lg:block">
+			<div class="bg-dots absolute -inset-8 rounded-[2.5rem] opacity-70" aria-hidden="true"></div>
+			<div class="relative grid grid-cols-6 grid-rows-6 gap-4" style="height: 34rem">
+				<figure class="col-span-4 col-start-1 row-span-4 row-start-1 overflow-hidden rounded-3xl border border-line bg-mist shadow-lift animate-fade-up" style="animation-delay:.3s">
+					{{#if @custom.hero_video_url}}
+						<video src="{{@custom.hero_video_url}}" autoplay muted loop playsinline class="h-full w-full object-cover"></video>
+					{{else}}{{#if @custom.hero_image}}
+						<img src="{{img_url @custom.hero_image size="1000"}}" alt="Swarnil" class="h-full w-full object-cover" />
+					{{else}}
+						<div class="bg-grid flex h-full w-full flex-col items-center justify-center gap-3 text-silver">
+							{{> "icons/film" class=""}}<span class="font-mono text-[10px] uppercase tracking-[0.3em]">your frame here</span>
+						</div>
+					{{/if}}{{/if}}
+					<figcaption class="sr-only">Hero media</figcaption>
+				</figure>
+				<figure class="col-span-3 col-start-4 row-span-3 row-start-4 overflow-hidden rounded-3xl border-4 border-paper bg-mist shadow-lift animate-fade-up" style="animation-delay:.45s">
+					{{#if @custom.hero_image_alt}}
+						<img src="{{img_url @custom.hero_image_alt size="600"}}" alt="" class="h-full w-full object-cover" />
+					{{else}}
+						<div class="bg-cross flex h-full w-full items-center justify-center font-mono text-[10px] uppercase tracking-[0.3em] text-silver">1 : 1</div>
+					{{/if}}
+				</figure>
+				<div class="col-span-2 col-start-5 row-span-2 row-start-1 flex items-center justify-center animate-fade-up" style="animation-delay:.55s">
+					<div class="animate-spin-slow relative flex h-24 w-24 items-center justify-center rounded-full border border-line bg-paper shadow-card">
+						<svg viewBox="0 0 100 100" class="absolute inset-0 h-full w-full p-2" aria-hidden="true">
+							<defs><path id="circlePath" d="M 50,50 m -34,0 a 34,34 0 1,1 68,0 a 34,34 0 1,1 -68,0" /></defs>
+							<text class="fill-silver font-mono" style="font-size:10.5px; letter-spacing:2.5px"><textPath href="#circlePath">FRAME · CROP · CREATE · REPEAT ·</textPath></text>
+						</svg>
+						{{> "icons/sparkle" class="text-ink"}}
+					</div>
+				</div>
+				<div class="col-span-2 col-start-5 row-span-1 row-start-3 flex items-center justify-center rounded-2xl border border-line bg-paper/80 font-mono text-xs text-silver shadow-card backdrop-blur animate-fade-up" style="animation-delay:.65s">
+					est. MMXXV
+				</div>
+			</div>
+		</div>
+	</div>
+
+	{{!-- Marquee strip --}}
+	<div class="relative mt-16 overflow-hidden border-y border-line bg-mist/50 py-3 fade-mask-x">
+		<div class="animate-marquee flex w-max items-center gap-10 whitespace-nowrap font-mono text-[11px] uppercase tracking-[0.3em] text-silver">
+			<span>marketing technology</span><span>✦</span><span>google ads</span><span>✦</span><span>analytics</span><span>✦</span><span>web design</span><span>✦</span><span>ghost cms</span><span>✦</span><span>video</span><span>✦</span><span>automation</span><span>✦</span><span>seo</span><span>✦</span><span>creative code</span><span>✦</span>
+			<span aria-hidden="true">marketing technology</span><span aria-hidden="true">✦</span><span aria-hidden="true">google ads</span><span aria-hidden="true">✦</span><span aria-hidden="true">analytics</span><span aria-hidden="true">✦</span><span aria-hidden="true">web design</span><span aria-hidden="true">✦</span><span aria-hidden="true">ghost cms</span><span aria-hidden="true">✦</span><span aria-hidden="true">video</span><span aria-hidden="true">✦</span><span aria-hidden="true">automation</span><span aria-hidden="true">✦</span><span aria-hidden="true">seo</span><span aria-hidden="true">✦</span><span aria-hidden="true">creative code</span><span aria-hidden="true">✦</span>
+		</div>
+	</div>
+</section>

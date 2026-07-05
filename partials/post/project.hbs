@@ -1,0 +1,38 @@
+{{!-- Case-study layout for #project posts --}}
+<article class="{{post_class}}">
+	<header class="relative overflow-hidden border-b border-line py-16">
+		<div class="bg-grid pointer-events-none absolute inset-0 fade-mask-b" aria-hidden="true"></div>
+		<div class="container-site relative">
+			<div class="mx-auto max-w-4xl">
+				<p class="kicker">{{> "icons/terminal"}} Project</p>
+				<h1 class="mt-3 text-4xl font-semibold tracking-tight sm:text-5xl text-balance">{{title}}</h1>
+				{{#if custom_excerpt}}<p class="mt-5 max-w-2xl text-lg leading-relaxed text-silver">{{custom_excerpt}}</p>{{/if}}
+				<div class="mt-6 flex flex-wrap items-center gap-2">
+					{{#foreach tags visibility="public"}}<a href="{{url}}" class="chip transition hover:border-ink hover:text-ink">{{name}}</a>{{/foreach}}
+					<span class="chip">{{> "icons/calendar"}} {{date published_at format="MMM YYYY"}}</span>
+				</div>
+			</div>
+		</div>
+	</header>
+
+	{{#if feature_image}}
+	<div class="container-site py-10">
+		<img src="{{img_url feature_image size="1600"}}" alt="{{#if feature_image_alt}}{{feature_image_alt}}{{else}}{{title}}{{/if}}" class="mx-auto w-full max-w-5xl rounded-3xl border border-line shadow-lift" />
+	</div>
+	{{/if}}
+
+	<div class="container-site pb-8">
+		<div class="mx-auto max-w-3xl">
+			<section class="gh-content">
+				{{content}}
+			</section>
+			{{> "components/adsense"}}
+			<footer class="mt-10 flex items-center justify-between border-t border-line pt-6">
+				<a href="{{@site.url}}/projects/" class="btn-ghost">{{> "icons/arrow-right" class="rotate-180"}} All projects</a>
+				{{> "post/share"}}
+			</footer>
+		</div>
+	</div>
+</article>
+
+{{> "post/related"}}

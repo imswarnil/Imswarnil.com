@@ -1,0 +1,12 @@
+{{!< default}}
+
+{{> "components/collection-header" kicker="The workbench" title="Projects" desc="Things I've designed, built and shipped — from marketing systems to weekend hacks."}}
+
+<section class="container-site py-12">
+	<div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+		{{#foreach posts}}
+			{{> "cards/project"}}
+		{{/foreach}}
+	</div>
+	{{> "components/pagination"}}
+</section>

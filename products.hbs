@@ -1,0 +1,31 @@
+{{!< default}}
+
+{{> "components/collection-header" kicker="The toolkit" title="Products I use" desc="Hardware, software and services I actually pay for — grouped by what they do, reviewed honestly."}}
+
+<section class="container-site py-12">
+	{{!-- Grouped by public tag (category) --}}
+	{{#get "tags" limit="8" order="count.posts desc" include="count.posts" as |cats|}}
+		{{#foreach cats}}
+			{{#get "posts" filter="tag:hash-product+tag:{slug}" limit="8" include="tags" as |items|}}
+				{{#if items}}
+				<div class="mb-12">
+					<h2 class="kicker mb-5">{{name}}</h2>
+					<div class="grid gap-4 sm:grid-cols-2">
+						{{#foreach items}}
+							{{> "cards/product"}}
+						{{/foreach}}
+					</div>
+				</div>
+				{{/if}}
+			{{/get}}
+		{{/foreach}}
+	{{/get}}
+
+	<p class="kicker mb-5 mt-4">Everything</p>
+	<div class="grid gap-4 sm:grid-cols-2">
+		{{#foreach posts}}
+			{{> "cards/product"}}
+		{{/foreach}}
+	</div>
+	{{> "components/pagination"}}
+</section>

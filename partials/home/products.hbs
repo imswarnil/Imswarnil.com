@@ -1,0 +1,21 @@
+<section class="reveal relative py-16">
+	<div class="container-site">
+		<div class="flex items-end justify-between gap-4">
+			<div>
+				<p class="kicker">{{> "icons/zap"}} The toolkit</p>
+				<h2 class="section-title mt-2">Products I use</h2>
+			</div>
+			<a href="{{@site.url}}/products/" class="btn-ghost shrink-0">Full stack {{> "icons/arrow-right"}}</a>
+		</div>
+
+		{{#get "posts" filter="tag:hash-product" limit="4" include="tags" as |products|}}
+			{{#if products}}
+			<div class="mt-8 grid gap-4 sm:grid-cols-2">
+				{{#foreach products}}
+					{{> "cards/product"}}
+				{{/foreach}}
+			</div>
+			{{/if}}
+		{{/get}}
+	</div>
+</section>

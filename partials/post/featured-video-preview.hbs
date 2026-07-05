@@ -1,8 +1,0 @@
-{{#has tag="#video-preview"}}
-	{{!-- On a blocked post, use html instead of content for inserting the video. --}}
-	{{#if access}}
-		<template>{{{content words="12"}}}</template>
-	{{else if html}}
-		<template>{{{html}}}</template>
-	{{/if}}
-{{/has}}

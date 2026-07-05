@@ -1,0 +1,15 @@
+{{#if pagination.pages}}
+<nav class="mt-16 flex items-center justify-between border-t border-line pt-8" aria-label="Pagination">
+	<div>
+		{{#if pagination.prev}}
+			<a href="{{page_url pagination.prev}}" class="btn-ghost">{{> "icons/arrow-right" class="rotate-180"}} Newer</a>
+		{{/if}}
+	</div>
+	<p class="font-mono text-xs text-silver">Page {{pagination.page}} <span class="opacity-50">/</span> {{pagination.pages}}</p>
+	<div>
+		{{#if pagination.next}}
+			<a href="{{page_url pagination.next}}" class="btn-ghost">Older {{> "icons/arrow-right"}}</a>
+		{{/if}}
+	</div>
+</nav>
+{{/if}}

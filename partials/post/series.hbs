@@ -1,0 +1,40 @@
+{{!-- Webseries overview: episodes are #episode posts carrying this series' slug as a public tag --}}
+<article class="{{post_class}}">
+	<header class="relative overflow-hidden bg-ink py-16 text-paper">
+		<div class="pointer-events-none absolute inset-0 opacity-[.12]" style="background-image: linear-gradient(to right, rgb(255 255 255 / .5) 1px, transparent 1px), linear-gradient(to bottom, rgb(255 255 255 / .5) 1px, transparent 1px); background-size: 44px 44px" aria-hidden="true"></div>
+		<div class="container-site relative">
+			<div class="mx-auto max-w-4xl text-center">
+				<p class="mx-auto inline-flex items-center gap-2 rounded-full border border-paper/20 bg-paper/10 px-4 py-1.5 font-mono text-[11px] uppercase tracking-[0.25em]">{{> "icons/film"}} Webseries</p>
+				<h1 class="mt-6 text-4xl font-semibold tracking-tight sm:text-6xl text-balance">{{title}}</h1>
+				{{#if custom_excerpt}}<p class="mx-auto mt-5 max-w-2xl text-lg leading-relaxed opacity-70">{{custom_excerpt}}</p>{{/if}}
+			</div>
+		</div>
+	</header>
+
+	{{#if feature_image}}
+	<div class="container-site -mt-8 pb-4">
+		<img src="{{img_url feature_image size="1600"}}" alt="{{title}}" class="mx-auto w-full max-w-4xl rounded-3xl border border-line shadow-lift" />
+	</div>
+	{{/if}}
+
+	<div class="container-site py-10">
+		<div class="mx-auto max-w-3xl">
+			<section class="gh-content">
+				{{content}}
+			</section>
+
+			<h2 class="section-title mt-14">Episodes</h2>
+			{{#get "posts" filter="tag:hash-episode+tag:{slug}" limit="all" order="published_at asc" as |eps|}}
+				{{#if eps}}
+				<ol class="mt-6 space-y-3">
+					{{#foreach eps}}
+						{{> "cards/episode"}}
+					{{/foreach}}
+				</ol>
+				{{else}}
+				<p class="mt-6 rounded-2xl border border-dashed border-line p-8 text-center text-sm text-silver">Episodes drop soon — tag them <code class="rounded bg-mist px-1 font-mono text-xs">#episode</code> + <code class="rounded bg-mist px-1 font-mono text-xs">{{slug}}</code>.</p>
+				{{/if}}
+			{{/get}}
+		</div>
+	</div>
+</article>

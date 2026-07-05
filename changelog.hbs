@@ -1,0 +1,12 @@
+{{!< default}}
+
+{{> "components/collection-header" kicker="Ship log" title="Changelog" desc="What changed on this site and in my systems — shipped, fixed, improved."}}
+
+<section class="container-site py-12">
+	<ol class="mx-auto max-w-3xl">
+		{{#foreach posts}}
+			{{> "cards/changelog-item"}}
+		{{/foreach}}
+	</ol>
+	<div class="mx-auto max-w-3xl">{{> "components/pagination"}}</div>
+</section>

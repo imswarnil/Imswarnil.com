@@ -1,0 +1,67 @@
+<footer class="relative mt-24 border-t border-line">
+	<div class="bg-dots pointer-events-none absolute inset-0 opacity-60" aria-hidden="true"></div>
+	<div class="container-site relative py-16">
+		<div class="grid gap-12 md:grid-cols-12">
+			<div class="md:col-span-5">
+				{{> "components/logo"}}
+				<p class="mt-5 max-w-sm text-[15px] leading-relaxed text-silver">{{@custom.footer_tagline}}</p>
+				<p class="mt-4 text-sm text-silver">{{@custom.job_title}} · <a href="{{@custom.workplace_url}}" class="font-medium text-ink underline decoration-line underline-offset-4 hover:decoration-ink" target="_blank" rel="noopener">{{@custom.workplace}}</a></p>
+				<div class="mt-6 flex items-center gap-1">
+					{{#if @site.facebook}}<a href="{{facebook_url @site.facebook}}" class="icon-btn" target="_blank" rel="noopener" aria-label="Facebook">{{> "icons/heart"}}</a>{{/if}}
+					{{#if @site.twitter}}<a href="{{twitter_url @site.twitter}}" class="icon-btn" target="_blank" rel="noopener" aria-label="X (Twitter)">{{> "icons/x-twitter"}}</a>{{/if}}
+					<a href="https://github.com/{{@custom.github_repo}}" class="icon-btn" target="_blank" rel="noopener" aria-label="GitHub">{{> "icons/github"}}</a>
+					<a href="https://www.youtube.com/@imswarnil" class="icon-btn" target="_blank" rel="noopener" aria-label="YouTube">{{> "icons/youtube"}}</a>
+					<a href="https://www.linkedin.com/in/imswarnil" class="icon-btn" target="_blank" rel="noopener" aria-label="LinkedIn">{{> "icons/linkedin"}}</a>
+					<a href="{{@site.url}}/rss/" class="icon-btn" aria-label="RSS feed">{{> "icons/rss"}}</a>
+				</div>
+			</div>
+
+			<nav class="md:col-span-2" aria-label="Explore">
+				<h3 class="kicker">Explore</h3>
+				<ul class="mt-4 space-y-2.5 text-sm">
+					<li><a class="text-silver transition hover:text-ink" href="{{@site.url}}/videos/">Videos</a></li>
+					<li><a class="text-silver transition hover:text-ink" href="{{@site.url}}/blog/">Blog</a></li>
+					<li><a class="text-silver transition hover:text-ink" href="{{@site.url}}/projects/">Projects</a></li>
+					<li><a class="text-silver transition hover:text-ink" href="{{@site.url}}/courses/">Courses</a></li>
+					<li><a class="text-silver transition hover:text-ink" href="{{@site.url}}/webseries/">Webseries</a></li>
+				</ul>
+			</nav>
+
+			<nav class="md:col-span-2" aria-label="Life">
+				<h3 class="kicker">Life</h3>
+				<ul class="mt-4 space-y-2.5 text-sm">
+					<li><a class="text-silver transition hover:text-ink" href="{{@site.url}}/timeline/">Timeline</a></li>
+					<li><a class="text-silver transition hover:text-ink" href="{{@site.url}}/resume/">Resume</a></li>
+					<li><a class="text-silver transition hover:text-ink" href="{{@site.url}}/products/">Products I use</a></li>
+					<li><a class="text-silver transition hover:text-ink" href="{{@site.url}}/changelog/">Changelog</a></li>
+				</ul>
+			</nav>
+
+			<nav class="md:col-span-3" aria-label="Connect">
+				<h3 class="kicker">Connect</h3>
+				<ul class="mt-4 space-y-2.5 text-sm">
+					<li><a class="text-silver transition hover:text-ink" href="{{@site.url}}/newsletters/">Newsletter</a></li>
+					<li><a class="text-silver transition hover:text-ink" href="{{@site.url}}/sponsor/">Sponsor me</a></li>
+					<li><a class="text-silver transition hover:text-ink" href="mailto:{{@custom.sponsor_email}}">Say hello</a></li>
+					<li><a class="text-silver transition hover:text-ink" href="{{@site.url}}/sitemap.xml">Sitemap</a></li>
+				</ul>
+				{{#if @site.members_enabled}}
+				<form data-members-form class="mt-6">
+					<div class="flex overflow-hidden rounded-full border border-line bg-paper transition focus-within:border-ink">
+						<input type="email" name="email" data-members-email placeholder="you@email.com" required class="w-full bg-transparent px-4 py-2.5 text-sm outline-none placeholder:text-silver" aria-label="Email address" />
+						<button type="submit" class="shrink-0 bg-ink px-4 text-sm font-medium text-paper transition hover:opacity-85">Join</button>
+					</div>
+					<p class="mt-2 hidden text-xs text-silver" data-members-success>✓ Check your inbox to confirm.</p>
+					<p class="mt-2 hidden text-xs text-red-500" data-members-error>Something went wrong — try again.</p>
+				</form>
+				{{/if}}
+			</nav>
+		</div>
+
+		<div class="mt-14 flex flex-col items-center justify-between gap-4 border-t border-line pt-8 font-mono text-xs text-silver sm:flex-row">
+			<p>© {{date format="YYYY"}} {{@site.title}} — {{t "All rights reserved"}}.</p>
+			<p class="flex items-center gap-1.5">crafted 1:1 · noise cropped out {{> "icons/sparkle" class="text-silver"}}</p>
+			<p><a href="https://ghost.org" target="_blank" rel="noopener" class="transition hover:text-ink">{{t "Published with Ghost"}}</a></p>
+		</div>
+	</div>
+</footer>

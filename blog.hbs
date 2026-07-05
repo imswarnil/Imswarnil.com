@@ -1,0 +1,77 @@
+{{!< default}}
+
+{{> "components/collection-header" kicker="Field notes" title="The Blog" desc="Marketing tech, web craft, careers and the occasional life lesson — written to be useful, edited to be short."}}
+
+<div class="container-site py-12">
+	<div class="grid gap-12 lg:grid-cols-12">
+		{{!-- Posts --}}
+		<div class="lg:col-span-8">
+			<div class="grid gap-6 sm:grid-cols-2">
+				{{#foreach posts}}
+					{{> "cards/blog"}}
+				{{/foreach}}
+			</div>
+			{{> "components/pagination"}}
+		</div>
+
+		{{!-- Sidebar --}}
+		<aside class="lg:col-span-4">
+			<div class="sticky top-28 space-y-8">
+				{{!-- About widget --}}
+				<div class="card-surface p-6 !transform-none">
+					<div class="flex items-center gap-4">
+						<svg width="44" height="44" viewBox="0 0 48 48" fill="none" aria-hidden="true"><rect x="1.5" y="1.5" width="45" height="45" rx="13" class="fill-ink"/><path d="M32.5 16.5c-1.2-2.4-4-3.8-8-3.8-4.8 0-8.2 2.3-8.2 6 0 7.6 16.6 3.6 16.6 11.6 0 3.9-3.6 6.2-8.6 6.2-4.4 0-7.4-1.6-8.8-4.3" class="stroke-paper" stroke-width="3.4" stroke-linecap="round" fill="none"/></svg>
+						<div>
+							<p class="font-semibold">Swarnil Singhai</p>
+							<p class="text-xs text-silver">{{@custom.job_title}} @ {{@custom.workplace}}</p>
+						</div>
+					</div>
+					<p class="mt-4 text-sm leading-relaxed text-silver">{{@site.description}}</p>
+					<a href="{{@site.url}}/resume/" class="btn-ghost mt-4 w-full">View resume</a>
+				</div>
+
+				{{!-- Trending --}}
+				<div class="card-surface p-6 !transform-none">
+					<p class="kicker">{{> "icons/zap"}} Trending</p>
+					{{#get "posts" filter="tag:hash-blog" limit="4" order="published_at desc" as |hot|}}
+					<ol class="mt-4 space-y-4">
+						{{#foreach hot}}
+						<li class="flex gap-3">
+							<span class="font-mono text-lg font-bold text-line">0{{@number}}</span>
+							<div>
+								<a href="{{url}}" class="line-clamp-2 text-sm font-medium leading-snug transition hover:text-silver">{{title}}</a>
+								<p class="mt-1 font-mono text-[10px] text-silver">{{date published_at format="DD MMM YYYY"}}</p>
+							</div>
+						</li>
+						{{/foreach}}
+					</ol>
+					{{/get}}
+				</div>
+
+				{{!-- Topics --}}
+				<div class="card-surface p-6 !transform-none">
+					<p class="kicker">{{> "icons/book"}} Topics</p>
+					<div class="mt-4 flex flex-wrap gap-2">
+						{{#get "tags" limit="12" order="count.posts desc" include="count.posts" as |topics|}}
+							{{#foreach topics}}
+								<a href="{{url}}" class="chip transition hover:border-ink hover:text-ink">{{name}} <span class="opacity-50">{{count.posts}}</span></a>
+							{{/foreach}}
+						{{/get}}
+					</div>
+				</div>
+
+				{{!-- Latest video --}}
+				{{#get "posts" filter="tag:hash-video" limit="1" as |vid|}}
+					{{#foreach vid}}
+						<div>
+							<p class="kicker mb-4">{{> "icons/film"}} Latest video</p>
+							{{> "cards/video"}}
+						</div>
+					{{/foreach}}
+				{{/get}}
+
+				{{> "components/adsense"}}
+			</div>
+		</aside>
+	</div>
+</div>

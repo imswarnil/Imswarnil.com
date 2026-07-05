@@ -1,0 +1,85 @@
+{{!-- Dynamic JSON-LD rich snippets, per context --}}
+{{#is "home"}}
+<script type="application/ld+json">
+{
+	"@context": "https://schema.org",
+	"@graph": [
+		{
+			"@type": "WebSite",
+			"@id": "{{@site.url}}/#website",
+			"url": "{{@site.url}}",
+			"name": "{{@site.title}}",
+			"description": "{{@site.description}}",
+			"inLanguage": "{{@site.locale}}"
+		},
+		{
+			"@type": "Person",
+			"@id": "{{@site.url}}/#person",
+			"name": "Swarnil Singhai",
+			"url": "{{@site.url}}",
+			"jobTitle": "{{@custom.job_title}}",
+			"worksFor": { "@type": "Organization", "name": "{{@custom.workplace}}", "url": "{{@custom.workplace_url}}" }
+		}
+	]
+}
+</script>
+{{/is}}
+
+{{#is "post"}}
+{{#post}}
+<script type="application/ld+json">
+{
+	"@context": "https://schema.org",
+	"@type": "{{#has tag="#video"}}VideoObject{{else has tag="#course"}}Course{{else has tag="#project"}}CreativeWork{{else has tag="#product"}}Review{{else has tag="#episode"}}TVEpisode{{else has tag="#webseries"}}TVSeries{{else}}Article{{/has}}",
+	"headline": "{{title}}",
+	"name": "{{title}}",
+	"description": "{{custom_excerpt}}{{^custom_excerpt}}{{excerpt words="40"}}{{/custom_excerpt}}",
+	{{#if feature_image}}
+	"image": "{{img_url feature_image size="1600" absolute="true"}}",
+	{{#has tag="#video"}}
+	"thumbnailUrl": "{{img_url feature_image size="1600" absolute="true"}}",
+	"uploadDate": "{{date published_at format="YYYY-MM-DDTHH:mm:ssZ"}}",
+	"contentUrl": "{{url absolute="true"}}",
+	{{/has}}
+	{{/if}}
+	{{#has tag="#course"}}
+	"provider": { "@type": "Person", "name": "{{primary_author.name}}", "url": "{{@site.url}}" },
+	"offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD", "category": "Free" },
+	"hasCourseInstance": { "@type": "CourseInstance", "courseMode": "online", "courseWorkload": "PT2H" },
+	{{/has}}
+	{{#has tag="#product"}}
+	"itemReviewed": { "@type": "Product", "name": "{{title}}", "image": "{{img_url feature_image size="600" absolute="true"}}" },
+	"reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+	{{/has}}
+	"datePublished": "{{date published_at format="YYYY-MM-DDTHH:mm:ssZ"}}",
+	"dateModified": "{{date updated_at format="YYYY-MM-DDTHH:mm:ssZ"}}",
+	"author": {
+		"@type": "Person",
+		"name": "{{primary_author.name}}",
+		"url": "{{@site.url}}/author/{{primary_author.slug}}/"
+	},
+	"publisher": {
+		"@type": "Organization",
+		"name": "{{@site.title}}",
+		"url": "{{@site.url}}"
+	},
+	"mainEntityOfPage": { "@type": "WebPage", "@id": "{{url absolute="true"}}" },
+	"url": "{{url absolute="true"}}"
+}
+</script>
+<script type="application/ld+json">
+{
+	"@context": "https://schema.org",
+	"@type": "BreadcrumbList",
+	"itemListElement": [
+		{ "@type": "ListItem", "position": 1, "name": "Home", "item": "{{@site.url}}" },
+		{{#has tag="#video"}}{ "@type": "ListItem", "position": 2, "name": "Videos", "item": "{{@site.url}}/videos/" },{{/has}}
+		{{#has tag="#project"}}{ "@type": "ListItem", "position": 2, "name": "Projects", "item": "{{@site.url}}/projects/" },{{/has}}
+		{{#has tag="#course"}}{ "@type": "ListItem", "position": 2, "name": "Courses", "item": "{{@site.url}}/courses/" },{{/has}}
+		{{#has tag="#blog"}}{ "@type": "ListItem", "position": 2, "name": "Blog", "item": "{{@site.url}}/blog/" },{{/has}}
+		{ "@type": "ListItem", "position": 3, "name": "{{title}}", "item": "{{url absolute="true"}}" }
+	]
+}
+</script>
+{{/post}}
+{{/is}}

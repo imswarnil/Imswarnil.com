@@ -1,0 +1,34 @@
+{{!< default}}
+
+{{> "components/collection-header" kicker="The screening room" title="Videos" desc="Everything I've filmed, cut and shipped — tutorials, breakdowns and experiments. Grab popcorn."}}
+
+<section class="container-site py-12">
+	{{!-- Top 5 this season — Netflix ranking row --}}
+	{{#get "posts" filter="tag:hash-video" limit="5" order="published_at desc" as |top|}}
+		{{#if top}}
+		<p class="kicker mb-6">{{> "icons/zap"}} Top picks</p>
+		<div class="no-scrollbar overflow-x-auto pb-4 fade-mask-x">
+			<div class="flex w-max gap-2 pr-8 sm:gap-0">
+				{{#foreach top}}
+					<div class="relative flex items-end sm:pl-2">
+						<span class="rank-number relative -mr-7 hidden sm:block">{{@number}}</span>
+						{{> "cards/video" class="w-[17rem] sm:w-[19rem] relative z-10"}}
+					</div>
+				{{/foreach}}
+			</div>
+		</div>
+		{{/if}}
+	{{/get}}
+
+	{{> "components/adsense"}}
+
+	{{!-- Full library with pagination --}}
+	<p class="kicker mb-6 mt-12">{{> "icons/film"}} Full library</p>
+	<div class="grid gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
+		{{#foreach posts}}
+			{{> "cards/video"}}
+		{{/foreach}}
+	</div>
+
+	{{> "components/pagination"}}
+</section>

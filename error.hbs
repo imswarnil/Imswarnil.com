@@ -1,12 +1,10 @@
-{{!< default-simple}}
-{{!-- The tag above means: insert everything in this file into the body of the default.hbs template --}}
+{{!< default}}
 
-{{#contentFor "title"}}{{statusCode}} — {{message}}{{/contentFor}}
-{{#contentFor "body-class"}}layout-error{{/contentFor}}
-
-<h1>{{statusCode}}</h1>
-<h2>{{message}}</h2>
-<a href="{{@site.url}}" class="button">
-	{{> "icons/arrow-narrow-left"}}
-	<span class="label">{{t "Back to Home"}}</span>
-</a>
+<section class="relative flex min-h-[60vh] items-center overflow-hidden py-20">
+	<div class="bg-dots pointer-events-none absolute inset-0" aria-hidden="true"></div>
+	<div class="container-site relative text-center">
+		<p class="rank-number mx-auto">{{statusCode}}</p>
+		<h1 class="mt-4 text-3xl font-semibold tracking-tight">{{message}}</h1>
+		<a href="{{@site.url}}" class="btn-primary mt-8">Back home</a>
+	</div>
+</section>

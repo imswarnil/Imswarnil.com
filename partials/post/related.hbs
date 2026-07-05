@@ -1,0 +1,26 @@
+{{!-- Related posts: same collection first, primary tag as tiebreaker --}}
+<section class="border-t border-line bg-mist/40 py-16">
+	<div class="container-site">
+		<p class="kicker">{{> "icons/sparkle"}} Keep exploring</p>
+		<h2 class="section-title mt-2">Related</h2>
+		{{#post}}
+		{{#get "posts" filter="id:-{id}+tags:[{primary_tag.slug}]" limit="3" include="tags,authors" as |related|}}
+			{{#if related}}
+			<div class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+				{{#foreach related}}
+					{{> "cards/blog"}}
+				{{/foreach}}
+			</div>
+			{{else}}
+			{{#get "posts" filter="id:-{id}" limit="3" include="tags,authors" as |fallback|}}
+			<div class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+				{{#foreach fallback}}
+					{{> "cards/blog"}}
+				{{/foreach}}
+			</div>
+			{{/get}}
+			{{/if}}
+		{{/get}}
+		{{/post}}
+	</div>
+</section>

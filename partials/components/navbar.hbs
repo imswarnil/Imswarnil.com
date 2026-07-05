@@ -1,0 +1,90 @@
+{{!-- Floating island navbar. Primary nav inline; items whose label ends with " *"
+     (or all secondary nav) collapse into the "More" dropdown. --}}
+<header class="fixed inset-x-0 top-4 z-50 px-4 sm:top-5" id="site-header">
+	<nav class="container-site">
+		<div class="mx-auto flex max-w-5xl items-center justify-between gap-3 rounded-island border border-line bg-paper/80 py-2.5 pl-4 pr-3 shadow-island backdrop-blur-xl transition-all duration-300" id="nav-island">
+
+			{{> "components/logo"}}
+
+			{{!-- Desktop nav --}}
+			<div class="hidden items-center gap-0.5 lg:flex" role="navigation" aria-label="Primary">
+				{{#foreach navigation}}
+					<a href="{{url absolute="true"}}" class="rounded-full px-3.5 py-2 text-sm font-medium text-silver transition hover:bg-mist hover:text-ink{{#if current}} bg-mist !text-ink{{/if}}">{{label}}</a>
+				{{/foreach}}
+
+				{{#if @site.secondary_navigation}}
+				<div class="relative" data-dropdown>
+					<button type="button" class="flex items-center gap-1 rounded-full px-3.5 py-2 text-sm font-medium text-silver transition hover:bg-mist hover:text-ink" aria-expanded="false" aria-haspopup="true" data-dropdown-toggle>
+						More {{> "icons/chevron-down" class="transition-transform duration-200"}}
+					</button>
+					<div class="invisible absolute right-0 top-full mt-2 w-52 origin-top-right scale-95 rounded-2xl border border-line bg-paper p-1.5 opacity-0 shadow-lift transition-all duration-200 data-[open]:visible data-[open]:scale-100 data-[open]:opacity-100" data-dropdown-menu>
+						{{#foreach @site.secondary_navigation}}
+							<a href="{{url absolute="true"}}" class="flex items-center justify-between rounded-xl px-3.5 py-2.5 text-sm font-medium text-silver transition hover:bg-mist hover:text-ink">
+								{{label}} {{> "icons/arrow-up-right" class="opacity-40"}}
+							</a>
+						{{/foreach}}
+					</div>
+				</div>
+				{{/if}}
+			</div>
+
+			{{!-- Actions --}}
+			<div class="flex items-center gap-1">
+				<a href="https://github.com/{{@custom.github_repo}}" target="_blank" rel="noopener" class="group hidden items-center gap-1.5 rounded-full border border-line bg-mist/60 px-3 py-1.5 text-xs font-semibold transition hover:bg-mist sm:inline-flex" aria-label="Star on GitHub">
+					{{> "icons/github" class=""}}
+					<span class="hidden md:inline">Star</span>
+					{{> "icons/star" class="text-silver transition group-hover:scale-110 group-hover:text-ink"}}
+				</a>
+
+				<button type="button" class="icon-btn" data-ghost-search aria-label="Search">
+					{{> "icons/search"}}
+				</button>
+
+				<button type="button" class="icon-btn" id="theme-toggle" aria-label="Toggle dark mode">
+					<span class="hidden dark:inline-flex">{{> "icons/sun"}}</span>
+					<span class="inline-flex dark:hidden">{{> "icons/moon"}}</span>
+				</button>
+
+				{{#if @site.members_enabled}}
+					{{#if @member}}
+						<a href="#/portal/account" class="ml-1 inline-flex items-center" aria-label="Your account" data-portal="account">
+							{{#if @member.avatar_image}}
+								<img src="{{@member.avatar_image}}" alt="{{@member.name}}" class="h-9 w-9 rounded-full border-2 border-line object-cover transition hover:border-ink" />
+							{{else}}
+								<span class="flex h-9 w-9 items-center justify-center rounded-full bg-ink text-sm font-bold text-paper" data-avatar-initial="{{@member.name}}">{{> "icons/user"}}</span>
+							{{/if}}
+						</a>
+					{{else}}
+						<a href="#/portal/signin" class="btn-primary ml-1 !px-4 !py-2 !text-[13px]" data-portal="signin">Sign in</a>
+					{{/if}}
+				{{/if}}
+
+				<button type="button" class="icon-btn lg:hidden" id="mobile-menu-toggle" aria-expanded="false" aria-controls="mobile-menu" aria-label="Open menu">
+					<span class="menu-open">{{> "icons/menu"}}</span>
+					<span class="menu-close hidden">{{> "icons/close"}}</span>
+				</button>
+			</div>
+		</div>
+
+		{{!-- Mobile menu --}}
+		<div class="mx-auto mt-2 hidden max-w-5xl overflow-hidden rounded-island border border-line bg-paper/95 p-3 shadow-lift backdrop-blur-xl lg:!hidden" id="mobile-menu">
+			<nav class="flex flex-col" aria-label="Mobile">
+				{{#foreach navigation}}
+					<a href="{{url absolute="true"}}" class="flex items-center justify-between rounded-xl px-4 py-3 text-[15px] font-medium text-ink transition hover:bg-mist{{#if current}} bg-mist{{/if}}">
+						{{label}} {{> "icons/arrow-right" class="text-silver"}}
+					</a>
+				{{/foreach}}
+				{{#if @site.secondary_navigation}}
+					<div class="my-2 border-t border-line"></div>
+					<div class="grid grid-cols-2 gap-1">
+						{{#foreach @site.secondary_navigation}}
+							<a href="{{url absolute="true"}}" class="rounded-xl px-4 py-2.5 text-sm font-medium text-silver transition hover:bg-mist hover:text-ink">{{label}}</a>
+						{{/foreach}}
+					</div>
+				{{/if}}
+			</nav>
+		</div>
+	</nav>
+</header>
+{{!-- Spacer so content clears the fixed island --}}
+<div class="h-24 sm:h-28" aria-hidden="true"></div>

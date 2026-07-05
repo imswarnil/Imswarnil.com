@@ -1,0 +1,12 @@
+{{!< default}}
+
+{{> "components/collection-header" kicker="The long game" title="Life, in commits" desc="A chronological log of milestones, launches and plot twists. Tag a post #timeline and it lands here."}}
+
+<section class="container-site py-14">
+	<ol class="relative mx-auto max-w-2xl space-y-10 before:absolute before:bottom-2 before:left-[1.4rem] before:top-2 before:w-px before:bg-line sm:before:left-[1.9rem]">
+		{{#foreach posts}}
+			{{> "cards/timeline-item"}}
+		{{/foreach}}
+	</ol>
+	<div class="mx-auto max-w-2xl">{{> "components/pagination"}}</div>
+</section>

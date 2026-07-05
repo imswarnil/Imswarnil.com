@@ -1,0 +1,21 @@
+{{!< default}}
+
+{{> "components/collection-header" kicker="The Signal" title="Newsletter archive" desc="Every issue of The Signal — read online, then subscribe so the next one finds you first."}}
+
+<section class="container-site py-12">
+	<div class="mx-auto max-w-3xl space-y-4">
+		{{#foreach posts}}
+		<article class="card-surface group p-6">
+			<a href="{{url}}" class="block">
+				<div class="flex items-center justify-between gap-4">
+					<p class="font-mono text-xs text-silver">Issue · {{date published_at format="DD MMM YYYY"}}</p>
+					{{> "icons/arrow-up-right" class="text-silver transition group-hover:text-ink"}}
+				</div>
+				<h2 class="mt-2 text-xl font-semibold tracking-tight">{{title}}</h2>
+				<p class="mt-2 line-clamp-2 text-sm leading-relaxed text-silver">{{custom_excerpt}}{{^custom_excerpt}}{{excerpt words="30"}}{{/custom_excerpt}}</p>
+			</a>
+		</article>
+		{{/foreach}}
+	</div>
+	<div class="mx-auto max-w-3xl">{{> "components/pagination"}}</div>
+</section>

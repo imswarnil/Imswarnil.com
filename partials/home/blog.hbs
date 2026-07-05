@@ -1,0 +1,23 @@
+<section class="reveal relative py-16">
+	<div class="container-site">
+		<div class="flex items-end justify-between gap-4">
+			<div>
+				<p class="kicker">{{> "icons/book"}} Field notes</p>
+				<h2 class="section-title mt-2">From the blog</h2>
+			</div>
+			<a href="{{@site.url}}/blog/" class="btn-ghost shrink-0">All posts {{> "icons/arrow-right"}}</a>
+		</div>
+
+		{{#get "posts" filter="tag:hash-blog" limit="6" include="tags,authors" as |posts|}}
+			{{#if posts}}
+			<div class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+				{{#foreach posts}}
+					{{> "cards/blog"}}
+				{{/foreach}}
+			</div>
+			{{else}}
+			<p class="mt-8 rounded-2xl border border-dashed border-line p-10 text-center text-sm text-silver">Tag posts with <code class="rounded bg-mist px-1.5 py-0.5 font-mono text-xs">#blog</code> to publish them here.</p>
+			{{/if}}
+		{{/get}}
+	</div>
+</section>

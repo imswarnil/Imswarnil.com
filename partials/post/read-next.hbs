@@ -1,9 +1,0 @@
-{{#get "posts" include="tags,tiers,authors" filter="id:-{{id}}" limit=10 as |next|}}
-	{{#if posts}}
-	<section class="section section-read-next">
-		<h2 class="section-head">{{t "Read Next"}}</h2>
-
-		{{> "components/carousel-posts"}}
-	</section>
-	{{/if}}
-{{/get}}

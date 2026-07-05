@@ -1,0 +1,12 @@
+{{!< default}}
+
+{{> "components/collection-header" kicker="Now streaming" title="Webseries" desc="Multi-episode stories, shot and shipped season by season."}}
+
+<section class="container-site py-12">
+	<div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+		{{#foreach posts}}
+			{{> "cards/course"}}
+		{{/foreach}}
+	</div>
+	{{> "components/pagination"}}
+</section>

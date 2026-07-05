@@ -1,0 +1,24 @@
+{
+	"name": "{{@site.title}}",
+	"short_name": "Swarnil",
+	"description": "{{@site.description}}",
+	"start_url": "/",
+	"scope": "/",
+	"display": "standalone",
+	"orientation": "portrait",
+	"background_color": "#fafafa",
+	"theme_color": "#18181b",
+	"icons": [
+		{{#if @site.icon}}
+		{ "src": "{{img_url @site.icon size="300" absolute="true"}}", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+		{ "src": "{{img_url @site.icon size="600" absolute="true"}}", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+		{{else}}
+		{ "src": "{{asset "screenshot-desktop.jpg"}}", "sizes": "512x512", "type": "image/jpeg" }
+		{{/if}}
+	],
+	"shortcuts": [
+		{ "name": "Videos", "url": "/videos/" },
+		{ "name": "Blog", "url": "/blog/" },
+		{ "name": "Projects", "url": "/projects/" }
+	]
+}

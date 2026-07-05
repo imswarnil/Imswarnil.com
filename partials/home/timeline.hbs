@@ -1,0 +1,26 @@
+<section class="reveal relative border-y border-line bg-mist/40 py-16">
+	<div class="bg-dots pointer-events-none absolute inset-0 opacity-50" aria-hidden="true"></div>
+	<div class="container-site relative">
+		<div class="grid gap-10 lg:grid-cols-12">
+			<div class="lg:col-span-4">
+				<p class="kicker">{{> "icons/calendar"}} The long game</p>
+				<h2 class="section-title mt-2">Life, in commits</h2>
+				<p class="mt-4 max-w-xs text-sm leading-relaxed text-silver">Milestones, launches and plot twists — a timeline of the moments that shaped the work.</p>
+				<a href="{{@site.url}}/timeline/" class="btn-primary mt-6">Full timeline {{> "icons/arrow-right"}}</a>
+			</div>
+			<div class="lg:col-span-8">
+				{{#get "posts" filter="tag:hash-timeline" limit="3" as |moments|}}
+					{{#if moments}}
+					<ol class="relative space-y-8 before:absolute before:bottom-2 before:left-[1.4rem] before:top-2 before:w-px before:bg-line sm:before:left-[1.9rem]">
+						{{#foreach moments}}
+							{{> "cards/timeline-item"}}
+						{{/foreach}}
+					</ol>
+					{{else}}
+					<p class="rounded-2xl border border-dashed border-line p-10 text-center text-sm text-silver">Tag posts with <code class="rounded bg-mist px-1.5 py-0.5 font-mono text-xs">#timeline</code> to log your story here.</p>
+					{{/if}}
+				{{/get}}
+			</div>
+		</div>
+	</div>
+</section>

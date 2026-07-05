@@ -1,0 +1,18 @@
+{{!-- AdSense unit. Renders a live ad when a publisher id is configured,
+     otherwise a tasteful placeholder that shows where the ad will sit. --}}
+{{#if @custom.adsense_publisher_id}}
+	<div class="ad-unit my-10 overflow-hidden rounded-2xl border border-line bg-mist/40 text-center">
+		<p class="pt-2 font-mono text-[10px] uppercase tracking-[0.3em] text-silver">Advertisement</p>
+		<ins class="adsbygoogle block"
+			data-ad-client="{{@custom.adsense_publisher_id}}"
+			data-ad-slot="{{@custom.adsense_slot_id}}"
+			data-ad-format="auto"
+			data-full-width-responsive="true"></ins>
+		<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+	</div>
+{{else}}
+	<div class="my-10 flex flex-col items-center justify-center gap-2 rounded-2xl border border-dashed border-line bg-cross py-10" aria-hidden="true">
+		<p class="font-mono text-[10px] uppercase tracking-[0.3em] text-silver">Ad placeholder</p>
+		<p class="text-xs text-silver/70">Set your AdSense ID in theme settings</p>
+	</div>
+{{/if}}

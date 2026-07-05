@@ -1,0 +1,8 @@
+<div class="flex items-center gap-1" data-share data-title="{{title}}" data-url="{{url absolute="true"}}">
+	<span class="mr-1 font-mono text-[11px] uppercase tracking-widest text-silver">Share</span>
+	<a class="icon-btn" target="_blank" rel="noopener" aria-label="Share on X"
+		href="https://twitter.com/intent/tweet?text={{encode title}}&url={{url absolute="true"}}">{{> "icons/x-twitter"}}</a>
+	<a class="icon-btn" target="_blank" rel="noopener" aria-label="Share on LinkedIn"
+		href="https://www.linkedin.com/shareArticle?mini=true&url={{url absolute="true"}}">{{> "icons/linkedin"}}</a>
+	<button type="button" class="icon-btn" data-copy-link aria-label="Copy link">{{> "icons/external"}}</button>
+</div>
