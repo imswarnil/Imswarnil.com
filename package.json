@@ -16,11 +16,17 @@
 	},
 	"license": "MIT",
 	"scripts": {
+		"dev": "concurrently -n css,sync -c cyan,magenta \"npm:dev:css\" \"npm:dev:sync\"",
+		"dev:css": "tailwindcss -i ./assets/css/tailwind.css -o ./assets/built/screen.css --watch",
+		"dev:sync": "browser-sync start --proxy localhost:2368 --port 3000 --ui-port 3001 --no-notify --files \"assets/built/screen.css\" \"assets/built/main.js\" \"**/*.hbs\"",
 		"build": "tailwindcss -i ./assets/css/tailwind.css -o ./assets/built/screen.css --minify",
 		"build:prod": "npm run build",
-		"dev": "tailwindcss -i ./assets/css/tailwind.css -o ./assets/built/screen.css --watch",
 		"test": "gscan .",
-		"zip": "npm run build && mkdir -p dist && zip -r dist/swarnil.zip . -x 'node_modules/*' 'dist/*' '.git/*' '.github/*' '.claude/*' 'data.json'"
+		"test:fatal": "gscan . --fatal",
+		"test:verbose": "gscan . --verbose",
+		"clean": "rm -rf dist",
+		"zip": "npm run build && npm run test:fatal && mkdir -p dist && zip -r -X dist/swarnil.zip . -x 'node_modules/*' 'dist/*' '.git/*' '.github/*' '.claude/*' 'data.json' 'theme-customize.txt' 'instruction.md' 'redirects.yaml' '*.map' '.DS_Store' '.gitignore'",
+		"release": "npm run zip && echo '→ dist/swarnil.zip ready to upload (Ghost Admin → Design → Change theme → Upload)'"
 	},
 	"config": {
 		"card_assets": true,
@@ -130,6 +136,8 @@
 		}
 	},
 	"devDependencies": {
+		"browser-sync": "^3.0.4",
+		"concurrently": "^10.0.3",
 		"daisyui": "^4.12.24",
 		"gscan": "^5.0.0",
 		"tailwindcss": "^3.4.17"

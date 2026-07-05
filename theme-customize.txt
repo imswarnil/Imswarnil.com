@@ -164,10 +164,14 @@ under Design & branding — fill in your URLs there.
  9. BUILD & UPLOAD (for development)
 -----------------------------------------------------------------------------
   npm install          (once)
-  npm run dev          (watch mode while editing)
-  npm run build        (minified CSS)
-  npm run zip          (creates dist/swarnil.zip to upload in Ghost Admin)
-  npm test             (gscan theme validation)
+  npm run dev          (live dev: CSS watch + browser-sync on :3000,
+                        auto-reloads on any .hbs/CSS/JS change; needs
+                        local Ghost running on :2368)
+  npm run build        (minified CSS; build:prod is an alias)
+  npm test             (gscan validation; test:fatal / test:verbose)
+  npm run zip          (build + validate + dist/swarnil.zip, dev files excluded)
+  npm run release      (zip + upload reminder)
+  npm run clean        (remove dist/)
 
 -----------------------------------------------------------------------------
  10. DUMMY CONTENT (data.json)
