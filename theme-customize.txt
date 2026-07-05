@@ -119,9 +119,12 @@ COLLECTION TAGS (pick exactly ONE per post):
 -----------------------------------------------------------------------------
 Theme setting (Design & branding → Site-wide): "Enable AdSense" on/off.
 Publisher: ca-pub-1291242080282540 (already wired in).
-ads.txt: this theme serves /ads.txt via routes.yaml automatically with:
+ads.txt: Ghost cannot serve /ads.txt from routes (it rejects dot-paths).
+Instead, upload redirects.yaml (theme root) in Ghost Admin → Settings →
+Labs → Redirects. It 301s /ads.txt to the raw ads.txt in your GitHub repo:
   google.com, pub-1291242080282540, DIRECT, f08c47fec0942fa0
-If your host/CDN overrides ads.txt, upload the file manually instead.
+(AdSense follows the redirect.) If your host lets you serve static files
+(nginx/CDN), serving ads.txt directly is even better.
 Ad slots already placed in layouts (in-article, sidebar skyscraper,
 multiplex footer, in-feed). No action needed beyond the toggle.
 

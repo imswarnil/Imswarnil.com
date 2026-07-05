@@ -1,0 +1,7 @@
+# Upload in Ghost Admin → Settings → Labs → Redirects.
+# Ghost can't serve /ads.txt from routes (dot-paths are rejected), so we
+# 301 it to the raw file in this repo — Google AdSense follows redirects.
+301:
+  /ads.txt: https://raw.githubusercontent.com/imswarnil/Imswarnil.com/main/ads.txt
+
+302: {}

@@ -7,15 +7,15 @@
 routes:
   /:
     template: home
-  /sw.js/:
+  # NOTE: Ghost rejects route paths containing dots (/sw.js/, /manifest.json/,
+  # /ads.txt/ all 404) — extension-less paths below. ads.txt is handled via
+  # redirects.yaml instead (see theme-customize.txt §4).
+  /sw/:
     template: sw
     content_type: application/javascript
-  /manifest.json/:
+  /manifest/:
     template: manifest
     content_type: application/json
-  /ads.txt/:
-    template: ads-txt
-    content_type: text/plain
   /offline/:
     template: offline
   /signin/:

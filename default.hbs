@@ -11,7 +11,7 @@
 	<link rel="icon" href="{{asset "favicon.svg"}}" type="image/svg+xml" />
 
 	{{!-- PWA --}}
-	<link rel="manifest" href="{{@site.url}}/manifest.json/" />
+	<link rel="manifest" href="{{@site.url}}/manifest/" />
 	<meta name="theme-color" content="#fafafa" media="(prefers-color-scheme: light)" />
 	<meta name="theme-color" content="#09090b" media="(prefers-color-scheme: dark)" />
 	<meta name="apple-mobile-web-app-capable" content="yes" />
@@ -55,9 +55,21 @@
 
 	<script src="{{asset "built/main.js"}}" defer></script>
 	<script>
+		// Ghost rejects dot-routes, so the old /sw.js/ worker 404s and can never
+		// update — it serves stale CSS/JS forever. Unregister any existing worker
+		// and clear its caches so every visitor self-heals. A root-scoped worker
+		// at /sw/ needs a Service-Worker-Allowed header; re-enable only with that.
 		if ('serviceWorker' in navigator) {
 			window.addEventListener('load', function () {
-				navigator.serviceWorker.register('/sw.js/', { scope: '/' }).catch(function () {});
+				navigator.serviceWorker.getRegistrations().then(function (regs) {
+					if (!regs.length) return;
+					regs.forEach(function (r) { r.unregister(); });
+					if (window.caches && caches.keys) {
+						caches.keys().then(function (keys) {
+							keys.forEach(function (k) { caches.delete(k); });
+						});
+					}
+				}).catch(function () {});
 			});
 		}
 	</script>
