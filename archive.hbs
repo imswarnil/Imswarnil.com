@@ -1,0 +1,105 @@
+{{!< default}}
+
+{{> "components/collection-header" kicker="Everything" title="The Archive" desc="Every post on this site in one stream — articles, videos, courses, projects and more."}}
+
+<div class="container-site py-12">
+	<div class="grid gap-12 lg:grid-cols-12">
+		{{!-- Filter sidebar --}}
+		<aside class="lg:col-span-3">
+			<div class="sticky top-28 space-y-8">
+				<div>
+					<p class="kicker">Browse by type</p>
+					<nav class="mt-4 flex flex-wrap gap-2 lg:flex-col lg:items-start" aria-label="Collections">
+						<a href="{{@site.url}}/archive/" class="chip !border-ink !bg-ink !text-paper">All posts</a>
+						<a href="{{@site.url}}/blog/" class="chip transition hover:border-ink hover:text-ink">Articles</a>
+						<a href="{{@site.url}}/videos/" class="chip transition hover:border-ink hover:text-ink">Videos</a>
+						<a href="{{@site.url}}/courses/" class="chip transition hover:border-ink hover:text-ink">Courses</a>
+						<a href="{{@site.url}}/webseries/" class="chip transition hover:border-ink hover:text-ink">Web series</a>
+						<a href="{{@site.url}}/projects/" class="chip transition hover:border-ink hover:text-ink">Projects</a>
+						<a href="{{@site.url}}/newsletters/" class="chip transition hover:border-ink hover:text-ink">Newsletters</a>
+						<a href="{{@site.url}}/timeline/" class="chip transition hover:border-ink hover:text-ink">Timeline</a>
+						<a href="{{@site.url}}/changelog/" class="chip transition hover:border-ink hover:text-ink">Changelog</a>
+					</nav>
+				</div>
+				<div class="hidden lg:block">
+					{{> "components/adsense" slot="7663977887"}}
+				</div>
+			</div>
+		</aside>
+
+		{{!-- Post rows --}}
+		<div class="lg:col-span-9">
+			<ol id="archive-list" class="divide-y divide-line border-y border-line">
+				{{#foreach posts}}
+				<li class="group">
+					<a href="{{url}}" class="grid gap-1 py-5 sm:grid-cols-[7.5rem_1fr_auto] sm:items-baseline sm:gap-6">
+						<time class="font-mono text-xs text-silver" datetime="{{date published_at format="YYYY-MM-DD"}}">{{date published_at format="DD MMM YYYY"}}</time>
+						<span class="min-w-0">
+							<span class="block text-base font-semibold leading-snug tracking-tight transition group-hover:text-silver">{{title}}</span>
+							<span class="mt-1 block truncate text-sm leading-relaxed text-silver">{{custom_excerpt}}{{^custom_excerpt}}{{excerpt words="20"}}{{/custom_excerpt}}</span>
+						</span>
+						<span class="chip justify-self-start sm:justify-self-end">
+							{{#has tag="#video"}}Video{{else has tag="#course"}}Course{{else has tag="#lesson"}}Lesson{{else has tag="#webseries"}}Series{{else has tag="#episode"}}Episode{{else has tag="#project"}}Project{{else has tag="#product"}}Product{{else has tag="#newsletter"}}Newsletter{{else has tag="#changelog"}}Changelog{{else has tag="#timeline"}}Timeline{{else}}Article{{/has}}
+						</span>
+					</a>
+				</li>
+				{{/foreach}}
+			</ol>
+
+			{{!-- Infinite-scroll sentinel; carries the next-page URL for the loader --}}
+			<div id="archive-more"
+				data-next="{{#if pagination.next}}{{page_url pagination.next}}{{/if}}"
+				class="mt-8 hidden items-center justify-center gap-2 py-4 font-mono text-xs text-silver">
+				<span class="h-2 w-2 animate-ping rounded-full bg-silver"></span> Loading more…
+			</div>
+
+			{{!-- No-JS / error fallback --}}
+			{{> "components/pagination"}}
+		</div>
+	</div>
+</div>
+
+<script>
+	(function () {
+		var list = document.getElementById('archive-list');
+		var more = document.getElementById('archive-more');
+		if (!list || !more || !window.fetch || !('IntersectionObserver' in window)) return;
+		var next = more.getAttribute('data-next');
+		if (!next) return;
+		var pager = document.querySelector('nav[aria-label="Pagination"]');
+		if (pager) pager.style.display = 'none';
+		more.classList.remove('hidden');
+		more.classList.add('flex');
+		var busy = false;
+		function fail() {
+			io.disconnect();
+			more.style.display = 'none';
+			if (pager) pager.style.display = '';
+		}
+		var io = new IntersectionObserver(function (entries) {
+			if (!entries[0].isIntersecting || busy || !next) return;
+			busy = true;
+			fetch(next)
+				.then(function (r) {
+					if (!r.ok) throw new Error(r.status);
+					return r.text();
+				})
+				.then(function (html) {
+					var doc = new DOMParser().parseFromString(html, 'text/html');
+					var incoming = doc.getElementById('archive-list');
+					if (incoming) {
+						while (incoming.firstElementChild) list.appendChild(incoming.firstElementChild);
+					}
+					var sentinel = doc.getElementById('archive-more');
+					next = sentinel ? sentinel.getAttribute('data-next') : '';
+					if (!next) {
+						io.disconnect();
+						more.textContent = '— End of the archive —';
+					}
+					busy = false;
+				})
+				.catch(fail);
+		}, { rootMargin: '600px 0px' });
+		io.observe(more);
+	})();
+</script>

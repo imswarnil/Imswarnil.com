@@ -3,10 +3,70 @@
 {{> "components/collection-header" kicker="The workbench" title="Projects" desc="Things I've designed, built and shipped — from marketing systems to weekend hacks."}}
 
 <section class="container-site py-12">
-	<div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+
+	{{!-- Pinned repositories (featured projects) --}}
+	{{#get "posts" filter="tag:hash-project+featured:true" include="tags" limit="6" as |pinned|}}
+		{{#if pinned}}
+		<div class="mb-12 reveal">
+			<p class="kicker">{{> "icons/star"}} Pinned</p>
+			<div class="mt-4 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+				{{#foreach pinned}}
+					{{> "cards/project"}}
+				{{/foreach}}
+			</div>
+		</div>
+		{{/if}}
+	{{/get}}
+
+	<p class="kicker">{{> "icons/repo"}} All repositories</p>
+	<div class="mt-4 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
 		{{#foreach posts}}
 			{{> "cards/project"}}
 		{{/foreach}}
 	</div>
+
+	{{> "components/adsense" slot="7663977887" format="auto" class="mx-auto max-w-2xl"}}
+
 	{{> "components/pagination"}}
 </section>
+
+{{!-- Derived project links + skill chips.
+     live URL = https://{slug with dashes removed}.imswarnil.com (dashes can't be
+     stripped in handlebars, so hrefs are set here from [data-live-from-slug]).
+     Skill chips are built from internal tag names starting with "#skill-". --}}
+<script>
+	(function () {
+		if (window.__projectLinks) return;
+		window.__projectLinks = true;
+		function init() {
+			document.querySelectorAll('a[data-live-from-slug]').forEach(function (a) {
+				var slug = a.getAttribute('data-live-from-slug') || '';
+				var url = 'https://' + slug.replace(/-/g, '') + '.imswarnil.com';
+				a.href = url;
+				var label = a.querySelector('[data-live-label]');
+				if (label) label.textContent = url.replace('https://', '');
+			});
+			document.querySelectorAll('[data-skill-chips]').forEach(function (box) {
+				if (box.dataset.built) return;
+				box.dataset.built = '1';
+				(box.getAttribute('data-skill-names') || '').split(',').forEach(function (name) {
+					name = name.trim();
+					if (name.indexOf('#skill-') !== 0) return;
+					var label = name.slice(7);
+					var hue = 0;
+					for (var i = 0; i < label.length; i++) hue = (hue * 31 + label.charCodeAt(i)) % 360;
+					var chip = document.createElement('span');
+					chip.className = 'chip';
+					var dot = document.createElement('span');
+					dot.className = 'inline-block h-2 w-2 shrink-0 rounded-full';
+					dot.style.backgroundColor = 'hsl(' + hue + ', 45%, 52%)';
+					chip.appendChild(dot);
+					chip.appendChild(document.createTextNode(' ' + label));
+					box.appendChild(chip);
+				});
+			});
+		}
+		if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+		else init();
+	})();
+</script>

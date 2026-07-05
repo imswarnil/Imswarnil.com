@@ -167,7 +167,17 @@ under Design & branding — fill in your URLs there.
   npm test             (gscan theme validation)
 
 -----------------------------------------------------------------------------
- 10. QUICK CHECKLIST
+ 10. DUMMY CONTENT (data.json)
+-----------------------------------------------------------------------------
+data.json at the theme root is a full demo import pack (54 posts/pages)
+that exercises every theme feature: all collections, duration/skill/event/
+group tags, #now posts, the "hero" slug post, video timestamp chapters,
+course prerequisites, webseries cast, shop items, contact & guestbook pages.
+Import via: Ghost Admin → Settings → Import/Export → Universal import.
+Use it on a TEST site — it will mix with real content otherwise.
+
+-----------------------------------------------------------------------------
+ 11. QUICK CHECKLIST
 -----------------------------------------------------------------------------
  [ ] Upload routes.yaml
  [ ] Set primary + secondary navigation

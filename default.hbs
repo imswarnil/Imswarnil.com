@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{@site.locale}}" class="{{#match @custom.color_scheme "Dark"}}dark{{/match}}">
+<html lang="{{@site.locale}}">
 <head>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -8,6 +8,8 @@
 	<link rel="preload" href="{{asset "vendors/Geist-Variable.woff2"}}" as="font" type="font/woff2" crossorigin />
 	<link rel="stylesheet" href="{{asset "built/screen.css"}}" />
 
+	<link rel="icon" href="{{asset "favicon.svg"}}" type="image/svg+xml" />
+
 	{{!-- PWA --}}
 	<link rel="manifest" href="{{@site.url}}/manifest.json/" />
 	<meta name="theme-color" content="#fafafa" media="(prefers-color-scheme: light)" />
@@ -15,18 +17,26 @@
 	<meta name="apple-mobile-web-app-capable" content="yes" />
 	<meta name="apple-mobile-web-app-title" content="{{@site.title}}" />
 
-	{{!-- Flash-free color scheme --}}
+	{{!-- Flash-free theme mode boot: light | dark | salesforce | youtube | netflix | claude --}}
 	<script>
 		(function () {
-			var pref = localStorage.getItem('swarnil-theme');
-			var scheme = '{{@custom.color_scheme}}';
-			var dark = pref ? pref === 'dark'
-				: scheme === 'Dark' ? true
-				: scheme === 'Light' ? false
-				: matchMedia('(prefers-color-scheme: dark)').matches;
-			document.documentElement.classList.toggle('dark', dark);
+			var MODES = ['light', 'dark', 'salesforce', 'youtube', 'netflix', 'claude'];
+			var DARK_MODES = { dark: 1, youtube: 1, netflix: 1 };
+			var pref = localStorage.getItem('swarnil-mode');
+			var fallback = '{{@custom.color_scheme}}'.toLowerCase();
+			var mode =
+				MODES.indexOf(pref) > -1 ? pref
+				: MODES.indexOf(fallback) > -1 ? fallback
+				: matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+			var root = document.documentElement;
+			root.setAttribute('data-theme', mode);
+			root.classList.toggle('dark', !!DARK_MODES[mode]);
 		})();
 	</script>
+
+	{{#if @custom.enable_adsense}}
+	<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1291242080282540" crossorigin="anonymous"></script>
+	{{/if}}
 
 	{{> "components/json-ld"}}
 	{{ghost_head}}

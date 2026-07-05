@@ -1,0 +1,230 @@
+{{!< default}}
+
+{{> "components/collection-header" kicker="Every corner of the site" title="Visual sitemap" desc="The whole site as one tree — every collection, its latest posts, and where to go for more."}}
+
+<style>
+	.tree-root, .tree-leaves { list-style: none; margin: 0; padding: 0; }
+	.tree-trunk { position: relative; margin-left: 1.25rem; padding-left: 1.75rem; }
+	.tree-root > li { position: relative; padding: .5rem 0; }
+	.tree-root > li::before { content: ""; position: absolute; left: -1.75rem; top: 0; bottom: 0; width: 1px; background: rgb(var(--line)); }
+	.tree-root > li:last-child::before { bottom: auto; height: 2rem; }
+	.tree-root > li::after { content: ""; position: absolute; left: -1.75rem; top: 2rem; width: 1.4rem; height: 1px; background: rgb(var(--line)); }
+	.tree-leaves { position: relative; margin-left: .35rem; padding-left: 1.35rem; }
+	.tree-leaves > li { position: relative; padding: .3rem 0; }
+	.tree-leaves > li::before { content: ""; position: absolute; left: -1.35rem; top: 0; bottom: 0; width: 1px; background: rgb(var(--line)); }
+	.tree-leaves > li:last-child::before { bottom: auto; height: 1.05rem; }
+	.tree-leaves > li::after { content: ""; position: absolute; left: -1.35rem; top: 1.05rem; width: 1rem; height: 1px; background: rgb(var(--line)); }
+	.tree-branch .collapse-title { min-height: 0; }
+</style>
+
+<section class="container-site py-12">
+	<div class="mx-auto max-w-3xl">
+		{{!-- Root node --}}
+		<div class="card-surface inline-flex items-center gap-3 p-4 shadow-card">
+			{{> "components/logo"}}
+		</div>
+
+		<div class="tree-trunk mt-2">
+			{{!-- One branch per collection --}}
+			<ul class="tree-root">
+
+				<li class="tree-branch">
+					<details class="collapse collapse-arrow rounded-2xl border border-line bg-paper" open>
+						<summary class="collapse-title cursor-pointer py-3 pr-12 text-sm font-semibold tracking-tight">Blog <span class="ml-2 font-mono text-[10px] uppercase tracking-widest text-silver">/blog/</span></summary>
+						<div class="collapse-content">
+							<ul class="tree-leaves">
+								{{#get "posts" filter="tag:hash-blog" limit="5" as |items|}}
+									{{#foreach items}}<li><a href="{{url}}" class="text-[13px] text-silver transition hover:text-ink">{{title}}</a></li>{{/foreach}}
+								{{else}}
+									<li><span class="text-[13px] text-silver/60">Nothing here yet</span></li>
+								{{/get}}
+								<li><a href="{{@site.url}}/blog/" class="inline-flex items-center gap-1 text-[13px] font-medium">View all {{> "icons/arrow-right" class="h-3.5 w-3.5"}}</a></li>
+							</ul>
+						</div>
+					</details>
+				</li>
+
+				<li class="tree-branch">
+					<details class="collapse collapse-arrow rounded-2xl border border-line bg-paper">
+						<summary class="collapse-title cursor-pointer py-3 pr-12 text-sm font-semibold tracking-tight">Videos <span class="ml-2 font-mono text-[10px] uppercase tracking-widest text-silver">/videos/</span></summary>
+						<div class="collapse-content">
+							<ul class="tree-leaves">
+								{{#get "posts" filter="tag:hash-video" limit="5" as |items|}}
+									{{#foreach items}}<li><a href="{{url}}" class="text-[13px] text-silver transition hover:text-ink">{{title}}</a></li>{{/foreach}}
+								{{else}}
+									<li><span class="text-[13px] text-silver/60">Nothing here yet</span></li>
+								{{/get}}
+								<li><a href="{{@site.url}}/videos/" class="inline-flex items-center gap-1 text-[13px] font-medium">View all {{> "icons/arrow-right" class="h-3.5 w-3.5"}}</a></li>
+							</ul>
+						</div>
+					</details>
+				</li>
+
+				<li class="tree-branch">
+					<details class="collapse collapse-arrow rounded-2xl border border-line bg-paper">
+						<summary class="collapse-title cursor-pointer py-3 pr-12 text-sm font-semibold tracking-tight">Courses <span class="ml-2 font-mono text-[10px] uppercase tracking-widest text-silver">/courses/</span></summary>
+						<div class="collapse-content">
+							<ul class="tree-leaves">
+								{{#get "posts" filter="tag:hash-course" limit="5" as |items|}}
+									{{#foreach items}}<li><a href="{{url}}" class="text-[13px] text-silver transition hover:text-ink">{{title}}</a></li>{{/foreach}}
+								{{else}}
+									<li><span class="text-[13px] text-silver/60">Nothing here yet</span></li>
+								{{/get}}
+								<li><a href="{{@site.url}}/courses/" class="inline-flex items-center gap-1 text-[13px] font-medium">View all {{> "icons/arrow-right" class="h-3.5 w-3.5"}}</a></li>
+							</ul>
+						</div>
+					</details>
+				</li>
+
+				<li class="tree-branch">
+					<details class="collapse collapse-arrow rounded-2xl border border-line bg-paper">
+						<summary class="collapse-title cursor-pointer py-3 pr-12 text-sm font-semibold tracking-tight">Webseries <span class="ml-2 font-mono text-[10px] uppercase tracking-widest text-silver">/webseries/</span></summary>
+						<div class="collapse-content">
+							<ul class="tree-leaves">
+								{{#get "posts" filter="tag:hash-webseries" limit="5" as |items|}}
+									{{#foreach items}}<li><a href="{{url}}" class="text-[13px] text-silver transition hover:text-ink">{{title}}</a></li>{{/foreach}}
+								{{else}}
+									<li><span class="text-[13px] text-silver/60">Nothing here yet</span></li>
+								{{/get}}
+								<li><a href="{{@site.url}}/webseries/" class="inline-flex items-center gap-1 text-[13px] font-medium">View all {{> "icons/arrow-right" class="h-3.5 w-3.5"}}</a></li>
+							</ul>
+						</div>
+					</details>
+				</li>
+
+				<li class="tree-branch">
+					<details class="collapse collapse-arrow rounded-2xl border border-line bg-paper">
+						<summary class="collapse-title cursor-pointer py-3 pr-12 text-sm font-semibold tracking-tight">Projects <span class="ml-2 font-mono text-[10px] uppercase tracking-widest text-silver">/projects/</span></summary>
+						<div class="collapse-content">
+							<ul class="tree-leaves">
+								{{#get "posts" filter="tag:hash-project" limit="5" as |items|}}
+									{{#foreach items}}<li><a href="{{url}}" class="text-[13px] text-silver transition hover:text-ink">{{title}}</a></li>{{/foreach}}
+								{{else}}
+									<li><span class="text-[13px] text-silver/60">Nothing here yet</span></li>
+								{{/get}}
+								<li><a href="{{@site.url}}/projects/" class="inline-flex items-center gap-1 text-[13px] font-medium">View all {{> "icons/arrow-right" class="h-3.5 w-3.5"}}</a></li>
+							</ul>
+						</div>
+					</details>
+				</li>
+
+				<li class="tree-branch">
+					<details class="collapse collapse-arrow rounded-2xl border border-line bg-paper">
+						<summary class="collapse-title cursor-pointer py-3 pr-12 text-sm font-semibold tracking-tight">Products <span class="ml-2 font-mono text-[10px] uppercase tracking-widest text-silver">/products/</span></summary>
+						<div class="collapse-content">
+							<ul class="tree-leaves">
+								{{#get "posts" filter="tag:hash-product" limit="5" as |items|}}
+									{{#foreach items}}<li><a href="{{url}}" class="text-[13px] text-silver transition hover:text-ink">{{title}}</a></li>{{/foreach}}
+								{{else}}
+									<li><span class="text-[13px] text-silver/60">Nothing here yet</span></li>
+								{{/get}}
+								<li><a href="{{@site.url}}/products/" class="inline-flex items-center gap-1 text-[13px] font-medium">View all {{> "icons/arrow-right" class="h-3.5 w-3.5"}}</a></li>
+							</ul>
+						</div>
+					</details>
+				</li>
+
+				<li class="tree-branch">
+					<details class="collapse collapse-arrow rounded-2xl border border-line bg-paper">
+						<summary class="collapse-title cursor-pointer py-3 pr-12 text-sm font-semibold tracking-tight">Timeline <span class="ml-2 font-mono text-[10px] uppercase tracking-widest text-silver">/timeline/</span></summary>
+						<div class="collapse-content">
+							<ul class="tree-leaves">
+								{{#get "posts" filter="tag:hash-timeline" limit="5" as |items|}}
+									{{#foreach items}}<li><a href="{{url}}" class="text-[13px] text-silver transition hover:text-ink">{{title}}</a></li>{{/foreach}}
+								{{else}}
+									<li><span class="text-[13px] text-silver/60">Nothing here yet</span></li>
+								{{/get}}
+								<li><a href="{{@site.url}}/timeline/" class="inline-flex items-center gap-1 text-[13px] font-medium">View all {{> "icons/arrow-right" class="h-3.5 w-3.5"}}</a></li>
+							</ul>
+						</div>
+					</details>
+				</li>
+
+				<li class="tree-branch">
+					<details class="collapse collapse-arrow rounded-2xl border border-line bg-paper">
+						<summary class="collapse-title cursor-pointer py-3 pr-12 text-sm font-semibold tracking-tight">Changelog <span class="ml-2 font-mono text-[10px] uppercase tracking-widest text-silver">/changelog/</span></summary>
+						<div class="collapse-content">
+							<ul class="tree-leaves">
+								{{#get "posts" filter="tag:hash-changelog" limit="5" as |items|}}
+									{{#foreach items}}<li><a href="{{url}}" class="text-[13px] text-silver transition hover:text-ink">{{title}}</a></li>{{/foreach}}
+								{{else}}
+									<li><span class="text-[13px] text-silver/60">Nothing here yet</span></li>
+								{{/get}}
+								<li><a href="{{@site.url}}/changelog/" class="inline-flex items-center gap-1 text-[13px] font-medium">View all {{> "icons/arrow-right" class="h-3.5 w-3.5"}}</a></li>
+							</ul>
+						</div>
+					</details>
+				</li>
+
+				<li class="tree-branch">
+					<details class="collapse collapse-arrow rounded-2xl border border-line bg-paper">
+						<summary class="collapse-title cursor-pointer py-3 pr-12 text-sm font-semibold tracking-tight">Newsletters <span class="ml-2 font-mono text-[10px] uppercase tracking-widest text-silver">/newsletters/</span></summary>
+						<div class="collapse-content">
+							<ul class="tree-leaves">
+								{{#get "posts" filter="tag:hash-newsletter" limit="5" as |items|}}
+									{{#foreach items}}<li><a href="{{url}}" class="text-[13px] text-silver transition hover:text-ink">{{title}}</a></li>{{/foreach}}
+								{{else}}
+									<li><span class="text-[13px] text-silver/60">Nothing here yet</span></li>
+								{{/get}}
+								<li><a href="{{@site.url}}/newsletters/" class="inline-flex items-center gap-1 text-[13px] font-medium">View all {{> "icons/arrow-right" class="h-3.5 w-3.5"}}</a></li>
+							</ul>
+						</div>
+					</details>
+				</li>
+
+				<li class="tree-branch">
+					<details class="collapse collapse-arrow rounded-2xl border border-line bg-paper">
+						<summary class="collapse-title cursor-pointer py-3 pr-12 text-sm font-semibold tracking-tight">Shop <span class="ml-2 font-mono text-[10px] uppercase tracking-widest text-silver">/shop/</span></summary>
+						<div class="collapse-content">
+							<ul class="tree-leaves">
+								{{#get "posts" filter="tag:hash-shop" limit="5" as |items|}}
+									{{#foreach items}}<li><a href="{{url}}" class="text-[13px] text-silver transition hover:text-ink">{{title}}</a></li>{{/foreach}}
+								{{else}}
+									<li><span class="text-[13px] text-silver/60">Nothing here yet</span></li>
+								{{/get}}
+								<li><a href="{{@site.url}}/shop/" class="inline-flex items-center gap-1 text-[13px] font-medium">View all {{> "icons/arrow-right" class="h-3.5 w-3.5"}}</a></li>
+							</ul>
+						</div>
+					</details>
+				</li>
+
+				<li class="tree-branch">
+					<details class="collapse collapse-arrow rounded-2xl border border-line bg-paper">
+						<summary class="collapse-title cursor-pointer py-3 pr-12 text-sm font-semibold tracking-tight">Pages <span class="ml-2 font-mono text-[10px] uppercase tracking-widest text-silver">/*</span></summary>
+						<div class="collapse-content">
+							<ul class="tree-leaves">
+								{{#get "pages" limit="5" as |items|}}
+									{{#foreach items}}<li><a href="{{url}}" class="text-[13px] text-silver transition hover:text-ink">{{title}}</a></li>{{/foreach}}
+								{{else}}
+									<li><span class="text-[13px] text-silver/60">Nothing here yet</span></li>
+								{{/get}}
+								<li><a href="{{@site.url}}/sitemap.xml" class="inline-flex items-center gap-1 text-[13px] font-medium">Full XML sitemap {{> "icons/arrow-right" class="h-3.5 w-3.5"}}</a></li>
+							</ul>
+						</div>
+					</details>
+				</li>
+
+			</ul>
+		</div>
+	</div>
+</section>
+
+<script type="application/ld+json">
+{
+	"@context": "https://schema.org",
+	"@type": "ItemList",
+	"name": "Site navigation",
+	"itemListElement": [
+		{ "@type": "SiteNavigationElement", "position": 1, "name": "Blog", "url": "{{@site.url}}/blog/" },
+		{ "@type": "SiteNavigationElement", "position": 2, "name": "Videos", "url": "{{@site.url}}/videos/" },
+		{ "@type": "SiteNavigationElement", "position": 3, "name": "Courses", "url": "{{@site.url}}/courses/" },
+		{ "@type": "SiteNavigationElement", "position": 4, "name": "Webseries", "url": "{{@site.url}}/webseries/" },
+		{ "@type": "SiteNavigationElement", "position": 5, "name": "Projects", "url": "{{@site.url}}/projects/" },
+		{ "@type": "SiteNavigationElement", "position": 6, "name": "Products", "url": "{{@site.url}}/products/" },
+		{ "@type": "SiteNavigationElement", "position": 7, "name": "Timeline", "url": "{{@site.url}}/timeline/" },
+		{ "@type": "SiteNavigationElement", "position": 8, "name": "Changelog", "url": "{{@site.url}}/changelog/" },
+		{ "@type": "SiteNavigationElement", "position": 9, "name": "Newsletters", "url": "{{@site.url}}/newsletters/" },
+		{ "@type": "SiteNavigationElement", "position": 10, "name": "Shop", "url": "{{@site.url}}/shop/" }
+	]
+}
+</script>

@@ -50,10 +50,29 @@
 				"options": [
 					"System",
 					"Light",
-					"Dark"
+					"Dark",
+					"Salesforce",
+					"YouTube",
+					"Netflix",
+					"Claude"
 				],
 				"default": "System",
-				"description": "Default color scheme. Visitors can still toggle."
+				"description": "Default theme mode. Visitors can still switch."
+			},
+			"enable_adsense": {
+				"type": "boolean",
+				"default": false,
+				"description": "Show Google AdSense ads across the site"
+			},
+			"youtube_url": {
+				"type": "text",
+				"default": "https://www.youtube.com/@imswarnil",
+				"description": "YouTube channel URL for subscribe CTAs"
+			},
+			"topmate_url": {
+				"type": "text",
+				"default": "https://topmate.io/imswarnil",
+				"description": "Topmate scheduling link shown on contact page"
 			},
 			"job_title": {
 				"type": "text",
@@ -89,11 +108,8 @@
 			},
 			"adsense_publisher_id": {
 				"type": "text",
-				"description": "ca-pub-XXXXXXXX. Leave empty to show styled placeholders instead of ads."
-			},
-			"adsense_slot_id": {
-				"type": "text",
-				"description": "Default ad slot id used by in-layout ad units"
+				"default": "ca-pub-1291242080282540",
+				"description": "AdSense publisher ID. Empty = styled placeholders instead of ads."
 			},
 			"newsletter_title": {
 				"type": "text",

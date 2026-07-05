@@ -1,18 +1,29 @@
-{{!-- AdSense unit. Renders a live ad when a publisher id is configured,
-     otherwise a tasteful placeholder that shows where the ad will sit. --}}
-{{#if @custom.adsense_publisher_id}}
-	<div class="ad-unit my-10 overflow-hidden rounded-2xl border border-line bg-mist/40 text-center">
+{{!-- AdSense unit — parameterized. Usage:
+       {{> "components/adsense" slot="8939839370" format="auto"}}
+       {{> "components/adsense" slot="6501428979" layout="in-article" format="fluid"}}
+       {{> "components/adsense" slot="9130894804" format="fluid" layoutKey="-6t+ed+2i-1n-4w"}}  (in-feed)
+       {{> "components/adsense" slot="6808134701" format="autorelaxed"}}                        (multiplex)
+     Slots (publisher ca-pub-1291242080282540):
+       6501428979 in-article    8939839370 horizontal-responsive
+       3487917390 vertical-responsive       7663977887 square-responsive
+       9130894804 in-feed       6808134701 multiplex-h   3375031396 multiplex-v
+       9619442326 medium-square 2712169578 large-skyscraper
+     Renders only when "Enable AdSense" theme setting is on; placeholder otherwise. --}}
+{{#if @custom.enable_adsense}}
+	<div class="ad-unit my-10 overflow-hidden rounded-2xl border border-line bg-mist/40 text-center {{class}}">
 		<p class="pt-2 font-mono text-[10px] uppercase tracking-[0.3em] text-silver">Advertisement</p>
 		<ins class="adsbygoogle block"
-			data-ad-client="{{@custom.adsense_publisher_id}}"
-			data-ad-slot="{{@custom.adsense_slot_id}}"
-			data-ad-format="auto"
+			data-ad-client="{{#if @custom.adsense_publisher_id}}{{@custom.adsense_publisher_id}}{{else}}ca-pub-1291242080282540{{/if}}"
+			data-ad-slot="{{#if slot}}{{slot}}{{else}}8939839370{{/if}}"
+			{{#if layout}}data-ad-layout="{{layout}}"{{/if}}
+			{{#if layoutKey}}data-ad-layout-key="{{layoutKey}}"{{/if}}
+			data-ad-format="{{#if format}}{{format}}{{else}}auto{{/if}}"
 			data-full-width-responsive="true"></ins>
 		<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
 	</div>
 {{else}}
-	<div class="my-10 flex flex-col items-center justify-center gap-2 rounded-2xl border border-dashed border-line bg-cross py-10" aria-hidden="true">
+	<div class="my-10 flex flex-col items-center justify-center gap-2 rounded-2xl border border-dashed border-line bg-cross py-10 {{class}}" aria-hidden="true">
 		<p class="font-mono text-[10px] uppercase tracking-[0.3em] text-silver">Ad placeholder</p>
-		<p class="text-xs text-silver/70">Set your AdSense ID in theme settings</p>
+		<p class="text-xs text-silver/70">Enable AdSense in theme settings</p>
 	</div>
 {{/if}}

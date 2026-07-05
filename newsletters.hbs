@@ -1,21 +1,153 @@
 {{!< default}}
 
-{{> "components/collection-header" kicker="The Signal" title="Newsletter archive" desc="Every issue of The Signal — read online, then subscribe so the next one finds you first."}}
+{{!-- /newsletters — The Signal archive. Hero with animated envelope + subscribe,
+     issues rendered as emails inside mac windows, sponsor banner, pagination. --}}
 
-<section class="container-site py-12">
-	<div class="mx-auto max-w-3xl space-y-4">
-		{{#foreach posts}}
-		<article class="card-surface group p-6">
-			<a href="{{url}}" class="block">
-				<div class="flex items-center justify-between gap-4">
-					<p class="font-mono text-xs text-silver">Issue · {{date published_at format="DD MMM YYYY"}}</p>
-					{{> "icons/arrow-up-right" class="text-silver transition group-hover:text-ink"}}
+<style>
+	/* Envelope scene — gentle float, flap breathes, letter peeks out */
+	@keyframes nl-float { from { transform: translateY(0); } to { transform: translateY(-10px); } }
+	@keyframes nl-peek { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-14px); } }
+	@keyframes nl-twinkle { 0%, 100% { opacity: .25; transform: scale(.8); } 50% { opacity: 1; transform: scale(1.1); } }
+	.nl-scene { animation: nl-float 4.5s ease-in-out infinite alternate; }
+	.nl-letter { animation: nl-peek 5s ease-in-out infinite; }
+	.nl-spark { animation: nl-twinkle 3.2s ease-in-out infinite; }
+	.nl-spark-2 { animation-delay: 1.4s; }
+
+	/* Members form states — Ghost Portal toggles .loading/.success/.error on the form */
+	.nl-form [data-members-success],
+	.nl-form [data-members-error] { display: none; }
+	.nl-form.success [data-members-success] { display: flex; }
+	.nl-form.error [data-members-error] { display: block; }
+	.nl-form.success .nl-form-fields { display: none; }
+	.nl-form.loading button[type='submit'] { opacity: .6; pointer-events: none; }
+
+	/* Paper plane takes off when the subscription succeeds */
+	@keyframes nl-fly {
+		0% { opacity: 0; transform: translate(0, 8px) rotate(12deg) scale(.7); }
+		20% { opacity: 1; }
+		100% { opacity: 0; transform: translate(180px, -90px) rotate(-8deg) scale(1.05); }
+	}
+	@keyframes nl-pop { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+	.nl-plane { opacity: 0; pointer-events: none; }
+	.nl-form.success .nl-plane { animation: nl-fly 1s cubic-bezier(.3, .7, .4, 1) both; }
+	.nl-form.success [data-members-success] { animation: nl-pop .5s ease .35s both; }
+
+	@media (prefers-reduced-motion: reduce) {
+		.nl-scene, .nl-letter, .nl-spark, .nl-form.success .nl-plane, .nl-form.success [data-members-success] { animation: none; }
+		.nl-form.success .nl-plane { opacity: 0; }
+	}
+</style>
+
+{{!-- ============================== HERO ============================== --}}
+<header class="relative overflow-hidden border-b border-line py-16 sm:py-20">
+	<div class="bg-grid pointer-events-none absolute inset-0 fade-mask-b" aria-hidden="true"></div>
+	<div class="container-site relative">
+		<div class="grid items-center gap-12 lg:grid-cols-12">
+			<div class="lg:col-span-7">
+				<p class="kicker animate-fade-in">{{> "icons/mail"}} Newsletter</p>
+				<h1 class="mt-3 max-w-2xl text-4xl font-semibold tracking-tight sm:text-5xl text-balance animate-fade-up">{{#if @custom.newsletter_title}}{{@custom.newsletter_title}}{{else}}The Signal{{/if}}</h1>
+				<p class="mt-5 max-w-xl text-lg leading-relaxed text-silver animate-fade-in" style="animation-delay:.15s">One carefully packed email at a time — engineering notes, Salesforce field reports and the occasional detour. Read the archive below, or subscribe and get the next issue before anyone else.</p>
+
+				{{#if @site.members_enabled}}
+				<form data-members-form class="nl-form relative mt-8 max-w-md animate-fade-in" style="animation-delay:.25s">
+					<div class="nl-form-fields flex overflow-hidden rounded-full border border-line bg-paper shadow-card transition focus-within:border-ink">
+						<input type="email" name="email" data-members-email placeholder="you@email.com" required class="w-full bg-transparent px-5 py-3 text-sm outline-none placeholder:text-silver" aria-label="Email address" />
+						<button type="submit" class="flex shrink-0 items-center gap-2 bg-ink px-5 text-sm font-medium text-paper transition hover:opacity-85">{{> "icons/mail"}} Subscribe</button>
+					</div>
+					<p data-members-success class="items-center gap-2 rounded-full border border-line bg-mist px-5 py-3 text-sm font-medium">{{> "icons/check" class="text-accent"}} Check your inbox — your first issue is on its way!</p>
+					<p data-members-error class="mt-2 text-xs text-red-500">Something went wrong — try again.</p>
+					{{!-- paper plane that launches on success --}}
+					<svg class="nl-plane absolute -right-6 -top-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4Z"/></svg>
+				</form>
+				{{else}}
+				<a href="{{@site.url}}/rss/" class="btn-primary mt-8">{{> "icons/rss"}} Follow via RSS</a>
+				{{/if}}
+			</div>
+
+			{{!-- Floating envelope illustration --}}
+			<div class="hidden lg:col-span-5 lg:flex lg:justify-center" aria-hidden="true">
+				<div class="nl-scene relative">
+					<svg viewBox="0 0 260 210" class="w-64 sm:w-80">
+						{{!-- letter peeking out --}}
+						<g class="nl-letter">
+							<rect x="62" y="36" width="136" height="100" rx="8" class="fill-paper stroke-ink" stroke-width="2.5" />
+							<line x1="80" y1="60" x2="180" y2="60" class="stroke-ink" stroke-width="3.5" stroke-linecap="round" />
+							<line x1="80" y1="76" x2="164" y2="76" class="stroke-silver" stroke-width="3" stroke-linecap="round" />
+							<line x1="80" y1="90" x2="172" y2="90" class="stroke-silver" stroke-width="3" stroke-linecap="round" />
+						</g>
+						{{!-- envelope pocket --}}
+						<path d="M40 100 h180 v76 a10 10 0 0 1 -10 10 h-160 a10 10 0 0 1 -10 -10 Z" class="fill-mist stroke-ink" stroke-width="2.5" stroke-linejoin="round" />
+						<path d="M40 102 l90 56 90 -56" fill="none" class="stroke-ink" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+						<path d="M44 184 l64 -40 M216 184 l-64 -40" fill="none" class="stroke-silver" stroke-width="2" stroke-linecap="round" />
+					</svg>
+					<span class="nl-spark absolute -left-6 top-6 text-silver">{{> "icons/sparkle"}}</span>
+					<span class="nl-spark nl-spark-2 absolute -right-4 bottom-10 text-silver">{{> "icons/sparkle"}}</span>
 				</div>
-				<h2 class="mt-2 text-xl font-semibold tracking-tight">{{title}}</h2>
-				<p class="mt-2 line-clamp-2 text-sm leading-relaxed text-silver">{{custom_excerpt}}{{^custom_excerpt}}{{excerpt words="30"}}{{/custom_excerpt}}</p>
+			</div>
+		</div>
+	</div>
+</header>
+
+{{!-- ============================ ISSUE GRID ============================ --}}
+<section class="container-site py-14">
+	<div class="flex items-end justify-between gap-4">
+		<h2 class="section-title">The archive</h2>
+		<p class="font-mono text-xs text-silver">newest first</p>
+	</div>
+
+	<div class="mt-8 grid gap-8 md:grid-cols-2">
+		{{#foreach posts}}
+		<article class="reveal">
+			<a href="{{url}}" class="group block h-full">
+				<div class="mockup-window before:hidden !pt-0 h-full overflow-hidden rounded-2xl border border-line bg-paper shadow-card transition-all duration-300 group-hover:-translate-y-1 group-hover:shadow-lift">
+					{{!-- mac title bar --}}
+					<div class="flex items-center gap-2 border-b border-line bg-mist/60 px-4 py-3">
+						<span class="h-3 w-3 rounded-full bg-[#ff5f57]" aria-hidden="true"></span>
+						<span class="h-3 w-3 rounded-full bg-[#febc2e]" aria-hidden="true"></span>
+						<span class="h-3 w-3 rounded-full bg-[#28c840]" aria-hidden="true"></span>
+						<p class="ml-3 min-w-0 flex-1 truncate text-center font-mono text-[11px] text-silver">{{title}} — Inbox</p>
+						{{> "icons/arrow-up-right" class="shrink-0 text-silver transition group-hover:text-ink"}}
+					</div>
+
+					{{!-- email header --}}
+					<div class="space-y-1.5 border-b border-line px-5 py-4 text-[13px] leading-6">
+						<p><span class="mr-2 inline-block w-14 font-mono text-[10px] uppercase tracking-[0.18em] text-silver">From</span><span class="font-medium">Swarnil</span> <span class="text-silver">&lt;hello@imswarnil.com&gt;</span></p>
+						<p><span class="mr-2 inline-block w-14 font-mono text-[10px] uppercase tracking-[0.18em] text-silver">To</span>You <span class="chip !py-0.5">star reader</span></p>
+						<p class="flex items-baseline"><span class="mr-2 inline-block w-14 shrink-0 font-mono text-[10px] uppercase tracking-[0.18em] text-silver">Subject</span><span class="line-clamp-1 text-base font-semibold tracking-tight">{{title}}</span></p>
+						<p><span class="mr-2 inline-block w-14 font-mono text-[10px] uppercase tracking-[0.18em] text-silver">Date</span><span class="text-silver">{{date published_at format="ddd, DD MMM YYYY"}}</span></p>
+					</div>
+
+					{{!-- email body preview --}}
+					{{#if feature_image}}
+					<img src="{{img_url feature_image size="600"}}" alt="{{#if feature_image_alt}}{{feature_image_alt}}{{else}}{{title}}{{/if}}" loading="lazy" class="h-40 w-full border-b border-line object-cover" />
+					{{/if}}
+					<div class="px-5 py-4">
+						<p class="line-clamp-3 text-sm leading-relaxed text-silver">{{custom_excerpt}}{{^custom_excerpt}}{{excerpt words="34"}}{{/custom_excerpt}}</p>
+						<p class="mt-4 flex items-center justify-between font-mono text-[11px] text-silver">
+							<span>{{reading_time}}</span>
+							<span class="inline-flex items-center gap-1 font-medium text-ink">Open issue {{> "icons/arrow-right"}}</span>
+						</p>
+					</div>
+				</div>
 			</a>
 		</article>
 		{{/foreach}}
 	</div>
-	<div class="mx-auto max-w-3xl">{{> "components/pagination"}}</div>
+
+	{{> "components/adsense" slot="8939839370" format="auto"}}
+
+	{{!-- Sponsor banner --}}
+	<a href="{{@site.url}}/sponsor/" class="group relative mt-4 block overflow-hidden rounded-[2rem] border border-line bg-ink p-10 text-paper shadow-lift transition-transform duration-300 hover:-translate-y-1 sm:p-12">
+		<div class="bg-dots pointer-events-none absolute inset-0 opacity-20" aria-hidden="true"></div>
+		<div class="relative flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-center">
+			<div>
+				<p class="kicker !text-paper/60">{{> "icons/zap"}} Sponsor my newsletter</p>
+				<h2 class="mt-3 max-w-xl text-2xl font-semibold tracking-tight sm:text-3xl">Add your brand to my newsletter</h2>
+				<p class="mt-2 max-w-lg text-sm leading-relaxed opacity-70">Every issue lands in the inbox of people who build things. Yours could be the tool they open next.</p>
+			</div>
+			<span class="btn shrink-0 bg-paper text-ink transition group-hover:opacity-90">See placements &amp; rates {{> "icons/arrow-right"}}</span>
+		</div>
+	</a>
+
+	{{> "components/pagination"}}
 </section>

@@ -1,12 +1,35 @@
 {{!< default}}
 
-{{> "components/collection-header" kicker="Now streaming" title="Episodes" desc="Every episode across all webseries, newest first."}}
+{{!-- Rarely-surfaced index of every episode, grouped by series.
+     Each group links to its series page at /webseries/{series-slug}/. --}}
+{{> "components/collection-header" kicker="Now streaming" title="Episodes" desc="Every episode, grouped by series. Head to a series page for the full experience."}}
 
 <section class="container-site py-12">
-	<ol class="mx-auto max-w-3xl space-y-3">
-		{{#foreach posts}}
-			{{> "cards/episode"}}
-		{{/foreach}}
-	</ol>
-	{{> "components/pagination"}}
+	<div class="mx-auto max-w-3xl space-y-14">
+		{{#get "posts" filter="tag:hash-webseries" order="published_at desc" limit="50" as |series|}}
+			{{#if series}}
+				{{#foreach series}}
+					<section>
+						<div class="flex flex-wrap items-baseline justify-between gap-3">
+							<h2 class="section-title">{{title}}</h2>
+							<a href="{{url}}" class="flex items-center gap-1.5 text-sm font-medium text-silver transition hover:gap-2.5 hover:text-ink">Series page {{> "icons/arrow-right"}}</a>
+						</div>
+						{{#get "posts" filter="tag:hash-episode+tag:{primary_tag.slug}" order="published_at asc" limit="50" as |eps|}}
+							{{#if eps}}
+								<ol class="mt-5 space-y-3">
+									{{#foreach eps}}
+										<li>{{> "cards/episode" num=@number}}</li>
+									{{/foreach}}
+								</ol>
+							{{else}}
+								<p class="mt-5 rounded-2xl border border-dashed border-line p-6 text-center text-sm text-silver">No episodes yet.</p>
+							{{/if}}
+						{{/get}}
+					</section>
+				{{/foreach}}
+			{{else}}
+				<p class="rounded-2xl border border-dashed border-line p-10 text-center text-sm text-silver">No webseries yet — tag a post <code class="rounded bg-mist px-1 font-mono text-xs">#webseries</code> to start one.</p>
+			{{/if}}
+		{{/get}}
+	</div>
 </section>

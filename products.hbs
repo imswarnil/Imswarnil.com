@@ -1,31 +1,91 @@
 {{!< default}}
 
-{{> "components/collection-header" kicker="The toolkit" title="Products I use" desc="Hardware, software and services I actually pay for — grouped by what they do, reviewed honestly."}}
+{{!-- /products — "Things I use", grouped by internal #group-* section tags.
+     Known groups: services, my-setup, skin-care, travel.
+     Final section shows only UNGROUPED products (negated filter excludes the four
+     known groups), so items never repeat across shelves. New #group-* tags need a
+     new block here AND in the exclusion filter below. --}}
+
+{{> "components/collection-header" kicker="The toolkit" title="Things I use" desc="Hardware, software and services I actually pay for — grouped by what they do, reviewed honestly."}}
 
 <section class="container-site py-12">
-	{{!-- Grouped by public tag (category) --}}
-	{{#get "tags" limit="8" order="count.posts desc" include="count.posts" as |cats|}}
-		{{#foreach cats}}
-			{{#get "posts" filter="tag:hash-product+tag:{slug}" limit="8" include="tags" as |items|}}
-				{{#if items}}
-				<div class="mb-12">
-					<h2 class="kicker mb-5">{{name}}</h2>
-					<div class="grid gap-4 sm:grid-cols-2">
-						{{#foreach items}}
-							{{> "cards/product"}}
-						{{/foreach}}
-					</div>
-				</div>
-				{{/if}}
-			{{/get}}
-		{{/foreach}}
+
+	{{!-- Services --}}
+	{{#get "posts" filter="tag:hash-product+tag:hash-group-services" limit="12" include="tags" as |items|}}
+		{{#if items}}
+		<div class="reveal mb-14">
+			<p class="kicker">{{> "icons/zap"}} Section</p>
+			<h2 class="section-title mt-2">Services I use</h2>
+			<div class="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+				{{#foreach items}}
+					{{> "cards/product"}}
+				{{/foreach}}
+			</div>
+		</div>
+		{{/if}}
 	{{/get}}
 
-	<p class="kicker mb-5 mt-4">Everything</p>
-	<div class="grid gap-4 sm:grid-cols-2">
-		{{#foreach posts}}
-			{{> "cards/product"}}
-		{{/foreach}}
-	</div>
-	{{> "components/pagination"}}
+	{{!-- My setup --}}
+	{{#get "posts" filter="tag:hash-product+tag:hash-group-my-setup" limit="12" include="tags" as |items|}}
+		{{#if items}}
+		<div class="reveal mb-14">
+			<p class="kicker">{{> "icons/terminal"}} Section</p>
+			<h2 class="section-title mt-2">My setup</h2>
+			<div class="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+				{{#foreach items}}
+					{{> "cards/product"}}
+				{{/foreach}}
+			</div>
+			{{> "components/adsense" slot="7663977887" format="auto"}}
+		</div>
+		{{/if}}
+	{{/get}}
+
+	{{!-- Skin care --}}
+	{{#get "posts" filter="tag:hash-product+tag:hash-group-skin-care" limit="12" include="tags" as |items|}}
+		{{#if items}}
+		<div class="reveal mb-14">
+			<p class="kicker">{{> "icons/heart"}} Section</p>
+			<h2 class="section-title mt-2">Skin care</h2>
+			<div class="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+				{{#foreach items}}
+					{{> "cards/product"}}
+				{{/foreach}}
+			</div>
+		</div>
+		{{/if}}
+	{{/get}}
+
+	{{!-- Travel kit --}}
+	{{#get "posts" filter="tag:hash-product+tag:hash-group-travel" limit="12" include="tags" as |items|}}
+		{{#if items}}
+		<div class="reveal mb-14">
+			<p class="kicker">{{> "icons/sparkle"}} Section</p>
+			<h2 class="section-title mt-2">Travel kit</h2>
+			<div class="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+				{{#foreach items}}
+					{{> "cards/product"}}
+				{{/foreach}}
+			</div>
+			{{> "components/adsense" slot="7663977887" format="auto"}}
+		</div>
+		{{/if}}
+	{{/get}}
+
+	{{!-- Everything else — products with NO known #group-* tag (grouped items excluded above) --}}
+	{{#get "posts" filter="tag:hash-product+tag:-[hash-group-services,hash-group-my-setup,hash-group-skin-care,hash-group-travel]" limit="12" include="tags" as |items|}}
+		{{#if items}}
+		<div class="reveal mb-14">
+			<p class="kicker">{{> "icons/check"}} Section</p>
+			<h2 class="section-title mt-2">Everything else</h2>
+			<div class="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+				{{#foreach items}}
+					{{> "cards/product"}}
+				{{/foreach}}
+			</div>
+		</div>
+		{{/if}}
+	{{/get}}
+
+	{{> "components/adsense" slot="6808134701" format="autorelaxed"}}
 </section>

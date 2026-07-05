@@ -1,40 +1,241 @@
 {{!< default}}
 
+{{!-- /sponsor — pitch page: placements (email / video / site mockups),
+     rates, audience stats, CTA. Rate + stat numbers are placeholders:
+     search for "EDIT:" comments below to update them. --}}
+
+<style>
+	@keyframes sp-blink { 0%, 100% { opacity: 1; } 50% { opacity: .35; } }
+	.sp-live-dot { animation: sp-blink 1.6s ease-in-out infinite; }
+	@media (prefers-reduced-motion: reduce) { .sp-live-dot { animation: none; } }
+</style>
+
 {{#post}}
 <article class="{{post_class}}">
-	{{> "components/collection-header" kicker="Work with me" title=title desc=custom_excerpt}}
 
-	<div class="container-site py-12">
-		<div class="mx-auto max-w-4xl">
-			{{!-- Placement menu --}}
-			<div class="grid gap-6 sm:grid-cols-3">
-				<div class="card-surface p-6 text-center">
-					<p class="kicker justify-center">{{> "icons/mail"}} Newsletter</p>
-					<p class="mt-3 text-3xl font-semibold tracking-tight">Sponsor<br/>an issue</p>
-					<p class="mt-3 text-sm text-silver">Your product, top of The Signal, read start-to-finish.</p>
-				</div>
-				<div class="card-surface p-6 text-center">
-					<p class="kicker justify-center">{{> "icons/film"}} Video</p>
-					<p class="mt-3 text-3xl font-semibold tracking-tight">30s<br/>integration</p>
-					<p class="mt-3 text-sm text-silver">A native mention inside a video, scripted with you.</p>
-				</div>
-				<div class="card-surface p-6 text-center">
-					<p class="kicker justify-center">{{> "icons/zap"}} Site</p>
-					<p class="mt-3 text-3xl font-semibold tracking-tight">30-day<br/>placement</p>
-					<p class="mt-3 text-sm text-silver">A clean, labeled unit across high-traffic pages.</p>
-				</div>
-			</div>
-
-			<div class="gh-content mt-14">
-				{{content}}
-			</div>
-
-			<div class="mt-12 rounded-[2rem] border border-line bg-ink p-10 text-center text-paper shadow-lift">
-				<h2 class="text-2xl font-semibold tracking-tight sm:text-3xl">Let's make something worth framing</h2>
-				<p class="mx-auto mt-3 max-w-md text-sm opacity-70">Tell me about your product and audience — I reply to every serious pitch within 48 hours.</p>
-				<a href="mailto:{{@custom.sponsor_email}}?subject=Sponsorship%20inquiry" class="btn mt-6 bg-paper text-ink hover:opacity-90 !px-7 !py-3">{{> "icons/mail"}} {{@custom.sponsor_email}}</a>
+	{{!-- ============================== HERO ============================== --}}
+	<header class="relative overflow-hidden border-b border-line py-16 sm:py-20">
+		<div class="bg-grid pointer-events-none absolute inset-0 fade-mask-b" aria-hidden="true"></div>
+		<div class="container-site relative">
+			<p class="kicker animate-fade-in">{{> "icons/zap"}} Work with me</p>
+			<h1 class="mt-3 max-w-3xl text-4xl font-semibold tracking-tight sm:text-5xl text-balance animate-fade-up">Put your brand in front of my audience</h1>
+			<p class="mt-5 max-w-xl text-lg leading-relaxed text-silver animate-fade-in" style="animation-delay:.15s">{{#if custom_excerpt}}{{custom_excerpt}}{{else}}Newsletter, YouTube and this site — three places where developers and Salesforce folks actually pay attention. Pick the one that fits your product.{{/if}}</p>
+			<div class="mt-8 flex flex-wrap items-center gap-3 animate-fade-in" style="animation-delay:.25s">
+				<a href="mailto:{{@custom.sponsor_email}}?subject=Sponsorship%20inquiry" class="btn-primary">{{> "icons/mail"}} Pitch your product</a>
+				<a href="#rates" class="btn-ghost">See rates {{> "icons/chevron-down"}}</a>
 			</div>
 		</div>
-	</div>
+	</header>
+
+	{{!-- ============================ PLACEMENTS ============================ --}}
+	<section id="placements" class="container-site py-14">
+		<p class="kicker">Placements</p>
+		<h2 class="section-title mt-2">Where your brand shows up</h2>
+
+		<div class="mt-8 grid gap-8 lg:grid-cols-3">
+
+			{{!-- 1 · Newsletter slot --}}
+			<div class="card-surface reveal flex flex-col p-6">
+				<p class="kicker">{{> "icons/mail"}} Newsletter slot</p>
+				<div class="mockup-window before:hidden !pt-0 mt-5 overflow-hidden rounded-xl border border-line bg-paper text-left shadow-card">
+					<div class="flex items-center gap-1.5 border-b border-line bg-mist/60 px-3 py-2">
+						<span class="h-2.5 w-2.5 rounded-full bg-[#ff5f57]"></span>
+						<span class="h-2.5 w-2.5 rounded-full bg-[#febc2e]"></span>
+						<span class="h-2.5 w-2.5 rounded-full bg-[#28c840]"></span>
+						<p class="flex-1 truncate text-center font-mono text-[10px] text-silver">The Signal — Inbox</p>
+					</div>
+					<div class="space-y-2 px-4 py-4" aria-hidden="true">
+						<div class="h-2.5 w-3/4 rounded bg-ink/70"></div>
+						<div class="h-2 w-full rounded bg-line"></div>
+						<div class="h-2 w-5/6 rounded bg-line"></div>
+						<div class="my-3 rounded-lg border-2 border-dashed border-accent bg-accent/5 px-3 py-4 text-center">
+							<p class="font-mono text-[10px] font-semibold uppercase tracking-[0.2em] text-accent">Your brand here</p>
+							<p class="mt-1 text-[11px] text-silver">logo · 2–3 lines · your link</p>
+						</div>
+						<div class="h-2 w-full rounded bg-line"></div>
+						<div class="h-2 w-2/3 rounded bg-line"></div>
+					</div>
+				</div>
+				<p class="mt-4 font-mono text-[11px] text-silver">↑ a clearly-marked sponsor block, high in the issue</p>
+				<p class="mt-3 text-sm leading-relaxed text-silver">Your product inside {{#if @custom.newsletter_title}}{{@custom.newsletter_title}}{{else}}The Signal{{/if}}, written in my voice and read start-to-finish — not skimmed past like a display ad.</p>
+			</div>
+
+			{{!-- 2 · YouTube pre-roll --}}
+			<div class="card-surface reveal flex flex-col p-6">
+				<p class="kicker">{{> "icons/youtube"}} YouTube integration</p>
+				<div class="relative mt-5 overflow-hidden rounded-xl border border-line bg-zinc-900 shadow-card">
+					<div class="relative aspect-video">
+						<span class="absolute left-3 top-3 inline-flex items-center gap-1.5 rounded-full bg-black/70 px-2.5 py-1 font-mono text-[10px] font-semibold uppercase tracking-wider text-white"><span class="sp-live-dot h-1.5 w-1.5 rounded-full bg-[#febc2e]"></span> Ad · Your brand · 0:30</span>
+						<div class="absolute inset-0 grid place-items-center">
+							<span class="grid h-12 w-12 place-items-center rounded-full bg-white/15 text-white backdrop-blur">{{> "icons/play"}}</span>
+						</div>
+						{{!-- progress bar with sponsor segment marked --}}
+						<div class="absolute inset-x-3 bottom-3" aria-hidden="true">
+							<div class="h-1 overflow-hidden rounded-full bg-white/25">
+								<div class="flex h-full">
+									<div class="w-[12%] bg-[#febc2e]"></div>
+									<div class="w-[26%] bg-white/80"></div>
+								</div>
+							</div>
+							<p class="mt-1.5 font-mono text-[10px] text-white/70">your 30s, up front — before the tutorial starts</p>
+						</div>
+					</div>
+				</div>
+				<p class="mt-4 font-mono text-[11px] text-silver">↑ the yellow segment is your slot on the timeline</p>
+				<p class="mt-3 text-sm leading-relaxed text-silver">A native pre-roll mention scripted with you — demo, use-case, honest take — inside tutorials people rewatch for months.</p>
+			</div>
+
+			{{!-- 3 · Site banner --}}
+			<div class="card-surface reveal flex flex-col p-6">
+				<p class="kicker">{{> "icons/terminal"}} Site banner</p>
+				<div class="mockup-browser mt-5 overflow-hidden rounded-xl border border-line bg-paper shadow-card">
+					<div class="mockup-browser-toolbar">
+						<div class="input !w-40 border border-line bg-mist font-mono text-[11px] text-silver sm:!w-48">imswarnil.com/blog</div>
+					</div>
+					<div class="space-y-2 border-t border-line px-4 py-4" aria-hidden="true">
+						<div class="rounded-lg border-2 border-dashed border-accent bg-accent/5 px-3 py-3 text-center">
+							<p class="font-mono text-[10px] font-semibold uppercase tracking-[0.2em] text-accent">Your brand here</p>
+							<p class="mt-0.5 text-[11px] text-silver">labeled banner · every page</p>
+						</div>
+						<div class="h-2.5 w-2/3 rounded bg-ink/70"></div>
+						<div class="h-2 w-full rounded bg-line"></div>
+						<div class="h-2 w-5/6 rounded bg-line"></div>
+						<div class="grid grid-cols-2 gap-2 pt-1">
+							<div class="h-10 rounded bg-mist"></div>
+							<div class="h-10 rounded bg-mist"></div>
+						</div>
+					</div>
+				</div>
+				<p class="mt-4 font-mono text-[11px] text-silver">↑ one clean unit, above the fold, sitewide</p>
+				<p class="mt-3 text-sm leading-relaxed text-silver">A 30-day placement across the highest-traffic pages — clearly labeled, never in the reader's way, always yours alone.</p>
+			</div>
+		</div>
+	</section>
+
+	{{!-- ============================== RATES ============================== --}}
+	<section id="rates" class="border-y border-line bg-mist/40 py-14">
+		<div class="container-site">
+			<p class="kicker">Rates</p>
+			<h2 class="section-title mt-2">Simple, flat pricing</h2>
+			<p class="mt-3 max-w-xl text-sm leading-relaxed text-silver">No agencies, no CPM haggling. One flat rate per placement, and I only take sponsors whose products I'd genuinely show my readers.</p>
+
+			{{!-- EDIT: rates are placeholders — update prices and inclusions here. --}}
+			<div class="mt-8 grid gap-6 lg:grid-cols-3">
+				<div class="card-surface reveal p-7">
+					<p class="kicker">{{> "icons/mail"}} Newsletter mention</p>
+					<p class="mt-4 text-4xl font-semibold tracking-tight">$150<span class="ml-1 text-sm font-normal text-silver">/ issue</span></p>
+					<ul class="mt-5 space-y-2.5 text-sm text-silver">
+						<li class="flex gap-2">{{> "icons/check" class="mt-0.5 shrink-0 text-accent"}} Sponsor block near the top of one issue</li>
+						<li class="flex gap-2">{{> "icons/check" class="mt-0.5 shrink-0 text-accent"}} Written in my voice, approved by you</li>
+						<li class="flex gap-2">{{> "icons/check" class="mt-0.5 shrink-0 text-accent"}} One tracked link + logo</li>
+					</ul>
+					<a href="mailto:{{@custom.sponsor_email}}?subject=Newsletter%20mention" class="btn-ghost mt-6 w-full">Book this slot</a>
+				</div>
+
+				<div class="card-surface reveal relative border-ink p-7 shadow-lift">
+					<span class="chip absolute -top-3 left-6 !border-ink !bg-ink !text-paper">Most popular</span>
+					<p class="kicker">{{> "icons/sparkle"}} Dedicated email</p>
+					<p class="mt-4 text-4xl font-semibold tracking-tight">$450<span class="ml-1 text-sm font-normal text-silver">/ send</span></p>
+					<ul class="mt-5 space-y-2.5 text-sm text-silver">
+						<li class="flex gap-2">{{> "icons/check" class="mt-0.5 shrink-0 text-accent"}} A full issue about your product</li>
+						<li class="flex gap-2">{{> "icons/check" class="mt-0.5 shrink-0 text-accent"}} Hands-on walkthrough, honest verdict</li>
+						<li class="flex gap-2">{{> "icons/check" class="mt-0.5 shrink-0 text-accent"}} Permanently archived on the site</li>
+					</ul>
+					<a href="mailto:{{@custom.sponsor_email}}?subject=Dedicated%20email" class="btn-primary mt-6 w-full">Book this slot</a>
+				</div>
+
+				<div class="card-surface reveal p-7">
+					<p class="kicker">{{> "icons/youtube"}} YouTube integration</p>
+					<p class="mt-4 text-4xl font-semibold tracking-tight">$900<span class="ml-1 text-sm font-normal text-silver">/ video</span></p>
+					<ul class="mt-5 space-y-2.5 text-sm text-silver">
+						<li class="flex gap-2">{{> "icons/check" class="mt-0.5 shrink-0 text-accent"}} 30–60s native mention, scripted with you</li>
+						<li class="flex gap-2">{{> "icons/check" class="mt-0.5 shrink-0 text-accent"}} Pinned comment + description link</li>
+						<li class="flex gap-2">{{> "icons/check" class="mt-0.5 shrink-0 text-accent"}} Evergreen — tutorials get rewatched</li>
+					</ul>
+					<a href="mailto:{{@custom.sponsor_email}}?subject=YouTube%20integration" class="btn-ghost mt-6 w-full">Book this slot</a>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	{{!-- ============================= AUDIENCE ============================= --}}
+	<section class="container-site py-14">
+		<p class="kicker">Audience</p>
+		<h2 class="section-title mt-2">Who you're reaching</h2>
+		<p class="mt-3 max-w-xl text-sm leading-relaxed text-silver">Developers, Salesforce professionals and career-switchers who read to the end and click with intent. Fresh, verifiable numbers on request.</p>
+
+		{{!-- EDIT: stat numbers are placeholders — update figures (and bar heights, purely decorative) before publishing. --}}
+		<div class="mt-8 grid gap-6 sm:grid-cols-3">
+			<div class="card-surface reveal p-6">
+				<p class="kicker">{{> "icons/mail"}} Subscribers</p>
+				<p class="mt-3 text-4xl font-semibold tracking-tight">2,400<span class="text-accent">+</span></p>
+				<p class="mt-1 text-xs text-silver">newsletter, growing every issue</p>
+				<div class="mt-5 flex h-14 items-end gap-1" aria-hidden="true">
+					<div class="w-2.5 rounded-t bg-ink/15" style="height:26%"></div>
+					<div class="w-2.5 rounded-t bg-ink/15" style="height:34%"></div>
+					<div class="w-2.5 rounded-t bg-ink/20" style="height:30%"></div>
+					<div class="w-2.5 rounded-t bg-ink/25" style="height:44%"></div>
+					<div class="w-2.5 rounded-t bg-ink/30" style="height:52%"></div>
+					<div class="w-2.5 rounded-t bg-ink/40" style="height:60%"></div>
+					<div class="w-2.5 rounded-t bg-ink/50" style="height:72%"></div>
+					<div class="w-2.5 rounded-t bg-accent" style="height:100%"></div>
+				</div>
+			</div>
+			<div class="card-surface reveal p-6">
+				<p class="kicker">{{> "icons/youtube"}} YouTube views</p>
+				<p class="mt-3 text-4xl font-semibold tracking-tight">120K<span class="text-accent">/mo</span></p>
+				<p class="mt-1 text-xs text-silver">long-form tutorials, evergreen reach</p>
+				<div class="mt-5 flex h-14 items-end gap-1" aria-hidden="true">
+					<div class="w-2.5 rounded-t bg-ink/15" style="height:38%"></div>
+					<div class="w-2.5 rounded-t bg-ink/20" style="height:30%"></div>
+					<div class="w-2.5 rounded-t bg-ink/25" style="height:56%"></div>
+					<div class="w-2.5 rounded-t bg-ink/30" style="height:48%"></div>
+					<div class="w-2.5 rounded-t bg-ink/40" style="height:66%"></div>
+					<div class="w-2.5 rounded-t bg-ink/50" style="height:58%"></div>
+					<div class="w-2.5 rounded-t bg-ink/60" style="height:82%"></div>
+					<div class="w-2.5 rounded-t bg-accent" style="height:100%"></div>
+				</div>
+			</div>
+			<div class="card-surface reveal p-6">
+				<p class="kicker">{{> "icons/user"}} Monthly readers</p>
+				<p class="mt-3 text-4xl font-semibold tracking-tight">35K<span class="text-accent">+</span></p>
+				<p class="mt-1 text-xs text-silver">on the site, mostly via search</p>
+				<div class="mt-5 flex h-14 items-end gap-1" aria-hidden="true">
+					<div class="w-2.5 rounded-t bg-ink/15" style="height:20%"></div>
+					<div class="w-2.5 rounded-t bg-ink/20" style="height:32%"></div>
+					<div class="w-2.5 rounded-t bg-ink/25" style="height:42%"></div>
+					<div class="w-2.5 rounded-t bg-ink/30" style="height:38%"></div>
+					<div class="w-2.5 rounded-t bg-ink/40" style="height:54%"></div>
+					<div class="w-2.5 rounded-t bg-ink/50" style="height:64%"></div>
+					<div class="w-2.5 rounded-t bg-ink/60" style="height:78%"></div>
+					<div class="w-2.5 rounded-t bg-accent" style="height:100%"></div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	{{!-- ==================== PAGE CONTENT (extra copy) ==================== --}}
+	{{#if content}}
+	<section class="container-site pb-14">
+		<div class="gh-content mx-auto max-w-prose">
+			{{content}}
+		</div>
+	</section>
+	{{/if}}
+
+	{{!-- =============================== CTA =============================== --}}
+	<section class="container-site pb-16">
+		<div class="relative overflow-hidden rounded-[2rem] border border-line bg-ink p-10 text-center text-paper shadow-lift sm:p-12">
+			<div class="bg-dots pointer-events-none absolute inset-0 opacity-20" aria-hidden="true"></div>
+			<div class="relative">
+				<h2 class="text-2xl font-semibold tracking-tight sm:text-3xl">Let's make something worth framing</h2>
+				<p class="mx-auto mt-3 max-w-md text-sm opacity-70">Tell me about your product and audience — I reply to every serious pitch within 48 hours.</p>
+				<div class="mt-6 flex flex-wrap items-center justify-center gap-3">
+					<a href="mailto:{{@custom.sponsor_email}}?subject=Sponsorship%20inquiry" class="btn bg-paper text-ink hover:opacity-90 !px-7 !py-3">{{> "icons/mail"}} {{@custom.sponsor_email}}</a>
+					<a href="{{@site.url}}/contact/" class="btn border border-paper/30 text-paper hover:bg-paper/10 !px-7 !py-3">Contact page {{> "icons/arrow-right"}}</a>
+				</div>
+			</div>
+		</div>
+	</section>
 </article>
 {{/post}}

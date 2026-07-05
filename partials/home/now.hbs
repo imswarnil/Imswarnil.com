@@ -1,0 +1,49 @@
+{{!-- "Now" — what I'm doing currently. Sourced from posts tagged #now; hidden entirely when none exist. --}}
+{{#get "posts" filter="tag:hash-now" limit="4" include="tags" as |nowposts|}}
+	{{#if nowposts}}
+	<section class="reveal relative py-16">
+		<div class="container-site">
+			<div class="flex items-end justify-between gap-4">
+				<div>
+					<p class="kicker">
+						<span class="relative flex h-2 w-2"><span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-500 opacity-60"></span><span class="relative inline-flex h-2 w-2 rounded-full bg-green-500"></span></span>
+						Now
+					</p>
+					<h2 class="section-title mt-2">What I'm doing currently</h2>
+				</div>
+				<span class="hidden shrink-0 font-mono text-[11px] uppercase tracking-[0.2em] text-silver sm:block tooltip tooltip-left" data-tip="Inspired by nownownow.com">/now</span>
+			</div>
+
+			<div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+				{{#foreach nowposts}}
+				<a href="{{url}}" class="card-surface group relative flex flex-col gap-3 p-5 transition hover:shadow-lift">
+					<div class="flex items-center justify-between gap-2">
+						{{#has tag="#project"}}
+							<span class="chip !py-0.5 font-mono !text-[10px] uppercase tracking-[0.15em]">{{> "icons/terminal"}} building</span>
+						{{else}}
+							{{#has tag="#course"}}
+								<span class="chip !py-0.5 font-mono !text-[10px] uppercase tracking-[0.15em]">{{> "icons/book"}} creating course</span>
+							{{else}}
+								{{#has tag="#video"}}
+									<span class="chip !py-0.5 font-mono !text-[10px] uppercase tracking-[0.15em]">{{> "icons/film"}} filming</span>
+								{{else}}
+									<span class="chip !py-0.5 font-mono !text-[10px] uppercase tracking-[0.15em]">{{> "icons/zap"}} working on</span>
+								{{/has}}
+							{{/has}}
+						{{/has}}
+						<span class="text-silver opacity-0 transition group-hover:opacity-100">{{> "icons/arrow-up-right" class="h-4 w-4"}}</span>
+					</div>
+					<h3 class="text-[15px] font-semibold leading-snug tracking-tight">{{title}}</h3>
+					{{#if custom_excerpt}}
+						<p class="line-clamp-2 text-sm leading-relaxed text-silver">{{custom_excerpt}}</p>
+					{{else}}
+						<p class="line-clamp-2 text-sm leading-relaxed text-silver">{{excerpt words="20"}}</p>
+					{{/if}}
+					<p class="mt-auto flex items-center gap-1.5 font-mono text-[11px] text-silver">{{> "icons/calendar" class="h-3.5 w-3.5"}} updated {{date updated_at format="DD MMM YYYY"}}</p>
+				</a>
+				{{/foreach}}
+			</div>
+		</div>
+	</section>
+	{{/if}}
+{{/get}}

@@ -7,8 +7,8 @@
 				<p class="mt-5 max-w-sm text-[15px] leading-relaxed text-silver">{{@custom.footer_tagline}}</p>
 				<p class="mt-4 text-sm text-silver">{{@custom.job_title}} · <a href="{{@custom.workplace_url}}" class="font-medium text-ink underline decoration-line underline-offset-4 hover:decoration-ink" target="_blank" rel="noopener">{{@custom.workplace}}</a></p>
 				<div class="mt-6 flex items-center gap-1">
-					{{#if @site.facebook}}<a href="{{facebook_url @site.facebook}}" class="icon-btn" target="_blank" rel="noopener" aria-label="Facebook">{{> "icons/heart"}}</a>{{/if}}
-					{{#if @site.twitter}}<a href="{{twitter_url @site.twitter}}" class="icon-btn" target="_blank" rel="noopener" aria-label="X (Twitter)">{{> "icons/x-twitter"}}</a>{{/if}}
+					{{#if @site.facebook}}<a href="{{social_url type="facebook"}}" class="icon-btn" target="_blank" rel="noopener" aria-label="Facebook">{{> "icons/heart"}}</a>{{/if}}
+					{{#if @site.twitter}}<a href="{{social_url type="twitter"}}" class="icon-btn" target="_blank" rel="noopener" aria-label="X (Twitter)">{{> "icons/x-twitter"}}</a>{{/if}}
 					<a href="https://github.com/{{@custom.github_repo}}" class="icon-btn" target="_blank" rel="noopener" aria-label="GitHub">{{> "icons/github"}}</a>
 					<a href="https://www.youtube.com/@imswarnil" class="icon-btn" target="_blank" rel="noopener" aria-label="YouTube">{{> "icons/youtube"}}</a>
 					<a href="https://www.linkedin.com/in/imswarnil" class="icon-btn" target="_blank" rel="noopener" aria-label="LinkedIn">{{> "icons/linkedin"}}</a>

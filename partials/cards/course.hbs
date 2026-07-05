@@ -1,4 +1,4 @@
-<article class="card-surface group relative flex flex-col overflow-hidden {{class}}">
+<article class="card-surface group relative flex flex-col overflow-hidden {{class}}" data-visibility="{{visibility}}">
 	<a href="{{url}}" class="flex h-full flex-col" aria-label="Start course: {{title}}">
 		<div class="relative aspect-[16/9] overflow-hidden">
 			{{#if feature_image}}
@@ -7,13 +7,35 @@
 				<div class="bg-cross flex h-full w-full items-center justify-center bg-mist">{{> "icons/book" class="text-silver"}}</div>
 			{{/if}}
 			<span class="chip absolute left-3 top-3 !border-transparent !bg-paper/90 backdrop-blur">{{> "icons/book"}} Course</span>
+			<span class="chip absolute right-3 top-3 !border-transparent !bg-paper/90 backdrop-blur" data-duration-tags="{{#foreach tags visibility="internal"}}{{slug}} {{/foreach}}" hidden></span>
 		</div>
 		<div class="flex flex-1 flex-col p-5">
 			<h3 class="text-lg font-semibold leading-snug tracking-tight">{{title}}</h3>
 			<p class="mt-2 line-clamp-2 text-sm leading-relaxed text-silver">{{custom_excerpt}}{{^custom_excerpt}}{{excerpt words="22"}}{{/custom_excerpt}}</p>
 			<div class="mt-auto flex items-center justify-between pt-5">
-				<span class="chip !bg-ink !text-paper !border-transparent">Free</span>
-				<span class="flex items-center gap-1.5 text-sm font-medium transition group-hover:gap-2.5">Start learning {{> "icons/arrow-right"}}</span>
+				{{!-- Instructor avatars --}}
+				<span class="flex items-center">
+					<span class="flex -space-x-2">
+						{{#foreach authors limit="3"}}
+							{{#if profile_image}}
+								<img src="{{img_url profile_image size="100"}}" alt="{{name}}" loading="lazy" class="h-7 w-7 rounded-full border-2 border-paper object-cover" />
+							{{else}}
+								<span class="flex h-7 w-7 items-center justify-center rounded-full border-2 border-paper bg-mist">{{> "icons/user" class="text-silver"}}</span>
+							{{/if}}
+						{{/foreach}}
+					</span>
+					<span class="ml-2.5 hidden truncate text-xs text-silver sm:block">{{primary_author.name}}</span>
+				</span>
+				{{!-- Access badge --}}
+				{{#match visibility "public"}}
+					<span class="tooltip chip !gap-1" data-tip="Free — no account needed">{{> "icons/check"}} Free</span>
+				{{/match}}
+				{{#match visibility "members"}}
+					<span class="tooltip chip !gap-1" data-tip="Sign up free to unlock">{{> "icons/star"}} Members</span>
+				{{/match}}
+				{{#match visibility "paid"}}
+					<span class="tooltip chip !gap-1 !border-transparent !bg-ink !text-paper" data-tip="Requires a paid plan">{{> "icons/lock"}} Paid</span>
+				{{/match}}
 			</div>
 		</div>
 	</a>

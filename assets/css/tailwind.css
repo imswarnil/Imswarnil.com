@@ -13,17 +13,91 @@
 		--mist: 244 244 245; /* raised surfaces */
 		--line: 228 228 231; /* hairlines */
 		--silver: 113 113 122; /* secondary text */
+		--accent: 24 24 27; /* brand/link color per mode */
 		--pattern: 0 0 0;
 		--ghost-accent-color: #18181b;
 	}
 
-	.dark {
+	.dark,
+	[data-theme='dark'] {
 		--ink: 244 244 245;
 		--paper: 9 9 11;
 		--mist: 24 24 27;
 		--line: 39 39 42;
 		--silver: 161 161 170;
+		--accent: 244 244 245;
 		--pattern: 255 255 255;
+	}
+
+	/* ---- Salesforce (SLDS) mode: white surfaces, cloud-blue accent ---- */
+	[data-theme='salesforce'] {
+		--ink: 8 7 7; /* SLDS gray-12 */
+		--paper: 243 243 243; /* app background */
+		--mist: 255 255 255; /* cards are white */
+		--line: 229 229 229;
+		--silver: 116 116 116;
+		--accent: 1 118 211; /* #0176d3 */
+		--pattern: 3 45 96;
+		--ghost-accent-color: #0176d3;
+	}
+	[data-theme='salesforce'] body {
+		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Salesforce Sans', Arial, sans-serif;
+	}
+	[data-theme='salesforce'] .card-surface,
+	[data-theme='salesforce'] .rounded-island {
+		border-radius: 0.5rem; /* SLDS uses tight radii */
+	}
+
+	/* ---- YouTube mode: material dark, red accent, Roboto ---- */
+	[data-theme='youtube'] {
+		--ink: 241 241 241;
+		--paper: 15 15 15;
+		--mist: 33 33 33;
+		--line: 48 48 48;
+		--silver: 170 170 170;
+		--accent: 255 0 51; /* #ff0033 */
+		--pattern: 255 255 255;
+		--ghost-accent-color: #ff0033;
+	}
+	[data-theme='youtube'] body {
+		font-family: Roboto, 'Geist', system-ui, Arial, sans-serif;
+	}
+
+	/* ---- Netflix mode: cinematic near-black, netflix red ---- */
+	[data-theme='netflix'] {
+		--ink: 255 255 255;
+		--paper: 20 20 20;
+		--mist: 31 31 31;
+		--line: 51 51 51;
+		--silver: 179 179 179;
+		--accent: 229 9 20; /* #e50914 */
+		--pattern: 255 255 255;
+		--ghost-accent-color: #e50914;
+	}
+	[data-theme='netflix'] body {
+		font-family: 'Helvetica Neue', Helvetica, 'Geist', Arial, sans-serif;
+	}
+	[data-theme='netflix'] .card-surface {
+		border-radius: 0.375rem;
+	}
+
+	/* ---- Claude mode: warm ivory, book-ish serif headings, crail accent ---- */
+	[data-theme='claude'] {
+		--ink: 61 57 41; /* warm near-black */
+		--paper: 250 249 245; /* ivory */
+		--mist: 240 238 230; /* pampas */
+		--line: 224 221 209;
+		--silver: 135 134 127;
+		--accent: 193 95 60; /* #c15f3c crail */
+		--pattern: 61 57 41;
+		--ghost-accent-color: #c15f3c;
+	}
+	[data-theme='claude'] h1,
+	[data-theme='claude'] h2,
+	[data-theme='claude'] h3,
+	[data-theme='claude'] .section-title {
+		font-family: 'Georgia', 'Times New Roman', serif;
+		letter-spacing: -0.01em;
 	}
 
 	@font-face {
@@ -146,6 +220,34 @@
 
 	.icon-btn {
 		@apply inline-flex h-9 w-9 items-center justify-center rounded-full text-silver transition hover:bg-mist hover:text-ink;
+	}
+
+	/* Navbar: full-width bar at top of page → floating island once scrolled */
+	.nav-shell {
+		@apply mx-auto flex w-full max-w-site items-center justify-between gap-3 rounded-island border border-transparent bg-transparent py-3 pl-4 pr-3;
+		transition:
+			max-width 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+			background-color 0.4s ease,
+			border-color 0.4s ease,
+			box-shadow 0.4s ease,
+			padding 0.4s ease;
+	}
+	.nav-shell.is-island {
+		@apply max-w-5xl border-line bg-paper/80 py-2.5 shadow-island backdrop-blur-xl;
+	}
+
+	.mode-option {
+		@apply flex w-full items-center gap-2.5 rounded-xl px-3.5 py-2.5 text-left text-sm font-medium text-silver transition hover:bg-mist hover:text-ink;
+	}
+	.mode-option.is-active {
+		@apply bg-mist text-ink;
+	}
+	.mode-dot {
+		@apply inline-block h-3.5 w-3.5 shrink-0 rounded-full border border-line;
+	}
+
+	.panel-link {
+		@apply block rounded-lg px-2 py-1.5 text-sm font-medium text-silver transition hover:bg-mist hover:text-ink;
 	}
 
 	/* Netflix-style big rank number */

@@ -1,14 +1,15 @@
-{{!-- Floating island navbar. Primary nav inline; items whose label ends with " *"
-     (or all secondary nav) collapse into the "More" dropdown. --}}
-<header class="fixed inset-x-0 top-4 z-50 px-4 sm:top-5" id="site-header">
-	<nav class="container-site">
-		<div class="mx-auto flex max-w-5xl items-center justify-between gap-3 rounded-island border border-line bg-paper/80 py-2.5 pl-4 pr-3 shadow-island backdrop-blur-xl transition-all duration-300" id="nav-island">
+{{!-- Navbar: full-width flat bar at page top; morphs into a floating island
+     pill as you scroll (see .nav-shell / .is-island in tailwind.css).
+     Primary nav from Ghost Admin → Settings → Navigation. --}}
+<header class="fixed inset-x-0 top-0 z-50 px-4 pt-3 sm:pt-4" id="site-header">
+	<nav class="container-site !px-0">
+		<div class="nav-shell" id="nav-island">
 
 			{{> "components/logo"}}
 
-			{{!-- Desktop nav --}}
+			{{!-- Desktop nav (Ghost Admin → Settings → Navigation → Primary) --}}
 			<div class="hidden items-center gap-0.5 lg:flex" role="navigation" aria-label="Primary">
-				{{#foreach navigation}}
+				{{#foreach @site.navigation}}
 					<a href="{{url absolute="true"}}" class="rounded-full px-3.5 py-2 text-sm font-medium text-silver transition hover:bg-mist hover:text-ink{{#if current}} bg-mist !text-ink{{/if}}">{{label}}</a>
 				{{/foreach}}
 
@@ -30,19 +31,35 @@
 
 			{{!-- Actions --}}
 			<div class="flex items-center gap-1">
-				<a href="https://github.com/{{@custom.github_repo}}" target="_blank" rel="noopener" class="group hidden items-center gap-1.5 rounded-full border border-line bg-mist/60 px-3 py-1.5 text-xs font-semibold transition hover:bg-mist sm:inline-flex" aria-label="Star on GitHub">
+				<a href="https://github.com/{{@custom.github_repo}}" target="_blank" rel="noopener" class="group hidden items-center gap-1.5 rounded-full border border-line bg-mist/60 px-3 py-1.5 text-xs font-semibold transition hover:bg-mist xl:inline-flex" aria-label="Star on GitHub">
 					{{> "icons/github" class=""}}
 					<span class="hidden md:inline">Star</span>
 					{{> "icons/star" class="text-silver transition group-hover:scale-110 group-hover:text-ink"}}
 				</a>
 
-				<button type="button" class="icon-btn" data-ghost-search aria-label="Search">
+				<button type="button" class="icon-btn tooltip tooltip-bottom" data-tip="Search" data-ghost-search aria-label="Search">
 					{{> "icons/search"}}
 				</button>
 
-				<button type="button" class="icon-btn" id="theme-toggle" aria-label="Toggle dark mode">
-					<span class="hidden dark:inline-flex">{{> "icons/sun"}}</span>
-					<span class="inline-flex dark:hidden">{{> "icons/moon"}}</span>
+				{{!-- Theme mode switcher: 6 modes --}}
+				<div class="relative" data-dropdown>
+					<button type="button" class="icon-btn tooltip tooltip-bottom" data-tip="Theme" aria-label="Switch theme" aria-haspopup="true" aria-expanded="false" data-dropdown-toggle>
+						<span class="hidden dark:inline-flex">{{> "icons/sun"}}</span>
+						<span class="inline-flex dark:hidden">{{> "icons/moon"}}</span>
+					</button>
+					<div class="invisible absolute right-0 top-full mt-2 w-48 origin-top-right scale-95 rounded-2xl border border-line bg-paper p-1.5 opacity-0 shadow-lift transition-all duration-200 data-[open]:visible data-[open]:scale-100 data-[open]:opacity-100" data-dropdown-menu id="mode-menu">
+						<button type="button" data-set-mode="light" class="mode-option"><span class="mode-dot" style="background:#fafafa;border-color:#d4d4d8"></span>Light</button>
+						<button type="button" data-set-mode="dark" class="mode-option"><span class="mode-dot" style="background:#09090b"></span>Dark</button>
+						<button type="button" data-set-mode="salesforce" class="mode-option"><span class="mode-dot" style="background:#0176d3"></span>Salesforce</button>
+						<button type="button" data-set-mode="youtube" class="mode-option"><span class="mode-dot" style="background:#ff0033"></span>YouTube</button>
+						<button type="button" data-set-mode="netflix" class="mode-option"><span class="mode-dot" style="background:#e50914"></span>Netflix</button>
+						<button type="button" data-set-mode="claude" class="mode-option"><span class="mode-dot" style="background:#c15f3c"></span>Claude</button>
+					</div>
+				</div>
+
+				{{!-- Everything panel shortcut --}}
+				<button type="button" class="icon-btn tooltip tooltip-bottom" data-tip="Menu panel" id="panel-toggle" aria-expanded="false" aria-controls="mega-panel" aria-label="Open menu panel">
+					<svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><circle cx="3" cy="3" r="1.6"/><circle cx="8" cy="3" r="1.6"/><circle cx="13" cy="3" r="1.6"/><circle cx="3" cy="8" r="1.6"/><circle cx="8" cy="8" r="1.6"/><circle cx="13" cy="8" r="1.6"/><circle cx="3" cy="13" r="1.6"/><circle cx="8" cy="13" r="1.6"/><circle cx="13" cy="13" r="1.6"/></svg>
 				</button>
 
 				{{#if @site.members_enabled}}
@@ -55,7 +72,7 @@
 							{{/if}}
 						</a>
 					{{else}}
-						<a href="#/portal/signin" class="btn-primary ml-1 !px-4 !py-2 !text-[13px]" data-portal="signin">Sign in</a>
+						<a href="/signin/" class="btn-primary ml-1 !px-4 !py-2 !text-[13px]">Sign in</a>
 					{{/if}}
 				{{/if}}
 
@@ -66,10 +83,43 @@
 			</div>
 		</div>
 
+		{{!-- Mega menu panel — "everything" shortcut grid --}}
+		<div class="mx-auto mt-2 hidden max-w-5xl overflow-hidden rounded-island border border-line bg-paper/95 p-5 shadow-lift backdrop-blur-xl" id="mega-panel">
+			<div class="grid grid-cols-2 gap-x-6 gap-y-1 sm:grid-cols-3 lg:grid-cols-4">
+				<div>
+					<p class="kicker mb-2">Watch</p>
+					<a href="/videos/" class="panel-link">Videos</a>
+					<a href="/webseries/" class="panel-link">Webseries</a>
+				</div>
+				<div>
+					<p class="kicker mb-2">Learn</p>
+					<a href="/courses/" class="panel-link">Courses</a>
+					<a href="/blog/" class="panel-link">Blog</a>
+					<a href="/newsletters/" class="panel-link">Newsletters</a>
+				</div>
+				<div>
+					<p class="kicker mb-2">Work</p>
+					<a href="/projects/" class="panel-link">Projects</a>
+					<a href="/timeline/" class="panel-link">Timeline</a>
+					<a href="/resume/" class="panel-link">Resume</a>
+					<a href="/changelog/" class="panel-link">Changelog</a>
+				</div>
+				<div>
+					<p class="kicker mb-2">More</p>
+					<a href="/products/" class="panel-link">Things I use</a>
+					<a href="/shop/" class="panel-link">Shop</a>
+					<a href="/sponsor/" class="panel-link">Sponsor</a>
+					<a href="/contact/" class="panel-link">Contact</a>
+					<a href="/sitemap-visual/" class="panel-link">Sitemap</a>
+					<a href="/archive/" class="panel-link">Archive</a>
+				</div>
+			</div>
+		</div>
+
 		{{!-- Mobile menu --}}
 		<div class="mx-auto mt-2 hidden max-w-5xl overflow-hidden rounded-island border border-line bg-paper/95 p-3 shadow-lift backdrop-blur-xl lg:!hidden" id="mobile-menu">
 			<nav class="flex flex-col" aria-label="Mobile">
-				{{#foreach navigation}}
+				{{#foreach @site.navigation}}
 					<a href="{{url absolute="true"}}" class="flex items-center justify-between rounded-xl px-4 py-3 text-[15px] font-medium text-ink transition hover:bg-mist{{#if current}} bg-mist{{/if}}">
 						{{label}} {{> "icons/arrow-right" class="text-silver"}}
 					</a>
@@ -86,5 +136,5 @@
 		</div>
 	</nav>
 </header>
-{{!-- Spacer so content clears the fixed island --}}
+{{!-- Spacer so content clears the fixed navbar --}}
 <div class="h-24 sm:h-28" aria-hidden="true"></div>

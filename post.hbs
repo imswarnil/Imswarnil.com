@@ -11,16 +11,18 @@
 	{{else has tag="#lesson"}}
 		{{> "post/lesson"}}
 	{{else has tag="#episode"}}
-		{{> "post/lesson"}}
+		{{> "post/episode"}}
 	{{else has tag="#project"}}
 		{{> "post/project"}}
-	{{else has tag="#timeline"}}
-		{{> "post/article"}}
-	{{else has tag="#changelog"}}
-		{{> "post/article"}}
-	{{else has tag="#newsletter"}}
-		{{> "post/article"}}
 	{{else has tag="#product"}}
+		{{> "post/product"}}
+	{{else has tag="#newsletter"}}
+		{{> "post/newsletter"}}
+	{{else has tag="#changelog"}}
+		{{> "post/changelog"}}
+	{{else has tag="#shop"}}
+		{{> "post/shop"}}
+	{{else has tag="#timeline"}}
 		{{> "post/article"}}
 	{{else}}
 		{{> "post/article"}}

@@ -1,36 +1,14 @@
 {{!< default}}
 
 {{> "home/hero"}}
+{{> "home/now"}}
 {{> "home/videos"}}
 {{> "home/blog"}}
 
-<div class="container-site">{{> "components/adsense"}}</div>
+<div class="container-site">{{> "components/adsense" slot="8939839370" format="auto"}}</div>
 
 {{> "home/projects"}}
 {{> "home/courses"}}
 {{> "home/products"}}
 {{> "home/timeline"}}
-
-{{!-- Changelog ticker --}}
-<section class="reveal py-16">
-	<div class="container-site">
-		<div class="flex items-end justify-between gap-4">
-			<div>
-				<p class="kicker">{{> "icons/terminal"}} Ship log</p>
-				<h2 class="section-title mt-2">Recent changes</h2>
-			</div>
-			<a href="{{@site.url}}/changelog/" class="btn-ghost shrink-0">Changelog {{> "icons/arrow-right"}}</a>
-		</div>
-		{{#get "posts" filter="tag:hash-changelog" limit="3" as |changes|}}
-			{{#if changes}}
-			<ol class="mt-6">
-				{{#foreach changes}}
-					{{> "cards/changelog-item"}}
-				{{/foreach}}
-			</ol>
-			{{/if}}
-		{{/get}}
-	</div>
-</section>
-
 {{> "home/newsletter"}}

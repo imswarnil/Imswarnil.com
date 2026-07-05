@@ -10,3 +10,19 @@
 	</ol>
 	<div class="mx-auto max-w-3xl">{{> "components/pagination"}}</div>
 </section>
+
+{{!-- Extract a version chip (v1.2 / 1.2.3 …) from titles that contain one --}}
+<script>
+	(function () {
+		document.querySelectorAll('[data-log-title]').forEach(function (title) {
+			var m = title.textContent.match(/\bv?\d+\.\d+(\.\d+)?\b/i);
+			if (!m) return;
+			var item = title.closest('li');
+			var slot = item && item.querySelector('[data-log-version]');
+			if (slot) {
+				slot.textContent = m[0];
+				slot.classList.remove('hidden');
+			}
+		});
+	})();
+</script>

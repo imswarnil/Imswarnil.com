@@ -1,0 +1,189 @@
+{{!-- Theater layout for #episode posts.
+     Siblings share this episode's PUBLIC primary tag (= the series tag).
+     Series page lives at /webseries/{primary_tag.slug}/. Episode 1 = oldest published. --}}
+{{#get "posts" filter="tag:hash-episode+tag:{primary_tag.slug}" order="published_at asc" limit="50" as |eps|}}
+<article class="{{post_class}}">
+
+	{{!-- Full-bleed theater player --}}
+	<div class="relative left-1/2 w-screen" style="margin-left:-50vw; background:#08080a;">
+		<div id="episode-stage" class="relative mx-auto max-w-[1600px]" style="background:#08080a;">
+			<div id="episode-player" class="relative w-full" style="aspect-ratio:16/9; max-height:85vh;">
+				{{!-- iframe injected here: first YouTube embed found in the body, else a scenic fallback --}}
+			</div>
+			<button id="episode-maximize" type="button" class="icon-btn absolute bottom-4 right-4 z-10 !border-white/20 !bg-black/60 !text-white backdrop-blur transition hover:!bg-black/80" data-tip="Maximize" aria-label="Maximize player">
+				{{> "icons/maximize"}}
+			</button>
+		</div>
+	</div>
+
+	<div class="container-site py-10">
+		<div class="mx-auto grid max-w-6xl gap-10 lg:grid-cols-12">
+
+			{{!-- Main column --}}
+			<div class="lg:col-span-8">
+				<p class="kicker">
+					{{> "icons/film"}}
+					{{#foreach eps}}{{#match id ../id}}Episode {{@number}}{{/match}}{{/foreach}}
+					<span class="opacity-50">·</span>
+					<a href="{{@site.url}}/webseries/{{primary_tag.slug}}/" class="underline underline-offset-4 transition hover:text-ink">{{primary_tag.name}}</a>
+				</p>
+				<h1 class="mt-3 text-3xl font-semibold leading-tight tracking-tight sm:text-4xl text-balance">{{title}}</h1>
+
+				<div class="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 font-mono text-xs text-silver">
+					<span class="flex items-center gap-1.5">{{> "icons/clock"}} <span id="episode-duration" data-duration-tags="{{#foreach tags visibility="internal"}}{{slug}} {{/foreach}}" hidden></span></span>
+					<span class="flex items-center gap-1.5">{{> "icons/calendar"}} {{date published_at format="DD MMM YYYY"}}</span>
+					{{#primary_author}}<span class="flex items-center gap-1.5">{{> "icons/user"}} {{name}}</span>{{/primary_author}}
+				</div>
+
+				<section class="gh-content mt-8" id="episode-content">
+					{{content}}
+				</section>
+
+				{{!-- Prev / next episode --}}
+				<nav class="mt-10 grid gap-3 border-t border-line pt-6 sm:grid-cols-2" aria-label="Episode navigation">
+					{{#prev_post in="primary_tag"}}
+						<a href="{{url}}" class="group flex items-center gap-3 rounded-2xl border border-line p-4 transition hover:bg-mist">
+							<span class="rotate-180 text-silver transition group-hover:text-ink">{{> "icons/arrow-right"}}</span>
+							<span class="min-w-0">
+								<span class="kicker !text-[10px]">Previous episode</span>
+								<span class="mt-0.5 block truncate text-sm font-semibold">{{title}}</span>
+							</span>
+						</a>
+					{{/prev_post}}
+					{{#next_post in="primary_tag"}}
+						<a href="{{url}}" class="group flex items-center justify-end gap-3 rounded-2xl border border-line p-4 text-right transition hover:bg-mist sm:col-start-2">
+							<span class="min-w-0">
+								<span class="kicker !text-[10px] justify-end">Next episode</span>
+								<span class="mt-0.5 block truncate text-sm font-semibold">{{title}}</span>
+							</span>
+							<span class="text-silver transition group-hover:text-ink">{{> "icons/arrow-right"}}</span>
+						</a>
+					{{/next_post}}
+				</nav>
+
+				{{> "components/adsense" slot="8939839370" format="auto"}}
+
+				{{#if @site.comments_enabled}}
+					<section class="mt-12 border-t border-line pt-10">
+						{{comments title="Comments" count=true}}
+					</section>
+				{{/if}}
+			</div>
+
+			{{!-- Sidebar: full episode queue, current highlighted --}}
+			<aside class="lg:col-span-4">
+				<div class="sticky top-28">
+					<p class="kicker mb-4">{{> "icons/play"}} Next episodes</p>
+					<ol class="max-h-[70vh] space-y-2 overflow-y-auto pr-1">
+						{{#foreach eps}}
+							<li>
+								{{#match id ../id}}
+									<div class="flex items-center gap-3 rounded-2xl border border-ink bg-mist p-2.5" aria-current="true">
+										<span class="w-6 shrink-0 text-center font-mono text-sm font-bold">{{@number}}</span>
+										<div class="relative aspect-video w-24 shrink-0 overflow-hidden rounded-lg border border-line bg-ink">
+											{{#if feature_image}}<img src="{{img_url feature_image size="300"}}" alt="" loading="lazy" class="h-full w-full object-cover opacity-80" />{{/if}}
+											<span class="absolute inset-0 flex items-center justify-center text-paper">{{> "icons/play"}}</span>
+										</div>
+										<div class="min-w-0">
+											<p class="line-clamp-2 text-[13px] font-semibold leading-snug">{{title}}</p>
+											<p class="mt-0.5 font-mono text-[10px] uppercase tracking-widest text-silver">Now playing</p>
+										</div>
+									</div>
+								{{else}}
+									<a href="{{url}}" class="group flex items-center gap-3 rounded-2xl border border-transparent p-2.5 transition hover:border-line hover:bg-mist">
+										<span class="w-6 shrink-0 text-center font-mono text-sm text-silver">{{@number}}</span>
+										<div class="relative aspect-video w-24 shrink-0 overflow-hidden rounded-lg border border-line bg-mist">
+											{{#if feature_image}}<img src="{{img_url feature_image size="300"}}" alt="" loading="lazy" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />{{/if}}
+										</div>
+										<div class="min-w-0">
+											<p class="line-clamp-2 text-[13px] font-medium leading-snug">{{title}}</p>
+											<p class="mt-0.5 font-mono text-[10px] text-silver"><span data-duration-tags="{{#foreach tags visibility="internal"}}{{slug}} {{/foreach}}" hidden></span></p>
+										</div>
+									</a>
+								{{/match}}
+							</li>
+						{{/foreach}}
+					</ol>
+					<a href="{{@site.url}}/webseries/{{primary_tag.slug}}/" class="btn btn-ghost mt-5 w-full">{{> "icons/film"}} Series overview</a>
+				</div>
+			</aside>
+		</div>
+	</div>
+
+	{{!-- TVEpisode structured data; duration patched in by the inline script below --}}
+	<script type="application/ld+json" id="episode-jsonld">
+	{
+		"@context": "https://schema.org",
+		"@type": "TVEpisode",
+		"name": "{{title}}",
+		"url": "{{url absolute="true"}}",
+		"episodeNumber": "{{#foreach eps}}{{#match id ../id}}{{@number}}{{/match}}{{/foreach}}",
+		"datePublished": "{{date published_at format="YYYY-MM-DD"}}",
+		"description": "{{#if custom_excerpt}}{{custom_excerpt}}{{else}}{{excerpt words="45"}}{{/if}}",
+		{{#if feature_image}}"image": "{{img_url feature_image size="1600" absolute="true"}}",{{/if}}
+		"partOfSeries": {
+			"@type": "TVSeries",
+			"name": "{{primary_tag.name}}",
+			"url": "{{@site.url}}/webseries/{{primary_tag.slug}}/"
+		}
+	}
+	</script>
+
+	<script>
+	(function () {
+		/* ----- Hoist the first video embed from the body into the theater player ----- */
+		var player = document.getElementById('episode-player');
+		var stage = document.getElementById('episode-stage');
+		var content = document.getElementById('episode-content');
+		var src = '';
+		if (content) {
+			var found = content.querySelector('iframe[src*="youtube.com/embed"], iframe[src*="youtube-nocookie.com/embed"], iframe[src*="player.vimeo.com"]');
+			if (found) {
+				src = found.getAttribute('src');
+				var card = found.closest('figure, .kg-card') || found;
+				card.style.display = 'none';
+			}
+		}
+		if (!src) {
+			src = 'https://www.youtube-nocookie.com/embed/LXb3EKWsInQ?rel=0&modestbranding=1';
+		}
+		var iframe = document.createElement('iframe');
+		iframe.src = src;
+		iframe.title = 'Episode player';
+		iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen');
+		iframe.setAttribute('allowfullscreen', '');
+		iframe.setAttribute('frameborder', '0');
+		iframe.className = 'absolute inset-0 h-full w-full';
+		player.appendChild(iframe);
+
+		/* ----- Maximize / fullscreen toggle on the player wrapper ----- */
+		var btn = document.getElementById('episode-maximize');
+		if (btn) {
+			btn.addEventListener('click', function () {
+				if (document.fullscreenElement) {
+					document.exitFullscreen();
+				} else if (stage.requestFullscreen) {
+					stage.requestFullscreen();
+				} else if (stage.webkitRequestFullscreen) {
+					stage.webkitRequestFullscreen();
+				}
+			});
+		}
+
+		/* ----- JSON-LD: inject ISO 8601 duration from the duration span ----- */
+		var script = document.getElementById('episode-jsonld');
+		var span = document.getElementById('episode-duration');
+		if (script && span) {
+			var m = (span.getAttribute('data-duration-tags') || '').match(/hash-duration-(?:(\d+)h)?-?(?:(\d+)m)?/);
+			if (m && (m[1] || m[2])) {
+				try {
+					var data = JSON.parse(script.textContent);
+					data.duration = 'PT' + (m[1] ? m[1] + 'H' : '') + (m[2] ? m[2] + 'M' : '');
+					script.textContent = JSON.stringify(data);
+				} catch (e) { /* leave as-is */ }
+			}
+		}
+	})();
+	</script>
+</article>
+{{/get}}

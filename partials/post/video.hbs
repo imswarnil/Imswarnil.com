@@ -1,59 +1,272 @@
-{{!-- Cinema layout for #video posts --}}
-<article class="{{post_class}}">
-	<header class="relative overflow-hidden bg-ink py-14 text-paper dark:border-b dark:border-line">
-		<div class="pointer-events-none absolute inset-0 opacity-[.15]" style="background-image: radial-gradient(rgb(255 255 255 / .4) 1px, transparent 1px); background-size: 22px 22px" aria-hidden="true"></div>
-		<div class="container-site relative">
-			<div class="mx-auto max-w-4xl">
-				<p class="flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.25em] opacity-60">{{> "icons/film"}} Now playing</p>
-				<h1 class="mt-4 text-3xl font-semibold leading-tight tracking-tight sm:text-5xl text-balance">{{title}}</h1>
-				<div class="mt-5 flex flex-wrap items-center gap-4 font-mono text-xs opacity-70">
-					<span class="flex items-center gap-1.5">{{> "icons/calendar"}} {{date published_at format="DD MMM YYYY"}}</span>
-					<span class="flex items-center gap-1.5">{{> "icons/clock"}} {{reading_time minute="1 min"}}</span>
-					{{#foreach tags visibility="public" limit="3"}}<a href="{{url}}" class="underline underline-offset-4 hover:opacity-100">{{name}}</a>{{/foreach}}
+{{!-- Video detail — CRT-style theater for #video posts.
+     JS extracts the first YouTube embed/link from the post body, renders an
+     autoplaying (muted) player at the top with a TV turn-on animation,
+     enhances timestamp tables into clickable chapters (YouTube IFrame API,
+     loaded lazily) and emits VideoObject + Clip JSON-LD. --}}
+<article class="{{post_class}}" id="vd-app"
+	data-title="{{title}}"
+	data-url="{{url absolute="true"}}"
+	data-published="{{date published_at format="YYYY-MM-DD"}}"
+	data-thumb="{{#if feature_image}}{{img_url feature_image size="1200"}}{{/if}}"
+	data-desc="{{#if custom_excerpt}}{{custom_excerpt}}{{else}}{{excerpt words="50"}}{{/if}}">
+
+	<style>
+		#vd-shell { opacity: 0; will-change: transform, filter; }
+		#vd-shell.tv-on { animation: vd-tv-on .75s cubic-bezier(.2, .8, .25, 1) forwards; }
+		#vd-shell.tv-off { opacity: 1; animation: vd-tv-off .28s ease-in forwards; }
+		@keyframes vd-tv-on {
+			0%   { opacity: 1; transform: scaleY(.004) scaleX(.25); filter: brightness(9) saturate(0); }
+			35%  { opacity: 1; transform: scaleY(.004) scaleX(1);   filter: brightness(12) saturate(0); }
+			65%  { opacity: 1; transform: scaleY(1) scaleX(1);      filter: brightness(1.9); }
+			100% { opacity: 1; transform: none;                     filter: none; }
+		}
+		@keyframes vd-tv-off {
+			0%   { transform: none; filter: none; }
+			55%  { transform: scaleY(.006) scaleX(1); filter: brightness(9); }
+			100% { opacity: 0; transform: scaleY(.006) scaleX(.05); filter: brightness(12); }
+		}
+		.vd-scan {
+			pointer-events: none; position: absolute; inset: 0; z-index: 10;
+			background: repeating-linear-gradient(to bottom, rgba(255,255,255,.08) 0 1px, transparent 1px 3px);
+			animation: vd-scan-fade 1.8s ease-out forwards;
+		}
+		@keyframes vd-scan-fade { from { opacity: 1; } to { opacity: 0; } }
+		@media (prefers-reduced-motion: reduce) {
+			#vd-shell { opacity: 1 !important; animation: none !important; }
+			.vd-scan { display: none; }
+		}
+		.vd-chapters .vd-chapter { cursor: pointer; }
+		.vd-chapters .vd-chapter td:first-child { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; white-space: nowrap; }
+		.vd-chapters .vd-chapter:hover td { background: rgba(127,127,127,.08); }
+		.vd-chapters .vd-active td { background: rgba(127,127,127,.14); font-weight: 600; }
+		.vd-chapters .vd-active td:first-child { box-shadow: inset 3px 0 0 currentColor; }
+	</style>
+
+	{{!-- Theater band: player injected here by the script below --}}
+	<div class="bg-black">
+		<div class="container-site py-6 sm:py-10">
+			<div id="vd-shell" class="relative mx-auto max-w-5xl">
+				<div id="vd-stage" class="relative aspect-video overflow-hidden rounded-2xl border border-white/10 bg-black shadow-lift">
+					<div class="vd-scan" aria-hidden="true"></div>
 				</div>
 			</div>
-		</div>
-	</header>
-
-	<div class="container-site py-10">
-		<div class="mx-auto grid max-w-6xl gap-10 lg:grid-cols-12">
-			<div class="lg:col-span-8">
-				{{!-- The video embed lives in the post content; first embed renders theater-size --}}
-				<section class="gh-content video-theater">
-					{{content}}
-				</section>
-
-				{{> "components/adsense"}}
-
-				<footer class="mt-8 flex flex-wrap items-center justify-between gap-4 border-t border-line pt-6">
-					<div class="flex flex-wrap gap-2">
-						{{#foreach tags visibility="public"}}<a href="{{url}}" class="chip transition hover:border-ink hover:text-ink">{{name}}</a>{{/foreach}}
-					</div>
-					{{> "post/share"}}
-				</footer>
-
-				{{#if comments}}
-					<section class="mt-12 border-t border-line pt-10">
-						<h2 class="section-title mb-8">Comments</h2>
-						{{comments}}
-					</section>
-				{{/if}}
-			</div>
-
-			{{!-- Up next --}}
-			<aside class="lg:col-span-4">
-				<div class="sticky top-28">
-					<p class="kicker mb-4">{{> "icons/play"}} Up next</p>
-					{{#get "posts" filter="tag:hash-video+id:-{id}" limit="5" as |queue|}}
-						<div class="space-y-3">
-							{{#foreach queue}}
-								{{> "cards/episode"}}
-							{{/foreach}}
-						</div>
-					{{/get}}
-					<a href="{{@site.url}}/videos/" class="btn-ghost mt-5 w-full">Browse all videos</a>
-				</div>
-			</aside>
 		</div>
 	</div>
+
+	<div class="container-site py-10">
+		<div class="mx-auto max-w-4xl">
+			<header>
+				<p class="kicker">{{> "icons/film" class="h-3.5 w-3.5"}} Now playing</p>
+				<h1 class="mt-3 text-3xl font-semibold leading-tight tracking-tight sm:text-4xl text-balance">{{title}}</h1>
+				<div class="mt-5 flex flex-wrap items-center gap-x-4 gap-y-2 font-mono text-xs text-silver">
+					<span class="flex items-center gap-1.5">{{> "icons/calendar" class="h-3.5 w-3.5"}} {{date published_at format="DD MMM YYYY"}}</span>
+					<span class="flex items-center gap-1.5">{{> "icons/clock" class="h-3.5 w-3.5"}} <span data-duration-tags="{{#foreach tags visibility="internal"}}{{slug}} {{/foreach}}" hidden></span> {{reading_time minute="1 min"}}</span>
+					<span class="chip">{{> "icons/youtube" class="h-3.5 w-3.5"}} YouTube</span>
+					{{#primary_tag}}<a href="{{url}}" class="chip transition hover:border-ink hover:text-ink">{{name}}</a>{{/primary_tag}}
+				</div>
+			</header>
+
+			{{!-- Description / notes (the first YouTube embed inside is hidden by JS once hoisted) --}}
+			<section class="gh-content mt-10" id="vd-content">
+				{{content}}
+			</section>
+
+			{{> "components/adsense" slot="6501428979" layout="in-article" format="fluid"}}
+
+			<footer class="mt-8 flex flex-wrap gap-2 border-t border-line pt-6">
+				{{#foreach tags visibility="public"}}<a href="{{url}}" class="chip transition hover:border-ink hover:text-ink">{{name}}</a>{{/foreach}}
+			</footer>
+
+			{{#if @site.comments_enabled}}
+				<section class="mt-12 border-t border-line pt-10">
+					{{comments title="Comments" count=true}}
+				</section>
+			{{/if}}
+		</div>
+
+		{{!-- Related videos --}}
+		{{#get "posts" filter="tag:hash-video+id:-{{id}}" limit="6" as |related|}}
+			{{#if related}}
+				<section class="mx-auto mt-16 max-w-6xl border-t border-line pt-12">
+					<p class="kicker mb-8">{{> "icons/play" class="h-3.5 w-3.5"}} Up next</p>
+					<div class="grid gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
+						{{#foreach related}}
+							{{> "cards/video"}}
+						{{/foreach}}
+					</div>
+					<div class="mt-10 text-center">
+						<a href="{{@site.url}}/videos/" class="btn-ghost">Browse all videos {{> "icons/arrow-right" class="h-4 w-4"}}</a>
+					</div>
+				</section>
+			{{/if}}
+		{{/get}}
+	</div>
+
+	<script>
+	(function () {
+		var app = document.getElementById('vd-app');
+		var content = document.getElementById('vd-content');
+		var shell = document.getElementById('vd-shell');
+		var stage = document.getElementById('vd-stage');
+		if (!app || !content || !shell) return;
+
+		/* ---------- 1. Find the first YouTube embed/link in the post ---------- */
+		var ID_RE = /(?:youtube(?:-nocookie)?\.com\/(?:embed\/|shorts\/|live\/|watch\?[^"'\s]*?v=)|youtu\.be\/)([A-Za-z0-9_-]{11})/;
+		var found = null;
+		var nodes = content.querySelectorAll('iframe[src], a[href]');
+		for (var i = 0; i < nodes.length; i++) {
+			var m = (nodes[i].src || nodes[i].href || '').match(ID_RE);
+			if (m) { found = { id: m[1], el: nodes[i] }; break; }
+		}
+		if (!found) { shell.parentNode.parentNode.remove(); return; }
+		var vid = found.id;
+
+		/* Hide the original embed so it doesn't render twice */
+		if (found.el.tagName === 'IFRAME') {
+			(found.el.closest('.kg-card, figure') || found.el).style.display = 'none';
+		} else {
+			var card = found.el.closest('.kg-bookmark-card, .kg-embed-card, figure');
+			if (card) { card.style.display = 'none'; }
+			else {
+				var p = found.el.closest('p');
+				if (p && p.textContent.trim() === found.el.textContent.trim()) p.style.display = 'none';
+			}
+		}
+
+		/* ---------- 2. Build the theater player (autoplay, muted) ---------- */
+		var iframe = document.createElement('iframe');
+		iframe.id = 'vd-iframe';
+		iframe.src = 'https://www.youtube.com/embed/' + vid +
+			'?autoplay=1&mute=1&playsinline=1&rel=0&modestbranding=1&enablejsapi=1&origin=' +
+			encodeURIComponent(location.origin);
+		iframe.title = app.getAttribute('data-title') || 'Video';
+		iframe.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
+		iframe.setAttribute('allowfullscreen', '');
+		iframe.className = 'absolute inset-0 h-full w-full';
+		stage.appendChild(iframe);
+		shell.classList.add('tv-on'); /* TV turn-on */
+
+		/* ---------- 3. Timestamp table -> clickable chapters ---------- */
+		var TIME_RE = /^(\d{1,2}:)?\d{1,2}:\d{2}$/;
+		function toSec(t) {
+			return t.split(':').reduce(function (a, b) { return a * 60 + parseInt(b, 10); }, 0);
+		}
+		var chapters = [];
+		var tables = content.querySelectorAll('table');
+		for (var ti = 0; ti < tables.length && !chapters.length; ti++) {
+			var rows = tables[ti].querySelectorAll('tr');
+			var hits = [];
+			for (var ri = 0; ri < rows.length; ri++) {
+				var cells = rows[ri].cells;
+				if (!cells || !cells.length) continue;
+				var t0 = cells[0].textContent.trim();
+				if (TIME_RE.test(t0)) {
+					hits.push({
+						row: rows[ri],
+						start: toSec(t0),
+						name: cells.length > 1 ? cells[1].textContent.trim() : ''
+					});
+				}
+			}
+			if (hits.length >= 2 && hits.length * 2 >= rows.length) {
+				chapters = hits;
+				tables[ti].classList.add('vd-chapters');
+			}
+		}
+
+		/* ---------- 4. YouTube IFrame API, loaded lazily ---------- */
+		var player = null, pendingSeek = null, apiRequested = false;
+		function onPlayerReady() {
+			if (pendingSeek != null) { doSeek(pendingSeek); pendingSeek = null; }
+		}
+		function loadAPI() {
+			if (apiRequested) return;
+			apiRequested = true;
+			function boot() { player = new YT.Player('vd-iframe', { events: { onReady: onPlayerReady } }); }
+			if (window.YT && window.YT.Player) { boot(); return; }
+			var prev = window.onYouTubeIframeAPIReady;
+			window.onYouTubeIframeAPIReady = function () { if (prev) prev(); boot(); };
+			var s = document.createElement('script');
+			s.src = 'https://www.youtube.com/iframe_api';
+			s.async = true;
+			document.head.appendChild(s);
+		}
+		function doSeek(sec) {
+			player.seekTo(sec, true);
+			if (player.unMute) player.unMute();
+			if (player.playVideo) player.playVideo();
+		}
+		function seek(sec) {
+			if (player && player.seekTo) doSeek(sec);
+			else { pendingSeek = sec; loadAPI(); }
+			shell.scrollIntoView({ behavior: 'smooth', block: 'center' });
+		}
+
+		if (chapters.length) {
+			chapters.forEach(function (c) {
+				c.row.classList.add('vd-chapter');
+				c.row.tabIndex = 0;
+				c.row.setAttribute('role', 'button');
+				c.row.setAttribute('aria-label', 'Jump to ' + (c.name || c.start + ' seconds'));
+				c.row.addEventListener('click', function () { seek(c.start); });
+				c.row.addEventListener('keydown', function (e) {
+					if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); seek(c.start); }
+				});
+			});
+			/* Warm the API off the critical path so active-chapter tracking works */
+			if ('requestIdleCallback' in window) requestIdleCallback(loadAPI, { timeout: 4000 });
+			else setTimeout(loadAPI, 2500);
+			setInterval(function () {
+				if (!player || !player.getCurrentTime) return;
+				var t, active = null;
+				try { t = player.getCurrentTime(); } catch (e) { return; }
+				chapters.forEach(function (c) { if (c.start <= t + 0.5) active = c; });
+				chapters.forEach(function (c) { c.row.classList.toggle('vd-active', c === active); });
+			}, 1000);
+		}
+
+		/* ---------- 5. JSON-LD: VideoObject + Clip chapters ---------- */
+		var watch = 'https://www.youtube.com/watch?v=' + vid;
+		var ld = {
+			'@context': 'https://schema.org',
+			'@type': 'VideoObject',
+			name: app.getAttribute('data-title'),
+			description: app.getAttribute('data-desc') || app.getAttribute('data-title'),
+			thumbnailUrl: [app.getAttribute('data-thumb') || ('https://i.ytimg.com/vi/' + vid + '/hqdefault.jpg')],
+			uploadDate: app.getAttribute('data-published'),
+			embedUrl: 'https://www.youtube.com/embed/' + vid,
+			contentUrl: watch,
+			url: app.getAttribute('data-url')
+		};
+		if (chapters.length) {
+			ld.hasPart = chapters.map(function (c, i) {
+				var clip = {
+					'@type': 'Clip',
+					name: c.name || ('Chapter ' + (i + 1)),
+					startOffset: c.start,
+					url: watch + '&t=' + c.start + 's'
+				};
+				if (chapters[i + 1]) clip.endOffset = chapters[i + 1].start;
+				return clip;
+			});
+		}
+		var ldTag = document.createElement('script');
+		ldTag.type = 'application/ld+json';
+		ldTag.textContent = JSON.stringify(ld);
+		document.head.appendChild(ldTag);
+
+		/* ---------- 6. TV turn-off when navigating away (internal links) ---------- */
+		document.addEventListener('click', function (e) {
+			if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+			var a = e.target.closest ? e.target.closest('a[href]') : null;
+			if (!a || a.target === '_blank' || a.host !== location.host) return;
+			if (a.pathname === location.pathname && a.hash) return; /* same-page anchors */
+			if (shell.classList.contains('tv-off')) return;
+			e.preventDefault();
+			shell.classList.remove('tv-on');
+			shell.classList.add('tv-off');
+			setTimeout(function () { location.href = a.href; }, 260);
+		});
+	})();
+	</script>
 </article>

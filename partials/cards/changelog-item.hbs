@@ -1,11 +1,14 @@
 <li class="relative grid gap-2 border-l border-line py-6 pl-8 sm:grid-cols-[10rem_1fr] sm:gap-8 {{class}}">
-	<span class="absolute -left-[5px] top-8 h-2.5 w-2.5 rounded-full border-2 border-paper bg-ink"></span>
-	<p class="font-mono text-xs text-silver sm:pt-1">{{date published_at format="DD MMM YYYY"}}</p>
+	<span class="absolute -left-[5px] top-8 h-2.5 w-2.5 rounded-full border-2 border-paper bg-accent"></span>
+	<div class="sm:pt-1">
+		<p class="font-mono text-xs text-silver">{{date published_at format="DD MMM YYYY"}}</p>
+		<span class="chip mt-2 hidden !border-transparent !bg-ink font-mono !text-paper" data-log-version></span>
+	</div>
 	<div>
 		<a href="{{url}}" class="group">
-			<h3 class="text-base font-semibold tracking-tight transition group-hover:text-silver">{{title}}</h3>
+			<h3 class="text-base font-semibold tracking-tight transition group-hover:text-silver" data-log-title>{{title}}</h3>
 			<p class="mt-1 text-sm leading-relaxed text-silver">{{custom_excerpt}}{{^custom_excerpt}}{{excerpt words="30"}}{{/custom_excerpt}}</p>
 		</a>
-		<div class="mt-2 flex gap-1.5">{{#foreach tags visibility="public" limit="2"}}<span class="chip">{{name}}</span>{{/foreach}}</div>
+		<div class="mt-2 flex gap-1.5">{{#foreach tags visibility="public" limit="3"}}<span class="chip">{{name}}</span>{{/foreach}}</div>
 	</div>
 </li>
