@@ -3,15 +3,16 @@
 <section class="reveal relative overflow-hidden py-16" id="home-latest">
 	<div class="container-site">
 		{{> "components/section-head"
-			kicker="Trending on this couch"
-			title="Top 10 on imswarnil"
+			kicker="Fresh off the timeline"
+			title="Most recent on swarnil"
 			sub="Ranked by recency, not by taste. The algorithm is me."
 			actionUrl=(concat @site.url "/archive/") actionLabel="Everything"}}
 	</div>
 
 	{{#get "posts" limit="10" order="published_at desc" include="tags" as |latest|}}
 		{{#if latest}}
-		<div class="no-scrollbar mt-8 snap-x snap-mandatory scroll-smooth overflow-x-auto pb-4 fade-mask-x" data-rank-track>
+		{{!-- snap-proximity + pan-y: mandatory snapping was hijacking vertical scroll on touch --}}
+		<div class="no-scrollbar mt-8 snap-x snap-proximity scroll-smooth overflow-x-auto pb-4 fade-mask-x [touch-action:pan-x_pan-y] [overscroll-behavior-x:contain]" data-rank-track>
 			<div class="container-site">
 				<div class="flex w-max items-stretch gap-2 pr-8" data-reveal-stagger="70">
 					{{#foreach latest}}

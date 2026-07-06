@@ -2,7 +2,19 @@
      Derived links: repo = github.com/imswarnil/{slug}; live = {slug minus dashes}.imswarnil.com
      (live href + skill chips are wired by the [data-live-from-slug]/[data-skill-chips]
       inline script included once in projects.hbs and partials/post/project.hbs). --}}
-<article class="card-surface group relative flex flex-col p-5 {{class}}">
+<article class="card-surface group relative flex flex-col overflow-hidden {{class}}">
+	{{!-- Repo social-preview strip: feature image, else a generated "logo" tile from the slug --}}
+	<a href="{{url}}" class="relative block aspect-[2/1] overflow-hidden border-b border-line bg-mist" tabindex="-1" aria-hidden="true">
+		{{#if feature_image}}
+			<img src="{{img_url feature_image size="600"}}" width="600" height="300" alt="" loading="lazy" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
+		{{else}}
+			<span class="bg-cross absolute inset-0 flex items-center justify-center">
+				<span class="flex h-14 w-14 items-center justify-center rounded-2xl bg-ink text-paper shadow-card" data-avatar-initial="{{title}}">{{> "icons/terminal" class="h-5 w-5"}}</span>
+			</span>
+		{{/if}}
+		<span class="absolute bottom-2 right-2 rounded bg-black/60 px-1.5 py-0.5 font-mono text-[9px] uppercase tracking-[0.15em] text-white backdrop-blur">{{date published_at format="YYYY"}}</span>
+	</a>
+	<div class="flex flex-1 flex-col p-5">
 	<div class="flex items-center gap-2">
 		{{> "icons/repo" class="h-4 w-4 shrink-0 text-silver"}}
 		<a href="{{url}}" class="min-w-0 truncate font-mono text-sm font-semibold tracking-tight text-ink transition hover:text-accent hover:underline">{{slug}}</a>
@@ -20,5 +32,6 @@
 		<span class="flex-1" aria-hidden="true"></span>
 		<a href="https://github.com/imswarnil/{{slug}}" target="_blank" rel="noopener" class="inline-flex items-center gap-1 font-medium text-ink transition hover:text-accent" aria-label="{{title}} on GitHub">{{> "icons/github" class="h-3.5 w-3.5"}} GitHub</a>
 		<a href="{{url}}" data-live-from-slug="{{slug}}" target="_blank" rel="noopener" class="inline-flex items-center gap-1 font-medium text-ink transition hover:text-accent" aria-label="{{title}} live site">{{> "icons/external" class="h-3.5 w-3.5"}} Live</a>
+	</div>
 	</div>
 </article>

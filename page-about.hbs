@@ -1,0 +1,102 @@
+{{!< default}}
+
+{{!-- /about — the origin story. Page content (from the Ghost editor) renders in
+     the "long version" section; everything else is theme-crafted. --}}
+{{#post}}
+<article class="{{post_class}}">
+
+	{{!-- Opening title card --}}
+	<header class="relative overflow-hidden border-b border-line py-20 text-center">
+		<div class="bg-grid pointer-events-none absolute inset-0 fade-mask-b" aria-hidden="true"></div>
+		<div class="container-site relative">
+			<p class="chip mx-auto animate-fade-in">{{> "icons/film"}} a swarnil production, about swarnil, by swarnil</p>
+			<h1 class="mx-auto mt-6 max-w-3xl text-4xl font-semibold tracking-tight sm:text-6xl text-balance animate-fade-up">Hi, I'm Swarnil. I make marketing measurable and life cinematic.</h1>
+			<p class="mx-auto mt-5 max-w-xl text-lg leading-relaxed text-silver animate-fade-in" style="animation-delay:.25s">{{@custom.job_title}} at {{@custom.workplace}} by day. Filmmaker, tinkerer and professional noise-cropper the rest of the time.</p>
+			<div class="mt-8 flex justify-center gap-3 animate-fade-in" style="animation-delay:.4s">
+				<a href="{{@site.url}}/resume/" class="btn-primary">{{> "icons/briefcase"}} Resume</a>
+				<a href="{{@site.url}}/contact/" class="btn-ghost">{{> "icons/mail"}} Say hi</a>
+			</div>
+		</div>
+	</header>
+
+	{{!-- The numbers (self-aware) --}}
+	<section class="reveal container-site py-14">
+		<div class="mx-auto grid max-w-4xl grid-cols-2 gap-4 sm:grid-cols-4" data-reveal-stagger="80">
+			{{#get "posts" limit="1" as |all|}}
+			<div class="card-surface !transform-none p-5 text-center"><p class="text-2xl font-bold tabular-nums">{{pagination.total}}</p><p class="mt-1 font-mono text-[10px] uppercase tracking-[0.15em] text-silver">things published</p></div>
+			{{/get}}
+			{{#get "posts" filter="tag:hash-video" limit="1" as |v|}}
+			<div class="card-surface !transform-none p-5 text-center"><p class="text-2xl font-bold tabular-nums">{{pagination.total}}</p><p class="mt-1 font-mono text-[10px] uppercase tracking-[0.15em] text-silver">videos rendered</p></div>
+			{{/get}}
+			<div class="card-surface !transform-none p-5 text-center"><p class="text-2xl font-bold tabular-nums">10k+</p><p class="mt-1 font-mono text-[10px] uppercase tracking-[0.15em] text-silver">youtube subscribers</p></div>
+			<div class="card-surface !transform-none p-5 text-center"><p class="text-2xl font-bold tabular-nums">∞</p><p class="mt-1 font-mono text-[10px] uppercase tracking-[0.15em] text-silver">tabs open right now</p></div>
+		</div>
+	</section>
+
+	{{!-- The long version — page content from the editor --}}
+	{{#if content}}
+	<section class="reveal container-site pb-14">
+		<div class="mx-auto max-w-prose">
+			<p class="kicker mb-6">{{> "icons/book"}} The long version</p>
+			<div class="gh-content">{{content}}</div>
+		</div>
+	</section>
+	{{/if}}
+
+	{{!-- Three acts --}}
+	<section class="reveal border-y border-line bg-mist/40 py-16">
+		<div class="container-site">
+			<p class="kicker text-center">{{> "icons/film"}} In three acts</p>
+			<div class="mx-auto mt-8 grid max-w-5xl gap-6 md:grid-cols-3" data-reveal-stagger="120">
+				<div class="card-surface !transform-none p-6">
+					<p class="font-mono text-[10px] uppercase tracking-[0.25em] text-silver">Act I</p>
+					<h2 class="mt-2 text-lg font-semibold">The engineer</h2>
+					<p class="mt-2 text-sm leading-relaxed text-silver">B.Tech in CSE. Learned to code, learned to debug, learned that "it works on my machine" is a lifestyle, not an excuse.</p>
+				</div>
+				<div class="card-surface !transform-none p-6">
+					<p class="font-mono text-[10px] uppercase tracking-[0.25em] text-silver">Act II</p>
+					<h2 class="mt-2 text-lg font-semibold">The marketer</h2>
+					<p class="mt-2 text-sm leading-relaxed text-silver">Fell into ad platforms, stayed for the data. Now I make campaigns measurable at {{@custom.workplace}} and explain attribution at parties. Invited to fewer parties.</p>
+				</div>
+				<div class="card-surface !transform-none p-6">
+					<p class="font-mono text-[10px] uppercase tracking-[0.25em] text-silver">Act III</p>
+					<h2 class="mt-2 text-lg font-semibold">The filmmaker</h2>
+					<p class="mt-2 text-sm leading-relaxed text-silver">Cameras, cuts and color grades. Everything on this site is framed 1:1 because constraints are the best creative director I've worked with.</p>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	{{!-- FAQ, sort of --}}
+	<section class="reveal container-site py-16">
+		<div class="mx-auto max-w-2xl">
+			<p class="kicker">{{> "icons/sparkle"}} Questions nobody asked, answered anyway</p>
+			<div class="mt-6 space-y-3">
+				<details class="card-surface !transform-none p-5"><summary class="cursor-pointer font-semibold [&::-webkit-details-marker]:hidden">Why "frame 1:1"?</summary><p class="mt-3 text-sm leading-relaxed text-silver">Square frames force a choice: what stays, what goes. Turns out that's also a decent philosophy for calendars, codebases and camera rolls.</p></details>
+				<details class="card-surface !transform-none p-5"><summary class="cursor-pointer font-semibold [&::-webkit-details-marker]:hidden">Marketer or engineer?</summary><p class="mt-3 text-sm leading-relaxed text-silver">Yes. The job title says marketing, the git history says engineer, the video exports say "why is this 40GB".</p></details>
+				<details class="card-surface !transform-none p-5"><summary class="cursor-pointer font-semibold [&::-webkit-details-marker]:hidden">Will you look at my ad account?</summary><p class="mt-3 text-sm leading-relaxed text-silver">Probably. <a href="{{@site.url}}/contact/" class="underline underline-offset-4">Ask nicely</a>, bring context, and accept that my first answer is always "what's the conversion event?"</p></details>
+				<details class="card-surface !transform-none p-5"><summary class="cursor-pointer font-semibold [&::-webkit-details-marker]:hidden">Is the guestbook real?</summary><p class="mt-3 text-sm leading-relaxed text-silver"><a href="{{@site.url}}/guestbook/" class="underline underline-offset-4">Painfully real.</a> Sign it. It's the closest this site gets to social media.</p></details>
+			</div>
+		</div>
+	</section>
+
+	<div class="container-site">{{> "components/adsense" slot="8939839370" format="auto" class="mx-auto max-w-3xl"}}</div>
+
+	{{!-- Person JSON-LD --}}
+	<script type="application/ld+json">
+	{
+		"@context": "https://schema.org",
+		"@type": "Person",
+		"name": "Swarnil Singhai",
+		"url": "{{@site.url}}/about/",
+		"jobTitle": "{{@custom.job_title}}",
+		"worksFor": { "@type": "Organization", "name": "{{@custom.workplace}}", "url": "{{@custom.workplace_url}}" },
+		"sameAs": [
+			"https://github.com/imswarnil",
+			"https://www.linkedin.com/in/imswarnil",
+			"https://www.youtube.com/@imswarnil"
+		]
+	}
+	</script>
+</article>
+{{/post}}

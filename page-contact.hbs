@@ -116,6 +116,37 @@
 				{{/if}}
 
 			</div>
+
+			{{!-- Contact form — posts via formsubmit.co to the sponsor email, zero backend.
+			     First-ever submission sends a one-time activation email to that address. --}}
+			<div class="reveal mx-auto mt-16 max-w-2xl">
+				<div class="card-surface !transform-none p-8 sm:p-10">
+					<p class="kicker">{{> "icons/mail"}} Or use the form</p>
+					<h2 class="section-title mt-2">Write to me here</h2>
+					<p class="mt-2 text-sm leading-relaxed text-silver">Goes straight to my inbox. Replies within 48 hours unless I'm rendering video, in which case… 72.</p>
+					<form action="https://formsubmit.co/{{@custom.sponsor_email}}" method="POST" class="mt-6 grid gap-4 sm:grid-cols-2">
+						<input type="hidden" name="_subject" value="New message via imswarnil.com" />
+						<input type="hidden" name="_captcha" value="true" />
+						<input type="text" name="_honey" class="hidden" tabindex="-1" autocomplete="off" aria-hidden="true" />
+						<label class="block">
+							<span class="mb-1.5 block font-mono text-[10px] uppercase tracking-[0.2em] text-silver">Your name</span>
+							<input type="text" name="name" required placeholder="Nice Human" class="w-full rounded-xl border border-line bg-paper px-4 py-3 text-sm outline-none transition placeholder:text-silver/60 focus:border-ink" />
+						</label>
+						<label class="block">
+							<span class="mb-1.5 block font-mono text-[10px] uppercase tracking-[0.2em] text-silver">Your email</span>
+							<input type="email" name="email" required placeholder="you@email.com" class="w-full rounded-xl border border-line bg-paper px-4 py-3 text-sm outline-none transition placeholder:text-silver/60 focus:border-ink" />
+						</label>
+						<label class="block sm:col-span-2">
+							<span class="mb-1.5 block font-mono text-[10px] uppercase tracking-[0.2em] text-silver">What's on your mind</span>
+							<textarea name="message" rows="5" required placeholder="Job offer, collab, typo report, existential question — all welcome." class="w-full rounded-xl border border-line bg-paper px-4 py-3 text-sm outline-none transition placeholder:text-silver/60 focus:border-ink"></textarea>
+						</label>
+						<div class="flex items-center justify-between sm:col-span-2">
+							<p class="font-mono text-[10px] uppercase tracking-[0.15em] text-silver">no spam · no newsletters you didn't ask for</p>
+							<button type="submit" class="btn-primary">{{> "icons/mail"}} Send it</button>
+						</div>
+					</form>
+				</div>
+			</div>
 		</div>
 	</div>
 </article>

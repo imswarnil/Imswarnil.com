@@ -12,6 +12,8 @@
 		{{!-- Timeline column --}}
 		<div class="min-w-0">
 			<ol id="tl-list" class="relative space-y-12 pb-4 before:absolute before:bottom-0 before:left-[1.4rem] before:top-0 before:w-px before:bg-line lg:space-y-16 lg:before:left-1/2 lg:before:-translate-x-1/2">
+				{{!-- Spine fill: grows as you scroll through the timeline --}}
+				<span id="tl-fill" class="pointer-events-none absolute left-[1.4rem] top-0 w-px bg-accent transition-[height] duration-200 ease-linear lg:left-1/2 lg:-translate-x-1/2" style="height:0" aria-hidden="true"></span>
 				{{#foreach posts}}
 					{{!-- Year marker before every entry; a script below removes
 					     consecutive duplicates so only the first of each year stays --}}
@@ -113,6 +115,17 @@
 				for (var y in navLinks) navLinks[y].classList.toggle('is-active', y === year);
 			}
 		}
+		/* --- Spine fill: line "draws itself" down to the viewport middle --- */
+		var fill = document.getElementById('tl-fill');
+		function setFill() {
+			if (!fill) return;
+			var r = list.getBoundingClientRect();
+			var mid = window.innerHeight / 2;
+			fill.style.height = Math.max(0, Math.min(mid - r.top, r.height)) + 'px';
+		}
+		var origSetActive = setActive;
+		setActive = function () { origSetActive(); setFill(); };
+
 		function queue() { if (!ticking) { ticking = true; requestAnimationFrame(setActive); } }
 		window.addEventListener('scroll', queue, { passive: true });
 		window.addEventListener('resize', queue);

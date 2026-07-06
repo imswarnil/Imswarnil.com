@@ -1,20 +1,30 @@
-{{!-- Hero media scene — a stack of floating "footage" frames with pointer parallax.
-     Params: frame (main still), polaroid (small secondary photo), altText --}}
+{{!-- Hero media scene — floating "footage" frames with pointer parallax.
+     Main frame: muted autoplaying YouTube embed (@custom.hero_video_url may override
+     with an mp4 — then a <video> is used instead). Params: frame (poster still),
+     polaroid (photo for the take-47 frame), altText. --}}
 <div class="relative" data-parallax-scene>
 	<div class="bg-dots absolute -inset-4 rounded-[2rem] opacity-70 sm:-inset-8 sm:rounded-[2.5rem]" aria-hidden="true"></div>
 
-	{{!-- Main frame: video with ken-burns, styled like a camera monitor --}}
+	{{!-- Main frame: camera-monitor chrome around an autoplaying video --}}
 	<figure class="hero-frame relative overflow-hidden rounded-3xl border border-line bg-mist shadow-lift animate-fade-up" style="animation-delay:.3s" data-parallax-depth="6">
 		<div class="relative aspect-[4/3] sm:aspect-square">
 			{{#if frame}}
-				<img src="{{img_url frame size="1000"}}" alt="{{#if altText}}{{altText}}{{else}}Hero media{{/if}}" class="absolute inset-0 h-full w-full object-cover" />
+				<img src="{{img_url frame size="1000"}}" width="1000" height="1000" alt="{{#if altText}}{{altText}}{{else}}Hero media{{/if}}" class="absolute inset-0 h-full w-full object-cover" />
 			{{else}}
 				<div class="bg-cross absolute inset-0 flex items-center justify-center font-mono text-[10px] uppercase tracking-[0.3em] text-silver">your frame here</div>
 			{{/if}}
-			<video src="{{#if @custom.hero_video_url}}{{@custom.hero_video_url}}{{else}}https://cdn.coverr.co/videos/coverr-typing-on-a-laptop-5658/1080p.mp4{{/if}}"
-				{{#if frame}}poster="{{img_url frame size="1000"}}"{{/if}}
-				autoplay muted loop playsinline preload="metadata"
-				class="animate-ken-burns pointer-events-none absolute inset-0 h-full w-full object-cover"></video>
+			{{#if @custom.hero_video_url}}
+				<video src="{{@custom.hero_video_url}}" {{#if frame}}poster="{{img_url frame size="1000"}}"{{/if}}
+					autoplay muted loop playsinline preload="metadata"
+					class="animate-ken-burns pointer-events-none absolute inset-0 h-full w-full object-cover"></video>
+			{{else}}
+				{{!-- YouTube, cropped to fill the square: oversized + centered --}}
+				<iframe class="pointer-events-none absolute left-1/2 top-1/2 aspect-video h-[102%] w-auto -translate-x-1/2 -translate-y-1/2"
+					style="min-width: 178%"
+					src="https://www.youtube-nocookie.com/embed/ecOkmTD7KhU?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=ecOkmTD7KhU&amp;controls=0&amp;modestbranding=1&amp;playsinline=1&amp;rel=0"
+					title="Showreel" loading="lazy" frameborder="0"
+					allow="autoplay; encrypted-media; picture-in-picture"></iframe>
+			{{/if}}
 
 			{{!-- Camera-monitor chrome --}}
 			<div class="pointer-events-none absolute inset-0 rounded-3xl ring-1 ring-inset ring-ink/10" aria-hidden="true"></div>
@@ -23,29 +33,39 @@
 				<span class="h-1.5 w-1.5 animate-ping rounded-full bg-red-500"></span> rec
 			</span>
 			<span class="pointer-events-none absolute bottom-4 left-4 font-mono text-[10px] uppercase tracking-[0.25em] text-white/80 [text-shadow:0_1px_4px_rgb(0_0_0/.6)]">iso 100 · f/1.8 · no noise</span>
-			{{!-- Corner brackets, viewfinder style --}}
-			<span class="pointer-events-none absolute inset-6 rounded-xl border border-white/25 [mask-image:linear-gradient(black,black)]" style="-webkit-mask-image: radial-gradient(circle at center, transparent 62%, black 63%)" aria-hidden="true"></span>
 		</div>
 		<figcaption class="sr-only">{{#if altText}}{{altText}}{{else}}Hero media{{/if}}</figcaption>
 	</figure>
 
-	{{!-- Floating polaroid #1 (custom alt image, or a wink) --}}
-	<figure class="float-frame absolute -bottom-8 -left-3 w-28 overflow-hidden rounded-2xl border-4 border-paper bg-mist shadow-lift animate-fade-up sm:-left-8 sm:w-40" style="--tilt:-5deg; animation-delay:.55s" data-parallax-depth="14">
-		{{#if polaroid}}
-			<img src="{{img_url polaroid size="600"}}" alt="" loading="lazy" class="aspect-square h-full w-full object-cover" />
-		{{else}}
-			<div class="bg-dots flex aspect-square items-center justify-center p-3 text-center font-mono text-[9px] uppercase tracking-[0.2em] text-silver">b-roll<br/>pending</div>
-		{{/if}}
-		<figcaption class="bg-paper px-2 py-1.5 text-center font-mono text-[9px] uppercase tracking-[0.18em] text-silver">behind the scenes</figcaption>
+	{{!-- Floating IG-reel dummy (b-roll) --}}
+	<figure class="float-frame reel-ui absolute -bottom-10 -left-3 w-24 overflow-hidden rounded-2xl border-4 border-paper bg-ink shadow-lift animate-fade-up sm:-left-8 sm:w-28" style="--tilt:-5deg; animation-delay:.55s" data-parallax-depth="14">
+		<div class="relative aspect-[9/16]">
+			<video src="https://cdn.coverr.co/videos/coverr-typing-on-a-laptop-5658/1080p.mp4" autoplay muted loop playsinline preload="none"
+				class="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-90"></video>
+			{{!-- fake reel chrome --}}
+			<div class="absolute inset-x-0 bottom-0 z-10 p-2">
+				<p class="font-mono text-[8px] font-semibold text-white">@imswarnil</p>
+				<p class="text-[8px] leading-tight text-white/80">b-roll no one asked for ✨</p>
+			</div>
+			<div class="absolute bottom-2 right-1 z-10 flex flex-col items-center gap-1.5 text-[9px] text-white">
+				<span>♥︎</span><span class="text-[7px]">4.2k</span><span>➦</span>
+			</div>
+			<span class="absolute left-2 top-2 z-10 font-mono text-[7px] uppercase tracking-[0.2em] text-white/70">reel</span>
+		</div>
 	</figure>
 
-	{{!-- Floating mini video frame #2 --}}
-	<figure class="float-frame-alt absolute -right-2 -top-8 hidden w-32 overflow-hidden rounded-2xl border-4 border-paper bg-mist shadow-lift animate-fade-up sm:block sm:-right-6 sm:w-40" style="--tilt:4deg; animation-delay:.7s" data-parallax-depth="20">
-		<div class="relative aspect-video">
-			<video src="{{#if @custom.hero_video_url}}{{@custom.hero_video_url}}{{else}}https://cdn.coverr.co/videos/coverr-typing-on-a-laptop-5658/1080p.mp4{{/if}}"
-				autoplay muted loop playsinline preload="metadata"
-				class="pointer-events-none absolute inset-0 h-full w-full object-cover"></video>
-			<span class="absolute bottom-1.5 right-1.5 rounded bg-black/70 px-1 py-0.5 font-mono text-[8px] font-semibold text-white">take 47</span>
+	{{!-- take 47: photo card with text, video peeking behind --}}
+	<figure class="float-frame-alt absolute -right-2 -top-10 hidden w-36 animate-fade-up sm:block sm:-right-6 sm:w-44" style="--tilt:4deg; animation-delay:.7s" data-parallax-depth="20">
+		<div class="pointer-events-none absolute -left-3 -top-3 aspect-video w-full overflow-hidden rounded-xl border border-line opacity-70">
+			<video src="https://cdn.coverr.co/videos/coverr-typing-on-a-laptop-5658/1080p.mp4" autoplay muted loop playsinline preload="none" class="h-full w-full object-cover"></video>
+		</div>
+		<div class="relative overflow-hidden rounded-2xl border-4 border-paper bg-mist shadow-lift">
+			{{#if polaroid}}
+				<img src="{{img_url polaroid size="600"}}" width="600" height="600" alt="" loading="lazy" class="aspect-square h-full w-full object-cover" />
+			{{else}}
+				<div class="bg-dots flex aspect-square items-center justify-center p-3 text-center font-mono text-[9px] uppercase tracking-[0.2em] text-silver">insert<br/>good side</div>
+			{{/if}}
+			<figcaption class="bg-paper px-2 py-1.5 text-center font-mono text-[9px] uppercase tracking-[0.18em] text-silver">take 47 · still not viral</figcaption>
 		</div>
 	</figure>
 

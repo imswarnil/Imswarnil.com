@@ -1,39 +1,44 @@
-{{!-- Navbar: full-width flat bar at page top; morphs into a floating island
-     pill as you scroll (see .nav-shell / .is-island in tailwind.css).
-     Primary nav from Ghost Admin → Settings → Navigation. --}}
-<header class="fixed inset-x-0 top-0 z-50 px-4 pt-3 sm:pt-4" id="site-header">
+{{!-- Navbar: compact flat bar at page top; morphs into a floating island pill on
+     scroll. Menu is theme-defined (iconified) — Ghost Admin nav is ignored on
+     purpose: the admin default ("Home / Getting started") looked broken here.
+     Secondary admin nav still feeds the "More" dropdown if set. --}}
+<header class="fixed inset-x-0 top-0 z-50 px-4 pt-2 sm:pt-3" id="site-header">
 	<nav class="container-site !px-0">
 		<div class="nav-shell" id="nav-island">
 
 			{{> "components/logo"}}
 
-			{{!-- Desktop nav (Ghost Admin → Settings → Navigation → Primary) --}}
+			{{!-- Desktop nav — theme-defined, iconified --}}
 			<div class="hidden items-center gap-0.5 lg:flex" role="navigation" aria-label="Primary">
-				{{#foreach @site.navigation}}
-					<a href="{{url absolute="true"}}" class="rounded-full px-3.5 py-2 text-sm font-medium text-silver transition hover:bg-mist hover:text-ink{{#if current}} bg-mist !text-ink{{/if}}">{{label}}</a>
-				{{/foreach}}
+				<a href="{{@site.url}}/videos/" class="nav-link">{{> "icons/play" class="h-3.5 w-3.5"}} Videos</a>
+				<a href="{{@site.url}}/webseries/" class="nav-link">{{> "icons/film" class="h-3.5 w-3.5"}} Series</a>
+				<a href="{{@site.url}}/blog/" class="nav-link">{{> "icons/book" class="h-3.5 w-3.5"}} Blog</a>
+				<a href="{{@site.url}}/courses/" class="nav-link">{{> "icons/graduation" class="h-3.5 w-3.5"}} Courses</a>
+				<a href="{{@site.url}}/projects/" class="nav-link">{{> "icons/terminal" class="h-3.5 w-3.5"}} Projects</a>
+				<a href="{{@site.url}}/travel/" class="nav-link">{{> "icons/map-pin" class="h-3.5 w-3.5"}} Travel</a>
 
-				{{#if @site.secondary_navigation}}
 				<div class="relative" data-dropdown>
-					<button type="button" class="flex items-center gap-1 rounded-full px-3.5 py-2 text-sm font-medium text-silver transition hover:bg-mist hover:text-ink" aria-expanded="false" aria-haspopup="true" data-dropdown-toggle>
-						More {{> "icons/chevron-down" class="transition-transform duration-200"}}
+					<button type="button" class="nav-link" aria-expanded="false" aria-haspopup="true" data-dropdown-toggle>
+						More {{> "icons/chevron-down" class="h-3 w-3 transition-transform duration-200"}}
 					</button>
-					<div class="invisible absolute right-0 top-full mt-2 w-52 origin-top-right scale-95 rounded-2xl border border-line bg-paper p-1.5 opacity-0 shadow-lift transition-all duration-200 data-[open]:visible data-[open]:scale-100 data-[open]:opacity-100" data-dropdown-menu>
+					<div class="invisible absolute right-0 top-full mt-2 w-56 origin-top-right scale-95 rounded-2xl border border-line bg-paper p-1.5 opacity-0 shadow-lift transition-all duration-200 data-[open]:visible data-[open]:scale-100 data-[open]:opacity-100" data-dropdown-menu>
+						<a href="{{@site.url}}/shop/" class="panel-link">{{> "icons/download" class="h-3.5 w-3.5"}} Shop &amp; downloads</a>
+						<a href="{{@site.url}}/products/" class="panel-link">{{> "icons/zap" class="h-3.5 w-3.5"}} Things I use</a>
+						<a href="{{@site.url}}/timeline/" class="panel-link">{{> "icons/calendar" class="h-3.5 w-3.5"}} Timeline</a>
+						<a href="{{@site.url}}/guestbook/" class="panel-link">{{> "icons/heart" class="h-3.5 w-3.5"}} Guestbook</a>
+						<a href="{{@site.url}}/about/" class="panel-link">{{> "icons/user" class="h-3.5 w-3.5"}} About</a>
+						<a href="{{@site.url}}/contact/" class="panel-link">{{> "icons/mail" class="h-3.5 w-3.5"}} Contact</a>
 						{{#foreach @site.secondary_navigation}}
-							<a href="{{url absolute="true"}}" class="flex items-center justify-between rounded-xl px-3.5 py-2.5 text-sm font-medium text-silver transition hover:bg-mist hover:text-ink">
-								{{label}} {{> "icons/arrow-up-right" class="opacity-40"}}
-							</a>
+							<a href="{{url absolute="true"}}" class="panel-link">{{> "icons/arrow-up-right" class="h-3.5 w-3.5"}} {{label}}</a>
 						{{/foreach}}
 					</div>
 				</div>
-				{{/if}}
 			</div>
 
 			{{!-- Actions --}}
 			<div class="flex items-center gap-1">
-				<a href="https://github.com/{{@custom.github_repo}}" target="_blank" rel="noopener" class="group hidden items-center gap-1.5 rounded-full border border-line bg-mist/60 px-3 py-1.5 text-xs font-semibold transition hover:bg-mist xl:inline-flex" aria-label="Star on GitHub">
+				<a href="https://github.com/{{@custom.github_repo}}" target="_blank" rel="noopener" class="group hidden h-8 items-center gap-1.5 rounded-full border border-line bg-mist/60 px-2.5 text-xs font-semibold transition hover:bg-mist xl:inline-flex" aria-label="Star on GitHub">
 					{{> "icons/github" class=""}}
-					<span class="hidden md:inline">Star</span>
 					{{> "icons/star" class="text-silver transition group-hover:scale-110 group-hover:text-ink"}}
 				</a>
 
@@ -41,38 +46,25 @@
 					{{> "icons/search"}}
 				</button>
 
-				{{!-- Theme mode switcher: 6 modes --}}
-				<div class="relative" data-dropdown>
-					<button type="button" class="icon-btn tooltip tooltip-bottom" data-tip="Theme" aria-label="Switch theme" aria-haspopup="true" aria-expanded="false" data-dropdown-toggle>
-						<span class="hidden dark:inline-flex">{{> "icons/sun"}}</span>
-						<span class="inline-flex dark:hidden">{{> "icons/moon"}}</span>
-					</button>
-					<div class="invisible absolute right-0 top-full mt-2 w-48 origin-top-right scale-95 rounded-2xl border border-line bg-paper p-1.5 opacity-0 shadow-lift transition-all duration-200 data-[open]:visible data-[open]:scale-100 data-[open]:opacity-100" data-dropdown-menu id="mode-menu">
-						<button type="button" data-set-mode="light" class="mode-option"><span class="mode-dot" style="background:#fafafa;border-color:#d4d4d8"></span>Light</button>
-						<button type="button" data-set-mode="dark" class="mode-option"><span class="mode-dot" style="background:#09090b"></span>Dark</button>
-						<button type="button" data-set-mode="salesforce" class="mode-option"><span class="mode-dot" style="background:#0176d3"></span>Salesforce</button>
-						<button type="button" data-set-mode="youtube" class="mode-option"><span class="mode-dot" style="background:#ff0033"></span>YouTube</button>
-						<button type="button" data-set-mode="netflix" class="mode-option"><span class="mode-dot" style="background:#e50914"></span>Netflix</button>
-						<button type="button" data-set-mode="claude" class="mode-option"><span class="mode-dot" style="background:#c15f3c"></span>Claude</button>
-					</div>
-				</div>
+				{{!-- Mode cycle switch: click to hop light → dark → sfdc → yt → flix → claude (with sounds) --}}
+				<button type="button" id="mode-cycle" class="tooltip tooltip-bottom" aria-label="Switch theme mode"></button>
 
 				{{!-- Everything panel shortcut --}}
 				<button type="button" class="icon-btn tooltip tooltip-bottom" data-tip="Menu panel" id="panel-toggle" aria-expanded="false" aria-controls="mega-panel-backdrop" aria-label="Open menu panel">
-					<svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><circle cx="3" cy="3" r="1.6"/><circle cx="8" cy="3" r="1.6"/><circle cx="13" cy="3" r="1.6"/><circle cx="3" cy="8" r="1.6"/><circle cx="8" cy="8" r="1.6"/><circle cx="13" cy="8" r="1.6"/><circle cx="3" cy="13" r="1.6"/><circle cx="8" cy="13" r="1.6"/><circle cx="13" cy="13" r="1.6"/></svg>
+					<svg width="15" height="15" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><circle cx="3" cy="3" r="1.6"/><circle cx="8" cy="3" r="1.6"/><circle cx="13" cy="3" r="1.6"/><circle cx="3" cy="8" r="1.6"/><circle cx="8" cy="8" r="1.6"/><circle cx="13" cy="8" r="1.6"/><circle cx="3" cy="13" r="1.6"/><circle cx="8" cy="13" r="1.6"/><circle cx="13" cy="13" r="1.6"/></svg>
 				</button>
 
 				{{#if @site.members_enabled}}
 					{{#if @member}}
 						<a href="#/portal/account" class="ml-1 inline-flex items-center" aria-label="Your account" data-portal="account">
 							{{#if @member.avatar_image}}
-								<img src="{{@member.avatar_image}}" alt="{{@member.name}}" class="h-9 w-9 rounded-full border-2 border-line object-cover transition hover:border-ink" />
+								<img src="{{@member.avatar_image}}" alt="{{@member.name}}" class="h-8 w-8 rounded-full border-2 border-line object-cover transition hover:border-ink" />
 							{{else}}
-								<span class="flex h-9 w-9 items-center justify-center rounded-full bg-ink text-sm font-bold text-paper" data-avatar-initial="{{@member.name}}">{{> "icons/user"}}</span>
+								<span class="flex h-8 w-8 items-center justify-center rounded-full bg-ink text-sm font-bold text-paper" data-avatar-initial="{{@member.name}}">{{> "icons/user"}}</span>
 							{{/if}}
 						</a>
 					{{else}}
-						<a href="/signin/" class="btn-primary ml-1 !px-4 !py-2 !text-[13px]">Sign in</a>
+						<a href="/signin/" class="btn-primary ml-1 !px-3.5 !py-1.5 !text-[12px]">Sign in</a>
 					{{/if}}
 				{{/if}}
 
@@ -98,26 +90,28 @@
 					</div>
 					<div>
 						<p class="kicker mb-2">Learn</p>
-						<a href="/courses/" class="panel-link">{{> "icons/book" class="h-3.5 w-3.5"}} Courses</a>
-						<a href="/blog/" class="panel-link">Blog</a>
-						<a href="/newsletters/" class="panel-link">Newsletters</a>
-						<a href="/archive/" class="panel-link">Archive</a>
+						<a href="/courses/" class="panel-link">{{> "icons/graduation" class="h-3.5 w-3.5"}} Courses</a>
+						<a href="/blog/" class="panel-link">{{> "icons/book" class="h-3.5 w-3.5"}} Blog</a>
+						<a href="/newsletters/" class="panel-link">{{> "icons/mail" class="h-3.5 w-3.5"}} Newsletters</a>
+						<a href="/archive/" class="panel-link">{{> "icons/search" class="h-3.5 w-3.5"}} Archive</a>
+						<a href="/tags/" class="panel-link">{{> "icons/sparkle" class="h-3.5 w-3.5"}} Topics</a>
 					</div>
 					<div>
-						<p class="kicker mb-2">Work</p>
+						<p class="kicker mb-2">Work &amp; life</p>
 						<a href="/projects/" class="panel-link">{{> "icons/github" class="h-3.5 w-3.5"}} Projects</a>
-						<a href="/timeline/" class="panel-link">Timeline</a>
-						<a href="/resume/" class="panel-link">Resume</a>
-						<a href="/changelog/" class="panel-link">Changelog</a>
+						<a href="/travel/" class="panel-link">{{> "icons/map-pin" class="h-3.5 w-3.5"}} Travel</a>
+						<a href="/timeline/" class="panel-link">{{> "icons/calendar" class="h-3.5 w-3.5"}} Timeline</a>
+						<a href="/resume/" class="panel-link">{{> "icons/briefcase" class="h-3.5 w-3.5"}} Resume</a>
+						<a href="/changelog/" class="panel-link">{{> "icons/terminal" class="h-3.5 w-3.5"}} Changelog</a>
 					</div>
 					<div>
 						<p class="kicker mb-2">More</p>
-						<a href="/products/" class="panel-link">Things I use</a>
-						<a href="/shop/" class="panel-link">Shop</a>
+						<a href="/products/" class="panel-link">{{> "icons/zap" class="h-3.5 w-3.5"}} Things I use</a>
+						<a href="/shop/" class="panel-link">{{> "icons/download" class="h-3.5 w-3.5"}} Shop</a>
 						<a href="/guestbook/" class="panel-link">{{> "icons/heart" class="h-3.5 w-3.5"}} Guestbook</a>
-						<a href="/sponsor/" class="panel-link">Sponsor</a>
+						<a href="/about/" class="panel-link">{{> "icons/user" class="h-3.5 w-3.5"}} About</a>
+						<a href="/sponsor/" class="panel-link">{{> "icons/trophy" class="h-3.5 w-3.5"}} Sponsor</a>
 						<a href="/contact/" class="panel-link">{{> "icons/mail" class="h-3.5 w-3.5"}} Contact</a>
-						<a href="/sitemap-visual/" class="panel-link">Sitemap</a>
 					</div>
 				</div>
 				<div class="mt-6 flex flex-wrap items-center justify-between gap-3 border-t border-line pt-5">
@@ -135,22 +129,24 @@
 		{{!-- Mobile menu --}}
 		<div class="mx-auto mt-2 hidden max-w-5xl overflow-hidden rounded-island border border-line bg-paper/95 p-3 shadow-lift backdrop-blur-xl lg:!hidden" id="mobile-menu">
 			<nav class="flex flex-col" aria-label="Mobile">
-				{{#foreach @site.navigation}}
-					<a href="{{url absolute="true"}}" class="flex items-center justify-between rounded-xl px-4 py-3 text-[15px] font-medium text-ink transition hover:bg-mist{{#if current}} bg-mist{{/if}}">
-						{{label}} {{> "icons/arrow-right" class="text-silver"}}
-					</a>
-				{{/foreach}}
-				{{#if @site.secondary_navigation}}
-					<div class="my-2 border-t border-line"></div>
-					<div class="grid grid-cols-2 gap-1">
-						{{#foreach @site.secondary_navigation}}
-							<a href="{{url absolute="true"}}" class="rounded-xl px-4 py-2.5 text-sm font-medium text-silver transition hover:bg-mist hover:text-ink">{{label}}</a>
-						{{/foreach}}
-					</div>
-				{{/if}}
+				<a href="{{@site.url}}/videos/" class="mobile-link">{{> "icons/play" class="h-4 w-4 text-silver"}} Videos {{> "icons/arrow-right" class="ml-auto text-silver"}}</a>
+				<a href="{{@site.url}}/webseries/" class="mobile-link">{{> "icons/film" class="h-4 w-4 text-silver"}} Webseries {{> "icons/arrow-right" class="ml-auto text-silver"}}</a>
+				<a href="{{@site.url}}/blog/" class="mobile-link">{{> "icons/book" class="h-4 w-4 text-silver"}} Blog {{> "icons/arrow-right" class="ml-auto text-silver"}}</a>
+				<a href="{{@site.url}}/courses/" class="mobile-link">{{> "icons/graduation" class="h-4 w-4 text-silver"}} Courses {{> "icons/arrow-right" class="ml-auto text-silver"}}</a>
+				<a href="{{@site.url}}/projects/" class="mobile-link">{{> "icons/terminal" class="h-4 w-4 text-silver"}} Projects {{> "icons/arrow-right" class="ml-auto text-silver"}}</a>
+				<a href="{{@site.url}}/travel/" class="mobile-link">{{> "icons/map-pin" class="h-4 w-4 text-silver"}} Travel {{> "icons/arrow-right" class="ml-auto text-silver"}}</a>
+				<div class="my-2 border-t border-line"></div>
+				<div class="grid grid-cols-2 gap-1">
+					<a href="{{@site.url}}/shop/" class="mobile-sub">Shop</a>
+					<a href="{{@site.url}}/products/" class="mobile-sub">Things I use</a>
+					<a href="{{@site.url}}/timeline/" class="mobile-sub">Timeline</a>
+					<a href="{{@site.url}}/guestbook/" class="mobile-sub">Guestbook</a>
+					<a href="{{@site.url}}/about/" class="mobile-sub">About</a>
+					<a href="{{@site.url}}/contact/" class="mobile-sub">Contact</a>
+				</div>
 			</nav>
 		</div>
 	</nav>
 </header>
-{{!-- Spacer so content clears the fixed navbar --}}
-<div class="h-24 sm:h-28" aria-hidden="true"></div>
+{{!-- Spacer so content clears the fixed navbar (hidden on player-chrome pages) --}}
+<div class="h-[4.5rem] sm:h-20" aria-hidden="true" id="nav-spacer"></div>

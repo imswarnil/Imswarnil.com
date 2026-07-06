@@ -1,8 +1,20 @@
+{{!-- Collection header. Copy sits left; on xl+ a 728×90 leaderboard fills the
+     empty right half (renders only when AdSense is enabled — no placeholder here
+     so the header stays clean when ads are off). --}}
 <header class="relative overflow-hidden border-b border-line py-16 sm:py-20">
 	<div class="bg-grid pointer-events-none absolute inset-0 fade-mask-b" aria-hidden="true"></div>
-	<div class="container-site relative">
-		<p class="kicker animate-fade-in">{{kicker}}</p>
-		<h1 class="mt-3 max-w-3xl text-4xl font-semibold tracking-tight sm:text-5xl animate-fade-up text-balance">{{title}}</h1>
-		{{#if desc}}<p class="mt-5 max-w-xl text-lg leading-relaxed text-silver animate-fade-in" style="animation-delay:.2s">{{desc}}</p>{{/if}}
+	<div class="container-site relative flex items-end justify-between gap-10">
+		<div class="min-w-0">
+			<p class="kicker animate-fade-in">{{kicker}}</p>
+			<h1 class="mt-3 max-w-3xl text-4xl font-semibold tracking-tight sm:text-5xl animate-fade-up text-balance">{{title}}</h1>
+			{{#if desc}}<p class="mt-5 max-w-xl text-lg leading-relaxed text-silver animate-fade-in" style="animation-delay:.2s">{{desc}}</p>{{/if}}
+		</div>
+		{{#if @custom.enable_adsense}}
+		<div class="hidden w-[728px] shrink-0 xl:block" aria-hidden="true">
+			<ins class="adsbygoogle block" style="width:728px;height:90px"
+				data-ad-client="{{#if @custom.adsense_publisher_id}}{{@custom.adsense_publisher_id}}{{else}}ca-pub-1291242080282540{{/if}}"
+				data-ad-slot="8939839370"></ins>
+		</div>
+		{{/if}}
 	</div>
 </header>

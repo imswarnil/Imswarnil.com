@@ -1,0 +1,26 @@
+{{!< default}}
+
+{{!-- /tags — every public topic as a tile pile, sized-ish by post count. --}}
+{{> "components/collection-header" kicker="The index" title="Browse by topic" desc="Every public tag on the site, piled up like laundry — but organized."}}
+
+<section class="container-site py-12">
+	{{#get "tags" limit="100" include="count.posts" order="count.posts desc" as |tags|}}
+		{{#if tags}}
+		<div class="flex flex-wrap gap-3" data-reveal-stagger="35">
+			{{#foreach tags}}
+			<a href="{{url}}" class="card-surface group flex items-center gap-3 !transform-none px-5 py-3.5 transition hover:-translate-y-0.5">
+				<span class="flex h-9 w-9 items-center justify-center rounded-xl border border-line bg-mist font-mono text-xs font-bold uppercase transition group-hover:bg-ink group-hover:text-paper" data-avatar-initial="{{name}}">#</span>
+				<span>
+					<span class="block text-sm font-semibold tracking-tight">{{name}}</span>
+					<span class="block font-mono text-[10px] uppercase tracking-[0.15em] text-silver">{{plural count.posts empty="no posts, yet" singular="% post" plural="% posts"}}</span>
+				</span>
+			</a>
+			{{/foreach}}
+		</div>
+		{{else}}
+		<p class="rounded-2xl border border-dashed border-line p-10 text-center text-sm text-silver">No public tags yet. Tag something. Anything. Please.</p>
+		{{/if}}
+	{{/get}}
+
+	{{> "components/adsense" slot="8939839370" format="auto"}}
+</section>

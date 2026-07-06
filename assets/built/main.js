@@ -255,4 +255,152 @@
 			a.rel = 'noopener';
 		}
 	});
+
+	/* ---------- AdSense: single guarded push per ins (fixes double-push TagError) ---------- */
+	function pushAds() {
+		if (!window.adsbygoogle) return;
+		document.querySelectorAll('ins.adsbygoogle').forEach(function (ins) {
+			if (ins.getAttribute('data-ad-status') || ins.dataset.adPushed) return;
+			if (!ins.offsetWidth) return; // hidden slots throw availableWidth=0 errors
+			ins.dataset.adPushed = '1';
+			try { (window.adsbygoogle = window.adsbygoogle || []).push({}); } catch (e) {}
+		});
+	}
+	pushAds();
+	window.addEventListener('load', pushAds);
+
+	/* ---------- Mode sounds — tiny WebAudio sketches, no samples ---------- */
+	var audioCtx = null;
+	function ctx() {
+		if (!audioCtx) { try { audioCtx = new (window.AudioContext || window.webkitAudioContext)(); } catch (e) {} }
+		return audioCtx;
+	}
+	function tone(freq, t0, dur, type, gain, slideTo) {
+		var ac = ctx(); if (!ac) return;
+		var o = ac.createOscillator(), g = ac.createGain();
+		o.type = type || 'sine';
+		o.frequency.setValueAtTime(freq, ac.currentTime + t0);
+		if (slideTo) o.frequency.exponentialRampToValueAtTime(slideTo, ac.currentTime + t0 + dur);
+		g.gain.setValueAtTime(0.0001, ac.currentTime + t0);
+		g.gain.exponentialRampToValueAtTime(gain || 0.08, ac.currentTime + t0 + 0.01);
+		g.gain.exponentialRampToValueAtTime(0.0001, ac.currentTime + t0 + dur);
+		o.connect(g).connect(ac.destination);
+		o.start(ac.currentTime + t0); o.stop(ac.currentTime + t0 + dur + 0.05);
+	}
+	function noise(t0, dur, gain) {
+		var ac = ctx(); if (!ac) return;
+		var len = Math.max(1, Math.floor(ac.sampleRate * dur));
+		var buf = ac.createBuffer(1, len, ac.sampleRate);
+		var d = buf.getChannelData(0);
+		for (var i = 0; i < len; i++) d[i] = Math.random() * 2 - 1;
+		var s = ac.createBufferSource(); s.buffer = buf;
+		var g = ac.createGain(); g.gain.value = gain || 0.05;
+		var f = ac.createBiquadFilter(); f.type = 'highpass'; f.frequency.value = 2500;
+		s.connect(f).connect(g).connect(ac.destination);
+		s.start(ac.currentTime + t0);
+	}
+	var MODE_SOUNDS = {
+		light: function () { tone(1200, 0, 0.06, 'square', 0.05); },                                     // switch tick
+		dark: function () { for (var i = 0; i < 6; i++) noise(i * 0.05, 0.025, 0.04); },                 // cockroach skitter
+		salesforce: function () { tone(660, 0, 0.12, 'sine', 0.07); tone(880, 0.12, 0.18, 'sine', 0.07); }, // teams-ish ding
+		youtube: function () { tone(520, 0, 0.09, 'triangle', 0.08, 780); },                             // pop
+		netflix: function () { tone(98, 0, 0.28, 'sawtooth', 0.1); tone(65, 0.16, 0.5, 'sawtooth', 0.12); }, // tu-dum
+		claude: function () { for (var i = 0; i < 5; i++) { noise(i * 0.07, 0.015, 0.03); tone(2600 + Math.sin(i) * 300, i * 0.07, 0.02, 'square', 0.015); } } // typing
+	};
+
+	/* ---------- Mode-cycle switch: one button, click cycles all modes ---------- */
+	var MODES = ['light', 'dark', 'salesforce', 'youtube', 'netflix', 'claude'];
+	var MODE_META = {
+		light: { label: 'light', glyph: '☀️' },
+		dark: { label: 'dark', glyph: '🌙' },
+		salesforce: { label: 'sfdc', glyph: '☁️' },
+		youtube: { label: 'yt', glyph: '▶️' },
+		netflix: { label: 'flix', glyph: '🅽' },
+		claude: { label: 'claude', glyph: '✳️' }
+	};
+	var cycleBtn = document.getElementById('mode-cycle');
+	function paintCycle() {
+		if (!cycleBtn) return;
+		var mode = document.documentElement.getAttribute('data-theme') || 'light';
+		var meta = MODE_META[mode] || MODE_META.light;
+		cycleBtn.innerHTML = '<span class="mode-glyph">' + meta.glyph + '</span><span class="hidden sm:inline">' + meta.label + '</span>';
+		cycleBtn.setAttribute('aria-label', 'Theme: ' + mode + ' — click to switch');
+		cycleBtn.setAttribute('data-tip', 'Mode: ' + mode);
+	}
+	if (cycleBtn) {
+		cycleBtn.addEventListener('click', function () {
+			var current = document.documentElement.getAttribute('data-theme') || 'light';
+			var next = MODES[(MODES.indexOf(current) + 1) % MODES.length];
+			setMode(next);
+			paintCycle();
+			if (MODE_SOUNDS[next]) { try { MODE_SOUNDS[next](); } catch (e) {} }
+		});
+		paintCycle();
+	}
+
+	/* ---------- Page transitions — flavored per destination collection ---------- */
+	var PT_QUOTES = [
+		'Cropping the noise…',
+		'"Ship it before it\'s ready." — me, regretting it later',
+		'Compressing life to 1:1…',
+		'Buffering personality…',
+		'"Measure twice, publish once." — also me, never doing it',
+		'Adding cinematic grain to ordinary moments…',
+		'Negotiating with the algorithm…',
+		'"The best camera is the one that\'s… still in the bag."',
+		'Colour grading reality…',
+		'Reticulating splines, but make it marketing…'
+	];
+	var PT_MAP = [
+		{ re: /^\/videos\//, kind: 'tv', art: '📺', label: 'tuning channel' },
+		{ re: /^\/projects\//, kind: 'code', art: '', label: 'npm run project' },
+		{ re: /^\/travel\/[^/]+\/.+/, kind: 'flight', art: '🛩️', label: 'paper plane en route' },
+		{ re: /^\/travel\//, kind: 'flight', art: '✈️', label: 'now boarding' },
+		{ re: /^\/shop\//, kind: 'cart', art: '🛒', label: 'cart incoming' },
+		{ re: /^\/courses\//, kind: 'study', art: '📚✏️', label: 'sharpening pencils' },
+		{ re: /^\/timeline\//, kind: 'years', art: '2019 → 2026', label: 'years passing' },
+		{ re: /^\/guestbook\//, kind: 'scribble', art: '<span>✍️</span><span>Was here!</span><span>hi mom</span>', label: 'uncapping pens' },
+		{ re: /^\/webseries\//, kind: 'tudum', art: 'S', label: '' },
+		{ re: /^\/sponsor\//, kind: 'cash', art: '<span>💸</span><span>💵</span><span>💸</span>', label: 'dispensing gratitude' },
+		{ re: /^\/resume\//, kind: 'unfold', art: '📄', label: 'unfolding the paper' },
+		{ re: /^\/newsletters\//, kind: 'envelope', art: '✉️', label: 'opening the envelope' }
+	];
+	var reduceMotionPT = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+	function transitionFor(path) {
+		for (var i = 0; i < PT_MAP.length; i++) if (PT_MAP[i].re.test(path)) return PT_MAP[i];
+		return null;
+	}
+	function showOverlay(t, cb) {
+		var el = document.createElement('div');
+		el.className = 'pt-overlay pt-' + t.kind;
+		var quote = PT_QUOTES[Math.floor(Math.random() * PT_QUOTES.length)];
+		el.innerHTML =
+			(t.kind === 'code'
+				? '<pre><span>$ open project --with love</span><span>▸ compiling side effects…</span><span>✓ done in 0.6s</span></pre>'
+				: '<div class="pt-art">' + t.art + '</div>') +
+			'<p class="pt-quote">' + quote + '</p>' +
+			(t.label ? '<p class="pt-label">' + t.label + '</p>' : '');
+		document.body.appendChild(el);
+		requestAnimationFrame(function () { el.classList.add('is-in'); });
+		if (t.kind === 'tudum' && MODE_SOUNDS.netflix) { try { MODE_SOUNDS.netflix(); } catch (e) {} }
+		setTimeout(cb, 700);
+	}
+	if (!reduceMotionPT) {
+		document.addEventListener('click', function (e) {
+			if (e.defaultPrevented || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+			var a = e.target.closest && e.target.closest('a[href]');
+			if (!a || a.target === '_blank' || a.hasAttribute('download') || a.hasAttribute('data-no-transition')) return;
+			var url;
+			try { url = new URL(a.href); } catch (err) { return; }
+			if (url.origin !== location.origin || (url.pathname === location.pathname && url.hash)) return;
+			var t = transitionFor(url.pathname);
+			if (!t) return;
+			e.preventDefault();
+			showOverlay(t, function () { location.href = a.href; });
+		});
+		/* restore back/forward cache pages that still show an overlay */
+		window.addEventListener('pageshow', function (e) {
+			if (e.persisted) document.querySelectorAll('.pt-overlay').forEach(function (o) { o.remove(); });
+		});
+	}
 })();

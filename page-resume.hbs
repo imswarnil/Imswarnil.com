@@ -69,6 +69,52 @@
 						{{/get}}
 					</section>
 
+					{{!-- Selected projects — pulled live from #project posts --}}
+					<section>
+						<div class="flex items-center justify-between gap-4">
+							<h2 class="section-title">Selected projects</h2>
+							<a href="/projects/" class="no-print inline-flex items-center gap-1.5 text-sm font-medium text-silver transition hover:text-ink">All projects {{> "icons/arrow-right"}}</a>
+						</div>
+						{{#get "posts" filter="tag:hash-project" order="published_at desc" limit="4" as |work|}}
+							{{#if work}}
+							<ul class="mt-6 space-y-5">
+								{{#foreach work}}
+								<li class="flex gap-4">
+									<span class="mt-1 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-line bg-mist text-silver">{{> "icons/terminal" class="h-4 w-4"}}</span>
+									<div class="min-w-0">
+										<h3 class="font-semibold tracking-tight"><a href="{{url}}" class="hover:underline hover:underline-offset-4">{{title}}</a></h3>
+										<p class="mt-1 text-sm leading-relaxed text-silver">{{custom_excerpt}}{{^custom_excerpt}}{{excerpt words="22"}}{{/custom_excerpt}}</p>
+									</div>
+								</li>
+								{{/foreach}}
+							</ul>
+							{{/if}}
+						{{/get}}
+					</section>
+
+					{{!-- Talks & milestones --}}
+					<section>
+						<h2 class="section-title">Talks &amp; milestones</h2>
+						{{#get "posts" filter="tag:hash-event-milestone" order="published_at desc" limit="6" as |wins|}}
+							{{#if wins}}
+							<ul class="mt-6 space-y-5">
+								{{#foreach wins}}
+								<li class="flex gap-4">
+									<span class="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-line bg-mist text-silver">{{> "icons/trophy"}}</span>
+									<div>
+										<p class="font-mono text-[11px] uppercase tracking-widest text-silver">{{date published_at format="MMM YYYY"}}</p>
+										<h3 class="mt-0.5 font-semibold tracking-tight">{{title}}</h3>
+										<p class="mt-1 text-sm leading-relaxed text-silver">{{custom_excerpt}}{{^custom_excerpt}}{{excerpt words="20"}}{{/custom_excerpt}}</p>
+									</div>
+								</li>
+								{{/foreach}}
+							</ul>
+							{{else}}
+							<p class="mt-5 text-sm text-silver">Tag timeline posts <code>#event-milestone</code> to list talks and wins here.</p>
+							{{/if}}
+						{{/get}}
+					</section>
+
 					{{!-- Education --}}
 					<section>
 						<h2 class="section-title">Education</h2>
@@ -111,6 +157,31 @@
 							<span class="chip">Tailwind CSS</span>
 							<span class="chip">Content &amp; Video</span>
 						</div>
+					</section>
+
+					{{!-- Tools of the trade --}}
+					<section class="card-surface p-6 !transform-none">
+						<h2 class="kicker">Daily tools</h2>
+						<div class="mt-4 grid grid-cols-2 gap-2 text-sm">
+							<span class="flex items-center gap-2 text-silver">{{> "icons/zap" class="h-3.5 w-3.5"}} Google Ads</span>
+							<span class="flex items-center gap-2 text-silver">{{> "icons/zap" class="h-3.5 w-3.5"}} GA4 + GTM</span>
+							<span class="flex items-center gap-2 text-silver">{{> "icons/terminal" class="h-3.5 w-3.5"}} VS Code</span>
+							<span class="flex items-center gap-2 text-silver">{{> "icons/terminal" class="h-3.5 w-3.5"}} Apps Script</span>
+							<span class="flex items-center gap-2 text-silver">{{> "icons/film" class="h-3.5 w-3.5"}} Premiere Pro</span>
+							<span class="flex items-center gap-2 text-silver">{{> "icons/film" class="h-3.5 w-3.5"}} OBS</span>
+							<span class="flex items-center gap-2 text-silver">{{> "icons/book" class="h-3.5 w-3.5"}} Notion</span>
+							<span class="flex items-center gap-2 text-silver">{{> "icons/book" class="h-3.5 w-3.5"}} Figma</span>
+						</div>
+					</section>
+
+					{{!-- Languages --}}
+					<section class="card-surface p-6 !transform-none">
+						<h2 class="kicker">Languages</h2>
+						<ul class="mt-4 space-y-2 text-sm text-silver">
+							<li class="flex justify-between"><span>English</span><span class="font-mono text-[10px] uppercase tracking-[0.15em]">professional</span></li>
+							<li class="flex justify-between"><span>Hindi</span><span class="font-mono text-[10px] uppercase tracking-[0.15em]">native</span></li>
+							<li class="flex justify-between"><span>JavaScript</span><span class="font-mono text-[10px] uppercase tracking-[0.15em]">conversational</span></li>
+						</ul>
 					</section>
 
 					{{!-- Awards --}}

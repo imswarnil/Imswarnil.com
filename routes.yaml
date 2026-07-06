@@ -24,6 +24,11 @@ routes:
     template: signup
   /sitemap-visual/:
     template: sitemap-visual
+  /tags/:
+    template: tags
+  /llms/:
+    template: llms
+    content_type: text/plain
 
 collections:
   # Lessons live INSIDE their course: /courses/{course-tag}/{lesson-slug}/
@@ -85,6 +90,21 @@ collections:
     permalink: /shop/{slug}/
     filter: tag:hash-shop
     template: shop
+
+  # Travel: trips are containers (like courses); travel posts live INSIDE their
+  # trip: /travel/{trip-tag}/{post-slug}/. A travel post's FIRST (primary) tag
+  # must be the trip's public tag. Countries/categories ride along as internal
+  # tags: #country-india, #travel-category-beach …
+  /travel-index/:
+    permalink: /travel/{primary_tag}/{slug}/
+    filter: tag:hash-travel
+    order: published_at asc
+    template: travels
+
+  /travel/:
+    permalink: /travel/{slug}/
+    filter: tag:hash-trip
+    template: travel
 
   /blog/:
     permalink: /blog/{slug}/

@@ -2,7 +2,22 @@
      Siblings share this episode's PUBLIC primary tag (= the series tag).
      Series page lives at /webseries/{primary_tag.slug}/. Episode 1 = oldest published. --}}
 {{#get "posts" filter="tag:hash-episode+tag:{{primary_tag.slug}}" order="published_at asc" limit="50" as |eps|}}
-<article class="{{post_class}}">
+
+{{!-- Player chrome: replaces the global navbar (hidden via body.tag-hash-episode CSS) --}}
+<div class="player-bar" id="episode-bar">
+	<a href="{{@site.url}}/webseries/{{primary_tag.slug}}/" class="icon-btn shrink-0 tooltip tooltip-bottom" data-tip="Back to series" aria-label="Close episode">{{> "icons/close"}}</a>
+	<div class="min-w-0 flex-1">
+		<p class="truncate font-mono text-[9px] uppercase tracking-[0.2em] text-silver">{{primary_tag.name}} · {{#foreach eps}}{{#match id ../id}}episode {{@number}} of {{../pagination.total}}{{/match}}{{/foreach}}</p>
+		<p class="truncate text-sm font-semibold leading-tight">{{title}}</p>
+	</div>
+	<div class="flex shrink-0 items-center gap-1">
+		{{#prev_post in="primary_tag"}}<a href="{{url}}" class="icon-btn tooltip tooltip-bottom" data-tip="Previous episode" aria-label="Previous episode"><span class="rotate-180">{{> "icons/arrow-right"}}</span></a>{{/prev_post}}
+		<button type="button" class="icon-btn tooltip tooltip-bottom" data-tip="Theater fullscreen" id="episode-bar-max" aria-label="Fullscreen">{{> "icons/maximize"}}</button>
+		{{#next_post in="primary_tag"}}<a href="{{url}}" class="btn-primary !h-8 !px-3.5 !py-0 !text-[12px]">Next ep {{> "icons/arrow-right" class="h-3.5 w-3.5"}}</a>{{/next_post}}
+	</div>
+</div>
+
+<article class="{{post_class}} pt-14">
 
 	{{!-- Full-bleed theater player --}}
 	<div class="relative left-1/2 w-screen" style="margin-left:-50vw; background:#08080a;">
@@ -157,18 +172,19 @@
 		player.appendChild(iframe);
 
 		/* ----- Maximize / fullscreen toggle on the player wrapper ----- */
-		var btn = document.getElementById('episode-maximize');
-		if (btn) {
-			btn.addEventListener('click', function () {
-				if (document.fullscreenElement) {
-					document.exitFullscreen();
-				} else if (stage.requestFullscreen) {
-					stage.requestFullscreen();
-				} else if (stage.webkitRequestFullscreen) {
-					stage.webkitRequestFullscreen();
-				}
-			});
+		function toggleFullscreen() {
+			if (document.fullscreenElement) {
+				document.exitFullscreen();
+			} else if (stage.requestFullscreen) {
+				stage.requestFullscreen();
+			} else if (stage.webkitRequestFullscreen) {
+				stage.webkitRequestFullscreen();
+			}
 		}
+		var btn = document.getElementById('episode-maximize');
+		if (btn) btn.addEventListener('click', toggleFullscreen);
+		var barBtn = document.getElementById('episode-bar-max');
+		if (barBtn) barBtn.addEventListener('click', toggleFullscreen);
 
 		/* ----- JSON-LD: inject ISO 8601 duration from the duration span ----- */
 		var script = document.getElementById('episode-jsonld');

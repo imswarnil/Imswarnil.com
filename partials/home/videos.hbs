@@ -20,7 +20,7 @@
 
 	{{#get "posts" filter="tag:hash-video" limit="8" include="tags" as |videos|}}
 		{{#if videos}}
-		<div class="no-scrollbar mt-8 snap-x snap-mandatory scroll-smooth overflow-x-auto pb-4 fade-mask-x" data-videos-track style="scroll-padding-left: max(1.5rem, calc((100vw - 72rem) / 2 + 1.5rem))">
+		<div class="no-scrollbar mt-8 snap-x snap-proximity scroll-smooth overflow-x-auto pb-4 fade-mask-x [touch-action:pan-x_pan-y] [overscroll-behavior-x:contain]" data-videos-track style="scroll-padding-left: max(1.5rem, calc((100vw - 72rem) / 2 + 1.5rem))">
 			<div class="container-site">
 				<div class="flex w-max gap-5 pr-8">
 					{{#foreach videos}}

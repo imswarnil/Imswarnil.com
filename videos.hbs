@@ -91,13 +91,13 @@
 		</article>
 	{{/foreach}}
 
-	{{!-- Full library --}}
+	{{!-- Full library — Netflix-style poster wall --}}
 	<p class="kicker mb-6 mt-14">{{> "icons/film" class="h-3.5 w-3.5"}} Full library</p>
-	<div class="grid gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
+	<div class="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 lg:grid-cols-5" data-reveal-stagger="60">
 		{{#foreach posts from="2"}}
-			{{> "cards/video" class="reveal"}}
-			{{#match @number 6}}
-				{{> "components/adsense" slot="9130894804" format="fluid" layoutKey="-6t+ed+2i-1n-4w" class="!my-0 sm:col-span-2 lg:col-span-3"}}
+			{{> "cards/poster"}}
+			{{#match @number 10}}
+				{{> "components/adsense" slot="9130894804" format="fluid" layoutKey="-6t+ed+2i-1n-4w" class="!my-0 col-span-2 sm:col-span-3 lg:col-span-5"}}
 			{{/match}}
 		{{else}}
 			<p class="col-span-full py-10 text-center text-silver">More videos are on the way — check the schedule above.</p>

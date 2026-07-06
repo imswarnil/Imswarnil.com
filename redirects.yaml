@@ -3,5 +3,7 @@
 # 301 it to the raw file in this repo — Google AdSense follows redirects.
 301:
   /ads.txt: https://raw.githubusercontent.com/imswarnil/Imswarnil.com/main/ads.txt
+  # llms.txt can't be a dotted Ghost route either — serve the /llms/ template
+  /llms.txt: /llms/
 
 302: {}
