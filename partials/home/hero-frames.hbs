@@ -45,10 +45,11 @@
 			{{!-- fake reel chrome --}}
 			<div class="absolute inset-x-0 bottom-0 z-10 p-2">
 				<p class="font-mono text-[8px] font-semibold text-white">@imswarnil</p>
-				<p class="text-[8px] leading-tight text-white/80">b-roll no one asked for ✨</p>
+				<p class="flex items-center gap-0.5 text-[8px] leading-tight text-white/80">b-roll no one asked for {{> "icons/sparkle" class="h-2 w-2"}}</p>
 			</div>
-			<div class="absolute bottom-2 right-1 z-10 flex flex-col items-center gap-1.5 text-[9px] text-white">
-				<span>♥︎</span><span class="text-[7px]">4.2k</span><span>➦</span>
+			<div class="absolute bottom-2 right-1 z-10 flex flex-col items-center gap-1.5 text-white">
+				{{> "icons/heart" class="h-3 w-3"}}<span class="text-[7px]">4.2k</span>
+				<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4z"/></svg>
 			</div>
 			<span class="absolute left-2 top-2 z-10 font-mono text-[7px] uppercase tracking-[0.2em] text-white/70">reel</span>
 		</div>
@@ -70,5 +71,8 @@
 	</figure>
 
 	{{!-- Sticker chip --}}
-	<span class="absolute -top-3 left-6 rotate-[-6deg] rounded-full border border-line bg-paper px-3 py-1 font-mono text-[10px] font-semibold uppercase tracking-[0.2em] text-silver shadow-card animate-fade-in" style="animation-delay:.9s" data-parallax-depth="10">✂ noise, cropped</span>
+	<span class="absolute -top-3 left-6 flex items-center gap-1.5 rotate-[-6deg] rounded-full border border-line bg-paper px-3 py-1 font-mono text-[10px] font-semibold uppercase tracking-[0.2em] text-silver shadow-card animate-fade-in" style="animation-delay:.9s" data-parallax-depth="10">
+		<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M20 4L8.12 15.88M14.47 14.48L20 20M8.12 8.12L12 12"/></svg>
+		noise, cropped
+	</span>
 </div>

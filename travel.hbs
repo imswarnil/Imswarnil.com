@@ -21,7 +21,10 @@
 		</blockquote>
 		<div class="mt-8 flex flex-wrap gap-3 animate-fade-in" style="animation-delay:.4s">
 			<a href="#trips" class="btn !bg-white !text-black hover:opacity-90">{{> "icons/play" class="h-4 w-4"}} Explore trips</a>
-			<span class="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.2em] text-white/70">✈ window seat always</span>
+			<span class="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.2em] text-white/70">
+				<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17.8 19.2L16 11l3.5-3.5a2.1 2.1 0 0 0-3-3L13 8 4.8 6.2a1 1 0 0 0-1 .3L3 7.3l6.3 3.6-2.6 2.6H4l-1 1 3 1 1 3 1-1v-2.7l2.6-2.6 3.6 6.3.8-.8a1 1 0 0 0 .3-1z"/></svg>
+				window seat always
+			</span>
 		</div>
 	</div>
 </header>
@@ -41,7 +44,9 @@
 					{{#if feature_image}}
 						<img src="{{img_url feature_image size="600"}}" width="600" height="750" alt="{{title}}" loading="lazy" class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
 					{{else}}
-						<div class="bg-dots flex h-full w-full items-center justify-center text-4xl">🗺️</div>
+						<div class="bg-dots flex h-full w-full items-center justify-center text-silver">
+							<svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 4L3 6v14l6-2 6 2 6-2V4l-6 2z"/><path d="M9 4v14M15 6v14"/></svg>
+						</div>
 					{{/if}}
 					<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent"></div>
 					<span class="absolute left-3 top-3 rounded-full bg-white/90 px-2.5 py-1 font-mono text-[9px] font-bold uppercase tracking-[0.15em] text-black">{{date published_at format="MMM YYYY"}}</span>
@@ -71,23 +76,24 @@
 		function pretty(slug, prefix) {
 			return slug.replace(prefix, '').split('-').map(function (w) { return w.charAt(0).toUpperCase() + w.slice(1); }).join(' ');
 		}
+		var PIN = '<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-1px;margin-right:3px" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg>';
 		var cards = [].slice.call(document.querySelectorAll('.trip-card'));
 		var seen = {};
 		cards.forEach(function (card) {
 			var tags = (card.getAttribute('data-trip-tags') || '').split(/\s+/).filter(Boolean);
 			var chips = card.querySelector('[data-trip-chips]');
 			tags.forEach(function (t) {
-				var label = null, icon = '';
-				if (t.indexOf('hash-country-') === 0) { label = pretty(t, 'hash-country-'); icon = '📍 '; }
-				else if (t.indexOf('hash-travel-category-') === 0) { label = pretty(t, 'hash-travel-category-'); icon = ''; }
+				var label = null, pin = false;
+				if (t.indexOf('hash-country-') === 0) { label = pretty(t, 'hash-country-'); pin = true; }
+				else if (t.indexOf('hash-travel-category-') === 0) { label = pretty(t, 'hash-travel-category-'); }
 				if (!label) return;
 				if (chips) {
 					var c = document.createElement('span');
 					c.className = 'rounded-full bg-black/50 px-2 py-0.5 font-mono text-[9px] uppercase tracking-[0.12em] text-white backdrop-blur';
-					c.textContent = icon + label;
+					c.innerHTML = (pin ? PIN : '') + label;
 					chips.appendChild(c);
 				}
-				seen[t] = icon + label;
+				seen[t] = { label: label, pin: pin };
 			});
 		});
 		var bar = document.getElementById('travel-filters');
@@ -107,7 +113,8 @@
 			all.addEventListener('click', function () { activate(all, null); });
 			keys.sort().forEach(function (t) {
 				var b = document.createElement('button');
-				b.type = 'button'; b.className = 'chip transition hover:bg-mist'; b.textContent = seen[t];
+				b.type = 'button'; b.className = 'chip transition hover:bg-mist';
+				b.innerHTML = (seen[t].pin ? PIN : '') + seen[t].label;
 				b.addEventListener('click', function () { activate(b, t); });
 				bar.appendChild(b);
 			});
