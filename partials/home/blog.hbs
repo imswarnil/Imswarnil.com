@@ -10,7 +10,7 @@
 
 		{{#get "posts" filter="tag:hash-blog" limit="6" include="tags,authors" as |posts|}}
 			{{#if posts}}
-			<div class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+			<div class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3" data-reveal-stagger="90">
 				{{#foreach posts}}
 					{{> "cards/blog"}}
 				{{/foreach}}

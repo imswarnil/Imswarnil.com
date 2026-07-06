@@ -363,17 +363,104 @@
 	@apply border-ink font-medium text-ink;
 }
 
-/* View-transition-ish reveal on scroll */
-.reveal {
+/* View-transition-ish reveal on scroll.
+   Variants via data-reveal="up|down|left|right|scale|blur"; children stagger
+   via data-reveal-stagger on the parent (each child gets an increasing delay). */
+.reveal,
+[data-reveal],
+[data-reveal-stagger] > * {
 	opacity: 0;
 	transform: translateY(22px);
 	transition:
 		opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
-		transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+		transform 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+		filter 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+	transition-delay: var(--reveal-delay, 0s);
 }
-.reveal.is-visible {
+[data-reveal='down'] { transform: translateY(-22px); }
+[data-reveal='left'] { transform: translateX(36px); }
+[data-reveal='right'] { transform: translateX(-36px); }
+[data-reveal='scale'] { transform: scale(0.92); }
+[data-reveal='blur'] { transform: none; filter: blur(10px); }
+.reveal.is-visible,
+[data-reveal].is-visible,
+[data-reveal-stagger].is-visible > * {
 	opacity: 1;
 	transform: none;
+	filter: none;
+}
+@media (prefers-reduced-motion: reduce) {
+	.reveal,
+	[data-reveal],
+	[data-reveal-stagger] > * {
+		opacity: 1;
+		transform: none;
+		filter: none;
+		transition: none;
+	}
+}
+
+/* Reading/scroll progress bar (injected element in default.hbs) */
+#scroll-progress {
+	position: fixed;
+	inset: 0 auto auto 0;
+	z-index: 70;
+	height: 2px;
+	width: 100%;
+	transform: scaleX(0);
+	transform-origin: left;
+	background: rgb(var(--accent));
+	pointer-events: none;
+}
+
+/* Hero: floating photo/video frames */
+.float-frame {
+	animation: floatFrame 7s ease-in-out infinite;
+}
+.float-frame-alt {
+	animation: floatFrame 9s ease-in-out 1.2s infinite reverse;
+}
+@keyframes floatFrame {
+	0%, 100% { transform: translateY(0) rotate(var(--tilt, 0deg)); }
+	50% { transform: translateY(-10px) rotate(var(--tilt, 0deg)); }
+}
+@media (prefers-reduced-motion: reduce) {
+	.float-frame, .float-frame-alt { animation: none; }
+}
+
+/* Netflix-style ranked row */
+.rank-row-card {
+	@apply relative flex w-[16rem] shrink-0 snap-start items-end sm:w-[19rem];
+}
+.rank-row-card .rank-number {
+	transition: -webkit-text-stroke-color 0.3s ease;
+}
+.rank-row-card:hover .rank-number {
+	-webkit-text-stroke-color: rgb(var(--accent) / 0.9);
+}
+
+/* Lesson player: app-mode (viewport-locked on lg+, normal flow on mobile) */
+@media (min-width: 1024px) {
+	body.lesson-app-mode {
+		overflow: hidden;
+	}
+	.lesson-app {
+		height: calc(100dvh - var(--lesson-top, 6.5rem));
+	}
+	.lesson-app .lesson-pane {
+		height: 100%;
+		overflow-y: auto;
+		overscroll-behavior: contain;
+	}
+}
+.lesson-app .lesson-pane {
+	scrollbar-width: thin;
+	scrollbar-color: rgb(var(--line)) transparent;
+}
+
+/* Guestbook: make Ghost's comments block feel like a wall of signatures */
+.guestbook-wall iframe {
+	color-scheme: normal;
 }
 
 /* Hero line-by-line animation (matches "Life looks better…" treatment) */

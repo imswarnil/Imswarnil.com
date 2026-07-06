@@ -1,0 +1,54 @@
+{{!-- Hero media scene — a stack of floating "footage" frames with pointer parallax.
+     Params: frame (main still), polaroid (small secondary photo), altText --}}
+<div class="relative" data-parallax-scene>
+	<div class="bg-dots absolute -inset-4 rounded-[2rem] opacity-70 sm:-inset-8 sm:rounded-[2.5rem]" aria-hidden="true"></div>
+
+	{{!-- Main frame: video with ken-burns, styled like a camera monitor --}}
+	<figure class="hero-frame relative overflow-hidden rounded-3xl border border-line bg-mist shadow-lift animate-fade-up" style="animation-delay:.3s" data-parallax-depth="6">
+		<div class="relative aspect-[4/3] sm:aspect-square">
+			{{#if frame}}
+				<img src="{{img_url frame size="1000"}}" alt="{{#if altText}}{{altText}}{{else}}Hero media{{/if}}" class="absolute inset-0 h-full w-full object-cover" />
+			{{else}}
+				<div class="bg-cross absolute inset-0 flex items-center justify-center font-mono text-[10px] uppercase tracking-[0.3em] text-silver">your frame here</div>
+			{{/if}}
+			<video src="{{#if @custom.hero_video_url}}{{@custom.hero_video_url}}{{else}}https://cdn.coverr.co/videos/coverr-typing-on-a-laptop-5658/1080p.mp4{{/if}}"
+				{{#if frame}}poster="{{img_url frame size="1000"}}"{{/if}}
+				autoplay muted loop playsinline preload="metadata"
+				class="animate-ken-burns pointer-events-none absolute inset-0 h-full w-full object-cover"></video>
+
+			{{!-- Camera-monitor chrome --}}
+			<div class="pointer-events-none absolute inset-0 rounded-3xl ring-1 ring-inset ring-ink/10" aria-hidden="true"></div>
+			<span class="absolute left-4 top-4 chip !bg-paper/80 backdrop-blur">{{> "icons/film"}} 1 : 1</span>
+			<span class="absolute right-4 top-4 flex items-center gap-1.5 rounded-full bg-black/70 px-2.5 py-1 font-mono text-[10px] font-semibold uppercase tracking-[0.2em] text-white backdrop-blur">
+				<span class="h-1.5 w-1.5 animate-ping rounded-full bg-red-500"></span> rec
+			</span>
+			<span class="pointer-events-none absolute bottom-4 left-4 font-mono text-[10px] uppercase tracking-[0.25em] text-white/80 [text-shadow:0_1px_4px_rgb(0_0_0/.6)]">iso 100 · f/1.8 · no noise</span>
+			{{!-- Corner brackets, viewfinder style --}}
+			<span class="pointer-events-none absolute inset-6 rounded-xl border border-white/25 [mask-image:linear-gradient(black,black)]" style="-webkit-mask-image: radial-gradient(circle at center, transparent 62%, black 63%)" aria-hidden="true"></span>
+		</div>
+		<figcaption class="sr-only">{{#if altText}}{{altText}}{{else}}Hero media{{/if}}</figcaption>
+	</figure>
+
+	{{!-- Floating polaroid #1 (custom alt image, or a wink) --}}
+	<figure class="float-frame absolute -bottom-8 -left-3 w-28 overflow-hidden rounded-2xl border-4 border-paper bg-mist shadow-lift animate-fade-up sm:-left-8 sm:w-40" style="--tilt:-5deg; animation-delay:.55s" data-parallax-depth="14">
+		{{#if polaroid}}
+			<img src="{{img_url polaroid size="600"}}" alt="" loading="lazy" class="aspect-square h-full w-full object-cover" />
+		{{else}}
+			<div class="bg-dots flex aspect-square items-center justify-center p-3 text-center font-mono text-[9px] uppercase tracking-[0.2em] text-silver">b-roll<br/>pending</div>
+		{{/if}}
+		<figcaption class="bg-paper px-2 py-1.5 text-center font-mono text-[9px] uppercase tracking-[0.18em] text-silver">behind the scenes</figcaption>
+	</figure>
+
+	{{!-- Floating mini video frame #2 --}}
+	<figure class="float-frame-alt absolute -right-2 -top-8 hidden w-32 overflow-hidden rounded-2xl border-4 border-paper bg-mist shadow-lift animate-fade-up sm:block sm:-right-6 sm:w-40" style="--tilt:4deg; animation-delay:.7s" data-parallax-depth="20">
+		<div class="relative aspect-video">
+			<video src="{{#if @custom.hero_video_url}}{{@custom.hero_video_url}}{{else}}https://cdn.coverr.co/videos/coverr-typing-on-a-laptop-5658/1080p.mp4{{/if}}"
+				autoplay muted loop playsinline preload="metadata"
+				class="pointer-events-none absolute inset-0 h-full w-full object-cover"></video>
+			<span class="absolute bottom-1.5 right-1.5 rounded bg-black/70 px-1 py-0.5 font-mono text-[8px] font-semibold text-white">take 47</span>
+		</div>
+	</figure>
+
+	{{!-- Sticker chip --}}
+	<span class="absolute -top-3 left-6 rotate-[-6deg] rounded-full border border-line bg-paper px-3 py-1 font-mono text-[10px] font-semibold uppercase tracking-[0.2em] text-silver shadow-card animate-fade-in" style="animation-delay:.9s" data-parallax-depth="10">✂ noise, cropped</span>
+</div>

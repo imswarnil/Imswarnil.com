@@ -11,7 +11,7 @@
 
 		{{#get "posts" filter="tag:hash-project" limit="3" include="tags" as |projects|}}
 			{{#if projects}}
-			<div class="mt-8 grid gap-6 md:grid-cols-3">
+			<div class="mt-8 grid gap-6 md:grid-cols-3" data-reveal-stagger="110">
 				{{#foreach projects}}
 					{{> "cards/project"}}
 				{{/foreach}}

@@ -1,0 +1,49 @@
+{{!< default}}
+
+{{!-- Guestbook — Ghost native comments dressed up as a 90s guestbook wall.
+     Create a page with slug "guestbook" and enable comments on the site. --}}
+{{#post}}
+<article class="{{post_class}}">
+	<header class="relative overflow-hidden border-b border-line py-16 text-center">
+		<div class="bg-dots pointer-events-none absolute inset-0 opacity-60 fade-mask-b" aria-hidden="true"></div>
+		<div class="container-site relative">
+			<p class="chip mx-auto animate-fade-in">{{> "icons/heart"}} est. the golden age of the internet</p>
+			<h1 class="mx-auto mt-6 max-w-2xl text-4xl font-semibold tracking-tight sm:text-5xl text-balance">{{title}}</h1>
+			<p class="mx-auto mt-4 max-w-xl text-lg leading-relaxed text-silver">
+				{{#if custom_excerpt}}{{custom_excerpt}}{{else}}You made it all the way here. The least you can do is sign. Compliments, complaints and confessions all accepted — moderated only for spam and cowardice.{{/if}}
+			</p>
+			<div class="mx-auto mt-8 flex max-w-md items-center justify-center gap-6 font-mono text-[10px] uppercase tracking-[0.25em] text-silver">
+				<span class="flex items-center gap-2">{{> "icons/check" class="h-3.5 w-3.5"}} free forever</span>
+				<span class="flex items-center gap-2">{{> "icons/sparkle" class="h-3.5 w-3.5"}} zero guest towels</span>
+			</div>
+		</div>
+	</header>
+
+	{{#if content}}
+	<section class="container-site py-10">
+		<div class="gh-content mx-auto max-w-prose">
+			{{content}}
+		</div>
+	</section>
+	{{/if}}
+
+	<section class="container-site py-12">
+		<div class="mx-auto max-w-3xl">
+			{{#if @site.comments_enabled}}
+				<div class="guestbook-wall card-surface !transform-none p-6 sm:p-10">
+					<p class="kicker mb-6">{{> "icons/heart"}} The wall — newest signatures first</p>
+					{{comments title="" count=true}}
+				</div>
+				<p class="mt-6 text-center font-mono text-[11px] uppercase tracking-[0.2em] text-silver">your note may be read aloud, dramatically, to no one</p>
+			{{else}}
+				<div class="rounded-2xl border border-dashed border-line p-12 text-center">
+					<p class="text-lg font-semibold">The wall is closed for renovation.</p>
+					<p class="mt-2 text-sm text-silver">Enable comments in Ghost Admin → Settings → Membership → Commenting, and the guestbook opens itself.</p>
+				</div>
+			{{/if}}
+		</div>
+	</section>
+
+	<div class="container-site">{{> "components/adsense" slot="8939839370" format="auto" class="mx-auto max-w-3xl"}}</div>
+</article>
+{{/post}}

@@ -1,0 +1,42 @@
+{{!-- "Top 10 on imswarnil" — Netflix-style ranked row of the latest posts across
+     every collection. Big outlined rank numbers, horizontal snap scroll. --}}
+<section class="reveal relative overflow-hidden py-16" id="home-latest">
+	<div class="container-site">
+		{{> "components/section-head"
+			kicker="Trending on this couch"
+			title="Top 10 on imswarnil"
+			sub="Ranked by recency, not by taste. The algorithm is me."
+			actionUrl=(concat @site.url "/archive/") actionLabel="Everything"}}
+	</div>
+
+	{{#get "posts" limit="10" order="published_at desc" include="tags" as |latest|}}
+		{{#if latest}}
+		<div class="no-scrollbar mt-8 snap-x snap-mandatory scroll-smooth overflow-x-auto pb-4 fade-mask-x" data-rank-track>
+			<div class="container-site">
+				<div class="flex w-max items-stretch gap-2 pr-8" data-reveal-stagger="70">
+					{{#foreach latest}}
+					<article class="rank-row-card group">
+						<span class="rank-number relative z-0 -mr-7 translate-y-2 sm:-mr-9">{{@number}}</span>
+						<a href="{{url}}" class="relative z-10 block w-[10.5rem] shrink-0 sm:w-[12.5rem]" aria-label="{{title}}">
+							<div class="relative aspect-[2/3] overflow-hidden rounded-xl border border-line bg-mist shadow-card transition-all duration-300 group-hover:-translate-y-1.5 group-hover:shadow-lift">
+								{{#if feature_image}}
+									<img src="{{img_url feature_image size="600"}}" alt="{{title}}" loading="lazy" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
+								{{else}}
+									<div class="bg-dots flex h-full w-full items-center justify-center">{{> "icons/sparkle" class="text-silver"}}</div>
+								{{/if}}
+								<div class="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent" aria-hidden="true"></div>
+								{{#primary_tag}}<span class="absolute left-2.5 top-2.5 rounded bg-black/60 px-1.5 py-0.5 font-mono text-[9px] uppercase tracking-[0.15em] text-white backdrop-blur">{{name}}</span>{{/primary_tag}}
+								<div class="absolute inset-x-0 bottom-0 p-3">
+									<h3 class="line-clamp-3 text-sm font-semibold leading-snug text-white [text-shadow:0_1px_4px_rgb(0_0_0/.5)]">{{title}}</h3>
+									<p class="mt-1 font-mono text-[10px] text-white/70">{{date published_at format="DD MMM"}} · {{reading_time minute="1 min"}}</p>
+								</div>
+							</div>
+						</a>
+					</article>
+					{{/foreach}}
+				</div>
+			</div>
+		</div>
+		{{/if}}
+	{{/get}}
+</section>

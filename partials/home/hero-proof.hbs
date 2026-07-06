@@ -1,0 +1,21 @@
+{{!-- Hero "receipts" — live counts pulled from the content API, with jokes. --}}
+<div class="mt-12 grid max-w-xl grid-cols-3 gap-3 animate-fade-in" style="animation-delay:.75s">
+	{{#get "posts" filter="tag:hash-video" limit="1" as |v|}}
+	<a href="{{@site.url}}/videos/" class="group rounded-2xl border border-line bg-paper/60 p-3.5 backdrop-blur transition hover:-translate-y-0.5 hover:bg-mist sm:p-4">
+		<p class="text-xl font-semibold tabular-nums tracking-tight sm:text-2xl">{{pagination.total}}</p>
+		<p class="mt-0.5 font-mono text-[10px] uppercase tracking-[0.18em] text-silver">videos shot</p>
+	</a>
+	{{/get}}
+	{{#get "posts" filter="tag:hash-project" limit="1" as |p|}}
+	<a href="{{@site.url}}/projects/" class="group rounded-2xl border border-line bg-paper/60 p-3.5 backdrop-blur transition hover:-translate-y-0.5 hover:bg-mist sm:p-4">
+		<p class="text-xl font-semibold tabular-nums tracking-tight sm:text-2xl">{{pagination.total}}</p>
+		<p class="mt-0.5 font-mono text-[10px] uppercase tracking-[0.18em] text-silver">things built</p>
+	</a>
+	{{/get}}
+	{{#get "posts" filter="tag:hash-blog" limit="1" as |b|}}
+	<a href="{{@site.url}}/blog/" class="group rounded-2xl border border-line bg-paper/60 p-3.5 backdrop-blur transition hover:-translate-y-0.5 hover:bg-mist sm:p-4">
+		<p class="text-xl font-semibold tabular-nums tracking-tight sm:text-2xl">{{pagination.total}}</p>
+		<p class="mt-0.5 font-mono text-[10px] uppercase tracking-[0.18em] text-silver">posts, edited twice</p>
+	</a>
+	{{/get}}
+</div>

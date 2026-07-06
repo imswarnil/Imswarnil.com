@@ -103,7 +103,14 @@
 		if (name) el.textContent = name.charAt(0).toUpperCase();
 	});
 
-	/* ---------- Reveal on scroll ---------- */
+	/* ---------- Reveal on scroll (.reveal, [data-reveal], [data-reveal-stagger]) ---------- */
+	var revealTargets = document.querySelectorAll('.reveal, [data-reveal], [data-reveal-stagger]');
+	document.querySelectorAll('[data-reveal-stagger]').forEach(function (parent) {
+		var step = parseInt(parent.getAttribute('data-reveal-stagger'), 10) || 80;
+		[].forEach.call(parent.children, function (child, i) {
+			child.style.setProperty('--reveal-delay', (i * step) / 1000 + 's');
+		});
+	});
 	if ('IntersectionObserver' in window) {
 		var io = new IntersectionObserver(
 			function (entries) {
@@ -116,12 +123,53 @@
 			},
 			{ rootMargin: '0px 0px -8% 0px' }
 		);
-		document.querySelectorAll('.reveal').forEach(function (el) {
+		revealTargets.forEach(function (el) {
 			io.observe(el);
 		});
 	} else {
-		document.querySelectorAll('.reveal').forEach(function (el) {
+		revealTargets.forEach(function (el) {
 			el.classList.add('is-visible');
+		});
+	}
+
+	/* ---------- Scroll progress bar ---------- */
+	var progressBar = document.getElementById('scroll-progress');
+	if (progressBar) {
+		var paintProgress = function () {
+			var doc = document.documentElement;
+			var max = doc.scrollHeight - window.innerHeight;
+			progressBar.style.transform = 'scaleX(' + (max > 0 ? Math.min(window.scrollY / max, 1) : 0) + ')';
+		};
+		window.addEventListener('scroll', paintProgress, { passive: true });
+		window.addEventListener('resize', paintProgress, { passive: true });
+		paintProgress();
+	}
+
+	/* ---------- Pointer parallax: [data-parallax-scene] moves [data-parallax-depth] children ---------- */
+	var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+	if (!reduceMotion) {
+		document.querySelectorAll('[data-parallax-scene]').forEach(function (scene) {
+			var layers = scene.querySelectorAll('[data-parallax-depth]');
+			if (!layers.length) return;
+			var raf = null;
+			scene.addEventListener('pointermove', function (e) {
+				if (raf) return;
+				raf = requestAnimationFrame(function () {
+					raf = null;
+					var r = scene.getBoundingClientRect();
+					var x = (e.clientX - r.left) / r.width - 0.5;
+					var y = (e.clientY - r.top) / r.height - 0.5;
+					layers.forEach(function (layer) {
+						var depth = parseFloat(layer.getAttribute('data-parallax-depth')) || 6;
+						layer.style.translate = -x * depth + 'px ' + -y * depth + 'px';
+					});
+				});
+			});
+			scene.addEventListener('pointerleave', function () {
+				layers.forEach(function (layer) {
+					layer.style.translate = '0px 0px';
+				});
+			});
 		});
 	}
 

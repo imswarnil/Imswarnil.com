@@ -1,69 +1,72 @@
-{{!-- Lesson page: course rail with progress + lesson content. The parent course is
-     the lesson's primary (public) tag; the course lives at /courses/{primary_tag.slug}/. --}}
+{{!-- Lesson page — app mode. On lg+ the whole thing locks to the viewport like a
+     course player: course navigation rail on the left, lesson pane on the right,
+     each scrolling independently (body scroll is disabled via .lesson-app-mode).
+     On mobile it degrades to normal document flow with a collapsible nav.
+     The parent course is the lesson's primary (public) tag. --}}
 <article class="{{post_class}}">
-	<header class="border-b border-line py-10">
-		<div class="container-site">
-			<div class="mx-auto max-w-6xl">
+	<div class="lesson-app container-site grid gap-6 py-6 lg:grid-cols-12 lg:gap-8" style="--lesson-top: 7.5rem">
+
+		{{!-- Course navigation rail --}}
+		<aside class="lg:col-span-4 xl:col-span-3">
+			<details class="lesson-nav lesson-pane card-surface !transform-none" open>
+				<summary class="flex cursor-pointer list-none items-center justify-between gap-2 p-5 [&::-webkit-details-marker]:hidden lg:pointer-events-none">
+					<span class="kicker !mb-0">{{> "icons/book"}} Course navigation</span>
+					{{> "icons/chevron-down" class="text-silver lg:hidden"}}
+				</summary>
+				<div class="px-5 pb-5">
+					{{#primary_tag}}
+					<a href="{{@site.url}}/courses/{{slug}}/" class="block text-base font-semibold tracking-tight hover:underline hover:underline-offset-4">{{name}}</a>
+					{{/primary_tag}}
+
+					<div class="mt-4">
+						<progress id="course-progress" class="progress w-full" value="0" max="100"></progress>
+						<p class="mt-1 font-mono text-[10px] uppercase tracking-[0.2em] text-silver"><span id="course-progress-label">0%</span> complete — no certificate, just glory</p>
+					</div>
+
+					{{#primary_tag}}
+					{{#get "posts" filter="tag:hash-lesson+tags:{{slug}}" limit="50" order="published_at asc" as |siblings|}}
+					<ol id="lesson-list" class="mt-4 space-y-1">
+						{{#foreach siblings}}
+						<li>
+							<a href="{{url}}" data-lesson-slug="{{slug}}" class="lesson-link group flex items-center gap-3 rounded-xl px-3 py-2 transition hover:bg-mist">
+								<span class="lesson-num flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-line font-mono text-[10px] font-semibold text-silver group-hover:border-ink group-hover:text-ink">{{@number}}</span>
+								<span class="lesson-tick hidden h-6 w-6 shrink-0 items-center justify-center rounded-full bg-ink text-paper">{{> "icons/check"}}</span>
+								<span class="line-clamp-2 text-[13px] font-medium leading-snug">{{title}}</span>
+								{{#match visibility "!=" "public"}}{{> "icons/lock" class="ml-auto shrink-0 text-silver"}}{{/match}}
+							</a>
+						</li>
+						{{/foreach}}
+					</ol>
+					{{/get}}
+					{{#primary_tag}}
+					<a href="{{@site.url}}/courses/{{slug}}/" class="btn-ghost mt-5 w-full justify-center !text-xs">{{> "icons/arrow-right" class="rotate-180"}} Back to course</a>
+					{{/primary_tag}}
+					{{/primary_tag}}
+				</div>
+			</details>
+		</aside>
+
+		{{!-- Lesson pane --}}
+		<div class="lesson-pane min-w-0 lg:col-span-8 lg:rounded-2xl lg:border lg:border-line lg:bg-paper lg:shadow-card xl:col-span-9">
+			<header class="border-b border-line px-0 py-6 lg:px-8">
 				<p class="kicker">{{> "icons/book"}} Lesson
 					{{#primary_tag}}<a href="{{@site.url}}/courses/{{slug}}/" class="ml-2 underline underline-offset-4 hover:text-ink">{{name}}</a>{{/primary_tag}}
 				</p>
-				<h1 class="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl text-balance">{{title}}</h1>
-				<p class="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-xs text-silver">
+				<h1 class="mt-2 text-2xl font-semibold tracking-tight sm:text-3xl text-balance">{{title}}</h1>
+				<p class="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-xs text-silver">
 					<span>{{date published_at format="DD MMM YYYY"}}</span>
 					<span>·</span>
 					<span>{{reading_time minute="1 min"}}</span>
 					<span data-duration-tags="{{#foreach tags visibility="internal"}}{{slug}} {{/foreach}}" hidden></span>
 				</p>
-			</div>
-		</div>
-	</header>
+			</header>
 
-	<div class="container-site py-10">
-		<div class="mx-auto grid max-w-6xl gap-10 lg:grid-cols-12">
-
-			{{!-- Course navigation: collapsible above content on mobile, sticky rail on lg+ --}}
-			<aside class="lg:col-span-4">
-				<details class="lesson-nav card-surface !transform-none lg:sticky lg:top-28" open>
-					<summary class="flex cursor-pointer list-none items-center justify-between gap-2 p-5 [&::-webkit-details-marker]:hidden lg:pointer-events-none">
-						<span class="kicker !mb-0">{{> "icons/book"}} Course navigation</span>
-						{{> "icons/chevron-down" class="text-silver lg:hidden"}}
-					</summary>
-					<div class="px-5 pb-5">
-						{{#primary_tag}}
-						<a href="{{@site.url}}/courses/{{slug}}/" class="block text-base font-semibold tracking-tight hover:underline hover:underline-offset-4">{{name}}</a>
-						{{/primary_tag}}
-
-						<div class="mt-4">
-							<progress id="course-progress" class="progress w-full" value="0" max="100"></progress>
-							<p class="mt-1 font-mono text-[10px] uppercase tracking-[0.2em] text-silver"><span id="course-progress-label">0%</span> complete</p>
-						</div>
-
-						{{#primary_tag}}
-						{{#get "posts" filter="tag:hash-lesson+tags:{{slug}}" limit="50" order="published_at asc" as |siblings|}}
-						<ol id="lesson-list" class="mt-4 space-y-1">
-							{{#foreach siblings}}
-							<li>
-								<a href="{{url}}" data-lesson-slug="{{slug}}" class="lesson-link group flex items-center gap-3 rounded-xl px-3 py-2 transition hover:bg-mist">
-									<span class="lesson-num flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-line font-mono text-[10px] font-semibold text-silver group-hover:border-ink group-hover:text-ink">{{@number}}</span>
-									<span class="lesson-tick hidden h-6 w-6 shrink-0 items-center justify-center rounded-full bg-ink text-paper">{{> "icons/check"}}</span>
-									<span class="line-clamp-2 text-[13px] font-medium leading-snug">{{title}}</span>
-									{{#match visibility "!=" "public"}}{{> "icons/lock" class="ml-auto shrink-0 text-silver"}}{{/match}}
-								</a>
-							</li>
-							{{/foreach}}
-						</ol>
-						{{/get}}
-						{{/primary_tag}}
-					</div>
-				</details>
-			</aside>
-
-			<div class="lg:col-span-8">
+			<div class="px-0 py-8 lg:px-8">
 				<section class="gh-content video-theater">
 					{{content}}
 				</section>
 
-				{{!-- Prev / next lesson within the lessons collection --}}
+				{{!-- Prev / next lesson within the course --}}
 				<nav class="mt-10 grid gap-4 border-t border-line pt-6 sm:grid-cols-2" aria-label="Lesson pagination">
 					{{#prev_post in="primary_tag"}}
 					<a href="{{url}}" class="card-surface group flex items-center gap-3 p-4 !transform-none">
@@ -137,31 +140,56 @@
 			if (label) label.textContent = pct + '%';
 		}
 
-		/* Auto-complete the current lesson once the reader passes 60% of the page */
-		var marked = false;
-		function onScroll() {
-			if (marked) return;
-			var doc = document.documentElement;
-			var seen = (window.scrollY + window.innerHeight) / Math.max(doc.scrollHeight, 1);
-			if (seen >= 0.6) {
-				marked = true;
-				var done = load();
-				if (done.indexOf(CURRENT) < 0) { done.push(CURRENT); save(done); }
-				paint();
-				window.removeEventListener('scroll', onScroll);
-			}
+		/* App mode on lg+: body scroll off, panes scroll internally. The lesson
+		   pane (not the window) is the scroll container, so completion tracking
+		   listens on whichever actually scrolls. */
+		var pane = document.querySelector('.lesson-pane.min-w-0');
+		var mqDesktop = window.matchMedia ? window.matchMedia('(min-width: 1024px)') : null;
+		function syncAppMode() {
+			document.body.classList.toggle('lesson-app-mode', !!(mqDesktop && mqDesktop.matches));
 		}
-		window.addEventListener('scroll', onScroll, { passive: true });
+		if (mqDesktop) {
+			syncAppMode();
+			if (mqDesktop.addEventListener) mqDesktop.addEventListener('change', syncAppMode);
+		}
+
+		/* Auto-complete the current lesson once the reader passes 60% */
+		var marked = false;
+		function markSeen(seen) {
+			if (marked || seen < 0.6) return;
+			marked = true;
+			var done = load();
+			if (done.indexOf(CURRENT) < 0) { done.push(CURRENT); save(done); }
+			paint();
+		}
+		function onWinScroll() {
+			var doc = document.documentElement;
+			markSeen((window.scrollY + window.innerHeight) / Math.max(doc.scrollHeight, 1));
+		}
+		function onPaneScroll() {
+			if (!pane) return;
+			markSeen((pane.scrollTop + pane.clientHeight) / Math.max(pane.scrollHeight, 1));
+		}
+		window.addEventListener('scroll', onWinScroll, { passive: true });
+		if (pane) pane.addEventListener('scroll', onPaneScroll, { passive: true });
 		paint();
-		onScroll();
+		onWinScroll();
+		onPaneScroll();
+
+		/* Scroll the current lesson into view inside the rail (desktop only —
+		   on mobile this would yank the whole page down to the nav) */
+		var current = document.querySelector('.lesson-link[aria-current="page"]');
+		if (current && mqDesktop && mqDesktop.matches) {
+			var rail = current.closest('.lesson-pane');
+			if (rail) rail.scrollTop = Math.max(0, current.offsetTop - rail.clientHeight / 2);
+		}
 
 		/* Course nav: collapsed by default on mobile, always open on lg+ */
 		var nav = document.querySelector('.lesson-nav');
-		if (nav && window.matchMedia) {
-			var mq = window.matchMedia('(min-width: 1024px)');
-			function sync() { if (mq.matches) nav.open = true; else nav.open = false; }
-			sync();
-			if (mq.addEventListener) mq.addEventListener('change', sync);
+		if (nav && mqDesktop) {
+			function syncNav() { nav.open = mqDesktop.matches; }
+			syncNav();
+			if (mqDesktop.addEventListener) mqDesktop.addEventListener('change', syncNav);
 		}
 	})();
 </script>
