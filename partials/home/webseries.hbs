@@ -31,9 +31,9 @@
 									{{#if custom_excerpt}}<p class="mt-2 hidden max-w-md text-sm leading-relaxed text-white/80 sm:block">{{custom_excerpt}}</p>{{/if}}
 									<div class="mt-4 flex items-center gap-3">
 										<span class="btn !bg-white !px-5 !py-2 !text-sm !font-semibold !text-black">{{> "icons/play" class="h-4 w-4"}} Watch now</span>
-										{{#get "posts" filter="tag:hash-episode+tag:{{primary_tag.slug}}" limit="1" as |e|}}
+										{{#foreach tags visibility="public" limit="1"}}{{#get "posts" filter="tag:hash-episode+tag:{{slug}}" limit="1" as |e|}}
 											<span class="font-mono text-[11px] uppercase tracking-[0.2em] text-white/70">{{plural pagination.total empty="trailer soon" singular="% episode" plural="% episodes"}}</span>
-										{{/get}}
+										{{/get}}{{/foreach}}
 									</div>
 								</div>
 							</div>

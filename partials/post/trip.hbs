@@ -28,7 +28,7 @@
 				</section>
 
 				{{!-- Itinerary: numbered day-by-day stories --}}
-				{{#primary_tag}}
+				{{#foreach tags visibility="public" limit="1"}}
 				{{#get "posts" filter="tag:hash-travel+tags:{{slug}}" limit="50" order="published_at asc" as |stories|}}
 				<div class="mt-12">
 					<p class="kicker">{{> "icons/calendar"}} The itinerary</p>
@@ -59,7 +59,7 @@
 					{{/if}}
 				</div>
 				{{/get}}
-				{{/primary_tag}}
+				{{/foreach}}
 
 				{{> "components/adsense" slot="6501428979" layout="in-article" format="fluid"}}
 			</div>

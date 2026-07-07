@@ -6,13 +6,13 @@
 
 <section class="container-site py-12">
 	<div class="mx-auto max-w-3xl space-y-10">
-		{{#get "posts" filter="tag:hash-trip" limit="50" order="published_at desc" as |trips|}}
+		{{#get "posts" filter="tag:hash-trip" limit="50" order="published_at desc" include="tags" as |trips|}}
 			{{#if trips}}
 			{{#foreach trips}}
 			<div class="card-surface p-6 !transform-none">
 				<p class="kicker">{{> "icons/map-pin"}} Trip</p>
 				<h2 class="mt-2 text-xl font-semibold tracking-tight"><a href="{{url}}" class="hover:underline hover:underline-offset-4">{{title}}</a></h2>
-				{{#get "posts" filter="tag:hash-travel+tags:{{primary_tag.slug}}" limit="50" order="published_at asc" as |stories|}}
+				{{#foreach tags visibility="public" limit="1"}}{{#get "posts" filter="tag:hash-travel+tags:{{slug}}" limit="50" order="published_at asc" as |stories|}}
 					{{#if stories}}
 					<ol class="mt-4 space-y-1">
 						{{#foreach stories}}
@@ -28,7 +28,7 @@
 					{{else}}
 					<p class="mt-3 text-sm text-silver">Stories still in the camera roll.</p>
 					{{/if}}
-				{{/get}}
+				{{/get}}{{/foreach}}
 				<a href="{{url}}" class="btn-ghost mt-4">{{> "icons/map-pin"}} Trip overview {{> "icons/arrow-right"}}</a>
 			</div>
 			{{/foreach}}

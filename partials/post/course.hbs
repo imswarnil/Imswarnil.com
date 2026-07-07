@@ -398,7 +398,7 @@
 		if (includes && totalText) includes.textContent = totalText + ' of focused content, self-paced';
 
 		/* Mark curriculum rows the visitor already completed (shared localStorage) */
-		var courseTag = '{{primary_tag.slug}}';
+		var courseTag = '{{#foreach tags visibility="public" limit="1"}}{{slug}}{{/foreach}}';
 		try {
 			var done = JSON.parse(localStorage.getItem('swarnil-progress-' + courseTag)) || [];
 			document.querySelectorAll('.lesson-row').forEach(function (row) {

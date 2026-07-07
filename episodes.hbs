@@ -6,7 +6,7 @@
 
 <section class="container-site py-12">
 	<div class="mx-auto max-w-3xl space-y-14">
-		{{#get "posts" filter="tag:hash-webseries" order="published_at desc" limit="50" as |series|}}
+		{{#get "posts" filter="tag:hash-webseries" order="published_at desc" limit="50" include="tags" as |series|}}
 			{{#if series}}
 				{{#foreach series}}
 					<section>
@@ -14,7 +14,7 @@
 							<h2 class="section-title">{{title}}</h2>
 							<a href="{{url}}" class="flex items-center gap-1.5 text-sm font-medium text-silver transition hover:gap-2.5 hover:text-ink">Series page {{> "icons/arrow-right"}}</a>
 						</div>
-						{{#get "posts" filter="tag:hash-episode+tag:{{primary_tag.slug}}" order="published_at asc" limit="50" as |eps|}}
+						{{#foreach tags visibility="public" limit="1"}}{{#get "posts" filter="tag:hash-episode+tag:{{slug}}" order="published_at asc" limit="50" as |eps|}}
 							{{#if eps}}
 								<ol class="mt-5 space-y-3">
 									{{#foreach eps}}
@@ -24,7 +24,7 @@
 							{{else}}
 								<p class="mt-5 rounded-2xl border border-dashed border-line p-6 text-center text-sm text-silver">No episodes yet.</p>
 							{{/if}}
-						{{/get}}
+						{{/get}}{{/foreach}}
 					</section>
 				{{/foreach}}
 			{{else}}
