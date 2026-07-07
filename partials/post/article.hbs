@@ -69,7 +69,7 @@
 
 				{{#if @site.comments_enabled}}
 					<section class="mt-12 border-t border-line pt-10">
-						{{comments title="Join the discussion" count=true}}
+						{{> "components/comments" title="Join the discussion"}}
 					</section>
 				{{/if}}
 			</div>

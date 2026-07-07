@@ -1,18 +1,38 @@
-<section class="reveal relative py-16">
+{{!-- Products I use — creative/build toolkit. Compact horizontal cards,
+     3 per row: image left, category + title + excerpt right. Latest
+     purchases first (newest published). --}}
+<section class="reveal relative py-16" id="home-products">
 	<div class="container-site">
-		<div class="flex items-end justify-between gap-4">
-			<div>
-				<p class="kicker">{{> "icons/zap"}} The toolkit</p>
-				<h2 class="section-title mt-2">Products I use</h2>
-			</div>
-			<a href="{{@site.url}}/products/" class="btn-ghost shrink-0">Full stack {{> "icons/arrow-right"}}</a>
-		</div>
+		{{> "components/section-head"
+			kicker="The toolkit"
+			title="Products I use to create"
+			sub="Latest purchases first — reviewed after real use, grouped by shelf."
+			actionUrl=(concat @site.url "/products/") actionLabel="Full toolkit"}}
 
-		{{#get "posts" filter="tag:hash-product" limit="4" include="tags" as |products|}}
+		{{#get "posts" filter="tag:hash-product" limit="6" order="published_at desc" include="tags" as |products|}}
 			{{#if products}}
-			<div class="mt-8 grid gap-4 sm:grid-cols-2">
+			<div class="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-3" data-reveal-stagger="70">
 				{{#foreach products}}
-					{{> "cards/product"}}
+				<a href="{{url}}" class="card-surface group flex items-center gap-4 overflow-hidden !transform-none p-3 transition hover:-translate-y-0.5">
+					{{!-- inline image first --}}
+					<span class="relative h-20 w-20 shrink-0 overflow-hidden rounded-xl border border-line bg-mist">
+						{{#if feature_image}}
+							<img src="{{img_url feature_image size="300"}}" width="300" height="300" alt="" loading="lazy" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
+						{{else}}
+							<span class="flex h-full w-full items-center justify-center">{{> "icons/zap" class="h-5 w-5 text-silver"}}</span>
+						{{/if}}
+					</span>
+					<span class="min-w-0 flex-1">
+						{{!-- category from #group-* --}}
+						<span class="font-mono text-[9px] uppercase tracking-[0.18em] text-silver">
+							{{#has tag="#group-services"}}Services{{else has tag="#group-my-setup"}}My setup{{else has tag="#group-skin-care"}}Skin care{{else has tag="#group-travel"}}Travel kit{{else}}{{#primary_tag}}{{name}}{{/primary_tag}}{{/has}}
+							{{#if @first}} · <span class="text-ink">latest buy</span>{{/if}}
+						</span>
+						<strong class="mt-0.5 block truncate text-[14px] font-semibold tracking-tight">{{title}}</strong>
+						<span class="mt-0.5 line-clamp-2 block text-[12px] leading-snug text-silver">{{#if custom_excerpt}}{{custom_excerpt}}{{else}}{{excerpt words="14"}}{{/if}}</span>
+					</span>
+					{{> "icons/arrow-up-right" class="h-3.5 w-3.5 shrink-0 text-silver transition group-hover:text-ink"}}
+				</a>
 				{{/foreach}}
 			</div>
 			{{/if}}

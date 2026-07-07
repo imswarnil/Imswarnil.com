@@ -1,45 +1,52 @@
-{{!-- "Now" — what I'm doing currently. Sourced from posts tagged #now; hidden entirely when none exist. --}}
-{{#get "posts" filter="tag:hash-now" limit="4" include="tags" as |nowposts|}}
+{{!-- "Now" — what I'm doing currently, as a centered 3D fan of cards.
+     Posts tagged #now = in progress · #now-completed = shipped (green tick).
+     Each card wears the UI of its content type: project→VS Code window,
+     video→camcorder, webseries→episode, travel→map, newsletter→envelope,
+     article→notepad. Skins live in tailwind.css (.now-*). --}}
+{{#get "posts" filter="tag:[hash-now,hash-now-completed]" limit="6" include="tags" order="updated_at desc" as |nowposts|}}
 	{{#if nowposts}}
-	<section class="reveal relative py-16">
-		<div class="container-site">
-			<div class="flex items-end justify-between gap-4">
-				<div>
-					<p class="kicker">
-						<span class="relative flex h-2 w-2"><span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-500 opacity-60"></span><span class="relative inline-flex h-2 w-2 rounded-full bg-green-500"></span></span>
-						Now
-					</p>
-					<h2 class="section-title mt-2">What I'm doing currently</h2>
-				</div>
-				<span class="hidden shrink-0 font-mono text-[11px] uppercase tracking-[0.2em] text-silver sm:block tooltip tooltip-left" data-tip="Inspired by nownownow.com">/now</span>
-			</div>
+	<section class="reveal relative overflow-hidden py-16" id="home-now">
+		<div class="bg-dots pointer-events-none absolute inset-0 opacity-40 fade-mask-b" aria-hidden="true"></div>
+		<div class="container-site relative text-center">
+			<p class="kicker inline-flex items-center gap-2">
+				<span class="relative flex h-2 w-2"><span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-500 opacity-60"></span><span class="relative inline-flex h-2 w-2 rounded-full bg-green-500"></span></span>
+				Now
+			</p>
+			<h2 class="section-title mt-2">What I'm doing currently <span class="font-mono text-silver">/now</span></h2>
+			<p class="mx-auto mt-3 max-w-md text-sm leading-relaxed text-silver">Live from the workbench. Ticked = shipped, pulsing = still fighting it.</p>
 
-			<div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4" data-reveal-stagger="80">
+			{{!-- the fan --}}
+			<div class="now-fan mt-12" data-reveal-stagger="120">
 				{{#foreach nowposts}}
-				<a href="{{url}}" class="card-surface group relative flex flex-col gap-3 p-5 transition hover:shadow-lift">
-					<div class="flex items-center justify-between gap-2">
-						{{#has tag="#project"}}
-							<span class="chip !py-0.5 font-mono !text-[10px] uppercase tracking-[0.15em]">{{> "icons/terminal"}} building</span>
-						{{else}}
-							{{#has tag="#course"}}
-								<span class="chip !py-0.5 font-mono !text-[10px] uppercase tracking-[0.15em]">{{> "icons/book"}} creating course</span>
-							{{else}}
-								{{#has tag="#video"}}
-									<span class="chip !py-0.5 font-mono !text-[10px] uppercase tracking-[0.15em]">{{> "icons/film"}} filming</span>
-								{{else}}
-									<span class="chip !py-0.5 font-mono !text-[10px] uppercase tracking-[0.15em]">{{> "icons/zap"}} working on</span>
-								{{/has}}
-							{{/has}}
-						{{/has}}
-						<span class="text-silver opacity-0 transition group-hover:opacity-100">{{> "icons/arrow-up-right" class="h-4 w-4"}}</span>
-					</div>
-					<h3 class="text-[15px] font-semibold leading-snug tracking-tight">{{title}}</h3>
-					{{#if custom_excerpt}}
-						<p class="line-clamp-2 text-sm leading-relaxed text-silver">{{custom_excerpt}}</p>
+				<a href="{{url}}" class="now-card {{#has tag="#project"}}now-code{{else has tag="#video"}}now-cam{{else has tag="#webseries"}}now-episode{{else has tag="#episode"}}now-episode{{else has tag="#travel"}}now-map{{else has tag="#trip"}}now-map{{else has tag="#newsletter"}}now-mail{{else}}now-note{{/has}}" style="--i:{{@index}}">
+					{{!-- status --}}
+					{{#has tag="#now-completed"}}
+						<span class="now-status now-status-done">{{> "icons/check" class="h-3 w-3"}} done</span>
 					{{else}}
-						<p class="line-clamp-2 text-sm leading-relaxed text-silver">{{excerpt words="20"}}</p>
+						<span class="now-status now-status-wip"><span class="now-wip-dot"></span> in progress</span>
+					{{/has}}
+
+					{{!-- skin chrome --}}
+					<span class="now-chrome" aria-hidden="true">
+						<span class="now-chrome-code"><i class="now-dot" style="background:#ff5f57"></i><i class="now-dot" style="background:#febc2e"></i><i class="now-dot" style="background:#28c840"></i><em>{{slug}}.md</em></span>
+						<span class="now-chrome-cam"><i class="now-rec"></i> REC <em>00:{{date updated_at format="mm"}}:42</em> <b>▮▮▮▯</b></span>
+						<span class="now-chrome-episode">{{> "icons/tv" class="h-3 w-3"}} <em>E{{date updated_at format="DD"}}</em></span>
+						<span class="now-chrome-map">{{> "icons/map-pin" class="h-3 w-3"}} <em>en route</em></span>
+						<span class="now-chrome-mail">{{> "icons/mail" class="h-3 w-3"}} <em>draft</em></span>
+						<span class="now-chrome-note"><i></i><em>notes</em></span>
+					</span>
+
+					{{#if feature_image}}
+					<span class="now-media">
+						<img src="{{img_url feature_image size="600"}}" width="600" height="338" alt="" loading="lazy" />
+					</span>
 					{{/if}}
-					<p class="mt-auto flex items-center gap-1.5 font-mono text-[11px] text-silver">{{> "icons/calendar" class="h-3.5 w-3.5"}} updated {{date updated_at format="DD MMM YYYY"}}</p>
+
+					<span class="now-body">
+						<strong>{{title}}</strong>
+						<span>{{#if custom_excerpt}}{{custom_excerpt}}{{else}}{{excerpt words="14"}}{{/if}}</span>
+						<time>updated {{date updated_at format="DD MMM"}}</time>
+					</span>
 				</a>
 				{{/foreach}}
 			</div>

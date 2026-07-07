@@ -47,14 +47,7 @@
 					<li><a class="text-silver transition hover:text-ink" href="{{@site.url}}/sitemap.xml">Sitemap</a></li>
 				</ul>
 				{{#if @site.members_enabled}}
-				<form data-members-form class="mt-6">
-					<div class="flex overflow-hidden rounded-full border border-line bg-paper transition focus-within:border-ink">
-						<input type="email" name="email" data-members-email placeholder="you@email.com" required class="w-full bg-transparent px-4 py-2.5 text-sm outline-none placeholder:text-silver" aria-label="Email address" />
-						<button type="submit" class="shrink-0 bg-ink px-4 text-sm font-medium text-paper transition hover:opacity-85">Join</button>
-					</div>
-					<p class="mt-2 hidden text-xs text-silver" data-members-success>✓ Check your inbox to confirm.</p>
-					<p class="mt-2 hidden text-xs text-red-500" data-members-error>Something went wrong — try again.</p>
-				</form>
+				<button type="button" class="btn-ghost btn-sm mt-6" data-modal-open="#subscribe-backdrop">{{> "icons/bell" class="h-3 w-3"}} Why subscribe?</button>
 				{{/if}}
 			</nav>
 		</div>

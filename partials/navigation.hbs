@@ -1,0 +1,48 @@
+{{!-- Ghost's native navigation template override (docs: the {{navigation}}
+     helper loads partials/navigation.hbs when it exists).
+     Primary: iconified items, no list bullets, slug → icon mapping below.
+     Secondary: plain panel links.
+     Nesting convention: label "- Child" nests under the item above, "-- Grand"
+     one deeper — a small script in navbar.hbs folds these into dropdowns. --}}
+{{#if isSecondary}}
+	{{#foreach navigation}}
+		<a href="{{url absolute="true"}}" class="panel-link">{{> "icons/arrow-up-right" class="h-3.5 w-3.5"}} {{label}}</a>
+	{{/foreach}}
+{{else}}
+<ul class="nav-list" role="menubar">
+	{{#foreach navigation}}
+	<li class="nav-item relative" role="none" data-nav-label="{{label}}">
+		<a href="{{url absolute="true"}}" role="menuitem" class="nav-link{{#if current}} is-current{{/if}}">
+			{{#match slug "home"}}{{> "icons/home" class="h-3.5 w-3.5"}}
+			{{else match slug "videos"}}{{> "icons/play" class="h-3.5 w-3.5"}}
+			{{else match slug "webseries"}}{{> "icons/tv" class="h-3.5 w-3.5"}}
+			{{else match slug "series"}}{{> "icons/tv" class="h-3.5 w-3.5"}}
+			{{else match slug "blog"}}{{> "icons/pen" class="h-3.5 w-3.5"}}
+			{{else match slug "courses"}}{{> "icons/graduation" class="h-3.5 w-3.5"}}
+			{{else match slug "projects"}}{{> "icons/code" class="h-3.5 w-3.5"}}
+			{{else match slug "travel"}}{{> "icons/plane" class="h-3.5 w-3.5"}}
+			{{else match slug "about"}}{{> "icons/user" class="h-3.5 w-3.5"}}
+			{{else match slug "contact"}}{{> "icons/contact" class="h-3.5 w-3.5"}}
+			{{else match slug "shop"}}{{> "icons/cart" class="h-3.5 w-3.5"}}
+			{{else match slug "products"}}{{> "icons/zap" class="h-3.5 w-3.5"}}
+			{{else match slug "timeline"}}{{> "icons/calendar" class="h-3.5 w-3.5"}}
+			{{else match slug "guestbook"}}{{> "icons/heart" class="h-3.5 w-3.5"}}
+			{{else match slug "sponsor"}}{{> "icons/cash" class="h-3.5 w-3.5"}}
+			{{else match slug "newsletters"}}{{> "icons/mail" class="h-3.5 w-3.5"}}
+			{{else match slug "newsletter"}}{{> "icons/mail" class="h-3.5 w-3.5"}}
+			{{else match slug "tags"}}{{> "icons/sparkle" class="h-3.5 w-3.5"}}
+			{{else match slug "archive"}}{{> "icons/search" class="h-3.5 w-3.5"}}
+			{{else match slug "podcast"}}{{> "icons/mic" class="h-3.5 w-3.5"}}
+			{{else match slug "live"}}{{> "icons/live" class="h-3.5 w-3.5"}}
+			{{else match slug "political"}}{{> "icons/newspaper" class="h-3.5 w-3.5"}}
+			{{else match slug "news"}}{{> "icons/newspaper" class="h-3.5 w-3.5"}}
+			{{else match slug "sports"}}{{> "icons/trophy" class="h-3.5 w-3.5"}}
+			{{else match slug "music"}}{{> "icons/music" class="h-3.5 w-3.5"}}
+			{{else match slug "resume"}}{{> "icons/briefcase" class="h-3.5 w-3.5"}}
+			{{else}}{{> "icons/sparkle" class="h-3.5 w-3.5 opacity-60"}}{{/match}}
+			<span class="nav-label">{{label}}</span>
+		</a>
+	</li>
+	{{/foreach}}
+</ul>
+{{/if}}

@@ -61,7 +61,9 @@
 					"Salesforce",
 					"YouTube",
 					"Netflix",
-					"Claude"
+					"Claude",
+					"Twilio",
+					"Neubrutal"
 				],
 				"default": "System",
 				"description": "Default theme mode. Visitors can still switch."

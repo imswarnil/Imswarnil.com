@@ -26,7 +26,7 @@
 	{{!-- Flash-free theme mode boot: light | dark | salesforce | youtube | netflix | claude --}}
 	<script>
 		(function () {
-			var MODES = ['light', 'dark', 'salesforce', 'youtube', 'netflix', 'claude'];
+			var MODES = ['light', 'dark', 'salesforce', 'youtube', 'netflix', 'claude', 'twilio', 'neubrutal'];
 			var DARK_MODES = { dark: 1, netflix: 1 };
 			var pref = localStorage.getItem('swarnil-mode');
 			var fallback = '{{@custom.color_scheme}}'.toLowerCase();
@@ -37,6 +37,8 @@
 			var root = document.documentElement;
 			root.setAttribute('data-theme', mode);
 			root.classList.toggle('dark', !!DARK_MODES[mode]);
+			// Video-hero index pages get the glass navbar (flash-free)
+			if (/^\/(videos|webseries|travel)\/(page\/\d+\/)?$/.test(location.pathname)) root.classList.add('nav-glass');
 		})();
 	</script>
 
@@ -49,7 +51,6 @@
 </head>
 
 <body class="{{body_class}} min-h-screen bg-paper text-ink">
-	<div id="scroll-progress" aria-hidden="true"></div>
 	<div class="bg-grid-lg pointer-events-none fixed inset-0 -z-10 fade-mask-b" aria-hidden="true"></div>
 
 	{{> "components/navbar"}}

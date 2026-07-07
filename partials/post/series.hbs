@@ -83,7 +83,7 @@
 
 			{{#if @site.comments_enabled}}
 				<section class="mt-12 border-t border-line pt-10">
-					{{comments title="Comments" count=true}}
+					{{> "components/comments" title="Comments"}}
 				</section>
 			{{/if}}
 		</div>

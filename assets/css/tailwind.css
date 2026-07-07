@@ -86,6 +86,82 @@
 		border-radius: 0.375rem;
 	}
 
+	/* ---- Twilio mode: white, navy ink, twilio red ---- */
+	[data-theme='twilio'] {
+		--ink: 18 28 45; /* #121c2d */
+		--paper: 255 255 255;
+		--mist: 244 244 246;
+		--line: 225 227 234;
+		--silver: 96 107 133;
+		--accent: 242 47 70; /* #f22f46 */
+		--on-accent: 255 255 255;
+		--pattern: 18 28 45;
+		--ghost-accent-color: #f22f46;
+	}
+	[data-theme='twilio'] body {
+		font-family: 'Helvetica Neue', Helvetica, 'Geist', Arial, sans-serif;
+	}
+	[data-theme='twilio'] .btn,
+	[data-theme='twilio'] .chip {
+		border-radius: 0.375rem;
+	}
+	[data-theme='twilio'] .card-surface {
+		border-radius: 0.5rem;
+		box-shadow: 0 1px 4px rgb(18 28 45 / 0.08);
+	}
+
+	/* ---- Neubrutal mode: cream paper, hard black borders + offset shadows,
+	        big shouty typography ---- */
+	[data-theme='neubrutal'] {
+		--ink: 17 17 17;
+		--paper: 255 251 235; /* cream */
+		--mist: 255 241 194; /* butter */
+		--line: 17 17 17; /* borders are BLACK */
+		--silver: 87 83 78;
+		--accent: 37 99 235; /* cobalt */
+		--on-accent: 255 255 255;
+		--pattern: 17 17 17;
+		--ghost-accent-color: #2563eb;
+	}
+	[data-theme='neubrutal'] .card-surface,
+	[data-theme='neubrutal'] .nav-shell.is-island,
+	[data-theme='neubrutal'] .player-bar {
+		border-width: 2px;
+		border-radius: 0.6rem;
+		box-shadow: 4px 4px 0 rgb(17 17 17);
+	}
+	[data-theme='neubrutal'] .card-surface:hover {
+		transform: translate(-2px, -2px);
+		box-shadow: 6px 6px 0 rgb(17 17 17);
+	}
+	[data-theme='neubrutal'] .btn {
+		border: 2px solid rgb(17 17 17);
+		border-radius: 0.6rem;
+		box-shadow: 3px 3px 0 rgb(17 17 17);
+		font-weight: 700;
+	}
+	[data-theme='neubrutal'] .btn:active {
+		transform: translate(2px, 2px);
+		box-shadow: 1px 1px 0 rgb(17 17 17);
+	}
+	[data-theme='neubrutal'] .chip {
+		border: 2px solid rgb(17 17 17);
+		font-weight: 700;
+	}
+	[data-theme='neubrutal'] h1,
+	[data-theme='neubrutal'] .section-title {
+		font-weight: 900;
+		text-transform: uppercase;
+		letter-spacing: -0.02em;
+	}
+	[data-theme='neubrutal'] .section-title {
+		font-size: clamp(1.75rem, 4vw, 2.75rem);
+	}
+	[data-theme='neubrutal'] .kicker {
+		font-weight: 800;
+		color: rgb(var(--ink));
+	}
+
 	/* ---- Claude mode: warm ivory, book-ish serif headings, crail accent ---- */
 	[data-theme='claude'] {
 		--ink: 61 57 41; /* warm near-black */
@@ -193,16 +269,45 @@
 		@apply mx-auto w-full max-w-site px-5 sm:px-8;
 	}
 
+	/* Buttons — compact by default, size adapts via .btn-sm / .btn-lg.
+	   Hover: a grid pattern fades in from the top-right corner, tinted with a
+	   light tone of the button's own foreground color. */
 	.btn {
-		@apply inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-medium transition-all duration-200 active:scale-[.97];
+		@apply relative inline-flex items-center justify-center gap-1.5 overflow-hidden rounded-full px-4 py-1.5 text-[13px] font-medium transition-all duration-200 active:scale-[.97];
+	}
+	.btn::after {
+		content: '';
+		position: absolute;
+		inset: 0;
+		pointer-events: none;
+		opacity: 0;
+		transition: opacity 0.3s ease;
+		background-image:
+			linear-gradient(to right, rgb(var(--btn-pattern, var(--pattern)) / 0.22) 1px, transparent 1px),
+			linear-gradient(to bottom, rgb(var(--btn-pattern, var(--pattern)) / 0.22) 1px, transparent 1px);
+		background-size: 7px 7px;
+		-webkit-mask-image: radial-gradient(130% 130% at 100% 0%, black, transparent 52%);
+		mask-image: radial-gradient(130% 130% at 100% 0%, black, transparent 52%);
+	}
+	.btn:hover::after {
+		opacity: 1;
+	}
+
+	.btn-sm {
+		@apply !gap-1 !px-3 !py-1 !text-xs;
+	}
+	.btn-lg {
+		@apply !gap-2 !px-6 !py-2.5 !text-sm;
 	}
 
 	.btn-primary {
-		@apply btn bg-accent text-on-accent hover:opacity-85;
+		@apply btn bg-accent text-on-accent hover:opacity-90;
+		--btn-pattern: var(--on-accent);
 	}
 
 	.btn-ghost {
 		@apply btn border border-line bg-paper/60 text-ink backdrop-blur hover:bg-mist;
+		--btn-pattern: var(--pattern);
 	}
 
 	.chip {
@@ -228,10 +333,11 @@
 		@apply inline-flex h-9 w-9 items-center justify-center rounded-full text-silver transition hover:bg-mist hover:text-ink;
 	}
 
-	/* Navbar: full-width bar at top of page → floating island once scrolled.
-	   Kept deliberately low: h-8 controls, tight paddings. */
+	/* Navbar: ultra-compact bar → floating island once scrolled. The bar itself
+	   is the reading-progress indicator: .nav-progress fills it left→right with
+	   a very light tint of the accent color (scaleX set in main.js). */
 	.nav-shell {
-		@apply mx-auto flex w-full max-w-site items-center justify-between gap-3 rounded-island border border-transparent bg-transparent py-1.5 pl-3 pr-2.5;
+		@apply relative mx-auto flex w-full max-w-site items-center justify-between gap-2 rounded-2xl border border-transparent bg-transparent py-1.5 pl-3 pr-2;
 		transition:
 			max-width 0.5s cubic-bezier(0.16, 1, 0.3, 1),
 			background-color 0.4s ease,
@@ -240,11 +346,74 @@
 			padding 0.4s ease;
 	}
 	.nav-shell.is-island {
-		@apply max-w-5xl rounded-full border-line bg-paper/80 py-1 shadow-island backdrop-blur-xl;
+		@apply max-w-5xl rounded-2xl border-line bg-paper/80 py-1 shadow-island backdrop-blur-xl;
+	}
+	.nav-shell > *:not(.nav-progress) {
+		position: relative;
+		z-index: 1;
+	}
+	/* Progress = the shell's own border drawing itself in, in a light accent tone.
+	   The rect's dashoffset is driven by scroll in main.js. */
+	.nav-progress {
+		position: absolute;
+		inset: 0;
+		z-index: 0;
+		width: 100%;
+		height: 100%;
+		overflow: visible;
+		pointer-events: none;
+	}
+	.nav-progress path {
+		fill: none;
+		stroke: rgb(var(--accent) / 0.3);
+		stroke-width: 1.25;
+		stroke-linecap: round;
+		stroke-dasharray: 100;
+		stroke-dashoffset: 100;
+		transition: stroke-dashoffset 0.15s linear;
+	}
+
+	/* Ghost {{navigation}} output (partials/navigation.hbs): flat, bullet-free */
+	.nav-list {
+		@apply m-0 flex list-none items-center gap-0.5 p-0;
+	}
+	.nav-list li {
+		@apply m-0 list-none p-0;
+	}
+	/* mobile menu renders the same helper vertically */
+	.mobile-nav .nav-list {
+		@apply grid grid-cols-2 items-stretch gap-1;
+	}
+	.mobile-nav .nav-link {
+		@apply w-full rounded-xl px-3.5 py-2.5 text-[14px];
 	}
 
 	.nav-link {
-		@apply inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[13px] font-medium text-silver transition hover:bg-mist hover:text-ink;
+		@apply relative inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1 text-[12.5px] font-medium text-silver transition hover:bg-mist hover:text-ink;
+	}
+	/* current page: no pill — just ink text and a small accent dot underneath */
+	.nav-link.is-current {
+		@apply text-ink;
+	}
+	.nav-link.is-current::after {
+		content: '';
+		position: absolute;
+		bottom: -1px;
+		left: 50%;
+		height: 3px;
+		width: 3px;
+		border-radius: 9999px;
+		background: rgb(var(--accent));
+		transform: translateX(-50%);
+	}
+
+	/* Nested nav: second-level flyout opens to the right of the dropdown */
+	.nav-sub > .nav-sub-menu {
+		@apply invisible absolute left-full top-0 ml-1 w-48 scale-95 rounded-2xl border border-line bg-paper p-1.5 opacity-0 shadow-lift transition-all duration-200;
+	}
+	.nav-sub:hover > .nav-sub-menu,
+	.nav-sub:focus-within > .nav-sub-menu {
+		@apply visible scale-100 opacity-100;
 	}
 	.mobile-link {
 		@apply flex items-center gap-3 rounded-xl px-4 py-2.5 text-[15px] font-medium text-ink transition hover:bg-mist;
@@ -411,19 +580,6 @@
 	}
 }
 
-/* Reading/scroll progress bar (injected element in default.hbs) */
-#scroll-progress {
-	position: fixed;
-	inset: 0 auto auto 0;
-	z-index: 70;
-	height: 2px;
-	width: 100%;
-	transform: scaleX(0);
-	transform-origin: left;
-	background: rgb(var(--accent));
-	pointer-events: none;
-}
-
 /* Hero: floating photo/video frames */
 .float-frame {
 	animation: floatFrame 7s ease-in-out infinite;
@@ -484,8 +640,26 @@ body.tag-hash-episode #site-header,
 body.tag-hash-episode #nav-spacer {
 	display: none;
 }
+/* Matches the site navbar island: floating rounded shell, not a flat strip
+   (episodes + resume). Lessons use .lesson-topbar below instead. */
 .player-bar {
-	@apply fixed inset-x-0 top-0 z-50 flex items-center gap-3 border-b border-line bg-paper/90 px-4 py-2.5 backdrop-blur-xl;
+	@apply fixed inset-x-4 top-2 z-50 mx-auto flex max-w-5xl items-center gap-3 overflow-hidden rounded-2xl border border-line bg-paper/85 px-3 py-2 shadow-island backdrop-blur-xl sm:top-2.5;
+}
+
+/* Lesson top bar: full-width flat bar; inner row aligns with the lesson grid
+   (container-site), so it runs from the course-nav edge to the content edge. */
+.lesson-topbar {
+	@apply fixed inset-x-0 top-0 z-50 border-b border-line bg-paper/85 backdrop-blur-xl;
+}
+.lesson-topbar-row {
+	@apply container-site flex items-center gap-3 py-2;
+}
+.lesson-progress-track {
+	@apply relative hidden h-1 flex-1 overflow-hidden rounded-full bg-mist sm:block;
+}
+.lesson-progress-fill {
+	@apply absolute inset-y-0 left-0 rounded-full bg-accent transition-all duration-300;
+	width: 0;
 }
 .player-bar-progress {
 	position: absolute;
@@ -502,130 +676,7 @@ body.tag-hash-episode #nav-spacer {
 	}
 }
 
-/* ------------------------------------------------------------------
-   Page-transition overlays — flavored per collection (see main.js)
-------------------------------------------------------------------- */
-.pt-overlay {
-	position: fixed;
-	inset: 0;
-	z-index: 100;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	gap: 1rem;
-	background: rgb(var(--paper) / 0.96);
-	backdrop-filter: blur(6px);
-	opacity: 0;
-	pointer-events: none;
-	transition: opacity 0.22s ease;
-}
-.pt-overlay.is-in {
-	opacity: 1;
-	pointer-events: auto;
-}
-.pt-art {
-	font-size: 3.5rem;
-	line-height: 1;
-}
-.pt-quote {
-	max-width: 26rem;
-	padding: 0 1.5rem;
-	text-align: center;
-	font-size: 0.95rem;
-	font-weight: 500;
-	color: rgb(var(--ink));
-}
-.pt-label {
-	font-family: theme('fontFamily.mono');
-	font-size: 10px;
-	text-transform: uppercase;
-	letter-spacing: 0.3em;
-	color: rgb(var(--silver));
-}
-/* TV static (videos / youtube-flavored) */
-.pt-tv .pt-art {
-	animation: ptTv 0.5s steps(2) infinite;
-}
-.pt-tv::before {
-	content: '';
-	position: absolute;
-	inset: 0;
-	opacity: 0.14;
-	background-image: repeating-linear-gradient(0deg, rgb(var(--pattern)) 0 1px, transparent 1px 3px);
-	animation: ptScan 0.35s linear infinite;
-}
-@keyframes ptTv { 50% { transform: translate(2px, -1px) skewX(2deg); filter: contrast(2); } }
-@keyframes ptScan { to { transform: translateY(3px); } }
-/* Terminal (projects) */
-.pt-code .pt-art { font-size: 1rem; }
-.pt-code pre {
-	width: min(22rem, 84vw);
-	border: 1px solid rgb(var(--line));
-	border-radius: 0.9rem;
-	background: rgb(var(--ink));
-	color: rgb(var(--paper));
-	padding: 1rem 1.25rem;
-	font-family: theme('fontFamily.mono');
-	font-size: 12px;
-	text-align: left;
-}
-.pt-code pre span { display: block; overflow: hidden; white-space: nowrap; animation: ptType 0.45s steps(28) both; }
-.pt-code pre span:nth-child(2) { animation-delay: 0.25s; }
-.pt-code pre span:nth-child(3) { animation-delay: 0.5s; }
-@keyframes ptType { from { width: 0; } to { width: 100%; } }
-/* Flight (travel) + paper plane (trips) */
-.pt-flight .pt-art { animation: ptFly 0.9s cubic-bezier(0.5, 0, 0.6, 1) both; }
-@keyframes ptFly {
-	0% { transform: translate(-42vw, 22vh) rotate(8deg) scale(0.7); }
-	55% { transform: translate(4vw, -8vh) rotate(-6deg) scale(1.1); }
-	100% { transform: translate(42vw, -20vh) rotate(-10deg) scale(0.75); opacity: 0.4; }
-}
-/* Cart (shop) */
-.pt-cart .pt-art { animation: ptRoll 0.8s ease-in both; }
-@keyframes ptRoll { from { transform: translateX(-46vw) rotate(-8deg); } 60% { transform: translateX(4vw) rotate(3deg); } to { transform: translateX(2vw); } }
-/* Study (courses) */
-.pt-study .pt-art { animation: ptPop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
-@keyframes ptPop { from { transform: scale(0.3) rotate(-12deg); opacity: 0; } to { transform: none; opacity: 1; } }
-/* Years flying (timeline) */
-.pt-years .pt-art {
-	font-family: theme('fontFamily.mono');
-	font-size: 2.4rem;
-	filter: blur(1px);
-	animation: ptYears 0.8s ease-out both;
-}
-@keyframes ptYears { from { transform: translateX(40vw); filter: blur(8px); } to { transform: none; filter: blur(0); } }
-/* Scribble (guestbook) */
-.pt-scribble .pt-quote { font-family: Georgia, cursive; font-style: italic; }
-.pt-scribble .pt-art span { display: inline-block; animation: ptPop 0.4s both; }
-.pt-scribble .pt-art span:nth-child(2) { animation-delay: 0.15s; font-family: Georgia, serif; }
-.pt-scribble .pt-art span:nth-child(3) { animation-delay: 0.3s; font-family: theme('fontFamily.mono'); }
-/* Tudum (webseries) */
-.pt-tudum { background: #000 !important; }
-.pt-tudum .pt-art {
-	color: #e50914;
-	font-weight: 900;
-	font-size: 5rem;
-	animation: ptTudum 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
-}
-.pt-tudum .pt-quote, .pt-tudum .pt-label { color: #b3b3b3; }
-@keyframes ptTudum { from { transform: scaleY(0.02) scaleX(2.4); opacity: 0; } 40% { opacity: 1; } to { transform: none; } }
-/* Cash (sponsor) */
-.pt-cash .pt-art span { display: inline-block; animation: ptRain 0.9s ease-in infinite; }
-.pt-cash .pt-art span:nth-child(2) { animation-delay: 0.2s; }
-.pt-cash .pt-art span:nth-child(3) { animation-delay: 0.45s; }
-@keyframes ptRain { from { transform: translateY(-30vh) rotate(-10deg); } to { transform: translateY(32vh) rotate(14deg); opacity: 0.2; } }
-/* Paper unfold (resume) */
-.pt-unfold .pt-art { animation: ptUnfold 0.7s cubic-bezier(0.16, 1, 0.3, 1) both; transform-origin: top; }
-@keyframes ptUnfold { from { transform: perspective(600px) rotateX(-88deg); opacity: 0; } to { transform: none; opacity: 1; } }
-/* Envelope (newsletters) */
-.pt-envelope .pt-art { animation: ptSeal 0.7s ease both; }
-@keyframes ptSeal { from { transform: scale(1.6); opacity: 0; } 60% { transform: scale(0.92); opacity: 1; } to { transform: none; } }
-
-/* Mode-cycle switch button */
-#mode-cycle {
-	@apply relative inline-flex h-8 items-center gap-2 rounded-full border border-line bg-mist/60 px-2.5 font-mono text-[10px] font-semibold uppercase tracking-[0.15em] text-silver transition hover:bg-mist hover:text-ink;
-}
+/* Mode-cycle switch button — plain icon button, glyph swaps per mode */
 #mode-cycle .mode-glyph { display: inline-flex; }
 #mode-cycle:active .mode-glyph { transform: scale(0.8) rotate(-20deg); }
 .mode-glyph { transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1); }
@@ -633,6 +684,427 @@ body.tag-hash-episode #nav-spacer {
 /* Compact icon buttons in nav */
 #site-header .icon-btn {
 	@apply h-8 w-8;
+}
+
+/* Logo intro — ONE-SHOT line-drawing choreography (6.5s, no loop).
+   Every shape is stroke-drawn with dashoffset: a positive->0 offset draws the
+   line in; continuing to -100 makes the line "run onward" out of its own end
+   (that's how the S hands over to the play button, play to code, code back
+   to the S). Finale: CRT off/on blip + live-dot double-pulse, then rest. */
+.logo-seg {
+	stroke-dasharray: 100 100;
+	stroke-dashoffset: 100;
+	animation-duration: 6.5s;
+	animation-timing-function: linear;
+	animation-iteration-count: 1;
+	animation-fill-mode: forwards;
+}
+.logo-seg-s1 { animation-name: logoS1; }
+.logo-seg-play { animation-name: logoPlay; }
+.logo-seg-c1 { animation-name: logoC1; }
+.logo-seg-c2 { animation-name: logoC2; }
+.logo-seg-c3 { animation-name: logoC3; }
+.logo-seg-s2 { animation-name: logoS2; }
+/* act 1: S draws 0-16%, holds, then its line runs out 24-32% */
+@keyframes logoS1 {
+	0% { stroke-dashoffset: 100; }
+	16% { stroke-dashoffset: 0; }
+	24% { stroke-dashoffset: 0; }
+	32%, 100% { stroke-dashoffset: -100; }
+}
+/* act 2: play draws as the S exits, holds, runs out */
+@keyframes logoPlay {
+	0%, 26% { stroke-dashoffset: 100; }
+	40% { stroke-dashoffset: 0; }
+	46% { stroke-dashoffset: 0; }
+	54%, 100% { stroke-dashoffset: -100; }
+}
+/* act 3: code lines draw staggered, then run out */
+@keyframes logoC1 {
+	0%, 48% { stroke-dashoffset: 100; }
+	56% { stroke-dashoffset: 0; }
+	62% { stroke-dashoffset: 0; }
+	68%, 100% { stroke-dashoffset: -100; }
+}
+@keyframes logoC2 {
+	0%, 51% { stroke-dashoffset: 100; }
+	59% { stroke-dashoffset: 0; }
+	62% { stroke-dashoffset: 0; }
+	68%, 100% { stroke-dashoffset: -100; }
+}
+@keyframes logoC3 {
+	0%, 54% { stroke-dashoffset: 100; }
+	61% { stroke-dashoffset: 0; }
+	64% { stroke-dashoffset: 0; }
+	70%, 100% { stroke-dashoffset: -100; }
+}
+/* act 4: the last code line redraws the S - and it stays */
+@keyframes logoS2 {
+	0%, 66% { stroke-dashoffset: 100; }
+	82%, 100% { stroke-dashoffset: 0; }
+}
+/* finale: CRT off -> thin bright line -> back on */
+.logo-crt {
+	transform-origin: 24px 24px;
+	animation: logoCrt 6.5s linear 1 forwards;
+}
+@keyframes logoCrt {
+	0%, 84% { transform: none; }
+	87% { transform: scaleY(0.06) scaleX(1.12); }
+	89% { transform: scaleY(0.06) scaleX(0.05); }
+	91% { transform: scaleY(0.06) scaleX(1.08); }
+	94%, 100% { transform: none; }
+}
+.logo-crt-flash {
+	animation: logoCrtFlash 6.5s linear 1 forwards;
+}
+@keyframes logoCrtFlash {
+	0%, 85% { opacity: 0; }
+	88% { opacity: 0.9; }
+	90% { opacity: 0.9; }
+	93%, 100% { opacity: 0; }
+}
+/* live dot: dim during the drawing, play/pause double-pulse at the blip,
+   then settles into the slow blink forever */
+.logo-rec {
+	transform-origin: 37px 11px;
+	animation:
+		logoRecIntro 6.5s linear 1,
+		logoRec 2.4s ease-in-out 6.5s infinite;
+}
+@keyframes logoRecIntro {
+	0%, 90% { opacity: 0.35; transform: none; }
+	92.5% { opacity: 1; transform: scale(1.5); }
+	95% { opacity: 0.35; transform: none; }
+	97.5% { opacity: 1; transform: scale(1.5); }
+	100% { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+	.logo-seg, .logo-crt, .logo-crt-flash, .logo-rec { animation: none; }
+	.logo-seg { stroke-dashoffset: -100; }
+	.logo-seg-s2 { stroke-dashoffset: 0; }
+	.logo-crt-flash { opacity: 0; }
+}
+
+/* ------------------------------------------------------------------
+   Members forms: Ghost Portal toggles .loading/.success/.error on the FORM —
+   a MutationObserver in main.js mirrors that onto the message elements and
+   the subscribe modal. These are the visual states.
+------------------------------------------------------------------- */
+[data-members-success],
+[data-members-error] {
+	display: none;
+}
+form[data-members-form].loading button[type='submit'] {
+	opacity: 0.6;
+	pointer-events: none;
+}
+/* Subscribe modal: pitch swaps for the animated magic-link confirmation */
+.sub-success {
+	display: none;
+}
+.is-success .sub-pitch {
+	display: none;
+}
+.is-success .sub-success {
+	display: block;
+	animation: fadeUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+@keyframes fadeUp {
+	from { opacity: 0; transform: translateY(18px); }
+	to { opacity: 1; transform: none; }
+}
+.sub-check-ring {
+	stroke-dasharray: 100;
+	stroke-dashoffset: 100;
+	transform: rotate(-90deg);
+	transform-origin: 36px 36px;
+}
+.sub-check-tick {
+	stroke-dasharray: 100;
+	stroke-dashoffset: 100;
+}
+.is-success .sub-check-ring {
+	animation: subDraw 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.15s forwards;
+}
+.is-success .sub-check-tick {
+	animation: subDraw 0.45s cubic-bezier(0.16, 1, 0.3, 1) 0.7s forwards;
+}
+@keyframes subDraw {
+	to { stroke-dashoffset: 0; }
+}
+
+/* Mode menu revealed by long-pressing the theme switch */
+#mode-menu-pop {
+	@apply invisible absolute right-0 top-full z-50 mt-2 w-44 origin-top-right scale-95 rounded-2xl border border-line bg-paper p-1.5 opacity-0 shadow-lift transition-all duration-200;
+}
+#mode-menu-pop.is-open {
+	@apply visible scale-100 opacity-100;
+}
+
+/* ------------------------------------------------------------------
+   Logo — simple S mark + "documenting <word>" rotating tagline
+------------------------------------------------------------------- */
+.logo-rec { animation: logoRec 2.4s ease-in-out infinite; }
+@keyframes logoRec { 50% { opacity: 0.3; transform: scale(0.8); } }
+.logo-rotator-track {
+	animation: logoWords 15s cubic-bezier(0.7, 0, 0.3, 1) infinite;
+}
+.logo-rotator-track i { height: 1.4em; line-height: 1.4em; color: rgb(var(--ink)); font-weight: 700; }
+@keyframes logoWords {
+	0%, 16% { transform: translateY(0); }
+	20%, 36% { transform: translateY(-1.4em); }
+	40%, 56% { transform: translateY(-2.8em); }
+	60%, 76% { transform: translateY(-4.2em); }
+	80%, 96% { transform: translateY(-5.6em); }
+	100% { transform: translateY(-7em); }
+}
+@media (prefers-reduced-motion: reduce) {
+	.logo-rec, .logo-rotator-track { animation: none; }
+}
+
+/* Fallback letter badge for nav items with no icon match */
+.nav-letter {
+	@apply inline-flex shrink-0 items-center justify-center rounded-md border border-line bg-mist font-mono text-[9px] font-bold;
+}
+
+/* ------------------------------------------------------------------
+   Hobby stickers + course hover-peek
+------------------------------------------------------------------- */
+.hobby-card {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 0.4rem;
+	width: 12.5rem;
+	padding: 1.4rem 1.1rem 1.2rem;
+	border: 1px solid rgb(var(--line));
+	border-radius: 1.25rem;
+	background: rgb(var(--paper));
+	box-shadow: 0 1px 2px rgb(0 0 0 / 0.05), 0 14px 36px -16px rgb(0 0 0 / 0.2);
+	text-align: center;
+	transform: rotate(var(--tilt, 0deg));
+	transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+}
+.hobby-card:hover {
+	transform: rotate(0deg) translateY(-6px) scale(1.03);
+	box-shadow: 0 2px 4px rgb(0 0 0 / 0.06), 0 24px 50px -18px rgb(0 0 0 / 0.3);
+}
+.hobby-icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 2.75rem;
+	height: 2.75rem;
+	border-radius: 1rem;
+	border: 1px solid rgb(var(--line));
+	background: rgb(var(--mist));
+	color: rgb(var(--ink));
+}
+.hobby-card strong { font-size: 14px; font-weight: 650; letter-spacing: -0.01em; }
+.hobby-card > span:last-child { font-size: 12px; line-height: 1.5; color: rgb(var(--silver)); }
+
+/* course tile: lesson peek slides open on hover/focus */
+.course-peek {
+	max-height: 0;
+	overflow: hidden;
+	opacity: 0;
+	transition: max-height 0.45s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease, margin 0.3s ease;
+	margin-top: 0;
+}
+.course-tile:hover .course-peek,
+.course-tile:focus-within .course-peek {
+	max-height: 10rem;
+	opacity: 1;
+	margin-top: 0.85rem;
+}
+
+/* ------------------------------------------------------------------
+   Series deck — stacked cards, front one plays
+------------------------------------------------------------------- */
+.series-deck {
+	position: relative;
+	padding-top: 2.75rem; /* room for the stack peeking above */
+}
+.series-card {
+	border: 1px solid rgb(var(--line));
+	border-radius: 1.5rem;
+	overflow: hidden;
+	box-shadow: 0 2px 4px rgb(0 0 0 / 0.06), 0 24px 60px -20px rgb(0 0 0 / 0.3);
+	transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease;
+	background: rgb(var(--paper));
+}
+.series-card[data-pos='0'] { position: relative; }
+.series-card:not([data-pos='0']) {
+	position: absolute;
+	inset-inline: 0;
+	top: 2.75rem;
+	pointer-events: none;
+}
+.series-card[data-pos='1'] { transform: translateY(-18px) scale(0.955); opacity: 0.85; }
+.series-card[data-pos='2'] { transform: translateY(-34px) scale(0.912); opacity: 0.55; }
+.series-card[data-pos='3'] { transform: translateY(-48px) scale(0.87); opacity: 0.3; }
+.series-video iframe { border: 0; }
+
+/* ------------------------------------------------------------------
+   NOW fan — centered 3D spread of typed cards
+------------------------------------------------------------------- */
+.now-fan {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 1rem;
+	perspective: 1200px;
+}
+@media (min-width: 768px) {
+	.now-fan { gap: 0; }
+	.now-fan .now-card {
+		margin: 0 -0.9rem;
+		transform: rotate(calc((var(--i) - 1.5) * 3.5deg)) translateY(calc(var(--i) * 2px)) rotateY(calc((var(--i) - 1.5) * -4deg));
+	}
+	.now-fan .now-card:hover {
+		transform: rotate(0deg) translateY(-14px) scale(1.04);
+		z-index: 10;
+	}
+}
+.now-card {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	width: 15.5rem;
+	overflow: hidden;
+	border-radius: 1rem;
+	border: 1px solid rgb(var(--line));
+	background: rgb(var(--paper));
+	box-shadow: 0 1px 2px rgb(0 0 0 / 0.05), 0 16px 40px -18px rgb(0 0 0 / 0.25);
+	text-align: left;
+	transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+}
+.now-status {
+	position: absolute;
+	right: 0.6rem;
+	top: 0.55rem;
+	z-index: 3;
+	display: inline-flex;
+	align-items: center;
+	gap: 0.3rem;
+	border-radius: 9999px;
+	padding: 0.15rem 0.5rem;
+	font-family: theme('fontFamily.mono');
+	font-size: 8px;
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 0.15em;
+}
+.now-status-done { background: rgb(34 197 94 / 0.18); color: rgb(22 163 74); }
+.now-status-wip { background: rgb(245 158 11 / 0.18); color: rgb(180 120 10); }
+.now-wip-dot { width: 5px; height: 5px; border-radius: 9999px; background: currentColor; animation: nowPulse 1.4s ease-in-out infinite; }
+@keyframes nowPulse { 50% { opacity: 0.25; } }
+/* chrome bar: one variant shows per skin */
+.now-chrome {
+	display: flex;
+	align-items: center;
+	min-height: 1.9rem;
+	border-bottom: 1px solid rgb(var(--line));
+	padding: 0 0.7rem;
+	font-family: theme('fontFamily.mono');
+	font-size: 9px;
+	text-transform: uppercase;
+	letter-spacing: 0.12em;
+	color: rgb(var(--silver));
+}
+.now-chrome > span { display: none; align-items: center; gap: 0.35rem; }
+.now-chrome em { font-style: normal; opacity: 0.8; }
+.now-code .now-chrome-code,
+.now-cam .now-chrome-cam,
+.now-episode .now-chrome-episode,
+.now-map .now-chrome-map,
+.now-mail .now-chrome-mail,
+.now-note .now-chrome-note { display: inline-flex; }
+.now-dot { width: 8px; height: 8px; border-radius: 9999px; display: inline-block; margin-right: 2px; }
+/* skins */
+.now-code { background: #1e1e1e; border-color: #333; color: #d4d4d4; }
+.now-code .now-chrome { border-color: #333; background: #252526; color: #9da5b4; }
+.now-code .now-body strong { color: #e8e8e8; font-family: theme('fontFamily.mono'); font-size: 13px; }
+.now-code .now-body span { color: #7f848e; }
+.now-code .now-body span::before { content: '// '; }
+.now-cam { background: #0c0c0e; border-color: #2a2a2e; color: #e4e4e7; }
+.now-cam .now-chrome { border-color: #2a2a2e; color: #f87171; }
+.now-rec { width: 7px; height: 7px; border-radius: 9999px; background: #ef4444; animation: nowPulse 1s steps(1) infinite; }
+.now-cam .now-media { position: relative; }
+.now-cam .now-media::after { content: ''; position: absolute; inset: 0.45rem; border: 1px solid rgb(255 255 255 / 0.35); border-radius: 4px; pointer-events: none; }
+.now-cam .now-body strong { color: #fff; }
+.now-cam .now-body span, .now-cam .now-body time { color: #a1a1aa; }
+.now-episode .now-media { position: relative; }
+.now-episode .now-media::after { content: ''; position: absolute; inset-inline: 0; bottom: 0; height: 3px; background: linear-gradient(to right, rgb(var(--accent)) 62%, rgb(var(--line)) 62%); }
+.now-map .now-body {
+	background-image: linear-gradient(to right, rgb(var(--pattern) / 0.06) 1px, transparent 1px), linear-gradient(to bottom, rgb(var(--pattern) / 0.06) 1px, transparent 1px);
+	background-size: 18px 18px;
+}
+.now-mail::before { content: ''; position: absolute; inset-inline: 0; top: 0; height: 2rem; background: linear-gradient(135deg, rgb(var(--mist)) 49%, transparent 50%) left/50.5% 100% no-repeat, linear-gradient(225deg, rgb(var(--mist)) 49%, transparent 50%) right/50.5% 100% no-repeat; opacity: 0.7; pointer-events: none; }
+.now-note .now-body {
+	background-image: repeating-linear-gradient(rgb(var(--pattern) / 0) 0 21px, rgb(var(--pattern) / 0.08) 21px 22px);
+	background-position: 0 6px;
+}
+.now-note .now-chrome i { width: 8px; height: 8px; border-radius: 9999px; border: 1.5px solid rgb(var(--silver)); display: inline-block; }
+/* shared body */
+.now-media { display: block; aspect-ratio: 16 / 9; overflow: hidden; }
+.now-media img { width: 100%; height: 100%; object-fit: cover; }
+.now-body { display: flex; flex-direction: column; gap: 0.3rem; padding: 0.8rem 0.9rem 0.9rem; }
+.now-body strong { font-size: 14px; font-weight: 650; line-height: 1.3; letter-spacing: -0.01em; }
+.now-body span { font-size: 12px; line-height: 1.5; color: rgb(var(--silver)); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.now-body time { margin-top: 0.2rem; font-family: theme('fontFamily.mono'); font-size: 9px; text-transform: uppercase; letter-spacing: 0.15em; color: rgb(var(--silver)); }
+
+/* Glass navbar on video-hero pages (/videos, /webseries, /travel indexes):
+   translucent dark glass while flat so it reads over the video; the scrolled
+   island keeps its normal paper look. */
+html.nav-glass .nav-shell:not(.is-island) {
+	background: rgb(0 0 0 / 0.28);
+	border-color: rgb(255 255 255 / 0.12);
+	backdrop-filter: blur(14px);
+	-webkit-backdrop-filter: blur(14px);
+	box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.08), 0 8px 24px -16px rgb(0 0 0 / 0.5);
+}
+html.nav-glass .nav-shell:not(.is-island) .nav-link,
+html.nav-glass .nav-shell:not(.is-island) .icon-btn,
+html.nav-glass .nav-shell:not(.is-island) .logo span {
+	color: rgb(255 255 255 / 0.85);
+}
+html.nav-glass .nav-shell:not(.is-island) .nav-link:hover,
+html.nav-glass .nav-shell:not(.is-island) .icon-btn:hover {
+	background: rgb(255 255 255 / 0.12);
+	color: #fff;
+}
+html.nav-glass .nav-shell:not(.is-island) .nav-link.is-current {
+	background: rgb(255 255 255 / 0.16);
+	color: #fff;
+}
+html.nav-glass .nav-shell:not(.is-island) .logo-rotator-track i {
+	color: #fff;
+}
+html.nav-glass .nav-shell:not(.is-island) .nav-letter {
+	border-color: rgb(255 255 255 / 0.25);
+	background: rgb(255 255 255 / 0.1);
+}
+
+/* TV-static fine scanlines for video heroes */
+.tv-scanlines::after {
+	content: '';
+	position: absolute;
+	inset: 0;
+	pointer-events: none;
+	opacity: 0.16;
+	background-image: repeating-linear-gradient(0deg, rgb(255 255 255 / 0.5) 0 1px, transparent 1px 3px);
+	animation: tvScan 0.4s linear infinite;
+	mix-blend-mode: overlay;
+}
+@keyframes tvScan { to { transform: translateY(3px); } }
+@media (prefers-reduced-motion: reduce) { .tv-scanlines::after { animation: none; } }
+
+/* Resume: global navbar replaced by a dedicated document bar (see page-resume.hbs) */
+body.page-resume #site-header,
+body.page-resume #nav-spacer {
+	display: none;
 }
 
 /* Timeline: scroll-filled spine */
@@ -713,7 +1185,6 @@ body.tag-hash-episode #nav-spacer {
 [data-theme='claude'] .card-surface { border-radius: 1rem; box-shadow: none; }
 
 @media (prefers-reduced-motion: reduce) {
-	.pt-overlay { display: none !important; }
 	.err-art, .err-glitch::before, .err-glitch::after { animation: none; }
 }
 

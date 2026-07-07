@@ -1,49 +1,75 @@
-{{!-- Portfolio strip — the "dear recruiter" section. Dense, scannable, CTA-heavy. --}}
+{{!-- Dear recruiter — the professional pitch WITH the work attached:
+     intro + CTAs, then GitHub-styled project cards filterable by skill,
+     view-all + resume links. Filter chips build client-side from #skill-* tags. --}}
 <section class="reveal relative border-y border-line bg-mist/40 py-16" id="home-portfolio">
 	<div class="bg-grid pointer-events-none absolute inset-0 opacity-50" aria-hidden="true"></div>
 	<div class="container-site relative">
-		<div class="grid gap-10 lg:grid-cols-12">
-			<div class="lg:col-span-5">
+		<div class="flex flex-wrap items-end justify-between gap-6">
+			<div class="max-w-xl">
 				<p class="kicker">{{> "icons/briefcase"}} Dear recruiter</p>
-				<h2 class="section-title mt-2 text-balance">The professional bit, minus the buzzwords*</h2>
-				<p class="mt-4 max-w-md text-[15px] leading-relaxed text-silver">{{@custom.job_title}} at <a href="{{@custom.workplace_url}}" class="font-medium text-ink underline decoration-line underline-offset-4 hover:decoration-ink" target="_blank" rel="noopener">{{@custom.workplace}}</a>. I sit where marketing meets engineering: ad platforms, analytics pipelines, landing pages, automation — and the occasional camera.</p>
-				<p class="mt-2 font-mono text-[10px] uppercase tracking-[0.2em] text-silver">*okay, one: "synergy". sorry.</p>
-				<div class="mt-7 flex flex-wrap gap-3">
-					<a href="{{@site.url}}/resume/" class="btn-primary">{{> "icons/briefcase"}} Full resume</a>
-					<a href="{{@site.url}}/contact/" class="btn-ghost">{{> "icons/mail"}} Contact me</a>
-					{{#if @custom.topmate_url}}<a href="{{@custom.topmate_url}}" target="_blank" rel="noopener" class="btn-ghost">{{> "icons/calendar" class="h-3.5 w-3.5"}} Book 1:1</a>{{/if}}
-				</div>
+				<h2 class="section-title mt-2 text-balance">The professional bit, with receipts</h2>
+				<p class="mt-3 text-[15px] leading-relaxed text-silver">{{@custom.job_title}} at <a href="{{@custom.workplace_url}}" class="font-medium text-ink underline decoration-line underline-offset-4 hover:decoration-ink" target="_blank" rel="noopener">{{@custom.workplace}}</a> — I sit where marketing meets engineering. Below: things I actually built, not adjectives.</p>
 			</div>
-			<div class="lg:col-span-7">
-				<div class="grid gap-4 sm:grid-cols-2" data-reveal-stagger="90">
-					<div class="card-surface !transform-none p-5">
-						<p class="kicker !text-[10px]">{{> "icons/zap"}} Core stack</p>
-						<div class="mt-3 flex flex-wrap gap-1.5">
-							<span class="chip">Google Ads</span><span class="chip">GA4</span><span class="chip">GTM</span><span class="chip">Looker Studio</span><span class="chip">SQL</span><span class="chip">JavaScript</span><span class="chip">Ghost</span><span class="chip">Tailwind</span>
-						</div>
-					</div>
-					<div class="card-surface !transform-none p-5">
-						<p class="kicker !text-[10px]">{{> "icons/trophy"}} Highlights</p>
-						<ul class="mt-3 space-y-2 text-sm leading-relaxed text-silver">
-							<li class="flex gap-2">{{> "icons/check" class="mt-0.5 h-3.5 w-3.5 shrink-0 text-ink"}} Senior MarTech at {{@custom.workplace}} — ed-tech scale</li>
-							<li class="flex gap-2">{{> "icons/check" class="mt-0.5 h-3.5 w-3.5 shrink-0 text-ink"}} 10k+ subscribers teaching marketing tech</li>
-							<li class="flex gap-2">{{> "icons/check" class="mt-0.5 h-3.5 w-3.5 shrink-0 text-ink"}} Ships own tools, themes &amp; automations</li>
-						</ul>
-					</div>
-					<div class="card-surface !transform-none p-5">
-						<p class="kicker !text-[10px]">{{> "icons/map-pin"}} Logistics</p>
-						<ul class="mt-3 space-y-2 text-sm leading-relaxed text-silver">
-							<li>Based in India · works in any timezone with coffee</li>
-							<li>B.Tech CSE · marketer who reads stack traces</li>
-							<li>Notice period: reasonable · humor: unreasonable</li>
-						</ul>
-					</div>
-					<div class="card-surface !transform-none p-5">
-						<p class="kicker !text-[10px]">{{> "icons/heart"}} References</p>
-						<p class="mt-3 text-sm leading-relaxed text-silver">"He measures everything, including how long this section took to build." — a colleague, allegedly. Real references on request; the guestbook doesn't count.</p>
-					</div>
-				</div>
+			<div class="flex shrink-0 flex-wrap gap-2">
+				<a href="{{@site.url}}/resume/" class="btn-primary">{{> "icons/briefcase"}} Resume</a>
+				<a href="{{@site.url}}/projects/" class="btn-ghost">All projects {{> "icons/arrow-right"}}</a>
+				<a href="{{@site.url}}/contact/" class="btn-ghost">{{> "icons/mail"}} Contact</a>
 			</div>
 		</div>
+
+		{{!-- skill filter chips (injected by the script below) --}}
+		<div class="mt-6 flex flex-wrap items-center gap-1.5" id="project-skill-filters" hidden>
+			<span class="kicker mr-1 !text-[10px]">{{> "icons/zap" class="h-3 w-3"}} Filter</span>
+		</div>
+
+		{{#get "posts" filter="tag:hash-project" limit="6" include="tags" as |projects|}}
+			{{#if projects}}
+			<div class="mt-6 grid gap-5 md:grid-cols-2 xl:grid-cols-3" id="home-projects-grid" data-reveal-stagger="90">
+				{{#foreach projects}}
+				<div class="home-project" data-skills="{{#foreach tags visibility="internal"}}{{slug}} {{/foreach}}">
+					{{> "cards/project"}}
+				</div>
+				{{/foreach}}
+			</div>
+			{{else}}
+			<p class="mt-8 rounded-2xl border border-dashed border-line p-10 text-center text-sm text-silver">Tag posts with <code class="rounded bg-mist px-1.5 py-0.5 font-mono text-xs">#project</code> to showcase them here.</p>
+			{{/if}}
+		{{/get}}
 	</div>
+
+	<script>
+		(function () {
+			/* skill filter, built from each card's internal #skill-* tags */
+			var wrap = document.getElementById('project-skill-filters');
+			var cards = [].slice.call(document.querySelectorAll('.home-project'));
+			if (!wrap || !cards.length) return;
+			var skills = {};
+			cards.forEach(function (c) {
+				(c.getAttribute('data-skills') || '').split(/\s+/).forEach(function (t) {
+					if (t.indexOf('hash-skill-') === 0) {
+						skills[t] = t.replace('hash-skill-', '').replace(/-/g, ' ');
+					}
+				});
+			});
+			var keys = Object.keys(skills);
+			if (!keys.length) return;
+			wrap.hidden = false;
+			function chip(label, tag) {
+				var b = document.createElement('button');
+				b.type = 'button';
+				b.className = 'chip transition hover:bg-mist' + (tag ? '' : ' !bg-ink !text-paper');
+				b.textContent = label;
+				b.addEventListener('click', function () {
+					[].forEach.call(wrap.querySelectorAll('button'), function (x) { x.classList.remove('!bg-ink', '!text-paper'); });
+					b.classList.add('!bg-ink', '!text-paper');
+					cards.forEach(function (c) {
+						c.style.display = !tag || (c.getAttribute('data-skills') || '').indexOf(tag) > -1 ? '' : 'none';
+					});
+				});
+				wrap.appendChild(b);
+			}
+			chip('Everything', null);
+			keys.sort().forEach(function (t) { chip(skills[t], t); });
+		})();
+	</script>
 </section>

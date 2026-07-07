@@ -1,4 +1,8 @@
-{{!-- Dynamic JSON-LD rich snippets, per context --}}
+{{!-- Dynamic JSON-LD rich snippets, per context. Every page type emits schema:
+     home → WebSite+Person+SearchAction · posts → typed Article/Video/Course/…
+     + breadcrumbs · pages → WebPage/AboutPage/ContactPage · tag → CollectionPage
+     · author → ProfilePage. Template-specific schemas (TVSeries, TVEpisode,
+     TouristTrip, Course syllabus) are emitted by their own templates. --}}
 {{#is "home"}}
 <script type="application/ld+json">
 {
@@ -10,7 +14,13 @@
 			"url": "{{@site.url}}",
 			"name": "{{@site.title}}",
 			"description": "{{@site.description}}",
-			"inLanguage": "{{@site.locale}}"
+			"inLanguage": "{{@site.locale}}",
+			"publisher": { "@id": "{{@site.url}}/#person" },
+			"potentialAction": {
+				"@type": "SearchAction",
+				"target": { "@type": "EntryPoint", "urlTemplate": "{{@site.url}}/?s={search_term_string}" },
+				"query-input": "required name=search_term_string"
+			}
 		},
 		{
 			"@type": "Person",
@@ -18,12 +28,53 @@
 			"name": "Swarnil Singhai",
 			"url": "{{@site.url}}",
 			"jobTitle": "{{@custom.job_title}}",
-			"worksFor": { "@type": "Organization", "name": "{{@custom.workplace}}", "url": "{{@custom.workplace_url}}" }
+			"worksFor": { "@type": "Organization", "name": "{{@custom.workplace}}", "url": "{{@custom.workplace_url}}" },
+			"sameAs": [
+				"https://github.com/imswarnil",
+				"https://www.linkedin.com/in/imswarnil",
+				"https://www.youtube.com/@imswarnil"
+			]
 		}
 	]
 }
 </script>
 {{/is}}
+
+{{#is "page"}}
+{{#post}}
+<script type="application/ld+json">
+{
+	"@context": "https://schema.org",
+	"@type": "{{#match slug "about"}}AboutPage{{else match slug "contact"}}ContactPage{{else match slug "resume"}}ProfilePage{{else}}WebPage{{/match}}",
+	"name": "{{title}}",
+	"url": "{{url absolute="true"}}",
+	"description": "{{custom_excerpt}}{{^custom_excerpt}}{{excerpt words="35"}}{{/custom_excerpt}}",
+	{{#if feature_image}}"image": "{{img_url feature_image size="1600" absolute="true"}}",{{/if}}
+	"dateModified": "{{date updated_at format="YYYY-MM-DDTHH:mm:ssZ"}}",
+	"isPartOf": { "@type": "WebSite", "@id": "{{@site.url}}/#website" },
+	"about": { "@type": "Person", "@id": "{{@site.url}}/#person", "name": "Swarnil Singhai" }
+}
+</script>
+{{/post}}
+{{/is}}
+
+{{#is "tag"}}
+{{#tag}}
+<script type="application/ld+json">
+{
+	"@context": "https://schema.org",
+	"@type": "CollectionPage",
+	"name": "{{name}}",
+	"url": "{{url absolute="true"}}",
+	{{#if description}}"description": "{{description}}",{{/if}}
+	"isPartOf": { "@type": "WebSite", "@id": "{{@site.url}}/#website" }
+}
+</script>
+{{/tag}}
+{{/is}}
+
+{{!-- Author pages: Ghost's own ghost_head already emits Person/profile metadata,
+     and gscan forbids author.* paths in partials — so no extra block here. --}}
 
 {{#is "post"}}
 {{#post}}

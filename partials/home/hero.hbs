@@ -27,8 +27,8 @@
 				</p>
 
 				<div class="mt-9 flex flex-wrap items-center gap-3 animate-fade-up" style="animation-delay:.6s">
-					<a href="{{@site.url}}/videos/" class="btn-primary !px-6 !py-3">{{> "icons/play"}} Watch my videos</a>
-					<a href="{{url}}" class="btn-ghost !px-6 !py-3">The full story {{> "icons/arrow-right"}}</a>
+					<a href="{{@site.url}}/videos/" class="btn-primary btn-lg">{{> "icons/play"}} Watch my videos</a>
+					<a href="{{url}}" class="btn-ghost btn-lg">The full story {{> "icons/arrow-right"}}</a>
 					<a href="{{@site.url}}/resume/" class="text-sm font-medium text-silver underline decoration-line underline-offset-4 transition hover:text-ink hover:decoration-ink">View resume</a>
 				</div>
 
@@ -64,8 +64,8 @@
 				</p>
 
 				<div class="mt-9 flex flex-wrap items-center gap-3 animate-fade-up" style="animation-delay:.6s">
-					<a href="{{@site.url}}/videos/" class="btn-primary !px-6 !py-3">{{> "icons/play"}} Watch my videos</a>
-					<a href="{{@site.url}}/blog/" class="btn-ghost !px-6 !py-3">Read the blog {{> "icons/arrow-right"}}</a>
+					<a href="{{@site.url}}/videos/" class="btn-primary btn-lg">{{> "icons/play"}} Watch my videos</a>
+					<a href="{{@site.url}}/blog/" class="btn-ghost btn-lg">Read the blog {{> "icons/arrow-right"}}</a>
 					{{#if @custom.topmate_url}}
 						<a href="{{@custom.topmate_url}}" target="_blank" rel="noopener" class="text-sm font-medium text-silver underline decoration-line underline-offset-4 transition hover:text-ink hover:decoration-ink tooltip tooltip-bottom" data-tip="1:1 on Topmate">Book a call</a>
 					{{/if}}
@@ -82,13 +82,21 @@
 	</div>
 	{{/get}}
 
-	{{!-- Marquee strip --}}
-	<div class="relative mt-16 overflow-hidden border-y border-line bg-mist/50 py-3 fade-mask-x sm:mt-20">
-		<div class="animate-marquee flex w-max items-center gap-10 whitespace-nowrap font-mono text-[11px] uppercase tracking-[0.3em] text-silver">
-			<span>marketing technology</span><span>✦</span><span>google ads</span><span>✦</span><span>analytics</span><span>✦</span><span>web design</span><span>✦</span><span>ghost cms</span><span>✦</span><span>video</span><span>✦</span><span>automation</span><span>✦</span><span>seo</span><span>✦</span><span>creative code</span><span>✦</span>
-			<span aria-hidden="true">marketing technology</span><span aria-hidden="true">✦</span><span aria-hidden="true">google ads</span><span aria-hidden="true">✦</span><span aria-hidden="true">analytics</span><span aria-hidden="true">✦</span><span aria-hidden="true">web design</span><span aria-hidden="true">✦</span><span aria-hidden="true">ghost cms</span><span aria-hidden="true">✦</span><span aria-hidden="true">video</span><span aria-hidden="true">✦</span><span aria-hidden="true">automation</span><span aria-hidden="true">✦</span><span aria-hidden="true">seo</span><span aria-hidden="true">✦</span><span aria-hidden="true">creative code</span><span aria-hidden="true">✦</span>
+	{{!-- Tag marquee — every public topic, clickable, pauses on hover --}}
+	{{#get "tags" limit="24" include="count.posts" order="count.posts desc" as |topics|}}
+	{{#if topics}}
+	<div class="group/marquee relative mt-16 overflow-hidden border-y border-line bg-mist/50 py-2.5 fade-mask-x sm:mt-20">
+		<div class="animate-marquee flex w-max items-center gap-8 whitespace-nowrap font-mono text-[11px] uppercase tracking-[0.25em] text-silver group-hover/marquee:[animation-play-state:paused]">
+			{{#foreach topics}}
+				<a href="{{url}}" class="transition hover:text-ink hover:underline hover:underline-offset-4">{{name}}</a><span aria-hidden="true">✦</span>
+			{{/foreach}}
+			{{#foreach topics}}
+				<a href="{{url}}" aria-hidden="true" tabindex="-1" class="transition hover:text-ink hover:underline hover:underline-offset-4">{{name}}</a><span aria-hidden="true">✦</span>
+			{{/foreach}}
 		</div>
 	</div>
+	{{/if}}
+	{{/get}}
 
 	{{!-- Scroll cue --}}
 	<div class="pointer-events-none absolute bottom-1 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-1 text-silver sm:flex animate-fade-in" style="animation-delay:1.2s" aria-hidden="true">

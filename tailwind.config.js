@@ -62,6 +62,8 @@ module.exports = {
 			{ youtube: { primary: '#ff0000', secondary: '#606060', accent: '#ff0000', neutral: '#0f0f0f', 'base-100': '#ffffff', 'base-200': '#f4f4f4', 'base-300': '#e0e0e0', info: '#3ea6ff', success: '#2ba640', warning: '#ffa116', error: '#ff0000' } },
 			{ netflix: { primary: '#e50914', secondary: '#b3b3b3', accent: '#e50914', neutral: '#232323', 'base-100': '#141414', 'base-200': '#1f1f1f', 'base-300': '#333333', info: '#54b9c5', success: '#46d369', warning: '#e6b209', error: '#e50914' } },
 			{ claude: { primary: '#c15f3c', secondary: '#87867f', accent: '#c15f3c', neutral: '#3d3929', 'base-100': '#faf9f5', 'base-200': '#f0eee6', 'base-300': '#e0ddd1', info: '#6a9bcc', success: '#788c5d', warning: '#d4a27f', error: '#bf4d43' } },
+			{ twilio: { primary: '#f22f46', secondary: '#606b85', accent: '#f22f46', neutral: '#121c2d', 'base-100': '#ffffff', 'base-200': '#f4f4f6', 'base-300': '#e1e3ea', info: '#0263e0', success: '#14b053', warning: '#f5a623', error: '#d61f1f' } },
+			{ neubrutal: { primary: '#2563eb', secondary: '#57534e', accent: '#2563eb', neutral: '#111111', 'base-100': '#fffbeb', 'base-200': '#fff1c2', 'base-300': '#111111', info: '#2563eb', success: '#16a34a', warning: '#eab308', error: '#dc2626' } },
 		],
 		darkTheme: 'dark',
 		base: false,

@@ -1,0 +1,40 @@
+{{!-- Hobbies — what I love, as tilted sticker cards. Static by design. --}}
+<section class="reveal relative overflow-hidden py-16" id="home-hobbies">
+	<div class="container-site text-center">
+		<p class="kicker">{{> "icons/heart"}} Off the clock</p>
+		<h2 class="section-title mt-2">Things I love</h2>
+		<p class="mx-auto mt-3 max-w-md text-sm leading-relaxed text-silver">The parts of the week that never make the resume.</p>
+
+		<div class="mt-10 flex flex-wrap items-stretch justify-center gap-4" data-reveal-stagger="80">
+			<div class="hobby-card" style="--tilt:-3deg">
+				<span class="hobby-icon">{{> "icons/zap" class="h-5 w-5"}}</span>
+				<strong>Creating from scratch</strong>
+				<span>Blank file → shipped thing. The best drug there is.</span>
+			</div>
+			<div class="hobby-card" style="--tilt:2deg">
+				<span class="hobby-icon">{{> "icons/music" class="h-5 w-5"}}</span>
+				<strong>EDM &amp; music festivals</strong>
+				<span>Front row, questionable hearing, zero regrets.</span>
+			</div>
+			<div class="hobby-card" style="--tilt:-2deg">
+				<span class="hobby-icon">{{> "icons/film" class="h-5 w-5"}}</span>
+				<strong>Making videos</strong>
+				<span>Shoot, cut, grade, export, "final_v9_REAL.mp4".</span>
+			</div>
+			<div class="hobby-card" style="--tilt:3deg">
+				<span class="hobby-icon">
+					<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3.5"/><path d="M12 3v5.5M12 15.5V21M3 12h5.5M15.5 12H21"/></svg>
+				</span>
+				<strong>Snooker / pool</strong>
+				<span>Geometry with consequences. I call it "applied math".</span>
+			</div>
+			<div class="hobby-card" style="--tilt:-4deg">
+				<span class="hobby-icon">
+					<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="4.5" r="2"/><path d="M12 6.5l-2 5 2.5 2 .5 6M10 11.5L6.5 10M12.5 13.5L16 12M9 21l2-4M15.5 20l-2.5-3.5"/></svg>
+				</span>
+				<strong>Dancing &amp; clubbing</strong>
+				<span>Rhythm optional, enthusiasm mandatory.</span>
+			</div>
+		</div>
+	</div>
+</section>

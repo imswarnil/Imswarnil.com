@@ -8,7 +8,9 @@
        3487917390 vertical-responsive       7663977887 square-responsive
        9130894804 in-feed       6808134701 multiplex-h   3375031396 multiplex-v
        9619442326 medium-square 2712169578 large-skyscraper
-     Renders only when "Enable AdSense" theme setting is on; placeholder otherwise. --}}
+     Renders only when "Enable AdSense" theme setting is on; placeholder otherwise.
+     Signed-in members browse AD-FREE — the subscribe pitch promises it. --}}
+{{#unless @member}}
 {{#if @custom.enable_adsense}}
 	<div class="ad-unit my-10 overflow-hidden rounded-2xl border border-line bg-mist/40 text-center {{class}}">
 		<p class="pt-2 font-mono text-[10px] uppercase tracking-[0.3em] text-silver">Advertisement</p>
@@ -27,3 +29,4 @@
 		<p class="text-xs text-silver/70">Enable AdSense in theme settings</p>
 	</div>
 {{/if}}
+{{/unless}}

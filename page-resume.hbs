@@ -4,7 +4,22 @@
      Education and Awards are pulled live from #timeline posts by event tag. --}}
 
 {{#post}}
-<article class="{{post_class}}">
+{{!-- Document chrome: replaces the global navbar (hidden via body.page-resume CSS) --}}
+<div class="player-bar no-print" id="resume-bar">
+	<a href="{{@site.url}}" class="flex shrink-0 items-center gap-1.5 rounded-full px-2.5 py-1.5 text-[12.5px] font-medium text-silver transition hover:bg-mist hover:text-ink" aria-label="Back to home">
+		{{> "icons/arrow-right" class="h-3.5 w-3.5 rotate-180"}} Home
+	</a>
+	<div class="min-w-0 flex-1 text-center">
+		<p class="truncate font-mono text-[9px] uppercase tracking-[0.2em] text-silver">curriculum vitae</p>
+		<p class="truncate text-sm font-semibold leading-tight">Swarnil Singhai</p>
+	</div>
+	<div class="flex shrink-0 items-center gap-1.5">
+		<button type="button" class="btn-ghost btn-sm" onclick="window.print()">{{> "icons/download" class="h-3 w-3"}} PDF</button>
+		<a href="{{@site.url}}/contact/" class="btn-primary btn-sm">{{> "icons/mail" class="h-3 w-3"}} Hire me</a>
+	</div>
+</div>
+
+<article class="{{post_class}} pt-14">
 	<header class="relative overflow-hidden border-b border-line py-14">
 		<div class="bg-dots pointer-events-none absolute inset-0 fade-mask-b print:hidden" aria-hidden="true"></div>
 		<div class="container-site relative">

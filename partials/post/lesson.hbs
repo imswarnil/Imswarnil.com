@@ -3,27 +3,70 @@
      each scrolling independently (body scroll is disabled via .lesson-app-mode).
      On mobile it degrades to normal document flow with a collapsible nav.
      The parent course is the lesson's primary (public) tag. --}}
-{{!-- Player chrome: replaces the global navbar (hidden via body.tag-hash-lesson CSS) --}}
-<div class="player-bar" id="lesson-bar">
-	{{#primary_tag}}
-	<a href="{{@site.url}}/courses/{{slug}}/" class="icon-btn shrink-0 tooltip tooltip-bottom" data-tip="Close course" aria-label="Close course">{{> "icons/close"}}</a>
-	<div class="min-w-0 flex-1">
-		<p class="truncate font-mono text-[9px] uppercase tracking-[0.2em] text-silver">{{name}} · <span id="lesson-pos">lesson</span></p>
-		<p class="truncate text-sm font-semibold leading-tight">{{../title}}</p>
+{{!-- Course-player chrome: full-width bar aligned to the lesson grid (container),
+     replaces the global navbar (hidden via body.tag-hash-lesson CSS).
+     Left: logo + course · middle: progress · right: github, theme, ✕ close. --}}
+<div class="lesson-topbar" id="lesson-bar">
+	<div class="lesson-topbar-row">
+		{{> "components/logo"}}
+		{{#primary_tag}}
+		<span class="hidden h-5 w-px shrink-0 bg-line sm:block" aria-hidden="true"></span>
+		<a href="{{@site.url}}/courses/{{slug}}/" class="hidden min-w-0 truncate text-[13px] font-semibold tracking-tight hover:underline hover:underline-offset-4 sm:block">{{name}}</a>
+		{{/primary_tag}}
+
+		{{!-- progress: fills as lessons complete --}}
+		<div class="lesson-progress-track" aria-hidden="true">
+			<span class="lesson-progress-fill" id="lesson-bar-progress"></span>
+		</div>
+		<span class="hidden shrink-0 font-mono text-[9px] uppercase tracking-[0.18em] text-silver md:block" id="lesson-pos">lesson</span>
+
+		<div class="ml-auto flex shrink-0 items-center gap-0.5">
+			{{#prev_post in="primary_tag"}}<a href="{{url}}" class="icon-btn tooltip tooltip-bottom hidden sm:inline-flex" data-tip="Previous lesson" aria-label="Previous lesson"><span class="rotate-180">{{> "icons/arrow-right"}}</span></a>{{/prev_post}}
+			{{#next_post in="primary_tag"}}<a href="{{url}}" class="icon-btn tooltip tooltip-bottom hidden sm:inline-flex" data-tip="Next lesson" aria-label="Next lesson">{{> "icons/arrow-right"}}</a>{{/next_post}}
+			<a href="https://github.com/{{@custom.github_repo}}" target="_blank" rel="noopener" class="icon-btn tooltip tooltip-bottom hidden sm:inline-flex" data-tip="Star on GitHub" aria-label="Star on GitHub">{{> "icons/github"}}</a>
+			<button type="button" data-mode-cycle class="icon-btn" aria-label="Switch theme mode"></button>
+			{{!-- mobile: hamburger opens the course-navigation panel --}}
+			<button type="button" class="icon-btn lg:hidden" data-modal-open="#lesson-menu-backdrop" aria-label="Open course navigation">{{> "icons/menu"}}</button>
+			{{#primary_tag}}
+			<a href="{{@site.url}}/courses/{{slug}}/" class="icon-btn tooltip tooltip-left" data-tip="Close course" aria-label="Close course, back to {{name}}">{{> "icons/close"}}</a>
+			{{/primary_tag}}
+		</div>
 	</div>
-	{{/primary_tag}}
-	<div class="flex shrink-0 items-center gap-1">
-		{{#prev_post in="primary_tag"}}<a href="{{url}}" class="icon-btn tooltip tooltip-bottom" data-tip="Previous lesson" aria-label="Previous lesson"><span class="rotate-180">{{> "icons/arrow-right"}}</span></a>{{/prev_post}}
-		{{#next_post in="primary_tag"}}<a href="{{url}}" class="btn-primary !h-8 !px-3.5 !py-0 !text-[12px]">Next {{> "icons/arrow-right" class="h-3.5 w-3.5"}}</a>{{/next_post}}
+</div>
+
+{{!-- Mobile course navigation — panel-style modal, like the site menu panel --}}
+<div class="fixed inset-0 z-[60] hidden items-start justify-center overflow-y-auto bg-ink/40 p-4 pt-16 backdrop-blur-sm" id="lesson-menu-backdrop" data-modal>
+	<div class="w-full max-w-md rounded-[2rem] border border-line bg-paper p-6 shadow-lift" role="dialog" aria-modal="true" aria-label="Course navigation">
+		<div class="mb-5 flex items-center justify-between">
+			{{> "components/logo"}}
+			<button type="button" class="icon-btn" data-modal-close aria-label="Close">{{> "icons/close"}}</button>
+		</div>
+		{{#primary_tag}}
+		<p class="kicker">{{> "icons/book"}} Course</p>
+		<a href="{{@site.url}}/courses/{{slug}}/" class="mt-1 block text-base font-semibold tracking-tight hover:underline hover:underline-offset-4">{{name}}</a>
+		{{#get "posts" filter="tag:hash-lesson+tags:{{slug}}" limit="50" order="published_at asc" as |siblings|}}
+		<ol class="mt-4 space-y-1">
+			{{#foreach siblings}}
+			<li>
+				<a href="{{url}}" data-lesson-slug="{{slug}}" class="lesson-link group flex items-center gap-3 rounded-xl px-3 py-2 transition hover:bg-mist">
+					<span class="lesson-num flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-line font-mono text-[10px] font-semibold text-silver">{{@number}}</span>
+					<span class="lesson-tick hidden h-6 w-6 shrink-0 items-center justify-center rounded-full bg-ink text-paper">{{> "icons/check"}}</span>
+					<span class="line-clamp-2 text-[13px] font-medium leading-snug">{{title}}</span>
+					{{#match visibility "!=" "public"}}{{> "icons/lock" class="ml-auto shrink-0 text-silver"}}{{/match}}
+				</a>
+			</li>
+			{{/foreach}}
+		</ol>
+		{{/get}}
+		{{/primary_tag}}
 	</div>
-	<span class="player-bar-progress" id="lesson-bar-progress" aria-hidden="true"></span>
 </div>
 
 <article class="{{post_class}} pt-16">
 	<div class="lesson-app container-site grid gap-6 py-6 lg:grid-cols-12 lg:gap-8" style="--lesson-top: 7.5rem">
 
-		{{!-- Course navigation rail --}}
-		<aside class="lg:col-span-4 xl:col-span-3">
+		{{!-- Course navigation rail (desktop; mobile uses the panel modal) --}}
+		<aside class="hidden lg:col-span-4 lg:block xl:col-span-3">
 			<details class="lesson-nav lesson-pane card-surface !transform-none" open>
 				<summary class="flex cursor-pointer list-none items-center justify-between gap-2 p-5 [&::-webkit-details-marker]:hidden lg:pointer-events-none">
 					<span class="kicker !mb-0">{{> "icons/book"}} Course navigation</span>
@@ -113,7 +156,7 @@
 
 				{{#if @site.comments_enabled}}
 				<div class="mt-12">
-					{{comments title="Discussion" count=true}}
+					{{> "components/comments" title="Discussion"}}
 				</div>
 				{{/if}}
 			</div>
@@ -155,12 +198,14 @@
 			if (bar) bar.value = pct;
 			if (label) label.textContent = pct + '%';
 			var topbar = document.getElementById('lesson-bar-progress');
-			if (topbar) topbar.style.transform = 'scaleX(' + pct / 100 + ')';
-			/* "Lesson x of y" in the player chrome */
+			if (topbar) topbar.style.width = pct + '%';
+			/* "Lesson x of y" in the player chrome (count the sidebar list only —
+			   the mobile panel duplicates the links for ticking) */
 			var pos = document.getElementById('lesson-pos');
-			if (pos && links.length) {
-				var idx = links.findIndex(function (a) { return a.getAttribute('data-lesson-slug') === CURRENT; });
-				if (idx > -1) pos.textContent = 'lesson ' + (idx + 1) + ' of ' + links.length;
+			var railLinks = [].slice.call(document.querySelectorAll('#lesson-list .lesson-link'));
+			if (pos && railLinks.length) {
+				var idx = railLinks.findIndex(function (a) { return a.getAttribute('data-lesson-slug') === CURRENT; });
+				if (idx > -1) pos.textContent = 'lesson ' + (idx + 1) + ' of ' + railLinks.length;
 			}
 		}
 

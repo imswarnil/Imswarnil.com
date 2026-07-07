@@ -1,72 +1,64 @@
-{{!-- Navbar: compact flat bar at page top; morphs into a floating island pill on
-     scroll. Menu is theme-defined (iconified) — Ghost Admin nav is ignored on
-     purpose: the admin default ("Home / Getting started") looked broken here.
-     Secondary admin nav still feeds the "More" dropdown if set. --}}
-<header class="fixed inset-x-0 top-0 z-50 px-4 pt-2 sm:pt-3" id="site-header">
+{{!-- Navbar. Menu renders through Ghost's native {{navigation}} helper
+     (template: partials/navigation.hbs — icons per slug, no bullets).
+     Nesting: label "- Child" folds under the item above, "-- Grand" one deeper
+     (script at the bottom). Border doubles as the reading-progress bar. --}}
+<header class="fixed inset-x-0 top-0 z-50 px-4 pt-2 sm:pt-2.5" id="site-header">
 	<nav class="container-site !px-0">
 		<div class="nav-shell" id="nav-island">
+			{{!-- Reading progress: hairline accent border, drawn bottom-left → around --}}
+			<svg class="nav-progress" aria-hidden="true" preserveAspectRatio="none">
+				<path id="nav-progress-path" pathLength="100" d="" />
+			</svg>
 
 			{{> "components/logo"}}
 
-			{{!-- Desktop nav — theme-defined, iconified --}}
-			<div class="hidden items-center gap-0.5 lg:flex" role="navigation" aria-label="Primary">
-				<a href="{{@site.url}}/videos/" class="nav-link">{{> "icons/play" class="h-3.5 w-3.5"}} Videos</a>
-				<a href="{{@site.url}}/webseries/" class="nav-link">{{> "icons/film" class="h-3.5 w-3.5"}} Series</a>
-				<a href="{{@site.url}}/blog/" class="nav-link">{{> "icons/book" class="h-3.5 w-3.5"}} Blog</a>
-				<a href="{{@site.url}}/courses/" class="nav-link">{{> "icons/graduation" class="h-3.5 w-3.5"}} Courses</a>
-				<a href="{{@site.url}}/projects/" class="nav-link">{{> "icons/terminal" class="h-3.5 w-3.5"}} Projects</a>
-				<a href="{{@site.url}}/travel/" class="nav-link">{{> "icons/map-pin" class="h-3.5 w-3.5"}} Travel</a>
-
-				<div class="relative" data-dropdown>
-					<button type="button" class="nav-link" aria-expanded="false" aria-haspopup="true" data-dropdown-toggle>
-						More {{> "icons/chevron-down" class="h-3 w-3 transition-transform duration-200"}}
-					</button>
-					<div class="invisible absolute right-0 top-full mt-2 w-56 origin-top-right scale-95 rounded-2xl border border-line bg-paper p-1.5 opacity-0 shadow-lift transition-all duration-200 data-[open]:visible data-[open]:scale-100 data-[open]:opacity-100" data-dropdown-menu>
-						<a href="{{@site.url}}/shop/" class="panel-link">{{> "icons/download" class="h-3.5 w-3.5"}} Shop &amp; downloads</a>
-						<a href="{{@site.url}}/products/" class="panel-link">{{> "icons/zap" class="h-3.5 w-3.5"}} Things I use</a>
-						<a href="{{@site.url}}/timeline/" class="panel-link">{{> "icons/calendar" class="h-3.5 w-3.5"}} Timeline</a>
-						<a href="{{@site.url}}/guestbook/" class="panel-link">{{> "icons/heart" class="h-3.5 w-3.5"}} Guestbook</a>
-						<a href="{{@site.url}}/about/" class="panel-link">{{> "icons/user" class="h-3.5 w-3.5"}} About</a>
-						<a href="{{@site.url}}/contact/" class="panel-link">{{> "icons/mail" class="h-3.5 w-3.5"}} Contact</a>
-						{{#foreach @site.secondary_navigation}}
-							<a href="{{url absolute="true"}}" class="panel-link">{{> "icons/arrow-up-right" class="h-3.5 w-3.5"}} {{label}}</a>
-						{{/foreach}}
-					</div>
-				</div>
+			{{!-- Desktop nav — Ghost admin navigation + the 9-dot everything panel --}}
+			<div class="relative hidden items-center gap-0.5 lg:flex" role="navigation" aria-label="Primary" id="primary-nav">
+				{{#if @site.navigation}}
+					{{navigation}}
+				{{else}}
+					<a href="{{@site.url}}/videos/" class="nav-link">{{> "icons/play" class="h-3.5 w-3.5"}} Videos</a>
+					<a href="{{@site.url}}/blog/" class="nav-link">{{> "icons/pen" class="h-3.5 w-3.5"}} Blog</a>
+					<a href="{{@site.url}}/courses/" class="nav-link">{{> "icons/graduation" class="h-3.5 w-3.5"}} Courses</a>
+					<a href="{{@site.url}}/projects/" class="nav-link">{{> "icons/code" class="h-3.5 w-3.5"}} Projects</a>
+					<a href="{{@site.url}}/travel/" class="nav-link">{{> "icons/plane" class="h-3.5 w-3.5"}} Travel</a>
+				{{/if}}
+				<button type="button" class="icon-btn !h-7 !w-7 tooltip tooltip-bottom" data-tip="Everything" id="panel-toggle" aria-expanded="false" aria-controls="mega-panel-backdrop" aria-label="Open menu panel">
+					<svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><circle cx="3" cy="3" r="1.6"/><circle cx="8" cy="3" r="1.6"/><circle cx="13" cy="3" r="1.6"/><circle cx="3" cy="8" r="1.6"/><circle cx="8" cy="8" r="1.6"/><circle cx="13" cy="8" r="1.6"/><circle cx="3" cy="13" r="1.6"/><circle cx="8" cy="13" r="1.6"/><circle cx="13" cy="13" r="1.6"/></svg>
+				</button>
 			</div>
 
-			{{!-- Actions --}}
-			<div class="flex items-center gap-1">
-				<a href="https://github.com/{{@custom.github_repo}}" target="_blank" rel="noopener" class="group hidden h-8 items-center gap-1.5 rounded-full border border-line bg-mist/60 px-2.5 text-xs font-semibold transition hover:bg-mist xl:inline-flex" aria-label="Star on GitHub">
-					{{> "icons/github" class=""}}
-					{{> "icons/star" class="text-silver transition group-hover:scale-110 group-hover:text-ink"}}
-				</a>
-
+			{{!-- Actions: search · theme · sign-in · github · subscribe-bell --}}
+			<div class="flex items-center gap-0.5">
 				<button type="button" class="icon-btn tooltip tooltip-bottom" data-tip="Search" data-ghost-search aria-label="Search">
 					{{> "icons/search"}}
 				</button>
 
-				{{!-- Mode cycle switch: click to hop light → dark → sfdc → yt → flix → claude (with sounds) --}}
-				<button type="button" id="mode-cycle" class="tooltip tooltip-bottom" aria-label="Switch theme mode"></button>
-
-				{{!-- Everything panel shortcut --}}
-				<button type="button" class="icon-btn tooltip tooltip-bottom" data-tip="Menu panel" id="panel-toggle" aria-expanded="false" aria-controls="mega-panel-backdrop" aria-label="Open menu panel">
-					<svg width="15" height="15" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><circle cx="3" cy="3" r="1.6"/><circle cx="8" cy="3" r="1.6"/><circle cx="13" cy="3" r="1.6"/><circle cx="3" cy="8" r="1.6"/><circle cx="8" cy="8" r="1.6"/><circle cx="13" cy="8" r="1.6"/><circle cx="3" cy="13" r="1.6"/><circle cx="8" cy="13" r="1.6"/><circle cx="13" cy="13" r="1.6"/></svg>
-				</button>
+				{{!-- Theme: tap toggles light/dark, long-press reveals all modes --}}
+				<button type="button" id="mode-cycle" data-mode-cycle class="icon-btn" aria-label="Switch theme mode" aria-haspopup="true"></button>
 
 				{{#if @site.members_enabled}}
 					{{#if @member}}
-						<a href="#/portal/account" class="ml-1 inline-flex items-center" aria-label="Your account" data-portal="account">
+						<a href="#/portal/account" class="mx-0.5 inline-flex items-center" aria-label="Your account" data-portal="account">
 							{{#if @member.avatar_image}}
-								<img src="{{@member.avatar_image}}" alt="{{@member.name}}" class="h-8 w-8 rounded-full border-2 border-line object-cover transition hover:border-ink" />
+								<img src="{{@member.avatar_image}}" alt="{{@member.name}}" class="h-7 w-7 rounded-full border-2 border-line object-cover transition hover:border-ink" />
 							{{else}}
-								<span class="flex h-8 w-8 items-center justify-center rounded-full bg-ink text-sm font-bold text-paper" data-avatar-initial="{{@member.name}}">{{> "icons/user"}}</span>
+								<span class="flex h-7 w-7 items-center justify-center rounded-full bg-ink text-xs font-bold text-paper" data-avatar-initial="{{@member.name}}">{{> "icons/user"}}</span>
 							{{/if}}
 						</a>
 					{{else}}
-						<a href="/signin/" class="btn-primary ml-1 !px-3.5 !py-1.5 !text-[12px]">Sign in</a>
+						<a href="/signin/" class="icon-btn tooltip tooltip-bottom" data-tip="Sign in" aria-label="Sign in">{{> "icons/user"}}</a>
 					{{/if}}
 				{{/if}}
+
+				<a href="https://github.com/{{@custom.github_repo}}" target="_blank" rel="noopener" class="icon-btn tooltip tooltip-bottom" data-tip="Star on GitHub" aria-label="Star on GitHub">
+					{{> "icons/github"}}
+				</a>
+
+				{{!-- Subscribe bell — opens the "own your audience" pitch modal --}}
+				<button type="button" class="icon-btn tooltip tooltip-left" data-tip="Subscribe" data-modal-open="#subscribe-backdrop" aria-haspopup="dialog" aria-label="Subscribe">
+					{{> "icons/bell"}}
+				</button>
 
 				<button type="button" class="icon-btn lg:hidden" id="mobile-menu-toggle" aria-expanded="false" aria-controls="mobile-menu" aria-label="Open menu">
 					<span class="menu-open">{{> "icons/menu"}}</span>
@@ -86,20 +78,21 @@
 					<div>
 						<p class="kicker mb-2">Watch</p>
 						<a href="/videos/" class="panel-link">{{> "icons/play" class="h-3.5 w-3.5"}} Videos</a>
-						<a href="/webseries/" class="panel-link">{{> "icons/film" class="h-3.5 w-3.5"}} Webseries</a>
+						<a href="/webseries/" class="panel-link">{{> "icons/tv" class="h-3.5 w-3.5"}} Webseries</a>
+						<a href="{{@custom.youtube_url}}" target="_blank" rel="noopener" class="panel-link">{{> "icons/youtube" class="h-3.5 w-3.5"}} YouTube</a>
 					</div>
 					<div>
 						<p class="kicker mb-2">Learn</p>
 						<a href="/courses/" class="panel-link">{{> "icons/graduation" class="h-3.5 w-3.5"}} Courses</a>
-						<a href="/blog/" class="panel-link">{{> "icons/book" class="h-3.5 w-3.5"}} Blog</a>
+						<a href="/blog/" class="panel-link">{{> "icons/pen" class="h-3.5 w-3.5"}} Blog</a>
 						<a href="/newsletters/" class="panel-link">{{> "icons/mail" class="h-3.5 w-3.5"}} Newsletters</a>
 						<a href="/archive/" class="panel-link">{{> "icons/search" class="h-3.5 w-3.5"}} Archive</a>
 						<a href="/tags/" class="panel-link">{{> "icons/sparkle" class="h-3.5 w-3.5"}} Topics</a>
 					</div>
 					<div>
 						<p class="kicker mb-2">Work &amp; life</p>
-						<a href="/projects/" class="panel-link">{{> "icons/github" class="h-3.5 w-3.5"}} Projects</a>
-						<a href="/travel/" class="panel-link">{{> "icons/map-pin" class="h-3.5 w-3.5"}} Travel</a>
+						<a href="/projects/" class="panel-link">{{> "icons/code" class="h-3.5 w-3.5"}} Projects</a>
+						<a href="/travel/" class="panel-link">{{> "icons/plane" class="h-3.5 w-3.5"}} Travel</a>
 						<a href="/timeline/" class="panel-link">{{> "icons/calendar" class="h-3.5 w-3.5"}} Timeline</a>
 						<a href="/resume/" class="panel-link">{{> "icons/briefcase" class="h-3.5 w-3.5"}} Resume</a>
 						<a href="/changelog/" class="panel-link">{{> "icons/terminal" class="h-3.5 w-3.5"}} Changelog</a>
@@ -107,14 +100,33 @@
 					<div>
 						<p class="kicker mb-2">More</p>
 						<a href="/products/" class="panel-link">{{> "icons/zap" class="h-3.5 w-3.5"}} Things I use</a>
-						<a href="/shop/" class="panel-link">{{> "icons/download" class="h-3.5 w-3.5"}} Shop</a>
+						<a href="/shop/" class="panel-link">{{> "icons/cart" class="h-3.5 w-3.5"}} Shop</a>
 						<a href="/guestbook/" class="panel-link">{{> "icons/heart" class="h-3.5 w-3.5"}} Guestbook</a>
 						<a href="/about/" class="panel-link">{{> "icons/user" class="h-3.5 w-3.5"}} About</a>
-						<a href="/sponsor/" class="panel-link">{{> "icons/trophy" class="h-3.5 w-3.5"}} Sponsor</a>
-						<a href="/contact/" class="panel-link">{{> "icons/mail" class="h-3.5 w-3.5"}} Contact</a>
+						<a href="/sponsor/" class="panel-link">{{> "icons/cash" class="h-3.5 w-3.5"}} Sponsor</a>
+						<a href="/contact/" class="panel-link">{{> "icons/contact" class="h-3.5 w-3.5"}} Contact</a>
 					</div>
 				</div>
-				<div class="mt-6 flex flex-wrap items-center justify-between gap-3 border-t border-line pt-5">
+
+				{{!-- Newsletter — bare inline form: icon · email · subscribe · "?" (opens the pitch) --}}
+				{{#if @site.members_enabled}}
+				<div class="mt-6 border-t border-line pt-5">
+					<div class="flex items-center gap-2">
+						<form data-members-form class="members-form flex min-w-0 flex-1 items-center overflow-hidden rounded-xl border border-line transition focus-within:border-ink">
+							<span class="pl-3 text-silver">{{> "icons/mail" class="h-4 w-4"}}</span>
+							<input type="email" name="email" data-members-email placeholder="you@email.com" required class="w-full min-w-0 bg-transparent px-2.5 py-2 text-sm outline-none placeholder:text-silver" aria-label="Email address" />
+							<button type="submit" class="shrink-0 self-stretch bg-ink px-4 text-xs font-semibold text-paper transition hover:opacity-85">Subscribe</button>
+						</form>
+						<button type="button" class="icon-btn shrink-0 !h-8 !w-8 border border-line tooltip tooltip-left" data-tip="Why subscribe?" data-modal-open="#subscribe-backdrop" aria-label="Why subscribe?">
+							<span class="font-mono text-xs font-bold">?</span>
+						</button>
+					</div>
+					<p class="mt-2 text-xs text-silver" data-members-success>✓ Magic link sent — check your inbox (and the spam folder, it gets jealous).</p>
+					<p class="mt-2 text-xs text-red-500" data-members-error>That didn't work — try again.</p>
+				</div>
+				{{/if}}
+
+				<div class="mt-5 flex flex-wrap items-center justify-between gap-3 border-t border-line pt-5">
 					<div class="flex items-center gap-1">
 						<a href="{{@custom.youtube_url}}" target="_blank" rel="noopener" class="icon-btn" aria-label="YouTube">{{> "icons/youtube"}}</a>
 						<a href="https://github.com/{{@custom.github_repo}}" target="_blank" rel="noopener" class="icon-btn" aria-label="GitHub">{{> "icons/github"}}</a>
@@ -126,27 +138,189 @@
 			</div>
 		</div>
 
-		{{!-- Mobile menu --}}
-		<div class="mx-auto mt-2 hidden max-w-5xl overflow-hidden rounded-island border border-line bg-paper/95 p-3 shadow-lift backdrop-blur-xl lg:!hidden" id="mobile-menu">
-			<nav class="flex flex-col" aria-label="Mobile">
-				<a href="{{@site.url}}/videos/" class="mobile-link">{{> "icons/play" class="h-4 w-4 text-silver"}} Videos {{> "icons/arrow-right" class="ml-auto text-silver"}}</a>
-				<a href="{{@site.url}}/webseries/" class="mobile-link">{{> "icons/film" class="h-4 w-4 text-silver"}} Webseries {{> "icons/arrow-right" class="ml-auto text-silver"}}</a>
-				<a href="{{@site.url}}/blog/" class="mobile-link">{{> "icons/book" class="h-4 w-4 text-silver"}} Blog {{> "icons/arrow-right" class="ml-auto text-silver"}}</a>
-				<a href="{{@site.url}}/courses/" class="mobile-link">{{> "icons/graduation" class="h-4 w-4 text-silver"}} Courses {{> "icons/arrow-right" class="ml-auto text-silver"}}</a>
-				<a href="{{@site.url}}/projects/" class="mobile-link">{{> "icons/terminal" class="h-4 w-4 text-silver"}} Projects {{> "icons/arrow-right" class="ml-auto text-silver"}}</a>
-				<a href="{{@site.url}}/travel/" class="mobile-link">{{> "icons/map-pin" class="h-4 w-4 text-silver"}} Travel {{> "icons/arrow-right" class="ml-auto text-silver"}}</a>
-				<div class="my-2 border-t border-line"></div>
-				<div class="grid grid-cols-2 gap-1">
-					<a href="{{@site.url}}/shop/" class="mobile-sub">Shop</a>
-					<a href="{{@site.url}}/products/" class="mobile-sub">Things I use</a>
-					<a href="{{@site.url}}/timeline/" class="mobile-sub">Timeline</a>
-					<a href="{{@site.url}}/guestbook/" class="mobile-sub">Guestbook</a>
-					<a href="{{@site.url}}/about/" class="mobile-sub">About</a>
-					<a href="{{@site.url}}/contact/" class="mobile-sub">Contact</a>
+		{{!-- Subscribe pitch — "own your audience" modal.
+		     Form success (Portal adds .success) swaps the whole body for an
+		     animated magic-link confirmation. --}}
+		<div class="fixed inset-0 z-[60] hidden items-start justify-center overflow-y-auto bg-ink/40 p-4 pt-12 backdrop-blur-sm sm:pt-20" id="subscribe-backdrop" data-modal>
+			<div class="w-full max-w-2xl rounded-[2rem] border border-line bg-paper p-6 shadow-lift sm:p-8" role="dialog" aria-modal="true" aria-label="Subscribe to the site">
+				<div class="mb-5 flex items-start justify-between gap-4">
+					<div class="relative" aria-hidden="true">
+						{{!-- illustration: yt play slipping away, mail holding steady --}}
+						<span class="flex h-14 w-14 rotate-[-6deg] items-center justify-center rounded-2xl border border-line bg-mist text-[#f00]">{{> "icons/youtube" class="h-6 w-6"}}</span>
+						<span class="absolute -right-4 -bottom-3 flex h-10 w-10 rotate-[8deg] items-center justify-center rounded-xl bg-ink text-paper shadow-lift">{{> "icons/mail" class="h-4 w-4"}}</span>
+						<span class="absolute -top-1.5 -right-2 font-mono text-[10px] font-bold text-silver">?</span>
+					</div>
+					<button type="button" class="icon-btn" data-modal-close aria-label="Close">{{> "icons/close"}}</button>
 				</div>
+
+				<div class="sub-pitch">
+					<h2 class="text-xl font-semibold tracking-tight sm:text-2xl text-balance">The algorithm doesn't owe us anything.</h2>
+					<p class="mt-3 text-sm leading-relaxed text-silver">If YouTube's recommendation mood swings, you stop seeing my videos — and I can't do a thing about it. If it shut down tomorrow, a decade of subscribers would evaporate. This site is the one place we actually own.</p>
+
+					{{!-- why subscribe vs why membership --}}
+					<div class="mt-5 grid gap-4 sm:grid-cols-2">
+						<div class="rounded-2xl border border-line bg-mist/40 p-4">
+							<p class="kicker !text-[10px]">{{> "icons/mail" class="h-3 w-3"}} Why subscribe — free</p>
+							<ul class="mt-3 space-y-2 text-[13px] leading-snug">
+								<li class="flex gap-2">{{> "icons/check" class="mt-0.5 h-3.5 w-3.5 shrink-0 text-silver"}} <span><strong class="font-semibold">Email when anything ships</strong> — no algorithm in between.</span></li>
+								<li class="flex gap-2">{{> "icons/check" class="mt-0.5 h-3.5 w-3.5 shrink-0 text-silver"}} <span><strong class="font-semibold">Comments I actually answer</strong> — every one.</span></li>
+								<li class="flex gap-2">{{> "icons/check" class="mt-0.5 h-3.5 w-3.5 shrink-0 text-silver"}} <span><strong class="font-semibold">Ads switch off</strong> once you're signed in.</span></li>
+							</ul>
+						</div>
+						<div class="relative rounded-2xl border border-line p-4">
+							<span class="absolute -top-2 right-3 rounded-full bg-ink px-2 py-0.5 font-mono text-[8px] font-bold uppercase tracking-[0.15em] text-paper">if you're feeling fancy</span>
+							<p class="kicker !text-[10px]">{{> "icons/star" class="h-3 w-3"}} Why membership</p>
+							<ul class="mt-3 space-y-2 text-[13px] leading-snug">
+								<li class="flex gap-2">{{> "icons/zap" class="mt-0.5 h-3.5 w-3.5 shrink-0 text-silver"}} <span><strong class="font-semibold">Early access &amp; uncut versions</strong> before YouTube.</span></li>
+								<li class="flex gap-2">{{> "icons/lock" class="mt-0.5 h-3.5 w-3.5 shrink-0 text-silver"}} <span><strong class="font-semibold">Members-only lessons &amp; posts</strong> unlock.</span></li>
+								<li class="flex gap-2">{{> "icons/heart" class="mt-0.5 h-3.5 w-3.5 shrink-0 text-silver"}} <span><strong class="font-semibold">You keep this site alive</strong> — directly.</span></li>
+							</ul>
+							{{#if @site.members_enabled}}
+							<a href="#/portal/signup" data-portal="signup" class="btn-ghost btn-sm mt-3 w-full justify-center">{{> "icons/star" class="h-3 w-3"}} See membership</a>
+							{{/if}}
+						</div>
+					</div>
+
+					{{#if @site.members_enabled}}
+					<form data-members-form class="members-form mt-5 flex items-center overflow-hidden rounded-xl border border-line transition focus-within:border-ink">
+						<span class="pl-3.5 text-silver">{{> "icons/mail" class="h-4 w-4"}}</span>
+						<input type="email" name="email" data-members-email placeholder="you@email.com" required class="w-full min-w-0 bg-transparent px-2.5 py-2.5 text-sm outline-none placeholder:text-silver" aria-label="Email address" />
+						<button type="submit" class="shrink-0 self-stretch bg-ink px-5 text-sm font-semibold text-paper transition hover:opacity-85">Subscribe</button>
+					</form>
+					<p class="mt-2 text-xs text-red-500" data-members-error>That didn't work — try again?</p>
+					<p class="mt-3 font-mono text-[10px] uppercase tracking-[0.18em] text-silver">free forever · unsubscribe anytime · no password, just a magic link</p>
+					{{else}}
+					<a href="{{@custom.youtube_url}}?sub_confirmation=1" target="_blank" rel="noopener" class="btn-primary mt-6 w-full justify-center">{{> "icons/youtube" class="h-4 w-4"}} Subscribe on YouTube then</a>
+					{{/if}}
+				</div>
+
+				{{!-- success: swaps in with the check-draw animation once Portal sends the link --}}
+				<div class="sub-success" aria-live="polite">
+					<svg class="sub-success-check mx-auto" width="72" height="72" viewBox="0 0 72 72" fill="none" aria-hidden="true">
+						<circle class="sub-check-ring" cx="36" cy="36" r="31" stroke="rgb(var(--accent))" stroke-width="3" pathLength="100" />
+						<path class="sub-check-tick" d="M23 37.5l9 9L50 27" stroke="rgb(var(--accent))" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" pathLength="100" />
+					</svg>
+					<h2 class="mt-5 text-center text-xl font-semibold tracking-tight sm:text-2xl">Magic link is flying to you ✦</h2>
+					<p class="mx-auto mt-3 max-w-sm text-center text-sm leading-relaxed text-silver">Open the email and click the link — no password, no forms, you're just in. Ads off, replies on.</p>
+					<p class="mx-auto mt-4 max-w-sm rounded-xl border border-dashed border-line bg-mist/40 px-4 py-2.5 text-center text-xs leading-relaxed text-silver">Small note: if it hasn't landed in a minute, <strong class="font-semibold text-ink">check your spam / promotions folder</strong> — magic links are shy sometimes.</p>
+					<button type="button" class="btn-ghost btn-sm mx-auto mt-5 flex" data-modal-close>Done</button>
+				</div>
+			</div>
+		</div>
+
+		{{!-- Mobile menu — native nav + the panel map, one sheet --}}
+		<div class="mx-auto mt-2 hidden max-h-[calc(100dvh-6rem)] max-w-5xl overflow-y-auto rounded-2xl border border-line bg-paper/95 p-4 shadow-lift backdrop-blur-xl lg:!hidden" id="mobile-menu">
+			<nav class="mobile-nav" aria-label="Mobile">
+				{{#if @site.navigation}}
+					{{navigation}}
+				{{else}}
+					<a href="{{@site.url}}/videos/" class="mobile-link">{{> "icons/play" class="h-4 w-4 text-silver"}} Videos</a>
+					<a href="{{@site.url}}/blog/" class="mobile-link">{{> "icons/pen" class="h-4 w-4 text-silver"}} Blog</a>
+				{{/if}}
 			</nav>
+
+			<div class="mt-4 grid grid-cols-2 gap-x-4 gap-y-5 border-t border-line pt-4">
+				<div>
+					<p class="kicker mb-2 !text-[9px]">Watch</p>
+					<a href="/videos/" class="panel-link">{{> "icons/play" class="h-3.5 w-3.5"}} Videos</a>
+					<a href="/webseries/" class="panel-link">{{> "icons/tv" class="h-3.5 w-3.5"}} Webseries</a>
+				</div>
+				<div>
+					<p class="kicker mb-2 !text-[9px]">Learn</p>
+					<a href="/courses/" class="panel-link">{{> "icons/graduation" class="h-3.5 w-3.5"}} Courses</a>
+					<a href="/blog/" class="panel-link">{{> "icons/pen" class="h-3.5 w-3.5"}} Blog</a>
+				</div>
+				<div>
+					<p class="kicker mb-2 !text-[9px]">Work &amp; life</p>
+					<a href="/projects/" class="panel-link">{{> "icons/code" class="h-3.5 w-3.5"}} Projects</a>
+					<a href="/travel/" class="panel-link">{{> "icons/plane" class="h-3.5 w-3.5"}} Travel</a>
+					<a href="/timeline/" class="panel-link">{{> "icons/calendar" class="h-3.5 w-3.5"}} Timeline</a>
+				</div>
+				<div>
+					<p class="kicker mb-2 !text-[9px]">More</p>
+					<a href="/shop/" class="panel-link">{{> "icons/cart" class="h-3.5 w-3.5"}} Shop</a>
+					<a href="/guestbook/" class="panel-link">{{> "icons/heart" class="h-3.5 w-3.5"}} Guestbook</a>
+					<a href="/contact/" class="panel-link">{{> "icons/contact" class="h-3.5 w-3.5"}} Contact</a>
+				</div>
+			</div>
+
+			<div class="mt-4 flex items-center justify-between border-t border-line pt-3">
+				<div class="flex items-center gap-1">
+					<a href="{{@custom.youtube_url}}" target="_blank" rel="noopener" class="icon-btn" aria-label="YouTube">{{> "icons/youtube"}}</a>
+					<a href="https://github.com/{{@custom.github_repo}}" target="_blank" rel="noopener" class="icon-btn" aria-label="GitHub">{{> "icons/github"}}</a>
+					<a href="{{@site.url}}/rss/" class="icon-btn" aria-label="RSS">{{> "icons/rss"}}</a>
+				</div>
+				<button type="button" class="btn-primary btn-sm" data-modal-open="#subscribe-backdrop">{{> "icons/bell" class="h-3 w-3"}} Subscribe</button>
+			</div>
 		</div>
 	</nav>
 </header>
 {{!-- Spacer so content clears the fixed navbar (hidden on player-chrome pages) --}}
-<div class="h-[4.5rem] sm:h-20" aria-hidden="true" id="nav-spacer"></div>
+<div class="h-16 sm:h-[4.25rem]" aria-hidden="true" id="nav-spacer"></div>
+
+<script>
+	/* Fold "- Child" / "-- Grandchild" admin-nav items into dropdowns.
+	   Runs inline (before main.js) so the dropdown wiring picks it up. */
+	(function () {
+		document.querySelectorAll('#primary-nav .nav-list').forEach(function (list) {
+			var items = [].slice.call(list.children);
+			var lastTop = null, lastChild = null;
+			items.forEach(function (li) {
+				var label = (li.getAttribute('data-nav-label') || '').trim();
+				var depth = (label.match(/^(-{1,2})\s*/) || [, ''])[1].length;
+				if (!depth) { lastTop = li; lastChild = null; return; }
+				var link = li.querySelector('.nav-link');
+				var text = li.querySelector('.nav-label');
+				if (text) text.textContent = label.replace(/^-{1,2}\s*/, '');
+				if (link) { link.classList.remove('nav-link'); link.classList.add('panel-link'); }
+				li.classList.add('list-none');
+				var host = depth === 2 && lastChild ? lastChild : lastTop;
+				if (!host) return;
+				var menu;
+				if (depth === 2 && lastChild) {
+					/* grandchild: flyout inside the child */
+					lastChild.classList.add('nav-sub', 'relative');
+					menu = lastChild.querySelector('.nav-sub-menu');
+					if (!menu) {
+						menu = document.createElement('div');
+						menu.className = 'nav-sub-menu';
+						lastChild.appendChild(menu);
+						var childLink = lastChild.querySelector('a');
+						if (childLink) childLink.classList.add('justify-between');
+					}
+					menu.appendChild(li.querySelector('a'));
+					li.remove();
+				} else {
+					/* child: dropdown under the top item */
+					if (!host.hasAttribute('data-dropdown')) {
+						host.setAttribute('data-dropdown', '');
+						var topLink = host.querySelector('a');
+						var btn = document.createElement('button');
+						btn.type = 'button';
+						btn.className = 'nav-link';
+						btn.setAttribute('data-dropdown-toggle', '');
+						btn.setAttribute('aria-expanded', 'false');
+						btn.setAttribute('aria-haspopup', 'true');
+						btn.innerHTML = topLink.innerHTML + '<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>';
+						host.replaceChild(btn, topLink);
+						menu = document.createElement('div');
+						menu.className = 'invisible absolute left-0 top-full mt-2 w-52 origin-top-left scale-95 rounded-2xl border border-line bg-paper p-1.5 opacity-0 shadow-lift transition-all duration-200 data-[open]:visible data-[open]:scale-100 data-[open]:opacity-100';
+						menu.setAttribute('data-dropdown-menu', '');
+						host.appendChild(menu);
+						/* keep the original destination reachable at the top of the menu */
+						menu.appendChild(topLink);
+						topLink.classList.remove('nav-link');
+						topLink.classList.add('panel-link');
+					}
+					menu = host.querySelector('[data-dropdown-menu]');
+					var moved = li.querySelector('a');
+					menu.appendChild(moved);
+					lastChild = document.createElement('div');
+					lastChild.appendChild(moved);
+					menu.appendChild(lastChild);
+					li.remove();
+				}
+			});
+		});
+	})();
+</script>

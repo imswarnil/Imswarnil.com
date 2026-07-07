@@ -1,27 +1,78 @@
-<section class="reveal relative py-16">
-	<div class="container-site">
-		<div class="flex items-end justify-between gap-4">
-			<div>
-				<p class="kicker">{{> "icons/book"}} The classroom</p>
-				<h2 class="section-title mt-2">Courses &amp; webseries</h2>
+{{!-- Courses — courses ONLY (webseries has its own deck). Left: why I make
+     them. Right: course cards with meta (free/duration/lessons/instructor)
+     and a hover lesson preview (first 3 lessons slide in). --}}
+<section class="reveal relative border-y border-line bg-mist/40 py-16" id="home-courses">
+	<div class="bg-cross pointer-events-none absolute inset-0 opacity-50" aria-hidden="true"></div>
+	<div class="container-site relative">
+		<div class="grid gap-10 lg:grid-cols-12">
+			{{!-- why I make courses --}}
+			<div class="lg:col-span-4">
+				<p class="kicker">{{> "icons/graduation"}} The classroom</p>
+				<h2 class="section-title mt-2">Why I make courses</h2>
+				<p class="mt-4 text-sm leading-relaxed text-silver">Everything I know, I learned the slow way — broken ad accounts, 2am debugging, docs that lied. These courses are the survival guide I wish someone had handed me.</p>
+				<ul class="mt-5 space-y-2.5 text-sm">
+					<li class="flex gap-2.5">{{> "icons/check" class="mt-0.5 h-4 w-4 shrink-0 text-ink"}} <span><strong class="font-semibold">My real process</strong> — not theory, the actual clicks.</span></li>
+					<li class="flex gap-2.5">{{> "icons/check" class="mt-0.5 h-4 w-4 shrink-0 text-ink"}} <span><strong class="font-semibold">From experience</strong> — every lesson survived production.</span></li>
+					<li class="flex gap-2.5">{{> "icons/check" class="mt-0.5 h-4 w-4 shrink-0 text-ink"}} <span><strong class="font-semibold">For someone like me</strong> — marketer who reads stack traces.</span></li>
+				</ul>
+				<a href="{{@site.url}}/courses/" class="btn-primary mt-6">All courses {{> "icons/arrow-right"}}</a>
 			</div>
-			<div class="flex shrink-0 gap-2">
-				<a href="{{@site.url}}/courses/" class="btn-ghost">Courses</a>
-				<a href="{{@site.url}}/webseries/" class="btn-ghost">Webseries</a>
-			</div>
-		</div>
 
-		<div class="mt-8 grid gap-6 lg:grid-cols-2">
-			{{#get "posts" filter="tag:hash-course" limit="2" include="tags" as |courses|}}
-				{{#foreach courses}}
-					{{> "cards/course"}}
-				{{/foreach}}
-			{{/get}}
-			{{#get "posts" filter="tag:hash-webseries" limit="2" include="tags" as |series|}}
-				{{#foreach series}}
-					{{> "cards/course"}}
-				{{/foreach}}
-			{{/get}}
+			{{!-- course cards --}}
+			<div class="lg:col-span-8">
+				{{#get "posts" filter="tag:hash-course" limit="2" include="tags,authors" as |courses|}}
+					{{#if courses}}
+					<div class="grid gap-5 md:grid-cols-2" data-reveal-stagger="110">
+						{{#foreach courses}}
+						<article class="course-tile card-surface group relative flex flex-col overflow-hidden !transform-none">
+							<a href="{{url}}" class="relative block aspect-[16/9] overflow-hidden border-b border-line bg-mist" tabindex="-1" aria-hidden="true">
+								{{#if feature_image}}
+									<img src="{{img_url feature_image size="600"}}" width="600" height="338" alt="" loading="lazy" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
+								{{else}}
+									<span class="bg-dots flex h-full w-full items-center justify-center">{{> "icons/graduation" class="text-silver"}}</span>
+								{{/if}}
+								{{#match visibility "public"}}<span class="absolute left-3 top-3 rounded bg-white/90 px-1.5 py-0.5 font-mono text-[9px] font-bold uppercase tracking-[0.12em] text-black">Free</span>{{/match}}
+							</a>
+							<div class="flex flex-1 flex-col p-5">
+								<h3 class="text-[16px] font-semibold leading-snug tracking-tight"><a href="{{url}}" class="hover:underline hover:underline-offset-4">{{title}}</a></h3>
+								<p class="mt-1.5 line-clamp-2 text-[13px] leading-relaxed text-silver">{{#if custom_excerpt}}{{custom_excerpt}}{{else}}{{excerpt words="18"}}{{/if}}</p>
+
+								{{!-- meta row --}}
+								<div class="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-[10px] uppercase tracking-[0.12em] text-silver">
+									<span class="flex items-center gap-1">{{> "icons/user" class="h-3 w-3"}} {{primary_author.name}}</span>
+									<span class="flex items-center gap-1">{{> "icons/clock" class="h-3 w-3"}} <span data-duration-tags="{{#foreach tags visibility="internal"}}{{slug}} {{/foreach}}" hidden></span></span>
+									{{#get "posts" filter="tag:hash-lesson+tags:{{primary_tag.slug}}" limit="1" as |l|}}
+										<span class="flex items-center gap-1">{{> "icons/play" class="h-3 w-3"}} {{plural pagination.total empty="soon" singular="% lesson" plural="% lessons"}}</span>
+									{{/get}}
+								</div>
+
+								{{!-- hover: first lessons peek --}}
+								{{#get "posts" filter="tag:hash-lesson+tags:{{primary_tag.slug}}" limit="3" order="published_at asc" as |peek|}}
+									{{#if peek}}
+									<div class="course-peek">
+										<p class="kicker !text-[9px]">{{> "icons/play" class="h-3 w-3"}} Starts with</p>
+										<ol class="mt-2 space-y-1">
+											{{#foreach peek}}
+											<li><a href="{{url}}" class="flex items-center gap-2 rounded-lg px-2 py-1 text-[12px] font-medium transition hover:bg-mist"><span class="font-mono text-[10px] text-silver">{{@number}}.</span> <span class="truncate">{{title}}</span></a></li>
+											{{/foreach}}
+										</ol>
+									</div>
+									{{/if}}
+								{{/get}}
+
+								<div class="mt-auto flex items-center gap-2 pt-4">
+									<a href="{{url}}" class="btn-primary btn-sm flex-1 justify-center">{{> "icons/play" class="h-3 w-3"}} Start course</a>
+									<a href="{{url}}#curriculum" class="btn-ghost btn-sm">Syllabus</a>
+								</div>
+							</div>
+						</article>
+						{{/foreach}}
+					</div>
+					{{else}}
+					<p class="rounded-2xl border border-dashed border-line p-10 text-center text-sm text-silver">Tag a post <code class="rounded bg-mist px-1.5 py-0.5 font-mono text-xs">#course</code> and the classroom opens.</p>
+					{{/if}}
+				{{/get}}
+			</div>
 		</div>
 	</div>
 </section>

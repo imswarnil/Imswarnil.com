@@ -132,16 +132,43 @@
 		});
 	}
 
-	/* ---------- Scroll progress bar ---------- */
-	var progressBar = document.getElementById('scroll-progress');
-	if (progressBar) {
+	/* ---------- Navbar border IS the progress bar: a hairline traces the shell
+	   outline starting bottom-left → along the bottom → up the right → across
+	   the top → back down the left. Path is rebuilt whenever the shell resizes
+	   (e.g. flat bar ⇄ island). ---------- */
+	var progressPath = document.getElementById('nav-progress-path');
+	var progressShell = document.getElementById('nav-island');
+	if (progressPath && progressShell) {
+		var lastSize = '';
+		function buildPath() {
+			var w = progressShell.offsetWidth, h = progressShell.offsetHeight;
+			var key = w + 'x' + h;
+			if (key === lastSize || !w || !h) return;
+			lastSize = key;
+			var r = Math.min(16, h / 2 - 1);
+			var i = 0.75; /* inset so the hairline hugs the border */
+			progressPath.setAttribute('d',
+				'M ' + (r + i) + ' ' + (h - i) +
+				' H ' + (w - r - i) +
+				' A ' + r + ' ' + r + ' 0 0 0 ' + (w - i) + ' ' + (h - r - i) +
+				' V ' + (r + i) +
+				' A ' + r + ' ' + r + ' 0 0 0 ' + (w - r - i) + ' ' + i +
+				' H ' + (r + i) +
+				' A ' + r + ' ' + r + ' 0 0 0 ' + i + ' ' + (r + i) +
+				' V ' + (h - r - i) +
+				' A ' + r + ' ' + r + ' 0 0 0 ' + (r + i) + ' ' + (h - i));
+		}
 		var paintProgress = function () {
+			buildPath();
 			var doc = document.documentElement;
 			var max = doc.scrollHeight - window.innerHeight;
-			progressBar.style.transform = 'scaleX(' + (max > 0 ? Math.min(window.scrollY / max, 1) : 0) + ')';
+			var p = max > 0 ? Math.min(window.scrollY / max, 1) : 0;
+			progressPath.style.strokeDashoffset = 100 - p * 100;
 		};
 		window.addEventListener('scroll', paintProgress, { passive: true });
 		window.addEventListener('resize', paintProgress, { passive: true });
+		/* island transition animates width — recheck once it settles */
+		progressShell.addEventListener('transitionend', paintProgress);
 		paintProgress();
 	}
 
@@ -305,7 +332,9 @@
 		salesforce: function () { tone(660, 0, 0.12, 'sine', 0.07); tone(880, 0.12, 0.18, 'sine', 0.07); }, // teams-ish ding
 		youtube: function () { tone(520, 0, 0.09, 'triangle', 0.08, 780); },                             // pop
 		netflix: function () { tone(98, 0, 0.28, 'sawtooth', 0.1); tone(65, 0.16, 0.5, 'sawtooth', 0.12); }, // tu-dum
-		claude: function () { for (var i = 0; i < 5; i++) { noise(i * 0.07, 0.015, 0.03); tone(2600 + Math.sin(i) * 300, i * 0.07, 0.02, 'square', 0.015); } } // typing
+		claude: function () { for (var i = 0; i < 5; i++) { noise(i * 0.07, 0.015, 0.03); tone(2600 + Math.sin(i) * 300, i * 0.07, 0.02, 'square', 0.015); } }, // typing
+		twilio: function () { tone(1050, 0, 0.07, 'sine', 0.07); tone(1400, 0.09, 0.09, 'sine', 0.07); }, // sms ping-ping
+		neubrutal: function () { tone(90, 0, 0.12, 'square', 0.12, 55); noise(0.02, 0.04, 0.05); }        // rubber-stamp thud
 	};
 
 	/* ---------- Inline SVG icons (lucide-style strokes, currentColor) ---------- */
@@ -331,99 +360,126 @@
 		clap: '<rect x="3" y="9" width="18" height="12" rx="2"/><path d="M3 9l2-5 16 2-1 3M8.5 4.7L7 9M14 5.4L12.4 9"/>'
 	};
 
-	/* ---------- Mode-cycle switch: one button, click cycles all modes ---------- */
-	var MODES = ['light', 'dark', 'salesforce', 'youtube', 'netflix', 'claude'];
+	/* ---------- Theme switch: tap toggles light/dark, long-press reveals all modes ---------- */
+	var MODES = ['light', 'dark', 'salesforce', 'youtube', 'netflix', 'claude', 'twilio', 'neubrutal'];
 	var MODE_META = {
-		light: { label: 'light', glyph: svgIcon(ICONS.sun, 14) },
-		dark: { label: 'dark', glyph: svgIcon(ICONS.moon, 14) },
-		salesforce: { label: 'sfdc', glyph: svgIcon(ICONS.cloud, 14) },
-		youtube: { label: 'yt', glyph: svgIcon(ICONS.play, 14) },
-		netflix: { label: 'flix', glyph: '<span style="font-weight:900;font-size:13px;line-height:1">N</span>' },
-		claude: { label: 'claude', glyph: svgIcon(ICONS.spark, 14) }
+		light: { label: 'Light', glyph: svgIcon(ICONS.sun, 14) },
+		dark: { label: 'Dark', glyph: svgIcon(ICONS.moon, 14) },
+		salesforce: { label: 'Salesforce', glyph: svgIcon(ICONS.cloud, 14) },
+		youtube: { label: 'YouTube', glyph: svgIcon(ICONS.play, 14) },
+		netflix: { label: 'Netflix', glyph: '<span style="font-weight:900;font-size:13px;line-height:1">N</span>' },
+		claude: { label: 'Claude', glyph: svgIcon(ICONS.spark, 14) },
+		twilio: { label: 'Twilio', glyph: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="9.5" cy="9.5" r="1.4" fill="currentColor" stroke="none"/><circle cx="14.5" cy="9.5" r="1.4" fill="currentColor" stroke="none"/><circle cx="9.5" cy="14.5" r="1.4" fill="currentColor" stroke="none"/><circle cx="14.5" cy="14.5" r="1.4" fill="currentColor" stroke="none"/></svg>' },
+		neubrutal: { label: 'Neubrutal', glyph: '<span style="font-weight:900;font-size:13px;line-height:1">B</span>' }
 	};
-	var cycleBtn = document.getElementById('mode-cycle');
+	/* Multiple switch instances can exist (site navbar + lesson bar) — bind all */
+	var cycleBtns = [].slice.call(document.querySelectorAll('[data-mode-cycle]'));
+	var modePop = null;
+	function currentMode() { return document.documentElement.getAttribute('data-theme') || 'light'; }
 	function paintCycle() {
-		if (!cycleBtn) return;
-		var mode = document.documentElement.getAttribute('data-theme') || 'light';
-		var meta = MODE_META[mode] || MODE_META.light;
-		cycleBtn.innerHTML = '<span class="mode-glyph">' + meta.glyph + '</span><span class="hidden sm:inline">' + meta.label + '</span>';
-		cycleBtn.setAttribute('aria-label', 'Theme: ' + mode + ' — click to switch');
-		cycleBtn.setAttribute('data-tip', 'Mode: ' + mode);
-	}
-	if (cycleBtn) {
-		cycleBtn.addEventListener('click', function () {
-			var current = document.documentElement.getAttribute('data-theme') || 'light';
-			var next = MODES[(MODES.indexOf(current) + 1) % MODES.length];
-			setMode(next);
-			paintCycle();
-			if (MODE_SOUNDS[next]) { try { MODE_SOUNDS[next](); } catch (e) {} }
+		var meta = MODE_META[currentMode()] || MODE_META.light;
+		cycleBtns.forEach(function (btn) {
+			btn.innerHTML = '<span class="mode-glyph">' + meta.glyph + '</span>';
+			btn.setAttribute('aria-label', 'Theme: ' + currentMode() + ' — tap to toggle, hold for all modes');
 		});
+	}
+	function applyMode(mode) {
+		setMode(mode);
 		paintCycle();
+		if (modePop) paintPop();
+		if (MODE_SOUNDS[mode]) { try { MODE_SOUNDS[mode](); } catch (e) {} }
 	}
+	function paintPop() {
+		if (!modePop) return;
+		modePop.querySelectorAll('[data-set-mode]').forEach(function (b) {
+			b.classList.toggle('is-active', b.getAttribute('data-set-mode') === currentMode());
+		});
+	}
+	function openPop(anchor) {
+		if (!modePop) {
+			modePop = document.createElement('div');
+			modePop.id = 'mode-menu-pop';
+			modePop.setAttribute('role', 'menu');
+			modePop.innerHTML = MODES.map(function (m) {
+				return '<button type="button" class="mode-option" data-set-mode="' + m + '" role="menuitem">' +
+					'<span class="inline-flex w-4 justify-center">' + MODE_META[m].glyph + '</span>' + MODE_META[m].label + '</button>';
+			}).join('');
+			modePop.addEventListener('click', function (e) {
+				var b = e.target.closest('[data-set-mode]');
+				if (b) { applyMode(b.getAttribute('data-set-mode')); closePop(); }
+			});
+			document.addEventListener('click', function (e) {
+				if (modePop && !modePop.contains(e.target) && !e.target.closest('[data-mode-cycle]')) closePop();
+			});
+			document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closePop(); });
+		}
+		anchor.parentNode.classList.add('relative');
+		anchor.parentNode.appendChild(modePop);
+		paintPop();
+		modePop.classList.add('is-open');
+	}
+	function closePop() { if (modePop) modePop.classList.remove('is-open'); }
+	cycleBtns.forEach(function (btn) {
+		var pressTimer = null, longPressed = false;
+		btn.addEventListener('pointerdown', function () {
+			longPressed = false;
+			pressTimer = setTimeout(function () { longPressed = true; openPop(btn); }, 500);
+		});
+		btn.addEventListener('pointerup', function () { clearTimeout(pressTimer); });
+		btn.addEventListener('pointerleave', function () { clearTimeout(pressTimer); });
+		btn.addEventListener('contextmenu', function (e) { e.preventDefault(); });
+		btn.addEventListener('click', function () {
+			if (longPressed) { longPressed = false; return; } /* long-press opened the menu */
+			applyMode(currentMode() === 'light' ? 'dark' : 'light');
+		});
+	});
+	paintCycle();
 
-	/* ---------- Page transitions — flavored per destination collection ---------- */
-	var PT_QUOTES = [
-		'Cropping the noise…',
-		'"Ship it before it\'s ready." — me, regretting it later',
-		'Compressing life to 1:1…',
-		'Buffering personality…',
-		'"Measure twice, publish once." — also me, never doing it',
-		'Adding cinematic grain to ordinary moments…',
-		'Negotiating with the algorithm…',
-		'"The best camera is the one that\'s… still in the bag."',
-		'Colour grading reality…',
-		'Reticulating splines, but make it marketing…'
-	];
-	var PT_MAP = [
-		{ re: /^\/videos\//, kind: 'tv', art: svgIcon(ICONS.tv, 64), label: 'tuning channel' },
-		{ re: /^\/projects\//, kind: 'code', art: '', label: 'npm run project' },
-		{ re: /^\/travel\/[^/]+\/.+/, kind: 'flight', art: svgIcon(ICONS.plane, 56), label: 'paper plane en route' },
-		{ re: /^\/travel\//, kind: 'flight', art: svgIcon(ICONS.plane, 64), label: 'now boarding' },
-		{ re: /^\/shop\//, kind: 'cart', art: svgIcon(ICONS.cart, 64), label: 'cart incoming' },
-		{ re: /^\/courses\//, kind: 'study', art: svgIcon(ICONS.book, 64), label: 'sharpening pencils' },
-		{ re: /^\/timeline\//, kind: 'years', art: '2019 → 2026', label: 'years passing' },
-		{ re: /^\/guestbook\//, kind: 'scribble', art: '<span>' + svgIcon(ICONS.pen, 40) + '</span><span>Was here!</span><span>hi mom</span>', label: 'uncapping pens' },
-		{ re: /^\/webseries\//, kind: 'tudum', art: 'S', label: '' },
-		{ re: /^\/sponsor\//, kind: 'cash', art: '<span>' + svgIcon(ICONS.cash, 44) + '</span><span>' + svgIcon(ICONS.cash, 36) + '</span><span>' + svgIcon(ICONS.cash, 44) + '</span>', label: 'dispensing gratitude' },
-		{ re: /^\/resume\//, kind: 'unfold', art: svgIcon(ICONS.file, 64), label: 'unfolding the paper' },
-		{ re: /^\/newsletters\//, kind: 'envelope', art: svgIcon(ICONS.mail, 64), label: 'opening the envelope' }
-	];
-	var reduceMotionPT = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-	function transitionFor(path) {
-		for (var i = 0; i < PT_MAP.length; i++) if (PT_MAP[i].re.test(path)) return PT_MAP[i];
-		return null;
-	}
-	function showOverlay(t, cb) {
-		var el = document.createElement('div');
-		el.className = 'pt-overlay pt-' + t.kind;
-		var quote = PT_QUOTES[Math.floor(Math.random() * PT_QUOTES.length)];
-		el.innerHTML =
-			(t.kind === 'code'
-				? '<pre><span>$ open project --with love</span><span>▸ compiling side effects…</span><span>✓ done in 0.6s</span></pre>'
-				: '<div class="pt-art">' + t.art + '</div>') +
-			'<p class="pt-quote">' + quote + '</p>' +
-			(t.label ? '<p class="pt-label">' + t.label + '</p>' : '');
-		document.body.appendChild(el);
-		requestAnimationFrame(function () { el.classList.add('is-in'); });
-		if (t.kind === 'tudum' && MODE_SOUNDS.netflix) { try { MODE_SOUNDS.netflix(); } catch (e) {} }
-		setTimeout(cb, 700);
-	}
-	if (!reduceMotionPT) {
-		document.addEventListener('click', function (e) {
-			if (e.defaultPrevented || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
-			var a = e.target.closest && e.target.closest('a[href]');
-			if (!a || a.target === '_blank' || a.hasAttribute('download') || a.hasAttribute('data-no-transition')) return;
-			var url;
-			try { url = new URL(a.href); } catch (err) { return; }
-			if (url.origin !== location.origin || (url.pathname === location.pathname && url.hash)) return;
-			var t = transitionFor(url.pathname);
-			if (!t) return;
-			e.preventDefault();
-			showOverlay(t, function () { location.href = a.href; });
+	/* ---------- Members forms: Portal toggles .success/.error on the form —
+	   mirror that to nearby message elements + the subscribe modal ---------- */
+	document.querySelectorAll('form[data-members-form]').forEach(function (form) {
+		/* host = the dialog, or the nearest ancestor that holds the message els */
+		var host = form.closest('[role="dialog"]');
+		if (!host) {
+			var p = form;
+			for (var k = 0; k < 4 && p.parentElement; k++) {
+				p = p.parentElement;
+				if (p.querySelector('[data-members-success], [data-members-error]')) { host = p; break; }
+			}
+		}
+		if (!host) host = form.parentElement;
+		new MutationObserver(function () {
+			var ok = form.classList.contains('success');
+			var err = form.classList.contains('error');
+			host.querySelectorAll('[data-members-success]').forEach(function (el) { el.style.display = ok ? 'block' : 'none'; });
+			host.querySelectorAll('[data-members-error]').forEach(function (el) { el.style.display = err ? 'block' : 'none'; });
+			if (host.getAttribute('role') === 'dialog') host.classList.toggle('is-success', ok);
+		}).observe(form, { attributes: true, attributeFilter: ['class'] });
+	});
+
+	/* ---------- Generic modals: [data-modal-open="#id"] / [data-modal-close] ---------- */
+	document.querySelectorAll('[data-modal-open]').forEach(function (btn) {
+		btn.addEventListener('click', function () {
+			var target = document.querySelector(btn.getAttribute('data-modal-open'));
+			if (!target) return;
+			target.classList.remove('hidden');
+			target.classList.add('flex');
+			document.body.style.overflow = 'hidden';
 		});
-		/* restore back/forward cache pages that still show an overlay */
-		window.addEventListener('pageshow', function (e) {
-			if (e.persisted) document.querySelectorAll('.pt-overlay').forEach(function (o) { o.remove(); });
-		});
+	});
+	function closeModal(modal) {
+		modal.classList.add('hidden');
+		modal.classList.remove('flex');
+		document.body.style.overflow = '';
 	}
+	document.querySelectorAll('[data-modal]').forEach(function (modal) {
+		modal.addEventListener('click', function (e) {
+			if (e.target === modal || e.target.closest('[data-modal-close]')) closeModal(modal);
+		});
+	});
+	document.addEventListener('keydown', function (e) {
+		if (e.key !== 'Escape') return;
+		document.querySelectorAll('[data-modal]:not(.hidden)').forEach(closeModal);
+	});
+
 })();

@@ -1,23 +1,27 @@
-<section class="reveal relative py-20">
-	<div class="container-site">
-		<div class="relative overflow-hidden rounded-[2rem] border border-line bg-ink px-6 py-16 text-center text-paper shadow-lift sm:px-16">
-			<div class="pointer-events-none absolute inset-0 opacity-20" style="background-image: radial-gradient(rgb(255 255 255 / .35) 1px, transparent 1px); background-size: 22px 22px" aria-hidden="true"></div>
-			<div class="relative mx-auto max-w-2xl">
-				<p class="mx-auto inline-flex items-center gap-2 rounded-full border border-paper/20 bg-paper/10 px-4 py-1.5 font-mono text-[11px] uppercase tracking-[0.25em]">{{> "icons/mail"}} The Signal</p>
-				<h2 class="mt-6 text-3xl font-semibold tracking-tight sm:text-4xl text-balance">{{@custom.newsletter_title}}</h2>
-				<p class="mt-4 text-[15px] leading-relaxed opacity-70">No noise, no spam — one thoughtful letter whenever there's something worth framing. Unsubscribe anytime.</p>
-				{{#if @site.members_enabled}}
-				<form data-members-form class="mx-auto mt-8 max-w-md">
-					<div class="flex overflow-hidden rounded-full border border-paper/25 bg-paper/10 backdrop-blur transition focus-within:border-paper/60">
-						<input type="email" name="email" data-members-email placeholder="you@email.com" required class="w-full bg-transparent px-5 py-3.5 text-sm text-paper outline-none placeholder:text-paper/40" aria-label="Email address" />
-						<button type="submit" class="shrink-0 bg-paper px-6 text-sm font-semibold text-ink transition hover:opacity-90">Subscribe</button>
-					</div>
-					<p class="mt-3 hidden text-xs opacity-70" data-members-success>✓ Almost in — confirm via the email we just sent.</p>
-					<p class="mt-3 hidden text-xs text-red-300" data-members-error>That didn't work. Mind trying again?</p>
-				</form>
-				{{/if}}
-				<p class="mt-6 font-mono text-[11px] uppercase tracking-[0.2em] opacity-50"><a href="{{@site.url}}/newsletters/" class="underline underline-offset-4 hover:opacity-100">Read past issues →</a></p>
-			</div>
-		</div>
+{{!-- Finale — "The algorithm doesn't owe us anything." Full-width muted video
+     with the quote and one big Subscribe button that opens the pitch modal
+     (#subscribe-backdrop, defined in the navbar). Follows every theme mode. --}}
+<section class="reveal tv-scanlines relative mt-16 flex min-h-[70vh] items-center overflow-hidden" id="home-subscribe" style="background:#08080a">
+	<div class="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
+		<iframe
+			src="https://www.youtube-nocookie.com/embed/ecOkmTD7KhU?autoplay=1&amp;mute=1&amp;loop=1&amp;controls=0&amp;playlist=ecOkmTD7KhU&amp;playsinline=1&amp;rel=0&amp;modestbranding=1&amp;iv_load_policy=3&amp;disablekb=1"
+			title="Ambient background video"
+			tabindex="-1"
+			loading="lazy"
+			allow="autoplay; encrypted-media"
+			style="position:absolute; top:50%; left:50%; width:100vw; height:56.25vw; min-height:100%; min-width:calc(100vh * 1.7778); transform:translate(-50%,-50%) scale(1.12); border:0; pointer-events:none;"></iframe>
+		<div class="absolute inset-0 bg-black/70"></div>
+	</div>
+
+	<div class="container-site relative py-20 text-center text-white">
+		<p class="mx-auto inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-1.5 font-mono text-[10px] uppercase tracking-[0.3em] backdrop-blur animate-fade-in">{{> "icons/bell" class="h-3.5 w-3.5"}} own your feed</p>
+		<blockquote class="mx-auto mt-7 max-w-3xl text-3xl font-bold leading-tight tracking-tight text-balance sm:text-5xl [text-shadow:0_2px_16px_rgb(0_0_0/.5)]">
+			"The algorithm doesn't owe us anything."
+		</blockquote>
+		<p class="mx-auto mt-5 max-w-xl text-base leading-relaxed text-white/75 sm:text-lg">If YouTube shut down tomorrow, we'd lose each other. This site is the one place we actually own — subscribe here and no recommendation engine can come between us.</p>
+		<button type="button" class="btn mx-auto mt-9 !bg-white !px-8 !py-3.5 !text-base !font-bold !text-black shadow-lift transition hover:-translate-y-0.5 hover:opacity-95" data-modal-open="#subscribe-backdrop">
+			{{> "icons/bell" class="h-4 w-4"}} Subscribe — it's free
+		</button>
+		<p class="mt-4 font-mono text-[10px] uppercase tracking-[0.25em] text-white/50">email only · ads off for members · unsubscribe anytime</p>
 	</div>
 </section>

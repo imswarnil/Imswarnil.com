@@ -1,0 +1,6 @@
+{{!-- Dynamic icon helper.
+     Usage:  {{> icon name="play" class="h-4 w-4"}}
+     Adding icons: drop an SVG into partials/icons/<name>.hbs following the
+     existing format (stroke="currentColor", class="{{class}}") and it becomes
+     available here and via {{> "icons/<name>"}} directly. --}}
+{{> (concat "icons/" name) class=class}}

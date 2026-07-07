@@ -32,7 +32,7 @@
 			{{#if @site.comments_enabled}}
 				<div class="guestbook-wall card-surface !transform-none p-6 sm:p-10">
 					<p class="kicker mb-6">{{> "icons/heart"}} The wall — newest signatures first</p>
-					{{comments title="" count=true}}
+					{{> "components/comments" title=""}}
 				</div>
 				<p class="mt-6 text-center font-mono text-[11px] uppercase tracking-[0.2em] text-silver">your note may be read aloud, dramatically, to no one</p>
 			{{else}}

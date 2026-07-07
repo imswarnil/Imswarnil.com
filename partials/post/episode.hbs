@@ -13,7 +13,7 @@
 	<div class="flex shrink-0 items-center gap-1">
 		{{#prev_post in="primary_tag"}}<a href="{{url}}" class="icon-btn tooltip tooltip-bottom" data-tip="Previous episode" aria-label="Previous episode"><span class="rotate-180">{{> "icons/arrow-right"}}</span></a>{{/prev_post}}
 		<button type="button" class="icon-btn tooltip tooltip-bottom" data-tip="Theater fullscreen" id="episode-bar-max" aria-label="Fullscreen">{{> "icons/maximize"}}</button>
-		{{#next_post in="primary_tag"}}<a href="{{url}}" class="btn-primary !h-8 !px-3.5 !py-0 !text-[12px]">Next ep {{> "icons/arrow-right" class="h-3.5 w-3.5"}}</a>{{/next_post}}
+		{{#next_post in="primary_tag"}}<a href="{{url}}" class="btn-primary btn-sm">Next ep {{> "icons/arrow-right" class="h-3.5 w-3.5"}}</a>{{/next_post}}
 	</div>
 </div>
 
@@ -80,7 +80,7 @@
 
 				{{#if @site.comments_enabled}}
 					<section class="mt-12 border-t border-line pt-10">
-						{{comments title="Comments" count=true}}
+						{{> "components/comments" title="Comments"}}
 					</section>
 				{{/if}}
 			</div>

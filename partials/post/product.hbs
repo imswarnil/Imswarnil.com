@@ -55,7 +55,7 @@
 
 				{{#if @site.comments_enabled}}
 				<section class="mt-12 border-t border-line pt-10">
-					{{comments title="Questions about this?" count=true}}
+					{{> "components/comments" title="Questions about this?"}}
 				</section>
 				{{/if}}
 			</div>
