@@ -24,7 +24,7 @@
 
 	{{!-- Backdrop hero: series poster → first episode poster → the series' own
 	     opening video (hoisted by JS, home-hero style) --}}
-	<header class="relative flex min-h-[78vh] items-end overflow-hidden">
+	<header class="relative flex min-h-[86vh] items-end overflow-hidden">
 		<div class="absolute inset-0" aria-hidden="true" id="series-backdrop">
 			{{#if feature_image}}
 				<img src="{{img_url feature_image size="2000"}}" alt="" class="h-full w-full object-cover" />
@@ -41,7 +41,7 @@
 		</div>
 
 		<div class="container-site relative pb-12 pt-40">
-			<div class="max-w-2xl">
+			<div class="max-w-3xl">
 				<p class="kicker">{{> "icons/film"}} Webseries</p>
 				<h1 class="mt-4 text-4xl font-black tracking-tight sm:text-6xl text-balance">{{title}}</h1>
 
@@ -138,10 +138,12 @@
 				if (m) { found = { id: m[1], el: nodes[i] }; break; }
 			}
 			var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-			if (found && !reduce) {
+			/* no embed in the post? fall back to the ambient reel so the hero always moves */
+			var heroId = found ? found.id : 'ecOkmTD7KhU';
+			if (!reduce) {
 				var f = document.createElement('iframe');
-				f.src = 'https://www.youtube-nocookie.com/embed/' + found.id +
-					'?autoplay=1&mute=1&loop=1&playlist=' + found.id +
+				f.src = 'https://www.youtube-nocookie.com/embed/' + heroId +
+					'?autoplay=1&mute=1&loop=1&playlist=' + heroId +
 					'&controls=0&playsinline=1&rel=0&modestbranding=1&iv_load_policy=3&disablekb=1';
 				f.title = 'Series backdrop';
 				f.tabIndex = -1;
@@ -150,8 +152,10 @@
 				f.className = 'pointer-events-none absolute left-1/2 top-1/2 aspect-video h-[120%] w-auto min-w-full -translate-x-1/2 -translate-y-1/2';
 				slot.appendChild(f);
 				/* hide the original embed so it doesn't play twice */
-				var card = found.el.closest('.kg-card, figure, .kg-embed-card, .kg-bookmark-card') || found.el;
-				card.style.display = 'none';
+				if (found) {
+					var card = found.el.closest('.kg-card, figure, .kg-embed-card, .kg-bookmark-card') || found.el;
+					card.style.display = 'none';
+				}
 			}
 		}
 

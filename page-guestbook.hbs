@@ -7,23 +7,48 @@
 	<div class="container-site py-10">
 		<div class="grid gap-10 lg:grid-cols-12">
 
-			{{!-- Left: the hero — sticky, stays put while the wall scrolls --}}
+			{{!-- Left: the hero — fixed beside the scrolling wall --}}
 			<header class="lg:col-span-5">
-				<div class="lg:sticky lg:top-24">
+				<div class="lg:sticky lg:top-20 lg:max-h-[calc(100dvh-6rem)] lg:self-start">
 					<p class="chip animate-fade-in">{{> "icons/heart"}} est. the golden age of the internet</p>
-					<h1 class="mt-6 text-4xl font-semibold tracking-tight sm:text-5xl text-balance">{{title}}</h1>
+					<h1 class="mt-5 text-4xl font-semibold tracking-tight sm:text-5xl text-balance">{{title}}</h1>
 					<p class="mt-4 max-w-md text-lg leading-relaxed text-silver">
-						{{#if custom_excerpt}}{{custom_excerpt}}{{else}}You made it all the way here. The least you can do is sign. Compliments, complaints and confessions all accepted — moderated only for spam and cowardice.{{/if}}
+						{{#if custom_excerpt}}{{custom_excerpt}}{{else}}A wall of love, internet-style. Leave a note, a hot take, or proof you were here before it was cool.{{/if}}
 					</p>
+
+					{{!-- wall-of-love: floating signed notes --}}
+					<div class="relative mt-8 hidden h-40 max-w-md lg:block" aria-hidden="true">
+						<div class="float-frame absolute left-0 top-2 w-44 rotate-[-4deg] rounded-2xl border border-line bg-paper p-3.5 shadow-card" style="--tilt:-4deg">
+							<p class="flex items-center gap-1.5 font-mono text-[9px] uppercase tracking-[0.18em] text-silver">{{> "icons/heart" class="h-3 w-3 text-red-400"}} entry #001</p>
+							<p class="mt-1.5 text-[12px] font-medium leading-snug">"Great site. Would scroll again."</p>
+						</div>
+						<div class="float-frame-alt absolute left-36 top-12 w-48 rotate-[3deg] rounded-2xl border border-line bg-mist p-3.5 shadow-lift" style="--tilt:3deg">
+							<p class="flex items-center gap-1.5 font-mono text-[9px] uppercase tracking-[0.18em] text-silver">{{> "icons/pen" class="h-3 w-3"}} entry #002</p>
+							<p class="mt-1.5 text-[12px] font-medium leading-snug" style="font-family:Georgia,serif;font-style:italic">"came for the theme switcher, stayed for the confetti"</p>
+						</div>
+						<span class="absolute -top-1 left-48 text-red-400 animate-bounce">{{> "icons/heart" class="h-4 w-4"}}</span>
+					</div>
+
+					{{!-- what / how / why --}}
+					<div class="mt-8 space-y-4 border-t border-line pt-6">
+						<div class="flex gap-3">
+							<span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-line bg-mist font-mono text-[11px] font-bold">?</span>
+							<p class="text-sm leading-relaxed text-silver"><strong class="font-semibold text-ink">What is this?</strong> A guestbook — the thing websites had before feeds. One wall, every visitor who cared enough to sign it.</p>
+						</div>
+						<div class="flex gap-3">
+							<span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-line bg-mist font-mono text-[11px] font-bold">✍</span>
+							<p class="text-sm leading-relaxed text-silver"><strong class="font-semibold text-ink">How to sign:</strong> sign in with just your email (magic link, no password), write your note in the box on the right, hit post. Done — you're on the wall.</p>
+						</div>
+						<div class="flex gap-3">
+							<span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-line bg-mist font-mono text-[11px] font-bold">♥</span>
+							<p class="text-sm leading-relaxed text-silver"><strong class="font-semibold text-ink">Why it matters:</strong> analytics tell me numbers; the wall tells me humans were here. I read every entry, reply to most, and on rough days this page does more than coffee.</p>
+						</div>
+					</div>
+
 					{{#if content}}
 					<div class="gh-content mt-6 max-w-md text-sm">{{content}}</div>
 					{{/if}}
-					<div class="mt-8 flex flex-wrap gap-6 font-mono text-[10px] uppercase tracking-[0.25em] text-silver">
-						<span class="flex items-center gap-2">{{> "icons/check" class="h-3.5 w-3.5"}} free forever</span>
-						<span class="flex items-center gap-2">{{> "icons/sparkle" class="h-3.5 w-3.5"}} zero guest towels</span>
-					</div>
-					<p class="mt-6 font-mono text-[10px] uppercase tracking-[0.2em] text-silver">your note may be read aloud, dramatically, to no one</p>
-					{{> "components/adsense" slot="3487917390" format="auto" class="!my-8 hidden lg:block"}}
+					<p class="mt-6 font-mono text-[10px] uppercase tracking-[0.2em] text-silver">free forever · moderated only for spam and cowardice</p>
 				</div>
 			</header>
 
