@@ -8,10 +8,10 @@
    "data": {
     "posts": [
      {
-      "id": "00000000000000000000012d",
+      "id": "000000000000000000000131",
       "title": "Video Title — 1",
       "slug": "video-title-1",
-      "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"<figure class=\\\"kg-card kg-embed-card\\\"><iframe width=\\\"560\\\" height=\\\"315\\\" src=\\\"https://www.youtube.com/embed/ecOkmTD7KhU\\\" title=\\\"YouTube video\\\" frameborder=\\\"0\\\" allow=\\\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\\\" allowfullscreen></iframe></figure><p>Somewhere between the brief and the deadline lives the actual work. This is generic demo content so you can judge the layout honestly.</p><h2 id=\\\"the-setup\\\">The setup</h2><p>Every good system starts with a constraint: frame the color 1:1, crop out the noise.</p><ul><li>Start with the audience, not the tool</li><li>Measure twice, publish once</li><li>Delete more than you add</li></ul><h2 id=\\\"the-details\\\">The details</h2><pre><code>const frame = (life) =&gt; life.filter(m =&gt; m.signal &gt; m.noise);</code></pre><blockquote>Life looks better when you frame the color 1:1.</blockquote><h3 id=\\\"wrap-up\\\">Wrap up</h3><p>If this reads well in all six theme modes, ship it.</p>\"}]], \"markups\": [], \"sections\": [[10, 0], [1, \"p\", []]]}",
+      "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"<figure class=\\\"kg-card kg-embed-card\\\"><iframe width=\\\"560\\\" height=\\\"315\\\" src=\\\"https://www.youtube.com/embed/ecOkmTD7KhU\\\" title=\\\"YouTube video\\\" frameborder=\\\"0\\\" allow=\\\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\\\" allowfullscreen></iframe></figure><p>Somewhere between the brief and the deadline lives the actual work. This is generic demo content so you can judge the layout honestly.</p><h2 id=\\\"the-setup\\\">The setup</h2><p>Every good system starts with a constraint: frame the color 1:1, crop out the noise.</p><ul><li>Start with the audience, not the tool</li><li>Measure twice, publish once</li><li>Delete more than you add</li></ul><h2 id=\\\"the-details\\\">The details</h2><pre><code>const frame = (life) =&gt; life.filter(m =&gt; m.signal &gt; m.noise);</code></pre><blockquote>Life looks better when you frame the color 1:1.</blockquote><h3 id=\\\"wrap-up\\\">Wrap up</h3><p>If this reads well in all six theme modes, ship it.</p><h2 id=\\\"chapters\\\">Chapters</h2><table><thead><tr><th>Time</th><th>Chapter</th></tr></thead><tbody><tr><td>0:00</td><td>Intro</td></tr><tr><td>1:24</td><td>The setup</td></tr><tr><td>4:05</td><td>The details</td></tr><tr><td>7:48</td><td>Common mistakes</td></tr><tr><td>10:30</td><td>Wrap-up and next steps</td></tr></tbody></table>\"}]], \"markups\": [], \"sections\": [[10, 0], [1, \"p\", []]]}",
       "feature_image": "https://picsum.photos/seed/video-title-1/1200/800",
       "featured": 1,
       "type": "post",
@@ -22,10 +22,10 @@
       "published_at": "2026-07-02T12:00:00.000Z"
      },
      {
-      "id": "00000000000000000000012e",
+      "id": "000000000000000000000132",
       "title": "Video Title — 2",
       "slug": "video-title-2",
-      "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"<figure class=\\\"kg-card kg-embed-card\\\"><iframe width=\\\"560\\\" height=\\\"315\\\" src=\\\"https://www.youtube.com/embed/ecOkmTD7KhU\\\" title=\\\"YouTube video\\\" frameborder=\\\"0\\\" allow=\\\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\\\" allowfullscreen></iframe></figure><p>Somewhere between the brief and the deadline lives the actual work. This is generic demo content so you can judge the layout honestly.</p><h2 id=\\\"the-setup\\\">The setup</h2><p>Every good system starts with a constraint: frame the color 1:1, crop out the noise.</p><ul><li>Start with the audience, not the tool</li><li>Measure twice, publish once</li><li>Delete more than you add</li></ul><h2 id=\\\"the-details\\\">The details</h2><pre><code>const frame = (life) =&gt; life.filter(m =&gt; m.signal &gt; m.noise);</code></pre><blockquote>Life looks better when you frame the color 1:1.</blockquote><h3 id=\\\"wrap-up\\\">Wrap up</h3><p>If this reads well in all six theme modes, ship it.</p>\"}]], \"markups\": [], \"sections\": [[10, 0], [1, \"p\", []]]}",
+      "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"<figure class=\\\"kg-card kg-embed-card\\\"><iframe width=\\\"560\\\" height=\\\"315\\\" src=\\\"https://www.youtube.com/embed/ecOkmTD7KhU\\\" title=\\\"YouTube video\\\" frameborder=\\\"0\\\" allow=\\\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\\\" allowfullscreen></iframe></figure><p>Somewhere between the brief and the deadline lives the actual work. This is generic demo content so you can judge the layout honestly.</p><h2 id=\\\"the-setup\\\">The setup</h2><p>Every good system starts with a constraint: frame the color 1:1, crop out the noise.</p><ul><li>Start with the audience, not the tool</li><li>Measure twice, publish once</li><li>Delete more than you add</li></ul><h2 id=\\\"the-details\\\">The details</h2><pre><code>const frame = (life) =&gt; life.filter(m =&gt; m.signal &gt; m.noise);</code></pre><blockquote>Life looks better when you frame the color 1:1.</blockquote><h3 id=\\\"wrap-up\\\">Wrap up</h3><p>If this reads well in all six theme modes, ship it.</p><h2 id=\\\"chapters\\\">Chapters</h2><table><thead><tr><th>Time</th><th>Chapter</th></tr></thead><tbody><tr><td>0:00</td><td>Intro</td></tr><tr><td>1:24</td><td>The setup</td></tr><tr><td>4:05</td><td>The details</td></tr><tr><td>7:48</td><td>Common mistakes</td></tr><tr><td>10:30</td><td>Wrap-up and next steps</td></tr></tbody></table>\"}]], \"markups\": [], \"sections\": [[10, 0], [1, \"p\", []]]}",
       "feature_image": "https://picsum.photos/seed/video-title-2/1200/800",
       "featured": 0,
       "type": "post",
@@ -36,10 +36,10 @@
       "published_at": "2026-07-03T12:00:00.000Z"
      },
      {
-      "id": "00000000000000000000012f",
+      "id": "000000000000000000000133",
       "title": "Video Title — 3",
       "slug": "video-title-3",
-      "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"<figure class=\\\"kg-card kg-embed-card\\\"><iframe width=\\\"560\\\" height=\\\"315\\\" src=\\\"https://www.youtube.com/embed/ecOkmTD7KhU\\\" title=\\\"YouTube video\\\" frameborder=\\\"0\\\" allow=\\\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\\\" allowfullscreen></iframe></figure><p>Somewhere between the brief and the deadline lives the actual work. This is generic demo content so you can judge the layout honestly.</p><h2 id=\\\"the-setup\\\">The setup</h2><p>Every good system starts with a constraint: frame the color 1:1, crop out the noise.</p><ul><li>Start with the audience, not the tool</li><li>Measure twice, publish once</li><li>Delete more than you add</li></ul><h2 id=\\\"the-details\\\">The details</h2><pre><code>const frame = (life) =&gt; life.filter(m =&gt; m.signal &gt; m.noise);</code></pre><blockquote>Life looks better when you frame the color 1:1.</blockquote><h3 id=\\\"wrap-up\\\">Wrap up</h3><p>If this reads well in all six theme modes, ship it.</p>\"}]], \"markups\": [], \"sections\": [[10, 0], [1, \"p\", []]]}",
+      "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"<figure class=\\\"kg-card kg-embed-card\\\"><iframe width=\\\"560\\\" height=\\\"315\\\" src=\\\"https://www.youtube.com/embed/ecOkmTD7KhU\\\" title=\\\"YouTube video\\\" frameborder=\\\"0\\\" allow=\\\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\\\" allowfullscreen></iframe></figure><p>Somewhere between the brief and the deadline lives the actual work. This is generic demo content so you can judge the layout honestly.</p><h2 id=\\\"the-setup\\\">The setup</h2><p>Every good system starts with a constraint: frame the color 1:1, crop out the noise.</p><ul><li>Start with the audience, not the tool</li><li>Measure twice, publish once</li><li>Delete more than you add</li></ul><h2 id=\\\"the-details\\\">The details</h2><pre><code>const frame = (life) =&gt; life.filter(m =&gt; m.signal &gt; m.noise);</code></pre><blockquote>Life looks better when you frame the color 1:1.</blockquote><h3 id=\\\"wrap-up\\\">Wrap up</h3><p>If this reads well in all six theme modes, ship it.</p><h2 id=\\\"chapters\\\">Chapters</h2><table><thead><tr><th>Time</th><th>Chapter</th></tr></thead><tbody><tr><td>0:00</td><td>Intro</td></tr><tr><td>1:24</td><td>The setup</td></tr><tr><td>4:05</td><td>The details</td></tr><tr><td>7:48</td><td>Common mistakes</td></tr><tr><td>10:30</td><td>Wrap-up and next steps</td></tr></tbody></table>\"}]], \"markups\": [], \"sections\": [[10, 0], [1, \"p\", []]]}",
       "feature_image": "https://picsum.photos/seed/video-title-3/1200/800",
       "featured": 0,
       "type": "post",
@@ -50,10 +50,10 @@
       "published_at": "2026-07-04T12:00:00.000Z"
      },
      {
-      "id": "000000000000000000000130",
+      "id": "000000000000000000000134",
       "title": "Video Title — 4",
       "slug": "video-title-4",
-      "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"<figure class=\\\"kg-card kg-embed-card\\\"><iframe width=\\\"560\\\" height=\\\"315\\\" src=\\\"https://www.youtube.com/embed/ecOkmTD7KhU\\\" title=\\\"YouTube video\\\" frameborder=\\\"0\\\" allow=\\\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\\\" allowfullscreen></iframe></figure><p>Somewhere between the brief and the deadline lives the actual work. This is generic demo content so you can judge the layout honestly.</p><h2 id=\\\"the-setup\\\">The setup</h2><p>Every good system starts with a constraint: frame the color 1:1, crop out the noise.</p><ul><li>Start with the audience, not the tool</li><li>Measure twice, publish once</li><li>Delete more than you add</li></ul><h2 id=\\\"the-details\\\">The details</h2><pre><code>const frame = (life) =&gt; life.filter(m =&gt; m.signal &gt; m.noise);</code></pre><blockquote>Life looks better when you frame the color 1:1.</blockquote><h3 id=\\\"wrap-up\\\">Wrap up</h3><p>If this reads well in all six theme modes, ship it.</p>\"}]], \"markups\": [], \"sections\": [[10, 0], [1, \"p\", []]]}",
+      "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"<figure class=\\\"kg-card kg-embed-card\\\"><iframe width=\\\"560\\\" height=\\\"315\\\" src=\\\"https://www.youtube.com/embed/ecOkmTD7KhU\\\" title=\\\"YouTube video\\\" frameborder=\\\"0\\\" allow=\\\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\\\" allowfullscreen></iframe></figure><p>Somewhere between the brief and the deadline lives the actual work. This is generic demo content so you can judge the layout honestly.</p><h2 id=\\\"the-setup\\\">The setup</h2><p>Every good system starts with a constraint: frame the color 1:1, crop out the noise.</p><ul><li>Start with the audience, not the tool</li><li>Measure twice, publish once</li><li>Delete more than you add</li></ul><h2 id=\\\"the-details\\\">The details</h2><pre><code>const frame = (life) =&gt; life.filter(m =&gt; m.signal &gt; m.noise);</code></pre><blockquote>Life looks better when you frame the color 1:1.</blockquote><h3 id=\\\"wrap-up\\\">Wrap up</h3><p>If this reads well in all six theme modes, ship it.</p><h2 id=\\\"chapters\\\">Chapters</h2><table><thead><tr><th>Time</th><th>Chapter</th></tr></thead><tbody><tr><td>0:00</td><td>Intro</td></tr><tr><td>1:24</td><td>The setup</td></tr><tr><td>4:05</td><td>The details</td></tr><tr><td>7:48</td><td>Common mistakes</td></tr><tr><td>10:30</td><td>Wrap-up and next steps</td></tr></tbody></table>\"}]], \"markups\": [], \"sections\": [[10, 0], [1, \"p\", []]]}",
       "feature_image": "https://picsum.photos/seed/video-title-4/1200/800",
       "featured": 0,
       "type": "post",
@@ -64,10 +64,10 @@
       "published_at": "2026-07-05T12:00:00.000Z"
      },
      {
-      "id": "000000000000000000000131",
+      "id": "000000000000000000000135",
       "title": "Video Title — 5",
       "slug": "video-title-5",
-      "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"<figure class=\\\"kg-card kg-embed-card\\\"><iframe width=\\\"560\\\" height=\\\"315\\\" src=\\\"https://www.youtube.com/embed/ecOkmTD7KhU\\\" title=\\\"YouTube video\\\" frameborder=\\\"0\\\" allow=\\\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\\\" allowfullscreen></iframe></figure><p>Somewhere between the brief and the deadline lives the actual work. This is generic demo content so you can judge the layout honestly.</p><h2 id=\\\"the-setup\\\">The setup</h2><p>Every good system starts with a constraint: frame the color 1:1, crop out the noise.</p><ul><li>Start with the audience, not the tool</li><li>Measure twice, publish once</li><li>Delete more than you add</li></ul><h2 id=\\\"the-details\\\">The details</h2><pre><code>const frame = (life) =&gt; life.filter(m =&gt; m.signal &gt; m.noise);</code></pre><blockquote>Life looks better when you frame the color 1:1.</blockquote><h3 id=\\\"wrap-up\\\">Wrap up</h3><p>If this reads well in all six theme modes, ship it.</p>\"}]], \"markups\": [], \"sections\": [[10, 0], [1, \"p\", []]]}",
+      "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"<figure class=\\\"kg-card kg-embed-card\\\"><iframe width=\\\"560\\\" height=\\\"315\\\" src=\\\"https://www.youtube.com/embed/ecOkmTD7KhU\\\" title=\\\"YouTube video\\\" frameborder=\\\"0\\\" allow=\\\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\\\" allowfullscreen></iframe></figure><p>Somewhere between the brief and the deadline lives the actual work. This is generic demo content so you can judge the layout honestly.</p><h2 id=\\\"the-setup\\\">The setup</h2><p>Every good system starts with a constraint: frame the color 1:1, crop out the noise.</p><ul><li>Start with the audience, not the tool</li><li>Measure twice, publish once</li><li>Delete more than you add</li></ul><h2 id=\\\"the-details\\\">The details</h2><pre><code>const frame = (life) =&gt; life.filter(m =&gt; m.signal &gt; m.noise);</code></pre><blockquote>Life looks better when you frame the color 1:1.</blockquote><h3 id=\\\"wrap-up\\\">Wrap up</h3><p>If this reads well in all six theme modes, ship it.</p><h2 id=\\\"chapters\\\">Chapters</h2><table><thead><tr><th>Time</th><th>Chapter</th></tr></thead><tbody><tr><td>0:00</td><td>Intro</td></tr><tr><td>1:24</td><td>The setup</td></tr><tr><td>4:05</td><td>The details</td></tr><tr><td>7:48</td><td>Common mistakes</td></tr><tr><td>10:30</td><td>Wrap-up and next steps</td></tr></tbody></table>\"}]], \"markups\": [], \"sections\": [[10, 0], [1, \"p\", []]]}",
       "feature_image": "https://picsum.photos/seed/video-title-5/1200/800",
       "featured": 0,
       "type": "post",
@@ -78,10 +78,10 @@
       "published_at": "2026-07-06T12:00:00.000Z"
      },
      {
-      "id": "000000000000000000000132",
+      "id": "000000000000000000000136",
       "title": "Video Title — 6",
       "slug": "video-title-6",
-      "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"<figure class=\\\"kg-card kg-embed-card\\\"><iframe width=\\\"560\\\" height=\\\"315\\\" src=\\\"https://www.youtube.com/embed/ecOkmTD7KhU\\\" title=\\\"YouTube video\\\" frameborder=\\\"0\\\" allow=\\\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\\\" allowfullscreen></iframe></figure><p>Somewhere between the brief and the deadline lives the actual work. This is generic demo content so you can judge the layout honestly.</p><h2 id=\\\"the-setup\\\">The setup</h2><p>Every good system starts with a constraint: frame the color 1:1, crop out the noise.</p><ul><li>Start with the audience, not the tool</li><li>Measure twice, publish once</li><li>Delete more than you add</li></ul><h2 id=\\\"the-details\\\">The details</h2><pre><code>const frame = (life) =&gt; life.filter(m =&gt; m.signal &gt; m.noise);</code></pre><blockquote>Life looks better when you frame the color 1:1.</blockquote><h3 id=\\\"wrap-up\\\">Wrap up</h3><p>If this reads well in all six theme modes, ship it.</p>\"}]], \"markups\": [], \"sections\": [[10, 0], [1, \"p\", []]]}",
+      "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"<figure class=\\\"kg-card kg-embed-card\\\"><iframe width=\\\"560\\\" height=\\\"315\\\" src=\\\"https://www.youtube.com/embed/ecOkmTD7KhU\\\" title=\\\"YouTube video\\\" frameborder=\\\"0\\\" allow=\\\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\\\" allowfullscreen></iframe></figure><p>Somewhere between the brief and the deadline lives the actual work. This is generic demo content so you can judge the layout honestly.</p><h2 id=\\\"the-setup\\\">The setup</h2><p>Every good system starts with a constraint: frame the color 1:1, crop out the noise.</p><ul><li>Start with the audience, not the tool</li><li>Measure twice, publish once</li><li>Delete more than you add</li></ul><h2 id=\\\"the-details\\\">The details</h2><pre><code>const frame = (life) =&gt; life.filter(m =&gt; m.signal &gt; m.noise);</code></pre><blockquote>Life looks better when you frame the color 1:1.</blockquote><h3 id=\\\"wrap-up\\\">Wrap up</h3><p>If this reads well in all six theme modes, ship it.</p><h2 id=\\\"chapters\\\">Chapters</h2><table><thead><tr><th>Time</th><th>Chapter</th></tr></thead><tbody><tr><td>0:00</td><td>Intro</td></tr><tr><td>1:24</td><td>The setup</td></tr><tr><td>4:05</td><td>The details</td></tr><tr><td>7:48</td><td>Common mistakes</td></tr><tr><td>10:30</td><td>Wrap-up and next steps</td></tr></tbody></table>\"}]], \"markups\": [], \"sections\": [[10, 0], [1, \"p\", []]]}",
       "feature_image": "https://picsum.photos/seed/video-title-6/1200/800",
       "featured": 0,
       "type": "post",
@@ -92,7 +92,7 @@
       "published_at": "2026-07-07T12:00:00.000Z"
      },
      {
-      "id": "000000000000000000000133",
+      "id": "000000000000000000000137",
       "title": "Blog Post — 1",
       "slug": "blog-post-1",
       "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"<p>Somewhere between the brief and the deadline lives the actual work. This is generic demo content so you can judge the layout honestly.</p><h2 id=\\\"the-setup\\\">The setup</h2><p>Every good system starts with a constraint: frame the color 1:1, crop out the noise.</p><ul><li>Start with the audience, not the tool</li><li>Measure twice, publish once</li><li>Delete more than you add</li></ul><h2 id=\\\"the-details\\\">The details</h2><pre><code>const frame = (life) =&gt; life.filter(m =&gt; m.signal &gt; m.noise);</code></pre><blockquote>Life looks better when you frame the color 1:1.</blockquote><h3 id=\\\"wrap-up\\\">Wrap up</h3><p>If this reads well in all six theme modes, ship it.</p>\"}]], \"markups\": [], \"sections\": [[10, 0], [1, \"p\", []]]}",
@@ -106,7 +106,7 @@
       "published_at": "2026-07-08T12:00:00.000Z"
      },
      {
-      "id": "000000000000000000000134",
+      "id": "000000000000000000000138",
       "title": "Blog Post — 2",
       "slug": "blog-post-2",
       "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"<p>Somewhere between the brief and the deadline lives the actual work. This is generic demo content so you can judge the layout honestly.</p><h2 id=\\\"the-setup\\\">The setup</h2><p>Every good system starts with a constraint: frame the color 1:1, crop out the noise.</p><ul><li>Start with the audience, not the tool</li><li>Measure twice, publish once</li><li>Delete more than you add</li></ul><h2 id=\\\"the-details\\\">The details</h2><pre><code>const frame = (life) =&gt; life.filter(m =&gt; m.signal &gt; m.noise);</code></pre><blockquote>Life looks better when you frame the color 1:1.</blockquote><h3 id=\\\"wrap-up\\\">Wrap up</h3><p>If this reads well in all six theme modes, ship it.</p>\"}]], \"markups\": [], \"sections\": [[10, 0], [1, \"p\", []]]}",
@@ -120,7 +120,7 @@
       "published_at": "2026-07-09T12:00:00.000Z"
      },
      {
-      "id": "000000000000000000000135",
+      "id": "000000000000000000000139",
       "title": "Blog Post — 3",
       "slug": "blog-post-3",
       "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"<p>Somewhere between the brief and the deadline lives the actual work. This is generic demo content so you can judge the layout honestly.</p><h2 id=\\\"the-setup\\\">The setup</h2><p>Every good system starts with a constraint: frame the color 1:1, crop out the noise.</p><ul><li>Start with the audience, not the tool</li><li>Measure twice, publish once</li><li>Delete more than you add</li></ul><h2 id=\\\"the-details\\\">The details</h2><pre><code>const frame = (life) =&gt; life.filter(m =&gt; m.signal &gt; m.noise);</code></pre><blockquote>Life looks better when you frame the color 1:1.</blockquote><h3 id=\\\"wrap-up\\\">Wrap up</h3><p>If this reads well in all six theme modes, ship it.</p>\"}]], \"markups\": [], \"sections\": [[10, 0], [1, \"p\", []]]}",
@@ -134,7 +134,7 @@
       "published_at": "2026-07-10T12:00:00.000Z"
      },
      {
-      "id": "000000000000000000000136",
+      "id": "00000000000000000000013a",
       "title": "Blog Post — 4",
       "slug": "blog-post-4",
       "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"<p>Somewhere between the brief and the deadline lives the actual work. This is generic demo content so you can judge the layout honestly.</p><h2 id=\\\"the-setup\\\">The setup</h2><p>Every good system starts with a constraint: frame the color 1:1, crop out the noise.</p><ul><li>Start with the audience, not the tool</li><li>Measure twice, publish once</li><li>Delete more than you add</li></ul><h2 id=\\\"the-details\\\">The details</h2><pre><code>const frame = (life) =&gt; life.filter(m =&gt; m.signal &gt; m.noise);</code></pre><blockquote>Life looks better when you frame the color 1:1.</blockquote><h3 id=\\\"wrap-up\\\">Wrap up</h3><p>If this reads well in all six theme modes, ship it.</p>\"}]], \"markups\": [], \"sections\": [[10, 0], [1, \"p\", []]]}",
@@ -148,7 +148,7 @@
       "published_at": "2026-07-11T12:00:00.000Z"
      },
      {
-      "id": "000000000000000000000137",
+      "id": "00000000000000000000013b",
       "title": "Blog Post — 5",
       "slug": "blog-post-5",
       "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"<p>Somewhere between the brief and the deadline lives the actual work. This is generic demo content so you can judge the layout honestly.</p><h2 id=\\\"the-setup\\\">The setup</h2><p>Every good system starts with a constraint: frame the color 1:1, crop out the noise.</p><ul><li>Start with the audience, not the tool</li><li>Measure twice, publish once</li><li>Delete more than you add</li></ul><h2 id=\\\"the-details\\\">The details</h2><pre><code>const frame = (life) =&gt; life.filter(m =&gt; m.signal &gt; m.noise);</code></pre><blockquote>Life looks better when you frame the color 1:1.</blockquote><h3 id=\\\"wrap-up\\\">Wrap up</h3><p>If this reads well in all six theme modes, ship it.</p>\"}]], \"markups\": [], \"sections\": [[10, 0], [1, \"p\", []]]}",
@@ -162,7 +162,7 @@
       "published_at": "2026-07-12T12:00:00.000Z"
      },
      {
-      "id": "000000000000000000000138",
+      "id": "00000000000000000000013c",
       "title": "Blog Post — 6",
       "slug": "blog-post-6",
       "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"<p>Somewhere between the brief and the deadline lives the actual work. This is generic demo content so you can judge the layout honestly.</p><h2 id=\\\"the-setup\\\">The setup</h2><p>Every good system starts with a constraint: frame the color 1:1, crop out the noise.</p><ul><li>Start with the audience, not the tool</li><li>Measure twice, publish once</li><li>Delete more than you add</li></ul><h2 id=\\\"the-details\\\">The details</h2><pre><code>const frame = (life) =&gt; life.filter(m =&gt; m.signal &gt; m.noise);</code></pre><blockquote>Life looks better when you frame the color 1:1.</blockquote><h3 id=\\\"wrap-up\\\">Wrap up</h3><p>If this reads well in all six theme modes, ship it.</p>\"}]], \"markups\": [], \"sections\": [[10, 0], [1, \"p\", []]]}",
@@ -176,7 +176,7 @@
       "published_at": "2026-07-13T12:00:00.000Z"
      },
      {
-      "id": "000000000000000000000139",
+      "id": "00000000000000000000013d",
       "title": "Project Name — 1",
       "slug": "project-name-1",
       "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"<p>Somewhere between the brief and the deadline lives the actual work. This is generic demo content so you can judge the layout honestly.</p><h2 id=\\\"the-setup\\\">The setup</h2><p>Every good system starts with a constraint: frame the color 1:1, crop out the noise.</p><ul><li>Start with the audience, not the tool</li><li>Measure twice, publish once</li><li>Delete more than you add</li></ul><h2 id=\\\"the-details\\\">The details</h2><pre><code>const frame = (life) =&gt; life.filter(m =&gt; m.signal &gt; m.noise);</code></pre><blockquote>Life looks better when you frame the color 1:1.</blockquote><h3 id=\\\"wrap-up\\\">Wrap up</h3><p>If this reads well in all six theme modes, ship it.</p>\"}]], \"markups\": [], \"sections\": [[10, 0], [1, \"p\", []]]}",
@@ -190,7 +190,7 @@
       "published_at": "2026-07-14T12:00:00.000Z"
      },
      {
-      "id": "00000000000000000000013a",
+      "id": "00000000000000000000013e",
       "title": "Project Name — 2",
       "slug": "project-name-2",
       "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"<p>Somewhere between the brief and the deadline lives the actual work. This is generic demo content so you can judge the layout honestly.</p><h2 id=\\\"the-setup\\\">The setup</h2><p>Every good system starts with a constraint: frame the color 1:1, crop out the noise.</p><ul><li>Start with the audience, not the tool</li><li>Measure twice, publish once</li><li>Delete more than you add</li></ul><h2 id=\\\"the-details\\\">The details</h2><pre><code>const frame = (life) =&gt; life.filter(m =&gt; m.signal &gt; m.noise);</code></pre><blockquote>Life looks better when you frame the color 1:1.</blockquote><h3 id=\\\"wrap-up\\\">Wrap up</h3><p>If this reads well in all six theme modes, ship it.</p>\"}]], \"markups\": [], \"sections\": [[10, 0], [1, \"p\", []]]}",
@@ -204,7 +204,7 @@
       "published_at": "2026-07-15T12:00:00.000Z"
      },
      {
-      "id": "00000000000000000000013b",
+      "id": "00000000000000000000013f",
       "title": "Project Name — 3",
       "slug": "project-name-3",
       "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"<p>Somewhere between the brief and the deadline lives the actual work. This is generic demo content so you can judge the layout honestly.</p><h2 id=\\\"the-setup\\\">The setup</h2><p>Every good system starts with a constraint: frame the color 1:1, crop out the noise.</p><ul><li>Start with the audience, not the tool</li><li>Measure twice, publish once</li><li>Delete more than you add</li></ul><h2 id=\\\"the-details\\\">The details</h2><pre><code>const frame = (life) =&gt; life.filter(m =&gt; m.signal &gt; m.noise);</code></pre><blockquote>Life looks better when you frame the color 1:1.</blockquote><h3 id=\\\"wrap-up\\\">Wrap up</h3><p>If this reads well in all six theme modes, ship it.</p>\"}]], \"markups\": [], \"sections\": [[10, 0], [1, \"p\", []]]}",
@@ -218,7 +218,7 @@
       "published_at": "2026-07-16T12:00:00.000Z"
      },
      {
-      "id": "00000000000000000000013c",
+      "id": "000000000000000000000140",
       "title": "Course Name — 1",
       "slug": "course-name-1",
       "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"<h2>What you'll learn</h2><ul><li>Thing one</li><li>Thing two</li><li>Thing three</li></ul><h2>Prerequisites</h2><ul><li>Curiosity</li><li>A browser</li></ul><p>Somewhere between the brief and the deadline lives the actual work. This is generic demo content so you can judge the layout honestly.</p><h2 id=\\\"the-setup\\\">The setup</h2><p>Every good system starts with a constraint: frame the color 1:1, crop out the noise.</p><ul><li>Start with the audience, not the tool</li><li>Measure twice, publish once</li><li>Delete more than you add</li></ul><h2 id=\\\"the-details\\\">The details</h2><pre><code>const frame = (life) =&gt; life.filter(m =&gt; m.signal &gt; m.noise);</code></pre><blockquote>Life looks better when you frame the color 1:1.</blockquote><h3 id=\\\"wrap-up\\\">Wrap up</h3><p>If this reads well in all six theme modes, ship it.</p>\"}]], \"markups\": [], \"sections\": [[10, 0], [1, \"p\", []]]}",
@@ -232,10 +232,10 @@
       "published_at": "2026-07-17T12:00:00.000Z"
      },
      {
-      "id": "00000000000000000000013d",
+      "id": "000000000000000000000141",
       "title": "Lesson — 1",
       "slug": "lesson-1",
-      "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"<figure class=\\\"kg-card kg-embed-card\\\"><iframe width=\\\"560\\\" height=\\\"315\\\" src=\\\"https://www.youtube.com/embed/ecOkmTD7KhU\\\" title=\\\"YouTube video\\\" frameborder=\\\"0\\\" allow=\\\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\\\" allowfullscreen></iframe></figure><p>Somewhere between the brief and the deadline lives the actual work. This is generic demo content so you can judge the layout honestly.</p><h2 id=\\\"the-setup\\\">The setup</h2><p>Every good system starts with a constraint: frame the color 1:1, crop out the noise.</p><ul><li>Start with the audience, not the tool</li><li>Measure twice, publish once</li><li>Delete more than you add</li></ul><h2 id=\\\"the-details\\\">The details</h2><pre><code>const frame = (life) =&gt; life.filter(m =&gt; m.signal &gt; m.noise);</code></pre><blockquote>Life looks better when you frame the color 1:1.</blockquote><h3 id=\\\"wrap-up\\\">Wrap up</h3><p>If this reads well in all six theme modes, ship it.</p>\"}]], \"markups\": [], \"sections\": [[10, 0], [1, \"p\", []]]}",
+      "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"<figure class=\\\"kg-card kg-embed-card\\\"><iframe width=\\\"560\\\" height=\\\"315\\\" src=\\\"https://www.youtube.com/embed/ecOkmTD7KhU\\\" title=\\\"YouTube video\\\" frameborder=\\\"0\\\" allow=\\\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\\\" allowfullscreen></iframe></figure><p>Somewhere between the brief and the deadline lives the actual work. This is generic demo content so you can judge the layout honestly.</p><h2 id=\\\"the-setup\\\">The setup</h2><p>Every good system starts with a constraint: frame the color 1:1, crop out the noise.</p><ul><li>Start with the audience, not the tool</li><li>Measure twice, publish once</li><li>Delete more than you add</li></ul><h2 id=\\\"the-details\\\">The details</h2><pre><code>const frame = (life) =&gt; life.filter(m =&gt; m.signal &gt; m.noise);</code></pre><blockquote>Life looks better when you frame the color 1:1.</blockquote><h3 id=\\\"wrap-up\\\">Wrap up</h3><p>If this reads well in all six theme modes, ship it.</p><h2 id=\\\"chapters\\\">Chapters</h2><table><thead><tr><th>Time</th><th>Chapter</th></tr></thead><tbody><tr><td>0:00</td><td>Intro</td></tr><tr><td>1:24</td><td>The setup</td></tr><tr><td>4:05</td><td>The details</td></tr><tr><td>7:48</td><td>Common mistakes</td></tr><tr><td>10:30</td><td>Wrap-up and next steps</td></tr></tbody></table>\"}]], \"markups\": [], \"sections\": [[10, 0], [1, \"p\", []]]}",
       "feature_image": "https://picsum.photos/seed/lesson-1/1200/800",
       "featured": 0,
       "type": "post",
@@ -246,10 +246,10 @@
       "published_at": "2026-07-18T12:00:00.000Z"
      },
      {
-      "id": "00000000000000000000013e",
+      "id": "000000000000000000000142",
       "title": "Lesson — 2",
       "slug": "lesson-2",
-      "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"<figure class=\\\"kg-card kg-embed-card\\\"><iframe width=\\\"560\\\" height=\\\"315\\\" src=\\\"https://www.youtube.com/embed/ecOkmTD7KhU\\\" title=\\\"YouTube video\\\" frameborder=\\\"0\\\" allow=\\\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\\\" allowfullscreen></iframe></figure><p>Somewhere between the brief and the deadline lives the actual work. This is generic demo content so you can judge the layout honestly.</p><h2 id=\\\"the-setup\\\">The setup</h2><p>Every good system starts with a constraint: frame the color 1:1, crop out the noise.</p><ul><li>Start with the audience, not the tool</li><li>Measure twice, publish once</li><li>Delete more than you add</li></ul><h2 id=\\\"the-details\\\">The details</h2><pre><code>const frame = (life) =&gt; life.filter(m =&gt; m.signal &gt; m.noise);</code></pre><blockquote>Life looks better when you frame the color 1:1.</blockquote><h3 id=\\\"wrap-up\\\">Wrap up</h3><p>If this reads well in all six theme modes, ship it.</p>\"}]], \"markups\": [], \"sections\": [[10, 0], [1, \"p\", []]]}",
+      "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"<figure class=\\\"kg-card kg-embed-card\\\"><iframe width=\\\"560\\\" height=\\\"315\\\" src=\\\"https://www.youtube.com/embed/ecOkmTD7KhU\\\" title=\\\"YouTube video\\\" frameborder=\\\"0\\\" allow=\\\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\\\" allowfullscreen></iframe></figure><p>Somewhere between the brief and the deadline lives the actual work. This is generic demo content so you can judge the layout honestly.</p><h2 id=\\\"the-setup\\\">The setup</h2><p>Every good system starts with a constraint: frame the color 1:1, crop out the noise.</p><ul><li>Start with the audience, not the tool</li><li>Measure twice, publish once</li><li>Delete more than you add</li></ul><h2 id=\\\"the-details\\\">The details</h2><pre><code>const frame = (life) =&gt; life.filter(m =&gt; m.signal &gt; m.noise);</code></pre><blockquote>Life looks better when you frame the color 1:1.</blockquote><h3 id=\\\"wrap-up\\\">Wrap up</h3><p>If this reads well in all six theme modes, ship it.</p><h2 id=\\\"chapters\\\">Chapters</h2><table><thead><tr><th>Time</th><th>Chapter</th></tr></thead><tbody><tr><td>0:00</td><td>Intro</td></tr><tr><td>1:24</td><td>The setup</td></tr><tr><td>4:05</td><td>The details</td></tr><tr><td>7:48</td><td>Common mistakes</td></tr><tr><td>10:30</td><td>Wrap-up and next steps</td></tr></tbody></table>\"}]], \"markups\": [], \"sections\": [[10, 0], [1, \"p\", []]]}",
       "feature_image": "https://picsum.photos/seed/lesson-2/1200/800",
       "featured": 0,
       "type": "post",
@@ -260,10 +260,10 @@
       "published_at": "2026-07-19T12:00:00.000Z"
      },
      {
-      "id": "00000000000000000000013f",
+      "id": "000000000000000000000143",
       "title": "Lesson — 3",
       "slug": "lesson-3",
-      "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"<figure class=\\\"kg-card kg-embed-card\\\"><iframe width=\\\"560\\\" height=\\\"315\\\" src=\\\"https://www.youtube.com/embed/ecOkmTD7KhU\\\" title=\\\"YouTube video\\\" frameborder=\\\"0\\\" allow=\\\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\\\" allowfullscreen></iframe></figure><p>Somewhere between the brief and the deadline lives the actual work. This is generic demo content so you can judge the layout honestly.</p><h2 id=\\\"the-setup\\\">The setup</h2><p>Every good system starts with a constraint: frame the color 1:1, crop out the noise.</p><ul><li>Start with the audience, not the tool</li><li>Measure twice, publish once</li><li>Delete more than you add</li></ul><h2 id=\\\"the-details\\\">The details</h2><pre><code>const frame = (life) =&gt; life.filter(m =&gt; m.signal &gt; m.noise);</code></pre><blockquote>Life looks better when you frame the color 1:1.</blockquote><h3 id=\\\"wrap-up\\\">Wrap up</h3><p>If this reads well in all six theme modes, ship it.</p>\"}]], \"markups\": [], \"sections\": [[10, 0], [1, \"p\", []]]}",
+      "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"<figure class=\\\"kg-card kg-embed-card\\\"><iframe width=\\\"560\\\" height=\\\"315\\\" src=\\\"https://www.youtube.com/embed/ecOkmTD7KhU\\\" title=\\\"YouTube video\\\" frameborder=\\\"0\\\" allow=\\\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\\\" allowfullscreen></iframe></figure><p>Somewhere between the brief and the deadline lives the actual work. This is generic demo content so you can judge the layout honestly.</p><h2 id=\\\"the-setup\\\">The setup</h2><p>Every good system starts with a constraint: frame the color 1:1, crop out the noise.</p><ul><li>Start with the audience, not the tool</li><li>Measure twice, publish once</li><li>Delete more than you add</li></ul><h2 id=\\\"the-details\\\">The details</h2><pre><code>const frame = (life) =&gt; life.filter(m =&gt; m.signal &gt; m.noise);</code></pre><blockquote>Life looks better when you frame the color 1:1.</blockquote><h3 id=\\\"wrap-up\\\">Wrap up</h3><p>If this reads well in all six theme modes, ship it.</p><h2 id=\\\"chapters\\\">Chapters</h2><table><thead><tr><th>Time</th><th>Chapter</th></tr></thead><tbody><tr><td>0:00</td><td>Intro</td></tr><tr><td>1:24</td><td>The setup</td></tr><tr><td>4:05</td><td>The details</td></tr><tr><td>7:48</td><td>Common mistakes</td></tr><tr><td>10:30</td><td>Wrap-up and next steps</td></tr></tbody></table>\"}]], \"markups\": [], \"sections\": [[10, 0], [1, \"p\", []]]}",
       "feature_image": "https://picsum.photos/seed/lesson-3/1200/800",
       "featured": 0,
       "type": "post",
@@ -274,10 +274,10 @@
       "published_at": "2026-07-20T12:00:00.000Z"
      },
      {
-      "id": "000000000000000000000140",
+      "id": "000000000000000000000144",
       "title": "Lesson — 4",
       "slug": "lesson-4",
-      "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"<figure class=\\\"kg-card kg-embed-card\\\"><iframe width=\\\"560\\\" height=\\\"315\\\" src=\\\"https://www.youtube.com/embed/ecOkmTD7KhU\\\" title=\\\"YouTube video\\\" frameborder=\\\"0\\\" allow=\\\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\\\" allowfullscreen></iframe></figure><p>Somewhere between the brief and the deadline lives the actual work. This is generic demo content so you can judge the layout honestly.</p><h2 id=\\\"the-setup\\\">The setup</h2><p>Every good system starts with a constraint: frame the color 1:1, crop out the noise.</p><ul><li>Start with the audience, not the tool</li><li>Measure twice, publish once</li><li>Delete more than you add</li></ul><h2 id=\\\"the-details\\\">The details</h2><pre><code>const frame = (life) =&gt; life.filter(m =&gt; m.signal &gt; m.noise);</code></pre><blockquote>Life looks better when you frame the color 1:1.</blockquote><h3 id=\\\"wrap-up\\\">Wrap up</h3><p>If this reads well in all six theme modes, ship it.</p>\"}]], \"markups\": [], \"sections\": [[10, 0], [1, \"p\", []]]}",
+      "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"<figure class=\\\"kg-card kg-embed-card\\\"><iframe width=\\\"560\\\" height=\\\"315\\\" src=\\\"https://www.youtube.com/embed/ecOkmTD7KhU\\\" title=\\\"YouTube video\\\" frameborder=\\\"0\\\" allow=\\\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\\\" allowfullscreen></iframe></figure><p>Somewhere between the brief and the deadline lives the actual work. This is generic demo content so you can judge the layout honestly.</p><h2 id=\\\"the-setup\\\">The setup</h2><p>Every good system starts with a constraint: frame the color 1:1, crop out the noise.</p><ul><li>Start with the audience, not the tool</li><li>Measure twice, publish once</li><li>Delete more than you add</li></ul><h2 id=\\\"the-details\\\">The details</h2><pre><code>const frame = (life) =&gt; life.filter(m =&gt; m.signal &gt; m.noise);</code></pre><blockquote>Life looks better when you frame the color 1:1.</blockquote><h3 id=\\\"wrap-up\\\">Wrap up</h3><p>If this reads well in all six theme modes, ship it.</p><h2 id=\\\"chapters\\\">Chapters</h2><table><thead><tr><th>Time</th><th>Chapter</th></tr></thead><tbody><tr><td>0:00</td><td>Intro</td></tr><tr><td>1:24</td><td>The setup</td></tr><tr><td>4:05</td><td>The details</td></tr><tr><td>7:48</td><td>Common mistakes</td></tr><tr><td>10:30</td><td>Wrap-up and next steps</td></tr></tbody></table>\"}]], \"markups\": [], \"sections\": [[10, 0], [1, \"p\", []]]}",
       "feature_image": "https://picsum.photos/seed/lesson-4/1200/800",
       "featured": 0,
       "type": "post",
@@ -288,7 +288,7 @@
       "published_at": "2026-07-21T12:00:00.000Z"
      },
      {
-      "id": "000000000000000000000141",
+      "id": "000000000000000000000145",
       "title": "Series Name — 1",
       "slug": "series-name-1",
       "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"<h2>Cast</h2><ul><li>Swarnil \\u2014 as himself</li><li>The Camera \\u2014 as the witness</li></ul><p>Somewhere between the brief and the deadline lives the actual work. This is generic demo content so you can judge the layout honestly.</p><h2 id=\\\"the-setup\\\">The setup</h2><p>Every good system starts with a constraint: frame the color 1:1, crop out the noise.</p><ul><li>Start with the audience, not the tool</li><li>Measure twice, publish once</li><li>Delete more than you add</li></ul><h2 id=\\\"the-details\\\">The details</h2><pre><code>const frame = (life) =&gt; life.filter(m =&gt; m.signal &gt; m.noise);</code></pre><blockquote>Life looks better when you frame the color 1:1.</blockquote><h3 id=\\\"wrap-up\\\">Wrap up</h3><p>If this reads well in all six theme modes, ship it.</p>\"}]], \"markups\": [], \"sections\": [[10, 0], [1, \"p\", []]]}",
@@ -302,10 +302,10 @@
       "published_at": "2026-07-22T12:00:00.000Z"
      },
      {
-      "id": "000000000000000000000142",
+      "id": "000000000000000000000146",
       "title": "Episode — 1",
       "slug": "episode-1",
-      "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"<figure class=\\\"kg-card kg-embed-card\\\"><iframe width=\\\"560\\\" height=\\\"315\\\" src=\\\"https://www.youtube.com/embed/ecOkmTD7KhU\\\" title=\\\"YouTube video\\\" frameborder=\\\"0\\\" allow=\\\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\\\" allowfullscreen></iframe></figure><p>Somewhere between the brief and the deadline lives the actual work. This is generic demo content so you can judge the layout honestly.</p><h2 id=\\\"the-setup\\\">The setup</h2><p>Every good system starts with a constraint: frame the color 1:1, crop out the noise.</p><ul><li>Start with the audience, not the tool</li><li>Measure twice, publish once</li><li>Delete more than you add</li></ul><h2 id=\\\"the-details\\\">The details</h2><pre><code>const frame = (life) =&gt; life.filter(m =&gt; m.signal &gt; m.noise);</code></pre><blockquote>Life looks better when you frame the color 1:1.</blockquote><h3 id=\\\"wrap-up\\\">Wrap up</h3><p>If this reads well in all six theme modes, ship it.</p>\"}]], \"markups\": [], \"sections\": [[10, 0], [1, \"p\", []]]}",
+      "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"<figure class=\\\"kg-card kg-embed-card\\\"><iframe width=\\\"560\\\" height=\\\"315\\\" src=\\\"https://www.youtube.com/embed/ecOkmTD7KhU\\\" title=\\\"YouTube video\\\" frameborder=\\\"0\\\" allow=\\\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\\\" allowfullscreen></iframe></figure><p>Somewhere between the brief and the deadline lives the actual work. This is generic demo content so you can judge the layout honestly.</p><h2 id=\\\"the-setup\\\">The setup</h2><p>Every good system starts with a constraint: frame the color 1:1, crop out the noise.</p><ul><li>Start with the audience, not the tool</li><li>Measure twice, publish once</li><li>Delete more than you add</li></ul><h2 id=\\\"the-details\\\">The details</h2><pre><code>const frame = (life) =&gt; life.filter(m =&gt; m.signal &gt; m.noise);</code></pre><blockquote>Life looks better when you frame the color 1:1.</blockquote><h3 id=\\\"wrap-up\\\">Wrap up</h3><p>If this reads well in all six theme modes, ship it.</p><h2 id=\\\"chapters\\\">Chapters</h2><table><thead><tr><th>Time</th><th>Chapter</th></tr></thead><tbody><tr><td>0:00</td><td>Intro</td></tr><tr><td>1:24</td><td>The setup</td></tr><tr><td>4:05</td><td>The details</td></tr><tr><td>7:48</td><td>Common mistakes</td></tr><tr><td>10:30</td><td>Wrap-up and next steps</td></tr></tbody></table>\"}]], \"markups\": [], \"sections\": [[10, 0], [1, \"p\", []]]}",
       "feature_image": "https://picsum.photos/seed/episode-1/1200/800",
       "featured": 0,
       "type": "post",
@@ -316,10 +316,10 @@
       "published_at": "2026-07-23T12:00:00.000Z"
      },
      {
-      "id": "000000000000000000000143",
+      "id": "000000000000000000000147",
       "title": "Episode — 2",
       "slug": "episode-2",
-      "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"<figure class=\\\"kg-card kg-embed-card\\\"><iframe width=\\\"560\\\" height=\\\"315\\\" src=\\\"https://www.youtube.com/embed/ecOkmTD7KhU\\\" title=\\\"YouTube video\\\" frameborder=\\\"0\\\" allow=\\\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\\\" allowfullscreen></iframe></figure><p>Somewhere between the brief and the deadline lives the actual work. This is generic demo content so you can judge the layout honestly.</p><h2 id=\\\"the-setup\\\">The setup</h2><p>Every good system starts with a constraint: frame the color 1:1, crop out the noise.</p><ul><li>Start with the audience, not the tool</li><li>Measure twice, publish once</li><li>Delete more than you add</li></ul><h2 id=\\\"the-details\\\">The details</h2><pre><code>const frame = (life) =&gt; life.filter(m =&gt; m.signal &gt; m.noise);</code></pre><blockquote>Life looks better when you frame the color 1:1.</blockquote><h3 id=\\\"wrap-up\\\">Wrap up</h3><p>If this reads well in all six theme modes, ship it.</p>\"}]], \"markups\": [], \"sections\": [[10, 0], [1, \"p\", []]]}",
+      "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"<figure class=\\\"kg-card kg-embed-card\\\"><iframe width=\\\"560\\\" height=\\\"315\\\" src=\\\"https://www.youtube.com/embed/ecOkmTD7KhU\\\" title=\\\"YouTube video\\\" frameborder=\\\"0\\\" allow=\\\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\\\" allowfullscreen></iframe></figure><p>Somewhere between the brief and the deadline lives the actual work. This is generic demo content so you can judge the layout honestly.</p><h2 id=\\\"the-setup\\\">The setup</h2><p>Every good system starts with a constraint: frame the color 1:1, crop out the noise.</p><ul><li>Start with the audience, not the tool</li><li>Measure twice, publish once</li><li>Delete more than you add</li></ul><h2 id=\\\"the-details\\\">The details</h2><pre><code>const frame = (life) =&gt; life.filter(m =&gt; m.signal &gt; m.noise);</code></pre><blockquote>Life looks better when you frame the color 1:1.</blockquote><h3 id=\\\"wrap-up\\\">Wrap up</h3><p>If this reads well in all six theme modes, ship it.</p><h2 id=\\\"chapters\\\">Chapters</h2><table><thead><tr><th>Time</th><th>Chapter</th></tr></thead><tbody><tr><td>0:00</td><td>Intro</td></tr><tr><td>1:24</td><td>The setup</td></tr><tr><td>4:05</td><td>The details</td></tr><tr><td>7:48</td><td>Common mistakes</td></tr><tr><td>10:30</td><td>Wrap-up and next steps</td></tr></tbody></table>\"}]], \"markups\": [], \"sections\": [[10, 0], [1, \"p\", []]]}",
       "feature_image": "https://picsum.photos/seed/episode-2/1200/800",
       "featured": 0,
       "type": "post",
@@ -330,10 +330,10 @@
       "published_at": "2026-07-24T12:00:00.000Z"
      },
      {
-      "id": "000000000000000000000144",
+      "id": "000000000000000000000148",
       "title": "Episode — 3",
       "slug": "episode-3",
-      "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"<figure class=\\\"kg-card kg-embed-card\\\"><iframe width=\\\"560\\\" height=\\\"315\\\" src=\\\"https://www.youtube.com/embed/ecOkmTD7KhU\\\" title=\\\"YouTube video\\\" frameborder=\\\"0\\\" allow=\\\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\\\" allowfullscreen></iframe></figure><p>Somewhere between the brief and the deadline lives the actual work. This is generic demo content so you can judge the layout honestly.</p><h2 id=\\\"the-setup\\\">The setup</h2><p>Every good system starts with a constraint: frame the color 1:1, crop out the noise.</p><ul><li>Start with the audience, not the tool</li><li>Measure twice, publish once</li><li>Delete more than you add</li></ul><h2 id=\\\"the-details\\\">The details</h2><pre><code>const frame = (life) =&gt; life.filter(m =&gt; m.signal &gt; m.noise);</code></pre><blockquote>Life looks better when you frame the color 1:1.</blockquote><h3 id=\\\"wrap-up\\\">Wrap up</h3><p>If this reads well in all six theme modes, ship it.</p>\"}]], \"markups\": [], \"sections\": [[10, 0], [1, \"p\", []]]}",
+      "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"<figure class=\\\"kg-card kg-embed-card\\\"><iframe width=\\\"560\\\" height=\\\"315\\\" src=\\\"https://www.youtube.com/embed/ecOkmTD7KhU\\\" title=\\\"YouTube video\\\" frameborder=\\\"0\\\" allow=\\\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\\\" allowfullscreen></iframe></figure><p>Somewhere between the brief and the deadline lives the actual work. This is generic demo content so you can judge the layout honestly.</p><h2 id=\\\"the-setup\\\">The setup</h2><p>Every good system starts with a constraint: frame the color 1:1, crop out the noise.</p><ul><li>Start with the audience, not the tool</li><li>Measure twice, publish once</li><li>Delete more than you add</li></ul><h2 id=\\\"the-details\\\">The details</h2><pre><code>const frame = (life) =&gt; life.filter(m =&gt; m.signal &gt; m.noise);</code></pre><blockquote>Life looks better when you frame the color 1:1.</blockquote><h3 id=\\\"wrap-up\\\">Wrap up</h3><p>If this reads well in all six theme modes, ship it.</p><h2 id=\\\"chapters\\\">Chapters</h2><table><thead><tr><th>Time</th><th>Chapter</th></tr></thead><tbody><tr><td>0:00</td><td>Intro</td></tr><tr><td>1:24</td><td>The setup</td></tr><tr><td>4:05</td><td>The details</td></tr><tr><td>7:48</td><td>Common mistakes</td></tr><tr><td>10:30</td><td>Wrap-up and next steps</td></tr></tbody></table>\"}]], \"markups\": [], \"sections\": [[10, 0], [1, \"p\", []]]}",
       "feature_image": "https://picsum.photos/seed/episode-3/1200/800",
       "featured": 0,
       "type": "post",
@@ -344,7 +344,7 @@
       "published_at": "2026-07-25T12:00:00.000Z"
      },
      {
-      "id": "000000000000000000000145",
+      "id": "000000000000000000000149",
       "title": "Trip Name — 1",
       "slug": "trip-name-1",
       "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"<p>Somewhere between the brief and the deadline lives the actual work. This is generic demo content so you can judge the layout honestly.</p><h2 id=\\\"the-setup\\\">The setup</h2><p>Every good system starts with a constraint: frame the color 1:1, crop out the noise.</p><ul><li>Start with the audience, not the tool</li><li>Measure twice, publish once</li><li>Delete more than you add</li></ul><h2 id=\\\"the-details\\\">The details</h2><pre><code>const frame = (life) =&gt; life.filter(m =&gt; m.signal &gt; m.noise);</code></pre><blockquote>Life looks better when you frame the color 1:1.</blockquote><h3 id=\\\"wrap-up\\\">Wrap up</h3><p>If this reads well in all six theme modes, ship it.</p>\"}]], \"markups\": [], \"sections\": [[10, 0], [1, \"p\", []]]}",
@@ -358,7 +358,7 @@
       "published_at": "2026-07-26T12:00:00.000Z"
      },
      {
-      "id": "000000000000000000000146",
+      "id": "00000000000000000000014a",
       "title": "Travel Story — 1",
       "slug": "travel-story-1",
       "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"<p>Somewhere between the brief and the deadline lives the actual work. This is generic demo content so you can judge the layout honestly.</p><h2 id=\\\"the-setup\\\">The setup</h2><p>Every good system starts with a constraint: frame the color 1:1, crop out the noise.</p><ul><li>Start with the audience, not the tool</li><li>Measure twice, publish once</li><li>Delete more than you add</li></ul><h2 id=\\\"the-details\\\">The details</h2><pre><code>const frame = (life) =&gt; life.filter(m =&gt; m.signal &gt; m.noise);</code></pre><blockquote>Life looks better when you frame the color 1:1.</blockquote><h3 id=\\\"wrap-up\\\">Wrap up</h3><p>If this reads well in all six theme modes, ship it.</p>\"}]], \"markups\": [], \"sections\": [[10, 0], [1, \"p\", []]]}",
@@ -372,7 +372,7 @@
       "published_at": "2026-07-27T12:00:00.000Z"
      },
      {
-      "id": "000000000000000000000147",
+      "id": "00000000000000000000014b",
       "title": "Travel Story — 2",
       "slug": "travel-story-2",
       "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"<p>Somewhere between the brief and the deadline lives the actual work. This is generic demo content so you can judge the layout honestly.</p><h2 id=\\\"the-setup\\\">The setup</h2><p>Every good system starts with a constraint: frame the color 1:1, crop out the noise.</p><ul><li>Start with the audience, not the tool</li><li>Measure twice, publish once</li><li>Delete more than you add</li></ul><h2 id=\\\"the-details\\\">The details</h2><pre><code>const frame = (life) =&gt; life.filter(m =&gt; m.signal &gt; m.noise);</code></pre><blockquote>Life looks better when you frame the color 1:1.</blockquote><h3 id=\\\"wrap-up\\\">Wrap up</h3><p>If this reads well in all six theme modes, ship it.</p>\"}]], \"markups\": [], \"sections\": [[10, 0], [1, \"p\", []]]}",
@@ -386,7 +386,7 @@
       "published_at": "2026-06-01T12:00:00.000Z"
      },
      {
-      "id": "000000000000000000000148",
+      "id": "00000000000000000000014c",
       "title": "Travel Story — 3",
       "slug": "travel-story-3",
       "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"<p>Somewhere between the brief and the deadline lives the actual work. This is generic demo content so you can judge the layout honestly.</p><h2 id=\\\"the-setup\\\">The setup</h2><p>Every good system starts with a constraint: frame the color 1:1, crop out the noise.</p><ul><li>Start with the audience, not the tool</li><li>Measure twice, publish once</li><li>Delete more than you add</li></ul><h2 id=\\\"the-details\\\">The details</h2><pre><code>const frame = (life) =&gt; life.filter(m =&gt; m.signal &gt; m.noise);</code></pre><blockquote>Life looks better when you frame the color 1:1.</blockquote><h3 id=\\\"wrap-up\\\">Wrap up</h3><p>If this reads well in all six theme modes, ship it.</p>\"}]], \"markups\": [], \"sections\": [[10, 0], [1, \"p\", []]]}",
@@ -400,7 +400,7 @@
       "published_at": "2026-06-02T12:00:00.000Z"
      },
      {
-      "id": "000000000000000000000149",
+      "id": "00000000000000000000014d",
       "title": "Trip Name — 2",
       "slug": "trip-name-2",
       "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"<p>Somewhere between the brief and the deadline lives the actual work. This is generic demo content so you can judge the layout honestly.</p><h2 id=\\\"the-setup\\\">The setup</h2><p>Every good system starts with a constraint: frame the color 1:1, crop out the noise.</p><ul><li>Start with the audience, not the tool</li><li>Measure twice, publish once</li><li>Delete more than you add</li></ul><h2 id=\\\"the-details\\\">The details</h2><pre><code>const frame = (life) =&gt; life.filter(m =&gt; m.signal &gt; m.noise);</code></pre><blockquote>Life looks better when you frame the color 1:1.</blockquote><h3 id=\\\"wrap-up\\\">Wrap up</h3><p>If this reads well in all six theme modes, ship it.</p>\"}]], \"markups\": [], \"sections\": [[10, 0], [1, \"p\", []]]}",
@@ -414,7 +414,7 @@
       "published_at": "2026-06-03T12:00:00.000Z"
      },
      {
-      "id": "00000000000000000000014a",
+      "id": "00000000000000000000014e",
       "title": "Travel Story — 4",
       "slug": "travel-story-4",
       "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"<p>Somewhere between the brief and the deadline lives the actual work. This is generic demo content so you can judge the layout honestly.</p><h2 id=\\\"the-setup\\\">The setup</h2><p>Every good system starts with a constraint: frame the color 1:1, crop out the noise.</p><ul><li>Start with the audience, not the tool</li><li>Measure twice, publish once</li><li>Delete more than you add</li></ul><h2 id=\\\"the-details\\\">The details</h2><pre><code>const frame = (life) =&gt; life.filter(m =&gt; m.signal &gt; m.noise);</code></pre><blockquote>Life looks better when you frame the color 1:1.</blockquote><h3 id=\\\"wrap-up\\\">Wrap up</h3><p>If this reads well in all six theme modes, ship it.</p>\"}]], \"markups\": [], \"sections\": [[10, 0], [1, \"p\", []]]}",
@@ -428,7 +428,7 @@
       "published_at": "2026-06-04T12:00:00.000Z"
      },
      {
-      "id": "00000000000000000000014b",
+      "id": "00000000000000000000014f",
       "title": "Travel Story — 5",
       "slug": "travel-story-5",
       "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"<p>Somewhere between the brief and the deadline lives the actual work. This is generic demo content so you can judge the layout honestly.</p><h2 id=\\\"the-setup\\\">The setup</h2><p>Every good system starts with a constraint: frame the color 1:1, crop out the noise.</p><ul><li>Start with the audience, not the tool</li><li>Measure twice, publish once</li><li>Delete more than you add</li></ul><h2 id=\\\"the-details\\\">The details</h2><pre><code>const frame = (life) =&gt; life.filter(m =&gt; m.signal &gt; m.noise);</code></pre><blockquote>Life looks better when you frame the color 1:1.</blockquote><h3 id=\\\"wrap-up\\\">Wrap up</h3><p>If this reads well in all six theme modes, ship it.</p>\"}]], \"markups\": [], \"sections\": [[10, 0], [1, \"p\", []]]}",
@@ -442,7 +442,7 @@
       "published_at": "2026-06-05T12:00:00.000Z"
      },
      {
-      "id": "00000000000000000000014c",
+      "id": "000000000000000000000150",
       "title": "Product Name — 1",
       "slug": "product-name-1",
       "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"<p>Somewhere between the brief and the deadline lives the actual work. This is generic demo content so you can judge the layout honestly.</p><h2 id=\\\"the-setup\\\">The setup</h2><p>Every good system starts with a constraint: frame the color 1:1, crop out the noise.</p><ul><li>Start with the audience, not the tool</li><li>Measure twice, publish once</li><li>Delete more than you add</li></ul><h2 id=\\\"the-details\\\">The details</h2><pre><code>const frame = (life) =&gt; life.filter(m =&gt; m.signal &gt; m.noise);</code></pre><blockquote>Life looks better when you frame the color 1:1.</blockquote><h3 id=\\\"wrap-up\\\">Wrap up</h3><p>If this reads well in all six theme modes, ship it.</p>\"}]], \"markups\": [], \"sections\": [[10, 0], [1, \"p\", []]]}",
@@ -456,7 +456,7 @@
       "published_at": "2026-06-06T12:00:00.000Z"
      },
      {
-      "id": "00000000000000000000014d",
+      "id": "000000000000000000000151",
       "title": "Product Name — 2",
       "slug": "product-name-2",
       "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"<p>Somewhere between the brief and the deadline lives the actual work. This is generic demo content so you can judge the layout honestly.</p><h2 id=\\\"the-setup\\\">The setup</h2><p>Every good system starts with a constraint: frame the color 1:1, crop out the noise.</p><ul><li>Start with the audience, not the tool</li><li>Measure twice, publish once</li><li>Delete more than you add</li></ul><h2 id=\\\"the-details\\\">The details</h2><pre><code>const frame = (life) =&gt; life.filter(m =&gt; m.signal &gt; m.noise);</code></pre><blockquote>Life looks better when you frame the color 1:1.</blockquote><h3 id=\\\"wrap-up\\\">Wrap up</h3><p>If this reads well in all six theme modes, ship it.</p>\"}]], \"markups\": [], \"sections\": [[10, 0], [1, \"p\", []]]}",
@@ -470,7 +470,7 @@
       "published_at": "2026-06-07T12:00:00.000Z"
      },
      {
-      "id": "00000000000000000000014e",
+      "id": "000000000000000000000152",
       "title": "Product Name — 3",
       "slug": "product-name-3",
       "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"<p>Somewhere between the brief and the deadline lives the actual work. This is generic demo content so you can judge the layout honestly.</p><h2 id=\\\"the-setup\\\">The setup</h2><p>Every good system starts with a constraint: frame the color 1:1, crop out the noise.</p><ul><li>Start with the audience, not the tool</li><li>Measure twice, publish once</li><li>Delete more than you add</li></ul><h2 id=\\\"the-details\\\">The details</h2><pre><code>const frame = (life) =&gt; life.filter(m =&gt; m.signal &gt; m.noise);</code></pre><blockquote>Life looks better when you frame the color 1:1.</blockquote><h3 id=\\\"wrap-up\\\">Wrap up</h3><p>If this reads well in all six theme modes, ship it.</p>\"}]], \"markups\": [], \"sections\": [[10, 0], [1, \"p\", []]]}",
@@ -484,7 +484,7 @@
       "published_at": "2026-06-08T12:00:00.000Z"
      },
      {
-      "id": "00000000000000000000014f",
+      "id": "000000000000000000000153",
       "title": "Product Name — 4",
       "slug": "product-name-4",
       "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"<p>Somewhere between the brief and the deadline lives the actual work. This is generic demo content so you can judge the layout honestly.</p><h2 id=\\\"the-setup\\\">The setup</h2><p>Every good system starts with a constraint: frame the color 1:1, crop out the noise.</p><ul><li>Start with the audience, not the tool</li><li>Measure twice, publish once</li><li>Delete more than you add</li></ul><h2 id=\\\"the-details\\\">The details</h2><pre><code>const frame = (life) =&gt; life.filter(m =&gt; m.signal &gt; m.noise);</code></pre><blockquote>Life looks better when you frame the color 1:1.</blockquote><h3 id=\\\"wrap-up\\\">Wrap up</h3><p>If this reads well in all six theme modes, ship it.</p>\"}]], \"markups\": [], \"sections\": [[10, 0], [1, \"p\", []]]}",
@@ -498,7 +498,7 @@
       "published_at": "2026-06-09T12:00:00.000Z"
      },
      {
-      "id": "000000000000000000000150",
+      "id": "000000000000000000000154",
       "title": "Product Name — 5",
       "slug": "product-name-5",
       "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"<p>Somewhere between the brief and the deadline lives the actual work. This is generic demo content so you can judge the layout honestly.</p><h2 id=\\\"the-setup\\\">The setup</h2><p>Every good system starts with a constraint: frame the color 1:1, crop out the noise.</p><ul><li>Start with the audience, not the tool</li><li>Measure twice, publish once</li><li>Delete more than you add</li></ul><h2 id=\\\"the-details\\\">The details</h2><pre><code>const frame = (life) =&gt; life.filter(m =&gt; m.signal &gt; m.noise);</code></pre><blockquote>Life looks better when you frame the color 1:1.</blockquote><h3 id=\\\"wrap-up\\\">Wrap up</h3><p>If this reads well in all six theme modes, ship it.</p>\"}]], \"markups\": [], \"sections\": [[10, 0], [1, \"p\", []]]}",
@@ -512,7 +512,7 @@
       "published_at": "2026-06-10T12:00:00.000Z"
      },
      {
-      "id": "000000000000000000000151",
+      "id": "000000000000000000000155",
       "title": "Product Name — 6",
       "slug": "product-name-6",
       "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"<p>Somewhere between the brief and the deadline lives the actual work. This is generic demo content so you can judge the layout honestly.</p><h2 id=\\\"the-setup\\\">The setup</h2><p>Every good system starts with a constraint: frame the color 1:1, crop out the noise.</p><ul><li>Start with the audience, not the tool</li><li>Measure twice, publish once</li><li>Delete more than you add</li></ul><h2 id=\\\"the-details\\\">The details</h2><pre><code>const frame = (life) =&gt; life.filter(m =&gt; m.signal &gt; m.noise);</code></pre><blockquote>Life looks better when you frame the color 1:1.</blockquote><h3 id=\\\"wrap-up\\\">Wrap up</h3><p>If this reads well in all six theme modes, ship it.</p>\"}]], \"markups\": [], \"sections\": [[10, 0], [1, \"p\", []]]}",
@@ -526,7 +526,7 @@
       "published_at": "2026-06-11T12:00:00.000Z"
      },
      {
-      "id": "000000000000000000000152",
+      "id": "000000000000000000000156",
       "title": "Ghost Theme — 1",
       "slug": "ghost-theme-1",
       "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"<p>Somewhere between the brief and the deadline lives the actual work. This is generic demo content so you can judge the layout honestly.</p><h2 id=\\\"the-setup\\\">The setup</h2><p>Every good system starts with a constraint: frame the color 1:1, crop out the noise.</p><ul><li>Start with the audience, not the tool</li><li>Measure twice, publish once</li><li>Delete more than you add</li></ul><h2 id=\\\"the-details\\\">The details</h2><pre><code>const frame = (life) =&gt; life.filter(m =&gt; m.signal &gt; m.noise);</code></pre><blockquote>Life looks better when you frame the color 1:1.</blockquote><h3 id=\\\"wrap-up\\\">Wrap up</h3><p>If this reads well in all six theme modes, ship it.</p>\"}]], \"markups\": [], \"sections\": [[10, 0], [1, \"p\", []]]}",
@@ -540,7 +540,7 @@
       "published_at": "2026-06-12T12:00:00.000Z"
      },
      {
-      "id": "000000000000000000000153",
+      "id": "000000000000000000000157",
       "title": "Digital Download — 1",
       "slug": "digital-download-1",
       "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"<p>Somewhere between the brief and the deadline lives the actual work. This is generic demo content so you can judge the layout honestly.</p><h2 id=\\\"the-setup\\\">The setup</h2><p>Every good system starts with a constraint: frame the color 1:1, crop out the noise.</p><ul><li>Start with the audience, not the tool</li><li>Measure twice, publish once</li><li>Delete more than you add</li></ul><h2 id=\\\"the-details\\\">The details</h2><pre><code>const frame = (life) =&gt; life.filter(m =&gt; m.signal &gt; m.noise);</code></pre><blockquote>Life looks better when you frame the color 1:1.</blockquote><h3 id=\\\"wrap-up\\\">Wrap up</h3><p>If this reads well in all six theme modes, ship it.</p>\"}]], \"markups\": [], \"sections\": [[10, 0], [1, \"p\", []]]}",
@@ -554,7 +554,7 @@
       "published_at": "2026-06-13T12:00:00.000Z"
      },
      {
-      "id": "000000000000000000000154",
+      "id": "000000000000000000000158",
       "title": "Digital Download — 2",
       "slug": "digital-download-2",
       "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"<p>Somewhere between the brief and the deadline lives the actual work. This is generic demo content so you can judge the layout honestly.</p><h2 id=\\\"the-setup\\\">The setup</h2><p>Every good system starts with a constraint: frame the color 1:1, crop out the noise.</p><ul><li>Start with the audience, not the tool</li><li>Measure twice, publish once</li><li>Delete more than you add</li></ul><h2 id=\\\"the-details\\\">The details</h2><pre><code>const frame = (life) =&gt; life.filter(m =&gt; m.signal &gt; m.noise);</code></pre><blockquote>Life looks better when you frame the color 1:1.</blockquote><h3 id=\\\"wrap-up\\\">Wrap up</h3><p>If this reads well in all six theme modes, ship it.</p>\"}]], \"markups\": [], \"sections\": [[10, 0], [1, \"p\", []]]}",
@@ -568,12 +568,12 @@
       "published_at": "2026-06-14T12:00:00.000Z"
      },
      {
-      "id": "000000000000000000000155",
+      "id": "000000000000000000000159",
       "title": "Milestone — 1",
       "slug": "milestone-1",
       "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"<p>Somewhere between the brief and the deadline lives the actual work. This is generic demo content so you can judge the layout honestly.</p><h2 id=\\\"the-setup\\\">The setup</h2><p>Every good system starts with a constraint: frame the color 1:1, crop out the noise.</p><ul><li>Start with the audience, not the tool</li><li>Measure twice, publish once</li><li>Delete more than you add</li></ul><h2 id=\\\"the-details\\\">The details</h2><pre><code>const frame = (life) =&gt; life.filter(m =&gt; m.signal &gt; m.noise);</code></pre><blockquote>Life looks better when you frame the color 1:1.</blockquote><h3 id=\\\"wrap-up\\\">Wrap up</h3><p>If this reads well in all six theme modes, ship it.</p>\"}]], \"markups\": [], \"sections\": [[10, 0], [1, \"p\", []]]}",
       "feature_image": "https://picsum.photos/seed/milestone-1/1200/800",
-      "featured": 0,
+      "featured": 1,
       "type": "post",
       "status": "published",
       "custom_excerpt": "Generic milestone 1 — a plot twist in the long game.",
@@ -582,12 +582,12 @@
       "published_at": "2023-02-10T12:00:00.000Z"
      },
      {
-      "id": "000000000000000000000156",
+      "id": "00000000000000000000015a",
       "title": "Milestone — 2",
       "slug": "milestone-2",
       "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"<p>Somewhere between the brief and the deadline lives the actual work. This is generic demo content so you can judge the layout honestly.</p><h2 id=\\\"the-setup\\\">The setup</h2><p>Every good system starts with a constraint: frame the color 1:1, crop out the noise.</p><ul><li>Start with the audience, not the tool</li><li>Measure twice, publish once</li><li>Delete more than you add</li></ul><h2 id=\\\"the-details\\\">The details</h2><pre><code>const frame = (life) =&gt; life.filter(m =&gt; m.signal &gt; m.noise);</code></pre><blockquote>Life looks better when you frame the color 1:1.</blockquote><h3 id=\\\"wrap-up\\\">Wrap up</h3><p>If this reads well in all six theme modes, ship it.</p>\"}]], \"markups\": [], \"sections\": [[10, 0], [1, \"p\", []]]}",
       "feature_image": "https://picsum.photos/seed/milestone-2/1200/800",
-      "featured": 0,
+      "featured": 1,
       "type": "post",
       "status": "published",
       "custom_excerpt": "Generic milestone 2 — a plot twist in the long game.",
@@ -596,7 +596,7 @@
       "published_at": "2024-03-10T12:00:00.000Z"
      },
      {
-      "id": "000000000000000000000157",
+      "id": "00000000000000000000015b",
       "title": "Milestone — 3",
       "slug": "milestone-3",
       "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"<p>Somewhere between the brief and the deadline lives the actual work. This is generic demo content so you can judge the layout honestly.</p><h2 id=\\\"the-setup\\\">The setup</h2><p>Every good system starts with a constraint: frame the color 1:1, crop out the noise.</p><ul><li>Start with the audience, not the tool</li><li>Measure twice, publish once</li><li>Delete more than you add</li></ul><h2 id=\\\"the-details\\\">The details</h2><pre><code>const frame = (life) =&gt; life.filter(m =&gt; m.signal &gt; m.noise);</code></pre><blockquote>Life looks better when you frame the color 1:1.</blockquote><h3 id=\\\"wrap-up\\\">Wrap up</h3><p>If this reads well in all six theme modes, ship it.</p>\"}]], \"markups\": [], \"sections\": [[10, 0], [1, \"p\", []]]}",
@@ -610,7 +610,7 @@
       "published_at": "2025-04-10T12:00:00.000Z"
      },
      {
-      "id": "000000000000000000000158",
+      "id": "00000000000000000000015c",
       "title": "Milestone — 4",
       "slug": "milestone-4",
       "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"<p>Somewhere between the brief and the deadline lives the actual work. This is generic demo content so you can judge the layout honestly.</p><h2 id=\\\"the-setup\\\">The setup</h2><p>Every good system starts with a constraint: frame the color 1:1, crop out the noise.</p><ul><li>Start with the audience, not the tool</li><li>Measure twice, publish once</li><li>Delete more than you add</li></ul><h2 id=\\\"the-details\\\">The details</h2><pre><code>const frame = (life) =&gt; life.filter(m =&gt; m.signal &gt; m.noise);</code></pre><blockquote>Life looks better when you frame the color 1:1.</blockquote><h3 id=\\\"wrap-up\\\">Wrap up</h3><p>If this reads well in all six theme modes, ship it.</p>\"}]], \"markups\": [], \"sections\": [[10, 0], [1, \"p\", []]]}",
@@ -624,7 +624,7 @@
       "published_at": "2026-05-10T12:00:00.000Z"
      },
      {
-      "id": "000000000000000000000159",
+      "id": "00000000000000000000015d",
       "title": "Changelog — 1",
       "slug": "changelog-1",
       "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"<p>Somewhere between the brief and the deadline lives the actual work. This is generic demo content so you can judge the layout honestly.</p><h2 id=\\\"the-setup\\\">The setup</h2><p>Every good system starts with a constraint: frame the color 1:1, crop out the noise.</p><ul><li>Start with the audience, not the tool</li><li>Measure twice, publish once</li><li>Delete more than you add</li></ul><h2 id=\\\"the-details\\\">The details</h2><pre><code>const frame = (life) =&gt; life.filter(m =&gt; m.signal &gt; m.noise);</code></pre><blockquote>Life looks better when you frame the color 1:1.</blockquote><h3 id=\\\"wrap-up\\\">Wrap up</h3><p>If this reads well in all six theme modes, ship it.</p>\"}]], \"markups\": [], \"sections\": [[10, 0], [1, \"p\", []]]}",
@@ -638,7 +638,7 @@
       "published_at": "2026-06-15T12:00:00.000Z"
      },
      {
-      "id": "00000000000000000000015a",
+      "id": "00000000000000000000015e",
       "title": "Changelog — 2",
       "slug": "changelog-2",
       "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"<p>Somewhere between the brief and the deadline lives the actual work. This is generic demo content so you can judge the layout honestly.</p><h2 id=\\\"the-setup\\\">The setup</h2><p>Every good system starts with a constraint: frame the color 1:1, crop out the noise.</p><ul><li>Start with the audience, not the tool</li><li>Measure twice, publish once</li><li>Delete more than you add</li></ul><h2 id=\\\"the-details\\\">The details</h2><pre><code>const frame = (life) =&gt; life.filter(m =&gt; m.signal &gt; m.noise);</code></pre><blockquote>Life looks better when you frame the color 1:1.</blockquote><h3 id=\\\"wrap-up\\\">Wrap up</h3><p>If this reads well in all six theme modes, ship it.</p>\"}]], \"markups\": [], \"sections\": [[10, 0], [1, \"p\", []]]}",
@@ -652,7 +652,7 @@
       "published_at": "2026-06-16T12:00:00.000Z"
      },
      {
-      "id": "00000000000000000000015b",
+      "id": "00000000000000000000015f",
       "title": "Newsletter Issue — 1",
       "slug": "newsletter-issue-1",
       "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"<p>Somewhere between the brief and the deadline lives the actual work. This is generic demo content so you can judge the layout honestly.</p><h2 id=\\\"the-setup\\\">The setup</h2><p>Every good system starts with a constraint: frame the color 1:1, crop out the noise.</p><ul><li>Start with the audience, not the tool</li><li>Measure twice, publish once</li><li>Delete more than you add</li></ul><h2 id=\\\"the-details\\\">The details</h2><pre><code>const frame = (life) =&gt; life.filter(m =&gt; m.signal &gt; m.noise);</code></pre><blockquote>Life looks better when you frame the color 1:1.</blockquote><h3 id=\\\"wrap-up\\\">Wrap up</h3><p>If this reads well in all six theme modes, ship it.</p>\"}]], \"markups\": [], \"sections\": [[10, 0], [1, \"p\", []]]}",
@@ -666,7 +666,7 @@
       "published_at": "2026-06-17T12:00:00.000Z"
      },
      {
-      "id": "00000000000000000000015c",
+      "id": "000000000000000000000160",
       "title": "Newsletter Issue — 2",
       "slug": "newsletter-issue-2",
       "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"<p>Somewhere between the brief and the deadline lives the actual work. This is generic demo content so you can judge the layout honestly.</p><h2 id=\\\"the-setup\\\">The setup</h2><p>Every good system starts with a constraint: frame the color 1:1, crop out the noise.</p><ul><li>Start with the audience, not the tool</li><li>Measure twice, publish once</li><li>Delete more than you add</li></ul><h2 id=\\\"the-details\\\">The details</h2><pre><code>const frame = (life) =&gt; life.filter(m =&gt; m.signal &gt; m.noise);</code></pre><blockquote>Life looks better when you frame the color 1:1.</blockquote><h3 id=\\\"wrap-up\\\">Wrap up</h3><p>If this reads well in all six theme modes, ship it.</p>\"}]], \"markups\": [], \"sections\": [[10, 0], [1, \"p\", []]]}",
@@ -680,7 +680,7 @@
       "published_at": "2026-06-18T12:00:00.000Z"
      },
      {
-      "id": "00000000000000000000015d",
+      "id": "000000000000000000000161",
       "title": "Now — What I'm Building",
       "slug": "now-building",
       "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"<p>Somewhere between the brief and the deadline lives the actual work. This is generic demo content so you can judge the layout honestly.</p><h2 id=\\\"the-setup\\\">The setup</h2><p>Every good system starts with a constraint: frame the color 1:1, crop out the noise.</p><ul><li>Start with the audience, not the tool</li><li>Measure twice, publish once</li><li>Delete more than you add</li></ul><h2 id=\\\"the-details\\\">The details</h2><pre><code>const frame = (life) =&gt; life.filter(m =&gt; m.signal &gt; m.noise);</code></pre><blockquote>Life looks better when you frame the color 1:1.</blockquote><h3 id=\\\"wrap-up\\\">Wrap up</h3><p>If this reads well in all six theme modes, ship it.</p>\"}]], \"markups\": [], \"sections\": [[10, 0], [1, \"p\", []]]}",
@@ -694,21 +694,35 @@
       "published_at": "2026-06-19T12:00:00.000Z"
      },
      {
-      "id": "00000000000000000000015e",
-      "title": "Life looks better framed 1:1",
-      "slug": "hero",
-      "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"<figure class=\\\"kg-card kg-embed-card\\\"><iframe width=\\\"560\\\" height=\\\"315\\\" src=\\\"https://www.youtube.com/embed/ecOkmTD7KhU\\\" title=\\\"YouTube video\\\" frameborder=\\\"0\\\" allow=\\\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\\\" allowfullscreen></iframe></figure><p>Somewhere between the brief and the deadline lives the actual work. This is generic demo content so you can judge the layout honestly.</p><h2 id=\\\"the-setup\\\">The setup</h2><p>Every good system starts with a constraint: frame the color 1:1, crop out the noise.</p><ul><li>Start with the audience, not the tool</li><li>Measure twice, publish once</li><li>Delete more than you add</li></ul><h2 id=\\\"the-details\\\">The details</h2><pre><code>const frame = (life) =&gt; life.filter(m =&gt; m.signal &gt; m.noise);</code></pre><blockquote>Life looks better when you frame the color 1:1.</blockquote><h3 id=\\\"wrap-up\\\">Wrap up</h3><p>If this reads well in all six theme modes, ship it.</p>\"}]], \"markups\": [], \"sections\": [[10, 0], [1, \"p\", []]]}",
-      "feature_image": "https://picsum.photos/seed/hero/1200/800",
+      "id": "000000000000000000000162",
+      "title": "Now — Shipped the Theme",
+      "slug": "now-shipped-theme",
+      "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"<figure class=\\\"kg-card kg-embed-card\\\"><iframe width=\\\"560\\\" height=\\\"315\\\" src=\\\"https://www.youtube.com/embed/ecOkmTD7KhU\\\" title=\\\"YouTube video\\\" frameborder=\\\"0\\\" allow=\\\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\\\" allowfullscreen></iframe></figure><p>Somewhere between the brief and the deadline lives the actual work. This is generic demo content so you can judge the layout honestly.</p><h2 id=\\\"the-setup\\\">The setup</h2><p>Every good system starts with a constraint: frame the color 1:1, crop out the noise.</p><ul><li>Start with the audience, not the tool</li><li>Measure twice, publish once</li><li>Delete more than you add</li></ul><h2 id=\\\"the-details\\\">The details</h2><pre><code>const frame = (life) =&gt; life.filter(m =&gt; m.signal &gt; m.noise);</code></pre><blockquote>Life looks better when you frame the color 1:1.</blockquote><h3 id=\\\"wrap-up\\\">Wrap up</h3><p>If this reads well in all six theme modes, ship it.</p><h2 id=\\\"chapters\\\">Chapters</h2><table><thead><tr><th>Time</th><th>Chapter</th></tr></thead><tbody><tr><td>0:00</td><td>Intro</td></tr><tr><td>1:24</td><td>The setup</td></tr><tr><td>4:05</td><td>The details</td></tr><tr><td>7:48</td><td>Common mistakes</td></tr><tr><td>10:30</td><td>Wrap-up and next steps</td></tr></tbody></table>\"}]], \"markups\": [], \"sections\": [[10, 0], [1, \"p\", []]]}",
+      "feature_image": "https://picsum.photos/seed/now-shipped-theme/1200/800",
       "featured": 0,
       "type": "post",
       "status": "published",
-      "custom_excerpt": "Marketer by trade, filmmaker by delusion. Everything here is framed 1:1 and shipped before it's ready.",
+      "custom_excerpt": "Done: rebuilt the site theme from scratch. Green tick earned.",
       "created_at": "2026-06-20T12:00:00.000Z",
       "updated_at": "2026-06-20T12:00:00.000Z",
       "published_at": "2026-06-20T12:00:00.000Z"
      },
      {
-      "id": "00000000000000000000015f",
+      "id": "000000000000000000000163",
+      "title": "Life looks better framed 1:1",
+      "slug": "hero",
+      "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"<figure class=\\\"kg-card kg-embed-card\\\"><iframe width=\\\"560\\\" height=\\\"315\\\" src=\\\"https://www.youtube.com/embed/ecOkmTD7KhU\\\" title=\\\"YouTube video\\\" frameborder=\\\"0\\\" allow=\\\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\\\" allowfullscreen></iframe></figure><p>Somewhere between the brief and the deadline lives the actual work. This is generic demo content so you can judge the layout honestly.</p><h2 id=\\\"the-setup\\\">The setup</h2><p>Every good system starts with a constraint: frame the color 1:1, crop out the noise.</p><ul><li>Start with the audience, not the tool</li><li>Measure twice, publish once</li><li>Delete more than you add</li></ul><h2 id=\\\"the-details\\\">The details</h2><pre><code>const frame = (life) =&gt; life.filter(m =&gt; m.signal &gt; m.noise);</code></pre><blockquote>Life looks better when you frame the color 1:1.</blockquote><h3 id=\\\"wrap-up\\\">Wrap up</h3><p>If this reads well in all six theme modes, ship it.</p><h2 id=\\\"chapters\\\">Chapters</h2><table><thead><tr><th>Time</th><th>Chapter</th></tr></thead><tbody><tr><td>0:00</td><td>Intro</td></tr><tr><td>1:24</td><td>The setup</td></tr><tr><td>4:05</td><td>The details</td></tr><tr><td>7:48</td><td>Common mistakes</td></tr><tr><td>10:30</td><td>Wrap-up and next steps</td></tr></tbody></table>\"}]], \"markups\": [], \"sections\": [[10, 0], [1, \"p\", []]]}",
+      "feature_image": "https://picsum.photos/seed/hero/1200/800",
+      "featured": 0,
+      "type": "post",
+      "status": "published",
+      "custom_excerpt": "Marketer by trade, filmmaker by delusion. Everything here is framed 1:1 and shipped before it's ready.",
+      "created_at": "2026-06-21T12:00:00.000Z",
+      "updated_at": "2026-06-21T12:00:00.000Z",
+      "published_at": "2026-06-21T12:00:00.000Z"
+     },
+     {
+      "id": "000000000000000000000164",
       "title": "About",
       "slug": "about",
       "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"<p>Somewhere between the brief and the deadline lives the actual work. This is generic demo content so you can judge the layout honestly.</p><h2 id=\\\"the-setup\\\">The setup</h2><p>Every good system starts with a constraint: frame the color 1:1, crop out the noise.</p><ul><li>Start with the audience, not the tool</li><li>Measure twice, publish once</li><li>Delete more than you add</li></ul><h2 id=\\\"the-details\\\">The details</h2><pre><code>const frame = (life) =&gt; life.filter(m =&gt; m.signal &gt; m.noise);</code></pre><blockquote>Life looks better when you frame the color 1:1.</blockquote><h3 id=\\\"wrap-up\\\">Wrap up</h3><p>If this reads well in all six theme modes, ship it.</p>\"}]], \"markups\": [], \"sections\": [[10, 0], [1, \"p\", []]]}",
@@ -717,12 +731,12 @@
       "type": "page",
       "status": "published",
       "custom_excerpt": "The about page.",
-      "created_at": "2026-06-21T12:00:00.000Z",
-      "updated_at": "2026-06-21T12:00:00.000Z",
-      "published_at": "2026-06-21T12:00:00.000Z"
+      "created_at": "2026-06-22T12:00:00.000Z",
+      "updated_at": "2026-06-22T12:00:00.000Z",
+      "published_at": "2026-06-22T12:00:00.000Z"
      },
      {
-      "id": "000000000000000000000160",
+      "id": "000000000000000000000165",
       "title": "Guestbook — sign the wall",
       "slug": "guestbook",
       "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"<p>Somewhere between the brief and the deadline lives the actual work. This is generic demo content so you can judge the layout honestly.</p><h2 id=\\\"the-setup\\\">The setup</h2><p>Every good system starts with a constraint: frame the color 1:1, crop out the noise.</p><ul><li>Start with the audience, not the tool</li><li>Measure twice, publish once</li><li>Delete more than you add</li></ul><h2 id=\\\"the-details\\\">The details</h2><pre><code>const frame = (life) =&gt; life.filter(m =&gt; m.signal &gt; m.noise);</code></pre><blockquote>Life looks better when you frame the color 1:1.</blockquote><h3 id=\\\"wrap-up\\\">Wrap up</h3><p>If this reads well in all six theme modes, ship it.</p>\"}]], \"markups\": [], \"sections\": [[10, 0], [1, \"p\", []]]}",
@@ -731,12 +745,12 @@
       "type": "page",
       "status": "published",
       "custom_excerpt": "The guestbook page.",
-      "created_at": "2026-06-22T12:00:00.000Z",
-      "updated_at": "2026-06-22T12:00:00.000Z",
-      "published_at": "2026-06-22T12:00:00.000Z"
+      "created_at": "2026-06-23T12:00:00.000Z",
+      "updated_at": "2026-06-23T12:00:00.000Z",
+      "published_at": "2026-06-23T12:00:00.000Z"
      },
      {
-      "id": "000000000000000000000161",
+      "id": "000000000000000000000166",
       "title": "Contact",
       "slug": "contact",
       "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"<p>Somewhere between the brief and the deadline lives the actual work. This is generic demo content so you can judge the layout honestly.</p><h2 id=\\\"the-setup\\\">The setup</h2><p>Every good system starts with a constraint: frame the color 1:1, crop out the noise.</p><ul><li>Start with the audience, not the tool</li><li>Measure twice, publish once</li><li>Delete more than you add</li></ul><h2 id=\\\"the-details\\\">The details</h2><pre><code>const frame = (life) =&gt; life.filter(m =&gt; m.signal &gt; m.noise);</code></pre><blockquote>Life looks better when you frame the color 1:1.</blockquote><h3 id=\\\"wrap-up\\\">Wrap up</h3><p>If this reads well in all six theme modes, ship it.</p>\"}]], \"markups\": [], \"sections\": [[10, 0], [1, \"p\", []]]}",
@@ -745,12 +759,12 @@
       "type": "page",
       "status": "published",
       "custom_excerpt": "The contact page.",
-      "created_at": "2026-06-23T12:00:00.000Z",
-      "updated_at": "2026-06-23T12:00:00.000Z",
-      "published_at": "2026-06-23T12:00:00.000Z"
+      "created_at": "2026-06-24T12:00:00.000Z",
+      "updated_at": "2026-06-24T12:00:00.000Z",
+      "published_at": "2026-06-24T12:00:00.000Z"
      },
      {
-      "id": "000000000000000000000162",
+      "id": "000000000000000000000167",
       "title": "Resume",
       "slug": "resume",
       "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"<p>Somewhere between the brief and the deadline lives the actual work. This is generic demo content so you can judge the layout honestly.</p><h2 id=\\\"the-setup\\\">The setup</h2><p>Every good system starts with a constraint: frame the color 1:1, crop out the noise.</p><ul><li>Start with the audience, not the tool</li><li>Measure twice, publish once</li><li>Delete more than you add</li></ul><h2 id=\\\"the-details\\\">The details</h2><pre><code>const frame = (life) =&gt; life.filter(m =&gt; m.signal &gt; m.noise);</code></pre><blockquote>Life looks better when you frame the color 1:1.</blockquote><h3 id=\\\"wrap-up\\\">Wrap up</h3><p>If this reads well in all six theme modes, ship it.</p>\"}]], \"markups\": [], \"sections\": [[10, 0], [1, \"p\", []]]}",
@@ -759,12 +773,12 @@
       "type": "page",
       "status": "published",
       "custom_excerpt": "The resume page.",
-      "created_at": "2026-06-24T12:00:00.000Z",
-      "updated_at": "2026-06-24T12:00:00.000Z",
-      "published_at": "2026-06-24T12:00:00.000Z"
+      "created_at": "2026-06-25T12:00:00.000Z",
+      "updated_at": "2026-06-25T12:00:00.000Z",
+      "published_at": "2026-06-25T12:00:00.000Z"
      },
      {
-      "id": "000000000000000000000163",
+      "id": "000000000000000000000168",
       "title": "Sponsor",
       "slug": "sponsor",
       "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"<p>Somewhere between the brief and the deadline lives the actual work. This is generic demo content so you can judge the layout honestly.</p><h2 id=\\\"the-setup\\\">The setup</h2><p>Every good system starts with a constraint: frame the color 1:1, crop out the noise.</p><ul><li>Start with the audience, not the tool</li><li>Measure twice, publish once</li><li>Delete more than you add</li></ul><h2 id=\\\"the-details\\\">The details</h2><pre><code>const frame = (life) =&gt; life.filter(m =&gt; m.signal &gt; m.noise);</code></pre><blockquote>Life looks better when you frame the color 1:1.</blockquote><h3 id=\\\"wrap-up\\\">Wrap up</h3><p>If this reads well in all six theme modes, ship it.</p>\"}]], \"markups\": [], \"sections\": [[10, 0], [1, \"p\", []]]}",
@@ -773,12 +787,12 @@
       "type": "page",
       "status": "published",
       "custom_excerpt": "The sponsor page.",
-      "created_at": "2026-06-25T12:00:00.000Z",
-      "updated_at": "2026-06-25T12:00:00.000Z",
-      "published_at": "2026-06-25T12:00:00.000Z"
+      "created_at": "2026-06-26T12:00:00.000Z",
+      "updated_at": "2026-06-26T12:00:00.000Z",
+      "published_at": "2026-06-26T12:00:00.000Z"
      },
      {
-      "id": "000000000000000000000164",
+      "id": "000000000000000000000169",
       "title": "Start here",
       "slug": "welcome",
       "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"<p>Somewhere between the brief and the deadline lives the actual work. This is generic demo content so you can judge the layout honestly.</p><h2 id=\\\"the-setup\\\">The setup</h2><p>Every good system starts with a constraint: frame the color 1:1, crop out the noise.</p><ul><li>Start with the audience, not the tool</li><li>Measure twice, publish once</li><li>Delete more than you add</li></ul><h2 id=\\\"the-details\\\">The details</h2><pre><code>const frame = (life) =&gt; life.filter(m =&gt; m.signal &gt; m.noise);</code></pre><blockquote>Life looks better when you frame the color 1:1.</blockquote><h3 id=\\\"wrap-up\\\">Wrap up</h3><p>If this reads well in all six theme modes, ship it.</p>\"}]], \"markups\": [], \"sections\": [[10, 0], [1, \"p\", []]]}",
@@ -787,9 +801,9 @@
       "type": "page",
       "status": "published",
       "custom_excerpt": "The welcome page.",
-      "created_at": "2026-06-26T12:00:00.000Z",
-      "updated_at": "2026-06-26T12:00:00.000Z",
-      "published_at": "2026-06-26T12:00:00.000Z"
+      "created_at": "2026-06-27T12:00:00.000Z",
+      "updated_at": "2026-06-27T12:00:00.000Z",
+      "published_at": "2026-06-27T12:00:00.000Z"
      }
     ],
     "tags": [
@@ -1012,97 +1026,125 @@
      },
      {
       "id": "00000000000000000000011f",
+      "name": "#level-beginner",
+      "slug": "hash-level-beginner",
+      "description": "",
+      "visibility": "internal"
+     },
+     {
+      "id": "000000000000000000000120",
+      "name": "#level-intermediate",
+      "slug": "hash-level-intermediate",
+      "description": "",
+      "visibility": "internal"
+     },
+     {
+      "id": "000000000000000000000121",
+      "name": "#level-advanced",
+      "slug": "hash-level-advanced",
+      "description": "",
+      "visibility": "internal"
+     },
+     {
+      "id": "000000000000000000000122",
+      "name": "#now-completed",
+      "slug": "hash-now-completed",
+      "description": "",
+      "visibility": "internal"
+     },
+     {
+      "id": "000000000000000000000123",
       "name": "#country-hungary",
       "slug": "hash-country-hungary",
       "description": "",
       "visibility": "internal"
      },
      {
-      "id": "000000000000000000000120",
+      "id": "000000000000000000000124",
       "name": "#country-india",
       "slug": "hash-country-india",
       "description": "",
       "visibility": "internal"
      },
      {
-      "id": "000000000000000000000121",
+      "id": "000000000000000000000125",
       "name": "#country-japan",
       "slug": "hash-country-japan",
       "description": "",
       "visibility": "internal"
      },
      {
-      "id": "000000000000000000000122",
+      "id": "000000000000000000000126",
       "name": "#travel-category-city",
       "slug": "hash-travel-category-city",
       "description": "",
       "visibility": "internal"
      },
      {
-      "id": "000000000000000000000123",
+      "id": "000000000000000000000127",
       "name": "#travel-category-beach",
       "slug": "hash-travel-category-beach",
       "description": "",
       "visibility": "internal"
      },
      {
-      "id": "000000000000000000000124",
+      "id": "000000000000000000000128",
       "name": "#travel-category-mountain",
       "slug": "hash-travel-category-mountain",
       "description": "",
       "visibility": "internal"
      },
      {
-      "id": "000000000000000000000125",
+      "id": "000000000000000000000129",
       "name": "Themes",
       "slug": "themes",
       "description": "Ghost themes I built.",
       "visibility": "public"
      },
      {
-      "id": "000000000000000000000126",
+      "id": "00000000000000000000012a",
       "name": "Topic 1",
       "slug": "topic-1",
       "description": "",
       "visibility": "public"
      },
      {
-      "id": "000000000000000000000127",
+      "id": "00000000000000000000012b",
       "name": "Topic 2",
       "slug": "topic-2",
       "description": "",
       "visibility": "public"
      },
      {
-      "id": "000000000000000000000128",
+      "id": "00000000000000000000012c",
       "name": "Topic 3",
       "slug": "topic-3",
       "description": "",
       "visibility": "public"
      },
      {
-      "id": "000000000000000000000129",
+      "id": "00000000000000000000012d",
       "name": "Course Name — 1",
       "slug": "course-1",
       "description": "A generic demo course.",
       "visibility": "public"
      },
      {
-      "id": "00000000000000000000012a",
+      "id": "00000000000000000000012e",
       "name": "Series Name — 1",
       "slug": "series-1",
       "description": "A generic demo webseries.",
       "visibility": "public"
      },
      {
-      "id": "00000000000000000000012b",
+      "id": "00000000000000000000012f",
       "name": "Trip Name — 1",
       "slug": "trip-1",
       "description": "A generic demo trip.",
       "visibility": "public"
      },
      {
-      "id": "00000000000000000000012c",
+      "id": "000000000000000000000130",
       "name": "Trip Name — 2",
       "slug": "trip-2",
       "description": "Another generic demo trip.",
@@ -1111,73 +1153,13 @@
     ],
     "posts_tags": [
      {
-      "post_id": "00000000000000000000012d",
-      "tag_id": "000000000000000000000100",
-      "sort_order": 0
-     },
-     {
-      "post_id": "00000000000000000000012d",
-      "tag_id": "000000000000000000000127",
-      "sort_order": 1
-     },
-     {
-      "post_id": "00000000000000000000012d",
-      "tag_id": "00000000000000000000011d",
-      "sort_order": 2
-     },
-     {
-      "post_id": "00000000000000000000012e",
-      "tag_id": "000000000000000000000100",
-      "sort_order": 0
-     },
-     {
-      "post_id": "00000000000000000000012e",
-      "tag_id": "000000000000000000000128",
-      "sort_order": 1
-     },
-     {
-      "post_id": "00000000000000000000012e",
-      "tag_id": "00000000000000000000011d",
-      "sort_order": 2
-     },
-     {
-      "post_id": "00000000000000000000012f",
-      "tag_id": "000000000000000000000100",
-      "sort_order": 0
-     },
-     {
-      "post_id": "00000000000000000000012f",
-      "tag_id": "000000000000000000000126",
-      "sort_order": 1
-     },
-     {
-      "post_id": "00000000000000000000012f",
-      "tag_id": "00000000000000000000011d",
-      "sort_order": 2
-     },
-     {
-      "post_id": "000000000000000000000130",
-      "tag_id": "000000000000000000000100",
-      "sort_order": 0
-     },
-     {
-      "post_id": "000000000000000000000130",
-      "tag_id": "000000000000000000000127",
-      "sort_order": 1
-     },
-     {
-      "post_id": "000000000000000000000130",
-      "tag_id": "00000000000000000000011d",
-      "sort_order": 2
-     },
-     {
       "post_id": "000000000000000000000131",
       "tag_id": "000000000000000000000100",
       "sort_order": 0
      },
      {
       "post_id": "000000000000000000000131",
-      "tag_id": "000000000000000000000128",
+      "tag_id": "00000000000000000000012b",
       "sort_order": 1
      },
      {
@@ -1192,7 +1174,7 @@
      },
      {
       "post_id": "000000000000000000000132",
-      "tag_id": "000000000000000000000126",
+      "tag_id": "00000000000000000000012c",
       "sort_order": 1
      },
      {
@@ -1202,43 +1184,63 @@
      },
      {
       "post_id": "000000000000000000000133",
-      "tag_id": "000000000000000000000101",
+      "tag_id": "000000000000000000000100",
       "sort_order": 0
      },
      {
       "post_id": "000000000000000000000133",
-      "tag_id": "000000000000000000000127",
+      "tag_id": "00000000000000000000012a",
+      "sort_order": 1
+     },
+     {
+      "post_id": "000000000000000000000133",
+      "tag_id": "00000000000000000000011d",
+      "sort_order": 2
+     },
+     {
+      "post_id": "000000000000000000000134",
+      "tag_id": "000000000000000000000100",
+      "sort_order": 0
+     },
+     {
+      "post_id": "000000000000000000000134",
+      "tag_id": "00000000000000000000012b",
       "sort_order": 1
      },
      {
       "post_id": "000000000000000000000134",
-      "tag_id": "000000000000000000000101",
-      "sort_order": 0
-     },
-     {
-      "post_id": "000000000000000000000134",
-      "tag_id": "000000000000000000000128",
-      "sort_order": 1
+      "tag_id": "00000000000000000000011d",
+      "sort_order": 2
      },
      {
       "post_id": "000000000000000000000135",
-      "tag_id": "000000000000000000000101",
+      "tag_id": "000000000000000000000100",
       "sort_order": 0
      },
      {
       "post_id": "000000000000000000000135",
-      "tag_id": "000000000000000000000126",
+      "tag_id": "00000000000000000000012c",
       "sort_order": 1
      },
      {
+      "post_id": "000000000000000000000135",
+      "tag_id": "00000000000000000000011d",
+      "sort_order": 2
+     },
+     {
       "post_id": "000000000000000000000136",
-      "tag_id": "000000000000000000000101",
+      "tag_id": "000000000000000000000100",
       "sort_order": 0
      },
      {
       "post_id": "000000000000000000000136",
-      "tag_id": "000000000000000000000127",
+      "tag_id": "00000000000000000000012a",
       "sort_order": 1
+     },
+     {
+      "post_id": "000000000000000000000136",
+      "tag_id": "00000000000000000000011d",
+      "sort_order": 2
      },
      {
       "post_id": "000000000000000000000137",
@@ -1247,7 +1249,7 @@
      },
      {
       "post_id": "000000000000000000000137",
-      "tag_id": "000000000000000000000128",
+      "tag_id": "00000000000000000000012b",
       "sort_order": 1
      },
      {
@@ -1257,272 +1259,237 @@
      },
      {
       "post_id": "000000000000000000000138",
-      "tag_id": "000000000000000000000126",
+      "tag_id": "00000000000000000000012c",
       "sort_order": 1
      },
      {
       "post_id": "000000000000000000000139",
+      "tag_id": "000000000000000000000101",
+      "sort_order": 0
+     },
+     {
+      "post_id": "000000000000000000000139",
+      "tag_id": "00000000000000000000012a",
+      "sort_order": 1
+     },
+     {
+      "post_id": "00000000000000000000013a",
+      "tag_id": "000000000000000000000101",
+      "sort_order": 0
+     },
+     {
+      "post_id": "00000000000000000000013a",
+      "tag_id": "00000000000000000000012b",
+      "sort_order": 1
+     },
+     {
+      "post_id": "00000000000000000000013b",
+      "tag_id": "000000000000000000000101",
+      "sort_order": 0
+     },
+     {
+      "post_id": "00000000000000000000013b",
+      "tag_id": "00000000000000000000012c",
+      "sort_order": 1
+     },
+     {
+      "post_id": "00000000000000000000013c",
+      "tag_id": "000000000000000000000101",
+      "sort_order": 0
+     },
+     {
+      "post_id": "00000000000000000000013c",
+      "tag_id": "00000000000000000000012a",
+      "sort_order": 1
+     },
+     {
+      "post_id": "00000000000000000000013d",
       "tag_id": "000000000000000000000102",
       "sort_order": 0
      },
      {
-      "post_id": "000000000000000000000139",
+      "post_id": "00000000000000000000013d",
       "tag_id": "000000000000000000000118",
       "sort_order": 1
      },
      {
-      "post_id": "000000000000000000000139",
-      "tag_id": "000000000000000000000126",
+      "post_id": "00000000000000000000013d",
+      "tag_id": "00000000000000000000012a",
       "sort_order": 2
      },
      {
-      "post_id": "00000000000000000000013a",
+      "post_id": "00000000000000000000013e",
       "tag_id": "000000000000000000000102",
       "sort_order": 0
      },
      {
-      "post_id": "00000000000000000000013a",
+      "post_id": "00000000000000000000013e",
       "tag_id": "000000000000000000000119",
       "sort_order": 1
      },
      {
-      "post_id": "00000000000000000000013a",
-      "tag_id": "000000000000000000000127",
+      "post_id": "00000000000000000000013e",
+      "tag_id": "00000000000000000000012b",
       "sort_order": 2
      },
      {
-      "post_id": "00000000000000000000013b",
+      "post_id": "00000000000000000000013f",
       "tag_id": "000000000000000000000102",
       "sort_order": 0
      },
      {
-      "post_id": "00000000000000000000013b",
+      "post_id": "00000000000000000000013f",
       "tag_id": "00000000000000000000011a",
       "sort_order": 1
      },
      {
-      "post_id": "00000000000000000000013b",
-      "tag_id": "000000000000000000000128",
+      "post_id": "00000000000000000000013f",
+      "tag_id": "00000000000000000000012c",
       "sort_order": 2
      },
      {
-      "post_id": "00000000000000000000013c",
-      "tag_id": "000000000000000000000129",
+      "post_id": "000000000000000000000140",
+      "tag_id": "00000000000000000000012d",
       "sort_order": 0
      },
      {
-      "post_id": "00000000000000000000013c",
+      "post_id": "000000000000000000000140",
       "tag_id": "000000000000000000000103",
       "sort_order": 1
      },
      {
-      "post_id": "00000000000000000000013c",
+      "post_id": "000000000000000000000140",
       "tag_id": "00000000000000000000011c",
       "sort_order": 2
      },
      {
-      "post_id": "00000000000000000000013d",
-      "tag_id": "000000000000000000000129",
-      "sort_order": 0
-     },
-     {
-      "post_id": "00000000000000000000013d",
-      "tag_id": "000000000000000000000104",
-      "sort_order": 1
-     },
-     {
-      "post_id": "00000000000000000000013d",
-      "tag_id": "00000000000000000000011d",
-      "sort_order": 2
-     },
-     {
-      "post_id": "00000000000000000000013e",
-      "tag_id": "000000000000000000000129",
-      "sort_order": 0
-     },
-     {
-      "post_id": "00000000000000000000013e",
-      "tag_id": "000000000000000000000104",
-      "sort_order": 1
-     },
-     {
-      "post_id": "00000000000000000000013e",
-      "tag_id": "00000000000000000000011d",
-      "sort_order": 2
-     },
-     {
-      "post_id": "00000000000000000000013f",
-      "tag_id": "000000000000000000000129",
-      "sort_order": 0
-     },
-     {
-      "post_id": "00000000000000000000013f",
-      "tag_id": "000000000000000000000104",
-      "sort_order": 1
-     },
-     {
-      "post_id": "00000000000000000000013f",
-      "tag_id": "00000000000000000000011d",
-      "sort_order": 2
-     },
-     {
       "post_id": "000000000000000000000140",
-      "tag_id": "000000000000000000000129",
-      "sort_order": 0
-     },
-     {
-      "post_id": "000000000000000000000140",
-      "tag_id": "000000000000000000000104",
-      "sort_order": 1
-     },
-     {
-      "post_id": "000000000000000000000140",
-      "tag_id": "00000000000000000000011d",
-      "sort_order": 2
+      "tag_id": "00000000000000000000011f",
+      "sort_order": 3
      },
      {
       "post_id": "000000000000000000000141",
-      "tag_id": "00000000000000000000012a",
+      "tag_id": "00000000000000000000012d",
       "sort_order": 0
      },
      {
       "post_id": "000000000000000000000141",
+      "tag_id": "000000000000000000000104",
+      "sort_order": 1
+     },
+     {
+      "post_id": "000000000000000000000141",
+      "tag_id": "00000000000000000000011d",
+      "sort_order": 2
+     },
+     {
+      "post_id": "000000000000000000000142",
+      "tag_id": "00000000000000000000012d",
+      "sort_order": 0
+     },
+     {
+      "post_id": "000000000000000000000142",
+      "tag_id": "000000000000000000000104",
+      "sort_order": 1
+     },
+     {
+      "post_id": "000000000000000000000142",
+      "tag_id": "00000000000000000000011d",
+      "sort_order": 2
+     },
+     {
+      "post_id": "000000000000000000000143",
+      "tag_id": "00000000000000000000012d",
+      "sort_order": 0
+     },
+     {
+      "post_id": "000000000000000000000143",
+      "tag_id": "000000000000000000000104",
+      "sort_order": 1
+     },
+     {
+      "post_id": "000000000000000000000143",
+      "tag_id": "00000000000000000000011d",
+      "sort_order": 2
+     },
+     {
+      "post_id": "000000000000000000000144",
+      "tag_id": "00000000000000000000012d",
+      "sort_order": 0
+     },
+     {
+      "post_id": "000000000000000000000144",
+      "tag_id": "000000000000000000000104",
+      "sort_order": 1
+     },
+     {
+      "post_id": "000000000000000000000144",
+      "tag_id": "00000000000000000000011d",
+      "sort_order": 2
+     },
+     {
+      "post_id": "000000000000000000000145",
+      "tag_id": "00000000000000000000012e",
+      "sort_order": 0
+     },
+     {
+      "post_id": "000000000000000000000145",
       "tag_id": "000000000000000000000105",
       "sort_order": 1
      },
      {
-      "post_id": "000000000000000000000141",
+      "post_id": "000000000000000000000145",
       "tag_id": "00000000000000000000011c",
       "sort_order": 2
      },
      {
-      "post_id": "000000000000000000000142",
-      "tag_id": "00000000000000000000012a",
+      "post_id": "000000000000000000000146",
+      "tag_id": "00000000000000000000012e",
       "sort_order": 0
      },
      {
-      "post_id": "000000000000000000000142",
+      "post_id": "000000000000000000000146",
       "tag_id": "000000000000000000000106",
       "sort_order": 1
      },
      {
-      "post_id": "000000000000000000000142",
+      "post_id": "000000000000000000000146",
       "tag_id": "00000000000000000000011e",
       "sort_order": 2
      },
      {
-      "post_id": "000000000000000000000143",
-      "tag_id": "00000000000000000000012a",
+      "post_id": "000000000000000000000147",
+      "tag_id": "00000000000000000000012e",
       "sort_order": 0
      },
      {
-      "post_id": "000000000000000000000143",
+      "post_id": "000000000000000000000147",
       "tag_id": "000000000000000000000106",
       "sort_order": 1
      },
      {
-      "post_id": "000000000000000000000143",
+      "post_id": "000000000000000000000147",
       "tag_id": "00000000000000000000011e",
       "sort_order": 2
      },
      {
-      "post_id": "000000000000000000000144",
-      "tag_id": "00000000000000000000012a",
+      "post_id": "000000000000000000000148",
+      "tag_id": "00000000000000000000012e",
       "sort_order": 0
      },
      {
-      "post_id": "000000000000000000000144",
+      "post_id": "000000000000000000000148",
       "tag_id": "000000000000000000000106",
       "sort_order": 1
      },
      {
-      "post_id": "000000000000000000000144",
+      "post_id": "000000000000000000000148",
       "tag_id": "00000000000000000000011e",
       "sort_order": 2
-     },
-     {
-      "post_id": "000000000000000000000145",
-      "tag_id": "00000000000000000000012b",
-      "sort_order": 0
-     },
-     {
-      "post_id": "000000000000000000000145",
-      "tag_id": "00000000000000000000010d",
-      "sort_order": 1
-     },
-     {
-      "post_id": "000000000000000000000145",
-      "tag_id": "00000000000000000000011f",
-      "sort_order": 2
-     },
-     {
-      "post_id": "000000000000000000000145",
-      "tag_id": "000000000000000000000122",
-      "sort_order": 3
-     },
-     {
-      "post_id": "000000000000000000000146",
-      "tag_id": "00000000000000000000012b",
-      "sort_order": 0
-     },
-     {
-      "post_id": "000000000000000000000146",
-      "tag_id": "00000000000000000000010e",
-      "sort_order": 1
-     },
-     {
-      "post_id": "000000000000000000000146",
-      "tag_id": "00000000000000000000011f",
-      "sort_order": 2
-     },
-     {
-      "post_id": "000000000000000000000146",
-      "tag_id": "000000000000000000000122",
-      "sort_order": 3
-     },
-     {
-      "post_id": "000000000000000000000147",
-      "tag_id": "00000000000000000000012b",
-      "sort_order": 0
-     },
-     {
-      "post_id": "000000000000000000000147",
-      "tag_id": "00000000000000000000010e",
-      "sort_order": 1
-     },
-     {
-      "post_id": "000000000000000000000147",
-      "tag_id": "00000000000000000000011f",
-      "sort_order": 2
-     },
-     {
-      "post_id": "000000000000000000000147",
-      "tag_id": "000000000000000000000122",
-      "sort_order": 3
-     },
-     {
-      "post_id": "000000000000000000000148",
-      "tag_id": "00000000000000000000012b",
-      "sort_order": 0
-     },
-     {
-      "post_id": "000000000000000000000148",
-      "tag_id": "00000000000000000000010e",
-      "sort_order": 1
-     },
-     {
-      "post_id": "000000000000000000000148",
-      "tag_id": "00000000000000000000011f",
-      "sort_order": 2
-     },
-     {
-      "post_id": "000000000000000000000148",
-      "tag_id": "000000000000000000000122",
-      "sort_order": 3
      },
      {
       "post_id": "000000000000000000000149",
-      "tag_id": "00000000000000000000012c",
+      "tag_id": "00000000000000000000012f",
       "sort_order": 0
      },
      {
@@ -1532,262 +1499,352 @@
      },
      {
       "post_id": "000000000000000000000149",
-      "tag_id": "000000000000000000000120",
+      "tag_id": "000000000000000000000123",
       "sort_order": 2
      },
      {
       "post_id": "000000000000000000000149",
-      "tag_id": "000000000000000000000123",
-      "sort_order": 3
-     },
-     {
-      "post_id": "00000000000000000000014a",
-      "tag_id": "00000000000000000000012c",
-      "sort_order": 0
-     },
-     {
-      "post_id": "00000000000000000000014a",
-      "tag_id": "00000000000000000000010e",
-      "sort_order": 1
-     },
-     {
-      "post_id": "00000000000000000000014a",
-      "tag_id": "000000000000000000000120",
-      "sort_order": 2
-     },
-     {
-      "post_id": "00000000000000000000014a",
-      "tag_id": "000000000000000000000123",
-      "sort_order": 3
-     },
-     {
-      "post_id": "00000000000000000000014b",
-      "tag_id": "00000000000000000000012c",
-      "sort_order": 0
-     },
-     {
-      "post_id": "00000000000000000000014b",
-      "tag_id": "00000000000000000000010e",
-      "sort_order": 1
-     },
-     {
-      "post_id": "00000000000000000000014b",
-      "tag_id": "000000000000000000000120",
-      "sort_order": 2
-     },
-     {
-      "post_id": "00000000000000000000014b",
-      "tag_id": "000000000000000000000123",
-      "sort_order": 3
-     },
-     {
-      "post_id": "00000000000000000000014c",
-      "tag_id": "000000000000000000000107",
-      "sort_order": 0
-     },
-     {
-      "post_id": "00000000000000000000014c",
-      "tag_id": "00000000000000000000010f",
-      "sort_order": 1
-     },
-     {
-      "post_id": "00000000000000000000014c",
-      "tag_id": "000000000000000000000127",
-      "sort_order": 2
-     },
-     {
-      "post_id": "00000000000000000000014d",
-      "tag_id": "000000000000000000000107",
-      "sort_order": 0
-     },
-     {
-      "post_id": "00000000000000000000014d",
-      "tag_id": "000000000000000000000110",
-      "sort_order": 1
-     },
-     {
-      "post_id": "00000000000000000000014d",
-      "tag_id": "000000000000000000000113",
-      "sort_order": 2
-     },
-     {
-      "post_id": "00000000000000000000014d",
-      "tag_id": "000000000000000000000128",
-      "sort_order": 3
-     },
-     {
-      "post_id": "00000000000000000000014e",
-      "tag_id": "000000000000000000000107",
-      "sort_order": 0
-     },
-     {
-      "post_id": "00000000000000000000014e",
-      "tag_id": "000000000000000000000110",
-      "sort_order": 1
-     },
-     {
-      "post_id": "00000000000000000000014e",
-      "tag_id": "000000000000000000000113",
-      "sort_order": 2
-     },
-     {
-      "post_id": "00000000000000000000014e",
       "tag_id": "000000000000000000000126",
       "sort_order": 3
      },
      {
+      "post_id": "00000000000000000000014a",
+      "tag_id": "00000000000000000000012f",
+      "sort_order": 0
+     },
+     {
+      "post_id": "00000000000000000000014a",
+      "tag_id": "00000000000000000000010e",
+      "sort_order": 1
+     },
+     {
+      "post_id": "00000000000000000000014a",
+      "tag_id": "000000000000000000000123",
+      "sort_order": 2
+     },
+     {
+      "post_id": "00000000000000000000014a",
+      "tag_id": "000000000000000000000126",
+      "sort_order": 3
+     },
+     {
+      "post_id": "00000000000000000000014b",
+      "tag_id": "00000000000000000000012f",
+      "sort_order": 0
+     },
+     {
+      "post_id": "00000000000000000000014b",
+      "tag_id": "00000000000000000000010e",
+      "sort_order": 1
+     },
+     {
+      "post_id": "00000000000000000000014b",
+      "tag_id": "000000000000000000000123",
+      "sort_order": 2
+     },
+     {
+      "post_id": "00000000000000000000014b",
+      "tag_id": "000000000000000000000126",
+      "sort_order": 3
+     },
+     {
+      "post_id": "00000000000000000000014c",
+      "tag_id": "00000000000000000000012f",
+      "sort_order": 0
+     },
+     {
+      "post_id": "00000000000000000000014c",
+      "tag_id": "00000000000000000000010e",
+      "sort_order": 1
+     },
+     {
+      "post_id": "00000000000000000000014c",
+      "tag_id": "000000000000000000000123",
+      "sort_order": 2
+     },
+     {
+      "post_id": "00000000000000000000014c",
+      "tag_id": "000000000000000000000126",
+      "sort_order": 3
+     },
+     {
+      "post_id": "00000000000000000000014d",
+      "tag_id": "000000000000000000000130",
+      "sort_order": 0
+     },
+     {
+      "post_id": "00000000000000000000014d",
+      "tag_id": "00000000000000000000010d",
+      "sort_order": 1
+     },
+     {
+      "post_id": "00000000000000000000014d",
+      "tag_id": "000000000000000000000124",
+      "sort_order": 2
+     },
+     {
+      "post_id": "00000000000000000000014d",
+      "tag_id": "000000000000000000000127",
+      "sort_order": 3
+     },
+     {
+      "post_id": "00000000000000000000014e",
+      "tag_id": "000000000000000000000130",
+      "sort_order": 0
+     },
+     {
+      "post_id": "00000000000000000000014e",
+      "tag_id": "00000000000000000000010e",
+      "sort_order": 1
+     },
+     {
+      "post_id": "00000000000000000000014e",
+      "tag_id": "000000000000000000000124",
+      "sort_order": 2
+     },
+     {
+      "post_id": "00000000000000000000014e",
+      "tag_id": "000000000000000000000127",
+      "sort_order": 3
+     },
+     {
       "post_id": "00000000000000000000014f",
-      "tag_id": "000000000000000000000107",
+      "tag_id": "000000000000000000000130",
       "sort_order": 0
      },
      {
       "post_id": "00000000000000000000014f",
+      "tag_id": "00000000000000000000010e",
+      "sort_order": 1
+     },
+     {
+      "post_id": "00000000000000000000014f",
+      "tag_id": "000000000000000000000124",
+      "sort_order": 2
+     },
+     {
+      "post_id": "00000000000000000000014f",
+      "tag_id": "000000000000000000000127",
+      "sort_order": 3
+     },
+     {
+      "post_id": "000000000000000000000150",
+      "tag_id": "000000000000000000000107",
+      "sort_order": 0
+     },
+     {
+      "post_id": "000000000000000000000150",
+      "tag_id": "00000000000000000000010f",
+      "sort_order": 1
+     },
+     {
+      "post_id": "000000000000000000000150",
+      "tag_id": "00000000000000000000012b",
+      "sort_order": 2
+     },
+     {
+      "post_id": "000000000000000000000151",
+      "tag_id": "000000000000000000000107",
+      "sort_order": 0
+     },
+     {
+      "post_id": "000000000000000000000151",
+      "tag_id": "000000000000000000000110",
+      "sort_order": 1
+     },
+     {
+      "post_id": "000000000000000000000151",
+      "tag_id": "000000000000000000000113",
+      "sort_order": 2
+     },
+     {
+      "post_id": "000000000000000000000151",
+      "tag_id": "00000000000000000000012c",
+      "sort_order": 3
+     },
+     {
+      "post_id": "000000000000000000000152",
+      "tag_id": "000000000000000000000107",
+      "sort_order": 0
+     },
+     {
+      "post_id": "000000000000000000000152",
+      "tag_id": "000000000000000000000110",
+      "sort_order": 1
+     },
+     {
+      "post_id": "000000000000000000000152",
+      "tag_id": "000000000000000000000113",
+      "sort_order": 2
+     },
+     {
+      "post_id": "000000000000000000000152",
+      "tag_id": "00000000000000000000012a",
+      "sort_order": 3
+     },
+     {
+      "post_id": "000000000000000000000153",
+      "tag_id": "000000000000000000000107",
+      "sort_order": 0
+     },
+     {
+      "post_id": "000000000000000000000153",
       "tag_id": "000000000000000000000111",
       "sort_order": 1
      },
      {
-      "post_id": "00000000000000000000014f",
-      "tag_id": "000000000000000000000127",
+      "post_id": "000000000000000000000153",
+      "tag_id": "00000000000000000000012b",
       "sort_order": 2
      },
      {
-      "post_id": "000000000000000000000150",
+      "post_id": "000000000000000000000154",
       "tag_id": "000000000000000000000107",
       "sort_order": 0
      },
      {
-      "post_id": "000000000000000000000150",
+      "post_id": "000000000000000000000154",
       "tag_id": "000000000000000000000112",
       "sort_order": 1
      },
      {
-      "post_id": "000000000000000000000150",
-      "tag_id": "000000000000000000000128",
+      "post_id": "000000000000000000000154",
+      "tag_id": "00000000000000000000012c",
       "sort_order": 2
      },
      {
-      "post_id": "000000000000000000000151",
+      "post_id": "000000000000000000000155",
       "tag_id": "000000000000000000000107",
       "sort_order": 0
      },
      {
-      "post_id": "000000000000000000000151",
+      "post_id": "000000000000000000000155",
       "tag_id": "00000000000000000000010f",
       "sort_order": 1
      },
      {
-      "post_id": "000000000000000000000151",
-      "tag_id": "000000000000000000000126",
-      "sort_order": 2
-     },
-     {
-      "post_id": "000000000000000000000152",
-      "tag_id": "00000000000000000000010b",
-      "sort_order": 0
-     },
-     {
-      "post_id": "000000000000000000000152",
-      "tag_id": "000000000000000000000125",
-      "sort_order": 1
-     },
-     {
-      "post_id": "000000000000000000000152",
-      "tag_id": "000000000000000000000126",
-      "sort_order": 2
-     },
-     {
-      "post_id": "000000000000000000000153",
-      "tag_id": "00000000000000000000010b",
-      "sort_order": 0
-     },
-     {
-      "post_id": "000000000000000000000153",
-      "tag_id": "000000000000000000000126",
-      "sort_order": 1
-     },
-     {
-      "post_id": "000000000000000000000154",
-      "tag_id": "00000000000000000000010b",
-      "sort_order": 0
-     },
-     {
-      "post_id": "000000000000000000000154",
-      "tag_id": "000000000000000000000127",
-      "sort_order": 1
-     },
-     {
       "post_id": "000000000000000000000155",
-      "tag_id": "000000000000000000000108",
-      "sort_order": 0
-     },
-     {
-      "post_id": "000000000000000000000155",
-      "tag_id": "000000000000000000000114",
-      "sort_order": 1
+      "tag_id": "00000000000000000000012a",
+      "sort_order": 2
      },
      {
       "post_id": "000000000000000000000156",
-      "tag_id": "000000000000000000000108",
+      "tag_id": "00000000000000000000010b",
       "sort_order": 0
      },
      {
       "post_id": "000000000000000000000156",
-      "tag_id": "000000000000000000000115",
+      "tag_id": "000000000000000000000129",
       "sort_order": 1
      },
      {
+      "post_id": "000000000000000000000156",
+      "tag_id": "00000000000000000000012a",
+      "sort_order": 2
+     },
+     {
       "post_id": "000000000000000000000157",
-      "tag_id": "000000000000000000000108",
+      "tag_id": "00000000000000000000010b",
       "sort_order": 0
      },
      {
       "post_id": "000000000000000000000157",
-      "tag_id": "000000000000000000000116",
+      "tag_id": "00000000000000000000012a",
       "sort_order": 1
      },
      {
       "post_id": "000000000000000000000158",
-      "tag_id": "000000000000000000000108",
+      "tag_id": "00000000000000000000010b",
       "sort_order": 0
      },
      {
       "post_id": "000000000000000000000158",
-      "tag_id": "000000000000000000000117",
+      "tag_id": "00000000000000000000012b",
       "sort_order": 1
      },
      {
       "post_id": "000000000000000000000159",
-      "tag_id": "000000000000000000000109",
+      "tag_id": "000000000000000000000108",
+      "sort_order": 0
+     },
+     {
+      "post_id": "000000000000000000000159",
+      "tag_id": "000000000000000000000114",
+      "sort_order": 1
+     },
+     {
+      "post_id": "00000000000000000000015a",
+      "tag_id": "000000000000000000000108",
       "sort_order": 0
      },
      {
       "post_id": "00000000000000000000015a",
-      "tag_id": "000000000000000000000109",
+      "tag_id": "000000000000000000000115",
+      "sort_order": 1
+     },
+     {
+      "post_id": "00000000000000000000015b",
+      "tag_id": "000000000000000000000108",
       "sort_order": 0
      },
      {
       "post_id": "00000000000000000000015b",
-      "tag_id": "00000000000000000000010a",
+      "tag_id": "000000000000000000000116",
+      "sort_order": 1
+     },
+     {
+      "post_id": "00000000000000000000015c",
+      "tag_id": "000000000000000000000108",
       "sort_order": 0
      },
      {
       "post_id": "00000000000000000000015c",
+      "tag_id": "000000000000000000000117",
+      "sort_order": 1
+     },
+     {
+      "post_id": "00000000000000000000015d",
+      "tag_id": "000000000000000000000109",
+      "sort_order": 0
+     },
+     {
+      "post_id": "00000000000000000000015e",
+      "tag_id": "000000000000000000000109",
+      "sort_order": 0
+     },
+     {
+      "post_id": "00000000000000000000015f",
       "tag_id": "00000000000000000000010a",
       "sort_order": 0
      },
      {
-      "post_id": "00000000000000000000015d",
+      "post_id": "000000000000000000000160",
+      "tag_id": "00000000000000000000010a",
+      "sort_order": 0
+     },
+     {
+      "post_id": "000000000000000000000161",
       "tag_id": "00000000000000000000010c",
       "sort_order": 0
      },
      {
-      "post_id": "00000000000000000000015d",
+      "post_id": "000000000000000000000161",
       "tag_id": "000000000000000000000102",
       "sort_order": 1
      },
      {
-      "post_id": "00000000000000000000015e",
-      "tag_id": "000000000000000000000126",
+      "post_id": "000000000000000000000162",
+      "tag_id": "000000000000000000000122",
+      "sort_order": 0
+     },
+     {
+      "post_id": "000000000000000000000162",
+      "tag_id": "000000000000000000000100",
+      "sort_order": 1
+     },
+     {
+      "post_id": "000000000000000000000163",
+      "tag_id": "00000000000000000000012a",
       "sort_order": 0
      }
     ]
