@@ -5,7 +5,7 @@
 
 {{!-- Player chrome: replaces the global navbar (hidden via body.tag-hash-episode CSS) --}}
 <div class="player-bar" id="episode-bar">
-	<a href="{{@site.url}}/webseries/{{primary_tag.slug}}/" class="icon-btn shrink-0 tooltip tooltip-bottom" data-tip="Back to series" aria-label="Close episode">{{> "icons/close"}}</a>
+	<a href="{{@site.url}}/webseries/{{primary_tag.slug}}/" data-container-link class="icon-btn shrink-0 tooltip tooltip-bottom" data-tip="Back to series" aria-label="Close episode">{{> "icons/close"}}</a>
 	<div class="min-w-0 flex-1">
 		<p class="truncate font-mono text-[9px] uppercase tracking-[0.2em] text-silver">{{primary_tag.name}} · {{#foreach eps}}{{#match id ../id}}episode {{@number}} of {{../pagination.total}}{{/match}}{{/foreach}}</p>
 		<p class="truncate text-sm font-semibold leading-tight">{{title}}</p>
@@ -16,6 +16,9 @@
 		{{#next_post in="primary_tag"}}<a href="{{url}}" class="btn-primary btn-sm">Next ep {{> "icons/arrow-right" class="h-3.5 w-3.5"}}</a>{{/next_post}}
 	</div>
 </div>
+
+{{!-- resolve the series POST's real URL (tag slug ≠ post slug) --}}
+{{#foreach tags visibility="public" limit="1"}}{{#get "posts" filter="tag:hash-webseries+tag:{{slug}}" limit="1" as |ss|}}{{#foreach ss}}<span id="container-post" data-url="{{url}}" hidden></span>{{/foreach}}{{/get}}{{/foreach}}
 
 <article class="{{post_class}} pt-14">
 
@@ -40,7 +43,7 @@
 					{{> "icons/film"}}
 					{{#foreach eps}}{{#match id ../id}}Episode {{@number}}{{/match}}{{/foreach}}
 					<span class="opacity-50">·</span>
-					<a href="{{@site.url}}/webseries/{{primary_tag.slug}}/" class="underline underline-offset-4 transition hover:text-ink">{{primary_tag.name}}</a>
+					<a href="{{@site.url}}/webseries/{{primary_tag.slug}}/" data-container-link class="underline underline-offset-4 transition hover:text-ink">{{primary_tag.name}}</a>
 				</p>
 				<h1 class="mt-3 text-3xl font-semibold leading-tight tracking-tight sm:text-4xl text-balance">{{title}}</h1>
 
@@ -119,7 +122,7 @@
 							</li>
 						{{/foreach}}
 					</ol>
-					<a href="{{@site.url}}/webseries/{{primary_tag.slug}}/" class="btn btn-ghost mt-5 w-full">{{> "icons/film"}} Series overview</a>
+					<a href="{{@site.url}}/webseries/{{primary_tag.slug}}/" data-container-link class="btn btn-ghost mt-5 w-full">{{> "icons/film"}} Series overview</a>
 				</div>
 			</aside>
 		</div>
@@ -185,6 +188,20 @@
 		if (btn) btn.addEventListener('click', toggleFullscreen);
 		var barBtn = document.getElementById('episode-bar-max');
 		if (barBtn) barBtn.addEventListener('click', toggleFullscreen);
+
+		/* Fix container links + JSON-LD partOfSeries url (tag slug != post slug) */
+		var cp = document.getElementById('container-post');
+		if (cp) {
+			var curl = cp.getAttribute('data-url');
+			document.querySelectorAll('[data-container-link]').forEach(function (a) { a.href = curl; });
+			var jd = document.getElementById('episode-jsonld');
+			if (jd) {
+				try {
+					var data0 = JSON.parse(jd.textContent);
+					if (data0.partOfSeries) { data0.partOfSeries.url = new URL(curl, location.origin).href; jd.textContent = JSON.stringify(data0); }
+				} catch (e) {}
+			}
+		}
 
 		/* ----- JSON-LD: inject ISO 8601 duration from the duration span ----- */
 		var script = document.getElementById('episode-jsonld');

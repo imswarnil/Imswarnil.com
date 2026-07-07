@@ -643,8 +643,37 @@
 body.tag-hash-lesson #site-header,
 body.tag-hash-lesson #nav-spacer,
 body.tag-hash-episode #site-header,
-body.tag-hash-episode #nav-spacer {
+body.tag-hash-episode #nav-spacer,
+body.tag-hash-webseries #site-header,
+body.tag-hash-webseries #nav-spacer {
 	display: none;
+}
+
+/* Netflix-style chrome on series pages: floats over the backdrop */
+.series-bar {
+	position: fixed;
+	inset-inline: 0;
+	top: 0;
+	z-index: 50;
+	display: flex;
+	align-items: center;
+	gap: 0.75rem;
+	padding: 0.75rem 1rem;
+	background: linear-gradient(to bottom, rgb(0 0 0 / 0.7), rgb(0 0 0 / 0.25) 70%, transparent);
+}
+.series-bar-btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 2.1rem;
+	height: 2.1rem;
+	border-radius: 9999px;
+	color: rgb(255 255 255 / 0.85);
+	transition: background 0.2s ease, color 0.2s ease;
+}
+.series-bar-btn:hover {
+	background: rgb(255 255 255 / 0.15);
+	color: #fff;
 }
 /* Matches the site navbar island: floating rounded shell, not a flat strip
    (episodes + resume). Lessons use .lesson-topbar below instead. */

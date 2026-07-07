@@ -2,18 +2,35 @@
      Episodes are #episode posts whose PUBLIC primary tag equals this series post's primary tag.
      Episode 1 = oldest published. --}}
 {{#get "posts" filter="tag:hash-episode+tag:{{slug}}" order="published_at asc" limit="50" as |eps|}}
-<article class="{{post_class}}">
 
-	{{!-- Backdrop hero --}}
-	<header class="relative flex min-h-[70vh] items-end overflow-hidden">
+{{!-- Netflix chrome — replaces the global navbar (hidden via body.tag-hash-webseries).
+     ← browse · title · episodes / subscribe / theme / close --}}
+<div class="series-bar" id="series-bar">
+	<a href="{{@site.url}}/webseries/" class="series-bar-btn tooltip tooltip-bottom" data-tip="All series" aria-label="Back to all series">{{> "icons/arrow-right" class="rotate-180"}}</a>
+	<p class="min-w-0 flex-1 truncate text-sm font-bold tracking-tight text-white [text-shadow:0_1px_6px_rgb(0_0_0/.5)]">{{title}}</p>
+	<div class="flex shrink-0 items-center gap-1">
+		<a href="#episodes" class="series-bar-btn tooltip tooltip-bottom" data-tip="Episodes" aria-label="Jump to episodes">{{> "icons/tv"}}</a>
+		<button type="button" class="series-bar-btn tooltip tooltip-bottom" data-tip="Subscribe" data-modal-open="#subscribe-backdrop" aria-label="Subscribe">{{> "icons/bell"}}</button>
+		<button type="button" data-mode-cycle class="series-bar-btn" aria-label="Switch theme mode"></button>
+		<a href="{{@site.url}}/webseries/" class="series-bar-btn tooltip tooltip-left" data-tip="Close" aria-label="Close series">{{> "icons/close"}}</a>
+	</div>
+</div>
+
+<article class="{{post_class}} -mt-16 sm:-mt-[4.25rem]">
+
+	{{!-- Backdrop hero: series poster → first episode's poster → the series' own
+	     opening video (hoisted by JS below, home-hero style) --}}
+	<header class="relative flex min-h-[78vh] items-end overflow-hidden">
 		<div class="absolute inset-0" aria-hidden="true" id="series-backdrop">
 			{{#if feature_image}}
 				<img src="{{img_url feature_image size="2000"}}" alt="" class="h-full w-full object-cover" />
 			{{else}}
-				{{!-- No poster? Roll scenic b-roll instead of an empty grid --}}
-				<video src="https://cdn.coverr.co/videos/coverr-typing-on-a-laptop-5658/1080p.mp4" autoplay muted loop playsinline preload="metadata" class="h-full w-full object-cover"></video>
+				{{#foreach eps limit="1"}}
+					{{#if feature_image}}<img src="{{img_url feature_image size="2000"}}" alt="" class="h-full w-full object-cover" />{{/if}}
+				{{/foreach}}
 			{{/if}}
-			{{!-- Lighter grade: let the artwork breathe, keep text legible at the bottom --}}
+			<span class="absolute inset-0 overflow-hidden" id="series-hero-video"></span>
+			{{!-- grade: legible text, artwork still breathes --}}
 			<div class="absolute inset-0" style="background: linear-gradient(to top, rgb(var(--paper)) 0%, rgb(var(--paper) / .7) 18%, rgb(var(--paper) / .12) 45%, transparent 100%);"></div>
 			<div class="absolute inset-0" style="background: linear-gradient(to right, rgb(var(--paper) / .45), transparent 55%);"></div>
 		</div>
@@ -120,6 +137,36 @@
 
 	<script>
 	(function () {
+		/* ----- Hero video: if the series content opens with a YouTube embed,
+		   play it (muted, looping) as the backdrop — home-hero style ----- */
+		var content = document.getElementById('series-content');
+		var slot = document.getElementById('series-hero-video');
+		if (content && slot) {
+			var ID_RE = /(?:youtube(?:-nocookie)?\.com\/(?:embed\/|watch\?[^"'\s]*?v=)|youtu\.be\/)([A-Za-z0-9_-]{11})/;
+			var found = null;
+			var nodes = content.querySelectorAll('iframe[src], a[href]');
+			for (var i = 0; i < nodes.length; i++) {
+				var m = (nodes[i].src || nodes[i].href || '').match(ID_RE);
+				if (m) { found = { id: m[1], el: nodes[i] }; break; }
+			}
+			var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+			if (found && !reduce) {
+				var f = document.createElement('iframe');
+				f.src = 'https://www.youtube-nocookie.com/embed/' + found.id +
+					'?autoplay=1&mute=1&loop=1&playlist=' + found.id +
+					'&controls=0&playsinline=1&rel=0&modestbranding=1&iv_load_policy=3&disablekb=1';
+				f.title = 'Series backdrop';
+				f.tabIndex = -1;
+				f.setAttribute('allow', 'autoplay; encrypted-media');
+				f.setAttribute('frameborder', '0');
+				f.className = 'pointer-events-none absolute left-1/2 top-1/2 aspect-video h-[120%] w-auto min-w-full -translate-x-1/2 -translate-y-1/2';
+				slot.appendChild(f);
+				/* hide the original embed so it doesn't play twice */
+				var card = found.el.closest('.kg-card, figure, .kg-embed-card, .kg-bookmark-card') || found.el;
+				card.style.display = 'none';
+			}
+		}
+
 		/* ----- Cast: restyle the "Cast" heading + list from the body into avatar chips ----- */
 		var content = document.getElementById('series-content');
 		if (content) {

@@ -11,7 +11,7 @@
 		{{> "components/logo"}}
 		{{#primary_tag}}
 		<span class="hidden h-5 w-px shrink-0 bg-line sm:block" aria-hidden="true"></span>
-		<a href="{{@site.url}}/courses/{{slug}}/" class="hidden min-w-0 truncate text-[13px] font-semibold tracking-tight hover:underline hover:underline-offset-4 sm:block">{{name}}</a>
+		<a href="{{@site.url}}/courses/{{slug}}/" data-container-link class="hidden min-w-0 truncate text-[13px] font-semibold tracking-tight hover:underline hover:underline-offset-4 sm:block">{{name}}</a>
 		{{/primary_tag}}
 
 		{{!-- progress: fills as lessons complete --}}
@@ -28,7 +28,7 @@
 			{{!-- mobile: hamburger opens the course-navigation panel --}}
 			<button type="button" class="icon-btn lg:hidden" data-modal-open="#lesson-menu-backdrop" aria-label="Open course navigation">{{> "icons/menu"}}</button>
 			{{#primary_tag}}
-			<a href="{{@site.url}}/courses/{{slug}}/" class="icon-btn tooltip tooltip-left" data-tip="Close course" aria-label="Close course, back to {{name}}">{{> "icons/close"}}</a>
+			<a href="{{@site.url}}/courses/{{slug}}/" data-container-link class="icon-btn tooltip tooltip-left" data-tip="Close course" aria-label="Close course, back to {{name}}">{{> "icons/close"}}</a>
 			{{/primary_tag}}
 		</div>
 	</div>
@@ -43,7 +43,7 @@
 		</div>
 		{{#primary_tag}}
 		<p class="kicker">{{> "icons/book"}} Course</p>
-		<a href="{{@site.url}}/courses/{{slug}}/" class="mt-1 block text-base font-semibold tracking-tight hover:underline hover:underline-offset-4">{{name}}</a>
+		<a href="{{@site.url}}/courses/{{slug}}/" data-container-link class="mt-1 block text-base font-semibold tracking-tight hover:underline hover:underline-offset-4">{{name}}</a>
 		{{#get "posts" filter="tag:hash-lesson+tags:{{slug}}" limit="50" order="published_at asc" include="tags" as |siblings|}}
 		<ol class="mt-4 space-y-1">
 			{{#foreach siblings}}
@@ -62,6 +62,9 @@
 	</div>
 </div>
 
+{{!-- resolve the course POST's real URL (tag slug ≠ post slug) --}}
+{{#foreach tags visibility="public" limit="1"}}{{#get "posts" filter="tag:hash-course+tag:{{slug}}" limit="1" as |cc|}}{{#foreach cc}}<span id="container-post" data-url="{{url}}" hidden></span>{{/foreach}}{{/get}}{{/foreach}}
+
 <article class="{{post_class}} pt-16">
 	<div class="lesson-app container-site grid gap-6 py-6 lg:grid-cols-12 lg:gap-0" style="--lesson-top: 7.5rem">
 
@@ -74,7 +77,7 @@
 				</summary>
 				<div class="px-1 py-4">
 					{{#primary_tag}}
-					<a href="{{@site.url}}/courses/{{slug}}/" class="block text-base font-semibold tracking-tight hover:underline hover:underline-offset-4">{{name}}</a>
+					<a href="{{@site.url}}/courses/{{slug}}/" data-container-link class="block text-base font-semibold tracking-tight hover:underline hover:underline-offset-4">{{name}}</a>
 					{{/primary_tag}}
 
 					<div class="mt-4">
@@ -101,7 +104,7 @@
 					</ol>
 					{{/get}}
 					{{#primary_tag}}
-					<a href="{{@site.url}}/courses/{{slug}}/" class="btn-ghost mt-5 w-full justify-center !text-xs">{{> "icons/arrow-right" class="rotate-180"}} Back to course</a>
+					<a href="{{@site.url}}/courses/{{slug}}/" data-container-link class="btn-ghost mt-5 w-full justify-center !text-xs">{{> "icons/arrow-right" class="rotate-180"}} Back to course</a>
 					{{/primary_tag}}
 					{{/primary_tag}}
 				</div>
@@ -114,7 +117,7 @@
 				<nav class="flex flex-wrap items-center gap-2 font-mono text-[10px] uppercase tracking-[0.15em] text-silver" aria-label="Breadcrumb">
 					<a href="{{@site.url}}/courses/" class="transition hover:text-ink">Courses</a>
 					<span aria-hidden="true">/</span>
-					{{#primary_tag}}<a href="{{@site.url}}/courses/{{slug}}/" class="transition hover:text-ink">{{name}}</a>{{/primary_tag}}
+					{{#primary_tag}}<a href="{{@site.url}}/courses/{{slug}}/" data-container-link class="transition hover:text-ink">{{name}}</a>{{/primary_tag}}
 					<span aria-hidden="true">/</span>
 					<span class="text-ink" id="lesson-crumb">this lesson</span>
 				</nav>
@@ -164,7 +167,7 @@
 				{{> "components/adsense" slot="6501428979" layout="in-article" format="fluid"}}
 
 				<footer class="mt-6 flex items-center justify-between border-t border-line pt-6">
-					{{#primary_tag}}<a href="{{@site.url}}/courses/{{slug}}/" class="btn-ghost">{{> "icons/arrow-right" class="rotate-180"}} Back to {{name}}</a>{{/primary_tag}}
+					{{#primary_tag}}<a href="{{@site.url}}/courses/{{slug}}/" data-container-link class="btn-ghost">{{> "icons/arrow-right" class="rotate-180"}} Back to {{name}}</a>{{/primary_tag}}
 					{{> "post/share"}}
 				</footer>
 
@@ -291,6 +294,14 @@
 		if (current && mqDesktop && mqDesktop.matches) {
 			var rail = current.closest('.lesson-pane');
 			if (rail) rail.scrollTop = Math.max(0, current.offsetTop - rail.clientHeight / 2);
+		}
+
+		/* Fix container links: course POST url resolved server-side (tag slug != post slug) */
+		var cp = document.getElementById('container-post');
+		if (cp) {
+			document.querySelectorAll('[data-container-link]').forEach(function (a) {
+				a.href = cp.getAttribute('data-url');
+			});
 		}
 
 		/* Course nav: collapsed by default on mobile, always open on lg+ */

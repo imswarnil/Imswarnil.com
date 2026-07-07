@@ -1,6 +1,8 @@
 {{!-- Travel story — a single day/place inside a trip. Full-bleed photo header
      with the title and a pull-quote overlaid; prev/next walk the itinerary. --}}
 <article class="{{post_class}}">
+	{{!-- resolve the trip POST's real URL (tag slug ≠ post slug) --}}
+	{{#foreach tags visibility="public" limit="1"}}{{#get "posts" filter="tag:hash-trip+tag:{{slug}}" limit="1" as |tt|}}{{#foreach tt}}<span id="container-post" data-url="{{url}}" hidden></span>{{/foreach}}{{/get}}{{/foreach}}
 	<header class="relative -mt-16 flex min-h-[56vh] items-end overflow-hidden sm:-mt-[4.25rem]">
 		<div class="absolute inset-0" aria-hidden="true">
 			{{#if feature_image}}
@@ -13,7 +15,7 @@
 		<div class="container-site relative pb-12 pt-40">
 			<p class="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.3em] text-white/80">
 				{{> "icons/map-pin" class="h-3.5 w-3.5"}}
-				{{#primary_tag}}<a href="{{@site.url}}/travel/{{slug}}/" class="underline underline-offset-4 hover:text-white">{{name}}</a>{{/primary_tag}}
+				{{#primary_tag}}<a href="{{@site.url}}/travel/{{slug}}/" data-container-link class="underline underline-offset-4 hover:text-white">{{name}}</a>{{/primary_tag}}
 				· {{date published_at format="DD MMM YYYY"}}
 			</p>
 			<h1 class="mt-3 max-w-3xl text-4xl font-black tracking-tight text-white sm:text-5xl text-balance">{{title}}</h1>
@@ -53,7 +55,7 @@
 			{{> "components/adsense" slot="6501428979" layout="in-article" format="fluid"}}
 
 			<footer class="mt-6 flex items-center justify-between border-t border-line pt-6">
-				{{#primary_tag}}<a href="{{@site.url}}/travel/{{slug}}/" class="btn-ghost">{{> "icons/arrow-right" class="rotate-180"}} Back to {{name}}</a>{{/primary_tag}}
+				{{#primary_tag}}<a href="{{@site.url}}/travel/{{slug}}/" data-container-link class="btn-ghost">{{> "icons/arrow-right" class="rotate-180"}} Back to {{name}}</a>{{/primary_tag}}
 				{{> "post/share"}}
 			</footer>
 
@@ -62,6 +64,14 @@
 			{{/if}}
 		</div>
 	</div>
+
+	<script>
+		(function () {
+			var cp = document.getElementById('container-post');
+			if (!cp) return;
+			document.querySelectorAll('[data-container-link]').forEach(function (a) { a.href = cp.getAttribute('data-url'); });
+		})();
+	</script>
 
 	<script type="application/ld+json">
 	{
