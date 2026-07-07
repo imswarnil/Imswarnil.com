@@ -1,48 +1,138 @@
-{{!-- Course overview — full-width, box-free: sections stack and are divided by
-     hairline borders (same language as the video page). Lessons are #lesson
-     posts whose PUBLIC primary tag equals this course's primary tag — all
-     queries key off primary_tag.slug (the old {{slug}} filter only worked when
-     the post slug happened to match the tag). --}}
-<article class="{{post_class}}">
+{{!-- Course overview — professional course-platform layout.
+     Lessons = #lesson posts whose PUBLIC primary tag equals this course's
+     primary tag (all queries key off primary_tag.slug).
+     Optional internal tags: #duration-2h-30m (total), #level-beginner|
+     intermediate|advanced. Total curriculum time is summed client-side from
+     each lesson's duration tag. --}}
+<article class="{{post_class}}" id="course-app"
+	data-title="{{title}}"
+	data-url="{{url absolute="true"}}"
+	data-desc="{{custom_excerpt}}"
+	data-image="{{#if feature_image}}{{img_url feature_image size="1000" absolute="true"}}{{/if}}"
+	data-free="{{#match visibility "public"}}true{{else}}false{{/match}}"
+	data-author="{{primary_author.name}}">
 
 	{{!-- Hero --}}
-	<header class="relative overflow-hidden border-b border-line py-14">
+	<header class="relative overflow-hidden border-b border-line py-12 sm:py-14">
 		<div class="bg-cross pointer-events-none absolute inset-0" aria-hidden="true"></div>
-		<a href="{{@site.url}}/courses/" class="icon-btn absolute right-4 top-4 z-10 !border !border-line !bg-paper/80 backdrop-blur tooltip tooltip-left" data-tip="All courses" aria-label="Close course, back to all courses">{{> "icons/close"}}</a>
-		<div class="container-site relative grid items-center gap-10 lg:grid-cols-12">
-			<div class="lg:col-span-7">
-				<p class="kicker">{{> "icons/graduation"}} Course</p>
-				<h1 class="mt-3 text-4xl font-semibold tracking-tight sm:text-5xl text-balance">{{title}}</h1>
-				{{#if custom_excerpt}}<p class="mt-5 max-w-xl text-lg leading-relaxed text-silver">{{custom_excerpt}}</p>{{/if}}
+		<div class="container-site relative">
 
-				<div class="mt-6 flex flex-wrap items-center gap-2">
-					{{#match visibility "public"}}<span class="chip tooltip" data-tip="Free — no account needed">{{> "icons/check"}} Free</span>{{/match}}
-					{{#match visibility "members"}}<span class="chip tooltip" data-tip="Sign up free to unlock">{{> "icons/star"}} Members</span>{{/match}}
-					{{#match visibility "paid"}}<span class="chip !border-transparent !bg-ink !text-paper tooltip" data-tip="Requires a paid plan">{{> "icons/lock"}} Paid</span>{{/match}}
-					<span class="chip" data-duration-tags="{{#foreach tags visibility="internal"}}{{slug}} {{/foreach}}" hidden></span>
-					{{#primary_tag}}
-					{{#get "posts" filter="tag:hash-lesson+tags:{{slug}}" limit="1" as |firstpage counter|}}
-						{{#if firstpage}}<span class="chip">{{> "icons/play"}} {{plural counter.total empty="No lessons yet" singular="% lesson" plural="% lessons"}}</span>{{/if}}
-					{{/get}}
-					{{/primary_tag}}
-					<span class="chip">{{> "icons/calendar" class="h-3 w-3"}} Updated {{date updated_at format="MMM YYYY"}}</span>
-				</div>
-
-				<div class="mt-8 flex flex-wrap gap-3">
-					{{#primary_tag}}
-					{{#get "posts" filter="tag:hash-lesson+tags:{{slug}}" limit="1" order="published_at asc" as |first|}}
-						{{#foreach first}}<a href="{{url}}" class="btn-primary">{{> "icons/play"}} Start course</a>{{/foreach}}
-					{{/get}}
-					{{/primary_tag}}
-					<a href="#curriculum" class="btn-ghost">{{> "icons/book"}} Curriculum</a>
-					<a href="#course-gear" class="btn-ghost">{{> "icons/zap"}} Gear</a>
-				</div>
+			{{!-- breadcrumb + close --}}
+			<div class="mb-7 flex items-center justify-between gap-4">
+				<nav class="flex min-w-0 items-center gap-2 font-mono text-[11px] uppercase tracking-[0.15em] text-silver" aria-label="Breadcrumb">
+					<a href="{{@site.url}}/courses/" class="transition hover:text-ink">Courses</a>
+					<span aria-hidden="true">/</span>
+					<span class="truncate text-ink">{{title}}</span>
+				</nav>
+				<a href="{{@site.url}}/courses/" class="icon-btn shrink-0 !border !border-line !bg-paper/80 backdrop-blur tooltip tooltip-left" data-tip="All courses" aria-label="Close course, back to all courses">{{> "icons/close"}}</a>
 			</div>
-			<div class="lg:col-span-5">
-				{{#if feature_image}}<img src="{{img_url feature_image size="1000"}}" width="1000" height="750" alt="{{title}}" class="w-full rounded-3xl border border-line shadow-lift" />{{/if}}
+
+			<div class="grid items-start gap-10 lg:grid-cols-12">
+				{{!-- left: the pitch --}}
+				<div class="lg:col-span-7">
+					<p class="kicker">{{> "icons/graduation"}} Course</p>
+					<h1 class="mt-3 text-3xl font-semibold tracking-tight sm:text-5xl text-balance">{{title}}</h1>
+					{{#if custom_excerpt}}<p class="mt-4 max-w-xl text-lg leading-relaxed text-silver">{{custom_excerpt}}</p>{{/if}}
+
+					{{!-- meta row --}}
+					<div class="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 font-mono text-[11px] uppercase tracking-[0.12em] text-silver">
+						{{#primary_author}}<span class="flex items-center gap-1.5">{{> "icons/user" class="h-3.5 w-3.5"}} {{name}}</span>{{/primary_author}}
+						<span class="flex items-center gap-1.5" id="course-total-duration">{{> "icons/clock" class="h-3.5 w-3.5"}} <span data-duration-tags="{{#foreach tags visibility="internal"}}{{slug}} {{/foreach}}" hidden></span></span>
+						<span class="flex items-center gap-1.5">{{> "icons/calendar" class="h-3.5 w-3.5"}} Updated {{date updated_at format="MMM YYYY"}}</span>
+						{{#has tag="#level-beginner"}}<span class="flex items-center gap-1.5">{{> "icons/zap" class="h-3.5 w-3.5"}} Beginner</span>{{/has}}
+						{{#has tag="#level-intermediate"}}<span class="flex items-center gap-1.5">{{> "icons/zap" class="h-3.5 w-3.5"}} Intermediate</span>{{/has}}
+						{{#has tag="#level-advanced"}}<span class="flex items-center gap-1.5">{{> "icons/zap" class="h-3.5 w-3.5"}} Advanced</span>{{/has}}
+					</div>
+
+					{{!-- instructor inline --}}
+					{{#primary_author}}
+					<a href="{{url}}" class="group mt-6 inline-flex items-center gap-3">
+						{{#if profile_image}}
+							<img src="{{img_url profile_image size="100"}}" width="40" height="40" alt="{{name}}" class="h-10 w-10 rounded-full border border-line object-cover" loading="lazy" />
+						{{else}}
+							<span class="flex h-10 w-10 items-center justify-center rounded-full border border-line bg-mist">{{> "icons/user" class="h-4 w-4 text-silver"}}</span>
+						{{/if}}
+						<span>
+							<span class="block text-sm font-semibold leading-tight group-hover:underline group-hover:underline-offset-4">{{name}}</span>
+							<span class="block text-xs text-silver">Instructor</span>
+						</span>
+					</a>
+					{{/primary_author}}
+				</div>
+
+				{{!-- right: enrolment card --}}
+				<div class="lg:col-span-5">
+					<div class="overflow-hidden rounded-2xl border border-line bg-paper shadow-card">
+						{{#foreach tags visibility="public" limit="1"}}
+						{{#get "posts" filter="tag:hash-lesson+tags:{{slug}}" limit="1" order="published_at asc" as |first|}}
+						{{#foreach first}}
+						<a href="{{url}}" class="group relative block aspect-video overflow-hidden border-b border-line bg-mist" aria-label="Preview the first lesson">
+							{{#if feature_image}}
+								<img src="{{img_url feature_image size="1000"}}" width="1000" height="563" alt="{{title}}" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
+							{{else}}
+								<span class="bg-dots absolute inset-0"></span>
+							{{/if}}
+							<span class="absolute inset-0 flex items-center justify-center bg-black/25 transition group-hover:bg-black/35">
+								<span class="flex h-14 w-14 items-center justify-center rounded-full bg-white text-black shadow-lg transition group-hover:scale-110">{{> "icons/play" class="ml-0.5 h-5 w-5"}}</span>
+							</span>
+							<span class="absolute bottom-3 left-3 rounded bg-black/70 px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.15em] text-white backdrop-blur">Preview lesson 1</span>
+						</a>
+						{{/foreach}}
+						{{/get}}
+						{{/foreach}}
+
+						<div class="p-5 sm:p-6">
+							<div class="flex items-baseline justify-between gap-3">
+								{{#match visibility "public"}}<p class="text-2xl font-bold tracking-tight">Free</p><span class="font-mono text-[10px] uppercase tracking-[0.15em] text-silver">no account needed</span>{{/match}}
+								{{#match visibility "members"}}<p class="text-2xl font-bold tracking-tight">Members</p><span class="font-mono text-[10px] uppercase tracking-[0.15em] text-silver">free signup unlocks</span>{{/match}}
+								{{#match visibility "paid"}}<p class="text-2xl font-bold tracking-tight">Paid</p><span class="font-mono text-[10px] uppercase tracking-[0.15em] text-silver">supporters only</span>{{/match}}
+							</div>
+
+							{{#foreach tags visibility="public" limit="1"}}
+							{{#get "posts" filter="tag:hash-lesson+tags:{{slug}}" limit="1" order="published_at asc" as |first|}}
+								{{#foreach first}}<a href="{{url}}" class="btn-primary mt-4 w-full justify-center !py-2.5">{{> "icons/play"}} Start the course</a>{{/foreach}}
+							{{/get}}
+							{{/foreach}}
+							<a href="#curriculum" class="btn-ghost mt-2 w-full justify-center">{{> "icons/book"}} Browse curriculum</a>
+
+							<p class="kicker mt-6 !text-[10px]">This course includes</p>
+							<ul class="mt-3 space-y-2 text-[13px] text-silver">
+								{{#foreach tags visibility="public" limit="1"}}
+								{{#get "posts" filter="tag:hash-lesson+tags:{{slug}}" limit="1" as |l counter|}}
+								<li class="flex items-center gap-2.5">{{> "icons/play" class="h-3.5 w-3.5 shrink-0"}} {{plural counter.total empty="Lessons on the way" singular="% structured lesson" plural="% structured lessons"}}</li>
+								{{/get}}
+								{{/foreach}}
+								<li class="flex items-center gap-2.5">{{> "icons/clock" class="h-3.5 w-3.5 shrink-0"}} <span id="course-includes-duration">Self-paced — watch anytime</span></li>
+								<li class="flex items-center gap-2.5">{{> "icons/check" class="h-3.5 w-3.5 shrink-0"}} Progress tracking in your browser</li>
+								<li class="flex items-center gap-2.5">{{> "icons/heart" class="h-3.5 w-3.5 shrink-0"}} Every question answered in the discussion</li>
+								<li class="flex items-center gap-2.5">{{> "icons/zap" class="h-3.5 w-3.5 shrink-0"}} Lifetime access, free updates</li>
+							</ul>
+
+							<div class="mt-5 border-t border-line pt-4">
+								{{> "post/share"}}
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</header>
+
+	{{!-- Stats band --}}
+	<section class="border-b border-line bg-mist/40">
+		<div class="container-site">
+			<div class="mx-auto grid max-w-4xl grid-cols-2 divide-x divide-line sm:grid-cols-4">
+				{{#foreach tags visibility="public" limit="1"}}
+				{{#get "posts" filter="tag:hash-lesson+tags:{{slug}}" limit="1" as |l counter|}}
+				<div class="px-4 py-5 text-center"><p class="text-xl font-bold tabular-nums">{{counter.total}}</p><p class="mt-0.5 font-mono text-[9px] uppercase tracking-[0.18em] text-silver">lessons</p></div>
+				{{/get}}
+				{{/foreach}}
+				<div class="px-4 py-5 text-center"><p class="text-xl font-bold tabular-nums" id="course-stat-duration">—</p><p class="mt-0.5 font-mono text-[9px] uppercase tracking-[0.18em] text-silver">total runtime</p></div>
+				<div class="px-4 py-5 text-center"><p class="text-xl font-bold">{{#match visibility "public"}}Free{{else}}Members{{/match}}</p><p class="mt-0.5 font-mono text-[9px] uppercase tracking-[0.18em] text-silver">access</p></div>
+				<div class="px-4 py-5 text-center"><p class="text-xl font-bold">{{date updated_at format="MMM YYYY"}}</p><p class="mt-0.5 font-mono text-[9px] uppercase tracking-[0.18em] text-silver">last updated</p></div>
+			</div>
+		</div>
+	</section>
 
 	{{!-- About --}}
 	<section class="border-b border-line py-12">
@@ -56,71 +146,53 @@
 		</div>
 	</section>
 
-	{{!-- Curriculum — full-width rows, no box --}}
+	{{!-- Curriculum --}}
 	<section id="curriculum" class="scroll-mt-24 border-b border-line py-12">
 		<div class="container-site">
 			<div class="mx-auto max-w-3xl">
-				<p class="kicker">{{> "icons/play"}} Curriculum</p>
-				<h2 class="section-title mt-2">Lesson by lesson</h2>
-				{{#primary_tag}}
+				<div class="flex flex-wrap items-end justify-between gap-3">
+					<div>
+						<p class="kicker">{{> "icons/play"}} Curriculum</p>
+						<h2 class="section-title mt-2">Lesson by lesson</h2>
+					</div>
+					<p class="font-mono text-[11px] uppercase tracking-[0.15em] text-silver" id="curriculum-summary"></p>
+				</div>
+				{{#foreach tags visibility="public" limit="1"}}
 				{{#get "posts" filter="tag:hash-lesson+tags:{{slug}}" limit="50" order="published_at asc" include="tags" as |lessons|}}
 					{{#if lessons}}
-					<ol class="mt-6 divide-y divide-line border-y border-line">
+					<ol class="mt-6 divide-y divide-line border-y border-line" id="curriculum-list">
 						{{#foreach lessons}}
 						<li>
-							<a href="{{url}}" class="group flex items-center gap-4 px-1 py-4 transition hover:bg-mist/60 sm:px-3">
+							<a href="{{url}}" class="lesson-row group flex items-center gap-4 px-1 py-4 transition hover:bg-mist/60 sm:px-3" data-lesson-slug="{{slug}}">
 								<span class="w-8 shrink-0 text-center font-mono text-lg font-bold tabular-nums text-silver transition group-hover:text-ink">{{@number}}</span>
 								<span class="min-w-0 flex-1">
-									<span class="block text-[15px] font-semibold leading-snug tracking-tight">{{title}}</span>
+									<span class="flex items-center gap-2">
+										<span class="truncate text-[15px] font-semibold leading-snug tracking-tight">{{title}}</span>
+										<span class="lesson-row-done hidden shrink-0 items-center gap-1 rounded-full bg-green-500/15 px-1.5 py-0.5 font-mono text-[8px] font-bold uppercase tracking-[0.1em] text-green-600">{{> "icons/check" class="h-2.5 w-2.5"}} done</span>
+									</span>
 									{{#if custom_excerpt}}<span class="mt-0.5 line-clamp-1 block text-[13px] text-silver">{{custom_excerpt}}</span>{{/if}}
 								</span>
 								<span class="hidden shrink-0 font-mono text-[10px] uppercase tracking-wide text-silver sm:block" data-duration-tags="{{#foreach tags visibility="internal"}}{{slug}} {{/foreach}}" hidden></span>
 								{{#match visibility "!=" "public"}}
 									<span class="tooltip shrink-0 text-silver" data-tip="{{#match visibility "paid"}}Paid members only{{else}}Members only{{/match}}">{{> "icons/lock"}}</span>
 								{{else}}
-									{{> "icons/play" class="shrink-0 text-silver opacity-0 transition group-hover:opacity-100"}}
+									<span class="shrink-0 rounded-full border border-line px-2 py-0.5 font-mono text-[9px] uppercase tracking-[0.12em] text-silver opacity-0 transition group-hover:opacity-100">preview</span>
 								{{/match}}
 							</a>
 						</li>
 						{{/foreach}}
 					</ol>
 
-					{{!-- Course JSON-LD: syllabus built server-side --}}
-					<script type="application/ld+json" id="course-schema">
-					{
-						"@context": "https://schema.org",
-						"@type": "Course",
-						"name": "{{title}}",
-						{{#if custom_excerpt}}"description": "{{custom_excerpt}}",{{/if}}
-						"url": "{{url absolute="true"}}",
-						{{#if feature_image}}"image": "{{img_url feature_image size="1000" absolute="true"}}",{{/if}}
-						"isAccessibleForFree": {{#match visibility "public"}}true{{else}}false{{/match}},
-						"provider": {
-							"@type": "Person",
-							"name": "{{primary_author.name}}",
-							"url": "{{@site.url}}"
-						},
-						"hasCourseInstance": {
-							"@type": "CourseInstance",
-							"courseMode": "Online"
-						},
-						"syllabusSections": [
-							{{#foreach lessons}}
-							{ "@type": "Syllabus", "name": "{{title}}", "url": "{{url absolute="true"}}" }{{#unless @last}},{{/unless}}
-							{{/foreach}}
-						]
-					}
-					</script>
 					{{else}}
 					<p class="mt-6 text-sm text-silver">Lessons coming soon. Tag lesson posts with <code class="rounded bg-mist px-1 font-mono text-xs">#lesson</code> and give them this course's public tag <code class="rounded bg-mist px-1 font-mono text-xs">{{slug}}</code> as their FIRST tag.</p>
 					{{/if}}
 				{{/get}}
-				{{/primary_tag}}
+				{{/foreach}}
 			</div>
 		</div>
 	</section>
 
-	{{!-- Why I made this / how I teach --}}
+	{{!-- How I teach --}}
 	<section class="border-b border-line py-12">
 		<div class="container-site">
 			<div class="mx-auto grid max-w-3xl gap-8 sm:grid-cols-3">
@@ -148,7 +220,7 @@
 				<div class="mt-5 flex flex-wrap items-center gap-5">
 					{{#primary_author}}
 					{{#if profile_image}}
-						<img src="{{img_url profile_image size="100"}}" width="72" height="72" alt="{{name}}" class="h-18 w-18 rounded-full border border-line object-cover" loading="lazy" style="width:72px;height:72px" />
+						<img src="{{img_url profile_image size="100"}}" width="72" height="72" alt="{{name}}" class="rounded-full border border-line object-cover" loading="lazy" style="width:72px;height:72px" />
 					{{else}}
 						<span class="flex h-16 w-16 items-center justify-center rounded-full border border-line bg-mist">{{> "icons/user" class="h-6 w-6 text-silver"}}</span>
 					{{/if}}
@@ -163,7 +235,34 @@
 		</div>
 	</section>
 
-	{{!-- Gear used to build the course --}}
+	{{!-- FAQ --}}
+	<section class="border-b border-line py-12">
+		<div class="container-site">
+			<div class="mx-auto max-w-3xl">
+				<p class="kicker">{{> "icons/sparkle" class="h-3 w-3"}} Frequently asked</p>
+				<div class="mt-5 divide-y divide-line border-y border-line">
+					<details class="group py-4">
+						<summary class="flex cursor-pointer items-center justify-between gap-3 text-[15px] font-semibold [&::-webkit-details-marker]:hidden">Do I need an account? {{> "icons/chevron-down" class="shrink-0 text-silver transition group-open:rotate-180"}}</summary>
+						<p class="mt-3 text-sm leading-relaxed text-silver">{{#match visibility "public"}}No — this course is free and open. Signing up just adds progress across devices, email updates and an ad-free experience.{{else}}Yes — a free membership unlocks it (and turns ads off). Sign up with just an email, no password.{{/match}}</p>
+					</details>
+					<details class="group py-4">
+						<summary class="flex cursor-pointer items-center justify-between gap-3 text-[15px] font-semibold [&::-webkit-details-marker]:hidden">How is progress tracked? {{> "icons/chevron-down" class="shrink-0 text-silver transition group-open:rotate-180"}}</summary>
+						<p class="mt-3 text-sm leading-relaxed text-silver">In your browser — lessons mark themselves complete as you finish them, and you can toggle completion manually inside each lesson. No servers watching you study.</p>
+					</details>
+					<details class="group py-4">
+						<summary class="flex cursor-pointer items-center justify-between gap-3 text-[15px] font-semibold [&::-webkit-details-marker]:hidden">Is there a certificate? {{> "icons/chevron-down" class="shrink-0 text-silver transition group-open:rotate-180"}}</summary>
+						<p class="mt-3 text-sm leading-relaxed text-silver">No certificate — just the skill. Which, between us, is the part interviews check.</p>
+					</details>
+					<details class="group py-4">
+						<summary class="flex cursor-pointer items-center justify-between gap-3 text-[15px] font-semibold [&::-webkit-details-marker]:hidden">I'm stuck. Where do I ask? {{> "icons/chevron-down" class="shrink-0 text-silver transition group-open:rotate-180"}}</summary>
+						<p class="mt-3 text-sm leading-relaxed text-silver">The discussion at the bottom of any lesson — I answer every comment. For anything longer, <a href="{{@site.url}}/contact/" class="underline underline-offset-4">the contact page</a>.</p>
+					</details>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	{{!-- Gear --}}
 	{{#get "posts" filter="tag:hash-product+tag:hash-course-gear" limit="4" include="tags" as |gear|}}
 		{{#if gear}}
 		<section id="course-gear" class="scroll-mt-24 border-b border-line py-12">
@@ -184,14 +283,12 @@
 
 	{{!-- Ad --}}
 	<section class="border-b border-line">
-		<div class="container-site">
-			<div class="mx-auto max-w-3xl">
-				{{> "components/adsense" slot="6501428979" layout="in-article" format="fluid"}}
-			</div>
-		</div>
+		<div class="container-site"><div class="mx-auto max-w-3xl">
+			{{> "components/adsense" slot="6501428979" layout="in-article" format="fluid"}}
+		</div></div>
 	</section>
 
-	{{!-- Prev / next course pagination --}}
+	{{!-- Prev / next course --}}
 	<nav class="border-b border-line" aria-label="Course pagination">
 		<div class="container-site">
 			<div class="mx-auto grid max-w-3xl sm:grid-cols-2 sm:divide-x sm:divide-line">
@@ -239,17 +336,14 @@
 	{{!-- Discussion --}}
 	{{#if @site.comments_enabled}}
 	<section class="py-12">
-		<div class="container-site">
-			<div class="mx-auto max-w-3xl">
-				{{> "components/comments" title="Discussion"}}
-			</div>
-		</div>
+		<div class="container-site"><div class="mx-auto max-w-3xl">
+			{{> "components/comments" title="Discussion"}}
+		</div></div>
 	</section>
 	{{/if}}
 </article>
 
 <style>
-	/* "What you'll learn" / "Prerequisites" callouts (wrapped by the script below) */
 	.course-callout { margin: 2rem 0; border: 1px solid rgb(var(--line)); border-radius: 1.25rem; padding: 1.5rem 1.5rem 1.25rem; background: rgb(var(--mist) / .45); }
 	.course-callout > h2, .course-callout > h3 { margin: 0 0 .75rem !important; font-size: 1.05rem !important; }
 	.course-callout ul, .course-callout ol { margin: 0 !important; padding-left: 0 !important; list-style: none !important; }
@@ -262,7 +356,7 @@
 
 <script>
 	(function () {
-		/* Wrap "Prerequisites" / "What you'll learn" heading + following list in callout boxes */
+		/* "What you'll learn" / "Prerequisites" → callout boxes */
 		var body = document.querySelector('.course-body');
 		if (body) {
 			body.querySelectorAll('h2, h3').forEach(function (h) {
@@ -281,21 +375,69 @@
 			});
 		}
 
-		/* Patch timeRequired into the Course JSON-LD from the duration internal tag */
-		var schema = document.getElementById('course-schema');
-		var span = document.querySelector('[data-duration-tags]');
-		if (!schema || !span) return;
-		var m = (span.getAttribute('data-duration-tags') || '').match(/hash-duration-([\w-]+)/);
-		if (!m) return;
-		var h = (m[1].match(/(\d+)h/) || [])[1];
-		var min = (m[1].match(/(\d+)m/) || [])[1];
-		var iso = 'PT' + (h ? h + 'H' : '') + (min ? min + 'M' : '');
-		if (iso === 'PT') return;
+		/* Sum lesson durations → curriculum summary, stat band, includes list */
+		function tagMinutes(el) {
+			var m = (el.getAttribute('data-duration-tags') || '').match(/hash-duration-(?:(\d+)h)?-?(?:(\d+)m)?/);
+			if (!m || (!m[1] && !m[2])) return 0;
+			return (parseInt(m[1] || 0, 10) * 60) + parseInt(m[2] || 0, 10);
+		}
+		function fmt(mins) {
+			if (!mins) return null;
+			var h = Math.floor(mins / 60), mm = mins % 60;
+			return (h ? h + 'h ' : '') + (mm ? mm + 'm' : '');
+		}
+		var rows = document.querySelectorAll('#curriculum-list [data-duration-tags]');
+		var total = 0;
+		rows.forEach(function (r) { total += tagMinutes(r); });
+		var totalText = fmt(total);
+		var summary = document.getElementById('curriculum-summary');
+		if (summary) summary.textContent = rows.length + ' lessons' + (totalText ? ' · ' + totalText + ' total' : '');
+		var stat = document.getElementById('course-stat-duration');
+		if (stat && totalText) stat.textContent = totalText;
+		var includes = document.getElementById('course-includes-duration');
+		if (includes && totalText) includes.textContent = totalText + ' of focused content, self-paced';
+
+		/* Mark curriculum rows the visitor already completed (shared localStorage) */
+		var courseTag = '{{primary_tag.slug}}';
 		try {
-			var data = JSON.parse(schema.textContent);
-			data.timeRequired = iso;
-			if (data.hasCourseInstance) data.hasCourseInstance.courseWorkload = iso;
-			schema.textContent = JSON.stringify(data);
-		} catch (e) { /* leave schema as-is */ }
+			var done = JSON.parse(localStorage.getItem('swarnil-progress-' + courseTag)) || [];
+			document.querySelectorAll('.lesson-row').forEach(function (row) {
+				if (done.indexOf(row.getAttribute('data-lesson-slug')) > -1) {
+					var b = row.querySelector('.lesson-row-done');
+					if (b) { b.classList.remove('hidden'); b.classList.add('inline-flex'); }
+				}
+			});
+		} catch (e) {}
+
+		/* Course JSON-LD, built from the page itself (robust to tag order) */
+		var app = document.getElementById('course-app');
+		var rowsAll = [].slice.call(document.querySelectorAll('.lesson-row'));
+		if (app) {
+			var ld = {
+				'@context': 'https://schema.org',
+				'@type': 'Course',
+				name: app.getAttribute('data-title'),
+				url: app.getAttribute('data-url'),
+				isAccessibleForFree: app.getAttribute('data-free') === 'true',
+				provider: { '@type': 'Person', name: app.getAttribute('data-author'), url: location.origin },
+				hasCourseInstance: { '@type': 'CourseInstance', courseMode: 'Online' }
+			};
+			if (app.getAttribute('data-desc')) ld.description = app.getAttribute('data-desc');
+			if (app.getAttribute('data-image')) ld.image = app.getAttribute('data-image');
+			if (rowsAll.length) {
+				ld.syllabusSections = rowsAll.map(function (r) {
+					return { '@type': 'Syllabus', name: (r.querySelector('.truncate') || r).textContent.trim(), url: r.href };
+				});
+			}
+			if (total) {
+				var iso = 'PT' + (Math.floor(total / 60) ? Math.floor(total / 60) + 'H' : '') + (total % 60 ? (total % 60) + 'M' : '');
+				ld.timeRequired = iso;
+				ld.hasCourseInstance.courseWorkload = iso;
+			}
+			var tag = document.createElement('script');
+			tag.type = 'application/ld+json';
+			tag.textContent = JSON.stringify(ld);
+			document.head.appendChild(tag);
+		}
 	})();
 </script>
