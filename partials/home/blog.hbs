@@ -28,16 +28,22 @@
 					</span>
 				</a>
 				{{else}}
-				{{!-- small tiles --}}
-				<a href="{{url}}" class="group card-surface relative flex flex-col justify-between p-5 sm:col-span-1 {{#match @number 3}}lg:row-span-2{{/match}}">
-					<span>
-						{{#primary_tag}}<span class="chip !py-0.5 !text-[10px]">{{name}}</span>{{/primary_tag}}
-						<strong class="mt-2.5 block text-[15px] font-semibold leading-snug tracking-tight transition group-hover:underline group-hover:underline-offset-4">{{title}}</strong>
-						{{#match @number 3}}<span class="mt-2 line-clamp-4 block text-[13px] leading-relaxed text-silver">{{excerpt words="30"}}</span>{{/match}}
+				{{!-- small tiles: thumbnail, tag, title, excerpt, meta + read CTA --}}
+				<a href="{{url}}" class="group card-surface relative flex flex-col overflow-hidden sm:col-span-1 {{#match @number 3}}lg:row-span-2{{/match}}">
+					{{#if feature_image}}
+					<span class="relative block {{#match @number 3}}aspect-[16/10]{{else}}aspect-[16/7]{{/match}} overflow-hidden border-b border-line bg-mist">
+						<img src="{{img_url feature_image size="600"}}" width="600" height="338" alt="" loading="lazy" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
+						{{#primary_tag}}<span class="absolute left-2.5 top-2.5 rounded bg-white/90 px-1.5 py-0.5 font-mono text-[9px] font-bold uppercase tracking-[0.12em] text-black">{{name}}</span>{{/primary_tag}}
 					</span>
-					<span class="mt-4 flex items-center justify-between font-mono text-[10px] uppercase tracking-[0.15em] text-silver">
-						{{date published_at format="DD MMM"}}
-						{{> "icons/arrow-up-right" class="h-3.5 w-3.5 transition group-hover:translate-x-0.5 group-hover:text-ink"}}
+					{{/if}}
+					<span class="flex flex-1 flex-col p-4">
+						{{^feature_image}}{{#primary_tag}}<span class="chip mb-2 w-fit !py-0.5 !text-[10px]">{{name}}</span>{{/primary_tag}}{{/feature_image}}
+						<strong class="block text-[14.5px] font-semibold leading-snug tracking-tight transition group-hover:underline group-hover:underline-offset-4">{{title}}</strong>
+						<span class="mt-1.5 line-clamp-2 block text-[12.5px] leading-relaxed text-silver {{#match @number 3}}!line-clamp-4{{/match}}">{{#if custom_excerpt}}{{custom_excerpt}}{{else}}{{excerpt words="20"}}{{/if}}</span>
+						<span class="mt-auto flex items-center justify-between pt-3 font-mono text-[10px] uppercase tracking-[0.15em] text-silver">
+							<span>{{date published_at format="DD MMM"}} · {{reading_time}}</span>
+							<span class="flex items-center gap-1 font-semibold transition group-hover:text-ink">Read {{> "icons/arrow-right" class="h-3 w-3 transition group-hover:translate-x-0.5"}}</span>
+						</span>
 					</span>
 				</a>
 				{{/if}}

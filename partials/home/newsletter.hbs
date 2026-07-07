@@ -1,27 +1,61 @@
-{{!-- Finale — "The algorithm doesn't owe us anything." Full-width muted video
-     with the quote and one big Subscribe button that opens the pitch modal
-     (#subscribe-backdrop, defined in the navbar). Follows every theme mode. --}}
-<section class="reveal tv-scanlines relative mt-16 flex min-h-[70vh] items-center overflow-hidden" id="home-subscribe" style="background:#08080a">
+{{!-- Finale — full-width film band. The page blends INTO it (white → black,
+     gradual) and back OUT of it (black → white) before the normal footer.
+     Fine static scanlines over the video; all copy stays readable. --}}
+<section class="tv-scanlines relative mt-20 flex min-h-[62vh] items-center overflow-hidden" id="home-subscribe" style="background:#08080a">
 	<div class="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
-		<iframe
-			src="https://www.youtube-nocookie.com/embed/ecOkmTD7KhU?autoplay=1&amp;mute=1&amp;loop=1&amp;controls=0&amp;playlist=ecOkmTD7KhU&amp;playsinline=1&amp;rel=0&amp;modestbranding=1&amp;iv_load_policy=3&amp;disablekb=1"
+		{{!-- src set only when the section approaches the viewport (perf) --}}
+		<iframe id="finale-video"
+			data-src="https://www.youtube-nocookie.com/embed/ecOkmTD7KhU?autoplay=1&amp;mute=1&amp;loop=1&amp;controls=0&amp;playlist=ecOkmTD7KhU&amp;playsinline=1&amp;rel=0&amp;modestbranding=1&amp;iv_load_policy=3&amp;disablekb=1"
 			title="Ambient background video"
 			tabindex="-1"
-			loading="lazy"
 			allow="autoplay; encrypted-media"
 			style="position:absolute; top:50%; left:50%; width:100vw; height:56.25vw; min-height:100%; min-width:calc(100vh * 1.7778); transform:translate(-50%,-50%) scale(1.12); border:0; pointer-events:none;"></iframe>
-		<div class="absolute inset-0 bg-black/70"></div>
+		{{!-- black overlay + grid lines, no gradients --}}
+		<div class="absolute inset-0 bg-black/65"></div>
+		<div class="absolute inset-0" style="background-image: linear-gradient(to right, rgb(255 255 255 / 0.07) 1px, transparent 1px), linear-gradient(to bottom, rgb(255 255 255 / 0.07) 1px, transparent 1px); background-size: 44px 44px;"></div>
 	</div>
 
-	<div class="container-site relative py-20 text-center text-white">
-		<p class="mx-auto inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-1.5 font-mono text-[10px] uppercase tracking-[0.3em] backdrop-blur animate-fade-in">{{> "icons/bell" class="h-3.5 w-3.5"}} own your feed</p>
-		<blockquote class="mx-auto mt-7 max-w-3xl text-3xl font-bold leading-tight tracking-tight text-balance sm:text-5xl [text-shadow:0_2px_16px_rgb(0_0_0/.5)]">
+	<div class="container-site relative py-20 text-center">
+		<p class="mx-auto inline-flex items-center gap-2 rounded-full border border-white/20 bg-black/40 px-4 py-1.5 font-mono text-[10px] uppercase tracking-[0.3em] text-white backdrop-blur animate-fade-in">{{> "icons/bell" class="h-3.5 w-3.5"}} own your feed</p>
+		<blockquote class="mx-auto mt-8 max-w-3xl text-3xl font-bold leading-tight tracking-tight text-white text-balance sm:text-5xl [text-shadow:0_2px_18px_rgb(0_0_0/.65)]">
 			"The algorithm doesn't owe us anything."
 		</blockquote>
-		<p class="mx-auto mt-5 max-w-xl text-base leading-relaxed text-white/75 sm:text-lg">If YouTube shut down tomorrow, we'd lose each other. This site is the one place we actually own — subscribe here and no recommendation engine can come between us.</p>
+		<p class="mx-auto mt-5 max-w-xl text-base leading-relaxed text-white/80 sm:text-lg [text-shadow:0_1px_10px_rgb(0_0_0/.6)]">If YouTube shut down tomorrow, we'd lose each other. This site is the one place we actually own — subscribe here and no recommendation engine can come between us.</p>
 		<button type="button" class="btn mx-auto mt-9 !bg-white !px-8 !py-3.5 !text-base !font-bold !text-black shadow-lift transition hover:-translate-y-0.5 hover:opacity-95" data-modal-open="#subscribe-backdrop">
 			{{> "icons/bell" class="h-4 w-4"}} Subscribe — it's free
 		</button>
-		<p class="mt-4 font-mono text-[10px] uppercase tracking-[0.25em] text-white/50">email only · ads off for members · unsubscribe anytime</p>
+
+		{{!-- newsletter: inline signup right here too --}}
+		{{#if @site.members_enabled}}
+		<div class="mx-auto mt-6 max-w-sm">
+			<form data-members-form class="members-form flex items-center overflow-hidden rounded-xl border border-white/25 bg-black/40 backdrop-blur transition focus-within:border-white/60">
+				<span class="pl-3 text-white/60">{{> "icons/mail" class="h-4 w-4"}}</span>
+				<input type="email" name="email" data-members-email placeholder="you@email.com" required class="w-full min-w-0 bg-transparent px-2.5 py-2.5 text-sm text-white outline-none placeholder:text-white/40" aria-label="Email address" />
+				<button type="submit" class="shrink-0 self-stretch bg-white px-4 text-xs font-bold text-black transition hover:opacity-90">Join</button>
+			</form>
+			<p class="mt-2 text-xs text-white/80" data-members-success>✓ Magic link sent — check inbox &amp; spam.</p>
+			<p class="mt-2 text-xs text-red-300" data-members-error>That didn't work — try again.</p>
+		</div>
+		{{/if}}
+		<p class="mt-4 font-mono text-[10px] uppercase tracking-[0.25em] text-white/50 [text-shadow:0_1px_8px_rgb(0_0_0/.6)]">email only · ads off for members · unsubscribe anytime</p>
 	</div>
+
+	<script>
+		/* lazy-boot the background video ~1.5 screens before it's visible */
+		(function () {
+			var section = document.getElementById('home-subscribe');
+			var v = document.getElementById('finale-video');
+			if (!section || !v) return;
+			if ('IntersectionObserver' in window) {
+				var io = new IntersectionObserver(function (entries) {
+					entries.forEach(function (en) {
+						if (en.isIntersecting) { v.src = v.getAttribute('data-src'); io.disconnect(); }
+					});
+				}, { rootMargin: '150% 0px' });
+				io.observe(section);
+			} else {
+				v.src = v.getAttribute('data-src');
+			}
+		})();
+	</script>
 </section>

@@ -1,46 +1,52 @@
-{{!-- Life, in commits — compact journey strip. Featured #timeline moments
-     first; falls back to the latest ones when nothing is featured. --}}
-<section class="reveal relative border-y border-line bg-mist/40 py-14" id="home-timeline">
+{{!-- Life, in commits — the classic layout: intro left, spine of moments right.
+     Featured #timeline posts take priority; falls back to the latest ones. --}}
+<section class="reveal relative overflow-hidden border-y border-line bg-mist/40 py-16" id="home-timeline">
 	<div class="bg-dots pointer-events-none absolute inset-0 opacity-50" aria-hidden="true"></div>
+	{{!-- giant year watermark behind the section --}}
+	{{#get "posts" filter="tag:hash-timeline" limit="1" order="published_at desc" as |latestmoment|}}
+		{{#foreach latestmoment}}
+		<span class="rank-number pointer-events-none absolute -right-6 bottom-0 !text-transparent opacity-70" style="font-size: clamp(9rem, 22vw, 20rem); -webkit-text-stroke: 2px rgb(var(--silver) / 0.28)" aria-hidden="true">{{date published_at format="YYYY"}}</span>
+		{{/foreach}}
+	{{/get}}
 	<div class="container-site relative">
-		{{> "components/section-head"
-			kicker="The long game"
-			title="Life, in commits"
-			sub="The milestones that shaped the work — highlights only."
-			actionUrl=(concat @site.url "/timeline/") actionLabel="Full timeline"}}
-
-		{{#get "posts" filter="tag:hash-timeline+featured:true" limit="4" as |moments|}}
-			{{#if moments}}
-			<ol class="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-4" data-reveal-stagger="80">
-				{{#foreach moments}}
-				<li>
-					<a href="{{@site.url}}/timeline/#tl-{{slug}}" class="group flex h-full flex-col rounded-xl border border-line bg-paper p-4 transition hover:-translate-y-0.5 hover:shadow-card">
-						<span class="font-mono text-[10px] uppercase tracking-[0.2em] text-silver">{{date published_at format="MMM YYYY"}} · {{> "icons/star" class="inline h-3 w-3"}}</span>
-						<strong class="mt-1.5 text-[13.5px] font-semibold leading-snug tracking-tight">{{title}}</strong>
-						<span class="mt-1 line-clamp-2 text-[12px] leading-snug text-silver">{{custom_excerpt}}{{^custom_excerpt}}{{excerpt words="12"}}{{/custom_excerpt}}</span>
-					</a>
-				</li>
-				{{/foreach}}
-			</ol>
-			{{else}}
-			{{#get "posts" filter="tag:hash-timeline" limit="4" as |fallback|}}
-				{{#if fallback}}
-				<ol class="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-4" data-reveal-stagger="80">
-					{{#foreach fallback}}
-					<li>
-						<a href="{{@site.url}}/timeline/#tl-{{slug}}" class="group flex h-full flex-col rounded-xl border border-line bg-paper p-4 transition hover:-translate-y-0.5 hover:shadow-card">
-							<span class="font-mono text-[10px] uppercase tracking-[0.2em] text-silver">{{date published_at format="MMM YYYY"}}</span>
-							<strong class="mt-1.5 text-[13.5px] font-semibold leading-snug tracking-tight">{{title}}</strong>
-							<span class="mt-1 line-clamp-2 text-[12px] leading-snug text-silver">{{custom_excerpt}}{{^custom_excerpt}}{{excerpt words="12"}}{{/custom_excerpt}}</span>
-						</a>
-					</li>
+		<div class="grid gap-10 lg:grid-cols-12">
+			<div class="lg:col-span-4">
+				<p class="kicker">{{> "icons/calendar"}} The long game</p>
+				<h2 class="section-title mt-2">Life, in commits</h2>
+				<p class="mt-4 max-w-xs text-sm leading-relaxed text-silver">Milestones, launches and plot twists — a timeline of the moments that shaped the work.</p>
+				{{!-- small year chips --}}
+				{{#get "posts" filter="tag:hash-timeline" limit="4" order="published_at desc" as |chips|}}
+				<div class="mt-5 flex flex-wrap gap-1.5">
+					{{#foreach chips}}
+					<a href="{{@site.url}}/timeline/#tl-year-{{date published_at format="YYYY"}}" class="chip font-mono !text-[10px] transition hover:bg-ink hover:text-paper">{{date published_at format="MMM ''YY"}}</a>
 					{{/foreach}}
-				</ol>
-				{{else}}
-				<p class="mt-8 rounded-2xl border border-dashed border-line p-10 text-center text-sm text-silver">Tag posts with <code class="rounded bg-mist px-1.5 py-0.5 font-mono text-xs">#timeline</code> to log your story here.</p>
-				{{/if}}
-			{{/get}}
-			{{/if}}
-		{{/get}}
+				</div>
+				{{/get}}
+				<a href="{{@site.url}}/timeline/" class="btn-primary mt-6">Full timeline {{> "icons/arrow-right"}}</a>
+			</div>
+			<div class="lg:col-span-8">
+				{{#get "posts" filter="tag:hash-timeline+featured:true" limit="3" as |moments|}}
+					{{#if moments}}
+					<ol class="relative space-y-8 before:absolute before:bottom-2 before:left-[1.4rem] before:top-2 before:w-px before:bg-line sm:before:left-[1.9rem]">
+						{{#foreach moments}}
+							{{> "cards/timeline-item"}}
+						{{/foreach}}
+					</ol>
+					{{else}}
+					{{#get "posts" filter="tag:hash-timeline" limit="3" as |fallback|}}
+						{{#if fallback}}
+						<ol class="relative space-y-8 before:absolute before:bottom-2 before:left-[1.4rem] before:top-2 before:w-px before:bg-line sm:before:left-[1.9rem]">
+							{{#foreach fallback}}
+								{{> "cards/timeline-item"}}
+							{{/foreach}}
+						</ol>
+						{{else}}
+						<p class="rounded-2xl border border-dashed border-line p-10 text-center text-sm text-silver">Tag posts with <code class="rounded bg-mist px-1.5 py-0.5 font-mono text-xs">#timeline</code> to log your story here.</p>
+						{{/if}}
+					{{/get}}
+					{{/if}}
+				{{/get}}
+			</div>
+		</div>
 	</div>
 </section>

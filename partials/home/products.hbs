@@ -1,38 +1,57 @@
-{{!-- Products I use — creative/build toolkit. Compact horizontal cards,
-     3 per row: image left, category + title + excerpt right. Latest
-     purchases first (newest published). --}}
+{{!-- Products I use to create — grouped shelves: recent purchase first, then
+     "Tools I love" (services), "Products I use" (setup), "Recommendations"
+     (everything else). Compact horizontal cards, image first, 3 per row. --}}
 <section class="reveal relative py-16" id="home-products">
 	<div class="container-site">
 		{{> "components/section-head"
 			kicker="The toolkit"
 			title="Products I use to create"
-			sub="Latest purchases first — reviewed after real use, grouped by shelf."
+			sub="I keep sharing what I actually use and love — reviewed after real miles, affiliate links keep the lights on."
 			actionUrl=(concat @site.url "/products/") actionLabel="Full toolkit"}}
 
-		{{#get "posts" filter="tag:hash-product" limit="6" order="published_at desc" include="tags" as |products|}}
-			{{#if products}}
-			<div class="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-3" data-reveal-stagger="70">
-				{{#foreach products}}
-				<a href="{{url}}" class="card-surface group flex items-center gap-4 overflow-hidden !transform-none p-3 transition hover:-translate-y-0.5">
-					{{!-- inline image first --}}
-					<span class="relative h-20 w-20 shrink-0 overflow-hidden rounded-xl border border-line bg-mist">
-						{{#if feature_image}}
-							<img src="{{img_url feature_image size="300"}}" width="300" height="300" alt="" loading="lazy" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
-						{{else}}
-							<span class="flex h-full w-full items-center justify-center">{{> "icons/zap" class="h-5 w-5 text-silver"}}</span>
-						{{/if}}
-					</span>
-					<span class="min-w-0 flex-1">
-						{{!-- category from #group-* --}}
-						<span class="font-mono text-[9px] uppercase tracking-[0.18em] text-silver">
-							{{#has tag="#group-services"}}Services{{else has tag="#group-my-setup"}}My setup{{else has tag="#group-skin-care"}}Skin care{{else has tag="#group-travel"}}Travel kit{{else}}{{#primary_tag}}{{name}}{{/primary_tag}}{{/has}}
-							{{#if @first}} · <span class="text-ink">latest buy</span>{{/if}}
-						</span>
-						<strong class="mt-0.5 block truncate text-[14px] font-semibold tracking-tight">{{title}}</strong>
-						<span class="mt-0.5 line-clamp-2 block text-[12px] leading-snug text-silver">{{#if custom_excerpt}}{{custom_excerpt}}{{else}}{{excerpt words="14"}}{{/if}}</span>
-					</span>
-					{{> "icons/arrow-up-right" class="h-3.5 w-3.5 shrink-0 text-silver transition group-hover:text-ink"}}
-				</a>
+		{{!-- Recent purchase — the newest thing on the shelf --}}
+		{{#get "posts" filter="tag:hash-product" limit="3" order="published_at desc" include="tags" as |fresh|}}
+			{{#if fresh}}
+			<p class="kicker mt-8 !text-[10px]">{{> "icons/cart" class="h-3 w-3"}} Recent purchases</p>
+			<div class="mt-3 grid gap-4 sm:grid-cols-2 xl:grid-cols-3" data-reveal-stagger="70">
+				{{#foreach fresh}}
+					{{> "cards/product-mini" latest=@first}}
+				{{/foreach}}
+			</div>
+			{{/if}}
+		{{/get}}
+
+		{{!-- Tools I love — services --}}
+		{{#get "posts" filter="tag:hash-product+tag:hash-group-services" limit="3" include="tags" as |tools|}}
+			{{#if tools}}
+			<p class="kicker mt-10 !text-[10px]">{{> "icons/heart" class="h-3 w-3"}} Tools I love</p>
+			<div class="mt-3 grid gap-4 sm:grid-cols-2 xl:grid-cols-3" data-reveal-stagger="70">
+				{{#foreach tools}}
+					{{> "cards/product-mini"}}
+				{{/foreach}}
+			</div>
+			{{/if}}
+		{{/get}}
+
+		{{!-- Products I use — the physical setup --}}
+		{{#get "posts" filter="tag:hash-product+tag:hash-group-my-setup" limit="3" include="tags" as |setup|}}
+			{{#if setup}}
+			<p class="kicker mt-10 !text-[10px]">{{> "icons/zap" class="h-3 w-3"}} Products I use</p>
+			<div class="mt-3 grid gap-4 sm:grid-cols-2 xl:grid-cols-3" data-reveal-stagger="70">
+				{{#foreach setup}}
+					{{> "cards/product-mini"}}
+				{{/foreach}}
+			</div>
+			{{/if}}
+		{{/get}}
+
+		{{!-- Recommendations — everything else worth sharing --}}
+		{{#get "posts" filter="tag:hash-product+tag:-[hash-group-services,hash-group-my-setup]" limit="3" include="tags" as |recs|}}
+			{{#if recs}}
+			<p class="kicker mt-10 !text-[10px]">{{> "icons/sparkle" class="h-3 w-3"}} Recommendations</p>
+			<div class="mt-3 grid gap-4 sm:grid-cols-2 xl:grid-cols-3" data-reveal-stagger="70">
+				{{#foreach recs}}
+					{{> "cards/product-mini"}}
 				{{/foreach}}
 			</div>
 			{{/if}}

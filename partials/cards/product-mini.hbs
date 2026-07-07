@@ -1,0 +1,20 @@
+{{!-- Compact horizontal product card — image first, category + title + excerpt.
+     Param: latest=true adds the "latest buy" marker. --}}
+<a href="{{url}}" class="card-surface group flex items-center gap-4 overflow-hidden !transform-none p-3 transition hover:-translate-y-0.5">
+	<span class="relative h-20 w-20 shrink-0 overflow-hidden rounded-xl border border-line bg-mist">
+		{{#if feature_image}}
+			<img src="{{img_url feature_image size="300"}}" width="300" height="300" alt="" loading="lazy" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
+		{{else}}
+			<span class="flex h-full w-full items-center justify-center">{{> "icons/zap" class="h-5 w-5 text-silver"}}</span>
+		{{/if}}
+	</span>
+	<span class="min-w-0 flex-1">
+		<span class="font-mono text-[9px] uppercase tracking-[0.18em] text-silver">
+			{{#has tag="#group-services"}}Services{{else has tag="#group-my-setup"}}My setup{{else has tag="#group-skin-care"}}Skin care{{else has tag="#group-travel"}}Travel kit{{else}}{{#primary_tag}}{{name}}{{/primary_tag}}{{/has}}
+			{{#if latest}} · <span class="text-ink">latest buy</span>{{/if}}
+		</span>
+		<strong class="mt-0.5 block truncate text-[14px] font-semibold tracking-tight">{{title}}</strong>
+		<span class="mt-0.5 line-clamp-2 block text-[12px] leading-snug text-silver">{{#if custom_excerpt}}{{custom_excerpt}}{{else}}{{excerpt words="14"}}{{/if}}</span>
+	</span>
+	{{> "icons/arrow-up-right" class="h-3.5 w-3.5 shrink-0 text-silver transition group-hover:text-ink"}}
+</a>

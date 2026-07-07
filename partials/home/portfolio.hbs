@@ -4,17 +4,67 @@
 <section class="reveal relative border-y border-line bg-mist/40 py-16" id="home-portfolio">
 	<div class="bg-grid pointer-events-none absolute inset-0 opacity-50" aria-hidden="true"></div>
 	<div class="container-site relative">
-		<div class="flex flex-wrap items-end justify-between gap-6">
-			<div class="max-w-xl">
-				<p class="kicker">{{> "icons/briefcase"}} Dear recruiter</p>
-				<h2 class="section-title mt-2 text-balance">The professional bit, with receipts</h2>
-				<p class="mt-3 text-[15px] leading-relaxed text-silver">{{@custom.job_title}} at <a href="{{@custom.workplace_url}}" class="font-medium text-ink underline decoration-line underline-offset-4 hover:decoration-ink" target="_blank" rel="noopener">{{@custom.workplace}}</a> — I sit where marketing meets engineering. Below: things I actually built, not adjectives.</p>
+		<div class="max-w-xl">
+			<p class="kicker">{{> "icons/briefcase"}} Dear recruiter</p>
+			<h2 class="section-title mt-2 text-balance">The professional bit, with receipts</h2>
+			<p class="mt-3 text-[15px] leading-relaxed text-silver">{{@custom.job_title}} at <a href="{{@custom.workplace_url}}" class="font-medium text-ink underline decoration-line underline-offset-4 hover:decoration-ink" target="_blank" rel="noopener">{{@custom.workplace}}</a> — I sit where marketing meets engineering.</p>
+		</div>
+
+		{{!-- widgets: skills · career summary · career timeline --}}
+		<div class="mt-8 grid gap-4 lg:grid-cols-3" data-reveal-stagger="100">
+			{{!-- skills, headliners highlighted --}}
+			<div class="card-surface !transform-none p-5">
+				<p class="kicker !text-[10px]">{{> "icons/zap" class="h-3 w-3"}} Skills</p>
+				<div class="mt-3 flex flex-wrap gap-1.5">
+					<span class="chip !border-transparent !bg-ink !text-paper">GTM</span>
+					<span class="chip !border-transparent !bg-ink !text-paper">Salesforce</span>
+					<span class="chip !border-transparent !bg-ink !text-paper">CRM</span>
+					<span class="chip !border-transparent !bg-ink !text-paper">Analytics</span>
+					<span class="chip">Google Ads</span>
+					<span class="chip">GA4</span>
+					<span class="chip">Looker Studio</span>
+					<span class="chip">SQL</span>
+					<span class="chip">JavaScript</span>
+					<span class="chip">Ghost CMS</span>
+					<span class="chip">Tailwind</span>
+					<span class="chip">Automation</span>
+				</div>
 			</div>
-			<div class="flex shrink-0 flex-wrap gap-2">
-				<a href="{{@site.url}}/resume/" class="btn-primary">{{> "icons/briefcase"}} Resume</a>
-				<a href="{{@site.url}}/projects/" class="btn-ghost">All projects {{> "icons/arrow-right"}}</a>
-				<a href="{{@site.url}}/contact/" class="btn-ghost">{{> "icons/mail"}} Contact</a>
+
+			{{!-- career summary --}}
+			<div class="card-surface !transform-none p-5">
+				<p class="kicker !text-[10px]">{{> "icons/user" class="h-3 w-3"}} Career summary</p>
+				<p class="mt-3 text-[13px] leading-relaxed text-silver">B.Tech CSE turned marketing technologist. I build measurement systems, automate ad operations and ship the landing pages myself — currently doing all three at {{@custom.workplace}}, at ed-tech scale. 10k+ people learn marketing tech from my videos.</p>
+				<p class="mt-3 font-mono text-[10px] uppercase tracking-[0.15em] text-silver">marketer who reads stack traces</p>
 			</div>
+
+			{{!-- career timeline — dashed spine, latest roles --}}
+			<div class="card-surface !transform-none p-5">
+				<p class="kicker !text-[10px]">{{> "icons/calendar" class="h-3 w-3"}} Career timeline</p>
+				{{#get "posts" filter="tag:hash-timeline+tag:hash-event-company-change" limit="3" order="published_at desc" as |roles|}}
+					{{#if roles}}
+					<ol class="mt-3 space-y-3 border-l-2 border-dashed border-line pl-4">
+						{{#foreach roles}}
+						<li class="relative">
+							<span class="absolute -left-[1.42rem] top-1 h-2.5 w-2.5 rounded-full border-2 border-paper bg-accent"></span>
+							<a href="{{@site.url}}/timeline/#tl-{{slug}}" class="group block">
+								<span class="font-mono text-[9px] uppercase tracking-[0.18em] text-silver">{{date published_at format="MMM YYYY"}}{{#if @first}} · <span class="text-ink">now</span>{{/if}}</span>
+								<strong class="block text-[13px] font-semibold leading-snug tracking-tight group-hover:underline group-hover:underline-offset-4">{{title}}</strong>
+							</a>
+						</li>
+						{{/foreach}}
+					</ol>
+					{{else}}
+					<p class="mt-3 text-[12px] text-silver">Tag timeline posts <code class="rounded bg-mist px-1 font-mono text-[10px]">#event-company-change</code> to chart roles here.</p>
+					{{/if}}
+				{{/get}}
+			</div>
+		</div>
+
+		{{!-- CTAs --}}
+		<div class="mt-6 flex flex-wrap items-center gap-3">
+			<a href="{{@site.url}}/resume/" class="btn-primary">{{> "icons/briefcase"}} View resume — full details</a>
+			<a href="{{@site.url}}/contact/" class="btn-ghost">{{> "icons/mail"}} Hire me before someone else does</a>
 		</div>
 
 		{{!-- skill filter chips (injected by the script below) --}}

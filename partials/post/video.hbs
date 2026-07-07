@@ -37,27 +37,27 @@
 		}
 		.vd-chapters { width: 100%; font-size: .8rem; border-collapse: collapse; }
 		.vd-chapters thead { display: none; }
-		.vd-chapters td { padding: .6rem .5rem; border-bottom: 1px solid rgba(255,255,255,.08); color: rgba(255,255,255,.85); vertical-align: top; }
+		.vd-chapters td { padding: .6rem .5rem; border-bottom: 1px solid rgb(var(--line)); color: rgb(var(--ink) / .85); vertical-align: top; }
 		.vd-chapters .vd-chapter { cursor: pointer; border-radius: .5rem; }
-		.vd-chapters .vd-chapter td:first-child { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; white-space: nowrap; color: rgba(255,255,255,.5); }
-		.vd-chapters .vd-chapter:hover td { background: rgba(255,255,255,.08); }
-		.vd-chapters .vd-active td { background: rgba(255,255,255,.14); font-weight: 600; color: #fff; }
-		.vd-chapters .vd-active td:first-child { box-shadow: inset 3px 0 0 currentColor; }
+		.vd-chapters .vd-chapter td:first-child { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; white-space: nowrap; color: rgb(var(--silver)); }
+		.vd-chapters .vd-chapter:hover td { background: rgb(var(--mist)); }
+		.vd-chapters .vd-active td { background: rgb(var(--mist)); font-weight: 600; color: rgb(var(--ink)); }
+		.vd-chapters .vd-active td:first-child { box-shadow: inset 3px 0 0 rgb(var(--accent)); color: rgb(var(--accent)); }
 	</style>
 
-	{{!-- Theater band: player left, chapter list right (mobile: stacked below) --}}
-	<div class="bg-black">
-		<div class="container-site py-6 sm:py-10">
-			<div id="vd-grid" class="mx-auto grid max-w-6xl gap-4 lg:grid-cols-[1fr_20rem]">
-				<div id="vd-shell" class="relative">
-					<div id="vd-stage" class="relative aspect-video overflow-hidden rounded-2xl border border-white/10 bg-black shadow-lift">
-						<div class="vd-scan" aria-hidden="true"></div>
-					</div>
+	{{!-- Theater band: true full-width, zero padding — player 70% left,
+	     chapters 30% right as a plain column (no box). Mobile: video
+	     edge-to-edge tucked under the navbar, chapters inline below. --}}
+	<div class="-mt-2 border-b border-line sm:mt-0" id="vd-band">
+		<div id="vd-grid" class="grid w-full gap-0 lg:grid-cols-[7fr_3fr]">
+			<div id="vd-shell" class="relative">
+				<div id="vd-stage" class="relative aspect-video overflow-hidden bg-black">
+					<div class="vd-scan" aria-hidden="true"></div>
 				</div>
-				<aside id="vd-chapters-slot" class="hidden max-h-[calc(56.25vw*1)] overflow-y-auto rounded-2xl border border-white/10 bg-white/[0.03] p-2 text-white lg:block lg:max-h-none">
-					<p class="px-2 pb-2 pt-1 font-mono text-[10px] uppercase tracking-[0.25em] text-white/50">Chapters</p>
-				</aside>
 			</div>
+			<aside id="vd-chapters-slot" class="hidden overflow-y-auto border-line px-3 py-2 lg:block lg:max-h-[calc((100vw*0.7)*9/16)] lg:border-l">
+				<p class="px-2 pb-2 pt-1 font-mono text-[10px] uppercase tracking-[0.25em] text-silver">{{> "icons/clock" class="inline h-3 w-3"}} Chapters — tap to jump</p>
+			</aside>
 		</div>
 	</div>
 
@@ -80,6 +80,20 @@
 			</section>
 
 			{{> "components/adsense" slot="6501428979" layout="in-article" format="fluid"}}
+
+			{{!-- Gear used to make the videos --}}
+			{{#get "posts" filter="tag:hash-product+tag:hash-course-gear" limit="4" include="tags" as |gear|}}
+				{{#if gear}}
+				<section class="mt-12 border-t border-line pt-10">
+					<p class="kicker">{{> "icons/film" class="h-3.5 w-3.5"}} Products I use to make videos</p>
+					<div class="mt-5 grid gap-4 sm:grid-cols-2" data-reveal-stagger="80">
+						{{#foreach gear}}
+							{{> "cards/product-mini"}}
+						{{/foreach}}
+					</div>
+				</section>
+				{{/if}}
+			{{/get}}
 
 			<footer class="mt-8 flex flex-wrap gap-2 border-t border-line pt-6">
 				{{#foreach tags visibility="public"}}<a href="{{url}}" class="chip transition hover:border-ink hover:text-ink">{{name}}</a>{{/foreach}}
@@ -194,7 +208,7 @@
 		} else if (chaptersSlot) {
 			chaptersSlot.remove();
 			var grid = document.getElementById('vd-grid');
-			if (grid) grid.classList.remove('lg:grid-cols-[1fr_20rem]');
+			if (grid) grid.classList.remove('lg:grid-cols-[7fr_3fr]');
 		}
 
 		/* ---------- 4. YouTube IFrame API, loaded lazily ---------- */
