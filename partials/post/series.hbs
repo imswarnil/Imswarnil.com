@@ -1,10 +1,10 @@
 {{!-- Netflix-style webseries overview.
-     Episodes are #episode posts whose PUBLIC primary tag equals this series post's primary tag.
-     Episode 1 = oldest published. --}}
-{{#get "posts" filter="tag:hash-episode+tag:{{slug}}" order="published_at asc" limit="50" as |eps|}}
+     Episodes are #episode posts sharing this series' public tag; each lookup
+     is a SMALL scoped {{#get}} — the post's own {{content}}/helpers must stay
+     OUTSIDE any get block (inside one, post context breaks and {{content}}
+     renders "undefined"). --}}
 
-{{!-- Netflix chrome — replaces the global navbar (hidden via body.tag-hash-webseries).
-     ← browse · title · episodes / subscribe / theme / close --}}
+{{!-- Netflix chrome — replaces the global navbar (hidden via body.tag-hash-webseries) --}}
 <div class="series-bar" id="series-bar">
 	<a href="{{@site.url}}/webseries/" class="series-bar-btn tooltip tooltip-bottom" data-tip="All series" aria-label="Back to all series">{{> "icons/arrow-right" class="rotate-180"}}</a>
 	<p class="min-w-0 flex-1 truncate text-sm font-bold tracking-tight text-white [text-shadow:0_1px_6px_rgb(0_0_0/.5)]">{{title}}</p>
@@ -16,21 +16,26 @@
 	</div>
 </div>
 
-<article class="{{post_class}} -mt-16 sm:-mt-[4.25rem]">
+<article class="{{post_class}} -mt-16 sm:-mt-[4.25rem]" id="series-app"
+	data-title="{{title}}"
+	data-url="{{url absolute="true"}}"
+	data-desc="{{#if custom_excerpt}}{{custom_excerpt}}{{else}}{{excerpt words="45"}}{{/if}}"
+	data-image="{{#if feature_image}}{{img_url feature_image size="1600" absolute="true"}}{{/if}}">
 
-	{{!-- Backdrop hero: series poster → first episode's poster → the series' own
-	     opening video (hoisted by JS below, home-hero style) --}}
+	{{!-- Backdrop hero: series poster → first episode poster → the series' own
+	     opening video (hoisted by JS, home-hero style) --}}
 	<header class="relative flex min-h-[78vh] items-end overflow-hidden">
 		<div class="absolute inset-0" aria-hidden="true" id="series-backdrop">
 			{{#if feature_image}}
 				<img src="{{img_url feature_image size="2000"}}" alt="" class="h-full w-full object-cover" />
 			{{else}}
-				{{#foreach eps limit="1"}}
-					{{#if feature_image}}<img src="{{img_url feature_image size="2000"}}" alt="" class="h-full w-full object-cover" />{{/if}}
+				{{#foreach tags visibility="public" limit="1"}}
+				{{#get "posts" filter="tag:hash-episode+tag:{{slug}}" order="published_at asc" limit="1" as |firstep|}}
+					{{#foreach firstep}}{{#if feature_image}}<img src="{{img_url feature_image size="2000"}}" alt="" class="h-full w-full object-cover" />{{/if}}{{/foreach}}
+				{{/get}}
 				{{/foreach}}
 			{{/if}}
 			<span class="absolute inset-0 overflow-hidden" id="series-hero-video"></span>
-			{{!-- grade: legible text, artwork still breathes --}}
 			<div class="absolute inset-0" style="background: linear-gradient(to top, rgb(var(--paper)) 0%, rgb(var(--paper) / .7) 18%, rgb(var(--paper) / .12) 45%, transparent 100%);"></div>
 			<div class="absolute inset-0" style="background: linear-gradient(to right, rgb(var(--paper) / .45), transparent 55%);"></div>
 		</div>
@@ -42,15 +47,21 @@
 
 				<div class="mt-5 flex flex-wrap items-center gap-x-4 gap-y-2 font-mono text-xs text-silver">
 					<span class="flex items-center gap-1.5">{{> "icons/calendar"}} {{date published_at format="YYYY"}}</span>
-					<span class="flex items-center gap-1.5">{{> "icons/film"}} {{plural pagination.total empty="Episodes coming soon" singular="% episode" plural="% episodes"}}</span>
+					{{#foreach tags visibility="public" limit="1"}}
+					{{#get "posts" filter="tag:hash-episode+tag:{{slug}}" limit="1" as |c|}}
+						<span class="flex items-center gap-1.5">{{> "icons/film"}} {{plural pagination.total empty="Episodes coming soon" singular="% episode" plural="% episodes"}}</span>
+					{{/get}}
+					{{/foreach}}
 					<span class="flex items-center gap-1.5">{{> "icons/clock"}} <span id="series-duration" data-duration-tags="{{#foreach tags visibility="internal"}}{{slug}} {{/foreach}}" hidden></span></span>
 				</div>
 
 				<p class="mt-5 max-w-xl text-lg leading-relaxed text-ink/80">{{#if custom_excerpt}}{{custom_excerpt}}{{else}}{{excerpt words="45"}}{{/if}}</p>
 
 				<div class="mt-7 flex flex-wrap items-center gap-3">
-					{{#foreach eps limit="1"}}
-						<a href="{{url}}" class="btn btn-primary">{{> "icons/play"}} Play episode 1</a>
+					{{#foreach tags visibility="public" limit="1"}}
+					{{#get "posts" filter="tag:hash-episode+tag:{{slug}}" order="published_at asc" limit="1" as |firstep|}}
+						{{#foreach firstep}}<a href="{{url}}" class="btn btn-primary">{{> "icons/play"}} Play episode 1</a>{{/foreach}}
+					{{/get}}
 					{{/foreach}}
 					<a href="#episodes" class="btn btn-ghost">Episode list {{> "icons/chevron-down"}}</a>
 				</div>
@@ -61,35 +72,39 @@
 	<div class="container-site py-10">
 		<div class="mx-auto max-w-4xl">
 
-			{{!-- Synopsis / body — the "Cast" heading + list inside is restyled into avatar chips below --}}
+			{{!-- Synopsis / body — OUTSIDE any get so {{content}} works --}}
 			<section class="gh-content" id="series-content">
 				{{content}}
 			</section>
 
 			{{> "components/adsense" slot="8939839370" format="auto"}}
 
-			{{!-- Episode list, Netflix ranked rows --}}
+			{{!-- Episode list --}}
 			<section id="episodes" class="scroll-mt-28">
 				<h2 class="section-title mt-14">Episodes</h2>
-				{{#if eps}}
-					<ol class="mt-6 space-y-3" id="episode-list">
-						{{#foreach eps}}
-							<li class="reveal">{{> "cards/episode" num=@number}}</li>
-						{{/foreach}}
-					</ol>
-				{{else}}
-					<p class="mt-6 rounded-2xl border border-dashed border-line p-8 text-center text-sm text-silver">Episodes drop soon — tag them <code class="rounded bg-mist px-1 font-mono text-xs">#episode</code> with public tag <code class="rounded bg-mist px-1 font-mono text-xs">{{slug}}</code> (any position).</p>
-				{{/if}}
+				{{#foreach tags visibility="public" limit="1"}}
+				{{#get "posts" filter="tag:hash-episode+tag:{{slug}}" order="published_at asc" limit="50" as |eps|}}
+					{{#if eps}}
+						<ol class="mt-6 space-y-3" id="episode-list">
+							{{#foreach eps}}
+								<li class="reveal">{{> "cards/episode" num=@number}}</li>
+							{{/foreach}}
+						</ol>
+					{{else}}
+						<p class="mt-6 rounded-2xl border border-dashed border-line p-8 text-center text-sm text-silver">Episodes drop soon — tag them <code class="rounded bg-mist px-1 font-mono text-xs">#episode</code> with this series' public tag <code class="rounded bg-mist px-1 font-mono text-xs">{{slug}}</code> (first position).</p>
+					{{/if}}
+				{{/get}}
+				{{/foreach}}
 			</section>
 
 			{{!-- Gear shelf --}}
-			{{#get "posts" filter="tag:hash-product" limit="4" as |gear|}}
+			{{#get "posts" filter="tag:hash-product+tag:hash-course-gear" limit="4" include="tags" as |gear|}}
 				{{#if gear}}
 					<section class="mt-16">
 						<h2 class="section-title">Products used to make this webseries</h2>
-						<div class="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+						<div class="mt-6 grid gap-4 sm:grid-cols-2">
 							{{#foreach gear}}
-								{{> "cards/product"}}
+								{{> "cards/product-mini"}}
 							{{/foreach}}
 						</div>
 					</section>
@@ -106,37 +121,10 @@
 		</div>
 	</div>
 
-	{{!-- TVSeries structured data; durations patched in by the inline script below --}}
-	<script type="application/ld+json" id="series-jsonld">
-	{
-		"@context": "https://schema.org",
-		"@type": "TVSeries",
-		"name": "{{title}}",
-		"url": "{{url absolute="true"}}",
-		"description": "{{#if custom_excerpt}}{{custom_excerpt}}{{else}}{{excerpt words="45"}}{{/if}}",
-		{{#if feature_image}}"image": "{{img_url feature_image size="1600" absolute="true"}}",{{/if}}
-		"numberOfEpisodes": {{pagination.total}},
-		"containsSeason": {
-			"@type": "TVSeason",
-			"seasonNumber": 1,
-			"name": "{{title}} — Season 1",
-			"episode": [
-				{{#foreach eps}}
-				{
-					"@type": "TVEpisode",
-					"position": {{@number}},
-					"episodeNumber": {{@number}},
-					"name": "{{title}}",
-					"url": "{{url absolute="true"}}"
-				}{{#unless @last}},{{/unless}}
-				{{/foreach}}
-			]
-		}
-	}
-	</script>
-
 	<script>
 	(function () {
+		var app = document.getElementById('series-app');
+
 		/* ----- Hero video: if the series content opens with a YouTube embed,
 		   play it (muted, looping) as the backdrop — home-hero style ----- */
 		var content = document.getElementById('series-content');
@@ -168,14 +156,13 @@
 		}
 
 		/* ----- Cast: restyle the "Cast" heading + list from the body into avatar chips ----- */
-		var content = document.getElementById('series-content');
 		if (content) {
 			var heads = content.querySelectorAll('h2, h3');
-			for (var i = 0; i < heads.length; i++) {
-				if (!/^cast$/i.test(heads[i].textContent.trim())) continue;
-				var list = heads[i].nextElementSibling;
+			for (var hi = 0; hi < heads.length; hi++) {
+				if (!/^cast$/i.test(heads[hi].textContent.trim())) continue;
+				var list = heads[hi].nextElementSibling;
 				if (!list || !/^(UL|OL)$/.test(list.tagName)) break;
-				heads[i].className = 'section-title !mt-14';
+				heads[hi].className = 'section-title !mt-14';
 				var wrap = document.createElement('div');
 				wrap.className = 'not-prose mt-5 flex flex-wrap gap-3';
 				var items = list.querySelectorAll('li');
@@ -209,28 +196,49 @@
 			}
 		}
 
-		/* ----- JSON-LD: inject ISO 8601 durations read from the duration spans ----- */
+		/* ----- TVSeries JSON-LD, built from the page (episodes read from the DOM) ----- */
 		function iso(el) {
 			if (!el) return null;
 			var m = (el.getAttribute('data-duration-tags') || '').match(/hash-duration-(?:(\d+)h)?-?(?:(\d+)m)?/);
 			if (!m || (!m[1] && !m[2])) return null;
 			return 'PT' + (m[1] ? m[1] + 'H' : '') + (m[2] ? m[2] + 'M' : '');
 		}
-		var script = document.getElementById('series-jsonld');
-		if (!script) return;
-		try {
-			var data = JSON.parse(script.textContent);
+		if (app) {
+			var epLinks = [].slice.call(document.querySelectorAll('#episode-list a[href]'));
+			var seen = {};
+			var episodes = [];
+			epLinks.forEach(function (a) {
+				if (seen[a.href]) return;
+				seen[a.href] = 1;
+				var t = a.querySelector('h3, .line-clamp-2, strong');
+				episodes.push({ url: a.href, name: (t ? t.textContent : a.textContent).trim() });
+			});
+			var ld = {
+				'@context': 'https://schema.org',
+				'@type': 'TVSeries',
+				name: app.getAttribute('data-title'),
+				url: app.getAttribute('data-url'),
+				description: app.getAttribute('data-desc')
+			};
+			if (app.getAttribute('data-image')) ld.image = app.getAttribute('data-image');
 			var total = iso(document.getElementById('series-duration'));
-			if (total) data.duration = total;
-			var spans = document.querySelectorAll('#episode-list [data-duration-tags]');
-			var epsData = (data.containsSeason && data.containsSeason.episode) || [];
-			for (var k = 0; k < epsData.length && k < spans.length; k++) {
-				var d = iso(spans[k]);
-				if (d) epsData[k].duration = d;
+			if (total) ld.duration = total;
+			if (episodes.length) {
+				ld.numberOfEpisodes = episodes.length;
+				ld.containsSeason = {
+					'@type': 'TVSeason',
+					seasonNumber: 1,
+					name: app.getAttribute('data-title') + ' — Season 1',
+					episode: episodes.map(function (e, i) {
+						return { '@type': 'TVEpisode', position: i + 1, episodeNumber: i + 1, name: e.name, url: e.url };
+					})
+				};
 			}
-			script.textContent = JSON.stringify(data);
-		} catch (e) { /* leave the static JSON-LD as-is */ }
+			var tag = document.createElement('script');
+			tag.type = 'application/ld+json';
+			tag.textContent = JSON.stringify(ld);
+			document.head.appendChild(tag);
+		}
 	})();
 	</script>
 </article>
-{{/get}}
