@@ -9,12 +9,19 @@
 					srcset="{{img_url feature_image size="300"}} 300w, {{img_url feature_image size="600"}} 600w, {{img_url feature_image size="1000"}} 1000w"
 					sizes="(max-width: 640px) 90vw, 360px"
 					alt="{{#if feature_image_alt}}{{feature_image_alt}}{{else}}{{title}}{{/if}}"
-					loading="lazy"
+					loading="lazy" width="600" height="338" decoding="async" data-skeleton
 					class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
+				<div class="skeleton absolute inset-0"></div>
 			{{else}}
-				<div class="bg-dots flex h-full w-full items-center justify-center">{{> "icons/film" class="text-silver"}}</div>
+				{{!-- No feature image → use the video thumbnail; hover mounts a muted reel --}}
+				<div class="video-fallback" data-yt-preview="ecOkmTD7KhU">
+					<img src="https://i.ytimg.com/vi/ecOkmTD7KhU/maxresdefault.jpg"
+						alt="{{title}}" loading="lazy" width="1280" height="720" decoding="async"
+						onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/ecOkmTD7KhU/hqdefault.jpg'"
+						class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
+				</div>
 			{{/if}}
-			<div class="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-transparent aria-hidden="true"></div>
+			<div class="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-transparent" aria-hidden="true"></div>
 			<span class="absolute inset-0 flex items-center justify-center" aria-hidden="true">
 				<span class="flex h-11 w-11 items-center justify-center rounded-full bg-white/90 text-black shadow-lg transition-transform duration-300 group-hover:scale-110">{{> "icons/play" class="ml-0.5 h-4 w-4"}}</span>
 			</span>

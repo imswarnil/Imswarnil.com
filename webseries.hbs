@@ -1,21 +1,18 @@
 {{!< default}}
 
 {{!-- Cinematic hero: muted looping ambient video with the newest series' poster underneath --}}
-<section class="tv-scanlines relative -mt-16 flex min-h-[72vh] items-end overflow-hidden sm:-mt-[4.25rem]" style="background:#08080a;">
-	<div class="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
-		{{#foreach posts limit="1"}}
-			{{#if feature_image}}
-				<img src="{{img_url feature_image size="2000"}}" alt="" class="absolute inset-0 h-full w-full object-cover opacity-60" />
-			{{/if}}
+<section class="tv-scanlines relative -mt-16 flex min-h-[72vh] items-end overflow-hidden sm:-mt-[4.25rem]">
+	{{!-- Poster (newest series' image, else the reel thumbnail) paints first;
+	     main.js mounts the muted reel after load. --}}
+	<div class="video-hero-media" data-yt-bg="ecOkmTD7KhU" aria-hidden="true">
+		{{#foreach posts limit="1"}}{{#if feature_image}}
+			<img class="video-hero-poster opacity-70" src="{{img_url feature_image size="1600"}}" alt="" width="1600" height="900" fetchpriority="high" decoding="async" />
+		{{else}}
+			<img class="video-hero-poster" src="https://i.ytimg.com/vi/ecOkmTD7KhU/maxresdefault.jpg" alt="" width="1280" height="720" decoding="async" onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/ecOkmTD7KhU/hqdefault.jpg'" />
+		{{/if}}{{else}}
+			<img class="video-hero-poster" src="https://i.ytimg.com/vi/ecOkmTD7KhU/maxresdefault.jpg" alt="" width="1280" height="720" decoding="async" onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/ecOkmTD7KhU/hqdefault.jpg'" />
 		{{/foreach}}
-		<iframe
-			src="https://www.youtube-nocookie.com/embed/ecOkmTD7KhU?autoplay=1&amp;mute=1&amp;loop=1&amp;controls=0&amp;playlist=ecOkmTD7KhU&amp;playsinline=1&amp;rel=0&amp;modestbranding=1&amp;iv_load_policy=3&amp;disablekb=1"
-			title="Ambient background video"
-			tabindex="-1"
-			loading="lazy"
-			allow="autoplay; encrypted-media"
-			style="position:absolute; top:50%; left:50%; width:100vw; height:56.25vw; min-height:100%; min-width:calc(100vh * 1.7778); transform:translate(-50%,-50%) scale(1.12); border:0; pointer-events:none;"></iframe>
-		<div class="absolute inset-0" style="background: linear-gradient(to top, #08080a 0%, rgb(8 8 10 / .78) 25%, rgb(8 8 10 / .35) 60%, rgb(8 8 10 / .55) 100%);"></div>
+		<div class="video-hero-scrim video-hero-scrim-b"></div>
 	</div>
 
 	<div class="container-site relative pb-14 pt-40 text-white">

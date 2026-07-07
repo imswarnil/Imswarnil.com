@@ -482,4 +482,93 @@
 		document.querySelectorAll('[data-modal]:not(.hidden)').forEach(closeModal);
 	});
 
+	/* ---------- Lazy image skeletons: reveal <img data-skeleton> on decode ---------- */
+	(function () {
+		function reveal(img) { img.classList.add('is-loaded'); }
+		document.querySelectorAll('img[data-skeleton]').forEach(function (img) {
+			if (img.complete && img.naturalWidth) { reveal(img); return; }
+			img.addEventListener('load', function () { reveal(img); });
+			img.addEventListener('error', function () { reveal(img); }); /* don't trap the skeleton on a broken src */
+		});
+	})();
+
+	/* ---------- Lazy YouTube backdrops ([data-yt-bg]) ----------------------
+	   The poster in the HTML is the LCP element; the heavy muted-reel iframe
+	   is mounted only after load + idle (and never under reduced-motion), so
+	   it can't block first paint on the video-heavy collection pages. -------- */
+	(function () {
+		var hosts = document.querySelectorAll('[data-yt-bg]');
+		if (!hosts.length) return;
+		if (reduceMotion) return; /* keep the poster only */
+		function mount(host) {
+			if (host.dataset.ytMounted) return;
+			host.dataset.ytMounted = '1';
+			var id = host.getAttribute('data-yt-bg');
+			if (!id) return;
+			var f = document.createElement('iframe');
+			f.src = 'https://www.youtube-nocookie.com/embed/' + id +
+				'?autoplay=1&mute=1&loop=1&playlist=' + id +
+				'&controls=0&playsinline=1&rel=0&modestbranding=1&iv_load_policy=3&disablekb=1';
+			f.title = 'Ambient background video';
+			f.tabIndex = -1;
+			f.setAttribute('allow', 'autoplay; encrypted-media');
+			f.setAttribute('frameborder', '0');
+			f.className = 'video-hero-frame';
+			f.addEventListener('load', function () { host.classList.add('is-playing'); });
+			host.appendChild(f);
+		}
+		function boot() {
+			if ('IntersectionObserver' in window) {
+				var io = new IntersectionObserver(function (ents) {
+					ents.forEach(function (e) { if (e.isIntersecting) { mount(e.target); io.unobserve(e.target); } });
+				}, { rootMargin: '200px' });
+				hosts.forEach(function (h) { io.observe(h); });
+			} else {
+				hosts.forEach(mount);
+			}
+		}
+		function idle(fn) { ('requestIdleCallback' in window) ? requestIdleCallback(fn, { timeout: 2500 }) : setTimeout(fn, 700); }
+		if (document.readyState === 'complete') idle(boot);
+		else window.addEventListener('load', function () { idle(boot); });
+	})();
+
+	/* ---------- Video-card hover previews ([data-yt-preview]) --------------
+	   YouTube-style: on hover/focus, mount a muted reel over the thumbnail;
+	   only one preview lives at a time and it's torn down on leave. ---------- */
+	(function () {
+		if (reduceMotion) return;
+		var canHover = !window.matchMedia || window.matchMedia('(hover: hover)').matches;
+		if (!canHover) return; /* touch devices: thumbnail only */
+		document.querySelectorAll('[data-yt-preview]').forEach(function (host) {
+			var id = host.getAttribute('data-yt-preview');
+			if (!id) return;
+			var card = host.closest('.video-card') || host;
+			var frame = null, timer = null;
+			function enter() {
+				timer = setTimeout(function () {
+					if (frame) return;
+					frame = document.createElement('iframe');
+					frame.src = 'https://www.youtube-nocookie.com/embed/' + id +
+						'?autoplay=1&mute=1&loop=1&playlist=' + id +
+						'&controls=0&playsinline=1&rel=0&modestbranding=1&iv_load_policy=3&disablekb=1';
+					frame.title = 'Preview';
+					frame.tabIndex = -1;
+					frame.setAttribute('allow', 'autoplay; encrypted-media');
+					frame.setAttribute('frameborder', '0');
+					frame.className = 'video-preview-frame';
+					host.appendChild(frame);
+					requestAnimationFrame(function () { if (frame) frame.style.opacity = '1'; });
+				}, 220); /* debounce quick pass-overs */
+			}
+			function leave() {
+				clearTimeout(timer);
+				if (frame) { frame.remove(); frame = null; }
+			}
+			card.addEventListener('pointerenter', enter);
+			card.addEventListener('pointerleave', leave);
+			card.addEventListener('focusin', enter);
+			card.addEventListener('focusout', leave);
+		});
+	})();
+
 })();

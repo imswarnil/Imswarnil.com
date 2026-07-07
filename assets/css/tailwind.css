@@ -1,3 +1,6 @@
+/* Component partials (postcss-import inlines these before Tailwind runs) */
+@import './components/media.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

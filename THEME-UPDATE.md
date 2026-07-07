@@ -2,6 +2,36 @@
 
 Running record of what's done and what's left. Master backlog lives in CLAUDE.md.
 
+## 2026-07-08 — media system + LCP rescue
+
+### Done
+- **Structured CSS**: started an `assets/css/components/` folder (postcss-import verified
+  working through the Tailwind CLI). First partial `components/media.css` holds the cinematic
+  video-hero, skeleton/shimmer, and video-card preview systems — extracted out of the
+  per-template inline `style="…"` blocks. `@import` sits at the top of `tailwind.css`.
+- **Lazy YouTube facades (LCP fix)**: `/videos`, `/webseries`, and the series detail hero no
+  longer ship an autoplay `<iframe>` in the HTML. They paint a lightweight poster
+  (YouTube thumbnail / feature image) and `main.js` mounts the muted reel after `load`+idle
+  (IntersectionObserver, skipped under reduced-motion). Removes the heavy render-blocking
+  player from first paint — the main driver of the 20.7 s LCP.
+- **Series detail hero bug**: was washed to near-white in light mode (paper-tinted scrims +
+  ink text) so the image "disappeared". Now a proper dark cinematic treatment
+  (`.video-hero-scrim-b/-x`, white text) that reads in every theme mode; always shows a
+  poster even with no feature image or under reduced-motion.
+- **Video card fallback**: `#video` posts with no feature image now use the video thumbnail
+  and hover-mount a muted reel (`[data-yt-preview]`), instead of the empty dotted box.
+- **Skeletons**: lazy `<img data-skeleton>` fades in on decode over a shimmer placeholder.
+- **Perf misc**: explicit `width`/`height` on new posters/cards (CLS), `fetchpriority=high`
+  on hero LCP posters, `preconnect` to `i.ytimg.com`, `decoding=async`.
+- Fixed a malformed `class="…aria-hidden="true""` attribute in `cards/video.hbs`.
+
+### Notes for owner
+- The image-less fallbacks use the site's canonical demo video id `ecOkmTD7KhU`. For real
+  per-post thumbnails, store each video's id (custom field or first embed) — the facade
+  markup already keys off `data-yt-bg` / `data-yt-preview` so it's a one-attribute swap.
+- adsbygoogle double-push is already guarded in `main.js` (per-`ins`); the console error was
+  a stale cached bundle. Hard-refresh after deploy.
+
 ## 2026-07-07 — "the big one" (v1.2)
 
 ### Done

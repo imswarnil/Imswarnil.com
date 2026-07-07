@@ -24,28 +24,33 @@
 
 	{{!-- Backdrop hero: series poster → first episode poster → the series' own
 	     opening video (hoisted by JS, home-hero style) --}}
-	<header class="relative flex min-h-[86vh] items-end overflow-hidden">
-		<div class="absolute inset-0" aria-hidden="true" id="series-backdrop">
+	<header class="tv-scanlines relative flex min-h-[86vh] items-end overflow-hidden">
+		{{!-- Cinematic dark backdrop: series poster → first episode poster → the
+		     reel thumbnail. Stays dark in every theme mode so the image always
+		     reads (a paper-tinted scrim used to wash it to white in light mode). --}}
+		<div class="video-hero-media" aria-hidden="true" id="series-backdrop">
 			{{#if feature_image}}
-				<img src="{{img_url feature_image size="2000"}}" alt="" class="h-full w-full object-cover" />
+				<img class="video-hero-poster" src="{{img_url feature_image size="2000"}}" alt="" width="2000" height="1125" fetchpriority="high" decoding="async" />
 			{{else}}
 				{{#foreach tags visibility="public" limit="1"}}
 				{{#get "posts" filter="tag:hash-episode+tag:{{slug}}" order="published_at asc" limit="1" as |firstep|}}
-					{{#foreach firstep}}{{#if feature_image}}<img src="{{img_url feature_image size="2000"}}" alt="" class="h-full w-full object-cover" />{{/if}}{{/foreach}}
+					{{#foreach firstep}}{{#if feature_image}}<img class="video-hero-poster" src="{{img_url feature_image size="2000"}}" alt="" width="2000" height="1125" fetchpriority="high" decoding="async" />{{else}}<img class="video-hero-poster" src="https://i.ytimg.com/vi/ecOkmTD7KhU/maxresdefault.jpg" alt="" width="1280" height="720" decoding="async" onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/ecOkmTD7KhU/hqdefault.jpg'" />{{/if}}{{/foreach}}
+				{{else}}
+					<img class="video-hero-poster" src="https://i.ytimg.com/vi/ecOkmTD7KhU/maxresdefault.jpg" alt="" width="1280" height="720" decoding="async" onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/ecOkmTD7KhU/hqdefault.jpg'" />
 				{{/get}}
 				{{/foreach}}
 			{{/if}}
 			<span class="absolute inset-0 overflow-hidden" id="series-hero-video"></span>
-			<div class="absolute inset-0" style="background: linear-gradient(to top, rgb(var(--paper)) 0%, rgb(var(--paper) / .7) 18%, rgb(var(--paper) / .12) 45%, transparent 100%);"></div>
-			<div class="absolute inset-0" style="background: linear-gradient(to right, rgb(var(--paper) / .45), transparent 55%);"></div>
+			<div class="video-hero-scrim video-hero-scrim-b"></div>
+			<div class="video-hero-scrim video-hero-scrim-x"></div>
 		</div>
 
-		<div class="container-site relative pb-12 pt-40">
+		<div class="container-site relative pb-12 pt-40 text-white">
 			<div class="max-w-3xl">
-				<p class="kicker">{{> "icons/film"}} Webseries</p>
-				<h1 class="mt-4 text-4xl font-black tracking-tight sm:text-6xl text-balance">{{title}}</h1>
+				<p class="kicker !text-white/70">{{> "icons/film"}} Webseries</p>
+				<h1 class="mt-4 text-4xl font-black tracking-tight sm:text-6xl text-balance [text-shadow:0_2px_20px_rgb(0_0_0/.5)]">{{title}}</h1>
 
-				<div class="mt-5 flex flex-wrap items-center gap-x-4 gap-y-2 font-mono text-xs text-silver">
+				<div class="mt-5 flex flex-wrap items-center gap-x-4 gap-y-2 font-mono text-xs text-white/70">
 					<span class="flex items-center gap-1.5">{{> "icons/calendar"}} {{date published_at format="YYYY"}}</span>
 					{{#foreach tags visibility="public" limit="1"}}
 					{{#get "posts" filter="tag:hash-episode+tag:{{slug}}" limit="1" as |c|}}
@@ -55,15 +60,15 @@
 					<span class="flex items-center gap-1.5">{{> "icons/clock"}} <span id="series-duration" data-duration-tags="{{#foreach tags visibility="internal"}}{{slug}} {{/foreach}}" hidden></span></span>
 				</div>
 
-				<p class="mt-5 max-w-xl text-lg leading-relaxed text-ink/80">{{#if custom_excerpt}}{{custom_excerpt}}{{else}}{{excerpt words="45"}}{{/if}}</p>
+				<p class="mt-5 max-w-xl text-lg leading-relaxed text-white/85">{{#if custom_excerpt}}{{custom_excerpt}}{{else}}{{excerpt words="45"}}{{/if}}</p>
 
 				<div class="mt-7 flex flex-wrap items-center gap-3">
 					{{#foreach tags visibility="public" limit="1"}}
 					{{#get "posts" filter="tag:hash-episode+tag:{{slug}}" order="published_at asc" limit="1" as |firstep|}}
-						{{#foreach firstep}}<a href="{{url}}" class="btn btn-primary">{{> "icons/play"}} Play episode 1</a>{{/foreach}}
+						{{#foreach firstep}}<a href="{{url}}" class="btn !border-transparent !bg-white !text-black hover:!bg-white/90">{{> "icons/play"}} Play episode 1</a>{{/foreach}}
 					{{/get}}
 					{{/foreach}}
-					<a href="#episodes" class="btn btn-ghost">Episode list {{> "icons/chevron-down"}}</a>
+					<a href="#episodes" class="btn !border-white/25 !bg-white/10 !text-white backdrop-blur hover:!bg-white/20">Episode list {{> "icons/chevron-down"}}</a>
 				</div>
 			</div>
 		</div>
@@ -140,22 +145,31 @@
 			var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 			/* no embed in the post? fall back to the ambient reel so the hero always moves */
 			var heroId = found ? found.id : 'ecOkmTD7KhU';
+			/* hide the original embed so it doesn't play twice */
+			if (found) {
+				var card = found.el.closest('.kg-card, figure, .kg-embed-card, .kg-bookmark-card') || found.el;
+				card.style.display = 'none';
+			}
 			if (!reduce) {
-				var f = document.createElement('iframe');
-				f.src = 'https://www.youtube-nocookie.com/embed/' + heroId +
-					'?autoplay=1&mute=1&loop=1&playlist=' + heroId +
-					'&controls=0&playsinline=1&rel=0&modestbranding=1&iv_load_policy=3&disablekb=1';
-				f.title = 'Series backdrop';
-				f.tabIndex = -1;
-				f.setAttribute('allow', 'autoplay; encrypted-media');
-				f.setAttribute('frameborder', '0');
-				f.className = 'pointer-events-none absolute left-1/2 top-1/2 aspect-video h-[120%] w-auto min-w-full -translate-x-1/2 -translate-y-1/2';
-				slot.appendChild(f);
-				/* hide the original embed so it doesn't play twice */
-				if (found) {
-					var card = found.el.closest('.kg-card, figure, .kg-embed-card, .kg-bookmark-card') || found.el;
-					card.style.display = 'none';
-				}
+				/* Mount the backdrop reel AFTER load/idle — the poster is the LCP
+				   element, so the heavy YouTube iframe must never block it. */
+				var mountHero = function () {
+					var backdrop = document.getElementById('series-backdrop');
+					var f = document.createElement('iframe');
+					f.src = 'https://www.youtube-nocookie.com/embed/' + heroId +
+						'?autoplay=1&mute=1&loop=1&playlist=' + heroId +
+						'&controls=0&playsinline=1&rel=0&modestbranding=1&iv_load_policy=3&disablekb=1';
+					f.title = 'Series backdrop';
+					f.tabIndex = -1;
+					f.setAttribute('allow', 'autoplay; encrypted-media');
+					f.setAttribute('frameborder', '0');
+					f.className = 'pointer-events-none absolute left-1/2 top-1/2 aspect-video h-[120%] w-auto min-w-full -translate-x-1/2 -translate-y-1/2';
+					f.addEventListener('load', function () { if (backdrop) backdrop.classList.add('is-playing'); });
+					slot.appendChild(f);
+				};
+				var idle = function (fn) { ('requestIdleCallback' in window) ? requestIdleCallback(fn, { timeout: 2500 }) : setTimeout(fn, 800); };
+				if (document.readyState === 'complete') idle(mountHero);
+				else window.addEventListener('load', function () { idle(mountHero); });
 			}
 		}
 
