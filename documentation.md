@@ -66,27 +66,42 @@ The learning system:
 - Every **lesson post** gets `#lesson` and that course tag as its **FIRST**
   tag. Lesson URLs nest under the course:
   `/courses/course-1/lesson-2/`.
-- Course page (`post/course.hbs`): full-width sections — about, curriculum
-  rows, teaching principles, instructor, gear (`#course-gear` products),
-  prev/next course, more courses, discussion. Curriculum queries key off
-  **`primary_tag.slug`** — never the post slug.
+- Course page (`post/course.hbs`): Udemy-style — blurred-poster hero with
+  inline stats, and a **sticky enrolment card** (preview of lesson 1, price/
+  access, includes-list, share) riding the right rail for the whole page.
+  Left column: about, curriculum rows (lesson thumbnails, durations, done
+  badges, preview pills), teaching principles, instructor, FAQ, gear
+  (`#course-gear`), prev/next course, related, discussion. Lesson lookups
+  resolve the course's **first PUBLIC tag** (never `primary_tag`, which is
+  null when an internal tag sits first).
 - Lesson page (`post/lesson.hbs`): app mode. On desktop the page locks to the
-  viewport — course rail left, lesson pane right, each scrolls independently;
-  a course-player top bar replaces the navbar (logo + course, progress bar,
-  prev/next, theme switch, ✕ back to course). Mobile gets a hamburger that
-  opens the course navigation as a panel modal.
-- **Progress** is stored in `localStorage` per course
-  (`swarnil-progress-{tag}`); a lesson auto-completes at 60% scrolled.
+  viewport — course rail left (line-divided, no boxes), lesson pane right; a
+  course-player top bar replaces the navbar (logo + course, position-based
+  progress, prev/next, theme switch, ✕ back to course). Mobile gets a
+  hamburger that opens the course navigation as a panel modal.
+- **Progress bar is position-based** (lesson 2 of 4 → 50%); completion ticks
+  live in `localStorage` per course (`swarnil-progress-{tag}`) — auto at 60%
+  scrolled, or via the manual "Mark complete" toggle. **The last lesson swaps
+  "next" for a Complete-course button**: confetti, mark done, back to the
+  course page. Prev/next come from the rail (never leave the course; no
+  "previous" on lesson 1).
 
 ### Webseries — `#webseries` → `/webseries/{slug}/` + Episodes — `#episode` → `/webseries/{tag}/{slug}/`
 Same container pattern as courses:
 - Series post = container with public primary tag; episodes carry `#episode` +
   that tag first. Episode 1 = oldest published (`order: published_at asc`).
-- Series page: Netflix-style backdrop hero, episode list, cast chips (a "Cast"
-  heading + list in the body is auto-styled), TVSeries JSON-LD.
-- Episode page: full-bleed theater (first embed hoisted), episode queue on the
-  right, player chrome replaces the navbar (✕, prev/next ep, fullscreen),
-  TVEpisode JSON-LD.
+- Series page: the global navbar is replaced by **Netflix chrome** (← browse,
+  title, episodes jump, subscribe, theme, ✕). Backdrop: series poster → first
+  episode poster, and **if the series content opens with a YouTube video it
+  plays as the hero background** (muted loop; ambient reel as final fallback).
+  Cast chips auto-style from a "Cast" list; TVSeries JSON-LD built client-side.
+- Episode page: TRUE full-width theater (first embed hoisted), queue on the
+  right with "Now playing" highlight, player chrome replaces the navbar (✕,
+  prev/next from the QUEUE — never crosses collections — fullscreen).
+  "Episode N of T" and JSON-LD episodeNumber fill client-side.
+- **Critical rule: never wrap a whole post template in `{{#get}}`** — inside a
+  get block the post context breaks and `{{content}}` renders "undefined".
+  Use small scoped gets per lookup instead.
 
 ### Travel — `#trip` → `/travel/{slug}/` + Stories — `#travel` → `/travel/{tag}/{slug}/`
 - **Trip post** (`#trip`) = the container (like a course). Public primary tag,
@@ -156,7 +171,7 @@ Catch-all listing of everything, lazy-loaded.
 |---|---|---|
 | `/about/` | `page-about.hbs` | Title card, live stats, three acts, hobbies, FAQ, Person JSON-LD |
 | `/contact/` | `page-contact.hbs` | Cards + a real form (formsubmit.co → sponsor email; first submission needs one-time activation) |
-| `/guestbook/` | `page-guestbook.hbs` | Ghost comments styled as a guestbook wall (needs commenting enabled) |
+| `/guestbook/` | `page-guestbook.hbs` | Two-column wall of love: pinned hero left (floating note illustrations + what/how/why explainer), scrolling comments wall right |
 | `/resume/` | `page-resume.hbs` | Custom document bar replaces the navbar (← Home, PDF = print, Hire me). Pulls experience/education/awards from `#event-*` timeline posts |
 | `/sponsor/`, `/welcome/` | existing pages | — |
 | `/tags/` | `tags.hbs` (route) | Tile pile of all public tags |
@@ -283,3 +298,48 @@ npm run zip        # build + gscan --fatal + dist/swarnil.zip
 | Members form no feedback | Portal must be enabled; states are mirrored by the observer in `main.js` |
 | Video post has no player | Post body needs a YouTube embed or link |
 | gscan warnings | `Missing support for custom fonts` is known/accepted |
+
+---
+
+## 12. Recent changes (2026-07-07, this session)
+
+- **Container links fixed sitewide**: back/close/breadcrumb links from lessons,
+  episodes and travel stories used `/collection/{tag-slug}/` which 404s when a
+  container's post slug differs from its tag. Pages now render a hidden
+  resolver (`#container-post`, found by tag) and JS rewrites every
+  `[data-container-link]` to the real post URL.
+- **Tag-order hardening**: every container lookup (home course cards,
+  lessons/episodes/travel indexes, series deck, trip itineraries, course page)
+  resolves the **first public tag** instead of `primary_tag`, surviving Ghost
+  imports that put internal tags first.
+- **"undefined" content bug**: series + episode templates were wrapped whole
+  in `{{#get}}`, which breaks post context — content, comments and meta now
+  render outside gets (see §2 rule).
+- **Course page**: rebuilt Udemy-style (blurred hero, inline stats, sticky
+  overlapping enrolment card, curriculum thumbnails, FAQ).
+- **Lesson player**: line-divided columns (no boxes), position-based progress,
+  rail-driven prev/next, confetti Complete-course finish, mark-complete
+  toggle, breadcrumbs, in-lesson TOC.
+- **Episode player**: full-width (no more 1600px cap/black gutters), calmer
+  mobile bar (✕/title/next only), queue-driven pagination.
+- **Series page**: Netflix chrome replaces navbar; hero always has a moving
+  background (post's own opening video, else ambient reel); wider/taller hero.
+- **Guestbook**: two-column — pinned hero with wall-of-love note illustrations
+  and a what/how/why explainer; wall scrolls on the right; Ghost comments made
+  fully fluid on phones.
+- **Homepage**: "Framed" hero (rule-of-thirds shell, pointer glow, morphing
+  aspect-ratio word frame, HUD, collection pills), videos-only ranked row with
+  visible half-out numbers, 3D "Now" fan (typed cards + done/in-progress),
+  stacked webseries deck with autoplay preview, bento blog, recruiter widgets
+  (skills/summary/dashed career timeline) + filterable projects, dedicated
+  courses section with hover lesson peek, grouped product shelves, timeline
+  with giant year watermark, finale film band (lazy video, grid-line overlay,
+  subscribe modal + inline form).
+- **Subscribe system**: bell → pitch modal (why subscribe vs membership grid,
+  magic-link form with animated success + spam note); members browse ad-free;
+  panel/footer/mobile hooks into the same modal.
+- **Navigation**: native `{{navigation}}` with slug→icon mapping and "- Child"
+  nesting; icon-only theme switch (tap toggles, long-press = all 8 modes incl.
+  Twilio + Neubrutal); navbar border doubles as reading progress.
+- **Data**: import.json + data.json synced — generic names, chapters tables in
+  video-type posts, `#level-*`, `#now-completed`, featured milestones.
