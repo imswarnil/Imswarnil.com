@@ -63,16 +63,16 @@
 </div>
 
 <article class="{{post_class}} pt-16">
-	<div class="lesson-app container-site grid gap-6 py-6 lg:grid-cols-12 lg:gap-8" style="--lesson-top: 7.5rem">
+	<div class="lesson-app container-site grid gap-6 py-6 lg:grid-cols-12 lg:gap-0" style="--lesson-top: 7.5rem">
 
 		{{!-- Course navigation rail (desktop; mobile uses the panel modal) --}}
-		<aside class="hidden lg:col-span-4 lg:block xl:col-span-3">
-			<details class="lesson-nav lesson-pane card-surface !transform-none" open>
-				<summary class="flex cursor-pointer list-none items-center justify-between gap-2 p-5 [&::-webkit-details-marker]:hidden lg:pointer-events-none">
+		<aside class="hidden lg:col-span-4 lg:block lg:pr-8 xl:col-span-3">
+			<details class="lesson-nav lesson-pane" open>
+				<summary class="flex cursor-pointer list-none items-center justify-between gap-2 border-b border-line px-1 py-4 [&::-webkit-details-marker]:hidden lg:pointer-events-none">
 					<span class="kicker !mb-0">{{> "icons/book"}} Course navigation</span>
 					{{> "icons/chevron-down" class="text-silver lg:hidden"}}
 				</summary>
-				<div class="px-5 pb-5">
+				<div class="px-1 py-4">
 					{{#primary_tag}}
 					<a href="{{@site.url}}/courses/{{slug}}/" class="block text-base font-semibold tracking-tight hover:underline hover:underline-offset-4">{{name}}</a>
 					{{/primary_tag}}
@@ -109,8 +109,8 @@
 		</aside>
 
 		{{!-- Lesson pane --}}
-		<div class="lesson-pane min-w-0 lg:col-span-8 lg:rounded-2xl lg:border lg:border-line lg:bg-paper lg:shadow-card xl:col-span-9">
-			<header class="border-b border-line px-0 py-6 lg:px-8">
+		<div class="lesson-pane min-w-0 lg:col-span-8 lg:border-l lg:border-line lg:pl-8 xl:col-span-9">
+			<header class="border-b border-line px-0 py-6">
 				<nav class="flex flex-wrap items-center gap-2 font-mono text-[10px] uppercase tracking-[0.15em] text-silver" aria-label="Breadcrumb">
 					<a href="{{@site.url}}/courses/" class="transition hover:text-ink">Courses</a>
 					<span aria-hidden="true">/</span>
@@ -129,9 +129,9 @@
 				</p>
 			</header>
 
-			<div class="px-0 py-8 lg:px-8">
+			<div class="px-0 py-8">
 				{{!-- auto-TOC: "In this lesson" (built from h2/h3 by main.js) --}}
-				<aside id="toc" hidden class="mb-8 rounded-2xl border border-line bg-mist/40 p-5">
+				<aside id="toc" hidden class="mb-8 border-y border-line py-4">
 					<p class="kicker !text-[10px]">{{> "icons/book" class="h-3 w-3"}} In this lesson</p>
 					<nav id="toc-list" class="mt-3" aria-label="Lesson contents"></nav>
 				</aside>
@@ -140,9 +140,9 @@
 				</section>
 
 				{{!-- Prev / next lesson within the course --}}
-				<nav class="mt-10 grid gap-4 border-t border-line pt-6 sm:grid-cols-2" aria-label="Lesson pagination">
+				<nav class="mt-10 grid border-y border-line sm:grid-cols-2 sm:divide-x sm:divide-line" aria-label="Lesson pagination">
 					{{#prev_post in="primary_tag"}}
-					<a href="{{url}}" class="card-surface group flex items-center gap-3 p-4 !transform-none">
+					<a href="{{url}}" class="group flex items-center gap-3 py-5 pr-4 transition hover:bg-mist/60">
 						{{> "icons/arrow-right" class="shrink-0 rotate-180 text-silver transition group-hover:text-ink"}}
 						<span class="min-w-0">
 							<span class="block font-mono text-[10px] uppercase tracking-[0.2em] text-silver">Previous</span>
@@ -151,7 +151,7 @@
 					</a>
 					{{/prev_post}}
 					{{#next_post in="primary_tag"}}
-					<a href="{{url}}" class="card-surface group flex items-center justify-end gap-3 p-4 !transform-none sm:col-start-2 text-right">
+					<a href="{{url}}" class="group flex items-center justify-end gap-3 py-5 text-right transition hover:bg-mist/60 sm:col-start-2 sm:pl-4">
 						<span class="min-w-0">
 							<span class="block font-mono text-[10px] uppercase tracking-[0.2em] text-silver">Next</span>
 							<span class="block truncate text-sm font-semibold">{{title}}</span>
