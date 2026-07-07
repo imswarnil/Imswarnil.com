@@ -21,8 +21,9 @@
 		<span class="hidden shrink-0 font-mono text-[9px] uppercase tracking-[0.18em] text-silver md:block" id="lesson-pos">lesson</span>
 
 		<div class="ml-auto flex shrink-0 items-center gap-0.5">
-			{{#prev_post in="primary_tag"}}<a href="{{url}}" class="icon-btn tooltip tooltip-bottom hidden sm:inline-flex" data-tip="Previous lesson" aria-label="Previous lesson"><span class="rotate-180">{{> "icons/arrow-right"}}</span></a>{{/prev_post}}
-			{{#next_post in="primary_tag"}}<a href="{{url}}" class="icon-btn tooltip tooltip-bottom hidden sm:inline-flex" data-tip="Next lesson" aria-label="Next lesson">{{> "icons/arrow-right"}}</a>{{/next_post}}
+			<a href="#" data-nav-prev hidden class="icon-btn tooltip tooltip-bottom hidden sm:inline-flex" data-tip="Previous lesson" aria-label="Previous lesson"><span class="rotate-180">{{> "icons/arrow-right"}}</span></a>
+			<a href="#" data-nav-next hidden class="icon-btn tooltip tooltip-bottom hidden sm:inline-flex" data-tip="Next lesson" aria-label="Next lesson">{{> "icons/arrow-right"}}</a>
+			<button type="button" id="course-finish" hidden class="btn-primary btn-sm">Complete course ✦</button>
 			<a href="https://github.com/{{@custom.github_repo}}" target="_blank" rel="noopener" class="icon-btn tooltip tooltip-bottom hidden sm:inline-flex" data-tip="Star on GitHub" aria-label="Star on GitHub">{{> "icons/github"}}</a>
 			<button type="button" data-mode-cycle class="icon-btn" aria-label="Switch theme mode"></button>
 			{{!-- mobile: hamburger opens the course-navigation panel --}}
@@ -142,26 +143,25 @@
 					{{content}}
 				</section>
 
-				{{!-- Prev / next lesson within the course --}}
+				{{!-- Prev / next lesson — filled from the rail, never leaves this course --}}
 				<nav class="mt-10 grid border-y border-line sm:grid-cols-2 sm:divide-x sm:divide-line" aria-label="Lesson pagination">
-					{{#prev_post in="primary_tag"}}
-					<a href="{{url}}" class="group flex items-center gap-3 py-5 pr-4 transition hover:bg-mist/60">
+					<a href="#" data-nav-prev hidden class="group flex items-center gap-3 py-5 pr-4 transition hover:bg-mist/60">
 						{{> "icons/arrow-right" class="shrink-0 rotate-180 text-silver transition group-hover:text-ink"}}
 						<span class="min-w-0">
 							<span class="block font-mono text-[10px] uppercase tracking-[0.2em] text-silver">Previous</span>
-							<span class="block truncate text-sm font-semibold">{{title}}</span>
+							<span class="block truncate text-sm font-semibold" data-nav-prev-title></span>
 						</span>
 					</a>
-					{{/prev_post}}
-					{{#next_post in="primary_tag"}}
-					<a href="{{url}}" class="group flex items-center justify-end gap-3 py-5 text-right transition hover:bg-mist/60 sm:col-start-2 sm:pl-4">
+					<a href="#" data-nav-next hidden class="group flex items-center justify-end gap-3 py-5 text-right transition hover:bg-mist/60 sm:col-start-2 sm:pl-4">
 						<span class="min-w-0">
 							<span class="block font-mono text-[10px] uppercase tracking-[0.2em] text-silver">Next</span>
-							<span class="block truncate text-sm font-semibold">{{title}}</span>
+							<span class="block truncate text-sm font-semibold" data-nav-next-title></span>
 						</span>
 						{{> "icons/arrow-right" class="shrink-0 text-silver transition group-hover:text-ink"}}
 					</a>
-					{{/next_post}}
+					<button type="button" data-course-finish hidden class="group flex w-full items-center justify-center gap-3 py-5 font-semibold transition hover:bg-mist/60 sm:col-span-2">
+						{{> "icons/check" class="h-4 w-4 text-green-600"}} You made it — complete the course ✦
+					</button>
 				</nav>
 
 				{{> "components/adsense" slot="6501428979" layout="in-article" format="fluid"}}
@@ -209,7 +209,10 @@
 					a.setAttribute('aria-current', 'page');
 				}
 			});
-			var pct = links.length ? Math.round((doneCount / links.length) * 100) : 0;
+			/* progress = where you ARE in the course (position / total) */
+			var railAll = [].slice.call(document.querySelectorAll('#lesson-list .lesson-link'));
+			var posIdx = railAll.findIndex(function (a) { return a.getAttribute('data-lesson-slug') === CURRENT; });
+			var pct = railAll.length && posIdx > -1 ? Math.round(((posIdx + 1) / railAll.length) * 100) : 0;
 			var bar = document.getElementById('course-progress');
 			var label = document.getElementById('course-progress-label');
 			if (bar) bar.value = pct;
@@ -287,6 +290,54 @@
 		paint();
 		onWinScroll();
 		onPaneScroll();
+
+		/* Prev / next strictly from THIS course's rail; first lesson has no prev,
+		   last lesson swaps "next" for a confetti-powered course finish */
+		var railNav = [].slice.call(document.querySelectorAll('#lesson-list .lesson-link'));
+		var navIdx = railNav.findIndex(function (a) { return a.getAttribute('data-lesson-slug') === CURRENT; });
+		function fillNav(sel, item, titleSel) {
+			document.querySelectorAll(sel).forEach(function (a) {
+				if (!item) { a.remove(); return; }
+				a.href = item.href;
+				a.hidden = false;
+				var t = titleSel && a.querySelector(titleSel);
+				if (t) t.textContent = (item.querySelector('.line-clamp-2') || item).textContent.trim();
+			});
+		}
+		fillNav('[data-nav-prev]', navIdx > 0 ? railNav[navIdx - 1] : null, '[data-nav-prev-title]');
+		var isLast = navIdx > -1 && navIdx === railNav.length - 1;
+		fillNav('[data-nav-next]', !isLast && navIdx > -1 ? railNav[navIdx + 1] : null, '[data-nav-next-title]');
+
+		function confetti(then) {
+			var wrap = document.createElement('div');
+			wrap.className = 'confetti-wrap';
+			var hues = ['#22c55e', '#3b82f6', '#eab308', '#ef4444', '#a855f7'];
+			for (var i = 0; i < 90; i++) {
+				var p = document.createElement('i');
+				p.style.left = Math.random() * 100 + 'vw';
+				p.style.background = hues[i % hues.length];
+				p.style.animationDelay = (Math.random() * 0.4) + 's';
+				p.style.animationDuration = (0.9 + Math.random() * 0.9) + 's';
+				p.style.transform = 'rotate(' + Math.random() * 360 + 'deg)';
+				wrap.appendChild(p);
+			}
+			document.body.appendChild(wrap);
+			setTimeout(then, 1400);
+		}
+		function finishCourse() {
+			var done = load();
+			if (done.indexOf(CURRENT) < 0) { done.push(CURRENT); save(done); }
+			var cp = document.getElementById('container-post');
+			confetti(function () {
+				location.href = cp ? cp.getAttribute('data-url') : '{{@site.url}}/courses/';
+			});
+		}
+		if (isLast) {
+			document.querySelectorAll('#course-finish, [data-course-finish]').forEach(function (b) {
+				b.hidden = false;
+				b.addEventListener('click', finishCourse);
+			});
+		}
 
 		/* Scroll the current lesson into view inside the rail (desktop only —
 		   on mobile this would yank the whole page down to the nav) */

@@ -66,7 +66,7 @@
 						{{#foreach tags visibility="public" limit="1"}}
 						{{#get "posts" filter="tag:hash-lesson+tags:{{slug}}" limit="1" order="published_at asc" as |first|}}
 						{{#foreach first}}
-						<a href="{{url}}" class="group relative block aspect-video overflow-hidden border-b border-line bg-mist" aria-label="Preview the first lesson">
+						<a href="{{url}}" class="group relative block aspect-[2/1] overflow-hidden border-b border-line bg-mist" aria-label="Preview the first lesson">
 							{{#if feature_image}}
 								<img src="{{img_url feature_image size="1000"}}" width="1000" height="563" alt="{{title}}" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
 							{{else}}
@@ -81,7 +81,7 @@
 						{{/get}}
 						{{/foreach}}
 
-						<div class="p-5 sm:p-6">
+						<div class="p-4 sm:p-5">
 							<div class="flex items-baseline justify-between gap-3">
 								{{#match visibility "public"}}<p class="text-2xl font-bold tracking-tight">Free</p><span class="font-mono text-[10px] uppercase tracking-[0.15em] text-silver">no account needed</span>{{/match}}
 								{{#match visibility "members"}}<p class="text-2xl font-bold tracking-tight">Members</p><span class="font-mono text-[10px] uppercase tracking-[0.15em] text-silver">free signup unlocks</span>{{/match}}
@@ -90,13 +90,13 @@
 
 							{{#foreach tags visibility="public" limit="1"}}
 							{{#get "posts" filter="tag:hash-lesson+tags:{{slug}}" limit="1" order="published_at asc" as |first|}}
-								{{#foreach first}}<a href="{{url}}" class="btn-primary mt-4 w-full justify-center !py-2.5">{{> "icons/play"}} Start the course</a>{{/foreach}}
+								{{#foreach first}}<a href="{{url}}" class="btn-primary mt-3 w-full justify-center">{{> "icons/play"}} Start the course</a>{{/foreach}}
 							{{/get}}
 							{{/foreach}}
-							<a href="#curriculum" class="btn-ghost mt-2 w-full justify-center">{{> "icons/book"}} Browse curriculum</a>
+							<a href="#curriculum" class="btn-ghost btn-sm mt-2 w-full justify-center">{{> "icons/book"}} Browse curriculum</a>
 
-							<p class="kicker mt-6 !text-[10px]">This course includes</p>
-							<ul class="mt-3 space-y-2 text-[13px] text-silver">
+							<p class="kicker mt-4 !text-[10px]">This course includes</p>
+							<ul class="mt-2 space-y-1.5 text-[12.5px] text-silver">
 								{{#foreach tags visibility="public" limit="1"}}
 								{{#get "posts" filter="tag:hash-lesson+tags:{{slug}}" limit="1" as |l counter|}}
 								<li class="flex items-center gap-2.5">{{> "icons/play" class="h-3.5 w-3.5 shrink-0"}} {{plural counter.total empty="Lessons on the way" singular="% structured lesson" plural="% structured lessons"}}</li>
@@ -108,7 +108,7 @@
 								<li class="flex items-center gap-2.5">{{> "icons/zap" class="h-3.5 w-3.5 shrink-0"}} Lifetime access, free updates</li>
 							</ul>
 
-							<div class="mt-5 border-t border-line pt-4">
+							<div class="mt-4 border-t border-line pt-3">
 								{{> "post/share"}}
 							</div>
 						</div>

@@ -11,9 +11,9 @@
 		<p class="truncate text-sm font-semibold leading-tight">{{title}}</p>
 	</div>
 	<div class="flex shrink-0 items-center gap-1">
-		{{#prev_post in="primary_tag"}}<a href="{{url}}" class="icon-btn tooltip tooltip-bottom" data-tip="Previous episode" aria-label="Previous episode"><span class="rotate-180">{{> "icons/arrow-right"}}</span></a>{{/prev_post}}
-		<button type="button" class="icon-btn tooltip tooltip-bottom" data-tip="Theater fullscreen" id="episode-bar-max" aria-label="Fullscreen">{{> "icons/maximize"}}</button>
-		{{#next_post in="primary_tag"}}<a href="{{url}}" class="btn-primary btn-sm">Next ep {{> "icons/arrow-right" class="h-3.5 w-3.5"}}</a>{{/next_post}}
+		<a href="#" data-nav-prev hidden class="icon-btn tooltip tooltip-bottom hidden sm:inline-flex" data-tip="Previous episode" aria-label="Previous episode"><span class="rotate-180">{{> "icons/arrow-right"}}</span></a>
+		<button type="button" class="icon-btn tooltip tooltip-bottom hidden sm:inline-flex" data-tip="Theater fullscreen" id="episode-bar-max" aria-label="Fullscreen">{{> "icons/maximize"}}</button>
+		<a href="#" data-nav-next hidden class="btn-primary btn-sm">Next ep {{> "icons/arrow-right" class="h-3.5 w-3.5"}}</a>
 	</div>
 </div>
 
@@ -23,8 +23,8 @@
 <article class="{{post_class}} pt-14">
 
 	{{!-- Full-bleed theater player --}}
-	<div class="relative left-1/2 w-screen" style="margin-left:-50vw; background:#08080a;">
-		<div id="episode-stage" class="relative mx-auto max-w-[1600px]" style="background:#08080a;">
+	<div class="w-full" style="background:#08080a;">
+		<div id="episode-stage" class="relative w-full" style="background:#08080a;">
 			<div id="episode-player" class="relative w-full" style="aspect-ratio:16/9; max-height:85vh;">
 				{{!-- iframe injected here: first YouTube embed found in the body --}}
 			</div>
@@ -57,26 +57,22 @@
 					{{content}}
 				</section>
 
-				{{!-- Prev / next episode --}}
+				{{!-- Prev / next episode — filled from the queue so it never leaves this series --}}
 				<nav class="mt-10 grid border-y border-line sm:grid-cols-2 sm:divide-x sm:divide-line" aria-label="Episode navigation">
-					{{#prev_post in="primary_tag"}}
-						<a href="{{url}}" class="group flex items-center gap-3 py-5 pr-4 transition hover:bg-mist/60">
-							<span class="rotate-180 text-silver transition group-hover:text-ink">{{> "icons/arrow-right"}}</span>
-							<span class="min-w-0">
-								<span class="kicker !text-[10px]">Previous episode</span>
-								<span class="mt-0.5 block truncate text-sm font-semibold">{{title}}</span>
-							</span>
-						</a>
-					{{/prev_post}}
-					{{#next_post in="primary_tag"}}
-						<a href="{{url}}" class="group flex items-center justify-end gap-3 py-5 text-right transition hover:bg-mist/60 sm:col-start-2 sm:pl-4">
-							<span class="min-w-0">
-								<span class="kicker !text-[10px] justify-end">Next episode</span>
-								<span class="mt-0.5 block truncate text-sm font-semibold">{{title}}</span>
-							</span>
-							<span class="text-silver transition group-hover:text-ink">{{> "icons/arrow-right"}}</span>
-						</a>
-					{{/next_post}}
+					<a href="#" data-nav-prev hidden class="group flex items-center gap-3 py-5 pr-4 transition hover:bg-mist/60">
+						<span class="rotate-180 text-silver transition group-hover:text-ink">{{> "icons/arrow-right"}}</span>
+						<span class="min-w-0">
+							<span class="kicker !text-[10px]">Previous episode</span>
+							<span class="mt-0.5 block truncate text-sm font-semibold" data-nav-prev-title></span>
+						</span>
+					</a>
+					<a href="#" data-nav-next hidden class="group flex items-center justify-end gap-3 py-5 text-right transition hover:bg-mist/60 sm:col-start-2 sm:pl-4">
+						<span class="min-w-0">
+							<span class="kicker !text-[10px] justify-end">Next episode</span>
+							<span class="mt-0.5 block truncate text-sm font-semibold" data-nav-next-title></span>
+						</span>
+						<span class="text-silver transition group-hover:text-ink">{{> "icons/arrow-right"}}</span>
+					</a>
 				</nav>
 
 				{{> "components/adsense" slot="8939839370" format="auto"}}
@@ -198,6 +194,20 @@
 				el.textContent = 'Episode ' + epNumber + ' of ' + items.length;
 			});
 		}
+
+		/* prev/next strictly from THIS series' queue */
+		function fillNav(sel, item, titleSel) {
+			document.querySelectorAll(sel).forEach(function (a) {
+				if (!item) { a.remove(); return; }
+				a.href = item.href;
+				a.hidden = false;
+				var t = a.querySelector(titleSel);
+				if (t) t.textContent = (item.querySelector('.line-clamp-2') || item).textContent.trim();
+			});
+		}
+		var idx0 = epNumber ? epNumber - 1 : -1;
+		fillNav('[data-nav-prev]', idx0 > 0 ? items[idx0 - 1] : null, '[data-nav-prev-title]');
+		fillNav('[data-nav-next]', idx0 > -1 && items[idx0 + 1] ? items[idx0 + 1] : null, '[data-nav-next-title]');
 
 		/* ----- Fix container links (series post slug ≠ tag slug) ----- */
 		var cp = document.getElementById('container-post');
