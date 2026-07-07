@@ -25,7 +25,7 @@
 		"test:fatal": "gscan . --fatal",
 		"test:verbose": "gscan . --verbose",
 		"clean": "rm -rf dist",
-		"zip": "npm run build && npm run test:fatal && mkdir -p dist && zip -r -X dist/swarnil.zip . -x 'node_modules/*' 'dist/*' '.git/*' '.github/*' '.claude/*' 'data.json' 'import.json' 'theme-customize.txt' 'instruction.md' 'redirects.yaml' '*.map' '.DS_Store' '.gitignore'",
+		"zip": "npm run build && npm run test:fatal && mkdir -p dist && zip -r -X dist/swarnil.zip . -x 'node_modules/*' 'dist/*' '.git/*' '.github/*' '.claude/*' 'data.json' 'import.json' 'theme-customize.txt' 'instruction.md' 'documentation.md' 'redirects.yaml' '*.map' '.DS_Store' '.gitignore'",
 		"release": "npm run zip && echo '→ dist/swarnil.zip ready to upload (Ghost Admin → Design → Change theme → Upload)'"
 	},
 	"config": {
