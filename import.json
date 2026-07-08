@@ -902,6 +902,62 @@
       "created_at": "2026-06-20T12:00:00.000Z",
       "updated_at": "2026-06-20T12:00:00.000Z",
       "published_at": "2026-06-20T12:00:00.000Z"
+     },
+     {
+      "id": "000000000000000000000177",
+      "title": "Kickoff — the idea & constraints",
+      "slug": "project-name-1-kickoff",
+      "mobiledoc": "{\"version\":\"0.3.1\",\"atoms\":[],\"cards\":[[\"html\",{\"html\":\"<p>Day zero. Wrote down the one-line pitch, the hard constraints, and made the first commit. Nothing works yet — that is the point.</p><h2 id=\\\"scope\\\">Scope</h2><p>Kept it deliberately small so it could actually ship.</p>\"}]],\"markups\":[],\"sections\":[[10,0],[1,\"p\",[]]]}",
+      "feature_image": "https://picsum.photos/seed/project-name-1-kickoff/1200/800",
+      "featured": 0,
+      "type": "post",
+      "status": "published",
+      "custom_excerpt": "",
+      "created_at": "2026-06-01T12:00:00.000Z",
+      "updated_at": "2026-06-01T12:00:00.000Z",
+      "published_at": "2026-06-01T12:00:00.000Z"
+     },
+     {
+      "id": "000000000000000000000178",
+      "title": "Wireframes & the data model",
+      "slug": "project-name-1-wireframes",
+      "mobiledoc": "{\"version\":\"0.3.1\",\"atoms\":[],\"cards\":[[\"html\",{\"html\":\"<p>Sketched the screens on paper, then modelled the data. Two rewrites of the schema before it felt right.</p>\"}]],\"markups\":[],\"sections\":[[10,0],[1,\"p\",[]]]}",
+      "feature_image": "https://picsum.photos/seed/project-name-1-wireframes/1200/800",
+      "featured": 0,
+      "type": "post",
+      "status": "published",
+      "custom_excerpt": "",
+      "created_at": "2026-06-06T12:00:00.000Z",
+      "updated_at": "2026-06-06T12:00:00.000Z",
+      "published_at": "2026-06-06T12:00:00.000Z"
+     },
+     {
+      "id": "000000000000000000000179",
+      "title": "Building the core loop",
+      "slug": "project-name-1-build",
+      "mobiledoc": "{\"version\":\"0.3.1\",\"atoms\":[],\"cards\":[[\"html\",{\"html\":\"<p>The fun part: made the main flow work end to end. Cut two features to protect the deadline.</p><h2 id=\\\"tradeoffs\\\">Trade-offs</h2><p>Chose boring, reliable tech over clever.</p>\"}]],\"markups\":[],\"sections\":[[10,0],[1,\"p\",[]]]}",
+      "feature_image": "https://picsum.photos/seed/project-name-1-build/1200/800",
+      "featured": 0,
+      "type": "post",
+      "status": "published",
+      "custom_excerpt": "",
+      "created_at": "2026-06-12T12:00:00.000Z",
+      "updated_at": "2026-06-12T12:00:00.000Z",
+      "published_at": "2026-06-12T12:00:00.000Z"
+     },
+     {
+      "id": "000000000000000000000180",
+      "title": "Ship it",
+      "slug": "project-name-1-ship",
+      "mobiledoc": "{\"version\":\"0.3.1\",\"atoms\":[],\"cards\":[[\"html\",{\"html\":\"<p>Shipped. Wrote the README, recorded a demo, and pushed it live. 18 days start to ship.</p>\"}]],\"markups\":[],\"sections\":[[10,0],[1,\"p\",[]]]}",
+      "feature_image": "https://picsum.photos/seed/project-name-1-ship/1200/800",
+      "featured": 0,
+      "type": "post",
+      "status": "published",
+      "custom_excerpt": "",
+      "created_at": "2026-06-18T12:00:00.000Z",
+      "updated_at": "2026-06-18T12:00:00.000Z",
+      "published_at": "2026-06-18T12:00:00.000Z"
      }
     ],
     "tags": [
@@ -1280,6 +1336,13 @@
       "id": "000000000000000000000135",
       "name": "#course-video",
       "slug": "hash-course-video",
+      "description": "",
+      "visibility": "internal"
+     },
+     {
+      "id": "000000000000000000000136",
+      "name": "#project-detail",
+      "slug": "hash-project-detail",
       "description": "",
       "visibility": "internal"
      }
@@ -2099,6 +2162,46 @@
       "post_id": "000000000000000000000176",
       "tag_id": "000000000000000000000120",
       "sort_order": 4
+     },
+     {
+      "post_id": "000000000000000000000177",
+      "tag_id": "00000000000000000000012a",
+      "sort_order": 0
+     },
+     {
+      "post_id": "000000000000000000000177",
+      "tag_id": "000000000000000000000136",
+      "sort_order": 1
+     },
+     {
+      "post_id": "000000000000000000000178",
+      "tag_id": "00000000000000000000012a",
+      "sort_order": 0
+     },
+     {
+      "post_id": "000000000000000000000178",
+      "tag_id": "000000000000000000000136",
+      "sort_order": 1
+     },
+     {
+      "post_id": "000000000000000000000179",
+      "tag_id": "00000000000000000000012a",
+      "sort_order": 0
+     },
+     {
+      "post_id": "000000000000000000000179",
+      "tag_id": "000000000000000000000136",
+      "sort_order": 1
+     },
+     {
+      "post_id": "000000000000000000000180",
+      "tag_id": "00000000000000000000012a",
+      "sort_order": 0
+     },
+     {
+      "post_id": "000000000000000000000180",
+      "tag_id": "000000000000000000000136",
+      "sort_order": 1
      }
     ]
    }

@@ -1,0 +1,134 @@
+{{!-- Reel / Short detail — a vertical 9:16 layout inside the video system, for
+     #video posts also tagged #reel/#shorts. JS lifts the first YouTube embed out
+     of the body and plays it (muted, looping) in a phone-style vertical frame. --}}
+<article class="{{post_class}}" id="reel-app"
+	data-title="{{title}}"
+	data-url="{{url absolute="true"}}"
+	data-published="{{date published_at format="YYYY-MM-DD"}}"
+	data-thumb="{{#if feature_image}}{{img_url feature_image size="1200"}}{{/if}}"
+	data-desc="{{#if custom_excerpt}}{{custom_excerpt}}{{else}}{{excerpt words="40"}}{{/if}}">
+
+	<div class="container-site py-10">
+		<div class="grid gap-8 lg:grid-cols-[minmax(0,360px)_minmax(0,1fr)] lg:items-start lg:gap-12">
+
+			{{!-- Vertical player --}}
+			<div class="lg:sticky lg:top-24">
+				<div class="reel-player relative mx-auto aspect-[9/16] w-full max-w-[340px] overflow-hidden rounded-[1.75rem] border border-line bg-black shadow-lift" id="reel-stage">
+					{{#if feature_image}}
+						<img src="{{img_url feature_image size="600"}}" alt="" class="absolute inset-0 h-full w-full object-cover" />
+					{{/if}}
+					<span class="pointer-events-none absolute left-3 top-3 z-10 inline-flex items-center gap-1 rounded-full border border-white/25 bg-black/55 px-2 py-0.5 font-mono text-[9px] font-bold uppercase tracking-[0.14em] text-white backdrop-blur">{{> "icons/play" class="h-2.5 w-2.5"}} Short</span>
+				</div>
+				<div class="mt-4 flex flex-wrap items-center justify-center gap-2">
+					<a href="{{@site.url}}/videos/" class="btn-ghost btn-sm">{{> "icons/arrow-right" class="h-3.5 w-3.5 rotate-180"}} All videos</a>
+					{{#if @custom.youtube_url}}<a href="{{@custom.youtube_url}}" target="_blank" rel="noopener" class="btn-sm" style="background:#FF0000;color:#fff">{{> "icons/youtube" class="h-3.5 w-3.5"}} YouTube</a>{{/if}}
+					<button type="button" class="btn-ghost btn-sm" data-reel-mute aria-label="Toggle sound">{{> "icons/mic" class="h-3.5 w-3.5"}} <span data-reel-mute-label>Unmute</span></button>
+				</div>
+			</div>
+
+			{{!-- Info --}}
+			<div class="min-w-0">
+				<p class="kicker !text-accent">{{> "icons/play" class="h-3.5 w-3.5"}} Short</p>
+				<h1 class="mt-3 text-2xl font-semibold leading-tight tracking-tight sm:text-3xl text-balance">{{title}}</h1>
+				<div class="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 font-mono text-xs text-silver">
+					<span class="flex items-center gap-1.5">{{> "icons/calendar" class="h-3.5 w-3.5"}} {{date published_at format="DD MMM YYYY"}}</span>
+					<span class="chip">{{> "icons/youtube" class="h-3.5 w-3.5"}} YouTube</span>
+					{{#primary_tag}}<a href="{{url}}" class="chip transition hover:border-ink hover:text-ink">{{name}}</a>{{/primary_tag}}
+				</div>
+
+				<section class="gh-content mt-6" id="reel-content">
+					{{content}}
+				</section>
+
+				<footer class="mt-8 flex flex-wrap gap-2 border-t border-line pt-6">
+					{{#foreach tags visibility="public"}}<a href="{{url}}" class="chip transition hover:border-ink hover:text-ink">{{name}}</a>{{/foreach}}
+				</footer>
+
+				{{!-- Audience CTA + collab (same as the main video page) --}}
+				<div class="mt-8 rounded-2xl border border-line bg-mist/40 p-5 text-center">
+					<p class="text-sm font-semibold tracking-tight">Like the short? There's a whole channel.</p>
+					<div class="mt-3 flex flex-wrap items-center justify-center gap-2">
+						<button type="button" class="btn-primary btn-sm" data-modal-open="#subscribe-backdrop">{{> "icons/mail" class="h-3.5 w-3.5"}} Subscribe to my site</button>
+						<a href="{{@site.url}}/contact/" class="btn-ghost btn-sm">{{> "icons/mic" class="h-3.5 w-3.5"}} Send feedback</a>
+					</div>
+				</div>
+				<div class="mt-6">{{> "components/collab-cta" compact=true}}</div>
+			</div>
+		</div>
+
+		{{!-- More shorts --}}
+		{{#get "posts" filter="tag:hash-video+tag:hash-shorts+id:-{{id}},tag:hash-video+tag:hash-reel+id:-{{id}}" order="published_at desc" limit="6" include="tags" as |more|}}
+			{{#if more}}
+			<section class="mt-16 border-t border-line pt-10">
+				<p class="kicker mb-6">{{> "icons/play" class="h-3.5 w-3.5"}} More shorts</p>
+				<div class="reels-rail no-scrollbar fade-mask-x" data-hscroll>
+					{{#foreach more}}{{> "cards/reel"}}{{/foreach}}
+				</div>
+			</section>
+			{{/if}}
+		{{/get}}
+	</div>
+
+	<script>
+	(function () {
+		var app = document.getElementById('reel-app');
+		var content = document.getElementById('reel-content');
+		var stage = document.getElementById('reel-stage');
+		if (!app || !content || !stage) return;
+
+		var ID_RE = /(?:youtube(?:-nocookie)?\.com\/(?:embed\/|shorts\/|live\/|watch\?[^"'\s]*?v=)|youtu\.be\/)([A-Za-z0-9_-]{11})/;
+		var found = null, nodes = content.querySelectorAll('iframe[src], a[href]');
+		for (var i = 0; i < nodes.length; i++) {
+			var m = (nodes[i].src || nodes[i].href || '').match(ID_RE);
+			if (m) { found = { id: m[1], el: nodes[i] }; break; }
+		}
+		if (!found) return;
+		var vid = found.id;
+
+		/* hide the original in-body embed */
+		var card = found.el.closest('.kg-card, figure, .kg-embed-card, .kg-bookmark-card');
+		if (card) card.style.display = 'none';
+
+		/* build the vertical player (covers the 9:16 frame) */
+		var iframe = document.createElement('iframe');
+		iframe.id = 'reel-iframe';
+		iframe.src = 'https://www.youtube.com/embed/' + vid +
+			'?autoplay=1&mute=1&loop=1&playlist=' + vid +
+			'&controls=0&playsinline=1&rel=0&modestbranding=1&iv_load_policy=3&enablejsapi=1&origin=' + encodeURIComponent(location.origin);
+		iframe.title = app.getAttribute('data-title') || 'Short';
+		iframe.setAttribute('allow', 'autoplay; encrypted-media; picture-in-picture');
+		iframe.setAttribute('frameborder', '0');
+		iframe.className = 'reel-player-frame';
+		stage.appendChild(iframe);
+
+		/* mute toggle — reloads the frame with sound (simplest cross-browser) */
+		var muted = true;
+		document.querySelectorAll('[data-reel-mute]').forEach(function (btn) {
+			btn.addEventListener('click', function () {
+				muted = !muted;
+				iframe.src = 'https://www.youtube.com/embed/' + vid +
+					'?autoplay=1&mute=' + (muted ? 1 : 0) + '&loop=1&playlist=' + vid +
+					'&controls=0&playsinline=1&rel=0&modestbranding=1&iv_load_policy=3';
+				var lbl = btn.querySelector('[data-reel-mute-label]');
+				if (lbl) lbl.textContent = muted ? 'Unmute' : 'Mute';
+			});
+		});
+
+		/* JSON-LD */
+		var ld = {
+			'@context': 'https://schema.org', '@type': 'VideoObject',
+			name: app.getAttribute('data-title'),
+			description: app.getAttribute('data-desc') || app.getAttribute('data-title'),
+			thumbnailUrl: app.getAttribute('data-thumb') ? [app.getAttribute('data-thumb')] : ['https://i.ytimg.com/vi/' + vid + '/maxresdefault.jpg', 'https://i.ytimg.com/vi/' + vid + '/hqdefault.jpg'],
+			uploadDate: app.getAttribute('data-published'),
+			embedUrl: 'https://www.youtube.com/embed/' + vid,
+			contentUrl: 'https://www.youtube.com/watch?v=' + vid,
+			url: app.getAttribute('data-url')
+		};
+		var tag = document.createElement('script');
+		tag.type = 'application/ld+json';
+		tag.textContent = JSON.stringify(ld);
+		document.head.appendChild(tag);
+	})();
+	</script>
+</article>

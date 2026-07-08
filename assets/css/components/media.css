@@ -135,4 +135,18 @@
 	.video-card:focus-within .video-preview-frame {
 		opacity: 1;
 	}
+
+	/* Reel detail player: cover a 9:16 frame with a 16:9 embed (centre-crop) so
+	   both vertical shorts and the 16:9 demo video fill the phone frame. */
+	.reel-player-frame {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		height: 100%;
+		width: auto;
+		aspect-ratio: 16 / 9;
+		min-width: 100%;
+		transform: translate(-50%, -50%);
+		border: 0;
+	}
 }

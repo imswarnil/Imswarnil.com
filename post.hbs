@@ -2,7 +2,11 @@
 
 {{!-- Post dispatcher — the internal tag decides which layout renders --}}
 {{#post}}
-	{{#has tag="#video"}}
+	{{#has tag="#reel"}}
+		{{> "post/reel"}}
+	{{else has tag="#shorts"}}
+		{{> "post/reel"}}
+	{{else has tag="#video"}}
 		{{> "post/video"}}
 	{{else has tag="#course"}}
 		{{> "post/course"}}
