@@ -1,23 +1,72 @@
-// Swarnil service worker — offline support
+{{!-- Service worker, served at /sw/ (routes.yaml, content_type js).
+     Root scope needs `Service-Worker-Allowed: /` on this response — set it at
+     the proxy/CDN (see theme-customize.txt §PWA). Registration in default.hbs
+     fails gracefully until that header exists. --}}
+{{#if @custom.onesignal_app_id}}
+// OneSignal push — merged into this worker (custom-integration mode)
+importScripts('https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.sw.js');
+{{/if}}
+// Swarnil service worker — offline support + runtime caching + push
 // Bump VERSION on breaking asset changes; assets are stale-while-revalidate
 // so normal deploys self-heal on the next visit anyway.
-const VERSION = 'swarnil-v2';
+const VERSION = 'swarnil-v3';
+const STATIC_CACHE = VERSION + ':static';
+const PAGE_CACHE = VERSION + ':pages';
+const IMAGE_CACHE = VERSION + ':images';
 const OFFLINE_URL = '/offline/';
-const PRECACHE = [OFFLINE_URL, '/'];
+const PAGE_LIMIT = 50;   // most-recent pages kept for offline reading
+const IMAGE_LIMIT = 80;  // most-recent images
 
 self.addEventListener('install', (event) => {
 	event.waitUntil(
-		caches.open(VERSION).then((cache) => cache.addAll(PRECACHE)).then(() => self.skipWaiting())
+		caches.open(PAGE_CACHE)
+			.then((cache) => cache.addAll([OFFLINE_URL, '/']))
+			.then(() => self.skipWaiting())
 	);
 });
 
 self.addEventListener('activate', (event) => {
 	event.waitUntil(
-		caches.keys()
-			.then((keys) => Promise.all(keys.filter((k) => k !== VERSION).map((k) => caches.delete(k))))
-			.then(() => self.clients.claim())
+		(async () => {
+			const keys = await caches.keys();
+			await Promise.all(keys.filter((k) => !k.startsWith(VERSION)).map((k) => caches.delete(k)));
+			// Answer navigations straight from the network while the worker boots
+			if (self.registration.navigationPreload) {
+				await self.registration.navigationPreload.enable();
+			}
+			await self.clients.claim();
+		})()
 	);
 });
+
+self.addEventListener('message', (event) => {
+	if (event.data && event.data.type === 'SKIP_WAITING') self.skipWaiting();
+});
+
+async function trimCache(name, max) {
+	const cache = await caches.open(name);
+	const keys = await cache.keys();
+	if (keys.length <= max) return;
+	await cache.delete(keys[0]);
+	return trimCache(name, max);
+}
+
+// Stale-while-revalidate: serve cache instantly, refresh in the background
+function staleWhileRevalidate(event, cacheName) {
+	event.respondWith(
+		caches.open(cacheName).then((cache) =>
+			cache.match(event.request).then((hit) => {
+				const refresh = fetch(event.request)
+					.then((res) => {
+						if (res && res.ok) cache.put(event.request, res.clone());
+						return res;
+					})
+					.catch(() => hit);
+				return hit || refresh;
+			})
+		)
+	);
+}
 
 self.addEventListener('fetch', (event) => {
 	const req = event.request;
@@ -25,38 +74,89 @@ self.addEventListener('fetch', (event) => {
 
 	const url = new URL(req.url);
 	if (url.origin !== location.origin) return;
-	// Never intercept Ghost admin/api/members traffic
-	if (/^\/(ghost|members|content|r)\//.test(url.pathname)) return;
+	// Never intercept Ghost admin/api/members/redirect traffic, or uploaded
+	// media/files (large); /content/images/ IS cached below.
+	if (/^\/(ghost|members|r)\//.test(url.pathname)) return;
+	if (/^\/content\/(?!images\/)/.test(url.pathname)) return;
 
-	// Static assets: stale-while-revalidate — serve cache instantly but
-	// always refetch in the background so a deploy is picked up next visit.
+	// Theme + Ghost core assets: stale-while-revalidate
 	if (url.pathname.startsWith('/assets/') || url.pathname.startsWith('/public/')) {
+		return staleWhileRevalidate(event, STATIC_CACHE);
+	}
+
+	// Uploaded images: cache-first with an LRU-ish cap
+	if (url.pathname.startsWith('/content/images/')) {
 		event.respondWith(
-			caches.open(VERSION).then((cache) =>
-				cache.match(req).then((hit) => {
-					const refresh = fetch(req)
-						.then((res) => {
-							if (res && res.ok) cache.put(req, res.clone());
+			caches.open(IMAGE_CACHE).then((cache) =>
+				cache.match(req).then(
+					(hit) =>
+						hit ||
+						fetch(req).then((res) => {
+							if (res && res.ok) {
+								cache.put(req, res.clone());
+								trimCache(IMAGE_CACHE, IMAGE_LIMIT);
+							}
 							return res;
 						})
-						.catch(() => hit);
-					return hit || refresh;
-				})
+				)
 			)
 		);
 		return;
 	}
 
-	// Pages: network-first, cache fallback, then offline page
+	// Pages: network-first (with navigation preload), cache fallback, then offline page
 	if (req.mode === 'navigate' || (req.headers.get('accept') || '').includes('text/html')) {
 		event.respondWith(
-			fetch(req)
-				.then((res) => {
-					const copy = res.clone();
-					caches.open(VERSION).then((cache) => cache.put(req, copy));
+			(async () => {
+				try {
+					const preloaded = await event.preloadResponse;
+					const res = preloaded || (await fetch(req));
+					if (res && res.ok) {
+						const copy = res.clone();
+						caches.open(PAGE_CACHE).then((cache) => {
+							cache.put(req, copy);
+							trimCache(PAGE_CACHE, PAGE_LIMIT);
+						});
+					}
 					return res;
-				})
-				.catch(() => caches.match(req).then((hit) => hit || caches.match(OFFLINE_URL)))
+				} catch (err) {
+					const hit = await caches.match(req);
+					return hit || caches.match(OFFLINE_URL);
+				}
+			})()
 		);
 	}
 });
+
+{{#unless @custom.onesignal_app_id}}
+// Generic Web Push handlers (only when OneSignal isn't managing push —
+// its imported worker ships its own). Works with any VAPID-based sender.
+self.addEventListener('push', (event) => {
+	let data = {};
+	try { data = event.data ? event.data.json() : {}; } catch (e) {
+		data = { body: event.data && event.data.text() };
+	}
+	const title = data.title || '{{@site.title}}';
+	event.waitUntil(
+		self.registration.showNotification(title, {
+			body: data.body || 'Something new just shipped.',
+			icon: data.icon || '/favicon.ico',
+			badge: data.badge || undefined,
+			data: { url: data.url || '/' }
+		})
+	);
+});
+
+self.addEventListener('notificationclick', (event) => {
+	event.notification.close();
+	const url = (event.notification.data && event.notification.data.url) || '/';
+	event.waitUntil(
+		self.clients.matchAll({ type: 'window', includeUncontrolled: true }).then((wins) => {
+			for (const win of wins) {
+				if (new URL(win.url).pathname === url && 'focus' in win) return win.focus();
+			}
+			return self.clients.openWindow(url);
+		})
+	);
+});
+{{/unless}}

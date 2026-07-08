@@ -187,7 +187,48 @@ Import via: Ghost Admin → Settings → Import/Export → Universal import.
 Use it on a TEST site — it will mix with real content otherwise.
 
 -----------------------------------------------------------------------------
- 11. QUICK CHECKLIST
+ 11. PWA — OFFLINE SUPPORT + PUSH NOTIFICATIONS (server config needed)
+-----------------------------------------------------------------------------
+The theme ships a service worker at /sw/ (routes.yaml) with offline caching:
+network-first pages with an /offline/ fallback, stale-while-revalidate for
+/assets/ + /public/, cache-first images with an LRU cap.
+
+REQUIRED HEADER — the ONE thing the theme can't do itself:
+Ghost serves /sw/ without the header that permits root scope, so browsers
+refuse to register it site-wide. Add to the /sw/ response:
+
+  Service-Worker-Allowed: /
+
+  nginx:       location = /sw/ { add_header Service-Worker-Allowed /;
+                                 proxy_pass http://ghost; }
+  Cloudflare:  Rules → Transform Rules → Modify Response Header →
+               URI Path equals /sw/ → Set static header
+               "Service-Worker-Allowed" = "/"
+  Ghost(Pro):  not possible — the worker registration fails gracefully and
+               the site simply works without offline support.
+
+Until the header exists you'll see a console.info notice; nothing breaks.
+
+CACHE LIFETIMES (Lighthouse "efficient cache lifetimes"): at the same
+proxy/CDN, set long-lived caching for static files:
+  location ~* ^/(assets|public)/ { add_header Cache-Control
+                                   "public, max-age=31536000, immutable"; }
+(Theme assets are ?v= hash-busted by Ghost, so immutable is safe.)
+
+PUSH NOTIFICATIONS (OneSignal):
+ 1. Create a free OneSignal app → Web push → "Custom Code" setup.
+    Site URL must EXACTLY match, including www:  https://www.imswarnil.com
+    (the current console error means the dashboard says non-www).
+ 2. Copy the App ID into Design → Theme settings → "OneSignal App ID".
+ 3. REMOVE any old OneSignal snippet from Settings → Code injection —
+    the theme now loads the SDK and merges push into its own /sw/ worker.
+ 4. Send pushes from the OneSignal dashboard (or auto-push new posts via
+    their Zapier/RSS integration).
+Leave the App ID empty to disable push entirely; the worker then carries
+generic Web Push handlers instead (usable with any VAPID sender later).
+
+-----------------------------------------------------------------------------
+ 12. QUICK CHECKLIST
 -----------------------------------------------------------------------------
  [ ] Upload routes.yaml
  [ ] Set primary + secondary navigation
@@ -197,4 +238,6 @@ Use it on a TEST site — it will mix with real content otherwise.
  [ ] Tag existing posts per section 3
  [ ] Toggle AdSense on
  [ ] Fill social handle theme settings
+ [ ] PWA: add Service-Worker-Allowed header + cache lifetimes (section 12)
+ [ ] Push: OneSignal App ID theme setting, remove old code-injection snippet
 =============================================================================

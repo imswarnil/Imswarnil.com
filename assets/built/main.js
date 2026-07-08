@@ -315,6 +315,24 @@
 	pushAds();
 	window.addEventListener('load', pushAds);
 
+	/* ---------- PWA install prompt — reveals [data-pwa-install] buttons ---------- */
+	var installPrompt = null;
+	window.addEventListener('beforeinstallprompt', function (e) {
+		e.preventDefault();
+		installPrompt = e;
+		document.querySelectorAll('[data-pwa-install]').forEach(function (b) { b.classList.remove('hidden'); });
+	});
+	document.querySelectorAll('[data-pwa-install]').forEach(function (b) {
+		b.addEventListener('click', function () {
+			if (!installPrompt) return;
+			installPrompt.prompt();
+			installPrompt.userChoice.then(function () {
+				installPrompt = null;
+				document.querySelectorAll('[data-pwa-install]').forEach(function (x) { x.classList.add('hidden'); });
+			});
+		});
+	});
+
 	/* ---------- Mode sounds — tiny WebAudio sketches, no samples ---------- */
 	var audioCtx = null;
 	function ctx() {

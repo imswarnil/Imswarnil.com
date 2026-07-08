@@ -23,7 +23,7 @@
 					<a href="{{@site.url}}/projects/" class="nav-link">{{> "icons/code" class="h-3.5 w-3.5"}} Projects</a>
 					<a href="{{@site.url}}/travel/" class="nav-link">{{> "icons/plane" class="h-3.5 w-3.5"}} Travel</a>
 				{{/if}}
-				<button type="button" class="icon-btn !h-7 !w-7 tooltip tooltip-bottom" data-tip="Everything" id="panel-toggle" aria-expanded="false" aria-controls="mega-panel-backdrop" aria-label="Open menu panel">
+				<button type="button" class="icon-btn !h-8 !w-8 tooltip tooltip-bottom" data-tip="Everything" id="panel-toggle" aria-expanded="false" aria-controls="mega-panel-backdrop" aria-label="Open menu panel">
 					<svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><circle cx="3" cy="3" r="1.6"/><circle cx="8" cy="3" r="1.6"/><circle cx="13" cy="3" r="1.6"/><circle cx="3" cy="8" r="1.6"/><circle cx="8" cy="8" r="1.6"/><circle cx="13" cy="8" r="1.6"/><circle cx="3" cy="13" r="1.6"/><circle cx="8" cy="13" r="1.6"/><circle cx="13" cy="13" r="1.6"/></svg>
 				</button>
 			</div>
@@ -137,7 +137,11 @@
 						<a href="https://linkedin.com/in/imswarnil" target="_blank" rel="noopener" class="icon-btn" aria-label="LinkedIn">{{> "icons/linkedin"}}</a>
 						<a href="{{@site.url}}/rss/" class="icon-btn" aria-label="RSS">{{> "icons/rss"}}</a>
 					</div>
-					{{#if @custom.topmate_url}}<a href="{{@custom.topmate_url}}" target="_blank" rel="noopener" class="btn-ghost text-xs">{{> "icons/calendar" class="h-3.5 w-3.5"}} Book a call</a>{{/if}}
+					<div class="flex items-center gap-2">
+						{{!-- hidden until the browser fires beforeinstallprompt (main.js) --}}
+						<button type="button" class="btn-ghost hidden text-xs" data-pwa-install>{{> "icons/zap" class="h-3.5 w-3.5"}} Install app</button>
+						{{#if @custom.topmate_url}}<a href="{{@custom.topmate_url}}" target="_blank" rel="noopener" class="btn-ghost text-xs">{{> "icons/calendar" class="h-3.5 w-3.5"}} Book a call</a>{{/if}}
+					</div>
 				</div>
 			</div>
 		</div>
@@ -264,7 +268,7 @@
 	</nav>
 </header>
 {{!-- Spacer so content clears the fixed navbar (hidden on player-chrome pages) --}}
-<div class="h-16 sm:h-[4.25rem]" aria-hidden="true" id="nav-spacer"></div>
+<div class="h-[4.5rem] sm:h-20" aria-hidden="true" id="nav-spacer"></div>
 
 <script>
 	/* Fold "- Child" / "-- Grandchild" admin-nav items into dropdowns.

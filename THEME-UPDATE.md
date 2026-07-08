@@ -2,6 +2,42 @@
 
 Running record of what's done and what's left. Master backlog lives in CLAUDE.md.
 
+## 2026-07-08 — full PWA (offline + push) · medium navbar · static S-camcorder logo
+
+- **Service worker re-enabled** (`sw.hbs` at `/sw/`): three versioned caches —
+  network-first pages (+ navigation preload) with `/offline/` fallback and a
+  50-page cap; stale-while-revalidate for `/assets/` + `/public/`; cache-first
+  `/content/images/` with an 80-image cap. Ghost admin/members/media never
+  intercepted. `SKIP_WAITING` message hook.
+- **Registration** (`default.hbs`): registers `/sw/` at root scope, heals the
+  legacy broken `/sw.js/` registration, and fails gracefully with a console.info
+  until the `Service-Worker-Allowed: /` header is set at the proxy/CDN
+  (theme-customize.txt §11 has nginx + Cloudflare recipes; impossible on
+  Ghost(Pro) — site just works without offline there).
+- **Push notifications**: new theme setting **OneSignal App ID**. When set, the
+  OneSignal v16 SDK loads deferred and its push worker is `importScripts`-merged
+  into our `/sw/` (custom-integration mode) — remove the old code-injection
+  snippet and fix the dashboard site URL to the exact www domain. When empty,
+  the worker ships generic VAPID `push`/`notificationclick` handlers instead.
+- **Manifest**: added `id`, `lang`, `display_override`, `categories`;
+  `orientation: any`. `apple-touch-icon` + status-bar meta in head.
+- **Install prompt**: `beforeinstallprompt` handler in main.js reveals an
+  "Install app" button in the mega-panel footer.
+- **Navbar → medium**: shell `py-2.5 pl-4` (island `py-1.5`), nav links
+  13.5px / roomier padding, icon buttons 36px, 9-dot 32px, logo mark 32px,
+  spacer raised to 4.5rem/5rem.
+- **Logo**: replaced the 6.5s stroke-drawing choreography with a static
+  S-in-camcorder-viewfinder mark + pulsing red REC bubble (~100 lines of
+  keyframe CSS deleted — also clears the "non-composited animations" audit).
+  Tagline ("documenting …") now desktop-only; mobile shows just **Swarnil**.
+- **Favicon**: transparent background, ink/paper auto-switch via
+  `prefers-color-scheme`, red REC dot.
+- **Perf docs**: theme-customize.txt §11 documents `Cache-Control: immutable`
+  for `/assets|public/` (Lighthouse cache-lifetimes item) alongside the SW header.
+- **Needs owner action**: set the `Service-Worker-Allowed` header + cache
+  lifetimes at the CDN/proxy; create OneSignal app (Custom Code mode, exact
+  www URL), paste App ID into theme settings, delete old code-injection snippet.
+
 ## 2026-07-08 — 3 new collections + dedicated project tags
 
 - **Fixed shared-tag bug**: projects nested build-logs under `topic-1` (a site-wide

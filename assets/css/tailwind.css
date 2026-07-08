@@ -302,11 +302,11 @@
 		@apply inline-flex h-9 w-9 items-center justify-center rounded-full text-silver transition hover:bg-mist hover:text-ink;
 	}
 
-	/* Navbar: ultra-compact bar → floating island once scrolled. The bar itself
+	/* Navbar: medium-height bar → floating island once scrolled. The bar itself
 	   is the reading-progress indicator: .nav-progress fills it left→right with
 	   a very light tint of the accent color (scaleX set in main.js). */
 	.nav-shell {
-		@apply relative mx-auto flex w-full max-w-site items-center justify-between gap-2 rounded-2xl border border-transparent bg-transparent py-1.5 pl-3 pr-2;
+		@apply relative mx-auto flex w-full max-w-site items-center justify-between gap-2 rounded-2xl border border-transparent bg-transparent py-2.5 pl-4 pr-2.5;
 		transition:
 			max-width 0.5s cubic-bezier(0.16, 1, 0.3, 1),
 			background-color 0.4s ease,
@@ -315,7 +315,7 @@
 			padding 0.4s ease;
 	}
 	.nav-shell.is-island {
-		@apply max-w-5xl rounded-2xl border-line bg-paper/80 py-1 shadow-island backdrop-blur-xl;
+		@apply max-w-5xl rounded-2xl border-line bg-paper/80 py-1.5 shadow-island backdrop-blur-xl;
 	}
 	.nav-shell > *:not(.nav-progress) {
 		position: relative;
@@ -358,7 +358,7 @@
 	}
 
 	.nav-link {
-		@apply relative inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1 text-[12.5px] font-medium text-silver transition hover:bg-mist hover:text-ink;
+		@apply relative inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-[13.5px] font-medium text-silver transition hover:bg-mist hover:text-ink;
 	}
 	/* current page: no pill — just ink text and a small accent dot underneath */
 	.nav-link.is-current {
@@ -698,109 +698,9 @@ body.tag-hash-webseries #nav-spacer {
 #mode-cycle:active .mode-glyph { transform: scale(0.8) rotate(-20deg); }
 .mode-glyph { transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1); }
 
-/* Compact icon buttons in nav */
+/* Medium icon buttons in nav */
 #site-header .icon-btn {
-	@apply h-8 w-8;
-}
-
-/* Logo intro — ONE-SHOT line-drawing choreography (6.5s, no loop).
-   Every shape is stroke-drawn with dashoffset: a positive->0 offset draws the
-   line in; continuing to -100 makes the line "run onward" out of its own end
-   (that's how the S hands over to the play button, play to code, code back
-   to the S). Finale: CRT off/on blip + live-dot double-pulse, then rest. */
-.logo-seg {
-	stroke-dasharray: 100 100;
-	stroke-dashoffset: 100;
-	animation-duration: 6.5s;
-	animation-timing-function: linear;
-	animation-iteration-count: 1;
-	animation-fill-mode: forwards;
-}
-.logo-seg-s1 { animation-name: logoS1; }
-.logo-seg-play { animation-name: logoPlay; }
-.logo-seg-c1 { animation-name: logoC1; }
-.logo-seg-c2 { animation-name: logoC2; }
-.logo-seg-c3 { animation-name: logoC3; }
-.logo-seg-s2 { animation-name: logoS2; }
-/* act 1: S draws 0-16%, holds, then its line runs out 24-32% */
-@keyframes logoS1 {
-	0% { stroke-dashoffset: 100; }
-	16% { stroke-dashoffset: 0; }
-	24% { stroke-dashoffset: 0; }
-	32%, 100% { stroke-dashoffset: -100; }
-}
-/* act 2: play draws as the S exits, holds, runs out */
-@keyframes logoPlay {
-	0%, 26% { stroke-dashoffset: 100; }
-	40% { stroke-dashoffset: 0; }
-	46% { stroke-dashoffset: 0; }
-	54%, 100% { stroke-dashoffset: -100; }
-}
-/* act 3: code lines draw staggered, then run out */
-@keyframes logoC1 {
-	0%, 48% { stroke-dashoffset: 100; }
-	56% { stroke-dashoffset: 0; }
-	62% { stroke-dashoffset: 0; }
-	68%, 100% { stroke-dashoffset: -100; }
-}
-@keyframes logoC2 {
-	0%, 51% { stroke-dashoffset: 100; }
-	59% { stroke-dashoffset: 0; }
-	62% { stroke-dashoffset: 0; }
-	68%, 100% { stroke-dashoffset: -100; }
-}
-@keyframes logoC3 {
-	0%, 54% { stroke-dashoffset: 100; }
-	61% { stroke-dashoffset: 0; }
-	64% { stroke-dashoffset: 0; }
-	70%, 100% { stroke-dashoffset: -100; }
-}
-/* act 4: the last code line redraws the S - and it stays */
-@keyframes logoS2 {
-	0%, 66% { stroke-dashoffset: 100; }
-	82%, 100% { stroke-dashoffset: 0; }
-}
-/* finale: CRT off -> thin bright line -> back on */
-.logo-crt {
-	transform-origin: 24px 24px;
-	animation: logoCrt 6.5s linear 1 forwards;
-}
-@keyframes logoCrt {
-	0%, 84% { transform: none; }
-	87% { transform: scaleY(0.06) scaleX(1.12); }
-	89% { transform: scaleY(0.06) scaleX(0.05); }
-	91% { transform: scaleY(0.06) scaleX(1.08); }
-	94%, 100% { transform: none; }
-}
-.logo-crt-flash {
-	animation: logoCrtFlash 6.5s linear 1 forwards;
-}
-@keyframes logoCrtFlash {
-	0%, 85% { opacity: 0; }
-	88% { opacity: 0.9; }
-	90% { opacity: 0.9; }
-	93%, 100% { opacity: 0; }
-}
-/* live dot: dim during the drawing, play/pause double-pulse at the blip,
-   then settles into the slow blink forever */
-.logo-rec {
-	transform-origin: 37px 11px;
-	animation:
-		logoRecIntro 6.5s linear 1,
-		logoRec 2.4s ease-in-out 6.5s infinite;
-}
-@keyframes logoRecIntro {
-	0%, 90% { opacity: 0.35; transform: none; }
-	92.5% { opacity: 1; transform: scale(1.5); }
-	95% { opacity: 0.35; transform: none; }
-	97.5% { opacity: 1; transform: scale(1.5); }
-	100% { opacity: 1; transform: none; }
-}
-@media (prefers-reduced-motion: reduce) {
-	.logo-seg, .logo-crt, .logo-crt-flash, .logo-rec { animation: none; }
-	.logo-seg { stroke-dashoffset: -100; }
-	.logo-seg-s2 { stroke-dashoffset: 0; }
-	.logo-crt-flash { opacity: 0; }
+	@apply h-9 w-9;
 }
 
 /* ------------------------------------------------------------------
@@ -860,9 +760,10 @@ form[data-members-form].loading button[type='submit'] {
 }
 
 /* ------------------------------------------------------------------
-   Logo — simple S mark + "documenting <word>" rotating tagline
+   Logo — static S-camcorder mark; only the REC bubble pulses
+   (composited opacity/transform) + "documenting <word>" tagline
 ------------------------------------------------------------------- */
-.logo-rec { animation: logoRec 2.4s ease-in-out infinite; }
+.logo-rec { transform-origin: 37px 11px; animation: logoRec 2.4s ease-in-out infinite; }
 @keyframes logoRec { 50% { opacity: 0.3; transform: scale(0.8); } }
 .logo-rotator-track {
 	animation: logoWords 15s cubic-bezier(0.7, 0, 0.3, 1) infinite;
