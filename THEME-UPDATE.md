@@ -2,6 +2,32 @@
 
 Running record of what's done and what's left. Master backlog lives in CLAUDE.md.
 
+## 2026-07-08 — projects build-logs; quote transition removed
+
+- **Removed** the page-transition quote overlay (JS + `transition.css`). Kept the
+  `<html>` paper-background fix that stops the white flash between navigations.
+- **Projects → build-logs** (mirrors courses↔lessons):
+  - `#project` = the project container; `#project-detail` = build-log steps that
+    live inside it at `/projects/{project-tag}/{slug}/` (new `/project-steps-index`
+    collection in routes.yaml, `project-details.hbs` index).
+  - New `post/project-step.hbs`: the parent project's repo-style hero stays constant;
+    only the body + rail change. Left rail is a vertical build-log timeline (start ▶,
+    ship ✓, numbered middles, current highlighted), with prev/next within the project,
+    "Step X of Y", day-N since kickoff, and a "back to project" action.
+  - `post/project.hbs` overview gained a **Build log** section (same timeline + "N steps
+    · D days start to ship") and a **#blog-project** companion-writing cross-link.
+  - New `.buildlog*` styles in `components/sections.css`.
+- **Needs owner action**: re-upload `routes.yaml` (Ghost Admin → Settings → Labs → Routes)
+  and restart Ghost for the new `project-details` template + collection.
+
+### Still queued (from the 4-part request)
+- Prompts + #snippet collection (`/prompts`, LLM-chat styling + copy buttons).
+- Experiences collection (life "moments" — photo + story cards).
+- `/bucketlist` page (quote header, #bucketlist-to-do / #bucketlist-done columns).
+- /projects page extra sections (learn-by-doing, process, resume, GitHub, #video cross-links).
+- import.json content for all of the above + members-only / more courses·lessons·webseries.
+- Nav (primary + secondary) entries for the new collections; restyle the home publishing board.
+
 ## 2026-07-08 — carousel lag + page transitions
 
 - **Carousel lag fix**: hover-preview iframes no longer mount mid-scroll — a scroll

@@ -60,6 +60,14 @@ collections:
     filter: tag:hash-video
     template: videos
 
+  # Project build-logs live INSIDE their project: /projects/{project-tag}/{slug}/
+  # A #project-detail post's FIRST (primary) tag must be the project's public tag.
+  /project-steps-index/:
+    permalink: /projects/{primary_tag}/{slug}/
+    filter: tag:hash-project-detail
+    order: published_at asc
+    template: project-details
+
   /projects/:
     permalink: /projects/{slug}/
     filter: tag:hash-project

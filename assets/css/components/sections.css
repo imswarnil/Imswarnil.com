@@ -120,6 +120,89 @@
 		padding: 1.4rem 1.5rem;
 	}
 
+	/* ---- Project build-log: vertical timeline of #project-detail steps -- */
+	.buildlog {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		gap: 0.15rem;
+	}
+	.buildlog-item {
+		position: relative;
+	}
+	/* connector line from this dot down to the next */
+	.buildlog-item:not(:last-child)::before {
+		content: '';
+		position: absolute;
+		left: 1.05rem;
+		top: 1.9rem;
+		bottom: -0.15rem;
+		width: 1.5px;
+		background: rgb(var(--line));
+	}
+	.buildlog-link {
+		position: relative;
+		display: flex;
+		align-items: flex-start;
+		gap: 0.7rem;
+		padding: 0.5rem 0.4rem;
+		border-radius: 0.75rem;
+		transition: background 0.2s ease;
+	}
+	.buildlog-link:hover {
+		background: rgb(var(--mist));
+	}
+	.buildlog-item.is-current > .buildlog-link {
+		background: rgb(var(--mist));
+	}
+	.buildlog-dot {
+		position: relative;
+		z-index: 1;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 1.7rem;
+		height: 1.7rem;
+		flex: none;
+		border-radius: 9999px;
+		border: 1.5px solid rgb(var(--line));
+		background: rgb(var(--paper));
+		color: rgb(var(--silver));
+	}
+	.buildlog-item.is-start .buildlog-dot {
+		border-color: rgb(var(--accent));
+		color: rgb(var(--accent));
+	}
+	.buildlog-item.is-end .buildlog-dot {
+		border-color: rgb(34 197 94);
+		color: rgb(34 197 94);
+	}
+	.buildlog-item.is-current .buildlog-dot {
+		border-color: rgb(var(--ink));
+		background: rgb(var(--ink));
+		color: rgb(var(--paper));
+	}
+	.buildlog-num {
+		font-family: theme('fontFamily.mono');
+		font-size: 10px;
+		font-weight: 600;
+	}
+	.buildlog-title {
+		display: block;
+		font-size: 13px;
+		font-weight: 600;
+		line-height: 1.3;
+		color: rgb(var(--ink));
+	}
+	.buildlog-meta {
+		display: block;
+		margin-top: 2px;
+		font-family: theme('fontFamily.mono');
+		font-size: 10px;
+		letter-spacing: 0.02em;
+		color: rgb(var(--silver));
+	}
+
 	/* ---- Reels rail: horizontal 9:16 cards ----------------------------- */
 	.reels-rail {
 		display: flex;

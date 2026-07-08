@@ -55,6 +55,64 @@
 
 				{{> "components/adsense" slot="6501428979" layout="in-article" format="fluid"}}
 
+				{{!-- Build log: #project-detail steps, start → ship, with overall span --}}
+				{{#foreach tags visibility="public" limit="1"}}
+				{{#get "posts" filter="tag:hash-project-detail+tags:{{slug}}" order="published_at asc" limit="50" as |steps|}}
+					{{#if steps}}
+					<section class="mt-12 border-t border-line pt-10" id="buildlog">
+						<div class="flex flex-wrap items-end justify-between gap-3">
+							<div>
+								<p class="kicker">{{> "icons/pen" class="h-3.5 w-3.5"}} How I built it</p>
+								<h2 class="section-title mt-2">Build log</h2>
+							</div>
+							<p class="font-mono text-[11px] text-silver" id="buildlog-span" hidden></p>
+						</div>
+						<ol class="buildlog mt-6" id="buildlog-overview">
+							{{#foreach steps}}
+							<li class="buildlog-item {{#if @first}}is-start{{/if}} {{#if @last}}is-end{{/if}}">
+								<a href="{{url}}" data-step-date="{{date published_at format="YYYY-MM-DD"}}" class="buildlog-link group">
+									<span class="buildlog-dot" aria-hidden="true">{{#if @first}}{{> "icons/play" class="h-3 w-3"}}{{else if @last}}{{> "icons/check" class="h-3 w-3"}}{{else}}<span class="buildlog-num">{{@number}}</span>{{/if}}</span>
+									<span class="min-w-0">
+										<span class="buildlog-title transition group-hover:text-accent">{{title}}</span>
+										<span class="buildlog-meta">{{#if @first}}Start · {{else if @last}}Shipped · {{/if}}{{date published_at format="DD MMM YYYY"}}</span>
+									</span>
+								</a>
+							</li>
+							{{/foreach}}
+						</ol>
+						<script>
+						(function () {
+							var items = [].slice.call(document.querySelectorAll('#buildlog-overview [data-step-date]'));
+							if (items.length < 2) return;
+							var a = items[0].getAttribute('data-step-date');
+							var b = items[items.length - 1].getAttribute('data-step-date');
+							var d = Math.round((new Date(b) - new Date(a)) / 86400000);
+							var el = document.getElementById('buildlog-span');
+							if (el) { el.textContent = items.length + ' steps · ' + (d <= 0 ? 'in a day' : d + ' days start to ship'); el.hidden = false; }
+						})();
+						</script>
+					</section>
+					{{/if}}
+				{{/get}}
+				{{/foreach}}
+
+				{{!-- Companion writing: #blog posts tagged #blog-project --}}
+				{{#get "posts" filter="tag:hash-blog+tag:hash-blog-project" limit="3" include="tags" as |bp|}}
+					{{#if bp}}
+					<section class="mt-12 border-t border-line pt-10">
+						<p class="kicker">{{> "icons/newspaper" class="h-3.5 w-3.5"}} Wrote about it</p>
+						<ul class="mt-5 divide-y divide-line">
+							{{#foreach bp}}
+							<li><a href="{{url}}" class="group flex items-center justify-between gap-4 py-3.5">
+								<span class="min-w-0"><span class="block truncate text-[15px] font-semibold tracking-tight transition group-hover:text-silver">{{title}}</span><span class="mt-0.5 block font-mono text-[11px] text-silver">{{reading_time}} · {{date published_at format="DD MMM YYYY"}}</span></span>
+								{{> "icons/arrow-right" class="h-4 w-4 shrink-0 text-silver transition group-hover:translate-x-0.5 group-hover:text-ink"}}
+							</a></li>
+							{{/foreach}}
+						</ul>
+					</section>
+					{{/if}}
+				{{/get}}
+
 				<footer class="mt-10 flex items-center justify-between border-t border-line pt-6">
 					<a href="{{@site.url}}/projects/" class="btn-ghost">{{> "icons/arrow-right" class="rotate-180"}} All projects</a>
 					{{> "post/share"}}
