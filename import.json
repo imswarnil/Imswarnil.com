@@ -958,6 +958,217 @@
       "created_at": "2026-06-18T12:00:00.000Z",
       "updated_at": "2026-06-18T12:00:00.000Z",
       "published_at": "2026-06-18T12:00:00.000Z"
+     },
+     {
+      "id": "000000000000000000000181",
+      "title": "Refactor this function",
+      "slug": "prompt-refactor-function",
+      "mobiledoc": "{\"version\":\"0.3.1\",\"atoms\":[],\"cards\":[[\"html\",{\"html\":\"<pre><code>You are a senior engineer. Refactor the function I paste below for readability, without changing its behaviour. Then list the 3 most important changes as bullets.</code></pre><p>Paste your function right after the prompt. You get the refactor plus a short rationale — perfect for a PR description.</p>\"}]],\"markups\":[],\"sections\":[[10,0],[1,\"p\",[]]]}",
+      "feature_image": null,
+      "featured": 0,
+      "type": "post",
+      "status": "published",
+      "custom_excerpt": "A reliable refactor prompt that keeps behaviour and explains the changes.",
+      "created_at": "2026-07-02T12:00:00.000Z",
+      "updated_at": "2026-07-02T12:00:00.000Z",
+      "published_at": "2026-07-02T12:00:00.000Z"
+     },
+     {
+      "id": "000000000000000000000182",
+      "title": "Explain it like I ship tomorrow",
+      "slug": "prompt-explain-practical",
+      "mobiledoc": "{\"version\":\"0.3.1\",\"atoms\":[],\"cards\":[[\"html\",{\"html\":\"<pre><code>Explain [TOPIC] to a working developer who ships tomorrow. Skip history and theory. Give me: the one-line mental model, the 3 things that bite people, and a minimal example.</code></pre><p>Great for getting productive with a new tool in five minutes instead of an afternoon.</p>\"}]],\"markups\":[],\"sections\":[[10,0],[1,\"p\",[]]]}",
+      "feature_image": null,
+      "featured": 0,
+      "type": "post",
+      "status": "published",
+      "custom_excerpt": "Cuts the theory — gives you the practical version fast.",
+      "created_at": "2026-06-30T12:00:00.000Z",
+      "updated_at": "2026-06-30T12:00:00.000Z",
+      "published_at": "2026-06-30T12:00:00.000Z"
+     },
+     {
+      "id": "000000000000000000000183",
+      "title": "Debounce in vanilla JS",
+      "slug": "snippet-debounce",
+      "mobiledoc": "{\"version\":\"0.3.1\",\"atoms\":[],\"cards\":[[\"html\",{\"html\":\"<pre><code>const debounce = (fn, ms = 300) => {\\n  let t;\\n  return (...a) => {\\n    clearTimeout(t);\\n    t = setTimeout(() => fn(...a), ms);\\n  };\\n};</code></pre><p>Trailing-edge debounce. For leading-edge, call <code>fn</code> once before starting the timer.</p>\"}]],\"markups\":[],\"sections\":[[10,0],[1,\"p\",[]]]}",
+      "feature_image": null,
+      "featured": 0,
+      "type": "post",
+      "status": "published",
+      "custom_excerpt": "The trailing debounce I paste into every project.",
+      "created_at": "2026-06-28T12:00:00.000Z",
+      "updated_at": "2026-06-28T12:00:00.000Z",
+      "published_at": "2026-06-28T12:00:00.000Z"
+     },
+     {
+      "id": "000000000000000000000184",
+      "title": "Full-bleed CSS utility",
+      "slug": "snippet-full-bleed",
+      "mobiledoc": "{\"version\":\"0.3.1\",\"atoms\":[],\"cards\":[[\"html\",{\"html\":\"<pre><code>.full-bleed {\\n  width: 100vw;\\n  margin-inline: calc(50% - 50vw);\\n}</code></pre><p>Drop it on any child of a max-width container to make it span the whole viewport width.</p>\"}]],\"markups\":[],\"sections\":[[10,0],[1,\"p\",[]]]}",
+      "feature_image": null,
+      "featured": 0,
+      "type": "post",
+      "status": "published",
+      "custom_excerpt": "Break an element out of a centered container to the viewport edges.",
+      "created_at": "2026-06-25T12:00:00.000Z",
+      "updated_at": "2026-06-25T12:00:00.000Z",
+      "published_at": "2026-06-25T12:00:00.000Z"
+     },
+     {
+      "id": "000000000000000000000185",
+      "title": "Spoke at my first conference",
+      "slug": "exp-first-talk",
+      "mobiledoc": "{\"version\":\"0.3.1\",\"atoms\":[],\"cards\":[[\"html\",{\"html\":\"<p>My hands were shaking through the first slide. By the demo I forgot to be nervous. The best part was the hallway conversations afterwards.</p>\"}]],\"markups\":[],\"sections\":[[10,0],[1,\"p\",[]]]}",
+      "feature_image": "https://picsum.photos/seed/exp-first-talk/1200/800",
+      "featured": 0,
+      "type": "post",
+      "status": "published",
+      "custom_excerpt": "Terrified backstage, buzzing after. Would do it again tomorrow.",
+      "created_at": "2026-05-18T12:00:00.000Z",
+      "updated_at": "2026-05-18T12:00:00.000Z",
+      "published_at": "2026-05-18T12:00:00.000Z"
+     },
+     {
+      "id": "000000000000000000000186",
+      "title": "Lived a month in Tokyo",
+      "slug": "exp-tokyo-month",
+      "mobiledoc": "{\"version\":\"0.3.1\",\"atoms\":[],\"cards\":[[\"html\",{\"html\":\"<p>Worked mornings, wandered afternoons. The city rewired how I think about small, careful design.</p>\"}]],\"markups\":[],\"sections\":[[10,0],[1,\"p\",[]]]}",
+      "feature_image": "https://picsum.photos/seed/exp-tokyo-month/1200/800",
+      "featured": 0,
+      "type": "post",
+      "status": "published",
+      "custom_excerpt": "A tiny apartment, a train pass, and a notebook that filled up fast.",
+      "created_at": "2026-03-10T12:00:00.000Z",
+      "updated_at": "2026-03-10T12:00:00.000Z",
+      "published_at": "2026-03-10T12:00:00.000Z"
+     },
+     {
+      "id": "000000000000000000000187",
+      "title": "Shipped my first real app",
+      "slug": "exp-first-app",
+      "mobiledoc": "{\"version\":\"0.3.1\",\"atoms\":[],\"cards\":[[\"html\",{\"html\":\"<p>It was held together with tape and hope, but it was live, and people used it. That first non-family signup email is still saved.</p>\"}]],\"markups\":[],\"sections\":[[10,0],[1,\"p\",[]]]}",
+      "feature_image": "https://picsum.photos/seed/exp-first-app/1200/800",
+      "featured": 0,
+      "type": "post",
+      "status": "published",
+      "custom_excerpt": "Ten users, one of them not related to me. Felt like a million.",
+      "created_at": "2025-11-02T12:00:00.000Z",
+      "updated_at": "2025-11-02T12:00:00.000Z",
+      "published_at": "2025-11-02T12:00:00.000Z"
+     },
+     {
+      "id": "000000000000000000000188",
+      "title": "See the northern lights",
+      "slug": "bl-northern-lights",
+      "mobiledoc": "{\"version\":\"0.3.1\",\"atoms\":[],\"cards\":[[\"html\",{\"html\":\"<p>Ideally from a hot spring.</p>\"}]],\"markups\":[],\"sections\":[[10,0],[1,\"p\",[]]]}",
+      "feature_image": null,
+      "featured": 0,
+      "type": "post",
+      "status": "published",
+      "custom_excerpt": "Ideally from a hot spring.",
+      "created_at": "2026-07-01T12:00:00.000Z",
+      "updated_at": "2026-07-01T12:00:00.000Z",
+      "published_at": "2026-07-01T12:00:00.000Z"
+     },
+     {
+      "id": "000000000000000000000189",
+      "title": "Give a keynote",
+      "slug": "bl-keynote",
+      "mobiledoc": "{\"version\":\"0.3.1\",\"atoms\":[],\"cards\":[[\"html\",{\"html\":\"<p>Big stage, small nerves.</p>\"}]],\"markups\":[],\"sections\":[[10,0],[1,\"p\",[]]]}",
+      "feature_image": null,
+      "featured": 0,
+      "type": "post",
+      "status": "published",
+      "custom_excerpt": "Big stage, small nerves.",
+      "created_at": "2026-06-30T12:00:00.000Z",
+      "updated_at": "2026-06-30T12:00:00.000Z",
+      "published_at": "2026-06-30T12:00:00.000Z"
+     },
+     {
+      "id": "000000000000000000000190",
+      "title": "Write a book",
+      "slug": "bl-write-book",
+      "mobiledoc": "{\"version\":\"0.3.1\",\"atoms\":[],\"cards\":[[\"html\",{\"html\":\"<p>Something worth re-reading.</p>\"}]],\"markups\":[],\"sections\":[[10,0],[1,\"p\",[]]]}",
+      "feature_image": null,
+      "featured": 0,
+      "type": "post",
+      "status": "published",
+      "custom_excerpt": "Something worth re-reading.",
+      "created_at": "2026-06-29T12:00:00.000Z",
+      "updated_at": "2026-06-29T12:00:00.000Z",
+      "published_at": "2026-06-29T12:00:00.000Z"
+     },
+     {
+      "id": "000000000000000000000191",
+      "title": "Learn to freedive",
+      "slug": "bl-freedive",
+      "mobiledoc": "{\"version\":\"0.3.1\",\"atoms\":[],\"cards\":[[\"html\",{\"html\":\"<p>One breath, down and back.</p>\"}]],\"markups\":[],\"sections\":[[10,0],[1,\"p\",[]]]}",
+      "feature_image": null,
+      "featured": 0,
+      "type": "post",
+      "status": "published",
+      "custom_excerpt": "One breath, down and back.",
+      "created_at": "2026-06-28T12:00:00.000Z",
+      "updated_at": "2026-06-28T12:00:00.000Z",
+      "published_at": "2026-06-28T12:00:00.000Z"
+     },
+     {
+      "id": "000000000000000000000192",
+      "title": "Ran a half marathon",
+      "slug": "bl-half-marathon",
+      "mobiledoc": "{\"version\":\"0.3.1\",\"atoms\":[],\"cards\":[[\"html\",{\"html\":\"<p>Slow, but I finished smiling.</p>\"}]],\"markups\":[],\"sections\":[[10,0],[1,\"p\",[]]]}",
+      "feature_image": null,
+      "featured": 0,
+      "type": "post",
+      "status": "published",
+      "custom_excerpt": "Slow, but I finished smiling.",
+      "created_at": "2026-04-14T12:00:00.000Z",
+      "updated_at": "2026-04-14T12:00:00.000Z",
+      "published_at": "2026-04-14T12:00:00.000Z"
+     },
+     {
+      "id": "000000000000000000000193",
+      "title": "Launched a product",
+      "slug": "bl-launched-product",
+      "mobiledoc": "{\"version\":\"0.3.1\",\"atoms\":[],\"cards\":[[\"html\",{\"html\":\"<p>Front page of nowhere, proud anyway.</p>\"}]],\"markups\":[],\"sections\":[[10,0],[1,\"p\",[]]]}",
+      "feature_image": null,
+      "featured": 0,
+      "type": "post",
+      "status": "published",
+      "custom_excerpt": "Front page of nowhere, proud anyway.",
+      "created_at": "2025-12-01T12:00:00.000Z",
+      "updated_at": "2025-12-01T12:00:00.000Z",
+      "published_at": "2025-12-01T12:00:00.000Z"
+     },
+     {
+      "id": "000000000000000000000194",
+      "title": "Visited Japan",
+      "slug": "bl-visited-japan",
+      "mobiledoc": "{\"version\":\"0.3.1\",\"atoms\":[],\"cards\":[[\"html\",{\"html\":\"<p>Checked off, then extended the trip.</p>\"}]],\"markups\":[],\"sections\":[[10,0],[1,\"p\",[]]]}",
+      "feature_image": null,
+      "featured": 0,
+      "type": "post",
+      "status": "published",
+      "custom_excerpt": "Checked off, then extended the trip.",
+      "created_at": "2026-03-01T12:00:00.000Z",
+      "updated_at": "2026-03-01T12:00:00.000Z",
+      "published_at": "2026-03-01T12:00:00.000Z"
+     },
+     {
+      "id": "000000000000000000000195",
+      "title": "Members-only: my exact workflow",
+      "slug": "blog-members-workflow",
+      "mobiledoc": "{\"version\":\"0.3.1\",\"atoms\":[],\"cards\":[[\"html\",{\"html\":\"<p>This one is for members. Here is the exact toolchain, folder structure and shortcuts I use every day.</p>\"}]],\"markups\":[],\"sections\":[[10,0],[1,\"p\",[]]]}",
+      "feature_image": "https://picsum.photos/seed/blog-members-workflow/1200/800",
+      "featured": 0,
+      "type": "post",
+      "status": "published",
+      "custom_excerpt": "The full behind-the-scenes setup — for subscribers.",
+      "created_at": "2026-07-03T12:00:00.000Z",
+      "updated_at": "2026-07-03T12:00:00.000Z",
+      "published_at": "2026-07-03T12:00:00.000Z",
+      "visibility": "members"
      }
     ],
     "tags": [
@@ -1345,6 +1556,83 @@
       "slug": "hash-project-detail",
       "description": "",
       "visibility": "internal"
+     },
+     {
+      "id": "000000000000000000000137",
+      "name": "#prompt",
+      "slug": "hash-prompt",
+      "description": "",
+      "visibility": "internal"
+     },
+     {
+      "id": "000000000000000000000138",
+      "name": "#snippet",
+      "slug": "hash-snippet",
+      "description": "",
+      "visibility": "internal"
+     },
+     {
+      "id": "000000000000000000000139",
+      "name": "#experience",
+      "slug": "hash-experience",
+      "description": "",
+      "visibility": "internal"
+     },
+     {
+      "id": "000000000000000000000140",
+      "name": "#bucketlist-to-do",
+      "slug": "hash-bucketlist-to-do",
+      "description": "",
+      "visibility": "internal"
+     },
+     {
+      "id": "000000000000000000000141",
+      "name": "#bucketlist-done",
+      "slug": "hash-bucketlist-done",
+      "description": "",
+      "visibility": "internal"
+     },
+     {
+      "id": "000000000000000000000142",
+      "name": "Project 1",
+      "slug": "project-1",
+      "description": "",
+      "visibility": "public"
+     },
+     {
+      "id": "000000000000000000000143",
+      "name": "Project 2",
+      "slug": "project-2",
+      "description": "",
+      "visibility": "public"
+     },
+     {
+      "id": "000000000000000000000144",
+      "name": "Project 3",
+      "slug": "project-3",
+      "description": "",
+      "visibility": "public"
+     },
+     {
+      "id": "000000000000000000000145",
+      "name": "Prompting",
+      "slug": "prompting",
+      "description": "",
+      "visibility": "public"
+     },
+     {
+      "id": "000000000000000000000146",
+      "name": "Code",
+      "slug": "code",
+      "description": "",
+      "visibility": "public"
+     },
+     {
+      "id": "000000000000000000000147",
+      "name": "Life",
+      "slug": "life",
+      "description": "",
+      "visibility": "public"
      }
     ],
     "posts_tags": [
@@ -1501,47 +1789,47 @@
      {
       "post_id": "00000000000000000000013d",
       "tag_id": "000000000000000000000102",
-      "sort_order": 0
+      "sort_order": 1
      },
      {
       "post_id": "00000000000000000000013d",
       "tag_id": "000000000000000000000118",
-      "sort_order": 1
+      "sort_order": 2
      },
      {
       "post_id": "00000000000000000000013d",
       "tag_id": "00000000000000000000012a",
-      "sort_order": 2
+      "sort_order": 3
      },
      {
       "post_id": "00000000000000000000013e",
       "tag_id": "000000000000000000000102",
-      "sort_order": 0
+      "sort_order": 1
      },
      {
       "post_id": "00000000000000000000013e",
       "tag_id": "000000000000000000000119",
-      "sort_order": 1
+      "sort_order": 2
      },
      {
       "post_id": "00000000000000000000013e",
       "tag_id": "00000000000000000000012b",
-      "sort_order": 2
+      "sort_order": 3
      },
      {
       "post_id": "00000000000000000000013f",
       "tag_id": "000000000000000000000102",
-      "sort_order": 0
-     },
-     {
-      "post_id": "00000000000000000000013f",
-      "tag_id": "00000000000000000000011a",
       "sort_order": 1
      },
      {
       "post_id": "00000000000000000000013f",
-      "tag_id": "00000000000000000000012c",
+      "tag_id": "00000000000000000000011a",
       "sort_order": 2
+     },
+     {
+      "post_id": "00000000000000000000013f",
+      "tag_id": "00000000000000000000012c",
+      "sort_order": 3
      },
      {
       "post_id": "000000000000000000000140",
@@ -2165,7 +2453,7 @@
      },
      {
       "post_id": "000000000000000000000177",
-      "tag_id": "00000000000000000000012a",
+      "tag_id": "000000000000000000000142",
       "sort_order": 0
      },
      {
@@ -2175,7 +2463,7 @@
      },
      {
       "post_id": "000000000000000000000178",
-      "tag_id": "00000000000000000000012a",
+      "tag_id": "000000000000000000000142",
       "sort_order": 0
      },
      {
@@ -2185,7 +2473,7 @@
      },
      {
       "post_id": "000000000000000000000179",
-      "tag_id": "00000000000000000000012a",
+      "tag_id": "000000000000000000000142",
       "sort_order": 0
      },
      {
@@ -2195,12 +2483,142 @@
      },
      {
       "post_id": "000000000000000000000180",
-      "tag_id": "00000000000000000000012a",
+      "tag_id": "000000000000000000000142",
       "sort_order": 0
      },
      {
       "post_id": "000000000000000000000180",
       "tag_id": "000000000000000000000136",
+      "sort_order": 1
+     },
+     {
+      "post_id": "00000000000000000000013d",
+      "tag_id": "000000000000000000000142",
+      "sort_order": 0
+     },
+     {
+      "post_id": "00000000000000000000013e",
+      "tag_id": "000000000000000000000143",
+      "sort_order": 0
+     },
+     {
+      "post_id": "00000000000000000000013f",
+      "tag_id": "000000000000000000000144",
+      "sort_order": 0
+     },
+     {
+      "post_id": "000000000000000000000181",
+      "tag_id": "000000000000000000000145",
+      "sort_order": 0
+     },
+     {
+      "post_id": "000000000000000000000181",
+      "tag_id": "000000000000000000000137",
+      "sort_order": 1
+     },
+     {
+      "post_id": "000000000000000000000182",
+      "tag_id": "000000000000000000000145",
+      "sort_order": 0
+     },
+     {
+      "post_id": "000000000000000000000182",
+      "tag_id": "000000000000000000000137",
+      "sort_order": 1
+     },
+     {
+      "post_id": "000000000000000000000183",
+      "tag_id": "000000000000000000000146",
+      "sort_order": 0
+     },
+     {
+      "post_id": "000000000000000000000183",
+      "tag_id": "000000000000000000000138",
+      "sort_order": 1
+     },
+     {
+      "post_id": "000000000000000000000184",
+      "tag_id": "000000000000000000000146",
+      "sort_order": 0
+     },
+     {
+      "post_id": "000000000000000000000184",
+      "tag_id": "000000000000000000000138",
+      "sort_order": 1
+     },
+     {
+      "post_id": "000000000000000000000185",
+      "tag_id": "000000000000000000000147",
+      "sort_order": 0
+     },
+     {
+      "post_id": "000000000000000000000185",
+      "tag_id": "000000000000000000000139",
+      "sort_order": 1
+     },
+     {
+      "post_id": "000000000000000000000186",
+      "tag_id": "000000000000000000000147",
+      "sort_order": 0
+     },
+     {
+      "post_id": "000000000000000000000186",
+      "tag_id": "000000000000000000000139",
+      "sort_order": 1
+     },
+     {
+      "post_id": "000000000000000000000187",
+      "tag_id": "000000000000000000000147",
+      "sort_order": 0
+     },
+     {
+      "post_id": "000000000000000000000187",
+      "tag_id": "000000000000000000000139",
+      "sort_order": 1
+     },
+     {
+      "post_id": "000000000000000000000188",
+      "tag_id": "000000000000000000000140",
+      "sort_order": 0
+     },
+     {
+      "post_id": "000000000000000000000189",
+      "tag_id": "000000000000000000000140",
+      "sort_order": 0
+     },
+     {
+      "post_id": "000000000000000000000190",
+      "tag_id": "000000000000000000000140",
+      "sort_order": 0
+     },
+     {
+      "post_id": "000000000000000000000191",
+      "tag_id": "000000000000000000000140",
+      "sort_order": 0
+     },
+     {
+      "post_id": "000000000000000000000192",
+      "tag_id": "000000000000000000000141",
+      "sort_order": 0
+     },
+     {
+      "post_id": "000000000000000000000193",
+      "tag_id": "000000000000000000000141",
+      "sort_order": 0
+     },
+     {
+      "post_id": "000000000000000000000194",
+      "tag_id": "000000000000000000000141",
+      "sort_order": 0
+     },
+     {
+      "post_id": "000000000000000000000195",
+      "tag_id": "00000000000000000000012b",
+      "sort_order": 0
+     },
+     {
+      "post_id": "000000000000000000000195",
+      "tag_id": "000000000000000000000101",
       "sort_order": 1
      }
     ]

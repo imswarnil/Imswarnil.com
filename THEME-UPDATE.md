@@ -2,6 +2,29 @@
 
 Running record of what's done and what's left. Master backlog lives in CLAUDE.md.
 
+## 2026-07-08 — 3 new collections + dedicated project tags
+
+- **Fixed shared-tag bug**: projects nested build-logs under `topic-1` (a site-wide
+  tag). Each project now gets a **dedicated** public tag (`project-1/2/3`) that is the
+  container's primary tag and is shared ONLY with its build-logs. Steps re-pointed
+  from `topic-1` → `project-1`.
+- **Prompts + snippets** (`/prompts`): chat-styled prompt pages (`post/prompt.hbs`
+  splits the first code block into a "You" bubble + copy button, the rest into an
+  "Assistant" bubble); `#snippet` code pages (`post/snippet.hbs`, editor chrome +
+  copy). Cards + collection page. New generic `[data-copy]` handler in main.js.
+- **Experiences** (`/experiences`): life "moments" — photo + story cards, story
+  detail page. `#experience`.
+- **Bucketlist** (`page-bucketlist.hbs`): quote header + two columns
+  `#bucketlist-to-do` / `#bucketlist-done` with check styling.
+- **Navigation**: added Prompts, Experiences, Bucketlist, Collab to the mega-panel
+  (desktop + mobile).
+- **CSS**: new `components/collections.css` (chat bubbles, snippet cards, experience
+  cards, bucketlist).
+- **import.json**: dedicated project tags + 2 prompts, 2 snippets, 3 experiences,
+  4 to-do + 3 done bucketlist items, 1 members-only post.
+- **Needs owner action**: re-upload `routes.yaml` (now has /prompts + /experiences),
+  create Ghost Pages "bucketlist" & "collab", re-import `import.json`, restart Ghost.
+
 ## 2026-07-08 — projects build-logs; quote transition removed
 
 - **Removed** the page-transition quote overlay (JS + `transition.css`). Kept the

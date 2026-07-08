@@ -119,6 +119,18 @@ collections:
     filter: tag:hash-blog
     template: blog
 
+  # Prompts + code snippets share one collection (chat-styled prompts, #snippet code)
+  /prompts/:
+    permalink: /prompts/{slug}/
+    filter: tag:hash-prompt,tag:hash-snippet
+    template: prompts
+
+  # Experiences — life "moments" (photo + story)
+  /experiences/:
+    permalink: /experiences/{slug}/
+    filter: tag:hash-experience
+    template: experiences
+
   # Catch-all archive: everything, lazy-loaded
   /archive/:
     permalink: /archive/{slug}/

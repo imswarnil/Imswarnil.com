@@ -1,0 +1,16 @@
+{{!-- Experience "moment" card — photo + story teaser. --}}
+<article class="exp-card group reveal {{class}}">
+	<a href="{{url}}" class="exp-media block" aria-hidden="true" tabindex="-1">
+		{{#if feature_image}}
+			<img src="{{img_url feature_image size="600"}}" width="600" height="450" alt="{{#if feature_image_alt}}{{feature_image_alt}}{{else}}{{title}}{{/if}}" loading="lazy" decoding="async" />
+		{{else}}
+			<span class="bg-cross flex h-full w-full items-center justify-center">{{> "icons/star" class="text-silver"}}</span>
+		{{/if}}
+		<span class="exp-date">{{> "icons/calendar" class="h-3 w-3"}} {{date published_at format="MMM YYYY"}}</span>
+	</a>
+	<div class="flex flex-1 flex-col p-5">
+		<h3 class="text-lg font-semibold leading-snug tracking-tight"><a href="{{url}}" class="transition hover:text-accent">{{title}}</a></h3>
+		<p class="mt-2 line-clamp-3 text-sm leading-relaxed text-silver">{{#if custom_excerpt}}{{custom_excerpt}}{{else}}{{excerpt words="24"}}{{/if}}</p>
+		<a href="{{url}}" class="mt-auto inline-flex items-center gap-1.5 pt-4 text-sm font-medium transition group-hover:gap-2.5">Read the story {{> "icons/arrow-right" class="h-4 w-4"}}</a>
+	</div>
+</article>

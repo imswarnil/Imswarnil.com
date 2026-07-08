@@ -250,6 +250,25 @@
 		});
 	});
 
+	/* ---------- Copy-to-clipboard: [data-copy="#selector"] copies that element's
+	   text and briefly flips the button label to its [data-copied] value. ------ */
+	document.querySelectorAll('[data-copy]').forEach(function (btn) {
+		btn.addEventListener('click', function () {
+			var target = document.querySelector(btn.getAttribute('data-copy'));
+			if (!target) return;
+			var text = target.innerText || target.textContent || '';
+			var done = function () {
+				var label = btn.querySelector('[data-copy-label]') || btn;
+				var prev = label.textContent;
+				label.textContent = btn.getAttribute('data-copied') || 'Copied!';
+				btn.classList.add('is-copied');
+				setTimeout(function () { label.textContent = prev; btn.classList.remove('is-copied'); }, 1400);
+			};
+			if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(done, function () {});
+			else { try { var t = document.createElement('textarea'); t.value = text; document.body.appendChild(t); t.select(); document.execCommand('copy'); document.body.removeChild(t); done(); } catch (e) {} }
+		});
+	});
+
 	/* ---------- Native share (mobile) ---------- */
 	document.querySelectorAll('[data-share]').forEach(function (wrap) {
 		if (!navigator.share) return;

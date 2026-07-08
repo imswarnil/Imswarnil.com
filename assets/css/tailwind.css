@@ -2,6 +2,7 @@
 @import './components/buttons.css';
 @import './components/media.css';
 @import './components/sections.css';
+@import './components/collections.css';
 
 @tailwind base;
 @tailwind components;
