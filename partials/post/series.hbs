@@ -65,10 +65,10 @@
 				<div class="mt-7 flex flex-wrap items-center gap-3">
 					{{#foreach tags visibility="public" limit="1"}}
 					{{#get "posts" filter="tag:hash-episode+tag:{{slug}}" order="published_at asc" limit="1" as |firstep|}}
-						{{#foreach firstep}}<a href="{{url}}" class="btn !border-transparent !bg-white !text-black hover:!bg-white/90">{{> "icons/play"}} Play episode 1</a>{{/foreach}}
+						{{#foreach firstep}}<a href="{{url}}" class="btn-invert">{{> "icons/play"}} Play episode 1</a>{{/foreach}}
 					{{/get}}
 					{{/foreach}}
-					<a href="#episodes" class="btn !border-white/25 !bg-white/10 !text-white backdrop-blur hover:!bg-white/20">Episode list {{> "icons/chevron-down"}}</a>
+					<a href="#episodes" class="btn-glass">Episode list {{> "icons/chevron-down"}}</a>
 				</div>
 			</div>
 		</div>

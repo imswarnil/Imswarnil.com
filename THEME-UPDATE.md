@@ -2,6 +2,51 @@
 
 Running record of what's done and what's left. Master backlog lives in CLAUDE.md.
 
+## 2026-07-08 — video system build-out
+
+- **Video cards, real previews**: image-less `#video` cards now extract the post's
+  OWN first YouTube id (via a `<template data-video-src>`), paint that thumbnail and
+  hover-autoplay a muted reel (`main.js`). No more shared placeholder id.
+- **Homepage ranked carousel** (`home/latest.hbs`): rank numbers now sit *behind* each
+  frame and peek out on the left (absolute + frame padding), with real gaps. Vertical
+  wheel over any carousel now scrolls the PAGE instead of being hijacked into horizontal
+  scroll — `[data-hscroll]` handler in `main.js`; horizontal gesture still scrolls the row.
+- **New homepage section** `home/publishing.hbs` — animated "how I publish" broadcast board
+  (schedule / newsletter / live / IG live / shorts / collabs), live-pulse + sweep, with a
+  newsletter pitch + subscribe. Inserted after the video row.
+- **/videos**: in-feed AdSense after every 3rd card (`{{#has number="nth:3"}}`, full-row);
+  a dedicated **Shorts & Reels 9:16 rail** for `#video` posts also tagged `#reel`/`#shorts`
+  (new `cards/reel.hbs`, `.reels-rail`), excluded from the main grid; work-with-me CTA band.
+- **Video detail** (`post/video.hbs`): mobile-friendly tappable timestamps (linkifies any
+  timestamp text, not just the chapter table); cross-links — `#product`+`#product-video`,
+  `#course`+`#course-video`, `#blog`+`#blog-video`; a "came from YouTube?" audience CTA
+  (subscribe to site / YouTube / feedback); sponsor+collab band; JSON-LD thumbnail now
+  falls back to the YouTube maxres/hq thumbnail.
+- **New CTA partial** `components/collab-cta.hbs` (Put your brand in front of my audience →
+  /sponsor, Let's collab → /collab). **New page** `page-collab.hbs` (create a Ghost Page
+  "collab", like contact/sponsor — no route needed).
+- **CSS**: new `components/sections.css` (publishing board, CTA band, reels rail) imported.
+- **import.json**: added 5 tags (#reel #shorts #product-video #blog-video #course-video) and
+  7 demo posts (image-less videos, a short + a reel, product-video, blog-video, course-video,
+  and a chapters/timestamps demo) so all of the above is testable.
+
+## 2026-07-08 — button system
+
+- Extracted buttons out of `tailwind.css` into `assets/css/components/buttons.css`.
+- **Height/padding fix**: icons ship with hardcoded 16–18px sizes, so icon buttons
+  rendered taller than text-only ones. `.btn svg { width:1.15em }` + `leading-none`
+  + a per-size `min-height` make every button of a size identical.
+- **Size scale**: `btn-xs / btn-sm / (default) / btn-lg / btn-xl`, plus `btn-block`,
+  `btn-square`, `btn-icon`. Variants set colour only, so any variant × any size composes.
+- **Variants**: `primary, secondary, ghost, soft, subtle, outline, danger, link`, and
+  on-dark `invert` / `glass`.
+- Refactored the repeated `!bg-white !text-black` / glass override clusters in
+  travel, videos, webseries, home/webseries, home/newsletter and post/series to
+  `btn-invert` / `btn-glass`.
+- Variants are **safelisted** in `tailwind.config.js` (Tailwind purges unused
+  `@layer components` classes) so all are always shipped.
+- Preview: see the button-system artifact (variants/sizes/states, light + dark).
+
 ## 2026-07-08 — media system + LCP rescue
 
 ### Done

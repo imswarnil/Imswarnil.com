@@ -20,7 +20,7 @@
 		<h1 class="mt-6 max-w-3xl text-5xl font-black tracking-tight sm:text-7xl text-balance">Webseries</h1>
 		<p class="mt-5 max-w-xl text-lg leading-relaxed text-white/70">Multi-episode stories, shot and shipped season by season. Pick a series, press play.</p>
 		{{#foreach posts limit="1"}}
-			<a href="{{url}}" class="btn mt-8 !border-transparent !bg-white !text-black hover:!bg-white/90">{{> "icons/play"}} Latest: {{title}}</a>
+			<a href="{{url}}" class="btn-invert mt-8">{{> "icons/play"}} Latest: {{title}}</a>
 		{{/foreach}}
 	</div>
 </section>

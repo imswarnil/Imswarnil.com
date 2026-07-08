@@ -532,25 +532,57 @@
 		else window.addEventListener('load', function () { idle(boot); });
 	})();
 
-	/* ---------- Video-card hover previews ([data-yt-preview]) --------------
-	   YouTube-style: on hover/focus, mount a muted reel over the thumbnail;
-	   only one preview lives at a time and it's torn down on leave. ---------- */
+	/* ---------- Video cards: derive thumbnail + hover preview from the post's
+	   OWN first YouTube embed. Image-less cards carry <template data-video-src>
+	   with the post content; we pull the id out, paint the video thumbnail, and
+	   (on hover, desktop only) mount a muted autoplay reel. ------------------ */
 	(function () {
-		if (reduceMotion) return;
+		var YT_RE = /(?:youtube(?:-nocookie)?\.com\/(?:embed\/|shorts\/|live\/|watch\?[^"'\s]*?v=)|youtu\.be\/)([A-Za-z0-9_-]{11})/;
+		function firstId(host) {
+			if (host.getAttribute('data-yt-preview')) return host.getAttribute('data-yt-preview');
+			var tpl = host.querySelector('template[data-video-src]');
+			if (!tpl) return null;
+			var html = tpl.innerHTML || (tpl.content && tpl.content.textContent) || '';
+			var m = html.match(YT_RE);
+			return m ? m[1] : null;
+		}
+		function reelSrc(id) {
+			return 'https://www.youtube-nocookie.com/embed/' + id +
+				'?autoplay=1&mute=1&loop=1&playlist=' + id +
+				'&controls=0&playsinline=1&rel=0&modestbranding=1&iv_load_policy=3&disablekb=1';
+		}
 		var canHover = !window.matchMedia || window.matchMedia('(hover: hover)').matches;
-		if (!canHover) return; /* touch devices: thumbnail only */
-		document.querySelectorAll('[data-yt-preview]').forEach(function (host) {
-			var id = host.getAttribute('data-yt-preview');
+
+		document.querySelectorAll('[data-video-card-media], [data-yt-preview]').forEach(function (host) {
+			var id = firstId(host);
 			if (!id) return;
-			var card = host.closest('.video-card') || host;
+
+			/* Paint the thumbnail if the card has no image yet */
+			if (!host.querySelector('img')) {
+				var img = document.createElement('img');
+				img.src = 'https://i.ytimg.com/vi/' + id + '/maxresdefault.jpg';
+				img.alt = '';
+				img.loading = 'lazy';
+				img.decoding = 'async';
+				img.width = 1280; img.height = 720;
+				img.className = 'h-full w-full object-cover transition-transform duration-500 group-hover:scale-105';
+				img.addEventListener('error', function () {
+					if (!img.dataset.fb) { img.dataset.fb = '1'; img.src = 'https://i.ytimg.com/vi/' + id + '/hqdefault.jpg'; }
+				});
+				host.insertBefore(img, host.firstChild);
+				var ph = host.querySelector('[data-ph]');
+				if (ph) ph.remove();
+			}
+
+			/* Hover preview — desktop only, reduced-motion respected, opt-out via data-no-preview */
+			if (reduceMotion || !canHover || host.hasAttribute('data-no-preview')) return;
+			var card = host.closest('.video-card, [data-videos-card], .rank-row-card') || host;
 			var frame = null, timer = null;
 			function enter() {
 				timer = setTimeout(function () {
 					if (frame) return;
 					frame = document.createElement('iframe');
-					frame.src = 'https://www.youtube-nocookie.com/embed/' + id +
-						'?autoplay=1&mute=1&loop=1&playlist=' + id +
-						'&controls=0&playsinline=1&rel=0&modestbranding=1&iv_load_policy=3&disablekb=1';
+					frame.src = reelSrc(id);
 					frame.title = 'Preview';
 					frame.tabIndex = -1;
 					frame.setAttribute('allow', 'autoplay; encrypted-media');
@@ -558,17 +590,27 @@
 					frame.className = 'video-preview-frame';
 					host.appendChild(frame);
 					requestAnimationFrame(function () { if (frame) frame.style.opacity = '1'; });
-				}, 220); /* debounce quick pass-overs */
+				}, 220);
 			}
-			function leave() {
-				clearTimeout(timer);
-				if (frame) { frame.remove(); frame = null; }
-			}
+			function leave() { clearTimeout(timer); if (frame) { frame.remove(); frame = null; } }
 			card.addEventListener('pointerenter', enter);
 			card.addEventListener('pointerleave', leave);
 			card.addEventListener('focusin', enter);
 			card.addEventListener('focusout', leave);
 		});
 	})();
+
+	/* ---------- Horizontal carousels: let a vertical wheel scroll the PAGE
+	   instead of being hijacked into horizontal scroll (Chrome/Safari redirect
+	   vertical wheel onto the only axis that overflows). Horizontal intent still
+	   scrolls the track natively. Mark tracks with [data-hscroll]. ----------- */
+	document.querySelectorAll('[data-hscroll]').forEach(function (track) {
+		track.addEventListener('wheel', function (e) {
+			if (Math.abs(e.deltaY) <= Math.abs(e.deltaX)) return; /* horizontal gesture → native */
+			/* vertical gesture: drive the window, cancel the track's redirect */
+			window.scrollBy({ top: e.deltaY });
+			e.preventDefault();
+		}, { passive: false });
+	});
 
 })();

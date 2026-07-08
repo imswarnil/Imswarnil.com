@@ -1,6 +1,13 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
 	content: ['./*.hbs', './partials/**/*.hbs', './assets/built/main.js'],
+	// Button variants/sizes are a public API of the theme — always ship them,
+	// even the ones not yet referenced by a template (@layer components is purged).
+	safelist: [
+		'btn', 'btn-primary', 'btn-secondary', 'btn-ghost', 'btn-soft', 'btn-subtle',
+		'btn-outline', 'btn-danger', 'btn-link', 'btn-invert', 'btn-glass',
+		'btn-xs', 'btn-sm', 'btn-lg', 'btn-xl', 'btn-block', 'btn-icon', 'btn-square',
+	],
 	darkMode: 'class',
 	theme: {
 		extend: {

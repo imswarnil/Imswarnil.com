@@ -43,6 +43,9 @@
 		.vd-chapters .vd-chapter:hover td { background: rgb(var(--mist)); }
 		.vd-chapters .vd-active td { background: rgb(var(--mist)); font-weight: 600; color: rgb(var(--ink)); }
 		.vd-chapters .vd-active td:first-child { box-shadow: inset 3px 0 0 rgb(var(--accent)); color: rgb(var(--accent)); }
+		/* Inline tappable timestamps (works on mobile, any description format) */
+		.vd-ts { font: inherit; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-variant-numeric: tabular-nums; cursor: pointer; color: rgb(var(--accent)); background: rgb(var(--mist)); border: 0; padding: 0 .3em; margin: 0 .05em; border-radius: .3rem; -webkit-tap-highlight-color: transparent; }
+		.vd-ts:hover, .vd-ts:focus-visible { background: rgb(var(--accent) / .14); outline: none; }
 	</style>
 
 	{{!-- Theater band: true full-width, zero padding — player 70% left,
@@ -81,11 +84,11 @@
 
 			{{> "components/adsense" slot="6501428979" layout="in-article" format="fluid"}}
 
-			{{!-- Gear used to make the videos --}}
-			{{#get "posts" filter="tag:hash-product+tag:hash-course-gear" limit="4" include="tags" as |gear|}}
+			{{!-- Gear: #product posts tagged #product-video = "kit I use for videos" --}}
+			{{#get "posts" filter="tag:hash-product+tag:hash-product-video" limit="4" include="tags" as |gear|}}
 				{{#if gear}}
 				<section class="mt-12 border-t border-line pt-10">
-					<p class="kicker">{{> "icons/film" class="h-3.5 w-3.5"}} Products I use to make videos</p>
+					<p class="kicker">{{> "icons/cart" class="h-3.5 w-3.5"}} Products I use to make videos</p>
 					<div class="mt-5 grid gap-4 sm:grid-cols-2" data-reveal-stagger="80">
 						{{#foreach gear}}
 							{{> "cards/product-mini"}}
@@ -94,6 +97,57 @@
 				</section>
 				{{/if}}
 			{{/get}}
+
+			{{!-- Turn it deeper: #course posts tagged #course-video --}}
+			{{#get "posts" filter="tag:hash-course+tag:hash-course-video" limit="2" include="tags" as |vcourses|}}
+				{{#if vcourses}}
+				<section class="mt-12 border-t border-line pt-10">
+					<p class="kicker">{{> "icons/graduation" class="h-3.5 w-3.5"}} Go deeper — full course</p>
+					<div class="mt-5 grid gap-4 sm:grid-cols-2" data-reveal-stagger="80">
+						{{#foreach vcourses}}{{> "cards/course"}}{{/foreach}}
+					</div>
+				</section>
+				{{/if}}
+			{{/get}}
+
+			{{!-- Companion reading: #blog posts tagged #blog-video --}}
+			{{#get "posts" filter="tag:hash-blog+tag:hash-blog-video" limit="3" include="tags" as |vblog|}}
+				{{#if vblog}}
+				<section class="mt-12 border-t border-line pt-10">
+					<p class="kicker">{{> "icons/newspaper" class="h-3.5 w-3.5"}} Read the write-up</p>
+					<ul class="mt-5 divide-y divide-line">
+						{{#foreach vblog}}
+						<li>
+							<a href="{{url}}" class="group flex items-center justify-between gap-4 py-3.5">
+								<span class="min-w-0">
+									<span class="block truncate text-[15px] font-semibold tracking-tight transition group-hover:text-silver">{{title}}</span>
+									<span class="mt-0.5 block font-mono text-[11px] text-silver">{{reading_time}} · {{date published_at format="DD MMM YYYY"}}</span>
+								</span>
+								{{> "icons/arrow-right" class="h-4 w-4 shrink-0 text-silver transition group-hover:translate-x-0.5 group-hover:text-ink"}}
+							</a>
+						</li>
+						{{/foreach}}
+					</ul>
+				</section>
+				{{/if}}
+			{{/get}}
+
+			{{!-- Audience CTA: converts YouTube viewers into site subscribers --}}
+			<section class="mt-12 border-t border-line pt-10">
+				<div class="rounded-2xl border border-line bg-mist/40 p-6 text-center">
+					<p class="kicker !text-accent justify-center">{{> "icons/youtube" class="h-3.5 w-3.5"}} Came from YouTube?</p>
+					<h2 class="mx-auto mt-3 max-w-md text-xl font-semibold tracking-tight text-balance">Get the next one before the algorithm does.</h2>
+					<p class="mx-auto mt-2 max-w-md text-sm leading-relaxed text-silver">Subscribe to the site for new videos, write-ups and behind-the-scenes — no algorithm, just your inbox.</p>
+					<div class="mt-5 flex flex-wrap items-center justify-center gap-2.5">
+						<button type="button" class="btn-primary btn-sm" data-modal-open="#subscribe-backdrop">{{> "icons/mail" class="h-3.5 w-3.5"}} Subscribe to my site</button>
+						{{#if @custom.youtube_url}}<a href="{{@custom.youtube_url}}?sub_confirmation=1" target="_blank" rel="noopener" class="btn-ghost btn-sm">{{> "icons/youtube" class="h-3.5 w-3.5"}} Subscribe on YouTube</a>{{/if}}
+						<a href="{{@site.url}}/contact/" class="btn-ghost btn-sm">{{> "icons/mic" class="h-3.5 w-3.5"}} Send feedback</a>
+					</div>
+				</div>
+			</section>
+
+			{{!-- Sponsor / collab --}}
+			<div class="mt-8">{{> "components/collab-cta" compact=true}}</div>
 
 			<footer class="mt-8 flex flex-wrap gap-2 border-t border-line pt-6">
 				{{#foreach tags visibility="public"}}<a href="{{url}}" class="chip transition hover:border-ink hover:text-ink">{{name}}</a>{{/foreach}}
@@ -262,6 +316,36 @@
 			}, 1000);
 		}
 
+		/* ---------- 4b. Linkify inline timestamps in the description so they're
+		   tappable on mobile too (covers timestamps written as lists/paragraphs,
+		   not just the chapter table). ---------- */
+		(function linkifyTimestamps() {
+			var GTS = /\b((?:\d{1,2}:)?\d{1,2}:\d{2})\b/g;
+			var walker = document.createTreeWalker(content, NodeFilter.SHOW_TEXT, null);
+			var nodes = [], node;
+			while ((node = walker.nextNode())) {
+				if (!/\d{1,2}:\d{2}/.test(node.nodeValue)) continue;
+				if (node.parentNode.closest('a, button, .vd-chapters, .vd-ts, pre, code')) continue;
+				nodes.push(node);
+			}
+			nodes.forEach(function (tn) {
+				var text = tn.nodeValue, frag = document.createDocumentFragment(), last = 0, m, any = false;
+				GTS.lastIndex = 0;
+				while ((m = GTS.exec(text))) {
+					any = true;
+					if (m.index > last) frag.appendChild(document.createTextNode(text.slice(last, m.index)));
+					var b = document.createElement('button');
+					b.type = 'button'; b.className = 'vd-ts'; b.textContent = m[1];
+					b.setAttribute('aria-label', 'Jump to ' + m[1]);
+					(function (secs) { b.addEventListener('click', function () { seek(secs); }); })(toSec(m[1]));
+					frag.appendChild(b);
+					last = m.index + m[0].length;
+				}
+				if (last < text.length) frag.appendChild(document.createTextNode(text.slice(last)));
+				if (any) tn.parentNode.replaceChild(frag, tn);
+			});
+		})();
+
 		/* ---------- 5. JSON-LD: VideoObject + Clip chapters ---------- */
 		var watch = 'https://www.youtube.com/watch?v=' + vid;
 		var ld = {
@@ -269,7 +353,9 @@
 			'@type': 'VideoObject',
 			name: app.getAttribute('data-title'),
 			description: app.getAttribute('data-desc') || app.getAttribute('data-title'),
-			thumbnailUrl: [app.getAttribute('data-thumb') || ('https://i.ytimg.com/vi/' + vid + '/hqdefault.jpg')],
+			thumbnailUrl: app.getAttribute('data-thumb')
+				? [app.getAttribute('data-thumb')]
+				: ['https://i.ytimg.com/vi/' + vid + '/maxresdefault.jpg', 'https://i.ytimg.com/vi/' + vid + '/hqdefault.jpg'],
 			uploadDate: app.getAttribute('data-published'),
 			embedUrl: 'https://www.youtube.com/embed/' + vid,
 			contentUrl: watch,

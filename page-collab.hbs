@@ -1,0 +1,77 @@
+{{!< default}}
+
+{{!-- Collab hub — auto-used by Ghost for the page with slug "collab".
+     Create a Page titled "Collab" in Ghost Admin (like Contact / Sponsor). --}}
+{{#post}}
+<article class="{{post_class}}">
+	<header class="relative overflow-hidden border-b border-line py-16">
+		<div class="bg-dots pointer-events-none absolute inset-0 fade-mask-b" aria-hidden="true"></div>
+		<div class="container-site relative text-center">
+			<p class="kicker justify-center">{{> "icons/sparkle"}} Let's make something</p>
+			<h1 class="mx-auto mt-3 max-w-3xl text-4xl font-semibold tracking-tight sm:text-5xl text-balance">{{title}}</h1>
+			<p class="mx-auto mt-5 max-w-xl text-lg leading-relaxed text-silver">{{#if custom_excerpt}}{{custom_excerpt}}{{else}}Guest spots, cross-posts, features, joint builds — if it's fun and useful for both audiences, I'm in.{{/if}}</p>
+			<div class="mt-7 flex flex-wrap items-center justify-center gap-2.5">
+				<a href="mailto:{{#if @custom.sponsor_email}}{{@custom.sponsor_email}}{{else}}hello@imswarnil.com{{/if}}?subject=Collab%20idea" class="btn-primary">{{> "icons/mail" class="h-4 w-4"}} Pitch a collab</a>
+				<a href="{{@site.url}}/sponsor/" class="btn-ghost">{{> "icons/cash" class="h-4 w-4"}} Sponsor instead</a>
+			</div>
+		</div>
+	</header>
+
+	<div class="container-site py-12">
+		{{#if content}}
+		<div class="mx-auto mb-14 max-w-prose">
+			<section class="gh-content">{{content}}</section>
+		</div>
+		{{/if}}
+
+		<div class="mx-auto max-w-4xl">
+			{{!-- Ways to collaborate --}}
+			<p class="kicker">{{> "icons/sparkle" class="h-3.5 w-3.5"}} Ways to team up</p>
+			<div class="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3" data-reveal-stagger="70">
+				<div class="card-surface p-6">
+					<span class="pub-ico">{{> "icons/film" class="h-4 w-4"}}</span>
+					<h3 class="mt-4 text-lg font-semibold tracking-tight">Guest on a video</h3>
+					<p class="mt-2 text-sm leading-relaxed text-silver">Co-host, interview or a build-along on my channel.</p>
+				</div>
+				<div class="card-surface p-6">
+					<span class="pub-ico">{{> "icons/newspaper" class="h-4 w-4"}}</span>
+					<h3 class="mt-4 text-lg font-semibold tracking-tight">Cross-post writing</h3>
+					<p class="mt-2 text-sm leading-relaxed text-silver">A shared essay or a swap between our newsletters.</p>
+				</div>
+				<div class="card-surface p-6">
+					<span class="pub-ico">{{> "icons/live" class="h-4 w-4"}}</span>
+					<h3 class="mt-4 text-lg font-semibold tracking-tight">Go live together</h3>
+					<p class="mt-2 text-sm leading-relaxed text-silver">A joint stream or Instagram Live for both audiences.</p>
+				</div>
+				<div class="card-surface p-6">
+					<span class="pub-ico">{{> "icons/graduation" class="h-4 w-4"}}</span>
+					<h3 class="mt-4 text-lg font-semibold tracking-tight">Build a course</h3>
+					<p class="mt-2 text-sm leading-relaxed text-silver">Co-create a lesson series or bundle our material.</p>
+				</div>
+				<div class="card-surface p-6">
+					<span class="pub-ico">{{> "icons/code" class="h-4 w-4"}}</span>
+					<h3 class="mt-4 text-lg font-semibold tracking-tight">Ship a project</h3>
+					<p class="mt-2 text-sm leading-relaxed text-silver">Open-source, a tool or an experiment together.</p>
+				</div>
+				<div class="card-surface p-6">
+					<span class="pub-ico">{{> "icons/cash" class="h-4 w-4"}}</span>
+					<h3 class="mt-4 text-lg font-semibold tracking-tight">Brand partnership</h3>
+					<p class="mt-2 text-sm leading-relaxed text-silver">Bigger sponsorships &amp; ongoing deals — see <a href="{{@site.url}}/sponsor/" class="underline decoration-line underline-offset-2 hover:decoration-ink">sponsor</a>.</p>
+				</div>
+			</div>
+
+			{{!-- What I bring --}}
+			<section class="mt-14 rounded-2xl border border-line bg-mist/40 p-7">
+				<p class="kicker !text-accent">{{> "icons/user" class="h-3.5 w-3.5"}} Who you'd reach</p>
+				<div class="mt-4 grid gap-6 sm:grid-cols-3 text-center">
+					<div><p class="text-2xl font-bold tracking-tight tabular-nums">Builders</p><p class="mt-1 text-sm text-silver">Developers, makers &amp; indie founders.</p></div>
+					<div><p class="text-2xl font-bold tracking-tight tabular-nums">Global</p><p class="mt-1 text-sm text-silver">Across YouTube, newsletter &amp; the blog.</p></div>
+					<div><p class="text-2xl font-bold tracking-tight tabular-nums">Engaged</p><p class="mt-1 text-sm text-silver">People who watch, read and ship.</p></div>
+				</div>
+			</section>
+
+			<div class="mt-12">{{> "components/collab-cta"}}</div>
+		</div>
+	</div>
+</article>
+{{/post}}

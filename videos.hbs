@@ -27,7 +27,7 @@
 							{{> "icons/youtube" class="h-4 w-4"}} Subscribe on YouTube
 						</a>
 					{{/if}}
-					<a href="{{@site.url}}/guestbook/" class="btn !border-white/25 !bg-white/10 !text-white backdrop-blur hover:!bg-white/20">
+					<a href="{{@site.url}}/guestbook/" class="btn-glass">
 						{{> "icons/sparkle" class="h-4 w-4"}} Suggest a topic
 					</a>
 				</div>
@@ -99,18 +99,44 @@
 		</article>
 	{{/foreach}}
 
-	{{!-- Full library — 16:9 video cards --}}
-	<p class="kicker mb-6 mt-14">{{> "icons/film" class="h-3.5 w-3.5"}} Full library</p>
+	{{!-- Shorts & Reels — 9:16 vertical rail (only #video posts also tagged
+	     #reel/#shorts). Shown on the first page only. --}}
+	{{#unless pagination.prev}}
+	{{#get "posts" filter="tag:hash-video+tag:hash-shorts,tag:hash-video+tag:hash-reel" order="published_at desc" limit="12" include="tags" as |reels|}}
+		{{#if reels}}
+		<section class="mt-14 reveal" aria-label="Shorts and reels">
+			<div class="flex items-end justify-between gap-4">
+				<div>
+					<p class="kicker !text-accent">{{> "icons/play" class="h-3.5 w-3.5"}} Shorts &amp; reels</p>
+					<h2 class="section-title mt-2">Quick, vertical &amp; snackable</h2>
+				</div>
+			</div>
+			<div class="reels-rail no-scrollbar mt-6 fade-mask-x" data-hscroll>
+				{{#foreach reels}}{{> "cards/reel"}}{{/foreach}}
+			</div>
+		</section>
+		{{/if}}
+	{{/get}}
+	{{/unless}}
+
+	{{!-- Full library — 16:9 video cards; reels/shorts live in their own rail
+	     above. An in-feed ad drops in after every third card. --}}
+	<p class="kicker mb-6 mt-16">{{> "icons/film" class="h-3.5 w-3.5"}} Full library</p>
 	<div class="grid gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3" data-reveal-stagger="60">
 		{{#foreach posts from="2"}}
-			{{> "cards/video"}}
-			{{#match @number 6}}
-				{{> "components/adsense" slot="9130894804" format="fluid" layoutKey="-6t+ed+2i-1n-4w" class="!my-0 sm:col-span-2 lg:col-span-3"}}
-			{{/match}}
+			{{#has tag="hash-reel, hash-shorts"}}{{else}}
+				{{> "cards/video"}}
+				{{#has number="nth:3"}}
+					{{> "components/adsense" slot="9130894804" format="fluid" layoutKey="-6t+ed+2i-1n-4w" class="!my-0 self-center sm:col-span-2 lg:col-span-3"}}
+				{{/has}}
+			{{/has}}
 		{{else}}
 			<p class="col-span-full py-10 text-center text-silver">More videos are on the way — check the schedule above.</p>
 		{{/foreach}}
 	</div>
 
 	{{> "components/pagination"}}
+
+	{{!-- Work-with-me band --}}
+	<div class="mt-14">{{> "components/collab-cta"}}</div>
 </section>

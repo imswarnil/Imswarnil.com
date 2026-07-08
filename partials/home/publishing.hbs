@@ -1,0 +1,72 @@
+{{!-- "How I publish" — a broadcast board of every channel I ship on, some of
+     them LIVE, with a newsletter pitch + subscribe. Animation is CSS-only
+     (pulse + sweep), reduced-motion safe. --}}
+<section class="reveal relative overflow-hidden py-16" id="home-publishing">
+	<div class="container-site">
+		<div class="pub-sweep rounded-3xl border border-line bg-mist/30 p-6 sm:p-9">
+			<div class="flex flex-wrap items-end justify-between gap-4">
+				<div>
+					<p class="kicker !text-accent flex items-center gap-2"><span class="pub-live"><span class="pub-dot"></span></span> On air</p>
+					<h2 class="section-title mt-2">Everywhere I press publish</h2>
+					<p class="mt-2 max-w-lg text-sm leading-relaxed text-silver">One studio, many channels — scheduled drops, live streams and a newsletter that ties it together. Pick your favourite; I'll meet you there.</p>
+				</div>
+				<div class="hidden shrink-0 items-center gap-2.5 sm:flex">
+					<button type="button" class="btn-primary btn-sm" data-modal-open="#subscribe-backdrop">{{> "icons/mail" class="h-3.5 w-3.5"}} Subscribe</button>
+					{{#if @custom.youtube_url}}<a href="{{@custom.youtube_url}}" target="_blank" rel="noopener" class="btn-ghost btn-sm">{{> "icons/youtube" class="h-3.5 w-3.5"}} YouTube</a>{{/if}}
+				</div>
+			</div>
+
+			<div class="pub-board mt-7">
+				<article class="pub-cell">
+					<span class="pub-tag">{{> "icons/calendar" class="h-3 w-3"}} Sat 10:00</span>
+					<span class="pub-ico">{{> "icons/film" class="h-4 w-4"}}</span>
+					<b>New video</b>
+					<span>A fresh full-length drop every Saturday.</span>
+				</article>
+
+				<article class="pub-cell">
+					<span class="pub-tag">{{> "icons/calendar" class="h-3 w-3"}} Weekly</span>
+					<span class="pub-ico">{{> "icons/mail" class="h-4 w-4"}}</span>
+					<b>The newsletter</b>
+					<span>Build notes &amp; links in your inbox.</span>
+				</article>
+
+				<article class="pub-cell pub-live">
+					<span class="pub-tag"><span class="pub-dot"></span> Live</span>
+					<span class="pub-ico">{{> "icons/live" class="h-4 w-4"}}</span>
+					<b>Live streams</b>
+					<span>Build-alongs &amp; monthly Q&amp;A on the channel.</span>
+				</article>
+
+				<article class="pub-cell pub-live">
+					<span class="pub-tag"><span class="pub-dot"></span> Live</span>
+					<span class="pub-ico">{{> "icons/instagram" class="h-4 w-4"}}</span>
+					<b>Instagram Live</b>
+					<span>Behind-the-scenes and quick takes.</span>
+				</article>
+
+				<article class="pub-cell">
+					<span class="pub-tag">{{> "icons/play" class="h-3 w-3"}} Daily-ish</span>
+					<span class="pub-ico">{{> "icons/play" class="h-4 w-4"}}</span>
+					<b>Shorts &amp; reels</b>
+					<span>Vertical, snackable, straight to the point.</span>
+				</article>
+
+				<article class="pub-cell">
+					<span class="pub-tag">{{> "icons/mic" class="h-3 w-3"}} Sometimes</span>
+					<span class="pub-ico">{{> "icons/mic" class="h-4 w-4"}}</span>
+					<b>Guest &amp; collabs</b>
+					<span>Cross-posts and features with other makers.</span>
+				</article>
+			</div>
+
+			{{!-- newsletter pitch strip (mobile shows the buttons here) --}}
+			<div class="mt-6 flex flex-wrap items-center justify-between gap-4 border-t border-dashed border-line pt-5">
+				<p class="flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.18em] text-silver">{{> "icons/mail" class="h-3.5 w-3.5"}} One email a week. No spam, unsubscribe anytime.</p>
+				<div class="flex items-center gap-2.5 sm:hidden">
+					<button type="button" class="btn-primary btn-sm" data-modal-open="#subscribe-backdrop">{{> "icons/mail" class="h-3.5 w-3.5"}} Subscribe</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

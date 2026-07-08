@@ -804,6 +804,104 @@
       "created_at": "2026-06-27T12:00:00.000Z",
       "updated_at": "2026-06-27T12:00:00.000Z",
       "published_at": "2026-06-27T12:00:00.000Z"
+     },
+     {
+      "id": "000000000000000000000170",
+      "title": "Video Title — Chapters Demo",
+      "slug": "video-chapters-demo",
+      "mobiledoc": "{\"version\":\"0.3.1\",\"atoms\":[],\"cards\":[[\"html\",{\"html\":\"<figure class=\\\"kg-card kg-embed-card\\\"><iframe width=\\\"560\\\" height=\\\"315\\\" src=\\\"https://www.youtube.com/embed/ecOkmTD7KhU\\\" title=\\\"YouTube video\\\" frameborder=\\\"0\\\" allow=\\\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\\\" allowfullscreen></iframe></figure><p>This one exists to test chapters. The table below becomes a clickable chapter rail; the timestamps written inline in this paragraph become tappable too — jump to the demo at 4:05 or the recap at 9:20.</p><h2 id=\\\"chapters\\\">Chapters</h2><table><thead><tr><th>Time</th><th>Section</th></tr></thead><tbody><tr><td>0:00</td><td>Intro</td></tr><tr><td>1:30</td><td>The setup</td></tr><tr><td>4:05</td><td>Building it</td></tr><tr><td>9:20</td><td>Wrap up</td></tr></tbody></table><h2 id=\\\"notes\\\">Notes</h2><p>Everything here is generic demo content so you can judge the layout honestly.</p>\"}]],\"markups\":[],\"sections\":[[10,0],[1,\"p\",[]]]}",
+      "feature_image": null,
+      "featured": 0,
+      "type": "post",
+      "status": "published",
+      "custom_excerpt": "A video with a real timestamp table and inline timestamps — tap any of them, on desktop or mobile.",
+      "created_at": "2026-07-07T12:00:00.000Z",
+      "updated_at": "2026-07-07T12:00:00.000Z",
+      "published_at": "2026-07-07T12:00:00.000Z"
+     },
+     {
+      "id": "000000000000000000000171",
+      "title": "Video Title — No Thumbnail",
+      "slug": "video-no-thumbnail",
+      "mobiledoc": "{\"version\":\"0.3.1\",\"atoms\":[],\"cards\":[[\"html\",{\"html\":\"<figure class=\\\"kg-card kg-embed-card\\\"><iframe width=\\\"560\\\" height=\\\"315\\\" src=\\\"https://www.youtube.com/embed/ecOkmTD7KhU\\\" title=\\\"YouTube video\\\" frameborder=\\\"0\\\" allow=\\\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\\\" allowfullscreen></iframe></figure><p>This post has no feature image. The video card should fall back to the YouTube thumbnail and, on hover, autoplay a muted preview pulled from this embed.</p>\"}]],\"markups\":[],\"sections\":[[10,0],[1,\"p\",[]]]}",
+      "feature_image": null,
+      "featured": 0,
+      "type": "post",
+      "status": "published",
+      "custom_excerpt": "No feature image on purpose — the card should pull the YouTube thumbnail and hover-preview the reel.",
+      "created_at": "2026-07-06T12:00:00.000Z",
+      "updated_at": "2026-07-06T12:00:00.000Z",
+      "published_at": "2026-07-06T12:00:00.000Z"
+     },
+     {
+      "id": "000000000000000000000172",
+      "title": "Short — Vertical No Image",
+      "slug": "short-vertical-no-image",
+      "mobiledoc": "{\"version\":\"0.3.1\",\"atoms\":[],\"cards\":[[\"html\",{\"html\":\"<figure class=\\\"kg-card kg-embed-card\\\"><iframe width=\\\"560\\\" height=\\\"315\\\" src=\\\"https://www.youtube.com/embed/ecOkmTD7KhU\\\" title=\\\"YouTube video\\\" frameborder=\\\"0\\\" allow=\\\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\\\" allowfullscreen></iframe></figure><p>A vertical short. It lives in the Shorts &amp; Reels rail on /videos, rendered in 9:16.</p>\"}]],\"markups\":[],\"sections\":[[10,0],[1,\"p\",[]]]}",
+      "feature_image": null,
+      "featured": 0,
+      "type": "post",
+      "status": "published",
+      "custom_excerpt": "A 9:16 short with no image — thumbnail comes from the video.",
+      "created_at": "2026-07-05T12:00:00.000Z",
+      "updated_at": "2026-07-05T12:00:00.000Z",
+      "published_at": "2026-07-05T12:00:00.000Z"
+     },
+     {
+      "id": "000000000000000000000173",
+      "title": "Reel — Quick Tip",
+      "slug": "reel-quick-tip",
+      "mobiledoc": "{\"version\":\"0.3.1\",\"atoms\":[],\"cards\":[[\"html\",{\"html\":\"<figure class=\\\"kg-card kg-embed-card\\\"><iframe width=\\\"560\\\" height=\\\"315\\\" src=\\\"https://www.youtube.com/embed/ecOkmTD7KhU\\\" title=\\\"YouTube video\\\" frameborder=\\\"0\\\" allow=\\\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\\\" allowfullscreen></iframe></figure><p>A reel with a proper vertical feature image, shown in the 9:16 rail.</p>\"}]],\"markups\":[],\"sections\":[[10,0],[1,\"p\",[]]]}",
+      "feature_image": "https://picsum.photos/seed/reel-quick-tip/720/1280",
+      "featured": 0,
+      "type": "post",
+      "status": "published",
+      "custom_excerpt": "A 9:16 reel with its own vertical image.",
+      "created_at": "2026-07-04T12:00:00.000Z",
+      "updated_at": "2026-07-04T12:00:00.000Z",
+      "published_at": "2026-07-04T12:00:00.000Z"
+     },
+     {
+      "id": "000000000000000000000174",
+      "title": "Product Name — Camera Rig",
+      "slug": "product-camera-rig",
+      "mobiledoc": "{\"version\":\"0.3.1\",\"atoms\":[],\"cards\":[[\"html\",{\"html\":\"<p>Part of my kit. Tagged #product-video so it surfaces under “Products I use to make videos” on video pages.</p>\"}]],\"markups\":[],\"sections\":[[10,0],[1,\"p\",[]]]}",
+      "feature_image": "https://picsum.photos/seed/product-camera-rig/1200/800",
+      "featured": 0,
+      "type": "post",
+      "status": "published",
+      "custom_excerpt": "The rig I actually point at things.",
+      "created_at": "2026-06-28T12:00:00.000Z",
+      "updated_at": "2026-06-28T12:00:00.000Z",
+      "published_at": "2026-06-28T12:00:00.000Z"
+     },
+     {
+      "id": "000000000000000000000175",
+      "title": "Blog — Behind This Video",
+      "slug": "blog-behind-this-video",
+      "mobiledoc": "{\"version\":\"0.3.1\",\"atoms\":[],\"cards\":[[\"html\",{\"html\":\"<p>The long-form write-up behind a video. Tagged #blog-video so it appears under “Read the write-up” on video pages.</p><h2 id=\\\"more\\\">More detail</h2><p>Generic demo body text.</p>\"}]],\"markups\":[],\"sections\":[[10,0],[1,\"p\",[]]]}",
+      "feature_image": "https://picsum.photos/seed/blog-behind-this-video/1200/800",
+      "featured": 0,
+      "type": "post",
+      "status": "published",
+      "custom_excerpt": "The written companion to a video.",
+      "created_at": "2026-06-26T12:00:00.000Z",
+      "updated_at": "2026-06-26T12:00:00.000Z",
+      "published_at": "2026-06-26T12:00:00.000Z"
+     },
+     {
+      "id": "000000000000000000000176",
+      "title": "Course Name — From The Videos",
+      "slug": "course-from-the-videos",
+      "mobiledoc": "{\"version\":\"0.3.1\",\"atoms\":[],\"cards\":[[\"html\",{\"html\":\"<p>A full course that expands on the videos. Tagged #course-video so it shows under “Go deeper — full course”.</p>\"}]],\"markups\":[],\"sections\":[[10,0],[1,\"p\",[]]]}",
+      "feature_image": "https://picsum.photos/seed/course-from-the-videos/1200/800",
+      "featured": 0,
+      "type": "post",
+      "status": "published",
+      "custom_excerpt": "Turn the videos into a structured course.",
+      "created_at": "2026-06-20T12:00:00.000Z",
+      "updated_at": "2026-06-20T12:00:00.000Z",
+      "published_at": "2026-06-20T12:00:00.000Z"
      }
     ],
     "tags": [
@@ -1149,6 +1247,41 @@
       "slug": "trip-2",
       "description": "Another generic demo trip.",
       "visibility": "public"
+     },
+     {
+      "id": "000000000000000000000131",
+      "name": "#reel",
+      "slug": "hash-reel",
+      "description": "",
+      "visibility": "internal"
+     },
+     {
+      "id": "000000000000000000000132",
+      "name": "#shorts",
+      "slug": "hash-shorts",
+      "description": "",
+      "visibility": "internal"
+     },
+     {
+      "id": "000000000000000000000133",
+      "name": "#product-video",
+      "slug": "hash-product-video",
+      "description": "",
+      "visibility": "internal"
+     },
+     {
+      "id": "000000000000000000000134",
+      "name": "#blog-video",
+      "slug": "hash-blog-video",
+      "description": "",
+      "visibility": "internal"
+     },
+     {
+      "id": "000000000000000000000135",
+      "name": "#course-video",
+      "slug": "hash-course-video",
+      "description": "",
+      "visibility": "internal"
      }
     ],
     "posts_tags": [
@@ -1846,6 +1979,126 @@
       "post_id": "000000000000000000000163",
       "tag_id": "00000000000000000000012a",
       "sort_order": 0
+     },
+     {
+      "post_id": "000000000000000000000170",
+      "tag_id": "00000000000000000000012a",
+      "sort_order": 0
+     },
+     {
+      "post_id": "000000000000000000000170",
+      "tag_id": "000000000000000000000100",
+      "sort_order": 1
+     },
+     {
+      "post_id": "000000000000000000000170",
+      "tag_id": "00000000000000000000011e",
+      "sort_order": 2
+     },
+     {
+      "post_id": "000000000000000000000171",
+      "tag_id": "00000000000000000000012b",
+      "sort_order": 0
+     },
+     {
+      "post_id": "000000000000000000000171",
+      "tag_id": "000000000000000000000100",
+      "sort_order": 1
+     },
+     {
+      "post_id": "000000000000000000000171",
+      "tag_id": "00000000000000000000011d",
+      "sort_order": 2
+     },
+     {
+      "post_id": "000000000000000000000172",
+      "tag_id": "00000000000000000000012c",
+      "sort_order": 0
+     },
+     {
+      "post_id": "000000000000000000000172",
+      "tag_id": "000000000000000000000100",
+      "sort_order": 1
+     },
+     {
+      "post_id": "000000000000000000000172",
+      "tag_id": "000000000000000000000132",
+      "sort_order": 2
+     },
+     {
+      "post_id": "000000000000000000000173",
+      "tag_id": "00000000000000000000012a",
+      "sort_order": 0
+     },
+     {
+      "post_id": "000000000000000000000173",
+      "tag_id": "000000000000000000000100",
+      "sort_order": 1
+     },
+     {
+      "post_id": "000000000000000000000173",
+      "tag_id": "000000000000000000000131",
+      "sort_order": 2
+     },
+     {
+      "post_id": "000000000000000000000174",
+      "tag_id": "00000000000000000000012b",
+      "sort_order": 0
+     },
+     {
+      "post_id": "000000000000000000000174",
+      "tag_id": "000000000000000000000107",
+      "sort_order": 1
+     },
+     {
+      "post_id": "000000000000000000000174",
+      "tag_id": "000000000000000000000110",
+      "sort_order": 2
+     },
+     {
+      "post_id": "000000000000000000000174",
+      "tag_id": "000000000000000000000133",
+      "sort_order": 3
+     },
+     {
+      "post_id": "000000000000000000000175",
+      "tag_id": "00000000000000000000012a",
+      "sort_order": 0
+     },
+     {
+      "post_id": "000000000000000000000175",
+      "tag_id": "000000000000000000000101",
+      "sort_order": 1
+     },
+     {
+      "post_id": "000000000000000000000175",
+      "tag_id": "000000000000000000000134",
+      "sort_order": 2
+     },
+     {
+      "post_id": "000000000000000000000176",
+      "tag_id": "00000000000000000000012c",
+      "sort_order": 0
+     },
+     {
+      "post_id": "000000000000000000000176",
+      "tag_id": "000000000000000000000103",
+      "sort_order": 1
+     },
+     {
+      "post_id": "000000000000000000000176",
+      "tag_id": "000000000000000000000135",
+      "sort_order": 2
+     },
+     {
+      "post_id": "000000000000000000000176",
+      "tag_id": "00000000000000000000011b",
+      "sort_order": 3
+     },
+     {
+      "post_id": "000000000000000000000176",
+      "tag_id": "000000000000000000000120",
+      "sort_order": 4
      }
     ]
    }

@@ -1,5 +1,7 @@
 /* Component partials (postcss-import inlines these before Tailwind runs) */
+@import './components/buttons.css';
 @import './components/media.css';
+@import './components/sections.css';
 
 @tailwind base;
 @tailwind components;
@@ -272,46 +274,7 @@
 		@apply mx-auto w-full max-w-site px-5 sm:px-8;
 	}
 
-	/* Buttons — compact by default, size adapts via .btn-sm / .btn-lg.
-	   Hover: a grid pattern fades in from the top-right corner, tinted with a
-	   light tone of the button's own foreground color. */
-	.btn {
-		@apply relative inline-flex items-center justify-center gap-1.5 overflow-hidden rounded-full px-4 py-1.5 text-[13px] font-medium transition-all duration-200 active:scale-[.97];
-	}
-	.btn::after {
-		content: '';
-		position: absolute;
-		inset: 0;
-		pointer-events: none;
-		opacity: 0;
-		transition: opacity 0.3s ease;
-		background-image:
-			linear-gradient(to right, rgb(var(--btn-pattern, var(--pattern)) / 0.22) 1px, transparent 1px),
-			linear-gradient(to bottom, rgb(var(--btn-pattern, var(--pattern)) / 0.22) 1px, transparent 1px);
-		background-size: 7px 7px;
-		-webkit-mask-image: radial-gradient(130% 130% at 100% 0%, black, transparent 52%);
-		mask-image: radial-gradient(130% 130% at 100% 0%, black, transparent 52%);
-	}
-	.btn:hover::after {
-		opacity: 1;
-	}
-
-	.btn-sm {
-		@apply !gap-1 !px-3 !py-1 !text-xs;
-	}
-	.btn-lg {
-		@apply !gap-2 !px-6 !py-2.5 !text-sm;
-	}
-
-	.btn-primary {
-		@apply btn bg-accent text-on-accent hover:opacity-90;
-		--btn-pattern: var(--on-accent);
-	}
-
-	.btn-ghost {
-		@apply btn border border-line bg-paper/60 text-ink backdrop-blur hover:bg-mist;
-		--btn-pattern: var(--pattern);
-	}
+	/* Buttons live in ./components/buttons.css (imported at the top of this file) */
 
 	.chip {
 		@apply inline-flex items-center gap-1.5 rounded-full border border-line bg-mist px-3 py-1 text-xs font-medium text-silver;
@@ -598,18 +561,31 @@
 	.float-frame, .float-frame-alt { animation: none; }
 }
 
-/* Netflix-style ranked row */
+/* Netflix-style ranked row: the big outlined rank sits BEHIND the frame and
+   peeks out on the left. The frame's left padding (on .rank-row-card) is the
+   reveal gap; the number is absolutely placed so it never eats card width. */
 .rank-row-card {
-	@apply relative flex w-[16rem] shrink-0 snap-start items-end sm:w-[19rem];
+	@apply relative flex shrink-0 items-end;
+	padding-left: 2.4rem;
+}
+@media (min-width: 640px) {
+	.rank-row-card {
+		padding-left: 3.2rem;
+	}
 }
 .rank-row-card .rank-number {
-	transition: -webkit-text-stroke-color 0.3s ease;
-}
-/* homepage video row: number sized so 3 full cards + a peeking 4th fit */
-.rank-row-card .rank-number {
+	position: absolute;
+	left: 0;
+	bottom: -0.12em;
+	z-index: 0;
 	font-size: clamp(4.5rem, 8vw, 8.5rem);
 	-webkit-text-stroke: 3px rgb(var(--ink) / 0.75);
 	paint-order: stroke;
+	transition: -webkit-text-stroke-color 0.3s ease;
+}
+.rank-row-card .rank-row-frame {
+	position: relative;
+	z-index: 10;
 }
 .rank-row-card:hover .rank-number {
 	-webkit-text-stroke-color: rgb(var(--accent) / 0.9);

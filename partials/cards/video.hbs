@@ -13,12 +13,11 @@
 					class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
 				<div class="skeleton absolute inset-0"></div>
 			{{else}}
-				{{!-- No feature image → use the video thumbnail; hover mounts a muted reel --}}
-				<div class="video-fallback" data-yt-preview="ecOkmTD7KhU">
-					<img src="https://i.ytimg.com/vi/ecOkmTD7KhU/maxresdefault.jpg"
-						alt="{{title}}" loading="lazy" width="1280" height="720" decoding="async"
-						onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/ecOkmTD7KhU/hqdefault.jpg'"
-						class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
+				{{!-- No feature image → main.js pulls this post's first YouTube id from
+				     the template, paints its thumbnail and hover-previews the reel. --}}
+				<div class="video-fallback" data-video-card-media>
+					<template data-video-src>{{content}}</template>
+					<div class="bg-dots absolute inset-0 flex items-center justify-center" data-ph>{{> "icons/film" class="text-silver"}}</div>
 				</div>
 			{{/if}}
 			<div class="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-transparent" aria-hidden="true"></div>
