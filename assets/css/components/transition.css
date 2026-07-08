@@ -1,0 +1,88 @@
+/* ==================================================================
+   Page transition — a paper-coloured overlay with a rotating (non-
+   repeating) life/passion quote that sandwiches the white flash between
+   MPA navigations. Injected + driven by main.js; reduced-motion skips it.
+   ================================================================== */
+
+@layer components {
+	.page-transition {
+		position: fixed;
+		inset: 0;
+		z-index: 9999;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		gap: 1.5rem;
+		background: rgb(var(--paper));
+		opacity: 0;
+		visibility: hidden;
+		pointer-events: none;
+		transition: opacity 0.32s ease, visibility 0.32s ease;
+	}
+	.page-transition.is-active {
+		opacity: 1;
+		visibility: visible;
+		pointer-events: auto;
+	}
+	/* faint studio grid behind the quote */
+	.page-transition::before {
+		content: '';
+		position: absolute;
+		inset: 0;
+		background-image:
+			linear-gradient(to right, rgb(var(--pattern) / 0.05) 1px, transparent 1px),
+			linear-gradient(to bottom, rgb(var(--pattern) / 0.05) 1px, transparent 1px);
+		background-size: 44px 44px;
+		-webkit-mask-image: radial-gradient(120% 90% at 50% 50%, #000, transparent 75%);
+		mask-image: radial-gradient(120% 90% at 50% 50%, #000, transparent 75%);
+	}
+	.pt-quote {
+		position: relative;
+		max-width: 34rem;
+		padding: 0 1.75rem;
+		text-align: center;
+		font-family: Georgia, 'Times New Roman', serif;
+		font-size: clamp(1.3rem, 3.6vw, 2.05rem);
+		line-height: 1.28;
+		letter-spacing: -0.01em;
+		text-wrap: balance;
+		color: rgb(var(--ink));
+		opacity: 0;
+		transform: translateY(14px);
+	}
+	.page-transition.is-active .pt-quote {
+		animation: ptQuoteIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.04s forwards;
+	}
+	@keyframes ptQuoteIn {
+		to { opacity: 1; transform: none; }
+	}
+	/* animated underline that sweeps as the page loads */
+	.pt-bar {
+		position: relative;
+		height: 2px;
+		width: 5.5rem;
+		overflow: hidden;
+		border-radius: 9999px;
+		background: rgb(var(--line));
+	}
+	.pt-bar::after {
+		content: '';
+		position: absolute;
+		inset: 0;
+		left: -40%;
+		width: 40%;
+		border-radius: 9999px;
+		background: rgb(var(--accent));
+		animation: ptBar 1.05s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+	}
+	@keyframes ptBar {
+		0% { left: -40%; }
+		100% { left: 100%; }
+	}
+	@media (prefers-reduced-motion: reduce) {
+		.page-transition { transition: none; }
+		.page-transition.is-active .pt-quote { animation: none; opacity: 1; transform: none; }
+		.pt-bar::after { animation: none; }
+	}
+}

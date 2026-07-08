@@ -2,6 +2,17 @@
 
 Running record of what's done and what's left. Master backlog lives in CLAUDE.md.
 
+## 2026-07-08 — carousel lag + page transitions
+
+- **Carousel lag fix**: hover-preview iframes no longer mount mid-scroll — a scroll
+  guard suppresses previews for 250ms after any scroll and tears down active ones,
+  killing the jank when scrolling while hovering a video card.
+- **Page transitions**: `<html>` now paints the paper colour (not browser-white)
+  between navigations, and a paper overlay with a rotating, non-repeating
+  life/work-balance quote (20-quote shuffled queue, sessionStorage) sandwiches the
+  flash. Reduced-motion skips it; video pages keep their own TV-off transition.
+  New `components/transition.css`.
+
 ## 2026-07-08 — video system build-out
 
 - **Video cards, real previews**: image-less `#video` cards now extract the post's

@@ -553,6 +553,16 @@
 		}
 		var canHover = !window.matchMedia || window.matchMedia('(hover: hover)').matches;
 
+		/* Scroll guard: mounting a YouTube iframe mid-scroll is what makes the
+		   carousels jank. Suppress previews while the page is scrolling and tear
+		   down any that are up. */
+		var scrollingUntil = 0;
+		var teardowns = [];
+		window.addEventListener('scroll', function () {
+			scrollingUntil = Date.now() + 250;
+			for (var i = 0; i < teardowns.length; i++) teardowns[i]();
+		}, { passive: true });
+
 		document.querySelectorAll('[data-video-card-media], [data-yt-preview]').forEach(function (host) {
 			var id = firstId(host);
 			if (!id) return;
@@ -578,9 +588,12 @@
 			if (reduceMotion || !canHover || host.hasAttribute('data-no-preview')) return;
 			var card = host.closest('.video-card, [data-videos-card], .rank-row-card') || host;
 			var frame = null, timer = null;
+			function leave() { clearTimeout(timer); if (frame) { frame.remove(); frame = null; } }
+			teardowns.push(leave);
 			function enter() {
+				clearTimeout(timer);
 				timer = setTimeout(function () {
-					if (frame) return;
+					if (frame || Date.now() < scrollingUntil) return; /* don't mount mid-scroll */
 					frame = document.createElement('iframe');
 					frame.src = reelSrc(id);
 					frame.title = 'Preview';
@@ -590,9 +603,8 @@
 					frame.className = 'video-preview-frame';
 					host.appendChild(frame);
 					requestAnimationFrame(function () { if (frame) frame.style.opacity = '1'; });
-				}, 220);
+				}, 260);
 			}
-			function leave() { clearTimeout(timer); if (frame) { frame.remove(); frame = null; } }
 			card.addEventListener('pointerenter', enter);
 			card.addEventListener('pointerleave', leave);
 			card.addEventListener('focusin', enter);
@@ -612,5 +624,84 @@
 			e.preventDefault();
 		}, { passive: false });
 	});
+
+	/* ---------- Page transition: a paper overlay with a rotating (non-repeating)
+	   quote sandwiches the white flash between MPA navigations. Video pages run
+	   their own TV-off transition (they preventDefault first, so we bail). ----- */
+	(function () {
+		if (reduceMotion) return;
+		var QUOTES = [
+			'Build the days you would want to relive.',
+			'Passion is just attention that refuses to leave.',
+			'Rest is part of the work, not a reward for it.',
+			'You do not find time to live — you defend it.',
+			'Ship the work, then go touch grass.',
+			'A good life compiles slowly.',
+			'Chase meaning; the metrics follow.',
+			'Small joys, shipped daily, beat big ones postponed.',
+			'Log off proud, not just tired.',
+			'Make things. Make memories. Alternate often.',
+			'The best side project is a life well lived.',
+			'Slow mornings are a feature, not a bug.',
+			'Do it with love or do not commit it.',
+			'Balance is not found, it is version-controlled.',
+			'Curiosity is a renewable energy.',
+			'Work hard, nap harder.',
+			'Your attention is the realest currency you own.',
+			'Leave room in the day for wonder.',
+			'Progress over perfection, always.',
+			'Be present; it is the only tense that ships.'
+		];
+		function nextQuote() {
+			var q;
+			try { q = JSON.parse(sessionStorage.getItem('pt-queue') || '[]'); } catch (e) { q = []; }
+			if (!q || !q.length) {
+				q = QUOTES.map(function (_, i) { return i; });
+				for (var i = q.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = q[i]; q[i] = q[j]; q[j] = t; }
+			}
+			var idx = q.shift();
+			try { sessionStorage.setItem('pt-queue', JSON.stringify(q)); } catch (e) {}
+			return QUOTES[idx];
+		}
+
+		var overlay = document.createElement('div');
+		overlay.className = 'page-transition';
+		overlay.setAttribute('aria-hidden', 'true');
+		overlay.innerHTML = '<p class="pt-quote"></p><span class="pt-bar"></span>';
+		var quoteEl = overlay.querySelector('.pt-quote');
+		document.body.appendChild(overlay);
+		function show(text) { quoteEl.textContent = '“' + text + '”'; overlay.classList.add('is-active'); }
+		function hide() { overlay.classList.remove('is-active'); }
+
+		/* incoming: arrived via a transition → show the stored quote, fade on load */
+		var incoming = null;
+		try { incoming = sessionStorage.getItem('pt-active'); sessionStorage.removeItem('pt-active'); } catch (e) {}
+		if (incoming) {
+			show(incoming);
+			if (document.readyState === 'complete') setTimeout(hide, 160);
+			else window.addEventListener('load', function () { setTimeout(hide, 160); });
+			setTimeout(hide, 1600); /* safety */
+		}
+		window.addEventListener('pageshow', function (e) { if (e.persisted) hide(); });
+
+		/* outgoing: intercept internal navigations (bubble phase — after any
+		   page-specific handler that already called preventDefault) */
+		document.addEventListener('click', function (e) {
+			if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+			var a = e.target.closest ? e.target.closest('a[href]') : null;
+			if (!a || (a.target && a.target !== '_self')) return;
+			if (a.hasAttribute('download') || a.hasAttribute('data-no-transition') || a.getAttribute('rel') === 'external') return;
+			if (a.host !== location.host) return;
+			var url;
+			try { url = new URL(a.href, location.href); } catch (e2) { return; }
+			if (url.href === location.href) return;
+			if (url.pathname === location.pathname && url.hash) return; /* same-page anchor */
+			e.preventDefault();
+			var text = nextQuote();
+			try { sessionStorage.setItem('pt-active', text); } catch (e3) {}
+			show(text);
+			setTimeout(function () { location.href = a.href; }, 360);
+		});
+	})();
 
 })();
