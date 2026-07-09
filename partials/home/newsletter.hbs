@@ -10,9 +10,12 @@
 			tabindex="-1"
 			allow="autoplay; encrypted-media"
 			style="position:absolute; top:50%; left:50%; width:100vw; height:56.25vw; min-height:100%; min-width:calc(100vh * 1.7778); transform:translate(-50%,-50%) scale(1.12); border:0; pointer-events:none;"></iframe>
-		{{!-- black overlay + grid lines, no gradients --}}
-		<div class="absolute inset-0 bg-black/65"></div>
-		<div class="absolute inset-0" style="background-image: linear-gradient(to right, rgb(255 255 255 / 0.07) 1px, transparent 1px), linear-gradient(to bottom, rgb(255 255 255 / 0.07) 1px, transparent 1px); background-size: 44px 44px;"></div>
+		{{!-- heavy dark scrim + pattern + soft vignette so the copy always reads --}}
+		<div class="absolute inset-0 bg-black/75"></div>
+		<div class="absolute inset-0" style="background-image: linear-gradient(to right, rgb(255 255 255 / 0.06) 1px, transparent 1px), linear-gradient(to bottom, rgb(255 255 255 / 0.06) 1px, transparent 1px); background-size: 44px 44px;"></div>
+		<div class="absolute inset-0" style="background: radial-gradient(120% 90% at 50% 50%, transparent 40%, rgb(0 0 0 / 0.55) 100%);"></div>
+		<div class="absolute inset-x-0 top-0 h-24" style="background: linear-gradient(to bottom, rgb(0 0 0 / 0.8), transparent);"></div>
+		<div class="absolute inset-x-0 bottom-0 h-24" style="background: linear-gradient(to top, rgb(0 0 0 / 0.8), transparent);"></div>
 	</div>
 
 	<div class="container-site relative py-20 text-center">

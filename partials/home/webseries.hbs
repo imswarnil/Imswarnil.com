@@ -1,110 +1,61 @@
-{{!-- Webseries — stacked-deck carousel. Cards pile on top of each other;
-     arrows shuffle the deck. The front card auto-plays the first YouTube
-     embed found in the series post's content (muted), else its poster. --}}
-{{#get "posts" filter="tag:hash-webseries" limit="4" include="tags" as |series|}}
+{{!-- Webseries — "Swarnil Originals". A short why-this-exists story first,
+     then a Netflix-style rail of 9:16 posters (no rank numbers). Poster
+     hover lifts + reveals the watch CTA. Copy is editable from Ghost Admin
+     → Design (webseries_intro). --}}
+{{#get "posts" filter="tag:hash-webseries" limit="8" include="tags" as |series|}}
 	{{#if series}}
-	<section class="reveal relative overflow-hidden py-16" id="home-webseries">
-		<div class="container-site">
-			{{> "components/section-head"
-				kicker="Now streaming (on my own terms)"
-				title="Webseries"
-				sub="Long-form stories, stacked like a watchlist. Shuffle through."
-				actionUrl=(concat @site.url "/webseries/") actionLabel="All series"}}
-
-			<div class="relative mt-10">
-				<div class="series-deck" id="series-deck">
-					{{#foreach series}}
-					<article class="series-card" data-pos="{{@index}}">
-						<template data-series-content>{{content}}</template>
-						<a href="{{url}}" class="block" aria-label="Watch series: {{title}}">
-							<div class="relative aspect-[16/8] overflow-hidden rounded-[1.5rem] sm:aspect-[16/7]">
-								{{#if feature_image}}
-									<img src="{{img_url feature_image size="1600"}}" width="1600" height="700" alt="{{title}}" loading="lazy" class="absolute inset-0 h-full w-full object-cover" />
-								{{else}}
-									<div class="bg-cross absolute inset-0 bg-ink"></div>
-								{{/if}}
-								<span class="series-video absolute inset-0" data-series-video aria-hidden="true"></span>
-								<div class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/30 to-transparent" aria-hidden="true"></div>
-								<div class="absolute inset-0 flex flex-col justify-end p-5 sm:justify-center sm:p-10">
-									<p class="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.3em] text-white/70">{{> "icons/film" class="h-3.5 w-3.5"}} a swarnil original</p>
-									<h3 class="mt-2 max-w-lg text-2xl font-bold leading-tight text-white sm:text-4xl [text-shadow:0_2px_12px_rgb(0_0_0/.4)]">{{title}}</h3>
-									{{#if custom_excerpt}}<p class="mt-2 hidden max-w-md text-sm leading-relaxed text-white/80 sm:block">{{custom_excerpt}}</p>{{/if}}
-									<div class="mt-4 flex items-center gap-3">
-										<span class="btn-invert btn-lg !font-semibold">{{> "icons/play"}} Watch now</span>
-										{{#foreach tags visibility="public" limit="1"}}{{#get "posts" filter="tag:hash-episode+tag:{{slug}}" limit="1" as |e|}}
-											<span class="font-mono text-[11px] uppercase tracking-[0.2em] text-white/70">{{plural pagination.total empty="trailer soon" singular="% episode" plural="% episodes"}}</span>
-										{{/get}}{{/foreach}}
-									</div>
-								</div>
-							</div>
-						</a>
-					</article>
-					{{/foreach}}
+	<section class="reveal relative overflow-hidden border-y border-line py-16 ws-band" id="home-webseries">
+		<div class="pointer-events-none absolute inset-0 opacity-[0.55]" aria-hidden="true" style="background-image: radial-gradient(80% 60% at 20% 0%, rgb(229 9 20 / 0.08), transparent 60%), radial-gradient(70% 50% at 90% 100%, rgb(229 9 20 / 0.06), transparent 60%)"></div>
+		<div class="container-site relative">
+			{{!-- the story before the shelf --}}
+			<div class="grid items-end gap-8 lg:grid-cols-12">
+				<div class="lg:col-span-7">
+					<p class="kicker">{{> "icons/film" class="h-3.5 w-3.5"}} Swarnil Originals</p>
+					<h2 class="section-title mt-2 text-balance">Why I make webseries</h2>
+					<p class="mt-4 max-w-xl text-[15px] leading-relaxed text-silver">
+						{{#if @custom.webseries_intro}}{{@custom.webseries_intro}}{{else}}I've always been fascinated by cinema — the titles, the tension, the tudum. So instead of waiting for a studio to call, I became one. These are my originals: I try, I shoot, I cut. Maybe they're not good yet. But they're mine, and every season gets better.{{/if}}
+					</p>
 				</div>
+				<div class="flex flex-wrap items-center gap-3 lg:col-span-5 lg:justify-end">
+					<a href="{{@site.url}}/webseries/" class="btn-primary">{{> "icons/tv" class="h-3.5 w-3.5"}} Browse all series</a>
+					<a href="{{@custom.youtube_url}}" target="_blank" rel="noopener" class="btn-ghost">{{> "icons/youtube" class="h-3.5 w-3.5"}} On YouTube</a>
+				</div>
+			</div>
 
-				{{!-- deck controls --}}
-				<div class="mt-5 flex items-center justify-center gap-2">
-					<button type="button" class="icon-btn border border-line" data-deck-prev aria-label="Previous series"><span class="rotate-180">{{> "icons/arrow-right"}}</span></button>
-					<span class="font-mono text-[10px] uppercase tracking-[0.2em] text-silver" id="deck-count"></span>
-					<button type="button" class="icon-btn border border-line" data-deck-next aria-label="Next series">{{> "icons/arrow-right"}}</button>
+			{{!-- 9:16 poster rail --}}
+			<div class="no-scrollbar mt-10 -mx-4 overflow-x-auto px-4 pb-4 [touch-action:pan-x_pan-y]" data-hscroll>
+				<div class="flex w-max snap-x snap-mandatory gap-4 sm:gap-5" data-reveal-stagger="80">
+					{{#foreach series}}
+					<a href="{{url}}" class="ws-poster group snap-start" aria-label="Watch series: {{title}}">
+						<span class="relative block aspect-[9/16] w-[11rem] overflow-hidden rounded-2xl border border-line bg-ink shadow-card transition-all duration-300 group-hover:-translate-y-2 group-hover:shadow-lift sm:w-[13rem]">
+							{{#if feature_image}}
+								<img src="{{img_url feature_image size="600"}}" width="600" height="1067" alt="{{title}}" loading="lazy" class="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
+							{{else}}
+								<span class="bg-cross absolute inset-0 flex items-center justify-center bg-ink">{{> "icons/film" class="h-8 w-8 text-paper/40"}}</span>
+							{{/if}}
+							<span class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-black/25" aria-hidden="true"></span>
+							<span class="absolute left-0 right-0 top-3 px-3 text-center font-mono text-[8px] font-bold uppercase tracking-[0.32em] text-white/80">A swarnil original</span>
+							<span class="absolute inset-x-0 bottom-0 flex flex-col items-center p-4 text-center">
+								<strong class="text-[15px] font-bold leading-tight text-white [text-shadow:0_2px_10px_rgb(0_0_0/.6)]">{{title}}</strong>
+								{{#foreach tags visibility="public" limit="1"}}{{#get "posts" filter="tag:hash-episode+tag:{{slug}}" limit="1" as |e|}}
+									<span class="mt-1.5 font-mono text-[9px] uppercase tracking-[0.2em] text-white/70">{{plural pagination.total empty="trailer soon" singular="% episode" plural="% episodes"}}</span>
+								{{/get}}{{/foreach}}
+								<span class="mt-3 inline-flex translate-y-2 items-center gap-1.5 rounded-full bg-white px-3.5 py-1.5 text-[11px] font-bold text-black opacity-0 shadow transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">{{> "icons/play" class="h-3 w-3"}} Watch now</span>
+							</span>
+						</span>
+					</a>
+					{{/foreach}}
+
+					{{!-- trailing "view all" poster --}}
+					<a href="{{@site.url}}/webseries/" class="ws-poster group snap-start" aria-label="All webseries">
+						<span class="relative flex aspect-[9/16] w-[11rem] flex-col items-center justify-center gap-3 overflow-hidden rounded-2xl border border-dashed border-line bg-mist/60 transition-all duration-300 group-hover:-translate-y-2 group-hover:bg-mist sm:w-[13rem]">
+							{{> "icons/arrow-right" class="h-6 w-6 text-silver transition group-hover:translate-x-1 group-hover:text-ink"}}
+							<span class="font-mono text-[10px] uppercase tracking-[0.2em] text-silver">All series</span>
+						</span>
+					</a>
 				</div>
 			</div>
 		</div>
-
-		<script>
-			(function () {
-				var deck = document.getElementById('series-deck');
-				if (!deck) return;
-				var cards = [].slice.call(deck.querySelectorAll('.series-card'));
-				if (!cards.length) return;
-				var order = cards.map(function (_, i) { return i; });
-				var count = document.getElementById('deck-count');
-				var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-				function videoFor(card) {
-					var tpl = card.querySelector('[data-series-content]');
-					if (!tpl) return null;
-					var m = (tpl.innerHTML || '').match(/src="(https:\/\/www\.youtube(?:-nocookie)?\.com\/embed\/([\w-]{6,}))[^"]*"/);
-					return m ? { base: 'https://www.youtube-nocookie.com/embed/' + m[2], id: m[2] } : null;
-				}
-				function paint() {
-					order.forEach(function (cardIdx, pos) {
-						var card = cards[cardIdx];
-						card.setAttribute('data-pos', pos);
-						card.style.zIndex = cards.length - pos;
-						var slot = card.querySelector('[data-series-video]');
-						if (!slot) return;
-						if (pos === 0 && !reduce) {
-							if (!slot.firstChild) {
-								var v = videoFor(card);
-								if (v) {
-									var f = document.createElement('iframe');
-									f.src = v.base + '?autoplay=1&mute=1&loop=1&playlist=' + v.id + '&controls=0&playsinline=1&rel=0&modestbranding=1&iv_load_policy=3';
-									f.title = 'Series preview';
-									f.setAttribute('allow', 'autoplay; encrypted-media');
-									f.setAttribute('frameborder', '0');
-									f.tabIndex = -1;
-									f.className = 'pointer-events-none absolute left-1/2 top-1/2 aspect-video h-[120%] w-auto min-w-full -translate-x-1/2 -translate-y-1/2';
-									slot.appendChild(f);
-								}
-							}
-						} else if (slot.firstChild) {
-							slot.innerHTML = ''; /* stop background playback on buried cards */
-						}
-					});
-					if (count) count.textContent = (order[0] + 1) + ' / ' + cards.length;
-				}
-				function shift(dir) {
-					if (dir > 0) order.push(order.shift()); else order.unshift(order.pop());
-					paint();
-				}
-				var prev = document.querySelector('[data-deck-prev]');
-				var next = document.querySelector('[data-deck-next]');
-				if (prev) prev.addEventListener('click', function () { shift(-1); });
-				if (next) next.addEventListener('click', function () { shift(1); });
-				paint();
-			})();
-		</script>
 	</section>
 	{{/if}}
 {{/get}}

@@ -119,11 +119,16 @@ collections:
     filter: tag:hash-blog
     template: blog
 
-  # Prompts + code snippets share one collection (chat-styled prompts, #snippet code)
+  # Prompts (chat-styled) and code snippets are separate collections
   /prompts/:
     permalink: /prompts/{slug}/
-    filter: tag:hash-prompt,tag:hash-snippet
+    filter: tag:hash-prompt
     template: prompts
+
+  /snippets/:
+    permalink: /snippets/{slug}/
+    filter: tag:hash-snippet
+    template: snippets
 
   # Experiences — life "moments" (photo + story)
   /experiences/:

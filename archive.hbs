@@ -38,15 +38,28 @@
 			<ol id="archive-list" class="divide-y divide-line border-y border-line">
 				{{#foreach archive}}
 				<li class="group">
-					<a href="{{url}}" class="grid gap-1 py-5 sm:grid-cols-[7.5rem_1fr_auto] sm:items-baseline sm:gap-6">
-						<time class="font-mono text-xs text-silver" datetime="{{date published_at format="YYYY-MM-DD"}}">{{date published_at format="DD MMM YYYY"}}</time>
-						<span class="min-w-0">
-							<span class="block text-base font-semibold leading-snug tracking-tight transition group-hover:text-silver">{{title}}</span>
-							<span class="mt-1 block truncate text-sm leading-relaxed text-silver">{{custom_excerpt}}{{^custom_excerpt}}{{excerpt words="20"}}{{/custom_excerpt}}</span>
+					<a href="{{url}}" class="flex items-center gap-4 py-4 sm:gap-6">
+						{{!-- thumbnail --}}
+						<span class="relative block aspect-[16/10] w-24 shrink-0 overflow-hidden rounded-xl border border-line bg-mist sm:w-32">
+							{{#if feature_image}}
+								<img src="{{img_url feature_image size="300"}}" width="300" height="188" alt="" loading="lazy" decoding="async" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
+							{{else}}
+								<span class="bg-dots flex h-full w-full items-center justify-center">{{> "icons/pen" class="h-4 w-4 text-silver"}}</span>
+							{{/if}}
 						</span>
-						<span class="chip justify-self-start sm:justify-self-end">
-							{{#has tag="#video"}}Video{{else has tag="#course"}}Course{{else has tag="#lesson"}}Lesson{{else has tag="#webseries"}}Series{{else has tag="#episode"}}Episode{{else has tag="#project"}}Project{{else has tag="#product"}}Product{{else has tag="#newsletter"}}Newsletter{{else has tag="#changelog"}}Changelog{{else has tag="#timeline"}}Timeline{{else has tag="#shop"}}Shop{{else}}Article{{/has}}
+						<span class="min-w-0 flex-1">
+							<span class="flex flex-wrap items-center gap-x-3 gap-y-1">
+								<time class="font-mono text-xs text-silver" datetime="{{date published_at format="YYYY-MM-DD"}}">{{date published_at format="DD MMM YYYY"}}</time>
+								{{!-- which collection this post lives in --}}
+								<span class="chip !py-0.5 !text-[10px]">
+									{{#has tag="#video"}}Video{{else has tag="#course"}}Course{{else has tag="#lesson"}}Lesson{{else has tag="#webseries"}}Series{{else has tag="#episode"}}Episode{{else has tag="#project"}}Project{{else has tag="#project-detail"}}Build log{{else has tag="#product"}}Product{{else has tag="#newsletter"}}Newsletter{{else has tag="#changelog"}}Changelog{{else has tag="#timeline"}}Timeline{{else has tag="#shop"}}Shop{{else has tag="#prompt"}}Prompt{{else has tag="#snippet"}}Snippet{{else has tag="#trip"}}Trip{{else has tag="#travel"}}Travel{{else has tag="#experience"}}Experience{{else}}Article{{/has}}
+								</span>
+								{{#if primary_tag}}<span class="hidden font-mono text-[10px] uppercase tracking-[0.15em] text-silver sm:inline">{{primary_tag.name}}</span>{{/if}}
+							</span>
+							<span class="mt-1 block text-base font-semibold leading-snug tracking-tight transition group-hover:text-silver">{{title}}</span>
+							<span class="mt-0.5 hidden truncate text-sm leading-relaxed text-silver sm:block">{{custom_excerpt}}{{^custom_excerpt}}{{excerpt words="20"}}{{/custom_excerpt}}</span>
 						</span>
+						<span class="hidden text-silver transition group-hover:translate-x-1 group-hover:text-ink sm:block">{{> "icons/arrow-right" class="h-4 w-4"}}</span>
 					</a>
 				</li>
 				{{/foreach}}

@@ -19,32 +19,32 @@
 			<nav class="md:col-span-2" aria-label="Explore">
 				<h3 class="kicker">Explore</h3>
 				<ul class="mt-4 space-y-2.5 text-sm">
-					<li><a class="text-silver transition hover:text-ink" href="{{@site.url}}/videos/">Videos</a></li>
-					<li><a class="text-silver transition hover:text-ink" href="{{@site.url}}/blog/">Blog</a></li>
-					<li><a class="text-silver transition hover:text-ink" href="{{@site.url}}/projects/">Projects</a></li>
-					<li><a class="text-silver transition hover:text-ink" href="{{@site.url}}/courses/">Courses</a></li>
-					<li><a class="text-silver transition hover:text-ink" href="{{@site.url}}/webseries/">Webseries</a></li>
+					<li><a class="flex items-center gap-2 text-silver transition hover:text-ink" href="{{@site.url}}/videos/">{{> "icons/play" class="h-3.5 w-3.5"}} Videos</a></li>
+					<li><a class="flex items-center gap-2 text-silver transition hover:text-ink" href="{{@site.url}}/blog/">{{> "icons/pen" class="h-3.5 w-3.5"}} Blog</a></li>
+					<li><a class="flex items-center gap-2 text-silver transition hover:text-ink" href="{{@site.url}}/projects/">{{> "icons/code" class="h-3.5 w-3.5"}} Projects</a></li>
+					<li><a class="flex items-center gap-2 text-silver transition hover:text-ink" href="{{@site.url}}/courses/">{{> "icons/graduation" class="h-3.5 w-3.5"}} Courses</a></li>
+					<li><a class="flex items-center gap-2 text-silver transition hover:text-ink" href="{{@site.url}}/webseries/">{{> "icons/tv" class="h-3.5 w-3.5"}} Webseries</a></li>
 				</ul>
 			</nav>
 
 			<nav class="md:col-span-2" aria-label="Life">
 				<h3 class="kicker">Life</h3>
 				<ul class="mt-4 space-y-2.5 text-sm">
-					<li><a class="text-silver transition hover:text-ink" href="{{@site.url}}/timeline/">Timeline</a></li>
-					<li><a class="text-silver transition hover:text-ink" href="{{@site.url}}/resume/">Resume</a></li>
-					<li><a class="text-silver transition hover:text-ink" href="{{@site.url}}/products/">Products I use</a></li>
-					<li><a class="text-silver transition hover:text-ink" href="{{@site.url}}/changelog/">Changelog</a></li>
+					<li><a class="flex items-center gap-2 text-silver transition hover:text-ink" href="{{@site.url}}/timeline/">{{> "icons/calendar" class="h-3.5 w-3.5"}} Timeline</a></li>
+					<li><a class="flex items-center gap-2 text-silver transition hover:text-ink" href="{{@site.url}}/resume/">{{> "icons/briefcase" class="h-3.5 w-3.5"}} Resume</a></li>
+					<li><a class="flex items-center gap-2 text-silver transition hover:text-ink" href="{{@site.url}}/products/">{{> "icons/cart" class="h-3.5 w-3.5"}} Products I use</a></li>
+					<li><a class="flex items-center gap-2 text-silver transition hover:text-ink" href="{{@site.url}}/changelog/">{{> "icons/zap" class="h-3.5 w-3.5"}} Changelog</a></li>
 				</ul>
 			</nav>
 
 			<nav class="md:col-span-3" aria-label="Connect">
 				<h3 class="kicker">Connect</h3>
 				<ul class="mt-4 space-y-2.5 text-sm">
-					<li><a class="text-silver transition hover:text-ink" href="{{@site.url}}/newsletters/">Newsletter</a></li>
-					<li><a class="text-silver transition hover:text-ink" href="{{@site.url}}/guestbook/">Sign the guestbook</a></li>
-					<li><a class="text-silver transition hover:text-ink" href="{{@site.url}}/sponsor/">Sponsor me</a></li>
-					<li><a class="text-silver transition hover:text-ink" href="mailto:{{@custom.sponsor_email}}">Say hello</a></li>
-					<li><a class="text-silver transition hover:text-ink" href="{{@site.url}}/sitemap.xml">Sitemap</a></li>
+					<li><a class="flex items-center gap-2 text-silver transition hover:text-ink" href="{{@site.url}}/newsletters/">{{> "icons/mail" class="h-3.5 w-3.5"}} Newsletter</a></li>
+					<li><a class="flex items-center gap-2 text-silver transition hover:text-ink" href="{{@site.url}}/guestbook/">{{> "icons/heart" class="h-3.5 w-3.5"}} Sign the guestbook</a></li>
+					<li><a class="flex items-center gap-2 text-silver transition hover:text-ink" href="{{@site.url}}/sponsor/">{{> "icons/cash" class="h-3.5 w-3.5"}} Sponsor me</a></li>
+					<li><a class="flex items-center gap-2 text-silver transition hover:text-ink" href="mailto:{{@custom.sponsor_email}}">{{> "icons/contact" class="h-3.5 w-3.5"}} Say hello</a></li>
+					<li><a class="flex items-center gap-2 text-silver transition hover:text-ink" href="{{@site.url}}/sitemap-visual/">{{> "icons/map-pin" class="h-3.5 w-3.5"}} Sitemap</a></li>
 				</ul>
 				{{#if @site.members_enabled}}
 				<button type="button" class="btn-ghost btn-sm mt-6" data-modal-open="#subscribe-backdrop">{{> "icons/bell" class="h-3 w-3"}} Why subscribe?</button>

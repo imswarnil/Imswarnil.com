@@ -2,6 +2,7 @@
 @import './components/buttons.css';
 @import './components/media.css';
 @import './components/sections.css';
+@import './components/home.css';
 @import './components/collections.css';
 
 @tailwind base;
@@ -515,6 +516,14 @@
 /* View-transition-ish reveal on scroll.
    Variants via data-reveal="up|down|left|right|scale|blur"; children stagger
    via data-reveal-stagger on the parent (each child gets an increasing delay). */
+/* Scroll-time hover guard (main.js toggles body.is-scrolling): while the page
+   is moving, nothing inside <main> is a hover/wheel target — no shadow/scale
+   transition storms under the cursor, no non-passive wheel handler in the hit
+   chain. Restored 150ms after the last scroll event. */
+body.is-scrolling main {
+	pointer-events: none;
+}
+
 .reveal,
 [data-reveal],
 [data-reveal-stagger] > * {

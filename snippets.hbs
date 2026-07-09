@@ -1,0 +1,34 @@
+{{!< default}}
+
+{{!-- /snippets — code snippets worth stealing (#snippet). --}}
+{{> "components/collection-header" kicker="The snippet shelf" title="Code snippets" desc="Small pieces of code that earn their keep. Copy, paste, adapt."}}
+
+<section class="container-site py-12">
+
+	<div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3" data-reveal-stagger="60">
+		{{#foreach posts}}
+			{{> "cards/snippet"}}
+		{{else}}
+			<p class="col-span-full py-10 text-center text-silver">Snippets land here — tag posts <code class="rounded bg-mist px-1.5 py-0.5 font-mono text-xs">#snippet</code>.</p>
+		{{/foreach}}
+	</div>
+
+	{{> "components/adsense" slot="7663977887" format="auto" class="mx-auto max-w-2xl"}}
+
+	{{!-- Peek at the prompt library --}}
+	{{#get "posts" filter="tag:hash-prompt" order="published_at desc" limit="3" include="tags" as |prompts|}}
+		{{#if prompts}}
+		<section class="mt-14">
+			<div class="flex items-center justify-between gap-4">
+				<p class="kicker">{{> "icons/sparkle"}} Prompts</p>
+				<a href="{{@site.url}}/prompts/" class="btn-ghost btn-sm">All prompts {{> "icons/arrow-right" class="h-3.5 w-3.5"}}</a>
+			</div>
+			<div class="mt-4 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+				{{#foreach prompts}}{{> "cards/prompt"}}{{/foreach}}
+			</div>
+		</section>
+		{{/if}}
+	{{/get}}
+
+	{{> "components/pagination"}}
+</section>

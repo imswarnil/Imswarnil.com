@@ -343,3 +343,61 @@ npm run zip        # build + gscan --fatal + dist/swarnil.zip
   Twilio + Neubrutal); navbar border doubles as reading progress.
 - **Data**: import.json + data.json synced — generic names, chapters tables in
   video-type posts, `#level-*`, `#now-completed`, featured milestones.
+
+---
+
+## Update notes — 2026-07-09 (homepage overhaul)
+
+What changed today, and where to customize it from Ghost Admin.
+
+### Homepage structure (all partials — reorder in `home.hbs`)
+
+`hero` → `latest` (video rail) → `now` → `webseries` → `blog` → `portfolio` →
+`experiences` → `courses` → `snippets` → `shop` → `products` → `timeline` →
+`publishing` (On air) → `connect` → `tags` (cloud) → `guestbook` → `newsletter`.
+Every section is its own partial under `partials/home/`; sections driven by
+posts (`experiences`, `snippets`, `webseries`, `tags`) hide themselves when no
+matching posts exist.
+
+### What we worked on
+
+- **First-load intro** (`partials/components/intro.hbs`): the "Life looks
+  better when you frame the chaos…" line is now an animated title card shown
+  once per session on the homepage. The hero H1 is static (quote, floating
+  pills and word-cycling removed).
+- **Swarnil Originals**: webseries section opens with the why-I-make-these
+  story, then a 9:16 Netflix-style poster rail (no numbers). Edit the story in
+  **Admin → Design → Homepage → `webseries_intro`**.
+- **Products I use** is a promo band with floating gear thumbnails and a single
+  CTA to `/products/` — thumbnails come from your latest `#product` posts.
+- **Portfolio**: cinematic recruiter pitch — big type, CSS illustration
+  slideshow, CTA row, filterable `#project` receipts, and a half-visible resume
+  sheet behind mountains linking to `/resume/`.
+- **New sections**: Experiences rail (`#experience` posts), Snippets band
+  (`#snippet` posts, VS Code cards), Connect tiles (collab/sponsor/bucketlist
+  pages), Tag cloud (blasts in on scroll, then settles).
+- **On air**: dark broadcast board, big typographic channel rows revealing on
+  scroll, animated blob/scanline background.
+- **Blog**: opens with an epigraph quote — edit in **Admin → Design →
+  Homepage → `blog_quote`**.
+- **Timeline**: left intro is sticky; the spine fills with accent color as you
+  scroll.
+- **Courses**: home cards morph on "Syllabus" click (media shrinks to a 90px
+  strip, full lesson list animates in). Course pages say **Syllabus** now.
+- **Projects**: status badge on the card image (`#now` = in progress,
+  `#now-completed` = shipped, otherwise done).
+- **Video rail**: scroll-snap + arrows + progress bar.
+- **Finale video band**: darker scrim + vignette for readable text.
+- **Footer**: icons on all nav items; sitemap → `/sitemap-visual/`.
+- **/tags** page: photo-mosaic tiles; **visual sitemap** now covers travel,
+  prompts, snippets, experiences and topics too.
+
+### New custom settings (Admin → Design → Homepage)
+
+| Setting | Drives |
+| --- | --- |
+| `webseries_intro` | Story shown above the Swarnil Originals shelf |
+| `blog_quote` | Epigraph above the blog bento grid |
+
+New styles live in `assets/css/components/home.css` (imported by
+`tailwind.css`). Rebuild with `npm run build`; validate with `npx gscan .`.

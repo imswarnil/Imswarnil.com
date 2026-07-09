@@ -210,6 +210,9 @@
 		overflow-x: auto;
 		scroll-snap-type: x proximity;
 		padding-bottom: 0.75rem;
+		/* vertical swipe keeps panning the page; only horizontal chaining contained */
+		touch-action: pan-x pan-y;
+		overscroll-behavior-x: contain;
 	}
 	.reels-rail > .reel-card {
 		flex: 0 0 auto;

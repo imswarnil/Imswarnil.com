@@ -76,11 +76,11 @@
 					</div>
 				</section>
 
-				{{!-- Curriculum --}}
+				{{!-- Syllabus --}}
 				<section id="curriculum" class="scroll-mt-24 py-10">
 					<div class="flex flex-wrap items-end justify-between gap-3">
 						<div>
-							<p class="kicker">{{> "icons/play"}} Curriculum</p>
+							<p class="kicker">{{> "icons/play"}} Syllabus</p>
 							<h2 class="section-title mt-2">Lesson by lesson</h2>
 						</div>
 						<p class="font-mono text-[11px] uppercase tracking-[0.15em] text-silver" id="curriculum-summary"></p>
@@ -170,7 +170,7 @@
 						</details>
 						<details class="group py-4">
 							<summary class="flex cursor-pointer items-center justify-between gap-3 text-[15px] font-semibold [&::-webkit-details-marker]:hidden">How is progress tracked? {{> "icons/chevron-down" class="shrink-0 text-silver transition group-open:rotate-180"}}</summary>
-							<p class="mt-3 text-sm leading-relaxed text-silver">In your browser — the player tracks where you are, the last lesson ends with a small confetti ceremony, and completed lessons show a green badge in this curriculum.</p>
+							<p class="mt-3 text-sm leading-relaxed text-silver">In your browser — the player tracks where you are, the last lesson ends with a small confetti ceremony, and completed lessons show a green badge in this syllabus.</p>
 						</details>
 						<details class="group py-4">
 							<summary class="flex cursor-pointer items-center justify-between gap-3 text-[15px] font-semibold [&::-webkit-details-marker]:hidden">Is there a certificate? {{> "icons/chevron-down" class="shrink-0 text-silver transition group-open:rotate-180"}}</summary>
@@ -238,7 +238,7 @@
 								{{#foreach first}}<a href="{{url}}" class="btn-primary mt-3 w-full justify-center">{{> "icons/play"}} Start the course</a>{{/foreach}}
 							{{/get}}
 							{{/foreach}}
-							<a href="#curriculum" class="btn-ghost btn-sm mt-2 w-full justify-center">{{> "icons/book"}} Browse curriculum</a>
+							<a href="#curriculum" class="btn-ghost btn-sm mt-2 w-full justify-center">{{> "icons/book"}} Browse syllabus</a>
 
 							<p class="kicker mt-4 !text-[10px]">This course includes</p>
 							<ul class="mt-2 space-y-1.5 text-[12.5px] text-silver">

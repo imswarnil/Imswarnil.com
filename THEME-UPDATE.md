@@ -2,6 +2,107 @@
 
 Running record of what's done and what's left. Master backlog lives in CLAUDE.md.
 
+## 2026-07-09 — homepage overhaul: intro title card · Swarnil Originals · cinematic portfolio + resume peek · on-air board · tag-cloud blast · snippets/experiences/connect sections
+
+### Done
+- **Hero cleaned up**: the "Life looks better…" quote, the floating collection
+  pills and the cycling word/ratio frame are gone. New static H1 with one 16:9
+  viewfinder frame. The signature quote moved to a **first-load intro title
+  card** (`components/intro.hbs`) — animated line-by-line with a 9:16 frame
+  around "chaos", shows once per session (sessionStorage), reduced-motion safe,
+  home page only.
+- **Products section → promo band** (`home/products.hbs`): no more grouped
+  listing; floating product thumbnails orbit a centered pitch with one big CTA
+  to /products/ (+ shop link). Real `#product` post images feed the float chips.
+- **Latest-videos rail**: scroll-snap, prev/next arrow paging, and a thin
+  scroll-progress bar under the rail.
+- **Webseries = "Swarnil Originals"** (`home/webseries.hbs`): a why-I-make-these
+  story block first (editable via new `webseries_intro` custom setting), then a
+  Netflix-style rail of **9:16 posters** — no rank numbers — with hover Watch-now
+  pill and a trailing "All series" card. Replaces the stacked deck.
+- **Portfolio went cinematic** (`home/portfolio.hbs`): tall band, display-size
+  headline, fewer facts + more CTAs (resume, contact, experiences, timeline,
+  LinkedIn), an auto-crossfading illustration slideshow (VS Code window →
+  camcorder → dashboard bars), the filterable project receipts grid, and a
+  **resume peek**: a half-visible resume sheet hiding behind two mountain
+  layers; hover raises it, click goes to /resume/.
+- **New home sections** (all partials, all self-hiding when empty):
+  `home/experiences.hbs` (rail of #experience moments), `home/snippets.hbs`
+  (VS Code-styled snippet cards on a dark editor band), `home/connect.hbs`
+  (collab / sponsor / bucket-list tiles), `home/tags.hbs` (tag cloud that
+  blasts outward on scroll then settles and gently floats).
+- **On air rebuilt** (`home/publishing.hbs`): dark full-bleed control room with
+  drifting gradient blobs + grid + scanlines; channels are big typographic rows
+  that reveal on scroll — no content cards.
+- **Blog section**: big serif epigraph quote above the bento grid (editable via
+  new `blog_quote` custom setting).
+- **Timeline**: intro column is now sticky while moments scroll; spine line
+  fills with accent color as you scroll (4 nodes shown).
+- **Finale video band**: much darker scrim (65→75%) + vignette and top/bottom
+  fades so the quote stays readable over the video.
+- **Project cards**: build status on the image — amber "in progress" while
+  tagged `#now`, green "shipped" for `#now-completed`, neutral "done" otherwise.
+- **Course cards (home)**: "Syllabus" button morphs the card — media collapses
+  to a 90px strip with overlaid title, description/meta hide, and the full
+  lesson list animates in with a Start-course CTA. Course page labels renamed
+  Curriculum → **Syllabus** (anchor id stays `#curriculum` so old links work).
+- **Footer**: every nav item now carries an icon; sitemap link points to the
+  visual sitemap.
+- **Visual sitemap**: added Travel, Prompts, Snippets, Experiences, Topics
+  (tags) branches + archive link; JSON-LD extended to 15 nav elements.
+- **/tags page**: mosaic tiles — biggest tag gets a 2×2 photo tile, images with
+  gradient overlays, post counts, hover Explore CTA.
+- **Custom settings**: `webseries_intro`, `blog_quote` (homepage group) — 19/20
+  slots used.
+- New CSS lives in `assets/css/components/home.css`; build + gscan clean
+  (2 pre-existing warnings only: custom-fonts support, none fatal).
+
+### Left / needs owner action
+- [ ] Restart Ghost after deploy (new partials: intro, home/experiences,
+  home/snippets, home/connect, home/tags).
+- [ ] Portfolio slideshow uses CSS illustrations — swap in real illustrations/
+  photos later if wanted.
+- [ ] Tag cloud caps at 40 tags; /tags page at 100.
+
+## 2026-07-08 — carousel scroll-trap fix · schedule-style timeline · prompts/snippets split · archive & tag upgrades
+
+- **Scroll-time hover guard (2026-07-09)**: scrolling with the cursor over the
+  video carousel still dropped frames — every card passed fired hover
+  shadow/scale transitions and preview timers, and the non-passive wheel guard
+  kept scroll on the main thread. main.js now toggles `body.is-scrolling`
+  (cleared 150ms after the last scroll event) and CSS sets
+  `pointer-events: none` on `<main>` while it's on, so mid-scroll wheel/hover
+  bypass all of it and scrolling stays compositor-threaded.
+- **Carousel vertical-scroll trap fixed everywhere**: the `[data-hscroll]` wheel
+  guard now scrolls the window with the always-instant two-arg `scrollBy` (the
+  options form could smooth-animate per tick and freeze the page) and honors
+  Firefox line/page `deltaMode`; removed `scroll-smooth` from the home videos
+  track (smooth+snap animated every wheel tick); `.reels-rail` gained
+  `touch-action: pan-x pan-y` + `overscroll-behavior-x: contain` so vertical
+  swipes keep panning the page on mobile. Also wired the previously dead
+  prev/next arrows on the home videos rail (explicit per-click smooth scroll).
+- **Per-card hover fixed globally**: reveal-on-scroll left
+  `[data-reveal-stagger].is-visible > * { transform:none }` (outside the
+  components layer) permanently overriding every card's hover lift and
+  hijacking its transition. main.js now strips the reveal hooks after the
+  entrance animation, so cards regain their own hover styles. Removed
+  `!transform-none` from home course tiles — each tile lifts individually.
+- **Timeline → animated schedule**: each entry now has a tear-off calendar
+  leaf (red month bar, big day, year) that tilts on card hover, plus an analog
+  SVG clock whose hands sweep to the publish time (JS sets rotation; CSS
+  transition animates); the active entry's red second hand ticks (60-step
+  keyframe). Reduced-motion disables all of it. Spine fill + year nav kept.
+- **Prompts / snippets split**: routes.yaml now has `/prompts/` (#prompt) and
+  `/snippets/` (#snippet, new snippets.hbs); each page cross-links the other's
+  latest 3. Mega panel + mobile menu link both. **Re-upload routes.yaml.**
+- **Archive rows**: feature-image thumbnail (16:10, fallback pattern),
+  collection badge extended (build log, prompt, snippet, trip, travel,
+  experience), public primary tag shown, hover arrow.
+- **Tag page**: full hero — tag feature image (16:9 card, right column),
+  description with fallback copy, post count chip, "All topics" link.
+  /tags tiles now show the tag's feature image instead of the # monogram
+  when one is set.
+
 ## 2026-07-08 — full PWA (offline + push) · medium navbar · static S-camcorder logo
 
 - **Service worker re-enabled** (`sw.hbs` at `/sw/`): three versioned caches —

@@ -125,6 +125,18 @@
 				"default": "The Signal — my letters on marketing, code & craft",
 				"group": "homepage"
 			},
+			"webseries_intro": {
+				"type": "text",
+				"default": "I've always been fascinated by cinema — the titles, the tension, the tudum. So instead of waiting for a studio to call, I became one. These are my originals: I try, I shoot, I cut. Maybe they're not good yet. But they're mine, and every season gets better.",
+				"description": "The 'why I make webseries' story shown above the Swarnil Originals shelf",
+				"group": "homepage"
+			},
+			"blog_quote": {
+				"type": "text",
+				"default": "Writing is thinking. This is me thinking in public — so you can skip the mistakes I already made.",
+				"description": "The big quote shown above the blog section on the homepage",
+				"group": "homepage"
+			},
 			"footer_tagline": {
 				"type": "text",
 				"default": "Framing the color 1:1, cropping out the noise.",

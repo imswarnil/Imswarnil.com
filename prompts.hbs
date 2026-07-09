@@ -1,16 +1,14 @@
 {{!< default}}
 
-{{!-- /prompts — LLM-chat styled prompt library + a code-snippets shelf.
-     Collection includes #prompt and #snippet posts. --}}
-{{> "components/collection-header" kicker="The prompt library" title="Prompts & snippets" desc="Prompts I actually reuse, and code snippets worth stealing. Copy, tweak, ship."}}
+{{!-- /prompts — LLM-chat styled prompt library (#prompt). Snippets moved to
+     their own /snippets/ collection. --}}
+{{> "components/collection-header" kicker="The prompt library" title="Prompts" desc="Prompts I actually reuse. Copy, tweak, ship."}}
 
 <section class="container-site py-12">
 
-	{{!-- Prompts feed (skip snippets — they get their own shelf below) --}}
-	<p class="kicker">{{> "icons/sparkle"}} Prompts</p>
-	<div class="mt-4 grid gap-5 sm:grid-cols-2 lg:grid-cols-3" data-reveal-stagger="60">
+	<div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3" data-reveal-stagger="60">
 		{{#foreach posts}}
-			{{#has tag="hash-snippet"}}{{else}}{{> "cards/prompt"}}{{/has}}
+			{{> "cards/prompt"}}
 		{{else}}
 			<p class="col-span-full py-10 text-center text-silver">Prompts land here — tag posts <code class="rounded bg-mist px-1.5 py-0.5 font-mono text-xs">#prompt</code>.</p>
 		{{/foreach}}
@@ -18,11 +16,14 @@
 
 	{{> "components/adsense" slot="7663977887" format="auto" class="mx-auto max-w-2xl"}}
 
-	{{!-- Code snippets shelf --}}
-	{{#get "posts" filter="tag:hash-snippet" order="published_at desc" limit="9" include="tags" as |snippets|}}
+	{{!-- Peek at the snippets shelf --}}
+	{{#get "posts" filter="tag:hash-snippet" order="published_at desc" limit="3" include="tags" as |snippets|}}
 		{{#if snippets}}
 		<section class="mt-14">
-			<p class="kicker">{{> "icons/code"}} Code snippets</p>
+			<div class="flex items-center justify-between gap-4">
+				<p class="kicker">{{> "icons/code"}} Code snippets</p>
+				<a href="{{@site.url}}/snippets/" class="btn-ghost btn-sm">All snippets {{> "icons/arrow-right" class="h-3.5 w-3.5"}}</a>
+			</div>
 			<div class="mt-4 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
 				{{#foreach snippets}}{{> "cards/snippet"}}{{/foreach}}
 			</div>

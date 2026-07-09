@@ -1,31 +1,31 @@
-{{!-- Hero — "Framed" style. Rule-of-thirds shell, pointer-following accent glow,
-     camera HUD, morphing aspect-ratio frame around a rotating word (SEO-critical
-     copy lives in the H1), floating 3D post windows + a dashed "that's me" arrow
-     over the media stack. Tag marquee below pulls real topics. --}}
+{{!-- Hero — "Framed" style. Rule-of-thirds shell, pointer-following accent
+     glow, camera HUD, static viewfinder frame in the H1 (no word cycling —
+     the signature quote now lives in components/intro as the first-load
+     title card). Right side: the media stack. Tag marquee below. --}}
 <section class="relative overflow-hidden pb-12 pt-6 sm:pt-8" id="hero">
 	<div class="container-site relative">
 		<div class="hero-shell" id="hero-shell">
 			{{!-- camera HUD --}}
 			<div class="hx-hud" aria-hidden="true">
 				<span class="flex items-center justify-end gap-1.5"><i class="h-1.5 w-1.5 animate-ping rounded-full bg-red-500"></i> <b>REC</b></span>
-				<span id="hx-hud-ratio">Frame 16:9</span>
+				<span>Frame 16:9</span>
 			</div>
 
 			<p class="hx-eyebrow animate-fade-in">Hi, I'm Swarnil — {{@custom.job_title}} @ <a href="{{@custom.workplace_url}}" target="_blank" rel="noopener" class="font-semibold text-ink hover:underline hover:underline-offset-4">{{@custom.workplace}}</a> · documenting life</p>
 
 			<div class="grid items-center gap-10 lg:grid-cols-12 lg:gap-12">
 				<div class="lg:col-span-7">
-					{{!-- H1 carries the name + the signature line for SEO --}}
+					{{!-- H1 — name + what this place is, framed once, no cycling --}}
 					<h1 class="hx-h1">
-						<span class="block">Life looks better</span>
-						<span class="block">when you frame the
-							<span class="hx-frame" id="hx-frame" style="--hx-ar:16/9">
+						<span class="block">I build, teach and film</span>
+						<span class="block">the whole
+							<span class="hx-frame" style="--hx-ar:16/9">
 								<i></i><i></i><i></i><i></i>
-								<span class="hx-word" id="hx-word">day</span>
-								<span class="hx-ratio" id="hx-ratio">16:9</span>
+								<span class="hx-word">process</span>
+								<span class="hx-ratio">16:9</span>
 							</span>
 						</span>
-						<em class="block not-italic text-silver">and crop out the noise. — Swarnil Singhai</em>
+						<span class="block text-silver">— Swarnil Singhai</span>
 					</h1>
 
 					<p class="mt-5 max-w-xl animate-fade-in text-[15px] leading-relaxed text-silver" style="animation-delay:.4s">
@@ -47,9 +47,7 @@
 					{{> "home/hero-proof"}}
 				</div>
 
-				{{!-- Media: main camcorder frame + typed collection cards that reveal
-				     around it when their word cycles in (work→VS Code, day→camcorder,
-				     trip→map, story→notepad) --}}
+				{{!-- Media: the main camcorder frame, kept calm — no floating pills --}}
 				<div class="relative lg:col-span-5" id="hero-scene">
 					{{#get "posts" filter="featured:true" limit="1" as |feat|}}
 						{{#if feat}}
@@ -60,13 +58,6 @@
 							{{> "home/hero-frames" frame=@custom.hero_image polaroid=@custom.hero_image_alt altText="Portrait"}}
 						{{/if}}
 					{{/get}}
-
-					{{!-- badge pills around the video, one per collection --}}
-					<a href="{{@site.url}}/videos/" class="hx-pill" style="--hx-tilt:-5deg; left:-0.9rem; top:-0.9rem">{{> "icons/play" class="h-3 w-3"}} videos</a>
-					<a href="{{@site.url}}/projects/" class="hx-pill" style="--hx-tilt:4deg; right:-1.1rem; top:2.75rem">{{> "icons/code" class="h-3 w-3"}} projects</a>
-					<a href="{{@site.url}}/travel/" class="hx-pill" style="--hx-tilt:-3deg; left:-1.2rem; bottom:3rem">{{> "icons/plane" class="h-3 w-3"}} travel</a>
-					<a href="{{@site.url}}/blog/" class="hx-pill" style="--hx-tilt:5deg; right:-0.8rem; bottom:-0.9rem">{{> "icons/pen" class="h-3 w-3"}} blog</a>
-
 				</div>
 			</div>
 		</div>
@@ -90,39 +81,8 @@
 
 	<script>
 		(function () {
-			var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-			/* words mirror the collections; some reveal a card inside the frame */
-			var words = ['day', 'work', 'trip', 'story', 'chaos'];
-			var ratios = [
-				{ ar: '16/9', label: '16:9' },
-				{ ar: '1/1', label: '1:1' },
-				{ ar: '4/3', label: '4:3' },
-				{ ar: '21/9', label: '2.39:1' },
-				{ ar: '3/4', label: '9:16' }
-			];
-			var frame = document.getElementById('hx-frame'),
-				word = document.getElementById('hx-word'),
-				chip = document.getElementById('hx-ratio'),
-				hud = document.getElementById('hx-hud-ratio'),
-				i = 0;
-			function applyWord(w, r) {
-				word.style.animation = 'none';
-				void word.offsetWidth; /* restart the entrance animation */
-				word.textContent = w;
-				word.style.animation = '';
-				frame.style.setProperty('--hx-ar', r.ar);
-				chip.textContent = r.label;
-				if (hud) hud.textContent = 'Frame ' + r.label;
-			}
-			if (!reduced && frame) {
-				setInterval(function () {
-					i++;
-					applyWord(words[i % words.length], ratios[i % ratios.length]);
-				}, 2600);
-			}
-
 			/* pointer-following accent glow on the shell */
+			var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 			var shell = document.getElementById('hero-shell');
 			if (shell && !reduced) {
 				shell.addEventListener('pointermove', function (e) {

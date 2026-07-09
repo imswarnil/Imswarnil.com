@@ -1,0 +1,27 @@
+{{!-- Snippets — copy-paste-able code, VS Code-styled cards on a dark
+     editor band. Hidden entirely when no #snippet posts exist. --}}
+{{#get "posts" filter="tag:hash-snippet" limit="6" order="published_at desc" as |snips|}}
+	{{#if snips}}
+	<section class="reveal relative overflow-hidden py-16" id="home-snippets">
+		<div class="container-site">
+			<div class="snip-band relative overflow-hidden rounded-3xl p-6 sm:p-9">
+				<div class="pointer-events-none absolute inset-0 opacity-60" aria-hidden="true" style="background-image: linear-gradient(rgb(255 255 255 / 0.04) 1px, transparent 1px), linear-gradient(90deg, rgb(255 255 255 / 0.04) 1px, transparent 1px); background-size: 32px 32px;"></div>
+				<div class="relative flex flex-wrap items-end justify-between gap-4">
+					<div>
+						<p class="kicker !text-[#9da5b4]">{{> "icons/terminal" class="h-3.5 w-3.5"}} The snippet drawer</p>
+						<h2 class="mt-2 text-3xl font-bold tracking-tight text-white">Code I keep reaching for</h2>
+						<p class="mt-2 max-w-lg text-sm leading-relaxed text-[#8b949e]">Small scripts, one-liners and configs that earn their keep — tested in production, free to steal.</p>
+					</div>
+					<a href="{{@site.url}}/snippets/" class="btn-invert btn-sm shrink-0">All snippets {{> "icons/arrow-right" class="h-3 w-3"}}</a>
+				</div>
+
+				<div class="relative mt-7 grid gap-4 sm:grid-cols-2 xl:grid-cols-3" data-reveal-stagger="80">
+					{{#foreach snips}}
+						{{> "cards/snippet"}}
+					{{/foreach}}
+				</div>
+			</div>
+		</div>
+	</section>
+	{{/if}}
+{{/get}}

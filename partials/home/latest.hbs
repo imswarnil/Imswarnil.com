@@ -12,12 +12,13 @@
 	{{#get "posts" filter="tag:hash-video" limit="10" order="published_at desc" include="tags" as |latest|}}
 		{{#if latest}}
 		{{!-- vertical wheel scrolls the page (data-hscroll in main.js); horizontal
-		     gesture scrolls the row. Big rank numbers peek from behind each frame. --}}
-		<div class="no-scrollbar mt-10 overflow-x-auto pb-6 [touch-action:pan-x_pan-y]" data-rank-track data-hscroll>
+		     gesture scrolls the row. Big rank numbers peek from behind each frame.
+		     Snap + arrow paging + progress make the rail actually navigable. --}}
+		<div class="no-scrollbar mt-10 snap-x snap-proximity overflow-x-auto scroll-smooth pb-6 [touch-action:pan-x_pan-y]" id="latest-rail" data-rank-track data-hscroll>
 			<div class="container-site">
 				<div class="flex w-max items-end gap-8 pr-8 sm:gap-12" data-reveal-stagger="70">
 					{{#foreach latest}}
-					<article class="rank-row-card group">
+					<article class="rank-row-card group snap-start">
 						<span class="rank-number" aria-hidden="true">{{@number}}</span>
 						<a href="{{url}}" class="rank-row-frame block w-[15rem] shrink-0 sm:w-[18rem]" aria-label="Watch: {{title}}">
 							<div class="relative aspect-video overflow-hidden rounded-xl border border-line bg-mist shadow-card transition-all duration-300 group-hover:-translate-y-1.5 group-hover:shadow-lift">
@@ -40,6 +41,40 @@
 				</div>
 			</div>
 		</div>
+
+		{{!-- rail controls: paging arrows + scroll progress --}}
+		<div class="container-site mt-2 flex items-center gap-3">
+			<button type="button" class="icon-btn border border-line" data-rail-prev="#latest-rail" aria-label="Scroll back"><span class="inline-block rotate-180">{{> "icons/arrow-right"}}</span></button>
+			<button type="button" class="icon-btn border border-line" data-rail-next="#latest-rail" aria-label="Scroll forward">{{> "icons/arrow-right"}}</button>
+			<div class="relative h-0.5 flex-1 overflow-hidden rounded-full bg-line" aria-hidden="true">
+				<span class="absolute inset-y-0 left-0 w-0 rounded-full bg-ink transition-[width] duration-200" data-rail-progress="#latest-rail"></span>
+			</div>
+		</div>
+
+		<script>
+			(function () {
+				var rail = document.getElementById('latest-rail');
+				if (!rail) return;
+				function page(dir) {
+					rail.scrollBy({ left: dir * Math.round(rail.clientWidth * 0.8), behavior: 'smooth' });
+				}
+				document.querySelectorAll('[data-rail-prev="#latest-rail"]').forEach(function (b) { b.addEventListener('click', function () { page(-1); }); });
+				document.querySelectorAll('[data-rail-next="#latest-rail"]').forEach(function (b) { b.addEventListener('click', function () { page(1); }); });
+				var bar = document.querySelector('[data-rail-progress="#latest-rail"]');
+				if (bar) {
+					var ticking = false;
+					rail.addEventListener('scroll', function () {
+						if (ticking) return;
+						ticking = true;
+						requestAnimationFrame(function () {
+							var max = rail.scrollWidth - rail.clientWidth;
+							bar.style.width = (max > 0 ? (rail.scrollLeft / max * 100) : 0) + '%';
+							ticking = false;
+						});
+					}, { passive: true });
+				}
+			})();
+		</script>
 		{{/if}}
 	{{/get}}
 </section>

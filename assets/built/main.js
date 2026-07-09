@@ -111,6 +111,19 @@
 			child.style.setProperty('--reveal-delay', (i * step) / 1000 + 's');
 		});
 	});
+	/* Once the entrance animation is done, strip the reveal hooks entirely.
+	   The `[data-reveal-stagger].is-visible > *` end-state otherwise keeps
+	   overriding each card's own transform/transition forever (it sits outside
+	   the components layer), which is what broke per-card hover lifts. */
+	function finishReveal(el) {
+		var step = parseInt(el.getAttribute('data-reveal-stagger'), 10) || 80;
+		var wait = 750 + (el.hasAttribute('data-reveal-stagger') ? el.children.length * step : 0);
+		setTimeout(function () {
+			el.removeAttribute('data-reveal-stagger');
+			el.removeAttribute('data-reveal');
+			el.classList.remove('reveal', 'is-visible');
+		}, wait);
+	}
 	if ('IntersectionObserver' in window) {
 		var io = new IntersectionObserver(
 			function (entries) {
@@ -118,6 +131,7 @@
 					if (en.isIntersecting) {
 						en.target.classList.add('is-visible');
 						io.unobserve(en.target);
+						finishReveal(en.target);
 					}
 				});
 			},
@@ -129,6 +143,7 @@
 	} else {
 		revealTargets.forEach(function (el) {
 			el.classList.add('is-visible');
+			finishReveal(el);
 		});
 	}
 
@@ -600,6 +615,22 @@
 			for (var i = 0; i < teardowns.length; i++) teardowns[i]();
 		}, { passive: true });
 
+		/* While the page scrolls, hover is poison: every card the cursor passes
+		   fires shadow/transform transitions (paint) and preview timers, and the
+		   carousel's non-passive wheel guard keeps scrolling on the main thread.
+		   body.is-scrolling turns pointer-events off inside <main> so mid-scroll
+		   wheel/hover bypass all of it — scrolling stays compositor-threaded.
+		   Cleared 150ms after the last scroll event. */
+		var scrollIdleTimer = null;
+		window.addEventListener('scroll', function () {
+			if (scrollIdleTimer === null) document.body.classList.add('is-scrolling');
+			else clearTimeout(scrollIdleTimer);
+			scrollIdleTimer = setTimeout(function () {
+				scrollIdleTimer = null;
+				document.body.classList.remove('is-scrolling');
+			}, 150);
+		}, { passive: true });
+
 		document.querySelectorAll('[data-video-card-media], [data-yt-preview]').forEach(function (host) {
 			var id = firstId(host);
 			if (!id) return;
@@ -653,12 +684,30 @@
 	   instead of being hijacked into horizontal scroll (Chrome/Safari redirect
 	   vertical wheel onto the only axis that overflows). Horizontal intent still
 	   scrolls the track natively. Mark tracks with [data-hscroll]. ----------- */
+	/* Videos rail arrows — smooth here is explicit and per-click, so it can't
+	   trap the wheel like the old scroll-smooth class did */
+	(function () {
+		var track = document.querySelector('[data-videos-track]');
+		if (!track) return;
+		function page(dir) {
+			track.scrollBy({ left: dir * track.clientWidth * 0.8, behavior: 'smooth' });
+		}
+		document.querySelectorAll('[data-videos-prev]').forEach(function (b) { b.addEventListener('click', function () { page(-1); }); });
+		document.querySelectorAll('[data-videos-next]').forEach(function (b) { b.addEventListener('click', function () { page(1); }); });
+	})();
+
 	document.querySelectorAll('[data-hscroll]').forEach(function (track) {
 		track.addEventListener('wheel', function (e) {
+			if (e.ctrlKey) return; /* pinch-zoom */
 			if (Math.abs(e.deltaY) <= Math.abs(e.deltaX)) return; /* horizontal gesture → native */
-			/* vertical gesture: drive the window, cancel the track's redirect */
-			window.scrollBy({ top: e.deltaY });
+			/* vertical gesture: drive the window, cancel the track's redirect.
+			   Two-arg scrollBy = always instant (never smooth-animates per tick,
+			   which is what made the page feel stuck on these sections). */
 			e.preventDefault();
+			var dy = e.deltaY;
+			if (e.deltaMode === 1) dy *= 16; /* Firefox line mode */
+			else if (e.deltaMode === 2) dy *= window.innerHeight;
+			window.scrollBy(0, dy);
 		}, { passive: false });
 	});
 

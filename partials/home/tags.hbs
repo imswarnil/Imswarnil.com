@@ -1,0 +1,55 @@
+{{!-- Tag cloud — every public topic. The chips start compressed in the
+     centre; when the section scrolls into view they "blast" outward with a
+     spring, then settle (stick) into their natural wrapped positions and
+     keep a gentle float. Reduced-motion visitors just get the cloud. --}}
+{{#get "tags" limit="40" include="count.posts" order="count.posts desc" as |topics|}}
+	{{#if topics}}
+	<section class="relative overflow-hidden py-16" id="home-tags">
+		<div class="bg-dots pointer-events-none absolute inset-0 opacity-40 fade-mask-b" aria-hidden="true"></div>
+		<div class="container-site relative text-center">
+			{{> "components/section-head"
+				kicker="The index"
+				title="Everything, by topic"
+				sub="Forty-ish rabbit holes. Pick one — they all connect eventually."
+				actionUrl=(concat @site.url "/tags/") actionLabel="All topics"}}
+
+			<div class="tagcloud mx-auto mt-10 max-w-4xl" id="home-tagcloud">
+				{{#foreach topics}}
+				<a href="{{url}}" class="tagchip" style="--i:{{@index}}">
+					<span class="tagchip-hash" aria-hidden="true">#</span>{{name}}
+					<span class="tagchip-count">{{count.posts}}</span>
+				</a>
+				{{/foreach}}
+			</div>
+		</div>
+
+		<script>
+			(function () {
+				var cloud = document.getElementById('home-tagcloud');
+				if (!cloud) return;
+				var chips = [].slice.call(cloud.children);
+				var reduced = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+				if (reduced || !('IntersectionObserver' in window)) { cloud.classList.add('is-set'); return; }
+				/* deterministic pseudo-random scatter per chip (no Math.random →
+				   same layout every paint, no reflow surprises) */
+				chips.forEach(function (c, i) {
+					var a = (i * 137.5) % 360; /* golden-angle spiral */
+					var r = 14 + (i * 7) % 26;
+					c.style.setProperty('--bx', (Math.cos(a * Math.PI / 180) * r).toFixed(1) + 'vw');
+					c.style.setProperty('--by', (Math.sin(a * Math.PI / 180) * r * 0.6).toFixed(1) + 'vh');
+				});
+				var io = new IntersectionObserver(function (entries) {
+					entries.forEach(function (en) {
+						if (en.isIntersecting) {
+							cloud.classList.add('is-blast');
+							setTimeout(function () { cloud.classList.add('is-set'); }, 950);
+							io.disconnect();
+						}
+					});
+				}, { threshold: 0.3 });
+				io.observe(cloud);
+			})();
+		</script>
+	</section>
+	{{/if}}
+{{/get}}

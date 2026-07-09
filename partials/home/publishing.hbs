@@ -1,72 +1,70 @@
-{{!-- "How I publish" — a broadcast board of every channel I ship on, some of
-     them LIVE, with a newsletter pitch + subscribe. Animation is CSS-only
-     (pulse + sweep), reduced-motion safe. --}}
-<section class="reveal relative overflow-hidden py-16" id="home-publishing">
-	<div class="container-site">
-		<div class="pub-sweep rounded-3xl border border-line bg-mist/30 p-6 sm:p-9">
-			<div class="flex flex-wrap items-end justify-between gap-4">
-				<div>
-					<p class="kicker !text-accent flex items-center gap-2"><span class="pub-live"><span class="pub-dot"></span></span> On air</p>
-					<h2 class="section-title mt-2">Everywhere I press publish</h2>
-					<p class="mt-2 max-w-lg text-sm leading-relaxed text-silver">One studio, many channels — scheduled drops, live streams and a newsletter that ties it together. Pick your favourite; I'll meet you there.</p>
-				</div>
-				<div class="hidden shrink-0 items-center gap-2.5 sm:flex">
-					<button type="button" class="btn-primary btn-sm" data-modal-open="#subscribe-backdrop">{{> "icons/mail" class="h-3.5 w-3.5"}} Subscribe</button>
-					{{#if @custom.youtube_url}}<a href="{{@custom.youtube_url}}" target="_blank" rel="noopener" class="btn-ghost btn-sm">{{> "icons/youtube" class="h-3.5 w-3.5"}} YouTube</a>{{/if}}
-				</div>
+{{!-- On air — the broadcast schedule as a dark, full-bleed control room.
+     Drifting gradient blobs + scanlines behind; each channel is a huge
+     typographic row that reveals as you scroll (clip-wipe via .reveal),
+     detail slides in on the right. No content cards. --}}
+<section class="reveal onair relative overflow-hidden py-20 sm:py-28" id="home-publishing">
+	{{!-- the crazy background: drifting blobs, grid, scanlines --}}
+	<div class="pointer-events-none absolute inset-0" aria-hidden="true">
+		<span class="onair-blob" style="--b:0"></span>
+		<span class="onair-blob" style="--b:1"></span>
+		<span class="onair-blob" style="--b:2"></span>
+		<span class="onair-grid"></span>
+		<span class="onair-scan"></span>
+	</div>
+
+	<div class="container-site relative">
+		<div class="flex flex-wrap items-end justify-between gap-4">
+			<div>
+				<p class="kicker !text-white/60 flex items-center gap-2"><span class="pub-live"><span class="pub-dot"></span></span> <span class="text-red-400">On air</span></p>
+				<h2 class="mt-2 text-3xl font-bold tracking-tight text-white sm:text-4xl">Everywhere I press publish</h2>
+				<p class="mt-2 max-w-lg text-sm leading-relaxed text-white/60">One studio, many channels. Scroll the schedule — pick your frequency.</p>
 			</div>
-
-			<div class="pub-board mt-7">
-				<article class="pub-cell">
-					<span class="pub-tag">{{> "icons/calendar" class="h-3 w-3"}} Sat 10:00</span>
-					<span class="pub-ico">{{> "icons/film" class="h-4 w-4"}}</span>
-					<b>New video</b>
-					<span>A fresh full-length drop every Saturday.</span>
-				</article>
-
-				<article class="pub-cell">
-					<span class="pub-tag">{{> "icons/calendar" class="h-3 w-3"}} Weekly</span>
-					<span class="pub-ico">{{> "icons/mail" class="h-4 w-4"}}</span>
-					<b>The newsletter</b>
-					<span>Build notes &amp; links in your inbox.</span>
-				</article>
-
-				<article class="pub-cell pub-live">
-					<span class="pub-tag"><span class="pub-dot"></span> Live</span>
-					<span class="pub-ico">{{> "icons/live" class="h-4 w-4"}}</span>
-					<b>Live streams</b>
-					<span>Build-alongs &amp; monthly Q&amp;A on the channel.</span>
-				</article>
-
-				<article class="pub-cell pub-live">
-					<span class="pub-tag"><span class="pub-dot"></span> Live</span>
-					<span class="pub-ico">{{> "icons/instagram" class="h-4 w-4"}}</span>
-					<b>Instagram Live</b>
-					<span>Behind-the-scenes and quick takes.</span>
-				</article>
-
-				<article class="pub-cell">
-					<span class="pub-tag">{{> "icons/play" class="h-3 w-3"}} Daily-ish</span>
-					<span class="pub-ico">{{> "icons/play" class="h-4 w-4"}}</span>
-					<b>Shorts &amp; reels</b>
-					<span>Vertical, snackable, straight to the point.</span>
-				</article>
-
-				<article class="pub-cell">
-					<span class="pub-tag">{{> "icons/mic" class="h-3 w-3"}} Sometimes</span>
-					<span class="pub-ico">{{> "icons/mic" class="h-4 w-4"}}</span>
-					<b>Guest &amp; collabs</b>
-					<span>Cross-posts and features with other makers.</span>
-				</article>
-			</div>
-
-			{{!-- newsletter pitch strip (mobile shows the buttons here) --}}
-			<div class="mt-6 flex flex-wrap items-center justify-between gap-4 border-t border-dashed border-line pt-5">
-				<p class="flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.18em] text-silver">{{> "icons/mail" class="h-3.5 w-3.5"}} One email a week. No spam, unsubscribe anytime.</p>
-				<div class="flex items-center gap-2.5 sm:hidden">
-					<button type="button" class="btn-primary btn-sm" data-modal-open="#subscribe-backdrop">{{> "icons/mail" class="h-3.5 w-3.5"}} Subscribe</button>
-				</div>
+			<div class="flex items-center gap-2.5">
+				<button type="button" class="btn-invert btn-sm" data-modal-open="#subscribe-backdrop">{{> "icons/mail" class="h-3.5 w-3.5"}} Subscribe</button>
+				{{#if @custom.youtube_url}}<a href="{{@custom.youtube_url}}" target="_blank" rel="noopener" class="btn-sm inline-flex items-center gap-1.5 rounded-full border border-white/25 px-4 py-2 text-xs font-semibold text-white transition hover:bg-white/10">{{> "icons/youtube" class="h-3.5 w-3.5"}} YouTube</a>{{/if}}
 			</div>
 		</div>
+
+		{{!-- the schedule board — big type rows, staggered reveal --}}
+		<div class="onair-rows mt-12" data-reveal-stagger="120">
+			<a href="{{@custom.youtube_url}}" target="_blank" rel="noopener" class="onair-row reveal group">
+				<span class="onair-when">{{> "icons/calendar" class="h-3 w-3"}} Sat · 10:00</span>
+				<strong class="onair-name">New video</strong>
+				<span class="onair-desc">A fresh full-length drop every Saturday.</span>
+				<span class="onair-go">{{> "icons/arrow-right" class="h-4 w-4"}}</span>
+			</a>
+			<button type="button" data-modal-open="#subscribe-backdrop" class="onair-row reveal group text-left">
+				<span class="onair-when">{{> "icons/mail" class="h-3 w-3"}} Weekly</span>
+				<strong class="onair-name">The newsletter</strong>
+				<span class="onair-desc">Build notes &amp; links, straight to your inbox.</span>
+				<span class="onair-go">{{> "icons/arrow-right" class="h-4 w-4"}}</span>
+			</button>
+			<a href="{{@custom.youtube_url}}" target="_blank" rel="noopener" class="onair-row onair-row-live reveal group">
+				<span class="onair-when"><span class="pub-dot"></span> Live</span>
+				<strong class="onair-name">Live streams</strong>
+				<span class="onair-desc">Build-alongs &amp; monthly Q&amp;A on the channel.</span>
+				<span class="onair-go">{{> "icons/arrow-right" class="h-4 w-4"}}</span>
+			</a>
+			<a href="https://instagram.com/imswarnil" target="_blank" rel="noopener" class="onair-row onair-row-live reveal group">
+				<span class="onair-when"><span class="pub-dot"></span> Live</span>
+				<strong class="onair-name">Instagram Live</strong>
+				<span class="onair-desc">Behind-the-scenes and quick takes.</span>
+				<span class="onair-go">{{> "icons/arrow-right" class="h-4 w-4"}}</span>
+			</a>
+			<a href="{{@site.url}}/videos/" class="onair-row reveal group">
+				<span class="onair-when">{{> "icons/play" class="h-3 w-3"}} Daily-ish</span>
+				<strong class="onair-name">Shorts &amp; reels</strong>
+				<span class="onair-desc">Vertical, snackable, straight to the point.</span>
+				<span class="onair-go">{{> "icons/arrow-right" class="h-4 w-4"}}</span>
+			</a>
+			<a href="{{@site.url}}/collab/" class="onair-row reveal group">
+				<span class="onair-when">{{> "icons/mic" class="h-3 w-3"}} Sometimes</span>
+				<strong class="onair-name">Guests &amp; collabs</strong>
+				<span class="onair-desc">Cross-posts and features with other makers.</span>
+				<span class="onair-go">{{> "icons/arrow-right" class="h-4 w-4"}}</span>
+			</a>
+		</div>
+
+		<p class="mt-8 flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.18em] text-white/50">{{> "icons/mail" class="h-3.5 w-3.5"}} One email a week. No spam, unsubscribe anytime.</p>
 	</div>
 </section>
