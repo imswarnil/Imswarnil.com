@@ -204,9 +204,20 @@
 	}
 
 	body {
-		@apply bg-paper font-sans text-ink;
+		@apply bg-paper text-ink;
+		/* Honour Ghost's Brand → font settings: Admin injects
+		   --gh-font-body via {{ghost_head}} when a publisher picks a body
+		   font; otherwise fall back to the theme's Geist stack. */
+		font-family: var(--gh-font-body, 'Geist', ui-sans-serif, system-ui, -apple-system, sans-serif);
 		text-rendering: optimizeLegibility;
 		font-feature-settings: 'ss01', 'cv11';
+	}
+
+	/* Headings honour Ghost's Brand → heading font (--gh-font-heading),
+	   falling back to Geist. Per-mode overrides (e.g. Claude's serif) keep
+	   their higher specificity and still win inside those modes. */
+	h1, h2, h3, h4, h5, h6, .section-title, .hx-h1 {
+		font-family: var(--gh-font-heading, 'Geist', ui-sans-serif, system-ui, -apple-system, sans-serif);
 	}
 
 	::selection {
