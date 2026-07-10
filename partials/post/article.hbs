@@ -77,20 +77,18 @@
 			<aside class="hidden lg:col-span-4 lg:block">
 				<div class="sticky top-28 space-y-8">
 					{{> "post/toc"}}
-					<script
-  src="http://www.imswarnil.com/widget.js"
-  data-author="Swarnil"
-  data-message="Written by a human. AI is used only to refine ideas — never to generate."
-  data-style="stamp"
-  data-theme="light"
-  data-region="India"
-  data-category="Tech"
-  async
-></script>
+			
 
 					{{!-- Author card --}}
 					{{#primary_author}}
 					<div class="card-surface p-6 !transform-none">
+				<script
+  src="https://nac.imswarnil.com/widget.js"
+  data-message="Written by a human. AI is used only to refine ideas — never to generate."
+  data-style="stamp"
+  data-theme="light"
+  async
+></script>
 						<p class="kicker">{{> "icons/user"}} Written by</p>
 						<div class="mt-4 flex items-center gap-3">
 							{{#if profile_image}}<img src="{{img_url profile_image size="100"}}" alt="{{name}}" class="h-12 w-12 rounded-2xl border border-line object-cover" />{{/if}}
