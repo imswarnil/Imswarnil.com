@@ -51,6 +51,28 @@
 
 	{{> "components/json-ld"}}
 	{{ghost_head}}
+
+	{{!-- Brand override: when an accent color is set in Ghost Admin → Design,
+	     it wins over every theme mode's own accent. Inline styles on <html>
+	     out-rank all stylesheet rules, so --accent (utilities), --on-accent
+	     (contrast-picked) and --ghost-accent-color (portal/comments/sodo)
+	     follow the admin setting in all 8 modes. Fonts already follow admin:
+	     body/headings use var(--gh-font-body/--gh-font-heading) first. --}}
+	{{#if @site.accent_color}}
+	<script>
+		(function () {
+			var hex = '{{@site.accent_color}}'.replace('#', '');
+			if (hex.length === 3) hex = hex.replace(/(.)/g, '$1$1');
+			var r = parseInt(hex.slice(0, 2), 16), g = parseInt(hex.slice(2, 4), 16), b = parseInt(hex.slice(4, 6), 16);
+			if (isNaN(r) || isNaN(g) || isNaN(b)) return;
+			var st = document.documentElement.style;
+			st.setProperty('--accent', r + ' ' + g + ' ' + b);
+			/* readable text on top of the accent: pick ink or paper by luminance */
+			st.setProperty('--on-accent', (0.2126 * r + 0.7152 * g + 0.0722 * b) > 150 ? '9 9 11' : '250 250 250');
+			st.setProperty('--ghost-accent-color', '#' + hex);
+		})();
+	</script>
+	{{/if}}
 </head>
 
 <body class="{{body_class}} min-h-screen bg-paper text-ink">

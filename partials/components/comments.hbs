@@ -17,8 +17,12 @@
 		var s = tags[tags.length - 1];
 		if (!s) return;
 		var root = document.documentElement;
-		var accent = getComputedStyle(root).getPropertyValue('--ghost-accent-color').trim();
+		var cs = getComputedStyle(root);
+		var accent = cs.getPropertyValue('--ghost-accent-color').trim();
 		if (accent) s.setAttribute('data-accent-color', accent);
-		s.setAttribute('data-color-scheme', root.classList.contains('dark') ? 'dark' : 'light');
+		/* dark whenever the active mode says so (covers .dark AND dark modes
+		   like netflix) — color-scheme is set per mode in tailwind.css */
+		var dark = root.classList.contains('dark') || (cs.colorScheme || '').indexOf('dark') > -1;
+		s.setAttribute('data-color-scheme', dark ? 'dark' : 'light');
 	})();
 </script>
