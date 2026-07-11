@@ -1,0 +1,779 @@
+{
+  "db": [
+    {
+      "meta": {
+        "exported_on": 1783252800000,
+        "version": "5.0.0"
+      },
+      "data": {
+        "posts": [
+          {
+            "id": "60000000000000000000ffff",
+            "title": "Creator — Building a Ghost Theme (Work Log)",
+            "slug": "creator",
+            "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"\\n<p>This is the build log for <strong>Creator</strong> \\u2014 a free, open-source multipurpose Ghost theme for builders, makers, and software engineers. I'm building it in the open and journaling every step so anyone who wants to build their own Ghost theme can follow the same path.</p>\\n<h2 id=\\\"what-creator-is\\\">What Creator is</h2>\\n<p>One theme that's a home for the whole maker: blog, portfolio, project showcase, courses, and newsletter \\u2014 tag-driven, fast (Lighthouse 100), accessible, and easy to fork.</p>\\n<h2 id=\\\"why-im-building-it\\\">Why I'm building it</h2>\\n<ul>\\n<li>To learn Ghost deeply \\u2014 Handlebars, contexts, <code>routes.yaml</code>, dynamic collections, membership.</li>\\n<li>To ship something the community can actually use or learn from.</li>\\n<li>imswarnil.com already runs on Ghost; I want to understand the platform at that level.</li>\\n</ul>\\n<h2 id=\\\"how-to-read-this\\\">How to read this log</h2>\\n<p>Each part below is one work session: the task, what I did, what broke, how I fixed it, and notes for anyone repeating it. Read them in order \\u2014 they build on each other.</p>\\n<h3 id=\\\"the-stack\\\">The stack</h3>\\n<ul>\\n<li>Ghost (local install) + the official Starter theme as a base</li>\\n<li>Handlebars templating</li>\\n<li>Tailwind CSS + daisyUI</li>\\n<li>Claude Code in the workflow</li>\\n</ul>\\n<blockquote>Build in the open. Document the boring parts too \\u2014 that's where people actually get stuck.</blockquote>\\n\"}]], \"markups\": [], \"sections\": [[10, 0], [1, \"p\", []]]}",
+            "feature_image": "https://picsum.photos/seed/creator/1200/800",
+            "featured": true,
+            "type": "post",
+            "status": "published",
+            "custom_excerpt": "Building Creator, a free open-source multipurpose Ghost theme — documented step by step, in the open.",
+            "created_at": "2026-06-30T09:00:00.000Z",
+            "updated_at": "2026-06-30T09:00:00.000Z",
+            "published_at": "2026-06-30T09:00:00.000Z"
+          },
+          {
+            "id": "60000000000000000000a001",
+            "title": "Part 1 — Initial Ghost setup — installing Ghost locally",
+            "slug": "creator-01-install-ghost",
+            "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"\\n<p>Day zero. Goal: get Ghost running locally so I have a sandbox to build the theme in.</p>\\n<h2 id=\\\"what-i-did\\\">What I did</h2>\\n<p>Installed Ghost-CLI globally and spun up a local install in a fresh folder.</p>\\n<pre><code>npm install ghost-cli@latest -g\\nmkdir ghost-local &amp;&amp; cd ghost-local\\nghost install local</code></pre>\\n<h3 id=\\\"requirements\\\">Requirements to know first</h3>\\n<ul>\\n<li>Node.js LTS (check Ghost's supported versions before installing).</li>\\n<li>Local install uses SQLite by default \\u2014 no MySQL needed to start.</li>\\n<li>It boots at <code>http://localhost:2368</code>; admin at <code>/ghost/</code>.</li>\\n</ul>\\n<h2 id=\\\"what-broke\\\">What broke</h2>\\n<p>Node version mismatch on first try. Fixed by switching to the LTS via nvm.</p>\\n<h3 id=\\\"handy-commands\\\">Handy commands</h3>\\n<pre><code>ghost start\\nghost stop\\nghost restart   # needed after adding new .hbs template files</code></pre>\\n<blockquote>Links: ghost.org/docs/install/local \\u00b7 ghost.org/docs/ghost-cli</blockquote>\\n\"}]], \"markups\": [], \"sections\": [[10, 0], [1, \"p\", []]]}",
+            "feature_image": "https://picsum.photos/seed/creator-01-install-ghost/1200/800",
+            "featured": false,
+            "type": "post",
+            "status": "published",
+            "custom_excerpt": "Initial Ghost setup — installing Ghost locally",
+            "created_at": "2026-07-01T09:00:00.000Z",
+            "updated_at": "2026-07-01T09:00:00.000Z",
+            "published_at": "2026-07-01T09:00:00.000Z"
+          },
+          {
+            "id": "60000000000000000000a002",
+            "title": "Part 2 — Navigating the Ghost admin panel",
+            "slug": "creator-02-admin-panel",
+            "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"\\n<p>Before touching code, I toured the admin so I know where everything the theme reads actually comes from.</p>\\n<h2 id=\\\"the-tour\\\">The tour</h2>\\n<ul>\\n<li><strong>Posts / Pages</strong> \\u2014 content the theme renders.</li>\\n<li><strong>Tags</strong> \\u2014 the backbone of Creator's collections (internal <code>#hash</code> tags vs public tags).</li>\\n<li><strong>Settings \\u2192 Design</strong> \\u2014 brand, navigation, theme upload.</li>\\n<li><strong>Settings \\u2192 Labs</strong> \\u2014 routes.yaml + redirects upload, import/export.</li>\\n</ul>\\n<h2 id=\\\"activating-a-theme\\\">Activating a theme</h2>\\n<p>Settings \\u2192 Design \\u2192 Change theme \\u2192 Installed. Themes live on disk in <code>content/themes/</code>.</p>\\n<h3 id=\\\"note\\\">Note</h3>\\n<p>Ghost caches the templates map \\u2014 new <code>.hbs</code> files need a <code>ghost restart</code> before they're picked up.</p>\\n\"}]], \"markups\": [], \"sections\": [[10, 0], [1, \"p\", []]]}",
+            "feature_image": "https://picsum.photos/seed/creator-02-admin-panel/1200/800",
+            "featured": false,
+            "type": "post",
+            "status": "published",
+            "custom_excerpt": "Navigating the Ghost admin panel",
+            "created_at": "2026-07-02T09:00:00.000Z",
+            "updated_at": "2026-07-02T09:00:00.000Z",
+            "published_at": "2026-07-02T09:00:00.000Z"
+          },
+          {
+            "id": "60000000000000000000a003",
+            "title": "Part 3 — Cloning the Starter theme as the base",
+            "slug": "creator-03-clone-starter",
+            "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"\\n<p>Rather than start from a blank folder, I forked Ghost's official Starter theme \\u2014 it has the correct structure and build tooling baked in.</p>\\n<h2 id=\\\"what-i-did\\\">What I did</h2>\\n<pre><code>cd content/themes\\ngit clone https://github.com/TryGhost/Starter.git creator\\ncd creator\\nnpm install</code></pre>\\n<h3 id=\\\"rename\\\">Renaming to Creator</h3>\\n<p>Edited <code>package.json</code> \\u2014 <code>name</code>, <code>version</code>, <code>description</code>, author. Ghost reads this for the theme name.</p>\\n<h2 id=\\\"activate\\\">Activate &amp; verify</h2>\\n<p>Restarted Ghost, uploaded/activated <code>creator</code>, confirmed the homepage renders.</p>\\n<blockquote>Starter is intentionally minimal \\u2014 a real starting point, not a finished theme. Perfect base.</blockquote>\\n\"}]], \"markups\": [], \"sections\": [[10, 0], [1, \"p\", []]]}",
+            "feature_image": "https://picsum.photos/seed/creator-03-clone-starter/1200/800",
+            "featured": false,
+            "type": "post",
+            "status": "published",
+            "custom_excerpt": "Cloning the Starter theme as the base",
+            "created_at": "2026-07-03T09:00:00.000Z",
+            "updated_at": "2026-07-03T09:00:00.000Z",
+            "published_at": "2026-07-03T09:00:00.000Z"
+          },
+          {
+            "id": "60000000000000000000a004",
+            "title": "Part 4 — Understanding Ghost theme structure",
+            "slug": "creator-04-theme-structure",
+            "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"\\n<p>Mapped every file and folder so I know what I'm editing and why.</p>\\n<h2 id=\\\"core-files\\\">Core files</h2>\\n<ul>\\n<li><code>package.json</code> \\u2014 theme metadata + config (navigation, custom settings).</li>\\n<li><code>default.hbs</code> \\u2014 the outer HTML shell every page inherits.</li>\\n<li><code>index.hbs</code> \\u2014 the default post-list template.</li>\\n<li><code>post.hbs</code> / <code>page.hbs</code> \\u2014 single post / page.</li>\\n<li><code>tag.hbs</code> / <code>author.hbs</code> \\u2014 archive pages.</li>\\n</ul>\\n<h2 id=\\\"folders\\\">Folders</h2>\\n<ul>\\n<li><code>partials/</code> \\u2014 reusable chunks pulled in with <code>{{&gt; name}}</code>.</li>\\n<li><code>assets/</code> \\u2014 CSS, JS, images; served via <code>{{asset}}</code>.</li>\\n<li><code>routes.yaml</code> \\u2014 custom routing &amp; collections.</li>\\n</ul>\\n<h3 id=\\\"the-mental-model\\\">The mental model</h3>\\n<p>Ghost picks a template by context (home, post, tag\\u2026), renders it inside <code>default.hbs</code>. Learn the template hierarchy and everything else follows.</p>\\n\"}]], \"markups\": [], \"sections\": [[10, 0], [1, \"p\", []]]}",
+            "feature_image": "https://picsum.photos/seed/creator-04-theme-structure/1200/800",
+            "featured": false,
+            "type": "post",
+            "status": "published",
+            "custom_excerpt": "Understanding Ghost theme structure",
+            "created_at": "2026-07-04T09:00:00.000Z",
+            "updated_at": "2026-07-04T09:00:00.000Z",
+            "published_at": "2026-07-04T09:00:00.000Z"
+          },
+          {
+            "id": "60000000000000000000a005",
+            "title": "Part 5 — Setting up Git and open-sourcing the theme",
+            "slug": "creator-05-git-open-source",
+            "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"\\n<p>Creator is open source from commit one.</p>\\n<h2 id=\\\"what-i-did\\\">What I did</h2>\\n<pre><code>git init\\ngit add .\\ngit commit -m \\\"Initial commit: Creator based on Ghost Starter\\\"\\ngh repo create creator --public --source=. --push</code></pre>\\n<h3 id=\\\"housekeeping\\\">Housekeeping</h3>\\n<ul>\\n<li>Added <code>LICENSE</code> (MIT).</li>\\n<li><code>.gitignore</code> for <code>node_modules</code>, <code>dist</code>.</li>\\n<li>README stub explaining what Creator is and how to build it.</li>\\n</ul>\\n<h2 id=\\\"why\\\">Why public from day one</h2>\\n<blockquote>Building in the open keeps me honest and lets others learn from the messy middle, not just the polished end.</blockquote>\\n\"}]], \"markups\": [], \"sections\": [[10, 0], [1, \"p\", []]]}",
+            "feature_image": "https://picsum.photos/seed/creator-05-git-open-source/1200/800",
+            "featured": false,
+            "type": "post",
+            "status": "published",
+            "custom_excerpt": "Setting up Git and open-sourcing the theme",
+            "created_at": "2026-07-05T09:00:00.000Z",
+            "updated_at": "2026-07-05T09:00:00.000Z",
+            "published_at": "2026-07-05T09:00:00.000Z"
+          },
+          {
+            "id": "60000000000000000000a006",
+            "title": "Part 6 — Integrating Claude into the theme workflow",
+            "slug": "creator-06-claude-workflow",
+            "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"\\n<p>Set up Claude Code as a pair-builder for the theme.</p>\\n<h2 id=\\\"setup\\\">Setup</h2>\\n<ul>\\n<li>Added a <code>CLAUDE.md</code> with working notes: build command, gscan validation, release flow, local Ghost URL, the templates-cache gotcha.</li>\\n<li>Let Claude read the theme structure so suggestions match the real files.</li>\\n</ul>\\n<h2 id=\\\"how-i-use-it\\\">How I use it</h2>\\n<ul>\\n<li>Scaffolding partials and Handlebars boilerplate.</li>\\n<li>Explaining Ghost helpers and context edge-cases.</li>\\n<li>Reviewing diffs before commits.</li>\\n</ul>\\n<h3 id=\\\"rule\\\">One rule I set</h3>\\n<p>Claude drafts; I understand every line before it lands. The point is to learn Ghost, not to skip it.</p>\\n\"}]], \"markups\": [], \"sections\": [[10, 0], [1, \"p\", []]]}",
+            "feature_image": "https://picsum.photos/seed/creator-06-claude-workflow/1200/800",
+            "featured": false,
+            "type": "post",
+            "status": "published",
+            "custom_excerpt": "Integrating Claude into the theme workflow",
+            "created_at": "2026-07-06T09:00:00.000Z",
+            "updated_at": "2026-07-06T09:00:00.000Z",
+            "published_at": "2026-07-06T09:00:00.000Z"
+          },
+          {
+            "id": "60000000000000000000a007",
+            "title": "Part 7 — Handlebars basics in Ghost",
+            "slug": "creator-07-handlebars-basics",
+            "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"\\n<p>First real templating day. Handlebars is the language Ghost themes are written in.</p>\\n<h2 id=\\\"expressions\\\">Expressions</h2>\\n<pre><code>{{title}}\\n{{@site.title}}\\n{{@config.version}}</code></pre>\\n<h2 id=\\\"block-helpers\\\">Block helpers</h2>\\n<pre><code>{{#if feature_image}}\\n  &lt;img src=\\\"{{feature_image}}\\\"&gt;\\n{{/if}}</code></pre>\\n<h3 id=\\\"global-data\\\">Global data</h3>\\n<ul>\\n<li><code>{{@site}}</code> \\u2014 site-wide settings (title, description, nav).</li>\\n<li><code>{{@config}}</code> \\u2014 Ghost config values.</li>\\n<li><code>{{@custom}}</code> \\u2014 theme custom settings from <code>package.json</code>.</li>\\n</ul>\\n<h2 id=\\\"what-clicked\\\">What clicked</h2>\\n<blockquote>Handlebars is logic-light on purpose \\u2014 data prep happens in Ghost, the template just presents. Fighting that is the #1 beginner mistake.</blockquote>\\n\"}]], \"markups\": [], \"sections\": [[10, 0], [1, \"p\", []]]}",
+            "feature_image": "https://picsum.photos/seed/creator-07-handlebars-basics/1200/800",
+            "featured": false,
+            "type": "post",
+            "status": "published",
+            "custom_excerpt": "Handlebars basics in Ghost",
+            "created_at": "2026-07-07T09:00:00.000Z",
+            "updated_at": "2026-07-07T09:00:00.000Z",
+            "published_at": "2026-07-07T09:00:00.000Z"
+          },
+          {
+            "id": "60000000000000000000a008",
+            "title": "Part 8 — Working with the {{#foreach}} loop and post object",
+            "slug": "creator-08-foreach-loop",
+            "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"\\n<p>Rendering lists of posts \\u2014 the core of any collection page.</p>\\n<h2 id=\\\"the-loop\\\">The loop</h2>\\n<pre><code>{{#foreach posts}}\\n  &lt;article&gt;\\n    &lt;h2&gt;{{title}}&lt;/h2&gt;\\n    &lt;p&gt;{{excerpt}}&lt;/p&gt;\\n    &lt;a href=\\\"{{url}}\\\"&gt;Read&lt;/a&gt;\\n  &lt;/article&gt;\\n{{/foreach}}</code></pre>\\n<h2 id=\\\"the-post-object\\\">The post object</h2>\\n<ul>\\n<li><code>{{title}}</code>, <code>{{excerpt}}</code>, <code>{{url}}</code></li>\\n<li><code>{{feature_image}}</code>, <code>{{reading_time}}</code></li>\\n<li><code>{{primary_tag}}</code>, <code>{{primary_author}}</code></li>\\n</ul>\\n<h3 id=\\\"loop-context\\\">Loop context helpers</h3>\\n<pre><code>{{#foreach posts}}\\n  {{#if @first}}\\u2026{{/if}}\\n  {{@number}} of {{@total}}\\n{{/foreach}}</code></pre>\\n\"}]], \"markups\": [], \"sections\": [[10, 0], [1, \"p\", []]]}",
+            "feature_image": "https://picsum.photos/seed/creator-08-foreach-loop/1200/800",
+            "featured": false,
+            "type": "post",
+            "status": "published",
+            "custom_excerpt": "Working with the {{#foreach}} loop and post object",
+            "created_at": "2026-07-08T09:00:00.000Z",
+            "updated_at": "2026-07-08T09:00:00.000Z",
+            "published_at": "2026-07-08T09:00:00.000Z"
+          },
+          {
+            "id": "60000000000000000000a009",
+            "title": "Part 9 — Understanding contexts and the {{#is}} helper",
+            "slug": "creator-09-contexts-is-helper",
+            "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"\\n<p>Context is how Ghost knows <em>what kind of page</em> is rendering \\u2014 and it's the key to reusable templates.</p>\\n<h2 id=\\\"the-is-helper\\\">The {{#is}} helper</h2>\\n<pre><code>{{#is \\\"home\\\"}}\\u2026homepage only\\u2026{{/is}}\\n{{#is \\\"post, page\\\"}}\\u2026single view\\u2026{{/is}}\\n{{#is \\\"tag, author\\\"}}\\u2026archive\\u2026{{/is}}</code></pre>\\n<h2 id=\\\"why-it-matters\\\">Why it matters</h2>\\n<p>One shared header partial can adapt per context instead of duplicating markup across templates.</p>\\n<h3 id=\\\"contexts\\\">Common contexts</h3>\\n<ul>\\n<li><code>home</code>, <code>post</code>, <code>page</code></li>\\n<li><code>tag</code>, <code>author</code>, <code>paged</code></li>\\n</ul>\\n<blockquote>This finally made the template hierarchy click \\u2014 Ghost isn't magic, it's context + naming conventions.</blockquote>\\n\"}]], \"markups\": [], \"sections\": [[10, 0], [1, \"p\", []]]}",
+            "feature_image": "https://picsum.photos/seed/creator-09-contexts-is-helper/1200/800",
+            "featured": false,
+            "type": "post",
+            "status": "published",
+            "custom_excerpt": "Understanding contexts and the {{#is}} helper",
+            "created_at": "2026-07-09T09:00:00.000Z",
+            "updated_at": "2026-07-09T09:00:00.000Z",
+            "published_at": "2026-07-09T09:00:00.000Z"
+          },
+          {
+            "id": "60000000000000000000a00a",
+            "title": "Part 10 — Building reusable partials",
+            "slug": "creator-10-partials",
+            "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"\\n<p>Refactored repeated markup into partials to keep templates DRY.</p>\\n<h2 id=\\\"what-i-extracted\\\">What I extracted</h2>\\n<ul>\\n<li><code>partials/post-card.hbs</code></li>\\n<li><code>partials/site-header.hbs</code></li>\\n<li><code>partials/site-footer.hbs</code></li>\\n</ul>\\n<h2 id=\\\"using-them\\\">Using them</h2>\\n<pre><code>{{&gt; site-header}}\\n{{#foreach posts}}\\n  {{&gt; post-card}}\\n{{/foreach}}\\n{{&gt; site-footer}}</code></pre>\\n<h3 id=\\\"passing-data\\\">Passing data in</h3>\\n<pre><code>{{&gt; post-card class=\\\"featured\\\"}}</code></pre>\\n<blockquote>Every collection page in Creator now reuses one card. Fix it once, fixed everywhere.</blockquote>\\n\"}]], \"markups\": [], \"sections\": [[10, 0], [1, \"p\", []]]}",
+            "feature_image": "https://picsum.photos/seed/creator-10-partials/1200/800",
+            "featured": false,
+            "type": "post",
+            "status": "published",
+            "custom_excerpt": "Building reusable partials",
+            "created_at": "2026-07-10T09:00:00.000Z",
+            "updated_at": "2026-07-10T09:00:00.000Z",
+            "published_at": "2026-07-10T09:00:00.000Z"
+          },
+          {
+            "id": "60000000000000000000a00b",
+            "title": "Part 11 — Using Ghost Handlebars helpers",
+            "slug": "creator-11-ghost-helpers",
+            "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"\\n<p>Ghost ships helpers beyond stock Handlebars. These do a lot of heavy lifting.</p>\\n<h2 id=\\\"helpers-i-use-most\\\">Helpers I use most</h2>\\n<ul>\\n<li><code>{{content}}</code> \\u2014 renders the post body (Koenig output).</li>\\n<li><code>{{img_url feature_image size=\\\"m\\\"}}</code> \\u2014 responsive images.</li>\\n<li><code>{{#has tag=\\\"#project\\\"}}\\u2026{{/has}}</code> \\u2014 conditional on tags/slug/etc.</li>\\n<li><code>{{#get \\\"posts\\\" filter=\\\"tag:hash-project\\\" limit=\\\"3\\\"}}\\u2026{{/get}}</code> \\u2014 query content anywhere.</li>\\n<li><code>{{plural pagination.total empty=\\\"No posts\\\" singular=\\\"% post\\\" plural=\\\"% posts\\\"}}</code></li>\\n</ul>\\n<h2 id=\\\"the-get-helper\\\">The {{#get}} helper is the sleeper</h2>\\n<blockquote>{{#get}} lets a template pull arbitrary content \\u2014 related posts, featured items \\u2014 without custom code. This is where \\\"multipurpose\\\" starts becoming possible.</blockquote>\\n\"}]], \"markups\": [], \"sections\": [[10, 0], [1, \"p\", []]]}",
+            "feature_image": "https://picsum.photos/seed/creator-11-ghost-helpers/1200/800",
+            "featured": false,
+            "type": "post",
+            "status": "published",
+            "custom_excerpt": "Using Ghost Handlebars helpers",
+            "created_at": "2026-07-11T09:00:00.000Z",
+            "updated_at": "2026-07-11T09:00:00.000Z",
+            "published_at": "2026-07-11T09:00:00.000Z"
+          },
+          {
+            "id": "60000000000000000000a00c",
+            "title": "Part 12 — Adding Tailwind CSS to a Ghost theme",
+            "slug": "creator-12-tailwind",
+            "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"\\n<p>Swapped the Starter's default styles for a Tailwind pipeline.</p>\\n<h2 id=\\\"install\\\">Install</h2>\\n<pre><code>npm install -D tailwindcss postcss autoprefixer\\nnpx tailwindcss init</code></pre>\\n<h2 id=\\\"config\\\">Config</h2>\\n<p>Pointed <code>content</code> globs at every <code>.hbs</code> so unused classes get purged:</p>\\n<pre><code>content: [\\\"./*.hbs\\\", \\\"./partials/**/*.hbs\\\"]</code></pre>\\n<h3 id=\\\"entry-css\\\">Entry CSS</h3>\\n<pre><code>@tailwind base;\\n@tailwind components;\\n@tailwind utilities;</code></pre>\\n<blockquote>Purge is what keeps the shipped CSS tiny \\u2014 critical for the Lighthouse 100 goal later.</blockquote>\\n\"}]], \"markups\": [], \"sections\": [[10, 0], [1, \"p\", []]]}",
+            "feature_image": "https://picsum.photos/seed/creator-12-tailwind/1200/800",
+            "featured": false,
+            "type": "post",
+            "status": "published",
+            "custom_excerpt": "Adding Tailwind CSS to a Ghost theme",
+            "created_at": "2026-07-12T09:00:00.000Z",
+            "updated_at": "2026-07-12T09:00:00.000Z",
+            "published_at": "2026-07-12T09:00:00.000Z"
+          },
+          {
+            "id": "60000000000000000000a00d",
+            "title": "Part 13 — Setting up the build and dev workflow",
+            "slug": "creator-13-build-workflow",
+            "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"\\n<p>Wired the CSS build into npm scripts so editing is fast.</p>\\n<h2 id=\\\"scripts\\\">Scripts</h2>\\n<pre><code>\\\"dev\\\":   \\\"tailwindcss -i ./assets/css/main.css -o ./assets/built/screen.css --watch\\\",\\n\\\"build\\\": \\\"tailwindcss -i ./assets/css/main.css -o ./assets/built/screen.css --minify\\\",\\n\\\"zip\\\":   \\\"npm run build &amp;&amp; ...\\\"</code></pre>\\n<h2 id=\\\"the-loop\\\">The loop</h2>\\n<ol>\\n<li><code>npm run dev</code> in one terminal (watches CSS).</li>\\n<li><code>ghost restart</code> only when adding new templates.</li>\\n<li>Refresh browser for CSS/markup changes.</li>\\n</ol>\\n<h3 id=\\\"gotcha\\\">Gotcha</h3>\\n<p>Reference built CSS with <code>{{asset \\\"built/screen.css\\\"}}</code> so Ghost cache-busts it.</p>\\n\"}]], \"markups\": [], \"sections\": [[10, 0], [1, \"p\", []]]}",
+            "feature_image": "https://picsum.photos/seed/creator-13-build-workflow/1200/800",
+            "featured": false,
+            "type": "post",
+            "status": "published",
+            "custom_excerpt": "Setting up the build and dev workflow",
+            "created_at": "2026-07-13T09:00:00.000Z",
+            "updated_at": "2026-07-13T09:00:00.000Z",
+            "published_at": "2026-07-13T09:00:00.000Z"
+          },
+          {
+            "id": "60000000000000000000a00e",
+            "title": "Part 14 — Integrating daisyUI and dark mode",
+            "slug": "creator-14-daisyui",
+            "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"\\n<p>Added daisyUI on top of Tailwind for ready-made components and theming.</p>\\n<h2 id=\\\"install\\\">Install</h2>\\n<pre><code>npm install -D daisyui\\n// tailwind.config.js\\nplugins: [require(\\\"daisyui\\\")]</code></pre>\\n<h2 id=\\\"theming\\\">Theming + dark mode</h2>\\n<p>daisyUI themes give consistent tokens (<code>primary</code>, <code>base-100</code>\\u2026) and a built-in light/dark switch.</p>\\n<pre><code>daisyui: { themes: [\\\"light\\\", \\\"dark\\\"] }</code></pre>\\n<h3 id=\\\"why-daisyui\\\">Why daisyUI</h3>\\n<ul>\\n<li>Component classes (<code>btn</code>, <code>card</code>, <code>badge</code>) speed up layout.</li>\\n<li>Semantic color tokens make multi-theme support trivial.</li>\\n</ul>\\n\"}]], \"markups\": [], \"sections\": [[10, 0], [1, \"p\", []]]}",
+            "feature_image": "https://picsum.photos/seed/creator-14-daisyui/1200/800",
+            "featured": false,
+            "type": "post",
+            "status": "published",
+            "custom_excerpt": "Integrating daisyUI and dark mode",
+            "created_at": "2026-07-14T09:00:00.000Z",
+            "updated_at": "2026-07-14T09:00:00.000Z",
+            "published_at": "2026-07-14T09:00:00.000Z"
+          },
+          {
+            "id": "60000000000000000000a00f",
+            "title": "Part 15 — Defining the theme design system",
+            "slug": "creator-15-design-system",
+            "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"\\n<p>Locked down Creator's visual language before building more components.</p>\\n<h2 id=\\\"tokens\\\">Tokens</h2>\\n<ul>\\n<li><strong>Type</strong> \\u2014 a clean sans for UI, mono accents for the \\\"for builders\\\" feel.</li>\\n<li><strong>Color</strong> \\u2014 daisyUI semantic tokens, one accent.</li>\\n<li><strong>Spacing / radius</strong> \\u2014 consistent scale via Tailwind config.</li>\\n</ul>\\n<h2 id=\\\"the-aesthetic\\\">The aesthetic</h2>\\n<p>Editorial but technical: generous whitespace, strong headings, code treated as a first-class element.</p>\\n<h3 id=\\\"deliverable\\\">Deliverable</h3>\\n<blockquote>A small style page in the theme rendering every component in light + dark. If it holds up here, it holds up everywhere.</blockquote>\\n\"}]], \"markups\": [], \"sections\": [[10, 0], [1, \"p\", []]]}",
+            "feature_image": "https://picsum.photos/seed/creator-15-design-system/1200/800",
+            "featured": false,
+            "type": "post",
+            "status": "published",
+            "custom_excerpt": "Defining the theme design system",
+            "created_at": "2026-07-15T09:00:00.000Z",
+            "updated_at": "2026-07-15T09:00:00.000Z",
+            "published_at": "2026-07-15T09:00:00.000Z"
+          },
+          {
+            "id": "60000000000000000000a010",
+            "title": "Part 16 — Building the post card component",
+            "slug": "creator-16-post-card",
+            "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"\\n<p>Built the single most-reused component in the theme.</p>\\n<h2 id=\\\"the-card\\\">The card</h2>\\n<pre><code>&lt;article class=\\\"card bg-base-100 shadow\\\"&gt;\\n  &lt;figure&gt;&lt;img src=\\\"{{img_url feature_image size=\\\"m\\\"}}\\\"\\n       width=\\\"600\\\" height=\\\"400\\\" loading=\\\"lazy\\\"&gt;&lt;/figure&gt;\\n  &lt;div class=\\\"card-body\\\"&gt;\\n    &lt;span class=\\\"badge\\\"&gt;{{primary_tag.name}}&lt;/span&gt;\\n    &lt;h2 class=\\\"card-title\\\"&gt;{{title}}&lt;/h2&gt;\\n    &lt;p&gt;{{excerpt words=\\\"20\\\"}}&lt;/p&gt;\\n  &lt;/div&gt;\\n&lt;/article&gt;</code></pre>\\n<h2 id=\\\"details\\\">Details that matter</h2>\\n<ul>\\n<li>Explicit <code>width</code>/<code>height</code> to prevent layout shift (CLS).</li>\\n<li><code>loading=\\\"lazy\\\"</code> for offscreen images.</li>\\n<li>Keyboard-focusable, accessible link wrapping.</li>\\n</ul>\\n\"}]], \"markups\": [], \"sections\": [[10, 0], [1, \"p\", []]]}",
+            "feature_image": "https://picsum.photos/seed/creator-16-post-card/1200/800",
+            "featured": false,
+            "type": "post",
+            "status": "published",
+            "custom_excerpt": "Building the post card component",
+            "created_at": "2026-07-16T09:00:00.000Z",
+            "updated_at": "2026-07-16T09:00:00.000Z",
+            "published_at": "2026-07-16T09:00:00.000Z"
+          },
+          {
+            "id": "60000000000000000000a011",
+            "title": "Part 17 — Styling Koenig editor content",
+            "slug": "creator-17-koenig-content",
+            "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"\\n<p>Made <code>{{content}}</code> \\u2014 the actual post body from Ghost's editor \\u2014 look right.</p>\\n<h2 id=\\\"the-problem\\\">The problem</h2>\\n<p>Tailwind's reset strips default styling, so raw <code>{{content}}</code> looks unstyled.</p>\\n<h2 id=\\\"the-fix\\\">The fix</h2>\\n<ul>\\n<li>Used <code>@tailwindcss/typography</code> (<code>prose</code>) as a base.</li>\\n<li>Styled Koenig-specific cards: <code>.kg-bookmark-card</code>, <code>.kg-gallery-*</code>, <code>.kg-callout-*</code>, wide/full images.</li>\\n</ul>\\n<pre><code>&lt;div class=\\\"prose dark:prose-invert\\\"&gt;\\n  {{content}}\\n&lt;/div&gt;</code></pre>\\n<h3 id=\\\"note\\\">Note</h3>\\n<blockquote>Ghost's editor cards ship their own class names \\u2014 style those or your galleries and bookmarks break. Easy to forget until a post looks wrong.</blockquote>\\n\"}]], \"markups\": [], \"sections\": [[10, 0], [1, \"p\", []]]}",
+            "feature_image": "https://picsum.photos/seed/creator-17-koenig-content/1200/800",
+            "featured": false,
+            "type": "post",
+            "status": "published",
+            "custom_excerpt": "Styling Koenig editor content",
+            "created_at": "2026-07-17T09:00:00.000Z",
+            "updated_at": "2026-07-17T09:00:00.000Z",
+            "published_at": "2026-07-17T09:00:00.000Z"
+          },
+          {
+            "id": "60000000000000000000a012",
+            "title": "Part 18 — Understanding routes.yaml in Ghost",
+            "slug": "creator-18-routes-yaml",
+            "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"\\n<p>The big one. <code>routes.yaml</code> is what turns Ghost from a blog into a multipurpose site.</p>\\n<h2 id=\\\"three-parts\\\">Three parts</h2>\\n<ul>\\n<li><strong>routes</strong> \\u2014 map a URL to a template (static pages).</li>\\n<li><strong>collections</strong> \\u2014 group posts by filter into their own URL space + template.</li>\\n<li><strong>taxonomies</strong> \\u2014 tag and author archive URLs.</li>\\n</ul>\\n<h2 id=\\\"a-collection\\\">A collection</h2>\\n<pre><code>collections:\\n  /projects/:\\n    permalink: /projects/{slug}/\\n    filter: tag:hash-project\\n    template: projects</code></pre>\\n<h3 id=\\\"gotchas\\\">Gotchas I hit</h3>\\n<ul>\\n<li>Ghost requires trailing slashes on custom routes.</li>\\n<li>Route paths can't contain dots (<code>/sw.js/</code> 404s).</li>\\n<li>Upload via Settings \\u2192 Labs; a bad file can hide content \\u2014 validate carefully.</li>\\n</ul>\\n<blockquote>This is the single most powerful, least-understood part of Ghost theming.</blockquote>\\n\"}]], \"markups\": [], \"sections\": [[10, 0], [1, \"p\", []]]}",
+            "feature_image": "https://picsum.photos/seed/creator-18-routes-yaml/1200/800",
+            "featured": false,
+            "type": "post",
+            "status": "published",
+            "custom_excerpt": "Understanding routes.yaml in Ghost",
+            "created_at": "2026-07-18T09:00:00.000Z",
+            "updated_at": "2026-07-18T09:00:00.000Z",
+            "published_at": "2026-07-18T09:00:00.000Z"
+          },
+          {
+            "id": "60000000000000000000a013",
+            "title": "Part 19 — Creating tag-driven collections",
+            "slug": "creator-19-tag-collections",
+            "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"\\n<p>Used tags as the routing key so content sorts itself into sections.</p>\\n<h2 id=\\\"the-pattern\\\">The pattern</h2>\\n<ul>\\n<li>Internal <code>#hash</code> tags (hidden from readers) drive collections.</li>\\n<li>A post tagged <code>#project</code> lands in <code>/projects/</code> automatically.</li>\\n<li>Public tags do the human-facing labelling.</li>\\n</ul>\\n<h2 id=\\\"nested-collections\\\">Nested collections</h2>\\n<pre><code>/project-steps-index/:\\n  permalink: /projects/{primary_tag}/{slug}/\\n  filter: tag:hash-project-detail\\n  order: published_at asc</code></pre>\\n<p>So a project's build-log steps live <em>inside</em> the project URL, ordered by date.</p>\\n<blockquote>This is exactly how this very log is structured \\u2014 Creator is its own container, each part a #project-detail step.</blockquote>\\n\"}]], \"markups\": [], \"sections\": [[10, 0], [1, \"p\", []]]}",
+            "feature_image": "https://picsum.photos/seed/creator-19-tag-collections/1200/800",
+            "featured": false,
+            "type": "post",
+            "status": "published",
+            "custom_excerpt": "Creating tag-driven collections",
+            "created_at": "2026-07-19T09:00:00.000Z",
+            "updated_at": "2026-07-19T09:00:00.000Z",
+            "published_at": "2026-07-19T09:00:00.000Z"
+          },
+          {
+            "id": "60000000000000000000a014",
+            "title": "Part 20 — Building custom templates",
+            "slug": "creator-20-custom-templates",
+            "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"\\n<p>Gave specific pages and posts their own bespoke layouts.</p>\\n<h2 id=\\\"ways-to-target-a-template\\\">Ways to target a template</h2>\\n<ul>\\n<li><code>custom-{name}.hbs</code> \\u2014 selectable per post/page in the editor.</li>\\n<li><code>page-{slug}.hbs</code> \\u2014 a page with a matching slug uses it automatically.</li>\\n<li><code>tag-{slug}.hbs</code> \\u2014 a specific tag archive.</li>\\n<li>A collection's <code>template:</code> in routes.yaml.</li>\\n</ul>\\n<h2 id=\\\"precedence\\\">Precedence</h2>\\n<p>Ghost resolves most specific \\u2192 least specific, falling back to <code>post.hbs</code>/<code>page.hbs</code>/<code>index.hbs</code>.</p>\\n<h3 id=\\\"in-creator\\\">In Creator</h3>\\n<p>Dedicated templates for projects, project-details, and static pages like About/Resume.</p>\\n\"}]], \"markups\": [], \"sections\": [[10, 0], [1, \"p\", []]]}",
+            "feature_image": "https://picsum.photos/seed/creator-20-custom-templates/1200/800",
+            "featured": false,
+            "type": "post",
+            "status": "published",
+            "custom_excerpt": "Building custom templates",
+            "created_at": "2026-07-20T09:00:00.000Z",
+            "updated_at": "2026-07-20T09:00:00.000Z",
+            "published_at": "2026-07-20T09:00:00.000Z"
+          },
+          {
+            "id": "60000000000000000000a015",
+            "title": "Part 21 — Creating a custom project/showcase layout",
+            "slug": "creator-21-project-layout",
+            "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"\\n<p>Built <code>projects.hbs</code> and <code>project-details.hbs</code> \\u2014 a showcase, not a blog list.</p>\\n<h2 id=\\\"projects-index\\\">Projects index</h2>\\n<ul>\\n<li>Grid of project cards with logo/feature image.</li>\\n<li>Each links to its container page.</li>\\n</ul>\\n<h2 id=\\\"project-detail-page\\\">Project container page</h2>\\n<pre><code>{{#get \\\"posts\\\" filter=\\\"tag:{{primary_tag.slug}}+tag:hash-project-detail\\\"\\n        order=\\\"published_at asc\\\" as |steps|}}\\n  {{#foreach steps}}\\n    &lt;li&gt;{{@number}}. &lt;a href=\\\"{{url}}\\\"&gt;{{title}}&lt;/a&gt;&lt;/li&gt;\\n  {{/foreach}}\\n{{/get}}</code></pre>\\n<h3 id=\\\"result\\\">Result</h3>\\n<blockquote>A project overview that lists its build-log steps in order \\u2014 like a mini table of contents. Exactly what you're reading now.</blockquote>\\n\"}]], \"markups\": [], \"sections\": [[10, 0], [1, \"p\", []]]}",
+            "feature_image": "https://picsum.photos/seed/creator-21-project-layout/1200/800",
+            "featured": false,
+            "type": "post",
+            "status": "published",
+            "custom_excerpt": "Creating a custom project/showcase layout",
+            "created_at": "2026-07-21T09:00:00.000Z",
+            "updated_at": "2026-07-21T09:00:00.000Z",
+            "published_at": "2026-07-21T09:00:00.000Z"
+          },
+          {
+            "id": "60000000000000000000a016",
+            "title": "Part 22 — Building series / course-style grouping",
+            "slug": "creator-22-series-grouping",
+            "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"\\n<p>Generalized the container\\u2192ordered-steps pattern so it works for courses and series too.</p>\\n<h2 id=\\\"the-shape\\\">The shape</h2>\\n<ul>\\n<li>A container post (<code>#course</code> / <code>#webseries</code> / <code>#project</code>).</li>\\n<li>Child posts whose <em>primary tag</em> = the container's public tag.</li>\\n<li>Ordered by <code>published_at asc</code> via a nested collection.</li>\\n</ul>\\n<h2 id=\\\"why-this-scales\\\">Why this scales</h2>\\n<p>One mental model powers projects, courses, webseries, and travel trips. Learn it once, reuse it everywhere.</p>\\n<h3 id=\\\"pagination\\\">Next/prev pagination</h3>\\n<p>Used <code>{{#get}}</code> to find adjacent steps for a course-player-style prev/next.</p>\\n\"}]], \"markups\": [], \"sections\": [[10, 0], [1, \"p\", []]]}",
+            "feature_image": "https://picsum.photos/seed/creator-22-series-grouping/1200/800",
+            "featured": false,
+            "type": "post",
+            "status": "published",
+            "custom_excerpt": "Building series / course-style grouping",
+            "created_at": "2026-07-22T09:00:00.000Z",
+            "updated_at": "2026-07-22T09:00:00.000Z",
+            "published_at": "2026-07-22T09:00:00.000Z"
+          },
+          {
+            "id": "60000000000000000000a017",
+            "title": "Part 23 — Building the homepage",
+            "slug": "creator-23-homepage",
+            "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"\\n<p>Assembled <code>home.hbs</code> from the components built so far.</p>\\n<h2 id=\\\"sections\\\">Sections</h2>\\n<ul>\\n<li>Hero / intro.</li>\\n<li>Featured posts (<code>{{#get}}</code> with <code>filter=\\\"featured:true\\\"</code>).</li>\\n<li>Latest grid using the post card.</li>\\n<li>Section pulling in recent projects.</li>\\n</ul>\\n<h2 id=\\\"routing\\\">Routing</h2>\\n<pre><code>routes:\\n  /:\\n    template: home</code></pre>\\n<h3 id=\\\"note\\\">Note</h3>\\n<blockquote>The homepage is mostly assembly now \\u2014 the reward for building reusable partials and {{#get}} queries earlier.</blockquote>\\n\"}]], \"markups\": [], \"sections\": [[10, 0], [1, \"p\", []]]}",
+            "feature_image": "https://picsum.photos/seed/creator-23-homepage/1200/800",
+            "featured": false,
+            "type": "post",
+            "status": "published",
+            "custom_excerpt": "Building the homepage",
+            "created_at": "2026-07-23T09:00:00.000Z",
+            "updated_at": "2026-07-23T09:00:00.000Z",
+            "published_at": "2026-07-23T09:00:00.000Z"
+          },
+          {
+            "id": "60000000000000000000a018",
+            "title": "Part 24 — Building author and tag archive pages",
+            "slug": "creator-24-author-tag-pages",
+            "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"\\n<p>Built the taxonomy pages Ghost generates automatically.</p>\\n<h2 id=\\\"templates\\\">Templates</h2>\\n<ul>\\n<li><code>author.hbs</code> \\u2014 bio, avatar, that author's posts.</li>\\n<li><code>tag.hbs</code> \\u2014 tag header + description + filtered posts.</li>\\n</ul>\\n<h2 id=\\\"context-data\\\">Context data</h2>\\n<pre><code>{{#author}} {{name}} \\u00b7 {{bio}} {{/author}}\\n{{#tag}}   {{name}} \\u00b7 {{description}} {{/tag}}</code></pre>\\n<h3 id=\\\"pagination\\\">Pagination</h3>\\n<pre><code>{{pagination}}</code></pre>\\n<blockquote>These come \\\"free\\\" from Ghost's taxonomies \\u2014 you just style them. Good reminder of how much Ghost hands you.</blockquote>\\n\"}]], \"markups\": [], \"sections\": [[10, 0], [1, \"p\", []]]}",
+            "feature_image": "https://picsum.photos/seed/creator-24-author-tag-pages/1200/800",
+            "featured": false,
+            "type": "post",
+            "status": "published",
+            "custom_excerpt": "Building author and tag archive pages",
+            "created_at": "2026-07-24T09:00:00.000Z",
+            "updated_at": "2026-07-24T09:00:00.000Z",
+            "published_at": "2026-07-24T09:00:00.000Z"
+          },
+          {
+            "id": "60000000000000000000a019",
+            "title": "Part 25 — Setting up membership and the Portal",
+            "slug": "creator-25-membership-portal",
+            "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"\\n<p>Turned on Ghost's native membership \\u2014 the feature that makes it more than a blog.</p>\\n<h2 id=\\\"what-i-did\\\">What I did</h2>\\n<ul>\\n<li>Enabled members in Settings \\u2192 Membership.</li>\\n<li>Added Portal triggers: <code>data-portal=\\\"signup\\\"</code> / <code>signin</code>.</li>\\n<li>Gated content with <code>{{#unless @member}}\\u2026{{/unless}}</code>.</li>\\n</ul>\\n<h2 id=\\\"access\\\">Access levels</h2>\\n<pre><code>{{#if access}}\\n  {{content}}\\n{{else}}\\n  &lt;a data-portal=\\\"signup\\\"&gt;Subscribe to read&lt;/a&gt;\\n{{/if}}</code></pre>\\n<blockquote>Membership + Portal are built in \\u2014 no plugin, no third-party. This is a big part of why Ghost gets chosen for paid publications.</blockquote>\\n\"}]], \"markups\": [], \"sections\": [[10, 0], [1, \"p\", []]]}",
+            "feature_image": "https://picsum.photos/seed/creator-25-membership-portal/1200/800",
+            "featured": false,
+            "type": "post",
+            "status": "published",
+            "custom_excerpt": "Setting up membership and the Portal",
+            "created_at": "2026-07-25T09:00:00.000Z",
+            "updated_at": "2026-07-25T09:00:00.000Z",
+            "published_at": "2026-07-25T09:00:00.000Z"
+          },
+          {
+            "id": "60000000000000000000a01a",
+            "title": "Part 26 — Adding the newsletter and subscribe form",
+            "slug": "creator-26-newsletter-subscribe",
+            "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"\\n<p>Wired up email capture using Ghost's built-in form.</p>\\n<h2 id=\\\"the-form\\\">The form</h2>\\n<pre><code>{{subscribe_form\\n   placeholder=\\\"you@example.com\\\"\\n   button=\\\"Subscribe\\\"}}</code></pre>\\n<h2 id=\\\"notes\\\">Notes</h2>\\n<ul>\\n<li>Members created here can receive newsletters natively.</li>\\n<li>Styled the success/error states.</li>\\n<li>Peeked at the Content API for a future custom subscribe flow.</li>\\n</ul>\\n<h3 id=\\\"apis\\\">APIs worth knowing</h3>\\n<blockquote>Ghost is also a headless CMS \\u2014 the Content &amp; Admin APIs mean this theme's data could power an app later. Most people never realize that.</blockquote>\\n\"}]], \"markups\": [], \"sections\": [[10, 0], [1, \"p\", []]]}",
+            "feature_image": "https://picsum.photos/seed/creator-26-newsletter-subscribe/1200/800",
+            "featured": false,
+            "type": "post",
+            "status": "published",
+            "custom_excerpt": "Adding the newsletter and subscribe form",
+            "created_at": "2026-07-26T09:00:00.000Z",
+            "updated_at": "2026-07-26T09:00:00.000Z",
+            "published_at": "2026-07-26T09:00:00.000Z"
+          },
+          {
+            "id": "60000000000000000000a01b",
+            "title": "Part 27 — Adding SEO and structured data (JSON-LD)",
+            "slug": "creator-27-seo-jsonld",
+            "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"\\n<p>Made Creator search- and share-friendly.</p>\\n<h2 id=\\\"the-essentials\\\">The essentials</h2>\\n<ul>\\n<li><code>{{ghost_head}}</code> in <code>&lt;head&gt;</code> and <code>{{ghost_foot}}</code> before <code>&lt;/body&gt;</code> \\u2014 Ghost injects meta tags, Open Graph, and JSON-LD automatically.</li>\\n<li>Verified structured data with Google's Rich Results test.</li>\\n</ul>\\n<h2 id=\\\"dont-fight-ghost\\\">Don't fight Ghost</h2>\\n<p>Ghost already outputs solid schema.org JSON-LD per context \\u2014 the job is to not break it and to add specifics where useful.</p>\\n<h3 id=\\\"extras\\\">Extras</h3>\\n<ul>\\n<li>Canonical URLs, sitemap (auto), meta descriptions from excerpts.</li>\\n</ul>\\n\"}]], \"markups\": [], \"sections\": [[10, 0], [1, \"p\", []]]}",
+            "feature_image": "https://picsum.photos/seed/creator-27-seo-jsonld/1200/800",
+            "featured": false,
+            "type": "post",
+            "status": "published",
+            "custom_excerpt": "Adding SEO and structured data (JSON-LD)",
+            "created_at": "2026-07-27T09:00:00.000Z",
+            "updated_at": "2026-07-27T09:00:00.000Z",
+            "published_at": "2026-07-27T09:00:00.000Z"
+          },
+          {
+            "id": "60000000000000000000a01c",
+            "title": "Part 28 — Optimizing performance (Lighthouse)",
+            "slug": "creator-28-performance",
+            "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"\\n<p>Chased a 100 performance score.</p>\\n<h2 id=\\\"what-moved-the-needle\\\">What moved the needle</h2>\\n<ul>\\n<li>Purged/minified CSS (Tailwind purge).</li>\\n<li><code>loading=\\\"lazy\\\"</code> + explicit dimensions on images (kills CLS).</li>\\n<li>Responsive <code>srcset</code> via <code>{{img_url ... size=...}}</code>.</li>\\n<li>Deferred non-critical JS; inlined critical CSS where it helped.</li>\\n</ul>\\n<h2 id=\\\"measure\\\">Measure, don't guess</h2>\\n<pre><code>npx lighthouse http://localhost:2368 --view</code></pre>\\n<blockquote>Most wins were images and render-blocking CSS \\u2014 the same two things every Ghost theme fights.</blockquote>\\n\"}]], \"markups\": [], \"sections\": [[10, 0], [1, \"p\", []]]}",
+            "feature_image": "https://picsum.photos/seed/creator-28-performance/1200/800",
+            "featured": false,
+            "type": "post",
+            "status": "published",
+            "custom_excerpt": "Optimizing performance (Lighthouse)",
+            "created_at": "2026-07-28T09:00:00.000Z",
+            "updated_at": "2026-07-28T09:00:00.000Z",
+            "published_at": "2026-07-28T09:00:00.000Z"
+          },
+          {
+            "id": "60000000000000000000a01d",
+            "title": "Part 29 — Validating with gscan and accessibility audit",
+            "slug": "creator-29-gscan-a11y",
+            "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"\\n<p>Made the theme officially valid and usable by everyone.</p>\\n<h2 id=\\\"gscan\\\">gscan</h2>\\n<pre><code>npm install -g gscan\\ngscan .</code></pre>\\n<p>Fixed every error and warning \\u2014 gscan is what the Ghost Marketplace runs against, so zero errors is non-negotiable.</p>\\n<h2 id=\\\"accessibility\\\">Accessibility</h2>\\n<ul>\\n<li>Keyboard navigation across all interactive elements.</li>\\n<li>Color-contrast checks in light + dark.</li>\\n<li>Alt text, ARIA labels, focus states, responsive down to mobile.</li>\\n</ul>\\n<blockquote>A theme that fails gscan can't be listed. A theme that fails a11y shouldn't be.</blockquote>\\n\"}]], \"markups\": [], \"sections\": [[10, 0], [1, \"p\", []]]}",
+            "feature_image": "https://picsum.photos/seed/creator-29-gscan-a11y/1200/800",
+            "featured": false,
+            "type": "post",
+            "status": "published",
+            "custom_excerpt": "Validating with gscan and accessibility audit",
+            "created_at": "2026-07-29T09:00:00.000Z",
+            "updated_at": "2026-07-29T09:00:00.000Z",
+            "published_at": "2026-07-29T09:00:00.000Z"
+          },
+          {
+            "id": "60000000000000000000a01e",
+            "title": "Part 30 — Packaging and releasing the theme",
+            "slug": "creator-30-package-release",
+            "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"\\n<p>Shipped Creator v1.0.0.</p>\\n<h2 id=\\\"package\\\">Package</h2>\\n<pre><code>npm run build\\nnpm run zip   # produces creator.zip</code></pre>\\n<h2 id=\\\"release\\\">Release</h2>\\n<ul>\\n<li>Tagged <code>v1.0.0</code>, wrote a changelog, cut a GitHub Release with the zip.</li>\\n<li>Polished README: screenshots, install steps, routes.yaml note, license.</li>\\n<li>Added <code>CONTRIBUTING.md</code> for anyone who wants to help.</li>\\n<li>(Optional) submitted to the Ghost Marketplace.</li>\\n</ul>\\n<h2 id=\\\"closing-reflection\\\">Closing reflection</h2>\\n<blockquote>Built a real, multipurpose Ghost theme from the Starter up \\u2014 and learned Ghost from install to release. This log is done; Creator is out in the open.</blockquote>\\n\"}]], \"markups\": [], \"sections\": [[10, 0], [1, \"p\", []]]}",
+            "feature_image": "https://picsum.photos/seed/creator-30-package-release/1200/800",
+            "featured": false,
+            "type": "post",
+            "status": "published",
+            "custom_excerpt": "Packaging and releasing the theme",
+            "created_at": "2026-07-30T09:00:00.000Z",
+            "updated_at": "2026-07-30T09:00:00.000Z",
+            "published_at": "2026-07-30T09:00:00.000Z"
+          }
+        ],
+        "tags": [
+          {
+            "id": "600000000000000000000001",
+            "name": "#project",
+            "slug": "hash-project"
+          },
+          {
+            "id": "600000000000000000000002",
+            "name": "#project-detail",
+            "slug": "hash-project-detail"
+          },
+          {
+            "id": "600000000000000000000003",
+            "name": "Creator",
+            "slug": "creator",
+            "description": "Building Creator — a free, open-source multipurpose Ghost theme for builders and software engineers. A public work log.",
+            "feature_image": "https://picsum.photos/seed/creator-theme/1200/800"
+          }
+        ],
+        "posts_tags": [
+          {
+            "post_id": "60000000000000000000ffff",
+            "tag_id": "600000000000000000000003",
+            "sort_order": 0
+          },
+          {
+            "post_id": "60000000000000000000ffff",
+            "tag_id": "600000000000000000000001",
+            "sort_order": 1
+          },
+          {
+            "post_id": "60000000000000000000a001",
+            "tag_id": "600000000000000000000003",
+            "sort_order": 0
+          },
+          {
+            "post_id": "60000000000000000000a001",
+            "tag_id": "600000000000000000000002",
+            "sort_order": 1
+          },
+          {
+            "post_id": "60000000000000000000a002",
+            "tag_id": "600000000000000000000003",
+            "sort_order": 0
+          },
+          {
+            "post_id": "60000000000000000000a002",
+            "tag_id": "600000000000000000000002",
+            "sort_order": 1
+          },
+          {
+            "post_id": "60000000000000000000a003",
+            "tag_id": "600000000000000000000003",
+            "sort_order": 0
+          },
+          {
+            "post_id": "60000000000000000000a003",
+            "tag_id": "600000000000000000000002",
+            "sort_order": 1
+          },
+          {
+            "post_id": "60000000000000000000a004",
+            "tag_id": "600000000000000000000003",
+            "sort_order": 0
+          },
+          {
+            "post_id": "60000000000000000000a004",
+            "tag_id": "600000000000000000000002",
+            "sort_order": 1
+          },
+          {
+            "post_id": "60000000000000000000a005",
+            "tag_id": "600000000000000000000003",
+            "sort_order": 0
+          },
+          {
+            "post_id": "60000000000000000000a005",
+            "tag_id": "600000000000000000000002",
+            "sort_order": 1
+          },
+          {
+            "post_id": "60000000000000000000a006",
+            "tag_id": "600000000000000000000003",
+            "sort_order": 0
+          },
+          {
+            "post_id": "60000000000000000000a006",
+            "tag_id": "600000000000000000000002",
+            "sort_order": 1
+          },
+          {
+            "post_id": "60000000000000000000a007",
+            "tag_id": "600000000000000000000003",
+            "sort_order": 0
+          },
+          {
+            "post_id": "60000000000000000000a007",
+            "tag_id": "600000000000000000000002",
+            "sort_order": 1
+          },
+          {
+            "post_id": "60000000000000000000a008",
+            "tag_id": "600000000000000000000003",
+            "sort_order": 0
+          },
+          {
+            "post_id": "60000000000000000000a008",
+            "tag_id": "600000000000000000000002",
+            "sort_order": 1
+          },
+          {
+            "post_id": "60000000000000000000a009",
+            "tag_id": "600000000000000000000003",
+            "sort_order": 0
+          },
+          {
+            "post_id": "60000000000000000000a009",
+            "tag_id": "600000000000000000000002",
+            "sort_order": 1
+          },
+          {
+            "post_id": "60000000000000000000a00a",
+            "tag_id": "600000000000000000000003",
+            "sort_order": 0
+          },
+          {
+            "post_id": "60000000000000000000a00a",
+            "tag_id": "600000000000000000000002",
+            "sort_order": 1
+          },
+          {
+            "post_id": "60000000000000000000a00b",
+            "tag_id": "600000000000000000000003",
+            "sort_order": 0
+          },
+          {
+            "post_id": "60000000000000000000a00b",
+            "tag_id": "600000000000000000000002",
+            "sort_order": 1
+          },
+          {
+            "post_id": "60000000000000000000a00c",
+            "tag_id": "600000000000000000000003",
+            "sort_order": 0
+          },
+          {
+            "post_id": "60000000000000000000a00c",
+            "tag_id": "600000000000000000000002",
+            "sort_order": 1
+          },
+          {
+            "post_id": "60000000000000000000a00d",
+            "tag_id": "600000000000000000000003",
+            "sort_order": 0
+          },
+          {
+            "post_id": "60000000000000000000a00d",
+            "tag_id": "600000000000000000000002",
+            "sort_order": 1
+          },
+          {
+            "post_id": "60000000000000000000a00e",
+            "tag_id": "600000000000000000000003",
+            "sort_order": 0
+          },
+          {
+            "post_id": "60000000000000000000a00e",
+            "tag_id": "600000000000000000000002",
+            "sort_order": 1
+          },
+          {
+            "post_id": "60000000000000000000a00f",
+            "tag_id": "600000000000000000000003",
+            "sort_order": 0
+          },
+          {
+            "post_id": "60000000000000000000a00f",
+            "tag_id": "600000000000000000000002",
+            "sort_order": 1
+          },
+          {
+            "post_id": "60000000000000000000a010",
+            "tag_id": "600000000000000000000003",
+            "sort_order": 0
+          },
+          {
+            "post_id": "60000000000000000000a010",
+            "tag_id": "600000000000000000000002",
+            "sort_order": 1
+          },
+          {
+            "post_id": "60000000000000000000a011",
+            "tag_id": "600000000000000000000003",
+            "sort_order": 0
+          },
+          {
+            "post_id": "60000000000000000000a011",
+            "tag_id": "600000000000000000000002",
+            "sort_order": 1
+          },
+          {
+            "post_id": "60000000000000000000a012",
+            "tag_id": "600000000000000000000003",
+            "sort_order": 0
+          },
+          {
+            "post_id": "60000000000000000000a012",
+            "tag_id": "600000000000000000000002",
+            "sort_order": 1
+          },
+          {
+            "post_id": "60000000000000000000a013",
+            "tag_id": "600000000000000000000003",
+            "sort_order": 0
+          },
+          {
+            "post_id": "60000000000000000000a013",
+            "tag_id": "600000000000000000000002",
+            "sort_order": 1
+          },
+          {
+            "post_id": "60000000000000000000a014",
+            "tag_id": "600000000000000000000003",
+            "sort_order": 0
+          },
+          {
+            "post_id": "60000000000000000000a014",
+            "tag_id": "600000000000000000000002",
+            "sort_order": 1
+          },
+          {
+            "post_id": "60000000000000000000a015",
+            "tag_id": "600000000000000000000003",
+            "sort_order": 0
+          },
+          {
+            "post_id": "60000000000000000000a015",
+            "tag_id": "600000000000000000000002",
+            "sort_order": 1
+          },
+          {
+            "post_id": "60000000000000000000a016",
+            "tag_id": "600000000000000000000003",
+            "sort_order": 0
+          },
+          {
+            "post_id": "60000000000000000000a016",
+            "tag_id": "600000000000000000000002",
+            "sort_order": 1
+          },
+          {
+            "post_id": "60000000000000000000a017",
+            "tag_id": "600000000000000000000003",
+            "sort_order": 0
+          },
+          {
+            "post_id": "60000000000000000000a017",
+            "tag_id": "600000000000000000000002",
+            "sort_order": 1
+          },
+          {
+            "post_id": "60000000000000000000a018",
+            "tag_id": "600000000000000000000003",
+            "sort_order": 0
+          },
+          {
+            "post_id": "60000000000000000000a018",
+            "tag_id": "600000000000000000000002",
+            "sort_order": 1
+          },
+          {
+            "post_id": "60000000000000000000a019",
+            "tag_id": "600000000000000000000003",
+            "sort_order": 0
+          },
+          {
+            "post_id": "60000000000000000000a019",
+            "tag_id": "600000000000000000000002",
+            "sort_order": 1
+          },
+          {
+            "post_id": "60000000000000000000a01a",
+            "tag_id": "600000000000000000000003",
+            "sort_order": 0
+          },
+          {
+            "post_id": "60000000000000000000a01a",
+            "tag_id": "600000000000000000000002",
+            "sort_order": 1
+          },
+          {
+            "post_id": "60000000000000000000a01b",
+            "tag_id": "600000000000000000000003",
+            "sort_order": 0
+          },
+          {
+            "post_id": "60000000000000000000a01b",
+            "tag_id": "600000000000000000000002",
+            "sort_order": 1
+          },
+          {
+            "post_id": "60000000000000000000a01c",
+            "tag_id": "600000000000000000000003",
+            "sort_order": 0
+          },
+          {
+            "post_id": "60000000000000000000a01c",
+            "tag_id": "600000000000000000000002",
+            "sort_order": 1
+          },
+          {
+            "post_id": "60000000000000000000a01d",
+            "tag_id": "600000000000000000000003",
+            "sort_order": 0
+          },
+          {
+            "post_id": "60000000000000000000a01d",
+            "tag_id": "600000000000000000000002",
+            "sort_order": 1
+          },
+          {
+            "post_id": "60000000000000000000a01e",
+            "tag_id": "600000000000000000000003",
+            "sort_order": 0
+          },
+          {
+            "post_id": "60000000000000000000a01e",
+            "tag_id": "600000000000000000000002",
+            "sort_order": 1
+          }
+        ]
+      }
+    }
+  ]
+}

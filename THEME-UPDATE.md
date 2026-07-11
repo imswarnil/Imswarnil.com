@@ -2,6 +2,51 @@
 
 Running record of what's done and what's left. Master backlog lives in CLAUDE.md.
 
+## 2026-07-11 (later) — lesson scroll-hang fix · plain/simple visual pass · content width = navbar island
+
+### Done
+- **Lesson page scroll hang fixed**: removed "app mode" entirely (body
+  `overflow:hidden` lock on lg+, viewport-height panes, pane-scroll JS in
+  lesson.hbs). Lessons now scroll as a normal document; the course rail is
+  `lg:sticky` with its own overflow. Rail auto-scroll + 60% auto-complete kept,
+  now driven by window scroll only.
+- **`.container-site` narrowed** from max-w-site (86rem) to **max-w-5xl** to match
+  the navbar island width. Navbar itself untouched.
+- **Patterns removed**: `.bg-grid`, `.bg-grid-lg`, `.bg-dots`, `.bg-cross`
+  utilities deleted (classes in markup are now inert); fixed full-page grid
+  backdrop removed from default.hbs; button hover-grid (`.btn::after`) removed;
+  hero rule-of-thirds grid + pointer glow removed; on-air blobs/grid/scanlines,
+  pub-sweep, TV scanlines removed.
+- **Animations removed**: whole reveal-on-scroll system (+ `body.is-scrolling`
+  pointer-events guard), first-load intro quote veil (partial deleted, include
+  removed from default.hbs), homepage blog epigraph quote removed, tag-cloud
+  blast/bob, floating product chips, portfolio slideshow (first scene shown
+  statically), shimmer/pulse loops. Kept: logo (navbar untouched), hero word
+  frame, hover transitions, functional skeleton shimmer, confetti.
+- **Result**: built screen.css 157KB → 142KB; gscan clean. Site renders content
+  immediately (no opacity-0 waiting on JS observers).
+
+## 2026-07-11 — CSS diet: daisyUI removed, dead rules pruned (295KB → 157KB built)
+
+### Done
+- **daisyUI dropped entirely** (plugin + 8-theme config + npm dep). It shipped the
+  bulk of screen.css; the theme only genuinely used 6 of its classes. Those are now
+  ~100 lines of plain Tailwind in tailwind.css: `.tooltip`/`.tooltip-bottom`
+  (data-tip), `.collapse`/`.collapse-title`/`.collapse-content`/`.collapse-arrow`
+  (native details/summary), `.mockup-browser-toolbar` + `.input` URL pill,
+  `.skeleton` (pulse), and `progress.progress` (styled native element). Template
+  markup unchanged.
+- **color-scheme per mode** re-added in base layer (daisyUI used to set it):
+  light by default, dark for `.dark`/`[data-theme=dark|netflix]` — keeps native
+  scrollbars/controls correct.
+- **23 dead component classes deleted** from tailwind.css + sections.css
+  (~180 source lines): float-win*, hx-me*, hx-pill, hero-line, series-deck/card/
+  video, timeline-spine(-fill), sub-quote, reel-ui, pub-board/cell/tag, mobile-sub,
+  mode-dot, nav-letter, player-bar-progress — all verified unreferenced in .hbs
+  and main.js (incl. JS classList toggles) before removal.
+- **Result**: built screen.css 295KB → 157KB (~26KB gzipped), gscan clean.
+  Directly serves the Lighthouse "reduce unused CSS" + render-blocking items.
+
 ## 2026-07-09 — homepage overhaul: intro title card · Swarnil Originals · cinematic portfolio + resume peek · on-air board · tag-cloud blast · snippets/experiences/connect sections
 
 ### Done

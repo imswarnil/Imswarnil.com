@@ -27,25 +27,6 @@
 		height: 1.15em;
 		flex: none;
 	}
-	/* Signature: a fine grid fades in from the top-right, tinted with a light
-	   tone of the button's own foreground (--btn-pattern) */
-	.btn::after {
-		content: '';
-		position: absolute;
-		inset: 0;
-		pointer-events: none;
-		opacity: 0;
-		transition: opacity 0.3s ease;
-		background-image:
-			linear-gradient(to right, rgb(var(--btn-pattern, var(--pattern)) / 0.22) 1px, transparent 1px),
-			linear-gradient(to bottom, rgb(var(--btn-pattern, var(--pattern)) / 0.22) 1px, transparent 1px);
-		background-size: 7px 7px;
-		-webkit-mask-image: radial-gradient(130% 130% at 100% 0%, black, transparent 52%);
-		mask-image: radial-gradient(130% 130% at 100% 0%, black, transparent 52%);
-	}
-	.btn:hover::after {
-		opacity: 1;
-	}
 	.btn:disabled,
 	.btn[aria-disabled='true'],
 	.btn.is-disabled {

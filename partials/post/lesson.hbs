@@ -67,10 +67,10 @@
 {{#foreach tags visibility="public" limit="1"}}{{#get "posts" filter="tag:hash-course+tag:{{slug}}" limit="1" as |cc|}}{{#foreach cc}}<span id="container-post" data-url="{{url}}" hidden></span>{{/foreach}}{{/get}}{{/foreach}}
 
 <article class="{{post_class}} pt-16">
-	<div class="lesson-app container-site grid gap-6 py-6 lg:grid-cols-12 lg:gap-0" style="--lesson-top: 7.5rem">
+	<div class="container-site grid gap-6 py-6 lg:grid-cols-12 lg:gap-0">
 
 		{{!-- Course navigation rail (desktop; mobile uses the panel modal) --}}
-		<aside class="hidden lg:col-span-4 lg:block lg:pr-8 xl:col-span-3">
+		<aside class="hidden lg:sticky lg:top-16 lg:col-span-4 lg:block lg:max-h-[calc(100dvh-5rem)] lg:self-start lg:overflow-y-auto lg:pr-8 xl:col-span-3">
 			<details class="lesson-nav lesson-pane" open>
 				<summary class="flex cursor-pointer list-none items-center justify-between gap-2 border-b border-line px-1 py-4 [&::-webkit-details-marker]:hidden lg:pointer-events-none">
 					<span class="kicker !mb-0">{{> "icons/book"}} Course navigation</span>
@@ -255,19 +255,6 @@
 			});
 		}
 
-		/* App mode on lg+: body scroll off, panes scroll internally. The lesson
-		   pane (not the window) is the scroll container, so completion tracking
-		   listens on whichever actually scrolls. */
-		var pane = document.querySelector('.lesson-pane.min-w-0');
-		var mqDesktop = window.matchMedia ? window.matchMedia('(min-width: 1024px)') : null;
-		function syncAppMode() {
-			document.body.classList.toggle('lesson-app-mode', !!(mqDesktop && mqDesktop.matches));
-		}
-		if (mqDesktop) {
-			syncAppMode();
-			if (mqDesktop.addEventListener) mqDesktop.addEventListener('change', syncAppMode);
-		}
-
 		/* Auto-complete the current lesson once the reader passes 60% */
 		var marked = false;
 		function markSeen(seen) {
@@ -281,15 +268,9 @@
 			var doc = document.documentElement;
 			markSeen((window.scrollY + window.innerHeight) / Math.max(doc.scrollHeight, 1));
 		}
-		function onPaneScroll() {
-			if (!pane) return;
-			markSeen((pane.scrollTop + pane.clientHeight) / Math.max(pane.scrollHeight, 1));
-		}
 		window.addEventListener('scroll', onWinScroll, { passive: true });
-		if (pane) pane.addEventListener('scroll', onPaneScroll, { passive: true });
 		paint();
 		onWinScroll();
-		onPaneScroll();
 
 		/* Prev / next strictly from THIS course's rail; first lesson has no prev,
 		   last lesson swaps "next" for a confetti-powered course finish */
@@ -341,9 +322,10 @@
 
 		/* Scroll the current lesson into view inside the rail (desktop only —
 		   on mobile this would yank the whole page down to the nav) */
+		var mqDesktop = window.matchMedia ? window.matchMedia('(min-width: 1024px)') : null;
 		var current = document.querySelector('.lesson-link[aria-current="page"]');
 		if (current && mqDesktop && mqDesktop.matches) {
-			var rail = current.closest('.lesson-pane');
+			var rail = current.closest('aside');
 			if (rail) rail.scrollTop = Math.max(0, current.offsetTop - rail.clientHeight / 2);
 		}
 
