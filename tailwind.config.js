@@ -7,6 +7,11 @@ module.exports = {
 		'btn', 'btn-primary', 'btn-secondary', 'btn-ghost', 'btn-soft', 'btn-subtle',
 		'btn-outline', 'btn-danger', 'btn-link', 'btn-invert', 'btn-glass',
 		'btn-xs', 'btn-sm', 'btn-lg', 'btn-xl', 'btn-block', 'btn-icon', 'btn-square',
+		// Background patterns are a public API too — ship all 10 even if a
+		// given template doesn't reference them yet.
+		'bg-pat-dots', 'bg-pat-dots-dense', 'bg-pat-pin-dots', 'bg-pat-polka',
+		'bg-pat-grid', 'bg-pat-grid-fine', 'bg-pat-grid-paper', 'bg-pat-graph-paper',
+		'bg-pat-graph-dashboard', 'bg-pat-diagonal',
 	],
 	darkMode: 'class',
 	theme: {

@@ -2,7 +2,7 @@
      (template: partials/navigation.hbs — icons per slug, no bullets).
      Nesting: label "- Child" folds under the item above, "-- Grand" one deeper
      (script at the bottom). Border doubles as the reading-progress bar. --}}
-<header class="fixed inset-x-0 top-0 z-50 px-4 pt-2 sm:pt-2.5" id="site-header">
+<header class="fixed inset-x-0 top-0 z-50 px-4 pt-1.5 sm:pt-2" id="site-header">
 	<nav class="container-site !px-0">
 		<div class="nav-shell" id="nav-island">
 			{{!-- Reading progress: hairline accent border, drawn bottom-left → around --}}
@@ -270,7 +270,7 @@
 	</nav>
 </header>
 {{!-- Spacer so content clears the fixed navbar (hidden on player-chrome pages) --}}
-<div class="h-[4.5rem] sm:h-20" aria-hidden="true" id="nav-spacer"></div>
+<div class="h-[3.5rem] sm:h-16" aria-hidden="true" id="nav-spacer"></div>
 
 <script>
 	/* Fold "- Child" / "-- Grandchild" admin-nav items into dropdowns.

@@ -32,7 +32,7 @@
 				<a href="{{@site.url}}/courses/" class="icon-btn shrink-0 !border !border-line !bg-paper/80 backdrop-blur tooltip tooltip-left" data-tip="All courses" aria-label="Close course, back to all courses">{{> "icons/close"}}</a>
 			</div>
 
-			<div class="lg:max-w-[calc(100%-24rem)] lg:pr-10">
+			<div class="lg:max-w-4xl">
 				<p class="kicker">{{> "icons/graduation"}} Course</p>
 				<h1 class="mt-3 text-3xl font-semibold tracking-tight sm:text-5xl text-balance">{{title}}</h1>
 				{{#if custom_excerpt}}<p class="mt-4 max-w-2xl text-lg leading-relaxed text-silver">{{custom_excerpt}}</p>{{/if}}
@@ -61,12 +61,71 @@
 		</div>
 	</header>
 
-	{{!-- Body: content left · sticky enrolment card right --}}
+	{{!-- Body: content left · sticky TOC + ads right.
+	     The enrolment / course-navigation card is now INLINE at the top of the
+	     content column (was the right sidebar); the right rail holds the
+	     table of contents with ads beneath it. --}}
 	<div class="container-site">
 		<div class="grid gap-10 py-10 lg:grid-cols-12">
 
 			{{!-- LEFT — everything, divided by hairlines --}}
-			<div class="min-w-0 divide-y divide-line lg:col-span-8">
+			<div class="min-w-0 lg:col-span-8">
+
+				{{!-- Inline enrolment card (moved out of the sidebar) --}}
+				<section class="mb-10 overflow-hidden rounded-2xl border border-line bg-paper shadow-lift sm:flex">
+					{{#foreach tags visibility="public" limit="1"}}
+					{{#get "posts" filter="tag:hash-lesson+tags:{{slug}}" limit="1" order="published_at asc" as |first|}}
+					{{#foreach first}}
+					<a href="{{url}}" class="group relative block aspect-[2/1] shrink-0 overflow-hidden border-b border-line bg-mist sm:w-72 sm:border-b-0 sm:border-r" aria-label="Preview the first lesson">
+						{{#if feature_image}}
+							<img src="{{img_url feature_image size="800"}}" width="800" height="400" alt="{{title}}" loading="lazy" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
+						{{else}}
+							<span class="bg-dots absolute inset-0"></span>
+						{{/if}}
+						<span class="absolute inset-0 flex items-center justify-center bg-black/25 transition group-hover:bg-black/35">
+							<span class="flex h-12 w-12 items-center justify-center rounded-full bg-white text-black shadow-lg transition group-hover:scale-110">{{> "icons/play" class="ml-0.5 h-4 w-4"}}</span>
+						</span>
+						<span class="absolute bottom-2.5 left-2.5 rounded bg-black/70 px-2 py-0.5 font-mono text-[9px] uppercase tracking-[0.15em] text-white backdrop-blur">Preview lesson 1</span>
+					</a>
+					{{/foreach}}
+					{{/get}}
+					{{/foreach}}
+
+					<div class="flex flex-1 flex-col p-5 sm:p-6">
+						<div class="flex items-baseline justify-between gap-3">
+							{{#match visibility "public"}}<p class="text-2xl font-bold tracking-tight">Free</p><span class="font-mono text-[10px] uppercase tracking-[0.15em] text-silver">no account needed</span>{{/match}}
+							{{#match visibility "members"}}<p class="text-2xl font-bold tracking-tight">Members</p><span class="font-mono text-[10px] uppercase tracking-[0.15em] text-silver">free signup unlocks</span>{{/match}}
+							{{#match visibility "paid"}}<p class="text-2xl font-bold tracking-tight">Paid</p><span class="font-mono text-[10px] uppercase tracking-[0.15em] text-silver">supporters only</span>{{/match}}
+						</div>
+
+						<div class="mt-4 flex flex-wrap items-center gap-2">
+							{{#foreach tags visibility="public" limit="1"}}
+							{{#get "posts" filter="tag:hash-lesson+tags:{{slug}}" limit="1" order="published_at asc" as |first|}}
+								{{#foreach first}}<a href="{{url}}" class="btn-primary flex-1 justify-center">{{> "icons/play"}} Start the course</a>{{/foreach}}
+							{{/get}}
+							{{/foreach}}
+							<a href="#curriculum" class="btn-ghost btn-sm">{{> "icons/book"}} Browse syllabus</a>
+						</div>
+
+						<ul class="mt-4 flex flex-wrap gap-x-5 gap-y-1.5 text-[12.5px] text-silver">
+							{{#foreach tags visibility="public" limit="1"}}
+							{{#get "posts" filter="tag:hash-lesson+tags:{{slug}}" limit="1" as |l counter|}}
+							<li class="flex items-center gap-2">{{> "icons/play" class="h-3.5 w-3.5 shrink-0"}} {{plural counter.total empty="Lessons on the way" singular="% lesson" plural="% lessons"}}</li>
+							{{/get}}
+							{{/foreach}}
+							<li class="flex items-center gap-2">{{> "icons/clock" class="h-3.5 w-3.5 shrink-0"}} <span id="course-includes-duration">Self-paced</span></li>
+							<li class="flex items-center gap-2">{{> "icons/check" class="h-3.5 w-3.5 shrink-0"}} Progress tracking</li>
+							<li class="flex items-center gap-2">{{> "icons/zap" class="h-3.5 w-3.5 shrink-0"}} Lifetime access, free updates</li>
+						</ul>
+
+						<div class="mt-4 border-t border-line pt-3">
+							{{> "post/share"}}
+						</div>
+					</div>
+				</section>
+
+				{{!-- everything else, divided by hairlines --}}
+				<div class="divide-y divide-line">
 
 				{{!-- About --}}
 				<section class="pb-10">
@@ -198,67 +257,19 @@
 					{{/if}}
 				{{/get}}
 
-				{{!-- Ad --}}
+				{{!-- Ad (in-article) --}}
 				<section class="py-4">
 					{{> "components/adsense" slot="6501428979" layout="in-article" format="fluid"}}
 				</section>
-			</div>
 
-			{{!-- RIGHT — enrolment card, sticky for the whole read --}}
+				</div>{{!-- /divide-y sections --}}
+			</div>{{!-- /left column --}}
+
+			{{!-- RIGHT — sticky table of contents, ads beneath it --}}
 			<aside class="lg:col-span-4">
-				<div class="lg:sticky lg:top-24 lg:-mt-44">
-					<div class="overflow-hidden rounded-2xl border border-line bg-paper shadow-lift">
-						{{#foreach tags visibility="public" limit="1"}}
-						{{#get "posts" filter="tag:hash-lesson+tags:{{slug}}" limit="1" order="published_at asc" as |first|}}
-						{{#foreach first}}
-						<a href="{{url}}" class="group relative block aspect-[2/1] overflow-hidden border-b border-line bg-mist" aria-label="Preview the first lesson">
-							{{#if feature_image}}
-								<img src="{{img_url feature_image size="1000"}}" width="1000" height="500" alt="{{title}}" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
-							{{else}}
-								<span class="bg-dots absolute inset-0"></span>
-							{{/if}}
-							<span class="absolute inset-0 flex items-center justify-center bg-black/25 transition group-hover:bg-black/35">
-								<span class="flex h-12 w-12 items-center justify-center rounded-full bg-white text-black shadow-lg transition group-hover:scale-110">{{> "icons/play" class="ml-0.5 h-4 w-4"}}</span>
-							</span>
-							<span class="absolute bottom-2.5 left-2.5 rounded bg-black/70 px-2 py-0.5 font-mono text-[9px] uppercase tracking-[0.15em] text-white backdrop-blur">Preview lesson 1</span>
-						</a>
-						{{/foreach}}
-						{{/get}}
-						{{/foreach}}
-
-						<div class="p-4 sm:p-5">
-							<div class="flex items-baseline justify-between gap-3">
-								{{#match visibility "public"}}<p class="text-2xl font-bold tracking-tight">Free</p><span class="font-mono text-[10px] uppercase tracking-[0.15em] text-silver">no account needed</span>{{/match}}
-								{{#match visibility "members"}}<p class="text-2xl font-bold tracking-tight">Members</p><span class="font-mono text-[10px] uppercase tracking-[0.15em] text-silver">free signup unlocks</span>{{/match}}
-								{{#match visibility "paid"}}<p class="text-2xl font-bold tracking-tight">Paid</p><span class="font-mono text-[10px] uppercase tracking-[0.15em] text-silver">supporters only</span>{{/match}}
-							</div>
-
-							{{#foreach tags visibility="public" limit="1"}}
-							{{#get "posts" filter="tag:hash-lesson+tags:{{slug}}" limit="1" order="published_at asc" as |first|}}
-								{{#foreach first}}<a href="{{url}}" class="btn-primary mt-3 w-full justify-center">{{> "icons/play"}} Start the course</a>{{/foreach}}
-							{{/get}}
-							{{/foreach}}
-							<a href="#curriculum" class="btn-ghost btn-sm mt-2 w-full justify-center">{{> "icons/book"}} Browse syllabus</a>
-
-							<p class="kicker mt-4 !text-[10px]">This course includes</p>
-							<ul class="mt-2 space-y-1.5 text-[12.5px] text-silver">
-								{{#foreach tags visibility="public" limit="1"}}
-								{{#get "posts" filter="tag:hash-lesson+tags:{{slug}}" limit="1" as |l counter|}}
-								<li class="flex items-center gap-2.5">{{> "icons/play" class="h-3.5 w-3.5 shrink-0"}} {{plural counter.total empty="Lessons on the way" singular="% structured lesson" plural="% structured lessons"}}</li>
-								{{/get}}
-								{{/foreach}}
-								<li class="flex items-center gap-2.5">{{> "icons/clock" class="h-3.5 w-3.5 shrink-0"}} <span id="course-includes-duration">Self-paced — watch anytime</span></li>
-								<li class="flex items-center gap-2.5">{{> "icons/check" class="h-3.5 w-3.5 shrink-0"}} Progress tracking in your browser</li>
-								<li class="flex items-center gap-2.5">{{> "icons/heart" class="h-3.5 w-3.5 shrink-0"}} Every question answered in the discussion</li>
-								<li class="flex items-center gap-2.5">{{> "icons/zap" class="h-3.5 w-3.5 shrink-0"}} Lifetime access, free updates</li>
-							</ul>
-
-							<div class="mt-4 border-t border-line pt-3">
-								{{> "post/share"}}
-							</div>
-						</div>
-					</div>
-					{{> "components/adsense" slot="3487917390" format="auto" class="!my-6 hidden lg:block"}}
+				<div class="space-y-6 lg:sticky lg:top-24">
+					{{> "post/toc"}}
+					{{> "components/adsense" slot="3487917390" format="auto" class="hidden lg:block"}}
 				</div>
 			</aside>
 		</div>

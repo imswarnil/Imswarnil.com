@@ -14,16 +14,7 @@
 		{{!-- red recording bubble --}}
 		<circle cx="37" cy="11" r="2.6" fill="#ef4444" class="logo-rec" />
 	</svg>
-	<span class="flex min-w-0 flex-col leading-none">
-		<span class="text-base font-bold tracking-tight">Swarnil</span>
-		{{!-- tagline: desktop only — mobile shows just the wordmark --}}
-		<span class="mt-[3px] hidden items-center gap-1 font-mono text-[8px] uppercase tracking-[0.22em] text-silver sm:flex">
-			documenting
-			<span class="logo-rotator relative inline-block h-[1.4em] overflow-hidden align-bottom">
-				<span class="logo-rotator-track flex flex-col">
-					<i class="not-italic">life</i><i class="not-italic">chaos</i><i class="not-italic">trips</i><i class="not-italic">emotions</i><i class="not-italic">happiness</i><i class="not-italic" aria-hidden="true">life</i>
-				</span>
-			</span>
-		</span>
-	</span>
+	{{!-- Wordmark only — the "documenting <word>" rotator was removed; the
+	     .logo flex parent vertically centres this in the navbar. --}}
+	<span class="text-base font-bold leading-none tracking-tight">Swarnil</span>
 </a>

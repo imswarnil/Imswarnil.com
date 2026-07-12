@@ -374,8 +374,7 @@
 	.course-tile.is-syllabus .course-media-title { opacity: 1; }
 	.course-tile.is-syllabus .course-title,
 	.course-tile.is-syllabus .course-desc,
-	.course-tile.is-syllabus .course-meta,
-	.course-tile.is-syllabus .course-peek { display: none; }
+	.course-tile.is-syllabus .course-meta { display: none; }
 	.course-syllabus { padding-top: 0.25rem; }
 
 	@media (prefers-reduced-motion: reduce) {

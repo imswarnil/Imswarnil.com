@@ -48,21 +48,8 @@
 									{{/get}}{{/foreach}}
 								</div>
 
-								{{!-- hover: first lessons peek (closed state only) --}}
-								{{#foreach tags visibility="public" limit="1"}}{{#get "posts" filter="tag:hash-lesson+tags:{{slug}}" limit="3" order="published_at asc" as |peek|}}
-									{{#if peek}}
-									<div class="course-peek">
-										<p class="kicker !text-[9px]">{{> "icons/play" class="h-3 w-3"}} Starts with</p>
-										<ol class="mt-2 space-y-1">
-											{{#foreach peek}}
-											<li><a href="{{url}}" class="flex items-center gap-2 rounded-lg px-2 py-1 text-[12px] font-medium transition hover:bg-mist"><span class="font-mono text-[10px] text-silver">{{@number}}.</span> <span class="truncate">{{title}}</span></a></li>
-											{{/foreach}}
-										</ol>
-									</div>
-									{{/if}}
-								{{/get}}{{/foreach}}
-
-								{{!-- full syllabus — hidden until the card morphs --}}
+								{{!-- full syllabus — hidden until the card morphs (opened via the
+								     Syllabus button; no hover reveal) --}}
 								{{#foreach tags visibility="public" limit="1"}}{{#get "posts" filter="tag:hash-lesson+tags:{{slug}}" limit="10" order="published_at asc" as |lessons|}}
 									{{#if lessons}}
 									<div class="course-syllabus" hidden>

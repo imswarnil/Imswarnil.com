@@ -389,6 +389,61 @@
 		neubrutal: function () { tone(90, 0, 0.12, 'square', 0.12, 55); noise(0.02, 0.04, 0.05); }        // rubber-stamp thud
 	};
 
+	/* ---------- First-load "tudum" intro ---------- */
+	(function () {
+		var root = document.documentElement;
+		if (!root.classList.contains('intro-playing')) return;
+		var intro = document.getElementById('intro');
+		var done = false;
+
+		/* synthesized cinematic boom — "tu … dum" (no copyrighted samples) */
+		function playTudum() {
+			var ac = ctx(); if (!ac) return;
+			if (ac.state === 'suspended' && ac.resume) ac.resume();
+			tone(74, 0, 0.32, 'sawtooth', 0.11, 56);   // tu
+			tone(150, 0.02, 0.26, 'sine', 0.07);
+			noise(0, 0.05, 0.04);
+			tone(56, 0.24, 0.6, 'sawtooth', 0.14, 44);  // dum
+			tone(116, 0.26, 0.5, 'sine', 0.07);
+		}
+
+		function reveal() {
+			if (done) return; done = true;
+			root.classList.add('intro-reveal');
+			root.classList.remove('intro-lock');
+		}
+		function cleanup() {
+			reveal();
+			if (intro && intro.parentNode) intro.parentNode.removeChild(intro);
+			root.classList.remove('intro-playing');
+		}
+
+		/* sound rides in with the wordmark (~0.42s). Autoplay audio needs a
+		   prior gesture in most browsers — if suspended, unlock on first input. */
+		setTimeout(playTudum, 420);
+		function unlock() {
+			window.removeEventListener('pointerdown', unlock);
+			window.removeEventListener('keydown', unlock);
+			var ac = ctx();
+			if (!done && ac && ac.state === 'suspended') ac.resume().then(playTudum).catch(function () {});
+		}
+		window.addEventListener('pointerdown', unlock);
+		window.addEventListener('keydown', unlock);
+
+		/* coordinate the site reveal with the overlay's CSS fade, then drop it */
+		setTimeout(reveal, 2000);
+		setTimeout(cleanup, 3300);
+
+		/* skip: button, click-through, or Esc */
+		function skip() {
+			if (intro) { intro.style.animation = 'none'; intro.style.opacity = '0'; intro.style.pointerEvents = 'none'; }
+			cleanup();
+		}
+		var skipBtn = intro && intro.querySelector('[data-intro-skip]');
+		if (skipBtn) skipBtn.addEventListener('click', function (e) { e.stopPropagation(); skip(); });
+		document.addEventListener('keydown', function (e) { if (e.key === 'Escape') skip(); });
+	})();
+
 	/* ---------- Inline SVG icons (lucide-style strokes, currentColor) ---------- */
 	function svgIcon(paths, size) {
 		return '<svg width="' + (size || 16) + '" height="' + (size || 16) + '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + paths + '</svg>';
@@ -696,19 +751,11 @@
 		document.querySelectorAll('[data-videos-next]').forEach(function (b) { b.addEventListener('click', function () { page(1); }); });
 	})();
 
-	document.querySelectorAll('[data-hscroll]').forEach(function (track) {
-		track.addEventListener('wheel', function (e) {
-			if (e.ctrlKey) return; /* pinch-zoom */
-			if (Math.abs(e.deltaY) <= Math.abs(e.deltaX)) return; /* horizontal gesture → native */
-			/* vertical gesture: drive the window, cancel the track's redirect.
-			   Two-arg scrollBy = always instant (never smooth-animates per tick,
-			   which is what made the page feel stuck on these sections). */
-			e.preventDefault();
-			var dy = e.deltaY;
-			if (e.deltaMode === 1) dy *= 16; /* Firefox line mode */
-			else if (e.deltaMode === 2) dy *= window.innerHeight;
-			window.scrollBy(0, dy);
-		}, { passive: false });
-	});
+	/* Vertical scroll over horizontal carousels stays fully native/compositor-
+	   threaded now: the tracks carry `overscroll-behavior-x: contain` +
+	   `touch-action: pan-x pan-y` in CSS, which lets a vertical gesture scroll
+	   the page and a horizontal one scroll the rail — without any JS. The old
+	   non-passive `wheel` + manual `window.scrollBy` handler pulled scrolling
+	   onto the main thread and was the cause of the scroll lag; it's gone. */
 
 })();

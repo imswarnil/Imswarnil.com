@@ -211,6 +211,17 @@
 		scroll-padding-top: 6rem;
 		/* paint the paper colour (not browser-white) between MPA navigations */
 		background-color: rgb(var(--paper));
+		/* Medium base type — everything is rem-based, so this scales the whole
+		   site up a notch. Fluid: 16.5px on phones → 18px on wide screens. */
+		font-size: clamp(16.5px, 15.9px + 0.25vw, 18px);
+	}
+
+	/* Kill stray horizontal scroll on mobile: nothing may push past the
+	   viewport. `clip` (not `hidden`) so position:sticky keeps working. */
+	html,
+	body {
+		max-width: 100%;
+		overflow-x: clip;
 	}
 
 	body {
@@ -253,6 +264,13 @@
 		mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
 	}
 
+	/* radial fade — pattern is solid at the centre and dissolves toward the
+	   edges. Used behind the hero so the grid lines "fade away". */
+	.fade-mask-radial {
+		-webkit-mask-image: radial-gradient(120% 100% at 50% 30%, black 0%, black 35%, transparent 78%);
+		mask-image: radial-gradient(120% 100% at 50% 30%, black 0%, black 35%, transparent 78%);
+	}
+
 	.text-balance {
 		text-wrap: balance;
 	}
@@ -264,15 +282,103 @@
 	.no-scrollbar::-webkit-scrollbar {
 		display: none;
 	}
+
+	/* ------------------------------------------------------------------
+	   Background patterns (MagicPattern-style, CSS-only).
+	   Every pattern paints in `rgb(var(--pattern) / a)` so it inherits the
+	   active theme mode and stays legible on dark surfaces automatically.
+	   Tune strength per-element with `--pat-opacity`; offset with
+	   `background-position`. All are pure background-image so they layer over
+	   any bg-paper/bg-mist surface. 10 consistent styles: dots, dots-dense,
+	   pin-dots, polka, grid, grid-fine, grid-paper, graph-paper,
+	   graph-dashboard, diagonal.
+	------------------------------------------------------------------- */
+	[class*='bg-pat-'] {
+		--pat-opacity: 1;
+	}
+
+	/* 1 — dots: roomy polka grid */
+	.bg-pat-dots {
+		background-image: radial-gradient(rgb(var(--pattern) / calc(0.14 * var(--pat-opacity))) 1.4px, transparent 1.4px);
+		background-size: 22px 22px;
+	}
+	/* 2 — dense dots */
+	.bg-pat-dots-dense {
+		background-image: radial-gradient(rgb(var(--pattern) / calc(0.13 * var(--pat-opacity))) 1.2px, transparent 1.2px);
+		background-size: 12px 12px;
+	}
+	/* 3 — pin dots: tiny, tight */
+	.bg-pat-pin-dots {
+		background-image: radial-gradient(rgb(var(--pattern) / calc(0.16 * var(--pat-opacity))) 0.6px, transparent 0.6px);
+		background-size: 8px 8px;
+	}
+	/* 4 — polka: two staggered dot layers */
+	.bg-pat-polka {
+		background-image:
+			radial-gradient(rgb(var(--pattern) / calc(0.12 * var(--pat-opacity))) 2px, transparent 2px),
+			radial-gradient(rgb(var(--pattern) / calc(0.12 * var(--pat-opacity))) 2px, transparent 2px);
+		background-size: 32px 32px;
+		background-position: 0 0, 16px 16px;
+	}
+	/* 5 — grid: standard ruled grid */
+	.bg-pat-grid {
+		background-image:
+			linear-gradient(to right, rgb(var(--pattern) / calc(0.1 * var(--pat-opacity))) 1px, transparent 1px),
+			linear-gradient(to bottom, rgb(var(--pattern) / calc(0.1 * var(--pat-opacity))) 1px, transparent 1px);
+		background-size: 28px 28px;
+	}
+	/* 6 — fine grid */
+	.bg-pat-grid-fine {
+		background-image:
+			linear-gradient(to right, rgb(var(--pattern) / calc(0.09 * var(--pat-opacity))) 1px, transparent 1px),
+			linear-gradient(to bottom, rgb(var(--pattern) / calc(0.09 * var(--pat-opacity))) 1px, transparent 1px);
+		background-size: 12px 12px;
+	}
+	/* 7 — grid paper: soft notebook squares */
+	.bg-pat-grid-paper {
+		background-image:
+			linear-gradient(to right, rgb(var(--pattern) / calc(0.07 * var(--pat-opacity))) 1px, transparent 1px),
+			linear-gradient(to bottom, rgb(var(--pattern) / calc(0.07 * var(--pat-opacity))) 1px, transparent 1px);
+		background-size: 20px 20px;
+	}
+	/* 8 — graph paper: minor squares + bold major lines */
+	.bg-pat-graph-paper {
+		background-image:
+			linear-gradient(to right, rgb(var(--pattern) / calc(0.06 * var(--pat-opacity))) 1px, transparent 1px),
+			linear-gradient(to bottom, rgb(var(--pattern) / calc(0.06 * var(--pat-opacity))) 1px, transparent 1px),
+			linear-gradient(to right, rgb(var(--pattern) / calc(0.12 * var(--pat-opacity))) 1.4px, transparent 1.4px),
+			linear-gradient(to bottom, rgb(var(--pattern) / calc(0.12 * var(--pat-opacity))) 1.4px, transparent 1.4px);
+		background-size: 16px 16px, 16px 16px, 80px 80px, 80px 80px;
+	}
+	/* 9 — graph-paper dashboard: grid + dotted intersections */
+	.bg-pat-graph-dashboard {
+		background-image:
+			radial-gradient(rgb(var(--pattern) / calc(0.16 * var(--pat-opacity))) 1px, transparent 1px),
+			linear-gradient(to right, rgb(var(--pattern) / calc(0.06 * var(--pat-opacity))) 1px, transparent 1px),
+			linear-gradient(to bottom, rgb(var(--pattern) / calc(0.06 * var(--pat-opacity))) 1px, transparent 1px);
+		background-size: 32px 32px, 32px 32px, 32px 32px;
+	}
+	/* 10 — diagonal hatching */
+	.bg-pat-diagonal {
+		background-image: repeating-linear-gradient(45deg, rgb(var(--pattern) / calc(0.08 * var(--pat-opacity))) 0, rgb(var(--pattern) / calc(0.08 * var(--pat-opacity))) 1px, transparent 0, transparent 10px);
+	}
 }
 
 /* ------------------------------------------------------------------
    Components
 ------------------------------------------------------------------- */
 @layer components {
-	/* Main content column matches the navbar island width (max-w-5xl) */
+	/* Main content column. Width derived from the golden ratio: the reading
+	   measure (prose = 44rem) × φ (1.618) ≈ 71rem — wide enough to breathe,
+	   still proportioned to the text column it wraps. */
 	.container-site {
-		@apply mx-auto w-full max-w-5xl px-5 sm:px-8;
+		@apply mx-auto w-full px-5 sm:px-8;
+		max-width: 71rem;
+	}
+
+	/* #site-main must never be the element that scrolls sideways */
+	#site-main {
+		overflow-x: clip;
 	}
 
 	/* Buttons live in ./components/buttons.css (imported at the top of this file) */
@@ -304,7 +410,7 @@
 	   is the reading-progress indicator: .nav-progress fills it left→right with
 	   a very light tint of the accent color (scaleX set in main.js). */
 	.nav-shell {
-		@apply relative mx-auto flex w-full max-w-site items-center justify-between gap-2 rounded-2xl border border-transparent bg-transparent py-2.5 pl-4 pr-2.5;
+		@apply relative mx-auto flex w-full max-w-site items-center justify-between gap-2 rounded-2xl border border-transparent bg-transparent py-1.5 pl-4 pr-2;
 		transition:
 			max-width 0.5s cubic-bezier(0.16, 1, 0.3, 1),
 			background-color 0.4s ease,
@@ -313,7 +419,7 @@
 			padding 0.4s ease;
 	}
 	.nav-shell.is-island {
-		@apply max-w-5xl rounded-2xl border-line bg-paper/80 py-1.5 shadow-island backdrop-blur-xl;
+		@apply max-w-5xl rounded-2xl border-line bg-paper/80 py-1 shadow-island backdrop-blur-xl;
 	}
 	.nav-shell > *:not(.nav-progress) {
 		position: relative;
@@ -358,20 +464,9 @@
 	.nav-link {
 		@apply relative inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-[13.5px] font-medium text-silver transition hover:bg-mist hover:text-ink;
 	}
-	/* current page: no pill — just ink text and a small accent dot underneath */
+	/* current page: light pill — same tint the others get on hover */
 	.nav-link.is-current {
-		@apply text-ink;
-	}
-	.nav-link.is-current::after {
-		content: '';
-		position: absolute;
-		bottom: -1px;
-		left: 50%;
-		height: 3px;
-		width: 3px;
-		border-radius: 9999px;
-		background: rgb(var(--accent));
-		transform: translateX(-50%);
+		@apply bg-mist text-ink;
 	}
 
 	/* Nested nav: second-level flyout opens to the right of the dropdown */
@@ -690,7 +785,8 @@ body.tag-hash-webseries #nav-spacer {
 	@apply fixed inset-x-0 top-0 z-50 border-b border-line bg-paper/85 backdrop-blur-xl;
 }
 .lesson-topbar-row {
-	@apply container-site flex items-center gap-3 py-2;
+	/* Course-player chrome runs wide — matches the wide lesson grid below */
+	@apply mx-auto flex w-full max-w-[96rem] items-center gap-3 px-5 py-2 sm:px-8;
 }
 .lesson-progress-track {
 	@apply relative hidden h-1 flex-1 overflow-hidden rounded-full bg-mist sm:block;
@@ -877,7 +973,6 @@ form[data-members-form].loading button[type='submit'] {
 	.hero-shell { padding: 12px 2px 8px; }
 	.hx-h1 { font-size: clamp(1.65rem, 8vw, 2.1rem); }
 	.hx-eyebrow { font-size: 0.62rem; letter-spacing: 0.1em; margin-bottom: 16px; }
-	.logo .logo-rotator, .logo [class*='tracking-'] { font-size: 7px !important; letter-spacing: 0.16em !important; }
 }
 
 /* camera HUD */
@@ -938,21 +1033,6 @@ form[data-members-form].loading button[type='submit'] {
 }
 .hobby-card strong { font-size: 14px; font-weight: 650; letter-spacing: -0.01em; }
 .hobby-card > span:last-child { font-size: 12px; line-height: 1.5; color: rgb(var(--silver)); }
-
-/* course tile: lesson peek slides open on hover/focus */
-.course-peek {
-	max-height: 0;
-	overflow: hidden;
-	opacity: 0;
-	transition: max-height 0.45s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease, margin 0.3s ease;
-	margin-top: 0;
-}
-.course-tile:hover .course-peek,
-.course-tile:focus-within .course-peek {
-	max-height: 10rem;
-	opacity: 1;
-	margin-top: 0.85rem;
-}
 
 /* ------------------------------------------------------------------
    NOW fan — centered 3D spread of typed cards
@@ -1206,4 +1286,121 @@ body.page-resume #nav-spacer {
 @media (max-width: 639px) {
 	.player-bar { inset-inline: 0.5rem; top: 0.5rem; gap: 0.5rem; padding: 0.4rem 0.5rem; }
 	.player-bar .btn-primary { padding-inline: 0.6rem; }
+}
+
+/* ==================================================================
+   First-load intro — Netflix "tudum"-style title card
+   ------------------------------------------------------------------
+   An early inline script in default.hbs adds `.intro-playing`
+   (+`.intro-lock`) to <html> on the first page load of a session
+   (skipped under prefers-reduced-motion). The overlay then plays a
+   self-contained CSS animation that also auto-hides it, so the site
+   is never trapped behind it even if JS fails to load. main.js layers
+   on the synthesized sound + the coordinated navbar/hero reveal.
+================================================================== */
+.intro {
+	display: none;
+}
+.intro-lock,
+.intro-lock body {
+	overflow: hidden !important;
+}
+html.intro-playing .intro {
+	display: flex;
+	position: fixed;
+	inset: 0;
+	z-index: 100;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: clamp(14px, 3vw, 26px);
+	background:
+		radial-gradient(120% 80% at 50% 42%, #16161a 0%, #0a0a0c 60%, #050506 100%);
+	/* show, hold, then fade + lift away — guarantees removal without JS */
+	animation: introAuto 3.2s cubic-bezier(0.7, 0, 0.3, 1) forwards;
+}
+@keyframes introAuto {
+	0%, 62% { opacity: 1; transform: scale(1); }
+	86% { opacity: 0; transform: scale(1.06); }
+	100% { opacity: 0; transform: scale(1.06); visibility: hidden; pointer-events: none; }
+}
+
+/* the animated line above the wordmark */
+.intro-line {
+	display: block;
+	height: 2px;
+	width: min(58vw, 460px);
+	transform-origin: center;
+	background: linear-gradient(90deg, transparent, #ef4444 18%, #ff6b6b 50%, #ef4444 82%, transparent);
+	box-shadow: 0 0 22px 1px rgb(239 68 68 / 0.55);
+	animation: introLine 1.15s cubic-bezier(0.7, 0, 0.15, 1) both;
+}
+@keyframes introLine {
+	0% { transform: scaleX(0); opacity: 0; }
+	18% { opacity: 1; }
+	62% { transform: scaleX(1); opacity: 1; }
+	100% { transform: scaleX(1); opacity: 0.9; }
+}
+
+/* the wordmark — "swarnil", letters wipe in under the line */
+.intro-word {
+	display: flex;
+	font-family: 'Geist', ui-sans-serif, system-ui, sans-serif;
+	font-weight: 800;
+	letter-spacing: 0.02em;
+	font-size: clamp(2.6rem, 12vw, 6.5rem);
+	line-height: 1;
+	color: #fafafa;
+}
+.intro-word i {
+	display: inline-block;
+	font-style: normal;
+	opacity: 0;
+	transform: translateY(0.35em) scale(0.9);
+	filter: blur(6px);
+	animation: introLetter 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+	animation-delay: calc(0.42s + var(--i) * 0.06s);
+}
+@keyframes introLetter {
+	to { opacity: 1; transform: none; filter: blur(0); }
+}
+
+.intro-skip {
+	position: fixed;
+	right: clamp(14px, 3vw, 32px);
+	bottom: clamp(14px, 3vw, 28px);
+	font-family: 'Geist Mono', ui-monospace, monospace;
+	font-size: 0.7rem;
+	letter-spacing: 0.16em;
+	text-transform: uppercase;
+	color: rgb(250 250 250 / 0.5);
+	background: transparent;
+	border: 0;
+	cursor: pointer;
+	transition: color 0.2s;
+}
+.intro-skip:hover { color: rgb(250 250 250 / 0.9); }
+
+/* Site reveal — navbar drops in, hero rises, staggered "characters" */
+html.intro-playing #site-header,
+html.intro-playing #hero { opacity: 0; }
+html.intro-reveal #site-header {
+	animation: introNavIn 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+html.intro-reveal #hero {
+	animation: introHeroIn 0.85s cubic-bezier(0.16, 1, 0.3, 1) 0.16s both;
+}
+@keyframes introNavIn {
+	from { opacity: 0; transform: translateY(-100%); }
+	to { opacity: 1; transform: none; }
+}
+@keyframes introHeroIn {
+	from { opacity: 0; transform: translateY(26px) scale(0.985); }
+	to { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	html.intro-playing .intro { animation: none; opacity: 0; visibility: hidden; pointer-events: none; }
+	html.intro-reveal #site-header,
+	html.intro-reveal #hero { animation: none; opacity: 1; }
 }

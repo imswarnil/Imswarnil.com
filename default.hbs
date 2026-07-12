@@ -42,6 +42,18 @@
 			root.classList.toggle('dark', !!DARK_MODES[mode]);
 			// Video-hero index pages get the glass navbar (flash-free)
 			if (/^\/(videos|webseries|travel)\/(page\/\d+\/)?$/.test(location.pathname)) root.classList.add('nav-glass');
+
+			// First-load "tudum" intro: play once per session, never under
+			// reduced-motion or for search/social crawlers. Decided here (before
+			// paint) so the overlay + navbar/hero reveal are flash-free.
+			try {
+				var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+				var bot = /bot|crawl|spider|slurp|lighthouse|headless/i.test(navigator.userAgent || '');
+				if (!reduce && !bot && !sessionStorage.getItem('swarnil-intro-seen')) {
+					sessionStorage.setItem('swarnil-intro-seen', '1');
+					root.classList.add('intro-playing', 'intro-lock');
+				}
+			} catch (e) {}
 		})();
 	</script>
 
@@ -76,6 +88,7 @@
 </head>
 
 <body class="{{body_class}} min-h-screen bg-paper text-ink">
+	{{> "components/intro"}}
 	{{> "components/navbar"}}
 
 	<main id="site-main" class="relative">

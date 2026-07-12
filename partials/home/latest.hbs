@@ -14,7 +14,7 @@
 		{{!-- vertical wheel scrolls the page (data-hscroll in main.js); horizontal
 		     gesture scrolls the row. Big rank numbers peek from behind each frame.
 		     Snap + arrow paging + progress make the rail actually navigable. --}}
-		<div class="no-scrollbar mt-10 snap-x snap-proximity overflow-x-auto scroll-smooth pb-6 [touch-action:pan-x_pan-y]" id="latest-rail" data-rank-track data-hscroll>
+		<div class="no-scrollbar mt-10 snap-x snap-proximity overflow-x-auto pb-6 [touch-action:pan-x_pan-y] [overscroll-behavior-x:contain]" id="latest-rail" data-rank-track data-hscroll>
 			<div class="container-site">
 				<div class="flex w-max items-end gap-8 pr-8 sm:gap-12" data-reveal-stagger="70">
 					{{#foreach latest}}
