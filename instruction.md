@@ -197,8 +197,8 @@ gscan FAILS the build if a defined setting is unused — keep them referenced.
 6. **Validate constantly**: `npx gscan . --fatal` after every collection.
    No `limit="all"`. Page template must honor
    `@page.show_title_and_feature_image`.
-7. Test with the demo pack: import `data.json` on a LOCAL Ghost
-   (`ghost install local`), upload `routes.yaml`, click through every
+7. Test with the demo pack: import the modules from `dummy-content/` on a LOCAL
+   Ghost (`ghost install local`), upload `routes.yaml`, click through every
    collection + one detail page each.
 8. Deploy via the existing GitHub Action (push to main). Secrets:
    `GHOST_ADMIN_API_URL`, `GHOST_ADMIN_API_KEY`.
@@ -219,4 +219,4 @@ gscan FAILS the build if a defined setting is unused — keep them referenced.
 - **CDN/Cloudflare** may cache HTML — purge after structural deploys.
 - gscan errors that block deploy: unused custom setting, missing partial
   referenced by `post.hbs`, `limit="all"`, invalid Handlebars.
-- Import `data.json` only on test sites — it's demo content (54 posts).
+- Import `dummy-content/` files only on test sites — they're demo content.

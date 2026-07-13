@@ -2,6 +2,45 @@
 
 Running record of what's done and what's left. Master backlog lives in CLAUDE.md.
 
+## 2026-07-13 — modular demo content · /docs module · preloader out · lazy skeletons · 404 + hero + subscribe polish
+
+### Done
+- **Demo content split into `dummy-content/`**: the single root `import.json`
+  (plus `courses-import.json` + `creator-import.json`) is gone. Replaced by one
+  self-contained, independently importable Ghost file per module —
+  `navigation.json` (nav menus), `course.json` + `lesson.json` (full), and
+  sampled `post/video/webseries/project/product/travel/timeline/misc.json`.
+  Container integrity verified (children never orphaned; lessons' course tags all
+  present in `course.json`). Folder excluded from the release zip; every doc
+  reference (README, documentation, instruction, CLAUDE, package.json zip)
+  repointed. See `dummy-content/README.md`.
+- **New `/docs` module**: `#docs` internal type tag + `docs-*` section tags,
+  `dummy-content/docs.json` (11 pages, 5 sections of real theme docs), a `/docs/`
+  collection route, `docs.hbs` landing (sidebar + section cards),
+  `partials/post/doc.hbs` single-doc layout (grouped sticky sidebar +
+  on-this-page TOC + prev/next), dispatcher entry in `post.hbs`, and a `book`
+  nav icon for the `docs` slug. Sidebar/section partials:
+  `components/docs-sidebar`, `components/docs-nav-section`.
+- **First-load preloader removed**: the Netflix-"tudum" intro overlay is gone —
+  `components/intro.hbs` deleted, boot script + include removed from
+  `default.hbs`, intro IIFE removed from `main.js` (audio helpers kept for the
+  theme-switch sounds), and the whole intro CSS block dropped from `tailwind.css`.
+- **Site-wide lazy-loading + skeletons**: `main.js` now tags every content image
+  with a shimmer `.img-skel` placeholder (fades in on decode) and forces
+  `loading="lazy"` + `decoding="async"` — no per-card markup. Below-the-fold
+  homepage sections get `content-visibility:auto` (hero excluded for LCP). The
+  duplicate `.skeleton` rule in `tailwind.css` was removed in favour of the
+  `media.css` shimmer (single source of truth).
+- **404 upgraded**: dead `bg-dots` swapped for `bg-pat-dots fade-mask-corners`,
+  added cursor parallax + a searchlight that follows the pointer, randomized
+  headline, more excuses.
+- **Hero grid**: now `fade-mask-corners` — densest in the centre, gradients away
+  toward all four corners.
+- **Subscribe (bell) modal**: widened `max-w-2xl → max-w-3xl`, vertically
+  centered and capped to the viewport with internal scroll so it's never clipped.
+- **Housekeeping**: removed the orphaned `blog_quote` custom setting
+  (package.json) that was failing gscan. Theme is gscan-clean.
+
 ## 2026-07-11 (later) — lesson scroll-hang fix · plain/simple visual pass · content width = navbar island
 
 ### Done

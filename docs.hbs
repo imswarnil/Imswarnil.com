@@ -1,0 +1,35 @@
+{{!< default}}
+
+{{!-- /docs — documentation home. Sidebar (lg+) + a grid of section cards.
+     Powered by #docs posts grouped by their docs-* section tag. --}}
+{{> "components/collection-header" kicker="Read the manual" title="Documentation" desc="Everything about the theme — the tag system, collections, theme modes, and how to ship it. Pick a section to start."}}
+
+<section class="container-site py-10 lg:py-14">
+	<div class="lg:grid lg:grid-cols-12 lg:gap-10">
+		{{!-- Sticky sidebar (desktop) --}}
+		<aside class="hidden lg:col-span-3 lg:block">
+			<div class="lg:sticky lg:top-20">
+				{{> "components/docs-sidebar" active=""}}
+			</div>
+		</aside>
+
+		{{!-- Section cards --}}
+		<div class="min-w-0 lg:col-span-9">
+			{{#get "posts" filter="tag:hash-docs" limit="1" as |any|}}
+			{{#unless any}}
+			<p class="rounded-2xl border border-line bg-mist/40 p-6 text-silver">No docs yet — import <code class="rounded bg-mist px-1.5 py-0.5 font-mono text-xs">dummy-content/docs.json</code> to seed the documentation.</p>
+			{{/unless}}
+			{{/get}}
+
+			<div class="grid gap-5 sm:grid-cols-2">
+				<div class="docs-card">{{> "components/docs-nav-section" slug="docs-getting-started" title="Getting started" active=""}}</div>
+				<div class="docs-card">{{> "components/docs-nav-section" slug="docs-content-model" title="Content model" active=""}}</div>
+				<div class="docs-card">{{> "components/docs-nav-section" slug="docs-collections" title="Collections & routing" active=""}}</div>
+				<div class="docs-card">{{> "components/docs-nav-section" slug="docs-customizing" title="Customizing" active=""}}</div>
+				<div class="docs-card">{{> "components/docs-nav-section" slug="docs-deploying" title="Deploying & performance" active=""}}</div>
+			</div>
+
+			{{> "components/adsense" slot="7663977887" format="auto" class="mx-auto mt-12 max-w-2xl"}}
+		</div>
+	</div>
+</section>

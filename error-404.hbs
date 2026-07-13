@@ -1,25 +1,31 @@
 {{!< default}}
 
-<section class="relative flex min-h-[70vh] items-center overflow-hidden py-20">
-	<div class="bg-dots pointer-events-none absolute inset-0" aria-hidden="true"></div>
+<section class="relative flex min-h-[70vh] items-center overflow-hidden py-20" id="err-stage">
+	<div class="bg-pat-dots fade-mask-corners pointer-events-none absolute inset-0" aria-hidden="true"></div>
+	{{!-- a searchlight that follows the cursor, hunting for the lost page --}}
+	<div class="err-spot pointer-events-none absolute inset-0 -z-0" aria-hidden="true"></div>
+
 	<div class="container-site relative text-center">
 
-		{{!-- Illustration: a lost frame on a tripod, wandering --}}
-		<div class="relative mx-auto mb-4 h-28 w-full max-w-md text-silver" aria-hidden="true">
+		{{!-- Illustration: a lost frame on a tripod, wandering (parallax on move) --}}
+		<div class="relative mx-auto mb-4 h-28 w-full max-w-md text-silver" data-depth="16" aria-hidden="true">
 			<span class="err-art absolute left-[12%] top-2" style="animation-delay:.3s">
 				<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="9" width="18" height="12" rx="2"/><path d="M3 9l2-5 16 2-1 3M8.5 4.7L7 9M14 5.4L12.4 9"/></svg>
 			</span>
 			<span class="err-art absolute right-[14%] top-6" style="animation-delay:.9s">
 				<svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="2"/><path d="M7 2v20M17 2v20M2 7h5M2 17h5M17 7h5M17 17h5"/></svg>
 			</span>
+			<span class="err-art absolute left-[4%] top-10 hidden sm:inline-block" style="animation-delay:1.4s">
+				<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/><circle cx="12" cy="12" r="3"/></svg>
+			</span>
 			<span class="err-art absolute left-1/2 top-0 -translate-x-1/2 text-ink">
 				<svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/><path d="M8.5 10.5h.01M13.5 10.5h.01M9 13.5c.8.7 3.2.7 4 0"/></svg>
 			</span>
-			<span class="absolute bottom-0 left-1/2 h-px w-40 -translate-x-1/2 bg-line" aria-hidden="true"></span>
+			<span class="absolute bottom-0 left-1/2 h-px w-40 -translate-x-1/2 bg-line"></span>
 		</div>
 
-		<p class="err-glitch rank-number mx-auto !text-transparent" data-text="404" style="-webkit-text-stroke: 2px rgb(var(--silver) / .5)">404</p>
-		<h1 class="mt-4 text-3xl font-semibold tracking-tight sm:text-4xl">Cropped out of existence.</h1>
+		<p class="err-glitch rank-number mx-auto !text-transparent" data-text="404" data-depth="8" style="-webkit-text-stroke: 2px rgb(var(--silver) / .5)">404</p>
+		<h1 class="mt-4 text-3xl font-semibold tracking-tight sm:text-4xl" id="err-title">Cropped out of existence.</h1>
 		<p class="mx-auto mt-4 max-w-md leading-relaxed text-silver">This page was noise, so it got the director's-cut treatment: cut. Or you typed the URL from memory — bold move, respect.</p>
 		<p class="mx-auto mt-2 max-w-md font-mono text-[11px] uppercase tracking-[0.2em] text-silver/70" id="err-excuse">rolling excuse reel…</p>
 		<div class="mt-8 flex flex-wrap justify-center gap-3">
@@ -33,6 +39,7 @@
 
 <script>
 	(function () {
+		{{!-- rotating excuse reel --}}
 		var excuses = [
 			'the intern deleted it. we don\'t have an intern.',
 			'this page is on a silent retreat.',
@@ -40,16 +47,45 @@
 			'it exists in the director\'s cut only.',
 			'the URL is real, the page is cinema.',
 			'lost in a git rebase, presumed happy.',
-			'this page failed the vibe check at review.'
+			'this page failed the vibe check at review.',
+			'we looked everywhere. even under the couch.',
+			'the page is not lost, it\'s just avant-garde.',
+			'ctrl+z went one step too far.'
 		];
-		var el = document.getElementById('err-excuse');
-		if (!el) return;
-		var i = Math.floor(Math.random() * excuses.length);
-		function next() {
-			el.textContent = '“' + excuses[i % excuses.length] + '”';
-			i++;
+		var titles = [
+			'Cropped out of existence.',
+			'This scene got cut.',
+			'Nothing here but B-roll.',
+			'Dead link walking.',
+			'You found the blooper reel.'
+		];
+		var ex = document.getElementById('err-excuse');
+		var title = document.getElementById('err-title');
+		if (title) title.textContent = titles[Math.floor(Math.random() * titles.length)];
+		if (ex) {
+			var i = Math.floor(Math.random() * excuses.length);
+			function next() { ex.textContent = '“' + excuses[i % excuses.length] + '”'; i++; }
+			next();
+			setInterval(next, 3200);
 		}
-		next();
-		setInterval(next, 3200);
+
+		{{!-- cursor parallax + searchlight (skipped under reduced motion / touch) --}}
+		var stage = document.getElementById('err-stage');
+		var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+		var coarse = matchMedia('(pointer: coarse)').matches;
+		if (stage && !reduce && !coarse) {
+			stage.classList.add('err-spot-on');
+			stage.addEventListener('pointermove', function (e) {
+				var r = stage.getBoundingClientRect();
+				var dx = (e.clientX - r.left) / r.width - 0.5;
+				var dy = (e.clientY - r.top) / r.height - 0.5;
+				stage.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+				stage.style.setProperty('--my', (e.clientY - r.top) + 'px');
+				document.querySelectorAll('[data-depth]').forEach(function (el) {
+					var d = parseFloat(el.getAttribute('data-depth')) || 10;
+					el.style.transform = 'translate(' + (-dx * d) + 'px,' + (-dy * d) + 'px)';
+				});
+			});
+		}
 	})();
 </script>

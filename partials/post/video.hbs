@@ -35,14 +35,39 @@
 			#vd-shell { opacity: 1 !important; animation: none !important; }
 			.vd-scan { display: none; }
 		}
-		.vd-chapters { width: 100%; font-size: .8rem; border-collapse: collapse; }
+		/* Unmute pill over the player */
+		.vd-unmute {
+			position: absolute; z-index: 20; left: 50%; bottom: 14px; transform: translateX(-50%);
+			display: inline-flex; align-items: center; gap: .5rem;
+			padding: .5rem .9rem; border-radius: 9999px;
+			background: rgb(0 0 0 / .68); color: #fff; -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+			border: 1px solid rgb(255 255 255 / .2);
+			font-size: .78rem; font-weight: 600; letter-spacing: .01em; cursor: pointer;
+			box-shadow: 0 8px 24px -8px rgb(0 0 0 / .7);
+			transition: background .2s ease;
+			animation: vd-unmute-pulse 2.6s ease-in-out infinite;
+		}
+		.vd-unmute:hover { background: rgb(0 0 0 / .85); }
+		.vd-unmute svg { width: 1rem; height: 1rem; }
+		@keyframes vd-unmute-pulse { 0%,100% { box-shadow: 0 8px 24px -8px rgb(0 0 0 / .7), 0 0 0 0 rgb(255 255 255 / .35); } 50% { box-shadow: 0 8px 24px -8px rgb(0 0 0 / .7), 0 0 0 6px rgb(255 255 255 / 0); } }
+		@media (prefers-reduced-motion: reduce) { .vd-unmute { animation: none; } }
+
+		/* Chapters — list-like rows, tappable, with a jump affordance */
+		.vd-chapters { width: 100%; font-size: .82rem; border-collapse: separate; border-spacing: 0 3px; }
 		.vd-chapters thead { display: none; }
-		.vd-chapters td { padding: .6rem .5rem; border-bottom: 1px solid rgb(var(--line)); color: rgb(var(--ink) / .85); vertical-align: top; }
-		.vd-chapters .vd-chapter { cursor: pointer; border-radius: .5rem; }
-		.vd-chapters .vd-chapter td:first-child { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; white-space: nowrap; color: rgb(var(--silver)); }
-		.vd-chapters .vd-chapter:hover td { background: rgb(var(--mist)); }
-		.vd-chapters .vd-active td { background: rgb(var(--mist)); font-weight: 600; color: rgb(var(--ink)); }
-		.vd-chapters .vd-active td:first-child { box-shadow: inset 3px 0 0 rgb(var(--accent)); color: rgb(var(--accent)); }
+		.vd-chapters td { padding: .5rem .55rem; border: 0; vertical-align: middle; color: rgb(var(--ink) / .88); line-height: 1.35; }
+		.vd-chapters .vd-chapter { cursor: pointer; }
+		.vd-chapters .vd-chapter td { transition: background .15s ease, color .15s ease; }
+		.vd-chapters .vd-chapter td:first-child {
+			font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-variant-numeric: tabular-nums;
+			white-space: nowrap; width: 1%; color: rgb(var(--silver));
+			border-radius: .55rem 0 0 .55rem; padding-left: .7rem;
+		}
+		.vd-chapters .vd-chapter td:last-child { border-radius: 0 .55rem .55rem 0; padding-right: .7rem; }
+		.vd-chapters .vd-chapter:hover td { background: rgb(var(--mist)); color: rgb(var(--ink)); }
+		.vd-chapters .vd-chapter:hover td:first-child { color: rgb(var(--accent)); }
+		.vd-chapters .vd-active td { background: rgb(var(--accent) / .1); font-weight: 650; color: rgb(var(--ink)); }
+		.vd-chapters .vd-active td:first-child { color: rgb(var(--accent)); box-shadow: inset 3px 0 0 rgb(var(--accent)); }
 		/* Inline tappable timestamps (works on mobile, any description format) */
 		.vd-ts { font: inherit; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-variant-numeric: tabular-nums; cursor: pointer; color: rgb(var(--accent)); background: rgb(var(--mist)); border: 0; padding: 0 .3em; margin: 0 .05em; border-radius: .3rem; -webkit-tap-highlight-color: transparent; }
 		.vd-ts:hover, .vd-ts:focus-visible { background: rgb(var(--accent) / .14); outline: none; }
@@ -56,6 +81,11 @@
 			<div id="vd-shell" class="relative">
 				<div id="vd-stage" class="relative aspect-video overflow-hidden bg-black">
 					<div class="vd-scan" aria-hidden="true"></div>
+					{{!-- Browsers force autoplay to start muted; one tap turns sound on --}}
+					<button type="button" id="vd-unmute" class="vd-unmute" aria-label="Unmute — play with sound" hidden>
+						<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H2v6h4l5 4V5z"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
+						Tap for sound
+					</button>
 				</div>
 			</div>
 			<aside id="vd-chapters-slot" class="hidden overflow-y-auto border-line px-3 py-2 lg:block lg:max-h-[calc((100vw*0.7)*9/16)] lg:border-l">
@@ -184,6 +214,7 @@
 		var content = document.getElementById('vd-content');
 		var shell = document.getElementById('vd-shell');
 		var stage = document.getElementById('vd-stage');
+		var unmuteBtn = document.getElementById('vd-unmute');
 		if (!app || !content || !shell) return;
 
 		/* ---------- 1. Find the first YouTube embed/link in the post ---------- */
@@ -221,6 +252,26 @@
 		iframe.className = 'absolute inset-0 h-full w-full';
 		stage.appendChild(iframe);
 		shell.classList.add('tv-on'); /* TV turn-on */
+
+		/* Autoplay is forced-muted by browsers; offer a one-tap unmute. The tap
+		   IS the user gesture browsers require, so sound is allowed after it. */
+		function hideUnmute() { if (unmuteBtn) { unmuteBtn.hidden = true; } }
+		if (unmuteBtn) {
+			unmuteBtn.hidden = false;
+			unmuteBtn.addEventListener('click', function () {
+				loadAPI();
+				(function tryUnmute(n) {
+					if (player && player.unMute) {
+						player.unMute();
+						if (player.setVolume) player.setVolume(100);
+						if (player.playVideo) player.playVideo();
+						hideUnmute();
+					} else if (n < 40) {
+						setTimeout(function () { tryUnmute(n + 1); }, 150);
+					}
+				})(0);
+			});
+		}
 
 		/* ---------- 3. Timestamp table -> clickable chapters ---------- */
 		var TIME_RE = /^(\d{1,2}:)?\d{1,2}:\d{2}$/;
@@ -286,6 +337,7 @@
 			player.seekTo(sec, true);
 			if (player.unMute) player.unMute();
 			if (player.playVideo) player.playVideo();
+			hideUnmute();
 		}
 		function seek(sec) {
 			if (player && player.seekTo) doSeek(sec);

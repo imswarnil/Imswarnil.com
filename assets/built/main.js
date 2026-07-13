@@ -389,61 +389,6 @@
 		neubrutal: function () { tone(90, 0, 0.12, 'square', 0.12, 55); noise(0.02, 0.04, 0.05); }        // rubber-stamp thud
 	};
 
-	/* ---------- First-load "tudum" intro ---------- */
-	(function () {
-		var root = document.documentElement;
-		if (!root.classList.contains('intro-playing')) return;
-		var intro = document.getElementById('intro');
-		var done = false;
-
-		/* synthesized cinematic boom — "tu … dum" (no copyrighted samples) */
-		function playTudum() {
-			var ac = ctx(); if (!ac) return;
-			if (ac.state === 'suspended' && ac.resume) ac.resume();
-			tone(74, 0, 0.32, 'sawtooth', 0.11, 56);   // tu
-			tone(150, 0.02, 0.26, 'sine', 0.07);
-			noise(0, 0.05, 0.04);
-			tone(56, 0.24, 0.6, 'sawtooth', 0.14, 44);  // dum
-			tone(116, 0.26, 0.5, 'sine', 0.07);
-		}
-
-		function reveal() {
-			if (done) return; done = true;
-			root.classList.add('intro-reveal');
-			root.classList.remove('intro-lock');
-		}
-		function cleanup() {
-			reveal();
-			if (intro && intro.parentNode) intro.parentNode.removeChild(intro);
-			root.classList.remove('intro-playing');
-		}
-
-		/* sound rides in with the wordmark (~0.42s). Autoplay audio needs a
-		   prior gesture in most browsers — if suspended, unlock on first input. */
-		setTimeout(playTudum, 420);
-		function unlock() {
-			window.removeEventListener('pointerdown', unlock);
-			window.removeEventListener('keydown', unlock);
-			var ac = ctx();
-			if (!done && ac && ac.state === 'suspended') ac.resume().then(playTudum).catch(function () {});
-		}
-		window.addEventListener('pointerdown', unlock);
-		window.addEventListener('keydown', unlock);
-
-		/* coordinate the site reveal with the overlay's CSS fade, then drop it */
-		setTimeout(reveal, 2000);
-		setTimeout(cleanup, 3300);
-
-		/* skip: button, click-through, or Esc */
-		function skip() {
-			if (intro) { intro.style.animation = 'none'; intro.style.opacity = '0'; intro.style.pointerEvents = 'none'; }
-			cleanup();
-		}
-		var skipBtn = intro && intro.querySelector('[data-intro-skip]');
-		if (skipBtn) skipBtn.addEventListener('click', function (e) { e.stopPropagation(); skip(); });
-		document.addEventListener('keydown', function (e) { if (e.key === 'Escape') skip(); });
-	})();
-
 	/* ---------- Inline SVG icons (lucide-style strokes, currentColor) ---------- */
 	function svgIcon(paths, size) {
 		return '<svg width="' + (size || 16) + '" height="' + (size || 16) + '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + paths + '</svg>';
@@ -596,6 +541,30 @@
 			if (img.complete && img.naturalWidth) { reveal(img); return; }
 			img.addEventListener('load', function () { reveal(img); });
 			img.addEventListener('error', function () { reveal(img); }); /* don't trap the skeleton on a broken src */
+		});
+	})();
+
+	/* ---------- Global image skeletons + lazy-loading -----------------------
+	   Give EVERY content image a shimmer placeholder until it decodes, and make
+	   sure it lazy-loads — no per-card markup needed. Chrome/site chrome images
+	   (logo, nav, footer brand), tiny icons, and images already using the
+	   explicit data-skeleton pattern are left alone. -------------------------- */
+	(function () {
+		var imgs = document.querySelectorAll('main img, article img');
+		[].forEach.call(imgs, function (img) {
+			if (img.hasAttribute('data-skeleton') || img.hasAttribute('data-no-skel')) return;
+			if (img.closest('header, nav, footer, .no-skel, [data-yt-bg]')) return;
+			/* skip small decorative/icon images */
+			var w = parseInt(img.getAttribute('width'), 10) || 0;
+			var h = parseInt(img.getAttribute('height'), 10) || 0;
+			if ((w && w < 64) || (h && h < 64)) return;
+			/* lazy-load everything that isn't explicitly eager (e.g. an LCP hero) */
+			if (img.getAttribute('loading') !== 'eager') img.setAttribute('loading', 'lazy');
+			if (!img.getAttribute('decoding')) img.setAttribute('decoding', 'async');
+			img.classList.add('img-skel');
+			if (img.complete && img.naturalWidth) { img.classList.add('is-loaded'); return; }
+			img.addEventListener('load', function () { img.classList.add('is-loaded'); });
+			img.addEventListener('error', function () { img.classList.add('is-loaded'); });
 		});
 	})();
 

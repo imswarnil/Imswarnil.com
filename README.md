@@ -27,7 +27,7 @@ Then in Ghost Admin:
 1. **Settings → Theme** — upload `dist/swarnil.zip` and activate.
 2. **Settings → Labs → Beta features → Routes** — upload `routes.yaml` (required; it powers every collection and the PWA endpoints).
 3. **Settings → Labs → Redirects** — upload `redirects.yaml` (optional; `ads.txt` / `llms.txt` redirects).
-4. **Settings → Import/Export → Import** — import `import.json` for the demo content pack (posts across every module, all video embeds pointed at a single YouTube URL).
+4. **Settings → Import/Export → Import** — import the demo content from the `dummy-content/` folder. It's split into one file per module (`course.json`, `lesson.json`, `video.json`, `docs.json`, …) plus `navigation.json`; import the modules you want (see `dummy-content/README.md`). All video embeds point at a single YouTube URL.
 5. Restart Ghost after the first deploy so new templates are discovered.
 
 ## How content routing works

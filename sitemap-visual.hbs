@@ -1,292 +1,175 @@
 {{!< default}}
 
-{{> "components/collection-header" kicker="Every corner of the site" title="Visual sitemap" desc="The whole site as one tree — every collection, its latest posts, and where to go for more."}}
+{{> "components/collection-header" kicker="Every corner of the site" title="Visual sitemap" desc="The whole site as one tree — every collection, all of its posts with thumbnails, plus pages and topics."}}
 
 <style>
-	.tree-root, .tree-leaves { list-style: none; margin: 0; padding: 0; }
-	.tree-trunk { position: relative; margin-left: 1.25rem; padding-left: 1.75rem; }
-	.tree-root > li { position: relative; padding: .5rem 0; }
-	.tree-root > li::before { content: ""; position: absolute; left: -1.75rem; top: 0; bottom: 0; width: 1px; background: rgb(var(--line)); }
-	.tree-root > li:last-child::before { bottom: auto; height: 2rem; }
-	.tree-root > li::after { content: ""; position: absolute; left: -1.75rem; top: 2rem; width: 1.4rem; height: 1px; background: rgb(var(--line)); }
-	.tree-leaves { position: relative; margin-left: .35rem; padding-left: 1.35rem; }
-	.tree-leaves > li { position: relative; padding: .3rem 0; }
-	.tree-leaves > li::before { content: ""; position: absolute; left: -1.35rem; top: 0; bottom: 0; width: 1px; background: rgb(var(--line)); }
-	.tree-leaves > li:last-child::before { bottom: auto; height: 1.05rem; }
-	.tree-leaves > li::after { content: ""; position: absolute; left: -1.35rem; top: 1.05rem; width: 1rem; height: 1px; background: rgb(var(--line)); }
-	.tree-branch .collapse-title { min-height: 0; }
+	/* Self-contained tree — no daisyUI. Theme-aware via CSS vars. */
+	.sm-wrap { position: relative; }
+
+	.sm-root {
+		display: inline-flex; align-items: center; gap: 0.85rem;
+		padding: 0.85rem 1.25rem;
+		border: 1px solid rgb(var(--line)); border-radius: 1rem;
+		background: rgb(var(--mist) / 0.45);
+		box-shadow: 0 1px 2px rgb(0 0 0 / 0.04), 0 10px 30px -18px rgb(0 0 0 / 0.25);
+	}
+
+	.sm-tree { list-style: none; margin: 0.4rem 0 0; padding: 0; position: relative; margin-left: 1.6rem; }
+	/* the trunk */
+	.sm-tree::before {
+		content: ""; position: absolute; left: 0; top: 0; bottom: 2.1rem;
+		width: 2px; background: rgb(var(--line));
+	}
+	.sm-branch { position: relative; padding-left: 2.1rem; }
+	/* elbow connector from trunk → node */
+	.sm-branch::before {
+		content: ""; position: absolute; left: 0; top: 2rem;
+		width: 1.6rem; height: 2px; background: rgb(var(--line));
+	}
+
+	.sm-details {
+		margin: 0.55rem 0; overflow: hidden;
+		border: 1px solid rgb(var(--line)); border-radius: 1rem;
+		background: rgb(var(--paper));
+		transition: box-shadow 0.2s ease;
+	}
+	.sm-details[open] { box-shadow: 0 1px 2px rgb(0 0 0 / 0.04), 0 12px 34px -20px rgb(0 0 0 / 0.22); }
+
+	.sm-node {
+		display: flex; align-items: center; gap: 0.6rem; cursor: pointer;
+		padding: 0.8rem 1rem; list-style: none;
+		font-size: 0.92rem; font-weight: 650; letter-spacing: -0.01em;
+	}
+	.sm-node::-webkit-details-marker { display: none; }
+	.sm-dot {
+		width: 0.62rem; height: 0.62rem; border-radius: 9999px; flex: none;
+		background: rgb(var(--accent));
+		box-shadow: 0 0 0 4px rgb(var(--accent) / 0.14);
+	}
+	.sm-node-name { color: rgb(var(--ink)); }
+	.sm-route {
+		font-family: 'Geist Mono', ui-monospace, monospace;
+		font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+		color: rgb(var(--silver));
+	}
+	.sm-count {
+		font-family: 'Geist Mono', ui-monospace, monospace; font-size: 10px;
+		padding: 0.08rem 0.45rem; border-radius: 9999px;
+		background: rgb(var(--mist)); color: rgb(var(--silver));
+	}
+	.sm-chev { margin-left: auto; color: rgb(var(--silver)); transition: transform 0.25s ease; display: inline-flex; }
+	.sm-details[open] .sm-chev { transform: rotate(180deg); }
+
+	.sm-children {
+		display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+		gap: 0.5rem; padding: 0.85rem 1rem 1rem;
+		border-top: 1px solid rgb(var(--line));
+	}
+	.sm-leaf {
+		display: flex; align-items: center; gap: 0.6rem; min-width: 0;
+		padding: 0.4rem; border: 1px solid transparent; border-radius: 0.65rem;
+		transition: background 0.15s ease, border-color 0.15s ease;
+	}
+	.sm-leaf:hover { background: rgb(var(--mist) / 0.7); border-color: rgb(var(--line)); }
+	.sm-thumb {
+		width: 2.85rem; height: 2.85rem; flex: none; overflow: hidden;
+		border-radius: 0.55rem; border: 1px solid rgb(var(--line)); background: rgb(var(--mist));
+	}
+	.sm-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+	.sm-thumb-ph { display: block; width: 100%; height: 100%; }
+	.sm-leaf-t {
+		font-size: 13px; font-weight: 500; line-height: 1.25; color: rgb(var(--ink));
+		display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+	}
+	.sm-all {
+		grid-column: 1 / -1; display: inline-flex; align-items: center; gap: 0.35rem;
+		margin-top: 0.15rem; font-size: 12.5px; font-weight: 650; color: rgb(var(--accent));
+	}
+	.sm-all:hover { text-decoration: underline; text-underline-offset: 3px; }
+	.sm-empty { grid-column: 1 / -1; font-size: 13px; color: rgb(var(--silver)); }
+
+	@media (max-width: 639px) {
+		.sm-branch { padding-left: 1.4rem; }
+		.sm-branch::before { width: 0.9rem; }
+		.sm-children { grid-template-columns: 1fr; }
+	}
 </style>
 
 <section class="container-site py-12">
-	<div class="mx-auto max-w-3xl">
+	<div class="sm-wrap mx-auto max-w-4xl">
 		{{!-- Root node --}}
-		<div class="card-surface inline-flex items-center gap-3 p-4 shadow-card">
+		<div class="sm-root">
 			{{> "components/logo"}}
 		</div>
 
-		<div class="tree-trunk mt-2">
-			{{!-- One branch per collection --}}
-			<ul class="tree-root">
+		<ul class="sm-tree">
+			{{> "components/sitemap-branch" name="Blog"        route="/blog/"        filter="tag:hash-blog"}}
+			{{> "components/sitemap-branch" name="Videos"      route="/videos/"      filter="tag:hash-video"}}
+			{{> "components/sitemap-branch" name="Courses"     route="/courses/"     filter="tag:hash-course"}}
+			{{> "components/sitemap-branch" name="Webseries"   route="/webseries/"   filter="tag:hash-webseries"}}
+			{{> "components/sitemap-branch" name="Projects"    route="/projects/"    filter="tag:hash-project"}}
+			{{> "components/sitemap-branch" name="Products"    route="/products/"    filter="tag:hash-product"}}
+			{{> "components/sitemap-branch" name="Timeline"    route="/timeline/"    filter="tag:hash-timeline"}}
+			{{> "components/sitemap-branch" name="Changelog"   route="/changelog/"   filter="tag:hash-changelog"}}
+			{{> "components/sitemap-branch" name="Newsletters" route="/newsletters/" filter="tag:hash-newsletter"}}
+			{{> "components/sitemap-branch" name="Shop"        route="/shop/"        filter="tag:hash-shop"}}
+			{{> "components/sitemap-branch" name="Travel"      route="/travel/"      filter="tag:hash-trip"}}
+			{{> "components/sitemap-branch" name="Prompts"     route="/prompts/"     filter="tag:hash-prompt"}}
+			{{> "components/sitemap-branch" name="Snippets"    route="/snippets/"    filter="tag:hash-snippet"}}
+			{{> "components/sitemap-branch" name="Experiences" route="/experiences/" filter="tag:hash-experience"}}
 
-				<li class="tree-branch">
-					<details class="collapse collapse-arrow rounded-2xl border border-line bg-paper" open>
-						<summary class="collapse-title cursor-pointer py-3 pr-12 text-sm font-semibold tracking-tight">Blog <span class="ml-2 font-mono text-[10px] uppercase tracking-widest text-silver">/blog/</span></summary>
-						<div class="collapse-content">
-							<ul class="tree-leaves">
-								{{#get "posts" filter="tag:hash-blog" limit="5" as |items|}}
-									{{#foreach items}}<li><a href="{{url}}" class="text-[13px] text-silver transition hover:text-ink">{{title}}</a></li>{{/foreach}}
-								{{else}}
-									<li><span class="text-[13px] text-silver/60">Nothing here yet</span></li>
-								{{/get}}
-								<li><a href="{{@site.url}}/blog/" class="inline-flex items-center gap-1 text-[13px] font-medium">View all {{> "icons/arrow-right" class="h-3.5 w-3.5"}}</a></li>
-							</ul>
-						</div>
-					</details>
-				</li>
+			{{!-- Topics (tags) --}}
+			<li class="sm-branch">
+				<details class="sm-details" open>
+					<summary class="sm-node">
+						<span class="sm-dot" aria-hidden="true"></span>
+						<span class="sm-node-name">Topics</span>
+						<span class="sm-route">/tags/</span>
+						{{#get "tags" limit="1" filter="visibility:public" as |t|}}<span class="sm-count">{{pagination.total}}</span>{{/get}}
+						<span class="sm-chev" aria-hidden="true">{{> "icons/chevron-down"}}</span>
+					</summary>
+					<div class="sm-children">
+						{{#get "tags" limit="100" include="count.posts" filter="visibility:public" order="count.posts desc" as |tags|}}
+							{{#foreach tags}}
+							<a href="{{url}}" class="sm-leaf" title="#{{name}}">
+								<span class="sm-thumb">{{#if feature_image}}<img src="{{img_url feature_image size="300"}}" width="300" height="169" alt="" loading="lazy" />{{else}}<span class="sm-thumb-ph bg-pat-grid"></span>{{/if}}</span>
+								<span class="sm-leaf-t">#{{name}} <span class="sm-route">({{count.posts}})</span></span>
+							</a>
+							{{else}}
+							<span class="sm-empty">No public tags yet</span>
+							{{/foreach}}
+							<a href="{{@site.url}}/tags/" class="sm-all">All topics {{> "icons/arrow-right" class="h-3.5 w-3.5"}}</a>
+						{{/get}}
+					</div>
+				</details>
+			</li>
 
-				<li class="tree-branch">
-					<details class="collapse collapse-arrow rounded-2xl border border-line bg-paper">
-						<summary class="collapse-title cursor-pointer py-3 pr-12 text-sm font-semibold tracking-tight">Videos <span class="ml-2 font-mono text-[10px] uppercase tracking-widest text-silver">/videos/</span></summary>
-						<div class="collapse-content">
-							<ul class="tree-leaves">
-								{{#get "posts" filter="tag:hash-video" limit="5" as |items|}}
-									{{#foreach items}}<li><a href="{{url}}" class="text-[13px] text-silver transition hover:text-ink">{{title}}</a></li>{{/foreach}}
-								{{else}}
-									<li><span class="text-[13px] text-silver/60">Nothing here yet</span></li>
-								{{/get}}
-								<li><a href="{{@site.url}}/videos/" class="inline-flex items-center gap-1 text-[13px] font-medium">View all {{> "icons/arrow-right" class="h-3.5 w-3.5"}}</a></li>
-							</ul>
-						</div>
-					</details>
-				</li>
-
-				<li class="tree-branch">
-					<details class="collapse collapse-arrow rounded-2xl border border-line bg-paper">
-						<summary class="collapse-title cursor-pointer py-3 pr-12 text-sm font-semibold tracking-tight">Courses <span class="ml-2 font-mono text-[10px] uppercase tracking-widest text-silver">/courses/</span></summary>
-						<div class="collapse-content">
-							<ul class="tree-leaves">
-								{{#get "posts" filter="tag:hash-course" limit="5" as |items|}}
-									{{#foreach items}}<li><a href="{{url}}" class="text-[13px] text-silver transition hover:text-ink">{{title}}</a></li>{{/foreach}}
-								{{else}}
-									<li><span class="text-[13px] text-silver/60">Nothing here yet</span></li>
-								{{/get}}
-								<li><a href="{{@site.url}}/courses/" class="inline-flex items-center gap-1 text-[13px] font-medium">View all {{> "icons/arrow-right" class="h-3.5 w-3.5"}}</a></li>
-							</ul>
-						</div>
-					</details>
-				</li>
-
-				<li class="tree-branch">
-					<details class="collapse collapse-arrow rounded-2xl border border-line bg-paper">
-						<summary class="collapse-title cursor-pointer py-3 pr-12 text-sm font-semibold tracking-tight">Webseries <span class="ml-2 font-mono text-[10px] uppercase tracking-widest text-silver">/webseries/</span></summary>
-						<div class="collapse-content">
-							<ul class="tree-leaves">
-								{{#get "posts" filter="tag:hash-webseries" limit="5" as |items|}}
-									{{#foreach items}}<li><a href="{{url}}" class="text-[13px] text-silver transition hover:text-ink">{{title}}</a></li>{{/foreach}}
-								{{else}}
-									<li><span class="text-[13px] text-silver/60">Nothing here yet</span></li>
-								{{/get}}
-								<li><a href="{{@site.url}}/webseries/" class="inline-flex items-center gap-1 text-[13px] font-medium">View all {{> "icons/arrow-right" class="h-3.5 w-3.5"}}</a></li>
-							</ul>
-						</div>
-					</details>
-				</li>
-
-				<li class="tree-branch">
-					<details class="collapse collapse-arrow rounded-2xl border border-line bg-paper">
-						<summary class="collapse-title cursor-pointer py-3 pr-12 text-sm font-semibold tracking-tight">Projects <span class="ml-2 font-mono text-[10px] uppercase tracking-widest text-silver">/projects/</span></summary>
-						<div class="collapse-content">
-							<ul class="tree-leaves">
-								{{#get "posts" filter="tag:hash-project" limit="5" as |items|}}
-									{{#foreach items}}<li><a href="{{url}}" class="text-[13px] text-silver transition hover:text-ink">{{title}}</a></li>{{/foreach}}
-								{{else}}
-									<li><span class="text-[13px] text-silver/60">Nothing here yet</span></li>
-								{{/get}}
-								<li><a href="{{@site.url}}/projects/" class="inline-flex items-center gap-1 text-[13px] font-medium">View all {{> "icons/arrow-right" class="h-3.5 w-3.5"}}</a></li>
-							</ul>
-						</div>
-					</details>
-				</li>
-
-				<li class="tree-branch">
-					<details class="collapse collapse-arrow rounded-2xl border border-line bg-paper">
-						<summary class="collapse-title cursor-pointer py-3 pr-12 text-sm font-semibold tracking-tight">Products <span class="ml-2 font-mono text-[10px] uppercase tracking-widest text-silver">/products/</span></summary>
-						<div class="collapse-content">
-							<ul class="tree-leaves">
-								{{#get "posts" filter="tag:hash-product" limit="5" as |items|}}
-									{{#foreach items}}<li><a href="{{url}}" class="text-[13px] text-silver transition hover:text-ink">{{title}}</a></li>{{/foreach}}
-								{{else}}
-									<li><span class="text-[13px] text-silver/60">Nothing here yet</span></li>
-								{{/get}}
-								<li><a href="{{@site.url}}/products/" class="inline-flex items-center gap-1 text-[13px] font-medium">View all {{> "icons/arrow-right" class="h-3.5 w-3.5"}}</a></li>
-							</ul>
-						</div>
-					</details>
-				</li>
-
-				<li class="tree-branch">
-					<details class="collapse collapse-arrow rounded-2xl border border-line bg-paper">
-						<summary class="collapse-title cursor-pointer py-3 pr-12 text-sm font-semibold tracking-tight">Timeline <span class="ml-2 font-mono text-[10px] uppercase tracking-widest text-silver">/timeline/</span></summary>
-						<div class="collapse-content">
-							<ul class="tree-leaves">
-								{{#get "posts" filter="tag:hash-timeline" limit="5" as |items|}}
-									{{#foreach items}}<li><a href="{{url}}" class="text-[13px] text-silver transition hover:text-ink">{{title}}</a></li>{{/foreach}}
-								{{else}}
-									<li><span class="text-[13px] text-silver/60">Nothing here yet</span></li>
-								{{/get}}
-								<li><a href="{{@site.url}}/timeline/" class="inline-flex items-center gap-1 text-[13px] font-medium">View all {{> "icons/arrow-right" class="h-3.5 w-3.5"}}</a></li>
-							</ul>
-						</div>
-					</details>
-				</li>
-
-				<li class="tree-branch">
-					<details class="collapse collapse-arrow rounded-2xl border border-line bg-paper">
-						<summary class="collapse-title cursor-pointer py-3 pr-12 text-sm font-semibold tracking-tight">Changelog <span class="ml-2 font-mono text-[10px] uppercase tracking-widest text-silver">/changelog/</span></summary>
-						<div class="collapse-content">
-							<ul class="tree-leaves">
-								{{#get "posts" filter="tag:hash-changelog" limit="5" as |items|}}
-									{{#foreach items}}<li><a href="{{url}}" class="text-[13px] text-silver transition hover:text-ink">{{title}}</a></li>{{/foreach}}
-								{{else}}
-									<li><span class="text-[13px] text-silver/60">Nothing here yet</span></li>
-								{{/get}}
-								<li><a href="{{@site.url}}/changelog/" class="inline-flex items-center gap-1 text-[13px] font-medium">View all {{> "icons/arrow-right" class="h-3.5 w-3.5"}}</a></li>
-							</ul>
-						</div>
-					</details>
-				</li>
-
-				<li class="tree-branch">
-					<details class="collapse collapse-arrow rounded-2xl border border-line bg-paper">
-						<summary class="collapse-title cursor-pointer py-3 pr-12 text-sm font-semibold tracking-tight">Newsletters <span class="ml-2 font-mono text-[10px] uppercase tracking-widest text-silver">/newsletters/</span></summary>
-						<div class="collapse-content">
-							<ul class="tree-leaves">
-								{{#get "posts" filter="tag:hash-newsletter" limit="5" as |items|}}
-									{{#foreach items}}<li><a href="{{url}}" class="text-[13px] text-silver transition hover:text-ink">{{title}}</a></li>{{/foreach}}
-								{{else}}
-									<li><span class="text-[13px] text-silver/60">Nothing here yet</span></li>
-								{{/get}}
-								<li><a href="{{@site.url}}/newsletters/" class="inline-flex items-center gap-1 text-[13px] font-medium">View all {{> "icons/arrow-right" class="h-3.5 w-3.5"}}</a></li>
-							</ul>
-						</div>
-					</details>
-				</li>
-
-				<li class="tree-branch">
-					<details class="collapse collapse-arrow rounded-2xl border border-line bg-paper">
-						<summary class="collapse-title cursor-pointer py-3 pr-12 text-sm font-semibold tracking-tight">Shop <span class="ml-2 font-mono text-[10px] uppercase tracking-widest text-silver">/shop/</span></summary>
-						<div class="collapse-content">
-							<ul class="tree-leaves">
-								{{#get "posts" filter="tag:hash-shop" limit="5" as |items|}}
-									{{#foreach items}}<li><a href="{{url}}" class="text-[13px] text-silver transition hover:text-ink">{{title}}</a></li>{{/foreach}}
-								{{else}}
-									<li><span class="text-[13px] text-silver/60">Nothing here yet</span></li>
-								{{/get}}
-								<li><a href="{{@site.url}}/shop/" class="inline-flex items-center gap-1 text-[13px] font-medium">View all {{> "icons/arrow-right" class="h-3.5 w-3.5"}}</a></li>
-							</ul>
-						</div>
-					</details>
-				</li>
-
-				<li class="tree-branch">
-					<details class="collapse collapse-arrow rounded-2xl border border-line bg-paper">
-						<summary class="collapse-title cursor-pointer py-3 pr-12 text-sm font-semibold tracking-tight">Travel <span class="ml-2 font-mono text-[10px] uppercase tracking-widest text-silver">/travel/</span></summary>
-						<div class="collapse-content">
-							<ul class="tree-leaves">
-								{{#get "posts" filter="tag:hash-trip" limit="5" as |items|}}
-									{{#foreach items}}<li><a href="{{url}}" class="text-[13px] text-silver transition hover:text-ink">{{title}}</a></li>{{/foreach}}
-								{{else}}
-									<li><span class="text-[13px] text-silver/60">Nothing here yet</span></li>
-								{{/get}}
-								<li><a href="{{@site.url}}/travel/" class="inline-flex items-center gap-1 text-[13px] font-medium">View all {{> "icons/arrow-right" class="h-3.5 w-3.5"}}</a></li>
-							</ul>
-						</div>
-					</details>
-				</li>
-
-				<li class="tree-branch">
-					<details class="collapse collapse-arrow rounded-2xl border border-line bg-paper">
-						<summary class="collapse-title cursor-pointer py-3 pr-12 text-sm font-semibold tracking-tight">Prompts <span class="ml-2 font-mono text-[10px] uppercase tracking-widest text-silver">/prompts/</span></summary>
-						<div class="collapse-content">
-							<ul class="tree-leaves">
-								{{#get "posts" filter="tag:hash-prompt" limit="5" as |items|}}
-									{{#foreach items}}<li><a href="{{url}}" class="text-[13px] text-silver transition hover:text-ink">{{title}}</a></li>{{/foreach}}
-								{{else}}
-									<li><span class="text-[13px] text-silver/60">Nothing here yet</span></li>
-								{{/get}}
-								<li><a href="{{@site.url}}/prompts/" class="inline-flex items-center gap-1 text-[13px] font-medium">View all {{> "icons/arrow-right" class="h-3.5 w-3.5"}}</a></li>
-							</ul>
-						</div>
-					</details>
-				</li>
-
-				<li class="tree-branch">
-					<details class="collapse collapse-arrow rounded-2xl border border-line bg-paper">
-						<summary class="collapse-title cursor-pointer py-3 pr-12 text-sm font-semibold tracking-tight">Snippets <span class="ml-2 font-mono text-[10px] uppercase tracking-widest text-silver">/snippets/</span></summary>
-						<div class="collapse-content">
-							<ul class="tree-leaves">
-								{{#get "posts" filter="tag:hash-snippet" limit="5" as |items|}}
-									{{#foreach items}}<li><a href="{{url}}" class="text-[13px] text-silver transition hover:text-ink">{{title}}</a></li>{{/foreach}}
-								{{else}}
-									<li><span class="text-[13px] text-silver/60">Nothing here yet</span></li>
-								{{/get}}
-								<li><a href="{{@site.url}}/snippets/" class="inline-flex items-center gap-1 text-[13px] font-medium">View all {{> "icons/arrow-right" class="h-3.5 w-3.5"}}</a></li>
-							</ul>
-						</div>
-					</details>
-				</li>
-
-				<li class="tree-branch">
-					<details class="collapse collapse-arrow rounded-2xl border border-line bg-paper">
-						<summary class="collapse-title cursor-pointer py-3 pr-12 text-sm font-semibold tracking-tight">Experiences <span class="ml-2 font-mono text-[10px] uppercase tracking-widest text-silver">/experiences/</span></summary>
-						<div class="collapse-content">
-							<ul class="tree-leaves">
-								{{#get "posts" filter="tag:hash-experience" limit="5" as |items|}}
-									{{#foreach items}}<li><a href="{{url}}" class="text-[13px] text-silver transition hover:text-ink">{{title}}</a></li>{{/foreach}}
-								{{else}}
-									<li><span class="text-[13px] text-silver/60">Nothing here yet</span></li>
-								{{/get}}
-								<li><a href="{{@site.url}}/experiences/" class="inline-flex items-center gap-1 text-[13px] font-medium">View all {{> "icons/arrow-right" class="h-3.5 w-3.5"}}</a></li>
-							</ul>
-						</div>
-					</details>
-				</li>
-
-				<li class="tree-branch">
-					<details class="collapse collapse-arrow rounded-2xl border border-line bg-paper">
-						<summary class="collapse-title cursor-pointer py-3 pr-12 text-sm font-semibold tracking-tight">Topics <span class="ml-2 font-mono text-[10px] uppercase tracking-widest text-silver">/tags/</span></summary>
-						<div class="collapse-content">
-							<ul class="tree-leaves">
-								{{#get "tags" limit="12" include="count.posts" order="count.posts desc" as |items|}}
-									{{#foreach items}}<li><a href="{{url}}" class="text-[13px] text-silver transition hover:text-ink">#{{name}} <span class="font-mono text-[10px] text-silver/60">({{count.posts}})</span></a></li>{{/foreach}}
-								{{else}}
-									<li><span class="text-[13px] text-silver/60">Nothing here yet</span></li>
-								{{/get}}
-								<li><a href="{{@site.url}}/tags/" class="inline-flex items-center gap-1 text-[13px] font-medium">All topics {{> "icons/arrow-right" class="h-3.5 w-3.5"}}</a></li>
-							</ul>
-						</div>
-					</details>
-				</li>
-
-				<li class="tree-branch">
-					<details class="collapse collapse-arrow rounded-2xl border border-line bg-paper">
-						<summary class="collapse-title cursor-pointer py-3 pr-12 text-sm font-semibold tracking-tight">Pages <span class="ml-2 font-mono text-[10px] uppercase tracking-widest text-silver">/*</span></summary>
-						<div class="collapse-content">
-							<ul class="tree-leaves">
-								{{#get "pages" limit="25" as |items|}}
-									{{#foreach items}}<li><a href="{{url}}" class="text-[13px] text-silver transition hover:text-ink">{{title}}</a></li>{{/foreach}}
-								{{else}}
-									<li><span class="text-[13px] text-silver/60">Nothing here yet</span></li>
-								{{/get}}
-								<li><a href="{{@site.url}}/archive/" class="text-[13px] text-silver transition hover:text-ink">Archive — everything</a></li>
-								<li><a href="{{@site.url}}/sitemap.xml" class="inline-flex items-center gap-1 text-[13px] font-medium">Full XML sitemap {{> "icons/arrow-right" class="h-3.5 w-3.5"}}</a></li>
-							</ul>
-						</div>
-					</details>
-				</li>
-
-			</ul>
-		</div>
+			{{!-- Pages --}}
+			<li class="sm-branch">
+				<details class="sm-details" open>
+					<summary class="sm-node">
+						<span class="sm-dot" aria-hidden="true"></span>
+						<span class="sm-node-name">Pages</span>
+						<span class="sm-route">/</span>
+						{{#get "pages" limit="1" as |p|}}<span class="sm-count">{{pagination.total}}</span>{{/get}}
+						<span class="sm-chev" aria-hidden="true">{{> "icons/chevron-down"}}</span>
+					</summary>
+					<div class="sm-children">
+						{{#get "pages" limit="50" order="title asc" as |pages|}}
+							{{#foreach pages}}
+							<a href="{{url}}" class="sm-leaf" title="{{title}}">
+								<span class="sm-thumb">{{#if feature_image}}<img src="{{img_url feature_image size="300"}}" width="300" height="169" alt="" loading="lazy" />{{else}}<span class="sm-thumb-ph bg-pat-graph-paper"></span>{{/if}}</span>
+								<span class="sm-leaf-t">{{title}}</span>
+							</a>
+							{{else}}
+							<span class="sm-empty">No pages yet</span>
+							{{/foreach}}
+							<a href="{{@site.url}}/archive/" class="sm-all">Archive — everything {{> "icons/arrow-right" class="h-3.5 w-3.5"}}</a>
+						{{/get}}
+					</div>
+				</details>
+			</li>
+		</ul>
 	</div>
 </section>
 

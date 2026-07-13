@@ -271,6 +271,20 @@
 		mask-image: radial-gradient(120% 100% at 50% 30%, black 0%, black 35%, transparent 78%);
 	}
 
+	/* corner fade — pattern is strongest at the TOP-RIGHT corner and dissolves
+	   diagonally toward the bottom-centre. Used behind the hero grid. */
+	.fade-mask-tr {
+		-webkit-mask-image: radial-gradient(135% 135% at 100% 0%, black 0%, black 22%, transparent 72%);
+		mask-image: radial-gradient(135% 135% at 100% 0%, black 0%, black 22%, transparent 72%);
+	}
+
+	/* corner fade — grid is densest in the centre and gradients away toward all
+	   four corners/edges. Used behind the hero for a soft vignette of grid lines. */
+	.fade-mask-corners {
+		-webkit-mask-image: radial-gradient(ellipse 80% 78% at 50% 44%, black 0%, black 34%, transparent 100%);
+		mask-image: radial-gradient(ellipse 80% 78% at 50% 44%, black 0%, black 34%, transparent 100%);
+	}
+
 	.text-balance {
 		text-wrap: balance;
 	}
@@ -572,10 +586,7 @@
 		@apply inline-flex h-7 items-center overflow-hidden rounded-full px-3;
 	}
 
-	/* Skeleton: lazy-image placeholder */
-	.skeleton {
-		@apply animate-pulse rounded-none bg-mist;
-	}
+	/* Skeleton shimmer lives in components/media.css (single source of truth). */
 
 	/* Progress: native <progress> in the theme accent */
 	progress.progress {
@@ -1187,6 +1198,14 @@ body.page-resume #nav-spacer {
 /* 404: glitch + bounce art */
 .err-art { animation: errFloat 3s ease-in-out infinite; display: inline-block; }
 @keyframes errFloat { 50% { transform: translateY(-12px) rotate(3deg); } }
+/* cursor searchlight sweeping for the lost page (toggled on by JS) */
+.err-spot { opacity: 0; transition: opacity 0.4s ease; }
+.err-spot-on .err-spot {
+	opacity: 1;
+	background: radial-gradient(240px circle at var(--mx, 50%) var(--my, 40%), rgb(var(--accent) / 0.1), transparent 70%);
+}
+/* parallax layers ease back to rest when the pointer stops moving */
+[data-depth] { transition: transform 0.25s ease-out; }
 .err-glitch { position: relative; display: inline-block; }
 .err-glitch::before,
 .err-glitch::after {
@@ -1289,118 +1308,42 @@ body.page-resume #nav-spacer {
 }
 
 /* ==================================================================
-   First-load intro — Netflix "tudum"-style title card
-   ------------------------------------------------------------------
-   An early inline script in default.hbs adds `.intro-playing`
-   (+`.intro-lock`) to <html> on the first page load of a session
-   (skipped under prefers-reduced-motion). The overlay then plays a
-   self-contained CSS animation that also auto-hides it, so the site
-   is never trapped behind it even if JS fails to load. main.js layers
-   on the synthesized sound + the coordinated navbar/hero reveal.
+   Documentation (/docs) — sidebar nav + section cards
 ================================================================== */
-.intro {
-	display: none;
+.docs-nav { display: flex; flex-direction: column; gap: 1.4rem; font-size: 0.875rem; }
+.docs-nav-home {
+	display: inline-flex; align-items: center; gap: 0.5rem;
+	font-weight: 650; letter-spacing: -0.01em; color: rgb(var(--ink));
 }
-.intro-lock,
-.intro-lock body {
-	overflow: hidden !important;
-}
-html.intro-playing .intro {
-	display: flex;
-	position: fixed;
-	inset: 0;
-	z-index: 100;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	gap: clamp(14px, 3vw, 26px);
-	background:
-		radial-gradient(120% 80% at 50% 42%, #16161a 0%, #0a0a0c 60%, #050506 100%);
-	/* show, hold, then fade + lift away — guarantees removal without JS */
-	animation: introAuto 3.2s cubic-bezier(0.7, 0, 0.3, 1) forwards;
-}
-@keyframes introAuto {
-	0%, 62% { opacity: 1; transform: scale(1); }
-	86% { opacity: 0; transform: scale(1.06); }
-	100% { opacity: 0; transform: scale(1.06); visibility: hidden; pointer-events: none; }
-}
-
-/* the animated line above the wordmark */
-.intro-line {
-	display: block;
-	height: 2px;
-	width: min(58vw, 460px);
-	transform-origin: center;
-	background: linear-gradient(90deg, transparent, #ef4444 18%, #ff6b6b 50%, #ef4444 82%, transparent);
-	box-shadow: 0 0 22px 1px rgb(239 68 68 / 0.55);
-	animation: introLine 1.15s cubic-bezier(0.7, 0, 0.15, 1) both;
-}
-@keyframes introLine {
-	0% { transform: scaleX(0); opacity: 0; }
-	18% { opacity: 1; }
-	62% { transform: scaleX(1); opacity: 1; }
-	100% { transform: scaleX(1); opacity: 0.9; }
-}
-
-/* the wordmark — "swarnil", letters wipe in under the line */
-.intro-word {
-	display: flex;
-	font-family: 'Geist', ui-sans-serif, system-ui, sans-serif;
-	font-weight: 800;
-	letter-spacing: 0.02em;
-	font-size: clamp(2.6rem, 12vw, 6.5rem);
-	line-height: 1;
-	color: #fafafa;
-}
-.intro-word i {
-	display: inline-block;
-	font-style: normal;
-	opacity: 0;
-	transform: translateY(0.35em) scale(0.9);
-	filter: blur(6px);
-	animation: introLetter 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
-	animation-delay: calc(0.42s + var(--i) * 0.06s);
-}
-@keyframes introLetter {
-	to { opacity: 1; transform: none; filter: blur(0); }
-}
-
-.intro-skip {
-	position: fixed;
-	right: clamp(14px, 3vw, 32px);
-	bottom: clamp(14px, 3vw, 28px);
+.docs-nav-home:hover { color: rgb(var(--accent)); }
+.docs-nav-group { display: flex; flex-direction: column; gap: 0.15rem; }
+.docs-nav-head {
+	margin-bottom: 0.35rem;
 	font-family: 'Geist Mono', ui-monospace, monospace;
-	font-size: 0.7rem;
-	letter-spacing: 0.16em;
-	text-transform: uppercase;
-	color: rgb(250 250 250 / 0.5);
-	background: transparent;
-	border: 0;
-	cursor: pointer;
-	transition: color 0.2s;
+	font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase;
+	color: rgb(var(--silver));
 }
-.intro-skip:hover { color: rgb(250 250 250 / 0.9); }
-
-/* Site reveal — navbar drops in, hero rises, staggered "characters" */
-html.intro-playing #site-header,
-html.intro-playing #hero { opacity: 0; }
-html.intro-reveal #site-header {
-	animation: introNavIn 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+.docs-nav-list { list-style: none; margin: 0; padding: 0; }
+.docs-nav-link {
+	display: flex; align-items: center; gap: 0.55rem;
+	padding: 0.3rem 0.5rem; border-radius: 0.55rem;
+	color: rgb(var(--silver)); line-height: 1.3;
+	transition: background 0.15s ease, color 0.15s ease;
 }
-html.intro-reveal #hero {
-	animation: introHeroIn 0.85s cubic-bezier(0.16, 1, 0.3, 1) 0.16s both;
+.docs-nav-link:hover { color: rgb(var(--ink)); background: rgb(var(--mist) / 0.6); }
+.docs-nav-dot {
+	width: 0.32rem; height: 0.32rem; flex: none; border-radius: 9999px;
+	background: rgb(var(--silver) / 0.5); transition: background 0.15s ease, transform 0.15s ease;
 }
-@keyframes introNavIn {
-	from { opacity: 0; transform: translateY(-100%); }
-	to { opacity: 1; transform: none; }
+.docs-nav-link:hover .docs-nav-dot { background: rgb(var(--ink)); }
+.docs-nav-link.is-active {
+	color: rgb(var(--ink)); font-weight: 600; background: rgb(var(--accent) / 0.1);
 }
-@keyframes introHeroIn {
-	from { opacity: 0; transform: translateY(26px) scale(0.985); }
-	to { opacity: 1; transform: none; }
+.docs-nav-link.is-active .docs-nav-dot { background: rgb(var(--accent)); transform: scale(1.35); }
+.docs-card {
+	border: 1px solid rgb(var(--line)); border-radius: 1rem;
+	background: rgb(var(--paper)); padding: 1.1rem 1.25rem;
+	transition: box-shadow 0.2s ease, border-color 0.2s ease;
 }
-
-@media (prefers-reduced-motion: reduce) {
-	html.intro-playing .intro { animation: none; opacity: 0; visibility: hidden; pointer-events: none; }
-	html.intro-reveal #site-header,
-	html.intro-reveal #hero { animation: none; opacity: 1; }
-}
+.docs-card:hover { border-color: rgb(var(--accent) / 0.4); box-shadow: 0 12px 34px -22px rgb(0 0 0 / 0.25); }
+.docs-card .docs-nav-head { font-size: 11px; color: rgb(var(--ink)); }

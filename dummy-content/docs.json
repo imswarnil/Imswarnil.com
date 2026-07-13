@@ -1,0 +1,324 @@
+{
+ "db": [
+  {
+   "meta": {
+    "exported_on": 1783252800000,
+    "version": "5.0.0"
+   },
+   "data": {
+    "posts": [
+     {
+      "id": "000000000000000000000528",
+      "title": "Introduction",
+      "slug": "docs-introduction",
+      "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"<p>This is a tag-driven, Tailwind-based Ghost theme. Every content type — courses, lessons, videos, web series, projects, travel, products and more — is expressed as an ordinary Ghost post carrying an <strong>internal <code>#hash</code> tag</strong> that decides its layout and the collection it belongs to.</p><h2 id=\\\"how-the-docs-work\\\">How these docs work</h2><p>The docs themselves are demo content: each page is a post tagged <code>#docs</code> plus a section tag such as <code>docs-getting-started</code>. The left sidebar groups pages by section; the right rail is an auto-built &ldquo;On this page&rdquo; table of contents.</p>\"}]], \"markups\": [], \"sections\": [[10, 0]]}",
+      "feature_image": null,
+      "featured": 0,
+      "type": "post",
+      "status": "published",
+      "custom_excerpt": "What this theme is and how the docs are organized.",
+      "created_at": "2026-06-01T09:00:00.000Z",
+      "updated_at": "2026-06-01T09:00:00.000Z",
+      "published_at": "2026-06-01T09:00:00.000Z"
+     },
+     {
+      "id": "000000000000000000000529",
+      "title": "Installation",
+      "slug": "docs-installation",
+      "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"<h2 id=\\\"install\\\">Install the theme</h2><p>Upload the theme zip in <em>Ghost Admin &rarr; Settings &rarr; Design &rarr; Change theme &rarr; Upload</em>, then activate it. Locally, drop the folder in <code>content/themes/</code> and restart Ghost so the templates map is rebuilt.</p><h2 id=\\\"demo-content\\\">Import demo content</h2><p>The demo dataset lives in the <code>dummy-content/</code> folder, split into one importable file per module. Import the modules you want from <em>Settings &rarr; Import/Export</em>. Import <code>course.json</code> and <code>lesson.json</code> together so lessons resolve to a real course.</p><h2 id=\\\"navigation\\\">Set up navigation</h2><p>Importing <code>navigation.json</code> writes the primary and secondary menus. You can also edit them by hand in <em>Settings &rarr; Navigation</em>.</p>\"}]], \"markups\": [], \"sections\": [[10, 0]]}",
+      "feature_image": null,
+      "featured": 0,
+      "type": "post",
+      "status": "published",
+      "custom_excerpt": "Install the theme, import demo content, and boot Ghost locally.",
+      "created_at": "2026-06-02T09:00:00.000Z",
+      "updated_at": "2026-06-02T09:00:00.000Z",
+      "published_at": "2026-06-02T09:00:00.000Z"
+     },
+     {
+      "id": "00000000000000000000052a",
+      "title": "Routes & the templates map",
+      "slug": "docs-routes-setup",
+      "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"<p>Ghost needs <code>routes.yaml</code> to know about the theme's collections and custom pages. Upload it in <em>Settings &rarr; Labs &rarr; Routes</em>.</p><h2 id=\\\"trailing-slashes\\\">Trailing slashes &amp; dotted paths</h2><p>Every custom route needs a trailing slash. Ghost rejects paths containing dots, so <code>ads.txt</code> and <code>llms.txt</code> are served via <code>redirects.yaml</code> instead of routes.</p>\"}]], \"markups\": [], \"sections\": [[10, 0]]}",
+      "feature_image": null,
+      "featured": 0,
+      "type": "post",
+      "status": "published",
+      "custom_excerpt": "Upload routes.yaml so collections and custom pages resolve.",
+      "created_at": "2026-06-03T09:00:00.000Z",
+      "updated_at": "2026-06-03T09:00:00.000Z",
+      "published_at": "2026-06-03T09:00:00.000Z"
+     },
+     {
+      "id": "00000000000000000000052b",
+      "title": "The tag system",
+      "slug": "docs-tag-system",
+      "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"<p>Each post's <strong>first internal tag</strong> selects its single-post layout via the dispatcher in <code>post.hbs</code>. For example <code>#video</code> renders the video player, <code>#course</code> renders the course overview.</p><h2 id=\\\"internal-vs-public\\\">Internal vs public tags</h2><p>Internal tags (name starts with <code>#</code>) are hidden from readers and used for routing and flavour. Public tags are visible and used for grouping — for instance a lesson's first <em>public</em> tag is its parent course.</p><h2 id=\\\"attribute-tags\\\">Attribute tags</h2><p>Families like <code>#level-*</code>, <code>#duration-*</code>, <code>#country-*</code>, <code>#group-*</code> and <code>#event-*</code> add metadata that templates and JS read at render time.</p>\"}]], \"markups\": [], \"sections\": [[10, 0]]}",
+      "feature_image": null,
+      "featured": 0,
+      "type": "post",
+      "status": "published",
+      "custom_excerpt": "How internal #hash tags drive layouts and collections.",
+      "created_at": "2026-06-04T09:00:00.000Z",
+      "updated_at": "2026-06-04T09:00:00.000Z",
+      "published_at": "2026-06-04T09:00:00.000Z"
+     },
+     {
+      "id": "00000000000000000000052c",
+      "title": "Containers & children",
+      "slug": "docs-containers",
+      "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"<p>Several types are <strong>containers</strong>: a course, a web series, a project and a trip are each a post that also carries a public tag. Their children point back by making that public tag their primary tag.</p><h2 id=\\\"pairs\\\">The container pairs</h2><ul><li><code>#course</code> &rarr; <code>#lesson</code> children at <code>/courses/{course}/{lesson}/</code></li><li><code>#webseries</code> &rarr; <code>#episode</code> children at <code>/webseries/{series}/{episode}/</code></li><li><code>#project</code> &rarr; <code>#project-detail</code> steps at <code>/projects/{project}/{step}/</code></li><li><code>#trip</code> &rarr; <code>#travel</code> posts at <code>/travel/{trip}/{post}/</code></li></ul><p>When importing demo content, keep a container and its children together so nothing is orphaned.</p>\"}]], \"markups\": [], \"sections\": [[10, 0]]}",
+      "feature_image": null,
+      "featured": 0,
+      "type": "post",
+      "status": "published",
+      "custom_excerpt": "Courses/lessons, series/episodes, projects/steps, trips/travel.",
+      "created_at": "2026-06-05T09:00:00.000Z",
+      "updated_at": "2026-06-05T09:00:00.000Z",
+      "published_at": "2026-06-05T09:00:00.000Z"
+     },
+     {
+      "id": "00000000000000000000052d",
+      "title": "Collections reference",
+      "slug": "docs-collections-reference",
+      "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"<p>Collections are defined in <code>routes.yaml</code>. Each maps a tag filter to a permalink and a template.</p><h2 id=\\\"index-collections\\\">Index collections​</h2><p>Top-level lists: <code>/blog/</code> (<code>#blog</code>), <code>/videos/</code> (<code>#video</code>), <code>/courses/</code> (<code>#course</code>), <code>/webseries/</code> (<code>#webseries</code>), <code>/projects/</code> (<code>#project</code>), <code>/travel/</code> (<code>#trip</code>), <code>/products/</code> (<code>#product</code>), plus timeline, changelog, newsletters, shop, prompts, snippets and experiences.</p><h2 id=\\\"nested-collections\\\">Nested collections</h2><p>Child collections (<code>lessons-index</code>, <code>episodes-index</code>, <code>project-steps-index</code>, <code>travel-index</code>) give children their nested permalink under the parent's public tag.</p>\"}]], \"markups\": [], \"sections\": [[10, 0]]}",
+      "feature_image": null,
+      "featured": 0,
+      "type": "post",
+      "status": "published",
+      "custom_excerpt": "Every collection, its filter tag and its template.",
+      "created_at": "2026-06-06T09:00:00.000Z",
+      "updated_at": "2026-06-06T09:00:00.000Z",
+      "published_at": "2026-06-06T09:00:00.000Z"
+     },
+     {
+      "id": "00000000000000000000052e",
+      "title": "Pages & taxonomies",
+      "slug": "docs-pages-taxonomies",
+      "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"<p>Standalone pages (about, contact, resume, guestbook, sponsor, collab, bucketlist) render from <code>page-*.hbs</code> templates by slug.</p><h2 id=\\\"taxonomies\\\">Taxonomies</h2><p><code>/tag/{slug}/</code> renders a single tag archive; <code>/tags/</code> is the tile-pile directory of every public tag. Authors live at <code>/author/{slug}/</code>.</p>\"}]], \"markups\": [], \"sections\": [[10, 0]]}",
+      "feature_image": null,
+      "featured": 0,
+      "type": "post",
+      "status": "published",
+      "custom_excerpt": "Standalone pages, the tags directory, and author archives.",
+      "created_at": "2026-06-07T09:00:00.000Z",
+      "updated_at": "2026-06-07T09:00:00.000Z",
+      "published_at": "2026-06-07T09:00:00.000Z"
+     },
+     {
+      "id": "00000000000000000000052f",
+      "title": "Theme modes",
+      "slug": "docs-theme-modes",
+      "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"<p>The theme ships eight modes — light, dark, salesforce, youtube, netflix, claude, twilio and neubrutal — resolved flash-free before first paint in <code>default.hbs</code>. The selection is stored in <code>localStorage</code> under <code>swarnil-mode</code>.</p><h2 id=\\\"accent\\\">Admin accent &amp; fonts​</h2><p>An accent colour set in <em>Ghost Admin &rarr; Design</em> wins over every mode via inline custom properties on <code>&lt;html&gt;</code>. Body and heading fonts also follow the admin setting first.</p>\"}]], \"markups\": [], \"sections\": [[10, 0]]}",
+      "feature_image": null,
+      "featured": 0,
+      "type": "post",
+      "status": "published",
+      "custom_excerpt": "Eight brand-flavoured modes and how to switch them.",
+      "created_at": "2026-06-08T09:00:00.000Z",
+      "updated_at": "2026-06-08T09:00:00.000Z",
+      "published_at": "2026-06-08T09:00:00.000Z"
+     },
+     {
+      "id": "000000000000000000000530",
+      "title": "Custom settings",
+      "slug": "docs-custom-settings",
+      "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"<p>The theme exposes custom settings (see <code>package.json</code>) such as the default colour scheme, AdSense enable + publisher id, the GitHub repo, the OneSignal app id, and the web-series intro copy. Set them under <em>Design &rarr; Site-wide</em>.</p>\"}]], \"markups\": [], \"sections\": [[10, 0]]}",
+      "feature_image": null,
+      "featured": 0,
+      "type": "post",
+      "status": "published",
+      "custom_excerpt": "Theme-level toggles exposed in Ghost Admin → Design.",
+      "created_at": "2026-06-09T09:00:00.000Z",
+      "updated_at": "2026-06-09T09:00:00.000Z",
+      "published_at": "2026-06-09T09:00:00.000Z"
+     },
+     {
+      "id": "000000000000000000000531",
+      "title": "Build & validate",
+      "slug": "docs-build-validate",
+      "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"<p>Compile the CSS/JS with <code>npm run build</code>. Validate the theme against Ghost's rules with <code>npx gscan .</code>, and package a release zip with <code>npm run zip</code>.</p><h2 id=\\\"local\\\">Local Ghost</h2><p>Local Ghost runs at <code>localhost:2368</code>. The templates map is cached, so restart Ghost whenever you add a new <code>.hbs</code> file.</p>\"}]], \"markups\": [], \"sections\": [[10, 0]]}",
+      "feature_image": null,
+      "featured": 0,
+      "type": "post",
+      "status": "published",
+      "custom_excerpt": "npm run build, gscan validation, and packaging.",
+      "created_at": "2026-06-10T09:00:00.000Z",
+      "updated_at": "2026-06-10T09:00:00.000Z",
+      "published_at": "2026-06-10T09:00:00.000Z"
+     },
+     {
+      "id": "000000000000000000000532",
+      "title": "Performance & SEO",
+      "slug": "docs-performance",
+      "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"<p>The theme preloads the font and stylesheet and defers scripts. To keep Lighthouse scores high: give images explicit width/height and responsive sizes, lazy-load below-the-fold media, and set long cache lifetimes at the CDN.</p><h2 id=\\\"seo\\\">SEO​</h2><p>Every collection and single post ships JSON-LD (<code>components/json-ld</code>) and an on-page table of contents. An <code>/llms/</code> route serves an LLM-readable index.</p>\"}]], \"markups\": [], \"sections\": [[10, 0]]}",
+      "feature_image": null,
+      "featured": 0,
+      "type": "post",
+      "status": "published",
+      "custom_excerpt": "Keep Lighthouse green: CSS, images, caching.",
+      "created_at": "2026-06-11T09:00:00.000Z",
+      "updated_at": "2026-06-11T09:00:00.000Z",
+      "published_at": "2026-06-11T09:00:00.000Z"
+     }
+    ],
+    "tags": [
+     {
+      "id": "000000000000000000000500",
+      "name": "#docs",
+      "slug": "hash-docs",
+      "description": "",
+      "visibility": "internal"
+     },
+     {
+      "id": "000000000000000000000510",
+      "name": "Getting started",
+      "slug": "docs-getting-started",
+      "description": "",
+      "visibility": "public"
+     },
+     {
+      "id": "000000000000000000000511",
+      "name": "Content model",
+      "slug": "docs-content-model",
+      "description": "",
+      "visibility": "public"
+     },
+     {
+      "id": "000000000000000000000512",
+      "name": "Collections & routing",
+      "slug": "docs-collections",
+      "description": "",
+      "visibility": "public"
+     },
+     {
+      "id": "000000000000000000000513",
+      "name": "Customizing",
+      "slug": "docs-customizing",
+      "description": "",
+      "visibility": "public"
+     },
+     {
+      "id": "000000000000000000000514",
+      "name": "Deploying & performance",
+      "slug": "docs-deploying",
+      "description": "",
+      "visibility": "public"
+     }
+    ],
+    "posts_tags": [
+     {
+      "post_id": "000000000000000000000528",
+      "tag_id": "000000000000000000000510",
+      "sort_order": 0
+     },
+     {
+      "post_id": "000000000000000000000528",
+      "tag_id": "000000000000000000000500",
+      "sort_order": 1
+     },
+     {
+      "post_id": "000000000000000000000529",
+      "tag_id": "000000000000000000000510",
+      "sort_order": 0
+     },
+     {
+      "post_id": "000000000000000000000529",
+      "tag_id": "000000000000000000000500",
+      "sort_order": 1
+     },
+     {
+      "post_id": "00000000000000000000052a",
+      "tag_id": "000000000000000000000510",
+      "sort_order": 0
+     },
+     {
+      "post_id": "00000000000000000000052a",
+      "tag_id": "000000000000000000000500",
+      "sort_order": 1
+     },
+     {
+      "post_id": "00000000000000000000052b",
+      "tag_id": "000000000000000000000511",
+      "sort_order": 0
+     },
+     {
+      "post_id": "00000000000000000000052b",
+      "tag_id": "000000000000000000000500",
+      "sort_order": 1
+     },
+     {
+      "post_id": "00000000000000000000052c",
+      "tag_id": "000000000000000000000511",
+      "sort_order": 0
+     },
+     {
+      "post_id": "00000000000000000000052c",
+      "tag_id": "000000000000000000000500",
+      "sort_order": 1
+     },
+     {
+      "post_id": "00000000000000000000052d",
+      "tag_id": "000000000000000000000512",
+      "sort_order": 0
+     },
+     {
+      "post_id": "00000000000000000000052d",
+      "tag_id": "000000000000000000000500",
+      "sort_order": 1
+     },
+     {
+      "post_id": "00000000000000000000052e",
+      "tag_id": "000000000000000000000512",
+      "sort_order": 0
+     },
+     {
+      "post_id": "00000000000000000000052e",
+      "tag_id": "000000000000000000000500",
+      "sort_order": 1
+     },
+     {
+      "post_id": "00000000000000000000052f",
+      "tag_id": "000000000000000000000513",
+      "sort_order": 0
+     },
+     {
+      "post_id": "00000000000000000000052f",
+      "tag_id": "000000000000000000000500",
+      "sort_order": 1
+     },
+     {
+      "post_id": "000000000000000000000530",
+      "tag_id": "000000000000000000000513",
+      "sort_order": 0
+     },
+     {
+      "post_id": "000000000000000000000530",
+      "tag_id": "000000000000000000000500",
+      "sort_order": 1
+     },
+     {
+      "post_id": "000000000000000000000531",
+      "tag_id": "000000000000000000000514",
+      "sort_order": 0
+     },
+     {
+      "post_id": "000000000000000000000531",
+      "tag_id": "000000000000000000000500",
+      "sort_order": 1
+     },
+     {
+      "post_id": "000000000000000000000532",
+      "tag_id": "000000000000000000000514",
+      "sort_order": 0
+     },
+     {
+      "post_id": "000000000000000000000532",
+      "tag_id": "000000000000000000000500",
+      "sort_order": 1
+     }
+    ]
+   }
+  }
+ ]
+}

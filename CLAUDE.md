@@ -1,7 +1,8 @@
 # Swarnil theme — working notes for Claude
 
 Tailwind-based Ghost theme. Tag-driven collections (routes.yaml), demo content in
-data.json / import.json, build via `npm run build`, validate via `npx gscan .`,
+the `dummy-content/` folder (one Ghost-import file per module + navigation.json +
+docs.json; see dummy-content/README.md), build via `npm run build`, validate via `npx gscan .`,
 release via `npm run zip`. Local Ghost runs at localhost:2368 (templates map is
 cached — new .hbs files need a Ghost restart).
 

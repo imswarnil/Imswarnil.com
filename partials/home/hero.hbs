@@ -1,11 +1,10 @@
 {{!-- Hero — "Framed" style. Rule-of-thirds shell, pointer-following accent
-     glow, camera HUD, static viewfinder frame in the H1 (no word cycling —
-     the signature quote now lives in components/intro as the first-load
-     title card). Right side: the media stack. Tag marquee below. --}}
+     glow, camera HUD, static viewfinder frame in the H1 (no word cycling).
+     Right side: the media stack. Tag marquee below. --}}
 <section class="relative overflow-hidden pb-12 pt-6 sm:pt-8" id="hero">
-	{{!-- grid-line texture behind the hero, dissolving toward the edges;
-	     inherits the active theme mode via --pattern --}}
-	<div class="pointer-events-none absolute inset-0 -z-10 bg-pat-grid fade-mask-radial" style="--pat-opacity:.9" aria-hidden="true"></div>
+	{{!-- grid-line texture behind the hero: densest in the centre, gradienting
+	     away toward all four corners; inherits the active theme mode via --pattern --}}
+	<div class="pointer-events-none absolute inset-0 -z-10 bg-pat-grid fade-mask-corners" style="--pat-opacity:1.2" aria-hidden="true"></div>
 	<div class="container-site relative">
 		<div class="hero-shell" id="hero-shell">
 			{{!-- camera HUD --}}

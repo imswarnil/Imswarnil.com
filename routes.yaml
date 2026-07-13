@@ -136,6 +136,13 @@ collections:
     filter: tag:hash-experience
     template: experiences
 
+  # Docs — theme documentation, grouped by docs-* section tags
+  /docs/:
+    permalink: /docs/{slug}/
+    filter: tag:hash-docs
+    order: published_at asc
+    template: docs
+
   # Catch-all archive: everything, lazy-loaded
   /archive/:
     permalink: /archive/{slug}/

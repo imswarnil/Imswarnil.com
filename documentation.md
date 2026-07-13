@@ -262,10 +262,16 @@ Collection headers add a 728×90 leaderboard on xl+ only when ads are enabled.
 
 ## 9. Demo content & data
 
-- **`import.json`** — full demo dataset (56 posts, 45 tags) covering every
-  collection with generic names (`Video Title — 1`, `Course Name — 1`,
-  `Trip Name — 1`…). Import via Ghost Admin → Settings → Import.
-- `data.json` — older dataset, superseded; both are excluded from the zip.
+- **`dummy-content/`** — the demo dataset, split into one importable Ghost file
+  per module (`course.json`, `lesson.json`, `video.json`, `webseries.json`,
+  `project.json`, `product.json`, `travel.json`, `timeline.json`, `post.json`,
+  `misc.json`, `docs.json`) plus `navigation.json` (nav menus). Generic names
+  (`Video Title — 1`, `Course Name — 1`, `Trip — 1`…). Import the modules you
+  want via Ghost Admin → Settings → Import; import `course.json` + `lesson.json`
+  together. See `dummy-content/README.md` for details.
+- The whole folder is excluded from the release zip (it's demo data, not theme
+  code). It replaces the old root `import.json` / `courses-import.json` /
+  `creator-import.json` / `data.json`.
 
 ---
 
@@ -341,8 +347,8 @@ npm run zip        # build + gscan --fatal + dist/swarnil.zip
 - **Navigation**: native `{{navigation}}` with slug→icon mapping and "- Child"
   nesting; icon-only theme switch (tap toggles, long-press = all 8 modes incl.
   Twilio + Neubrutal); navbar border doubles as reading progress.
-- **Data**: import.json + data.json synced — generic names, chapters tables in
-  video-type posts, `#level-*`, `#now-completed`, featured milestones.
+- **Data**: modular demo imports in `dummy-content/` — generic names, chapters
+  tables in video-type posts, `#level-*`, `#now-completed`, featured milestones.
 
 ---
 

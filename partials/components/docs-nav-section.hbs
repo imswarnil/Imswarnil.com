@@ -1,0 +1,21 @@
+{{!-- One docs section: heading + its pages (ordered). Reused by the docs
+     sidebar and the /docs landing grid.
+     Params: slug (section public tag), title (section label), active (current
+     doc slug, for highlighting — empty on the landing). --}}
+{{#get "posts" filter="tag:hash-docs+tag:{{slug}}" order="published_at asc" limit="50" as |docs|}}
+{{#if docs}}
+<div class="docs-nav-group">
+	<p class="docs-nav-head">{{title}}</p>
+	<ul class="docs-nav-list">
+		{{#foreach docs}}
+		<li>
+			<a href="{{url}}" class="docs-nav-link{{#match ../active slug}} is-active{{/match}}">
+				<span class="docs-nav-dot" aria-hidden="true"></span>
+				<span>{{title}}</span>
+			</a>
+		</li>
+		{{/foreach}}
+	</ul>
+</div>
+{{/if}}
+{{/get}}

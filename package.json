@@ -25,7 +25,7 @@
 		"test:fatal": "gscan . --fatal",
 		"test:verbose": "gscan . --verbose",
 		"clean": "rm -rf dist",
-		"zip": "npm run build && npm run test:fatal && mkdir -p dist && zip -r -X dist/swarnil.zip . -x 'node_modules/*' 'dist/*' '.git/*' '.github/*' '.claude/*' 'data.json' 'import.json' 'theme-customize.txt' 'instruction.md' 'documentation.md' 'redirects.yaml' '*.map' '.DS_Store' '.gitignore'",
+		"zip": "npm run build && npm run test:fatal && mkdir -p dist && zip -r -X dist/swarnil.zip . -x 'node_modules/*' 'dist/*' '.git/*' '.github/*' '.claude/*' 'dummy-content/*' 'theme-customize.txt' 'instruction.md' 'documentation.md' 'redirects.yaml' '*.map' '.DS_Store' '.gitignore'",
 		"release": "npm run zip && echo '→ dist/swarnil.zip ready to upload (Ghost Admin → Design → Change theme → Upload)'"
 	},
 	"config": {
@@ -129,12 +129,6 @@
 				"type": "text",
 				"default": "I've always been fascinated by cinema — the titles, the tension, the tudum. So instead of waiting for a studio to call, I became one. These are my originals: I try, I shoot, I cut. Maybe they're not good yet. But they're mine, and every season gets better.",
 				"description": "The 'why I make webseries' story shown above the Swarnil Originals shelf",
-				"group": "homepage"
-			},
-			"blog_quote": {
-				"type": "text",
-				"default": "Writing is thinking. This is me thinking in public — so you can skip the mistakes I already made.",
-				"description": "The big quote shown above the blog section on the homepage",
 				"group": "homepage"
 			},
 			"footer_tagline": {

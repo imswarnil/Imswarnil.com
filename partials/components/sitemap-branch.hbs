@@ -1,0 +1,33 @@
+{{!-- One collection branch of the visual sitemap tree.
+     Params:
+       name   — display label (e.g. "Blog")
+       route  — collection index path, leading slash (e.g. "/blog/")
+       filter — Ghost post filter for the collection (e.g. "tag:hash-blog")
+     Renders a node (dot + name + route + live count) over a grid of its
+     posts, each with a thumbnail. Open by default so everything is visible. --}}
+<li class="sm-branch">
+	{{#get "posts" filter=filter limit="100" as |items|}}
+	<details class="sm-details" open>
+		<summary class="sm-node">
+			<span class="sm-dot" aria-hidden="true"></span>
+			<span class="sm-node-name">{{name}}</span>
+			<span class="sm-route">{{route}}</span>
+			<span class="sm-count">{{pagination.total}}</span>
+			<span class="sm-chev" aria-hidden="true">{{> "icons/chevron-down"}}</span>
+		</summary>
+		<div class="sm-children">
+			{{#foreach items}}
+			<a href="{{url}}" class="sm-leaf" title="{{title}}">
+				<span class="sm-thumb">
+					{{#if feature_image}}<img src="{{img_url feature_image size="300"}}" width="300" height="169" alt="" loading="lazy" />{{else}}<span class="sm-thumb-ph bg-pat-dots"></span>{{/if}}
+				</span>
+				<span class="sm-leaf-t">{{title}}</span>
+			</a>
+			{{else}}
+			<span class="sm-empty">Nothing published here yet</span>
+			{{/foreach}}
+			<a href="{{@site.url}}{{route}}" class="sm-all">View all {{name}} {{> "icons/arrow-right" class="h-3.5 w-3.5"}}</a>
+		</div>
+	</details>
+	{{/get}}
+</li>

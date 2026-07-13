@@ -1,0 +1,230 @@
+{
+ "db": [
+  {
+   "meta": {
+    "exported_on": 1783252800000,
+    "version": "5.0.0"
+   },
+   "data": {
+    "posts": [
+     {
+      "id": "000000000000000000000140",
+      "title": "Course Name — 1",
+      "slug": "course-name-1",
+      "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"<h2>What you'll learn</h2><ul><li>Thing one</li><li>Thing two</li><li>Thing three</li></ul><h2>Prerequisites</h2><ul><li>Curiosity</li><li>A browser</li></ul><p>Somewhere between the brief and the deadline lives the actual work. This is generic demo content so you can judge the layout honestly.</p><h2 id=\\\"the-setup\\\">The setup</h2><p>Every good system starts with a constraint: frame the color 1:1, crop out the noise.</p><ul><li>Start with the audience, not the tool</li><li>Measure twice, publish once</li><li>Delete more than you add</li></ul><h2 id=\\\"the-details\\\">The details</h2><pre><code>const frame = (life) =&gt; life.filter(m =&gt; m.signal &gt; m.noise);</code></pre><blockquote>Life looks better when you frame the color 1:1.</blockquote><h3 id=\\\"wrap-up\\\">Wrap up</h3><p>If this reads well in all six theme modes, ship it.</p>\"}]], \"markups\": [], \"sections\": [[10, 0], [1, \"p\", []]]}",
+      "feature_image": "https://picsum.photos/seed/course-name-1/1200/800",
+      "featured": 1,
+      "type": "post",
+      "status": "published",
+      "custom_excerpt": "A generic demo course. Four lessons, zero fluff.",
+      "created_at": "2026-07-17T12:00:00.000Z",
+      "updated_at": "2026-07-17T12:00:00.000Z",
+      "published_at": "2026-07-17T12:00:00.000Z"
+     },
+     {
+      "id": "000000000000000000000176",
+      "title": "Course Name — From The Videos",
+      "slug": "course-from-the-videos",
+      "mobiledoc": "{\"version\":\"0.3.1\",\"atoms\":[],\"cards\":[[\"html\",{\"html\":\"<p>A full course that expands on the videos. Tagged #course-video so it shows under “Go deeper — full course”.</p>\"}]],\"markups\":[],\"sections\":[[10,0],[1,\"p\",[]]]}",
+      "feature_image": "https://picsum.photos/seed/course-from-the-videos/1200/800",
+      "featured": 0,
+      "type": "post",
+      "status": "published",
+      "custom_excerpt": "Turn the videos into a structured course.",
+      "created_at": "2026-06-20T12:00:00.000Z",
+      "updated_at": "2026-06-20T12:00:00.000Z",
+      "published_at": "2026-06-20T12:00:00.000Z"
+     },
+     {
+      "id": "70000000000000000000post1",
+      "title": "Java -- University Course (50 Lessons)",
+      "slug": "java-university",
+      "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"\\n<p>Java -- University Course (50 Lessons) is a hands-on course with real-time, real-world code examples in every lesson, not toy snippets.</p>\\n<h2 id=\\\"real-time-example\\\">Real-time example</h2>\\n<p>This course walks through Java -- University Course (50 Lessons) the way it's actually used on the job -- production-style examples over abstract theory.</p>\\n<pre><code class=\\\"language-text\\\">-- start here, then work through the lessons in order</code></pre>\\n<h3 id=\\\"whats-happening\\\">What's happening</h3>\\n<p>Each lesson below stands alone but builds on the ones before it -- concept, a real-time example, working code, and a takeaway.</p>\\n<blockquote>Work through all 50 lessons in order for the full course.</blockquote>\\n\"}]], \"markups\": [], \"sections\": [[10, 0], [1, \"p\", []]]}",
+      "feature_image": "https://picsum.photos/seed/java-university/1200/800",
+      "featured": false,
+      "type": "post",
+      "status": "published",
+      "custom_excerpt": "50 lessons covering Java from the JVM to Spring Boot, each with a real-time, real-world example and working code -- not toy snippets.",
+      "created_at": "2026-07-01T08:00:00.000Z",
+      "updated_at": "2026-07-01T08:00:00.000Z",
+      "published_at": "2026-07-01T08:00:00.000Z"
+     },
+     {
+      "id": "70000000000000000000post2",
+      "title": "SQL -- University Course (30 Lessons)",
+      "slug": "sql-university",
+      "mobiledoc": "{\"version\": \"0.3.1\", \"atoms\": [], \"cards\": [[\"html\", {\"html\": \"\\n<p>SQL -- University Course (30 Lessons) is a hands-on course with real-time, real-world code examples in every lesson, not toy snippets.</p>\\n<h2 id=\\\"real-time-example\\\">Real-time example</h2>\\n<p>This course walks through SQL -- University Course (30 Lessons) the way it's actually used on the job -- production-style examples over abstract theory.</p>\\n<pre><code class=\\\"language-text\\\">-- start here, then work through the lessons in order</code></pre>\\n<h3 id=\\\"whats-happening\\\">What's happening</h3>\\n<p>Each lesson below stands alone but builds on the ones before it -- concept, a real-time example, working code, and a takeaway.</p>\\n<blockquote>Work through all 30 lessons in order for the full course.</blockquote>\\n\"}]], \"markups\": [], \"sections\": [[10, 0], [1, \"p\", []]]}",
+      "feature_image": "https://picsum.photos/seed/sql-university/1200/800",
+      "featured": false,
+      "type": "post",
+      "status": "published",
+      "custom_excerpt": "30 lessons covering SQL from first SELECT to production query optimization, each with a real-time e-commerce/banking example.",
+      "created_at": "2026-07-01T08:00:00.000Z",
+      "updated_at": "2026-07-01T08:00:00.000Z",
+      "published_at": "2026-07-01T08:00:00.000Z"
+     }
+    ],
+    "tags": [
+     {
+      "id": "00000000000000000000012d",
+      "name": "Course Name — 1",
+      "slug": "course-1",
+      "description": "A generic demo course.",
+      "visibility": "public"
+     },
+     {
+      "id": "000000000000000000000103",
+      "name": "#course",
+      "slug": "hash-course",
+      "description": "",
+      "visibility": "internal"
+     },
+     {
+      "id": "000000000000000000000135",
+      "name": "#course-video",
+      "slug": "hash-course-video",
+      "description": "",
+      "visibility": "internal"
+     },
+     {
+      "id": "00000000000000000000011c",
+      "name": "#duration-1h-30m",
+      "slug": "hash-duration-1h-30m",
+      "description": "",
+      "visibility": "internal"
+     },
+     {
+      "id": "hash-duration-2h-id",
+      "name": "#duration-2h",
+      "slug": "hash-duration-2h"
+     },
+     {
+      "id": "00000000000000000000011b",
+      "name": "#duration-45m",
+      "slug": "hash-duration-45m",
+      "description": "",
+      "visibility": "internal"
+     },
+     {
+      "id": "00000000000000000000011f",
+      "name": "#level-beginner",
+      "slug": "hash-level-beginner",
+      "description": "",
+      "visibility": "internal"
+     },
+     {
+      "id": "000000000000000000000120",
+      "name": "#level-intermediate",
+      "slug": "hash-level-intermediate",
+      "description": "",
+      "visibility": "internal"
+     },
+     {
+      "id": "70000000000000000000tag1",
+      "name": "Java -- University Course (50 Lessons)",
+      "slug": "java-university"
+     },
+     {
+      "id": "70000000000000000000tag2",
+      "name": "SQL -- University Course (30 Lessons)",
+      "slug": "sql-university"
+     },
+     {
+      "id": "00000000000000000000012c",
+      "name": "Topic 3",
+      "slug": "topic-3",
+      "description": "",
+      "visibility": "public"
+     }
+    ],
+    "posts_tags": [
+     {
+      "post_id": "000000000000000000000140",
+      "tag_id": "00000000000000000000012d",
+      "sort_order": 0
+     },
+     {
+      "post_id": "000000000000000000000140",
+      "tag_id": "000000000000000000000103",
+      "sort_order": 1
+     },
+     {
+      "post_id": "000000000000000000000140",
+      "tag_id": "00000000000000000000011c",
+      "sort_order": 2
+     },
+     {
+      "post_id": "000000000000000000000140",
+      "tag_id": "00000000000000000000011f",
+      "sort_order": 3
+     },
+     {
+      "post_id": "000000000000000000000176",
+      "tag_id": "00000000000000000000012c",
+      "sort_order": 0
+     },
+     {
+      "post_id": "000000000000000000000176",
+      "tag_id": "000000000000000000000103",
+      "sort_order": 1
+     },
+     {
+      "post_id": "000000000000000000000176",
+      "tag_id": "000000000000000000000135",
+      "sort_order": 2
+     },
+     {
+      "post_id": "000000000000000000000176",
+      "tag_id": "00000000000000000000011b",
+      "sort_order": 3
+     },
+     {
+      "post_id": "000000000000000000000176",
+      "tag_id": "000000000000000000000120",
+      "sort_order": 4
+     },
+     {
+      "post_id": "70000000000000000000post1",
+      "tag_id": "70000000000000000000tag1",
+      "sort_order": 0
+     },
+     {
+      "post_id": "70000000000000000000post1",
+      "tag_id": "000000000000000000000103",
+      "sort_order": 1
+     },
+     {
+      "post_id": "70000000000000000000post1",
+      "tag_id": "hash-duration-2h-id",
+      "sort_order": 2
+     },
+     {
+      "post_id": "70000000000000000000post1",
+      "tag_id": "00000000000000000000011f",
+      "sort_order": 3
+     },
+     {
+      "post_id": "70000000000000000000post2",
+      "tag_id": "70000000000000000000tag2",
+      "sort_order": 0
+     },
+     {
+      "post_id": "70000000000000000000post2",
+      "tag_id": "000000000000000000000103",
+      "sort_order": 1
+     },
+     {
+      "post_id": "70000000000000000000post2",
+      "tag_id": "hash-duration-2h-id",
+      "sort_order": 2
+     },
+     {
+      "post_id": "70000000000000000000post2",
+      "tag_id": "00000000000000000000011f",
+      "sort_order": 3
+     }
+    ]
+   }
+  }
+ ]
+}
