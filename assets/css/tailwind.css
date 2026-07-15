@@ -4,6 +4,9 @@
 @import './components/sections.css';
 @import './components/home.css';
 @import './components/collections.css';
+@import './components/guide.css';
+@import './components/stage.css';
+@import './components/showcase.css';
 
 @tailwind base;
 @tailwind components;
@@ -24,6 +27,17 @@
 		--on-accent: 250 250 250; /* readable text/icon color on top of --accent */
 		--pattern: 0 0 0;
 		--ghost-accent-color: #18181b;
+
+		/* Horizontal rhythm — see .container-site. The nav shell reuses both so
+		   the island's edges line up with the content column on every screen. */
+		--w-site: 71rem;
+		--gutter: 1.25rem; /* 20px on phones */
+	}
+
+	@media (min-width: 640px) {
+		:root {
+			--gutter: 2rem; /* 32px from sm up */
+		}
 	}
 
 	/* native form controls / scrollbars follow the mode (daisyUI used to set this) */
@@ -285,6 +299,15 @@
 		mask-image: radial-gradient(ellipse 80% 78% at 50% 44%, black 0%, black 34%, transparent 100%);
 	}
 
+	/* Hero vignette: the grid is lit in the middle and dissolves completely
+	   before it reaches any corner, so the pattern blends into the page
+	   background rather than stopping at a visible edge. Wider and softer than
+	   .fade-mask-corners — the falloff runs the full radius with no hard stop. */
+	.fade-mask-bloom {
+		-webkit-mask-image: radial-gradient(ellipse 68% 66% at 50% 46%, black 0%, rgb(0 0 0 / 0.72) 38%, rgb(0 0 0 / 0.26) 66%, transparent 88%);
+		mask-image: radial-gradient(ellipse 68% 66% at 50% 46%, black 0%, rgb(0 0 0 / 0.72) 38%, rgb(0 0 0 / 0.26) 66%, transparent 88%);
+	}
+
 	.text-balance {
 		text-wrap: balance;
 	}
@@ -372,6 +395,16 @@
 			linear-gradient(to bottom, rgb(var(--pattern) / calc(0.06 * var(--pat-opacity))) 1px, transparent 1px);
 		background-size: 32px 32px, 32px 32px, 32px 32px;
 	}
+	/* 11 — wide grid: hairline rules, big cells. Reads as drafting paper rather
+	   than graph paper — used behind the hero, where a 28px grid was too busy
+	   to sit under a headline. Sub-pixel line width keeps it a whisper. */
+	.bg-pat-grid-wide {
+		background-image:
+			linear-gradient(to right, rgb(var(--pattern) / calc(0.085 * var(--pat-opacity))) 0.75px, transparent 0.75px),
+			linear-gradient(to bottom, rgb(var(--pattern) / calc(0.085 * var(--pat-opacity))) 0.75px, transparent 0.75px);
+		background-size: 82px 82px;
+	}
+
 	/* 10 — diagonal hatching */
 	.bg-pat-diagonal {
 		background-image: repeating-linear-gradient(45deg, rgb(var(--pattern) / calc(0.08 * var(--pat-opacity))) 0, rgb(var(--pattern) / calc(0.08 * var(--pat-opacity))) 1px, transparent 0, transparent 10px);
@@ -384,10 +417,15 @@
 @layer components {
 	/* Main content column. Width derived from the golden ratio: the reading
 	   measure (prose = 44rem) × φ (1.618) ≈ 71rem — wide enough to breathe,
-	   still proportioned to the text column it wraps. */
+	   still proportioned to the text column it wraps.
+
+	   --w-site / --gutter are the single source of truth for horizontal rhythm:
+	   the navbar shell reuses them so the nav island's edges land exactly on the
+	   content column's edges at every breakpoint. Change them here only. */
 	.container-site {
-		@apply mx-auto w-full px-5 sm:px-8;
-		max-width: 71rem;
+		@apply mx-auto w-full;
+		max-width: var(--w-site);
+		padding-inline: var(--gutter);
 	}
 
 	/* #site-main must never be the element that scrolls sideways */
@@ -420,20 +458,34 @@
 		@apply inline-flex h-9 w-9 items-center justify-center rounded-full text-silver transition hover:bg-mist hover:text-ink;
 	}
 
+	/* "Remove this ad" — deliberately quiet. It should read as an honest offer,
+	   not a dark-pattern close button that fakes dismissing the ad. */
+	.ad-optout {
+		@apply inline-flex items-center gap-1 rounded-full border border-transparent px-2 py-1 font-mono text-[9px] uppercase tracking-[0.18em] text-silver/70 transition;
+	}
+	.ad-optout:hover {
+		@apply border-line bg-paper/60 text-ink;
+	}
+
 	/* Navbar: medium-height bar → floating island once scrolled. The bar itself
 	   is the reading-progress indicator: .nav-progress fills it left→right with
 	   a very light tint of the accent color (scaleX set in main.js). */
+	/* The shell fills its .container-site parent, so its outer edges sit exactly
+	   on the content column's edges — at the top of the page and once it lifts
+	   into an island. Only the surface changes on scroll (bg/border/shadow), not
+	   the width, which is what kept the old max-w-5xl island out of alignment.
+	   Inner padding is the island's own optical inset; the logo and the right-
+	   hand icons still read as flush with the content below. */
 	.nav-shell {
-		@apply relative mx-auto flex w-full max-w-site items-center justify-between gap-2 rounded-2xl border border-transparent bg-transparent py-1.5 pl-4 pr-2;
+		@apply relative mx-auto flex w-full items-center justify-between gap-2 rounded-2xl border border-transparent bg-transparent py-1.5 pl-3 pr-1.5 sm:pl-4 sm:pr-2;
 		transition:
-			max-width 0.5s cubic-bezier(0.16, 1, 0.3, 1),
 			background-color 0.4s ease,
 			border-color 0.4s ease,
 			box-shadow 0.4s ease,
 			padding 0.4s ease;
 	}
 	.nav-shell.is-island {
-		@apply max-w-5xl rounded-2xl border-line bg-paper/80 py-1 shadow-island backdrop-blur-xl;
+		@apply rounded-2xl border-line bg-paper/80 py-1 shadow-island backdrop-blur-xl;
 	}
 	.nav-shell > *:not(.nav-progress) {
 		position: relative;
@@ -895,16 +947,69 @@ form[data-members-form].loading button[type='submit'] {
 }
 
 /* ------------------------------------------------------------------
-   Hero "Framed" — shell, HUD, morphing frame, floating windows, arrow
+   Hero "Framed" — shell, quote, frame, meta, tags, work/personal
 ------------------------------------------------------------------- */
-.hero-shell {
+
+/* The section owns one screen: content centres in the space left over and the
+   tag rail sits on the fold. 100dvh (not vh) so mobile browser chrome doesn't
+   push the rail off. Only locked where the two-column layout actually fits —
+   below lg, or on a short window, natural height wins over squeezing. */
+/* One cinematic screen: full-bleed, viewport-tall, the tag strip on the fold.
+   100dvh (not vh) so mobile browser chrome can't push the strip out of view.
+   Locked only where the two-column layout fits — below lg, or on a short
+   window, natural height beats squeezing everything into 8px type. */
+.hx {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+	padding-top: 4.25rem; /* clears the fixed navbar */
+}
+@media (min-width: 1024px) and (min-height: 700px) {
+	/* NOT 100dvh. The tag marquee renders straight after this section, so a
+	   full-height hero puts it exactly one pixel below the fold — which is why
+	   it was never visible no matter where it lived in the DOM. Reserving the
+	   strip's height here is what puts it on screen. */
+	.hx {
+		min-height: calc(100dvh - 3.5rem);
+	}
+}
+
+/* The copy/stage block centres in whatever's left after the strip. */
+.hx-inner {
 	position: relative;
 	isolation: isolate;
-	border-radius: 1.5rem;
-	padding: clamp(20px, 4vw, 48px) clamp(4px, 1.5vw, 20px);
+	display: flex;
+	flex: 1;
+	flex-direction: column;
+	justify-content: center;
+	gap: clamp(20px, 3vw, 34px);
+	width: 100%;
+	max-width: var(--w-site);
+	margin: 0 auto;
+	padding: clamp(16px, 2.4vw, 30px) var(--gutter);
 }
+
+.hx-grid {
+	display: grid;
+	grid-template-columns: 1fr;
+	align-items: center;
+	gap: clamp(24px, 4vw, 48px);
+}
+@media (min-width: 1024px) {
+	.hx-grid {
+		/* the stage is the subject — give it the larger half */
+		grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+	}
+}
+.hx-copy { min-width: 0; }
+.hx-stage { min-width: 0; }
+
+/* Identity line: name/role, then a quieter tail after a hairline. The facts
+   read better here and in the lede than they did as a spec grid. */
 .hx-eyebrow {
 	display: flex;
+	flex-wrap: wrap;
 	align-items: center;
 	gap: 10px;
 	margin-bottom: clamp(20px, 3.5vw, 38px);
@@ -914,20 +1019,252 @@ form[data-members-form].loading button[type='submit'] {
 	text-transform: uppercase;
 	color: rgb(var(--silver));
 }
-.hx-eyebrow::before {
+.hx-eyebrow > span:first-child {
+	display: inline-flex;
+	align-items: center;
+	gap: 10px;
+	color: rgb(var(--ink));
+}
+.hx-eyebrow > span:first-child::before {
 	content: '';
 	width: 0.5rem;
 	height: 0.5rem;
 	border-radius: 50%;
 	background: rgb(var(--accent));
 }
+.hx-eyebrow-tail {
+	position: relative;
+	padding-left: 14px;
+}
+.hx-eyebrow-tail::before {
+	content: '';
+	position: absolute;
+	left: 0;
+	top: 50%;
+	width: 6px;
+	height: 1px;
+	background: rgb(var(--line));
+}
+
+/* The sentence under the headline — the facts that used to be in the spec
+   grid live here now, in prose. */
+.hx-lede {
+	margin-top: clamp(16px, 2vw, 22px);
+	max-width: 34rem;
+	font-size: 0.9375rem;
+	line-height: 1.65;
+	color: rgb(var(--silver));
+}
+.hx-lede a {
+	font-weight: 550;
+	color: rgb(var(--ink));
+	border-bottom: 1px solid rgb(var(--line));
+	transition: border-color 0.22s;
+}
+.hx-lede a:hover {
+	border-bottom-color: rgb(var(--ink));
+}
+
+/* ---- The manifesto: "Cut the chaos." ------------------------------
+   Out of focus until you reach it, then it pulls sharp word by word — the
+   line is about editing, so it edits itself. blur() is expensive to animate,
+   so it's only ever run once per word, on a short transition. */
+.hx-manifesto {
+	margin: clamp(16px, 2.2vw, 24px) 0 0;
+	max-width: 30rem;
+	font-size: clamp(1.05rem, 1.8vw, 1.35rem);
+	font-weight: 600;
+	line-height: 1.4;
+	letter-spacing: -0.015em;
+	color: rgb(var(--ink));
+}
+.hx-manifesto span {
+	display: inline-block;
+	filter: blur(5px);
+	opacity: 0.4;
+	transition: filter 0.5s ease, opacity 0.5s ease;
+}
+.hx-manifesto span.is-sharp {
+	filter: blur(0);
+	opacity: 1;
+}
+/* the first three words are the line — keep them in accent */
+.hx-manifesto span:nth-child(-n + 3) {
+	color: rgb(var(--accent));
+}
+
+/* ---- Who am I: one line, icons inline ------------------------------ */
+.hx-who {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 6px;
+	margin: clamp(14px, 2vw, 20px) 0 0;
+	font-size: 0.8125rem;
+	line-height: 1.5;
+	color: rgb(var(--silver));
+}
+.hx-who svg { flex: none; }
+.hx-who a {
+	font-weight: 550;
+	color: rgb(var(--ink));
+	border-bottom: 1px solid rgb(var(--line));
+	transition: border-color 0.22s;
+}
+.hx-who a:hover { border-bottom-color: rgb(var(--ink)); }
+.hx-who-sep { color: rgb(var(--line)); }
+
+/* ---- What I do: the collections, with live counts ------------------ */
+.hx-do {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 8px 10px;
+	padding-top: clamp(14px, 2vw, 20px);
+	border-top: 1px solid rgb(var(--line));
+}
+.hx-do-label {
+	display: inline-flex;
+	flex: none;
+	align-items: center;
+	gap: 6px;
+	font-family: theme('fontFamily.mono');
+	font-size: 0.54rem;
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 0.18em;
+	color: rgb(var(--silver));
+}
+.hx-do-row {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 6px;
+	min-width: 0;
+}
+.hx-do-item {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	padding: 5px 10px;
+	border: 1px solid rgb(var(--line));
+	border-radius: 999px;
+	background: rgb(var(--paper) / 0.7);
+	font-size: 0.75rem;
+	font-weight: 550;
+	color: rgb(var(--silver));
+	white-space: nowrap;
+	transition: border-color 0.22s, color 0.22s, background-color 0.22s, transform 0.22s;
+}
+.hx-do-item svg { flex: none; color: rgb(var(--silver)); transition: color 0.22s; }
+.hx-do-item:hover {
+	border-color: rgb(var(--ink));
+	background: rgb(var(--paper));
+	color: rgb(var(--ink));
+	transform: translateY(-1px);
+}
+.hx-do-item:hover svg { color: rgb(var(--ink)); }
+.hx-do-n {
+	padding: 0 5px;
+	border-radius: 999px;
+	background: rgb(var(--ink) / 0.06);
+	font-family: theme('fontFamily.mono');
+	font-size: 0.6rem;
+	color: rgb(var(--silver));
+}
+
+/* ---- Tag marquee strip -------------------------------------------- */
+.hx-strip {
+	/* Rendered after the hero, not inside it — see home.hbs. */
+	position: relative;
+	display: flex;
+	align-items: center;
+	border-top: 1px solid rgb(var(--line));
+	background: rgb(var(--mist) / 0.45);
+}
+.hx-strip-view {
+	flex: 1;
+	min-width: 0;
+	overflow: hidden;
+	padding: 9px 0;
+}
+.hx-strip-track {
+	display: flex;
+	width: max-content;
+	animation: marquee 52s linear infinite;
+}
+.hx-strip-group {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	padding-right: 10px;
+}
+.hx-chip {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	flex: none;
+	font-size: 0.78rem;
+	font-weight: 550;
+	white-space: nowrap;
+	color: rgb(var(--silver));
+	transition: color 0.2s;
+}
+.hx-chip:hover { color: rgb(var(--ink)); }
+.hx-chip-img {
+	width: 1.05rem;
+	height: 1.05rem;
+	border-radius: 999px;
+	object-fit: cover;
+	border: 1px solid rgb(var(--line));
+}
+.hx-chip-hash {
+	color: rgb(var(--accent));
+	font-weight: 700;
+	opacity: 0.75;
+}
+.hx-chip-n {
+	font-family: theme('fontFamily.mono');
+	font-size: 0.6rem;
+	color: rgb(var(--silver));
+	opacity: 0.7;
+}
+.hx-chip-star {
+	color: rgb(var(--accent));
+	opacity: 0.4;
+	font-size: 0.6rem;
+}
+.hx-strip-all {
+	flex: none;
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+	padding: 0 var(--gutter) 0 14px;
+	border-left: 1px solid rgb(var(--line));
+	margin-left: 8px;
+	align-self: stretch;
+	font-family: theme('fontFamily.mono');
+	font-size: 0.55rem;
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 0.14em;
+	color: rgb(var(--ink));
+	white-space: nowrap;
+	background: rgb(var(--paper) / 0.6);
+	transition: gap 0.22s, opacity 0.22s;
+}
+.hx-strip-all:hover { gap: 8px; opacity: 0.7; }
+/* keyboard users: pause the loop so a focused tag stops moving */
+.hx-strip:focus-within .hx-strip-track { animation-play-state: paused; }
+
 .hx-h1 {
 	margin: 0;
-	max-width: 24ch;
-	font-size: clamp(1.9rem, 4.6vw, 3.4rem);
+	max-width: 18ch;
+	font-size: clamp(1.9rem, 3.3vw, 2.9rem);
 	font-weight: 600;
-	line-height: 1.06;
+	line-height: 1.08;
 	letter-spacing: -0.03em;
+	text-wrap: balance;
 }
 /* morphing aspect-ratio frame with viewfinder crop marks */
 .hx-frame {
@@ -962,51 +1299,93 @@ form[data-members-form].loading button[type='submit'] {
 	color: rgb(var(--accent));
 	animation: hxWordIn 0.55s cubic-bezier(0.2, 1, 0.2, 1);
 }
-@keyframes hxWordIn {
-	from { opacity: 0; transform: translateY(45%); filter: blur(4px); }
-	to { opacity: 1; transform: translateY(0); filter: blur(0); }
-}
+
+/* The ratio readout, pinned ABOVE the frame. Without `position: absolute` it
+   becomes a flex child of .hx-frame, sits next to the word and squeezes it out
+   of an aspect-ratio-sized box — which reads as "the word vanished". */
 .hx-ratio {
 	position: absolute;
-	top: -1.25em;
+	top: -1.15em;
 	right: -2px;
 	padding: 0.1em 0.45em;
 	border-radius: 5px;
 	background: rgb(var(--ink));
 	color: rgb(var(--paper));
 	font-family: theme('fontFamily.mono');
-	font-size: clamp(0.55rem, 1vw, 0.72rem);
+	font-size: clamp(0.5rem, 0.9vw, 0.62rem);
+	font-weight: 600;
 	letter-spacing: 0.08em;
-	line-height: 1.4;
-}
-/* mobile: calmer hero */
-@media (max-width: 639px) {
-	.hero-shell { padding: 12px 2px 8px; }
-	.hx-h1 { font-size: clamp(1.65rem, 8vw, 2.1rem); }
-	.hx-eyebrow { font-size: 0.62rem; letter-spacing: 0.1em; margin-bottom: 16px; }
+	line-height: 1.5;
+	white-space: nowrap;
 }
 
-/* camera HUD */
-.hx-hud {
-	position: absolute;
-	right: clamp(18px, 3.5vw, 48px);
-	top: clamp(20px, 4vw, 52px);
-	display: flex;
-	flex-direction: column;
-	gap: 6px;
-	text-align: right;
-	font-family: theme('fontFamily.mono');
-	font-size: 0.68rem;
-	letter-spacing: 0.12em;
-	text-transform: uppercase;
+/* the second frame — "and cut the [Y]". No ratio chip and no morphing shape:
+   it hugs its word, because two frames resizing at once reads as a glitch.
+   Struck through, since the whole point is that this part gets cut. */
+.hx-frame-y {
+	aspect-ratio: auto;
+	height: auto;
+	padding: 0 0.3em;
+	border-style: dashed;
+	border-color: rgb(var(--silver) / 0.7);
+	background: transparent;
+}
+.hx-word-cut {
+	position: relative;
 	color: rgb(var(--silver));
 }
-.hx-hud b { color: rgb(var(--ink)); font-weight: 600; }
-@media (max-width: 1023px) { .hx-hud { display: none; } }
+.hx-word-cut::after {
+	content: '';
+	position: absolute;
+	left: -0.1em;
+	right: -0.1em;
+	top: 54%;
+	height: 2px;
+	border-radius: 2px;
+	background: rgb(var(--accent));
+	transform-origin: left;
+	animation: hxCut 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.25s both;
+}
+@keyframes hxCut {
+	from { transform: scaleX(0); }
+	to { transform: scaleX(1); }
+}
+@keyframes hxWordIn {
+	from { opacity: 0; transform: translateY(45%); filter: blur(4px); }
+	to { opacity: 1; transform: translateY(0); filter: blur(0); }
+}
+/* One screen is a hard budget on desktop, so the rhythm tightens until the
+   copy, the stage AND the tag strip all land above the fold on a 900px-tall
+   laptop. Must sit after the base rules — same specificity, so the later one
+   wins; put it earlier and the cascade throws it away. */
+@media (min-width: 1024px) and (min-height: 700px) {
+	/* The headline runs to three lines now ("Life looks better / when you frame
+	   the X / and cut the Y"), so everything else gives ground to keep the copy,
+	   the stage AND the tag strip above the fold on a 900px-tall laptop. These
+	   are the numbers that fit; loosen them and the strip drops off. */
+	.hx-h1 { font-size: clamp(1.8rem, 2.5vw, 2.25rem); }
+	.hx-eyebrow { margin-bottom: 10px; }
+	.hx-manifesto { margin-top: 12px; font-size: 1.05rem; }
+	.hx-who { margin-top: 10px; }
+	.hx-cta { margin-top: 12px; }
+	.hx-inner { gap: 18px; padding-top: 12px; padding-bottom: 12px; }
+	.hx-do { padding-top: 12px; }
+}
+
+/* mobile: calmer hero */
+@media (max-width: 639px) {
+	.hx-h1 { font-size: clamp(1.65rem, 8vw, 2.1rem); }
+	.hx-eyebrow { font-size: 0.62rem; letter-spacing: 0.1em; margin-bottom: 16px; }
+	.hx-eyebrow-tail { display: none; }
+	.hx-manifesto { font-size: 1.05rem; }
+	/* the strip's "view all" would eat half a phone screen */
+	.hx-strip-all { display: none; }
+}
+
 @media (prefers-reduced-motion: reduce) {
-	.hero-shell::after { display: none; }
-	.hx-eyebrow::before, .hx-word { animation: none; }
+	.hx-word { animation: none; }
 	.hx-frame { transition: none; }
+	.hx-quote-rule, .hx-quote-w, .hx-quote-dot, .hx-quote-cite { animation: none; opacity: 1; transform: none; }
 }
 
 /* ------------------------------------------------------------------

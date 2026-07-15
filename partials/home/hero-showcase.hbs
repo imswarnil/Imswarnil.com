@@ -1,0 +1,101 @@
+{{!-- The showcase — a square photo that becomes the film.
+
+     It opens as a 1:1 frame: the still, an icon, and the quote that says what
+     this place is. Press "Watch my story" and the frame reshapes 1:1 → 16:9 and
+     the video plays inside the same frame.
+
+     ONE {{#get}} in here, on purpose. This partial used to run three (project,
+     series, trip) and hero-do ran seven more — eleven API round-trips to paint
+     a hero, which is what put the homepage on the floor. Everything that isn't
+     the film is now static markup. --}}
+<div class="sc" id="sc" data-state="story">
+
+	<div class="sc-stage" id="sc-stage" style="--sc-ar:1/1" data-ratio="1:1">
+
+		{{!-- 1 · the square: still + quote --}}
+		<div class="sc-slide sc-story is-active" id="sc-story">
+			<img src="{{asset "images/hero-square.svg"}}" width="1000" height="1000"
+				fetchpriority="high" decoding="async" alt="Swarnil, framed" class="sc-story-img" />
+
+			<div class="sc-quote">
+				<span class="sc-quote-icon" aria-hidden="true">{{> "icons/film" class="h-4 w-4"}}</span>
+				<blockquote class="sc-quote-text" id="sc-quote">
+					<span>Life</span> <span>looks</span> <span>better</span> <span>when</span> <span>you</span>
+					<span>make</span> <span>something</span> <span>people</span> <span>love</span> <span>—</span>
+					<span>because</span> <span>what</span> <span>you</span> <span>make</span>
+					<span>is</span> <span>who</span> <span>you</span> <span>are.</span>
+				</blockquote>
+			</div>
+		</div>
+
+		{{!-- 2 · the film: 16:9, plays in the same frame --}}
+		<div class="sc-slide sc-film" data-final>
+			{{#get "posts" filter="tag:hash-trip" limit="1" order="featured desc,published_at desc" as |film|}}
+				{{#if film.length}}
+					{{#foreach film}}
+						{{> "home/hero-frames" isFilm=true kicker="Now playing · Trip"}}
+					{{/foreach}}
+				{{else}}
+					{{> "home/hero-frames" kicker="Now playing · Showreel"}}
+				{{/if}}
+			{{/get}}
+		</div>
+	</div>
+
+	<button type="button" class="sc-watch" id="sc-watch">
+		<span class="sc-watch-ring" aria-hidden="true">{{> "icons/play" class="h-3.5 w-3.5"}}</span>
+		<span class="sc-watch-label">Watch my story</span>
+		<span class="sc-watch-meta" aria-hidden="true">1:1 → 16:9</span>
+	</button>
+</div>
+
+<script>
+	(function () {
+		var sc = document.getElementById('sc');
+		if (!sc) return;
+		var stage = document.getElementById('sc-stage');
+		var watch = document.getElementById('sc-watch');
+		var story = document.getElementById('sc-story');
+		var film = sc.querySelector('.sc-film');
+		var quote = document.getElementById('sc-quote');
+		var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+		/* the quote pulls sharp once you're looking at it */
+		if (quote) {
+			var words = quote.querySelectorAll('span');
+			if (reduced || !('IntersectionObserver' in window)) {
+				words.forEach(function (s) { s.classList.add('is-sharp'); });
+			} else {
+				var io = new IntersectionObserver(function (entries) {
+					entries.forEach(function (e) {
+						if (!e.isIntersecting) return;
+						io.disconnect();
+						words.forEach(function (s, i) {
+							setTimeout(function () { s.classList.add('is-sharp'); }, 55 * i + 250);
+						});
+					});
+				}, { threshold: 0.4 });
+				io.observe(quote);
+			}
+		}
+
+		/* square → widescreen, then roll the tape in the same frame */
+		var opened = false;
+		watch.addEventListener('click', function () {
+			if (opened) return;
+			opened = true;
+			sc.setAttribute('data-state', 'film');
+			stage.style.setProperty('--sc-ar', '16/9');
+			stage.setAttribute('data-ratio', '16:9');
+			story.classList.remove('is-active');
+			film.classList.add('is-active');
+
+			/* let the frame finish reshaping before the video starts, so the
+			   two motions read as one gesture rather than a collision */
+			setTimeout(function () {
+				var play = document.getElementById('vf-play');
+				if (play) play.click();
+			}, reduced ? 0 : 620);
+		});
+	})();
+</script>

@@ -24,8 +24,7 @@
 
 		<div class="mx-auto max-w-4xl">
 			{{!-- Topmate 1:1 CTA --}}
-			{{#if @custom.topmate_url}}
-			<a href="{{@custom.topmate_url}}" target="_blank" rel="noopener" class="card-surface group relative mb-14 flex flex-col items-center gap-8 overflow-hidden p-8 shadow-lift transition hover:shadow-xl sm:flex-row sm:p-10">
+			<a href="https://topmate.io/imswarnil" target="_blank" rel="noopener" class="card-surface group relative mb-14 flex flex-col items-center gap-8 overflow-hidden p-8 shadow-lift transition hover:shadow-xl sm:flex-row sm:p-10">
 				<div class="bg-grid pointer-events-none absolute inset-0 opacity-40" aria-hidden="true"></div>
 
 				{{!-- CSS calendar illustration --}}
@@ -51,14 +50,12 @@
 					<span class="btn btn-primary mt-5 inline-flex">Book a slot {{> "icons/arrow-up-right"}}</span>
 				</div>
 			</a>
-			{{/if}}
 
 			{{!-- Social handles grid --}}
 			<h2 class="section-title mb-6">Find me everywhere</h2>
 			<div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
 
-				{{#if @custom.youtube_url}}
-				<a href="{{@custom.youtube_url}}" target="_blank" rel="noopener" class="card-surface group flex items-center gap-4 p-5">
+				<a href="https://www.youtube.com/@imswarnil" target="_blank" rel="noopener" class="card-surface group flex items-center gap-4 p-5">
 					<span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-line bg-mist transition group-hover:bg-ink group-hover:text-paper">{{> "icons/youtube"}}</span>
 					<span class="min-w-0 flex-1">
 						<span class="block text-sm font-semibold tracking-tight">YouTube</span>
@@ -66,7 +63,6 @@
 					</span>
 					<span class="btn-ghost shrink-0 text-xs">Subscribe {{> "icons/arrow-up-right" class="h-3.5 w-3.5"}}</span>
 				</a>
-				{{/if}}
 
 				<a href="https://github.com/imswarnil" target="_blank" rel="noopener" class="card-surface group flex items-center gap-4 p-5">
 					<span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-line bg-mist transition group-hover:bg-ink group-hover:text-paper">{{> "icons/github"}}</span>
@@ -104,16 +100,14 @@
 					<span class="btn-ghost shrink-0 text-xs">Follow {{> "icons/arrow-up-right" class="h-3.5 w-3.5"}}</span>
 				</a>
 
-				{{#if @custom.sponsor_email}}
-				<a href="mailto:{{@custom.sponsor_email}}" class="card-surface group flex items-center gap-4 p-5">
+				<a href="mailto:swarnilsinghaicse@gmail.com" class="card-surface group flex items-center gap-4 p-5">
 					<span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-line bg-mist transition group-hover:bg-ink group-hover:text-paper">{{> "icons/mail"}}</span>
 					<span class="min-w-0 flex-1">
 						<span class="block text-sm font-semibold tracking-tight">Email</span>
-						<span class="block truncate font-mono text-[11px] text-silver">{{@custom.sponsor_email}}</span>
+						<span class="block truncate font-mono text-[11px] text-silver">swarnilsinghaicse@gmail.com</span>
 					</span>
 					<span class="btn-ghost shrink-0 text-xs">Write {{> "icons/arrow-up-right" class="h-3.5 w-3.5"}}</span>
 				</a>
-				{{/if}}
 
 			</div>
 
@@ -124,7 +118,7 @@
 					<p class="kicker">{{> "icons/mail"}} Or use the form</p>
 					<h2 class="section-title mt-2">Write to me here</h2>
 					<p class="mt-2 text-sm leading-relaxed text-silver">Goes straight to my inbox. Replies within 48 hours unless I'm rendering video, in which case… 72.</p>
-					<form action="https://formsubmit.co/{{@custom.sponsor_email}}" method="POST" class="mt-6 grid gap-4 sm:grid-cols-2">
+					<form action="https://formsubmit.co/swarnilsinghaicse@gmail.com" method="POST" class="mt-6 grid gap-4 sm:grid-cols-2">
 						<input type="hidden" name="_subject" value="New message via imswarnil.com" />
 						<input type="hidden" name="_captcha" value="true" />
 						<input type="text" name="_honey" class="hidden" tabindex="-1" autocomplete="off" aria-hidden="true" />

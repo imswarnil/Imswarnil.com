@@ -2,8 +2,10 @@
      (template: partials/navigation.hbs — icons per slug, no bullets).
      Nesting: label "- Child" folds under the item above, "-- Grand" one deeper
      (script at the bottom). Border doubles as the reading-progress bar. --}}
-<header class="fixed inset-x-0 top-0 z-50 px-4 pt-1.5 sm:pt-2" id="site-header">
-	<nav class="container-site !px-0">
+<header class="fixed inset-x-0 top-0 z-50 pt-1.5 sm:pt-2" id="site-header">
+	{{!-- container-site gives the nav the same max-width and gutters as the page
+	     content, so the island's edges line up with the column below it. --}}
+	<nav class="container-site">
 		<div class="nav-shell" id="nav-island">
 			{{!-- Reading progress: hairline accent border, drawn bottom-left → around --}}
 			<svg class="nav-progress" aria-hidden="true" preserveAspectRatio="none">
@@ -51,7 +53,7 @@
 					{{/if}}
 				{{/if}}
 
-				<a href="https://github.com/{{@custom.github_repo}}" target="_blank" rel="noopener" class="icon-btn tooltip tooltip-bottom" data-tip="Star on GitHub" aria-label="Star on GitHub">
+				<a href="https://github.com/imswarnil/imswarnil.com" target="_blank" rel="noopener" class="icon-btn tooltip tooltip-bottom" data-tip="Star on GitHub" aria-label="Star on GitHub">
 					{{> "icons/github"}}
 				</a>
 
@@ -79,7 +81,7 @@
 						<p class="kicker mb-2">Watch</p>
 						<a href="/videos/" class="panel-link">{{> "icons/play" class="h-3.5 w-3.5"}} Videos</a>
 						<a href="/webseries/" class="panel-link">{{> "icons/tv" class="h-3.5 w-3.5"}} Webseries</a>
-						<a href="{{@custom.youtube_url}}" target="_blank" rel="noopener" class="panel-link">{{> "icons/youtube" class="h-3.5 w-3.5"}} YouTube</a>
+						<a href="https://www.youtube.com/@imswarnil" target="_blank" rel="noopener" class="panel-link">{{> "icons/youtube" class="h-3.5 w-3.5"}} YouTube</a>
 					</div>
 					<div>
 						<p class="kicker mb-2">Learn</p>
@@ -133,15 +135,15 @@
 
 				<div class="mt-5 flex flex-wrap items-center justify-between gap-3 border-t border-line pt-5">
 					<div class="flex items-center gap-1">
-						<a href="{{@custom.youtube_url}}" target="_blank" rel="noopener" class="icon-btn" aria-label="YouTube">{{> "icons/youtube"}}</a>
-						<a href="https://github.com/{{@custom.github_repo}}" target="_blank" rel="noopener" class="icon-btn" aria-label="GitHub">{{> "icons/github"}}</a>
+						<a href="https://www.youtube.com/@imswarnil" target="_blank" rel="noopener" class="icon-btn" aria-label="YouTube">{{> "icons/youtube"}}</a>
+						<a href="https://github.com/imswarnil/imswarnil.com" target="_blank" rel="noopener" class="icon-btn" aria-label="GitHub">{{> "icons/github"}}</a>
 						<a href="https://linkedin.com/in/imswarnil" target="_blank" rel="noopener" class="icon-btn" aria-label="LinkedIn">{{> "icons/linkedin"}}</a>
 						<a href="{{@site.url}}/rss/" class="icon-btn" aria-label="RSS">{{> "icons/rss"}}</a>
 					</div>
 					<div class="flex items-center gap-2">
 						{{!-- hidden until the browser fires beforeinstallprompt (main.js) --}}
 						<button type="button" class="btn-ghost hidden text-xs" data-pwa-install>{{> "icons/zap" class="h-3.5 w-3.5"}} Install app</button>
-						{{#if @custom.topmate_url}}<a href="{{@custom.topmate_url}}" target="_blank" rel="noopener" class="btn-ghost text-xs">{{> "icons/calendar" class="h-3.5 w-3.5"}} Book a call</a>{{/if}}
+						<a href="https://topmate.io/imswarnil" target="_blank" rel="noopener" class="btn-ghost text-xs">{{> "icons/calendar" class="h-3.5 w-3.5"}} Book a call</a>
 					</div>
 				</div>
 			</div>
@@ -199,7 +201,7 @@
 					<p class="mt-2 text-xs text-red-500" data-members-error>That didn't work — try again?</p>
 					<p class="mt-3 font-mono text-[10px] uppercase tracking-[0.18em] text-silver">free forever · unsubscribe anytime · no password, just a magic link</p>
 					{{else}}
-					<a href="{{@custom.youtube_url}}?sub_confirmation=1" target="_blank" rel="noopener" class="btn-primary mt-6 w-full justify-center">{{> "icons/youtube" class="h-4 w-4"}} Subscribe on YouTube then</a>
+					<a href="https://www.youtube.com/@imswarnil?sub_confirmation=1" target="_blank" rel="noopener" class="btn-primary mt-6 w-full justify-center">{{> "icons/youtube" class="h-4 w-4"}} Subscribe on YouTube then</a>
 					{{/if}}
 				</div>
 
@@ -260,8 +262,8 @@
 
 			<div class="mt-4 flex items-center justify-between border-t border-line pt-3">
 				<div class="flex items-center gap-1">
-					<a href="{{@custom.youtube_url}}" target="_blank" rel="noopener" class="icon-btn" aria-label="YouTube">{{> "icons/youtube"}}</a>
-					<a href="https://github.com/{{@custom.github_repo}}" target="_blank" rel="noopener" class="icon-btn" aria-label="GitHub">{{> "icons/github"}}</a>
+					<a href="https://www.youtube.com/@imswarnil" target="_blank" rel="noopener" class="icon-btn" aria-label="YouTube">{{> "icons/youtube"}}</a>
+					<a href="https://github.com/imswarnil/imswarnil.com" target="_blank" rel="noopener" class="icon-btn" aria-label="GitHub">{{> "icons/github"}}</a>
 					<a href="{{@site.url}}/rss/" class="icon-btn" aria-label="RSS">{{> "icons/rss"}}</a>
 				</div>
 				<button type="button" class="btn-primary btn-sm" data-modal-open="#subscribe-backdrop">{{> "icons/bell" class="h-3 w-3"}} Subscribe</button>

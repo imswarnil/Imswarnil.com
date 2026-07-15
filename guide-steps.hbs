@@ -1,0 +1,29 @@
+{{!< default}}
+
+{{!-- /guide-steps/ — index for the guide-steps collection. Steps are meant to
+     be read inside their guide, so this page exists mainly because the
+     collection needs a template; it lists every step grouped by its guide,
+     mirroring lessons.hbs. --}}
+
+{{> "components/collection-header" kicker="Field guides" title="Every step" desc="All guide steps, grouped by guide. They're best walked in order — open a guide below."}}
+
+<section class="container-site py-12">
+	<div class="mx-auto max-w-3xl space-y-10">
+		{{#get "posts" filter="tag:hash-guide" limit="20" order="published_at desc" include="tags" as |guides|}}
+			{{#if guides}}
+			{{#foreach guides}}
+			<div class="card-surface guide-shell p-6 !transform-none">
+				<p class="guide-kicker">{{> "icons/compass" class="h-3 w-3"}} Field guide</p>
+				<h2 class="mt-3 text-xl font-semibold tracking-tight"><a href="{{url}}" class="hover:underline hover:underline-offset-4">{{title}}</a></h2>
+				<div class="mt-4">
+					{{#primary_tag}}{{> "components/guide-stepper" tagSlug=slug active=""}}{{/primary_tag}}
+				</div>
+				<a href="{{url}}" class="btn-ghost mt-5">{{> "icons/compass" class="h-3 w-3"}} Guide overview {{> "icons/arrow-right"}}</a>
+			</div>
+			{{/foreach}}
+			{{else}}
+			<p class="text-center text-silver">No guides published yet.</p>
+			{{/if}}
+		{{/get}}
+	</div>
+</section>

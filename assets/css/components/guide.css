@@ -1,0 +1,269 @@
+/* ==================================================================
+   Guides — the "field guide" look.
+
+   A guide is a container post (#guide) plus ordered steps (#guide-content),
+   the same shape as course/lesson. Where a course reads as a player, a guide
+   reads as a route you walk: one fixed vertical stepper on the left, one step
+   in the pane on the right, and a rail that visibly fills as you go.
+
+   The stepper is position: sticky (not fixed) so it stays inside the grid
+   column and can't overlap the footer — "fixed" in the sense that matters:
+   it doesn't move while you read a step.
+   ================================================================== */
+
+@layer components {
+	/* ---- Guide surface tint -------------------------------------------
+	   Guides get a warmer paper than the rest of the site so the mode reads
+	   as "different place" without inventing a new palette. */
+	.guide-shell {
+		--guide-rail: rgb(var(--accent));
+		position: relative;
+	}
+
+	/* ---- Full-width step layout ----------------------------------------
+	   A guide is reference material, not an essay — it earns the whole screen.
+	   xl: contents/ads (left) · step (centre) · route (right)
+	   lg: step + route
+	   sm: everything stacks; the route lives in a panel off the sticky bar. */
+	.guide-wrap {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr);
+		gap: 0 clamp(24px, 3vw, 44px);
+		width: 100%;
+		max-width: 108rem; /* wider than --w-site on purpose */
+		margin: 0 auto;
+		padding: clamp(20px, 3vw, 34px) var(--gutter) 3rem;
+	}
+	@media (min-width: 1024px) {
+		.guide-wrap {
+			/* step + route */
+			grid-template-columns: minmax(0, 1fr) 19rem;
+		}
+	}
+	@media (min-width: 1280px) {
+		.guide-wrap {
+			/* contents + step + route */
+			grid-template-columns: 17rem minmax(0, 1fr) 20rem;
+		}
+	}
+
+	.guide-main {
+		min-width: 0;
+		grid-row: 2;
+	}
+	@media (min-width: 1024px) {
+		.guide-main { grid-row: 1; grid-column: 1; }
+	}
+	@media (min-width: 1280px) {
+		.guide-main {
+			grid-column: 2;
+			border-left: 1px solid rgb(var(--line));
+			border-right: 1px solid rgb(var(--line));
+			padding: 0 clamp(20px, 2.4vw, 38px);
+		}
+	}
+
+	.guide-aside { min-width: 0; }
+	/* left rail: only from xl — below that its widgets would push the step
+	   halfway down the page before you've read a word */
+	.guide-aside-left {
+		display: none;
+	}
+	@media (min-width: 1280px) {
+		.guide-aside-left { display: block; grid-row: 1; grid-column: 1; }
+	}
+	/* right rail: the route. First thing on a phone — knowing where you are in
+	   an eight-step guide matters more than the step's own heading. */
+	.guide-aside-right {
+		grid-row: 1;
+		margin-bottom: 1.75rem;
+	}
+	@media (min-width: 1024px) {
+		.guide-aside-right { grid-column: 2; margin-bottom: 0; }
+	}
+	@media (min-width: 1280px) {
+		.guide-aside-right { grid-column: 3; }
+	}
+
+	.guide-sticky {
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+	}
+	@media (min-width: 1024px) {
+		.guide-sticky {
+			position: sticky;
+			top: 5.5rem;
+			max-height: calc(100dvh - 7rem);
+			overflow-y: auto;
+			scrollbar-width: thin;
+		}
+	}
+
+	.guide-card {
+		padding: 1.1rem;
+		border: 1px solid rgb(var(--line));
+		border-radius: 1rem;
+		background: rgb(var(--mist) / 0.4);
+	}
+
+	/* ---- the bar under the navbar -------------------------------------- */
+	.guide-bar {
+		position: sticky;
+		top: 3.75rem;
+		z-index: 30;
+		border-bottom: 1px solid rgb(var(--line));
+		background: rgb(var(--paper) / 0.85);
+		backdrop-filter: blur(10px);
+	}
+	.guide-bar-in {
+		display: flex;
+		align-items: center;
+		gap: 12px;
+		max-width: 108rem;
+		margin: 0 auto;
+		padding: 8px var(--gutter);
+	}
+
+	/* ---- The vertical stepper ------------------------------------------ */
+	.guide-stepper {
+		position: relative;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+	/* the rail: one continuous line behind every node */
+	.guide-stepper::before {
+		content: '';
+		position: absolute;
+		left: 0.875rem;
+		top: 0.75rem;
+		bottom: 0.75rem;
+		width: 2px;
+		border-radius: 2px;
+		background: rgb(var(--line));
+	}
+	/* the fill: same geometry, scaled to --progress (0–1) from the top */
+	.guide-stepper::after {
+		content: '';
+		position: absolute;
+		left: 0.875rem;
+		top: 0.75rem;
+		bottom: 0.75rem;
+		width: 2px;
+		border-radius: 2px;
+		background: var(--guide-rail);
+		transform-origin: top;
+		transform: scaleY(var(--progress, 0));
+		transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+	}
+
+	.guide-step {
+		position: relative;
+		z-index: 1;
+	}
+	.guide-step-link {
+		display: flex;
+		align-items: flex-start;
+		gap: 0.875rem;
+		padding: 0.5rem 0.625rem 0.5rem 0;
+		border-radius: 0.75rem;
+		transition: background-color 0.25s;
+	}
+	.guide-step-link:hover {
+		background: rgb(var(--mist));
+	}
+	/* the node — sits ON the rail, so it needs the page background behind it */
+	.guide-node {
+		display: inline-flex;
+		flex: none;
+		align-items: center;
+		justify-content: center;
+		width: 1.75rem;
+		height: 1.75rem;
+		border-radius: 999px;
+		border: 2px solid rgb(var(--line));
+		background: rgb(var(--paper));
+		font-family: theme('fontFamily.mono');
+		font-size: 0.65rem;
+		font-weight: 700;
+		color: rgb(var(--silver));
+		transition: border-color 0.25s, background-color 0.25s, color 0.25s, transform 0.25s;
+	}
+	.guide-step-link:hover .guide-node {
+		border-color: rgb(var(--ink));
+		color: rgb(var(--ink));
+	}
+	.guide-step-title {
+		min-width: 0;
+		padding-top: 0.2rem;
+		font-size: 0.8125rem;
+		font-weight: 500;
+		line-height: 1.35;
+		color: rgb(var(--silver));
+		transition: color 0.25s;
+	}
+	.guide-step-link:hover .guide-step-title {
+		color: rgb(var(--ink));
+	}
+
+	/* done — filled node with a tick */
+	.guide-step.is-done .guide-node {
+		border-color: var(--guide-rail);
+		background: var(--guide-rail);
+		color: rgb(var(--on-accent));
+	}
+	.guide-step.is-done .guide-step-title {
+		color: rgb(var(--silver));
+	}
+
+	/* current — ringed node, bolder label */
+	.guide-step.is-current .guide-node {
+		border-color: var(--guide-rail);
+		color: rgb(var(--ink));
+		transform: scale(1.12);
+		box-shadow: 0 0 0 4px rgb(var(--accent) / 0.14);
+	}
+	.guide-step.is-current .guide-step-title {
+		color: rgb(var(--ink));
+		font-weight: 650;
+	}
+
+	/* ---- Step pane ----------------------------------------------------- */
+	.guide-pane {
+		min-width: 0;
+	}
+
+	/* ---- Guide chips / meta -------------------------------------------- */
+	.guide-kicker {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.4rem;
+		padding: 0.25rem 0.625rem;
+		border-radius: 999px;
+		border: 1px solid rgb(var(--line));
+		background: rgb(var(--mist));
+		font-family: theme('fontFamily.mono');
+		font-size: 0.6rem;
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: 0.16em;
+		color: rgb(var(--silver));
+	}
+
+	/* ---- Homepage guide section big number ----------------------------- */
+	.guide-big-num {
+		font-family: theme('fontFamily.mono');
+		font-size: 0.7rem;
+		font-weight: 700;
+		letter-spacing: 0.1em;
+		color: rgb(var(--silver));
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.guide-stepper::after,
+		.guide-node {
+			transition: none;
+		}
+	}
+}

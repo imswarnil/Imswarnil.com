@@ -1,0 +1,325 @@
+/* ==================================================================
+   The showcase — "Life looks better when you frame the [X] … cut the [Y]"
+
+   The frame is the argument: it reshapes to each thing's real aspect ratio
+   (art 4:5, project 4:3, series 2:3, trip 16:9) and shows that thing. One
+   pass, then it rests on the film. States live on #sc[data-state]:
+     rolling — the pass is running, Stop is offered
+     rested  — landed on the film; the only motion left is the play button
+   ================================================================== */
+
+@layer components {
+	.sc {
+		position: relative;
+		width: 100%;
+	}
+
+	/* ---- the two lines ------------------------------------------------- */
+	.sc-lead,
+	.sc-cut {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 0 0.35em;
+		margin: 0;
+		font-size: clamp(1rem, 1.6vw, 1.2rem);
+		font-weight: 600;
+		letter-spacing: -0.015em;
+		line-height: 1.35;
+		color: rgb(var(--ink));
+	}
+	.sc-lead { margin-bottom: 10px; }
+	.sc-cut { margin-top: 10px; }
+
+	/* the word that changes with the frame */
+	.sc-word,
+	.sc-cut-word {
+		display: inline-block;
+		padding: 0 0.3em;
+		border-radius: 7px;
+		animation: scWordIn 0.5s cubic-bezier(0.2, 1, 0.2, 1);
+	}
+	.sc-word {
+		border: 1.5px solid rgb(var(--accent));
+		background: rgb(var(--accent) / 0.08);
+		color: rgb(var(--accent));
+	}
+	/* the cut word is struck through — that's the whole point of it */
+	.sc-cut-word {
+		position: relative;
+		border: 1.5px dashed rgb(var(--silver) / 0.6);
+		color: rgb(var(--silver));
+	}
+	.sc-cut-word::after {
+		content: '';
+		position: absolute;
+		left: 0.1em;
+		right: 0.1em;
+		top: 54%;
+		height: 2px;
+		border-radius: 2px;
+		background: rgb(var(--accent));
+		transform-origin: left;
+		animation: scCut 0.45s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both;
+	}
+	@keyframes scWordIn {
+		from { opacity: 0; transform: translateY(40%); filter: blur(3px); }
+		to { opacity: 1; transform: translateY(0); filter: blur(0); }
+	}
+	@keyframes scCut {
+		from { transform: scaleX(0); }
+		to { transform: scaleX(1); }
+	}
+
+	.sc-cut-lead { color: rgb(var(--ink)); }
+
+	/* stop — only while the pass is running */
+	.sc-stop {
+		display: inline-flex;
+		align-items: center;
+		gap: 4px;
+		margin-left: auto;
+		padding: 3px 9px;
+		border: 1px solid rgb(var(--line));
+		border-radius: 999px;
+		background: rgb(var(--paper) / 0.8);
+		font-family: theme('fontFamily.mono');
+		font-size: 0.52rem;
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: 0.14em;
+		color: rgb(var(--silver));
+		transition: color 0.2s, border-color 0.2s, opacity 0.3s;
+	}
+	.sc-stop:hover { color: rgb(var(--ink)); border-color: rgb(var(--ink)); }
+	.sc[data-state='rested'] .sc-stop {
+		opacity: 0;
+		pointer-events: none;
+	}
+
+	/* ---- the frame ------------------------------------------------------
+	   One box that morphs between ratios. Height is capped so a 2:3 poster
+	   can't blow the hero past one screen; the slides letterbox inside it. */
+	.sc-stage {
+		position: relative;
+		aspect-ratio: var(--sc-ar, 16/9);
+		max-height: min(52dvh, 26rem);
+		margin: 0 auto;
+		border: 1.5px solid rgb(var(--accent));
+		border-radius: 14px;
+		background: rgb(var(--accent) / 0.05);
+		padding: 8px;
+		transition: aspect-ratio 0.65s cubic-bezier(0.6, 0, 0.2, 1);
+	}
+	/* the ratio readout, pinned above the frame like a viewfinder chip */
+	.sc-stage::after {
+		content: attr(data-ratio);
+		position: absolute;
+		top: -0.8rem;
+		right: 8px;
+		z-index: 3;
+		padding: 0.1em 0.45em;
+		border-radius: 5px;
+		background: rgb(var(--ink));
+		color: rgb(var(--paper));
+		font-family: theme('fontFamily.mono');
+		font-size: 0.58rem;
+		font-weight: 600;
+		letter-spacing: 0.08em;
+		line-height: 1.5;
+	}
+
+	.sc-slide {
+		position: absolute;
+		inset: 8px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border-radius: 7px;
+		overflow: hidden;
+		opacity: 0;
+		visibility: hidden;
+		transform: scale(0.985);
+		transition: opacity 0.45s ease, transform 0.45s ease, visibility 0s linear 0.45s;
+	}
+	.sc-slide.is-active {
+		opacity: 1;
+		visibility: visible;
+		transform: scale(1);
+		transition: opacity 0.45s ease, transform 0.45s ease, visibility 0s;
+	}
+
+	/* the label on each slide */
+	.sc-tag {
+		position: absolute;
+		left: 8px;
+		bottom: 8px;
+		z-index: 2;
+		display: inline-flex;
+		align-items: center;
+		gap: 5px;
+		padding: 3px 8px;
+		border-radius: 999px;
+		background: rgb(var(--paper) / 0.88);
+		border: 1px solid rgb(var(--line));
+		backdrop-filter: blur(6px);
+		font-family: theme('fontFamily.mono');
+		font-size: 0.5rem;
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: 0.14em;
+		color: rgb(var(--ink));
+	}
+
+	/* ---- 1 · the square: still + quote ---------------------------------- */
+	.sc-story {
+		background: rgb(var(--ink));
+	}
+	.sc-story-img {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+	.sc-quote {
+		position: absolute;
+		inset: auto 0 0 0;
+		display: flex;
+		flex-direction: column;
+		gap: 9px;
+		padding: clamp(14px, 2vw, 20px);
+		background: linear-gradient(to top, rgb(0 0 0 / 0.82) 30%, transparent);
+		text-align: left;
+	}
+	.sc-quote-icon {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 1.75rem;
+		height: 1.75rem;
+		border-radius: 999px;
+		background: rgb(255 255 255 / 0.14);
+		border: 1px solid rgb(255 255 255 / 0.3);
+		color: #fff;
+		backdrop-filter: blur(4px);
+	}
+	.sc-quote-text {
+		margin: 0;
+		font-size: clamp(0.85rem, 1.35vw, 1.05rem);
+		font-weight: 600;
+		line-height: 1.4;
+		letter-spacing: -0.01em;
+		color: #fff;
+		text-shadow: 0 1px 10px rgb(0 0 0 / 0.5);
+	}
+	/* revealed word by word, like the subtitle — blur is only ever run once
+	   per word, on a short transition, so it stays cheap */
+	.sc-quote-text span {
+		display: inline-block;
+		filter: blur(4px);
+		opacity: 0.35;
+		transition: filter 0.45s ease, opacity 0.45s ease;
+	}
+	.sc-quote-text span.is-sharp {
+		filter: blur(0);
+		opacity: 1;
+	}
+
+	/* ---- "Watch my story" ----------------------------------------------- */
+	.sc-watch {
+		display: inline-flex;
+		align-items: center;
+		gap: 9px;
+		width: 100%;
+		margin-top: 12px;
+		padding: 8px 10px;
+		border: 1px solid rgb(var(--line));
+		border-radius: 999px;
+		background: rgb(var(--paper) / 0.8);
+		transition: border-color 0.22s, background-color 0.22s, transform 0.22s, opacity 0.3s;
+	}
+	.sc-watch:hover {
+		border-color: rgb(var(--ink));
+		background: rgb(var(--paper));
+		transform: translateY(-1px);
+	}
+	.sc-watch-ring {
+		display: inline-flex;
+		flex: none;
+		align-items: center;
+		justify-content: center;
+		width: 1.85rem;
+		height: 1.85rem;
+		padding-left: 2px;
+		border-radius: 999px;
+		background: rgb(var(--ink));
+		color: rgb(var(--paper));
+	}
+	.sc-watch-label {
+		font-size: 0.82rem;
+		font-weight: 600;
+		color: rgb(var(--ink));
+	}
+	.sc-watch-meta {
+		margin-left: auto;
+		padding-right: 6px;
+		font-family: theme('fontFamily.mono');
+		font-size: 0.55rem;
+		font-weight: 700;
+		letter-spacing: 0.14em;
+		color: rgb(var(--silver));
+	}
+	/* once the tape is rolling the button has nothing left to offer */
+	.sc[data-state='film'] .sc-watch {
+		opacity: 0;
+		pointer-events: none;
+	}
+
+	/* ---- 4 · the film -------------------------------------------------- */
+	/* the video card fills the slide; its own chrome is in stage.css */
+	.sc-slide[data-final] .vf { height: 100%; }
+	.sc-slide[data-final] .vf-card {
+		height: 100%;
+		border: 0;
+		border-radius: 0;
+		background: transparent;
+		padding: 0;
+		display: flex;
+		flex-direction: column;
+	}
+	/* the frame around it is the showcase's own — don't draw a second one */
+	.sc-slide[data-final] .vf-mark,
+	.sc-slide[data-final] .vf-ratio {
+		display: none;
+	}
+	.sc-slide[data-final] .vf-screen {
+		flex: 1;
+		aspect-ratio: auto;
+		border-radius: 7px;
+	}
+	.sc-slide[data-final] .vf-bar {
+		padding: 6px 2px 0;
+	}
+
+	/* ---- responsive -----------------------------------------------------
+	   The square is the hero's biggest object, so it's what has to give. On
+	   phones it's capped by width, not by dvh — a 1:1 frame at full width is
+	   already most of a phone screen. */
+	@media (max-width: 1023px) {
+		.sc-stage {
+			max-height: none;
+			max-width: 32rem;
+		}
+		.sc-watch { max-width: 32rem; margin-left: auto; margin-right: auto; }
+	}
+	@media (max-width: 639px) {
+		.sc-quote-text { font-size: 0.82rem; }
+		.sc-watch-meta { display: none; }
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.sc-stage, .sc-slide { transition: none; }
+		.sc-quote-text span { filter: none; opacity: 1; }
+	}
+}

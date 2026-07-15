@@ -10,6 +10,10 @@
 		{{> "post/video"}}
 	{{else has tag="#course"}}
 		{{> "post/course"}}
+	{{else has tag="#guide-content"}}
+		{{> "post/guide-step"}}
+	{{else has tag="#guide"}}
+		{{> "post/guide"}}
 	{{else has tag="#webseries"}}
 		{{> "post/series"}}
 	{{else has tag="#lesson"}}

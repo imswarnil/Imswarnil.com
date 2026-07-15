@@ -1,90 +1,83 @@
-{{!-- Hero — "Framed" style. Rule-of-thirds shell, pointer-following accent
-     glow, camera HUD, static viewfinder frame in the H1 (no word cycling).
-     Right side: the media stack. Tag marquee below. --}}
-<section class="relative overflow-hidden pb-12 pt-6 sm:pt-8" id="hero">
-	{{!-- grid-line texture behind the hero: densest in the centre, gradienting
-	     away toward all four corners; inherits the active theme mode via --pattern --}}
-	<div class="pointer-events-none absolute inset-0 -z-10 bg-pat-grid fade-mask-corners" style="--pat-opacity:1.2" aria-hidden="true"></div>
-	<div class="container-site relative">
-		<div class="hero-shell" id="hero-shell">
-			{{!-- camera HUD --}}
-			<div class="hx-hud" aria-hidden="true">
-				<span class="flex items-center justify-end gap-1.5"><i class="h-1.5 w-1.5 animate-ping rounded-full bg-red-500"></i> <b>REC</b></span>
-				<span>Frame 16:9</span>
+{{!-- Hero — one cinematic screen.
+
+       left  · who I am, and the two things I want you to do
+       right · the showcase: "Life looks better when you frame the [X] … and cut
+               the [Y]", where the frame actually reshapes to each thing and
+               comes to rest on the film (home/hero-showcase)
+       below · what I do, then the tag marquee on the fold --}}
+<section class="hx" id="hero">
+	{{!-- Grid: lit in the middle, dissolving to nothing before it reaches any
+	     corner, so it blends into the page instead of ending on an edge.
+	     NOT -z-10: the section sets no stacking context, so a negative z-index
+	     drops this behind <body>'s background and the grid vanishes entirely. --}}
+	<div class="bg-pat-grid-wide fade-mask-bloom pointer-events-none absolute inset-0" style="--pat-opacity:1.9" aria-hidden="true"></div>
+
+	<div class="hx-inner" id="hero-shell">
+		<div class="hx-grid">
+
+			{{!-- ---------- left: who ---------- --}}
+			<div class="hx-copy">
+				<p class="hx-eyebrow animate-fade-in">
+					<span>Hi, I'm Swarnil</span>
+					<span class="hx-eyebrow-tail">documenting the process</span>
+				</p>
+
+				<h1 class="hx-h1">
+					<span class="block">I build, teach</span>
+					<span class="block">and film it all.</span>
+				</h1>
+
+				{{!-- the subtitle: out of focus until you reach it, then it pulls sharp
+				     word by word — the line is about editing, so it edits itself --}}
+				<p class="hx-manifesto" id="hx-manifesto">
+					<span>Cut</span> <span>the</span> <span>chaos.</span>
+					<span>Everything</span> <span>here</span> <span>is</span> <span>the</span>
+					<span>part</span> <span>that</span> <span>survived</span> <span>the</span> <span>edit.</span>
+				</p>
+
+				<p class="hx-who animate-fade-in" style="animation-delay:.4s">
+					{{> "icons/salesforce" class="h-3.5 w-3.5"}} Salesforce Engineer at
+					<a href="https://www.ef.com" target="_blank" rel="noopener">EF Education First</a>
+					<span class="hx-who-sep" aria-hidden="true">·</span>
+					{{> "icons/flag-hu" class="h-3.5 w-3.5"}} Budapest
+					<span class="hx-who-sep" aria-hidden="true">·</span>
+					{{> "icons/flag-in" class="h-3.5 w-3.5"}} from India
+					<span class="hx-who-sep" aria-hidden="true">·</span>
+					{{> "icons/youtube" class="h-3.5 w-3.5"}} <a href="https://www.youtube.com/@imswarnil" target="_blank" rel="noopener">I make videos</a>
+				</p>
+
+				<div class="hx-cta animate-fade-up" style="animation-delay:.55s">
+					<a href="{{@site.url}}/videos/" class="btn-primary btn-sm !px-4">{{> "icons/play" class="h-3.5 w-3.5"}} Watch my videos</a>
+					<a href="{{@site.url}}/resume/" class="btn-ghost btn-sm !px-4">{{> "icons/briefcase" class="h-3 w-3"}} Resume</a>
+					<button type="button" class="btn-ghost btn-sm !px-4" data-modal-open="#subscribe-backdrop">{{> "icons/bell" class="h-3 w-3"}} Subscribe</button>
+					<span class="mx-1 hidden h-5 w-px bg-line sm:block" aria-hidden="true"></span>
+					<span class="flex items-center gap-0.5">
+						<a href="https://www.youtube.com/@imswarnil" target="_blank" rel="noopener" class="icon-btn" aria-label="YouTube">{{> "icons/youtube"}}</a>
+						<a href="https://github.com/imswarnil" target="_blank" rel="noopener" class="icon-btn" aria-label="GitHub">{{> "icons/github"}}</a>
+						<a href="https://linkedin.com/in/imswarnil" target="_blank" rel="noopener" class="icon-btn" aria-label="LinkedIn">{{> "icons/linkedin"}}</a>
+					</span>
+				</div>
+
+				{{> "home/hero-do"}}
 			</div>
 
-			<p class="hx-eyebrow animate-fade-in">Hi, I'm Swarnil — {{@custom.job_title}} @ <a href="{{@custom.workplace_url}}" target="_blank" rel="noopener" class="font-semibold text-ink hover:underline hover:underline-offset-4">{{@custom.workplace}}</a> · documenting life</p>
-
-			<div class="grid items-center gap-10 lg:grid-cols-12 lg:gap-12">
-				<div class="lg:col-span-7">
-					{{!-- H1 — name + what this place is, framed once, no cycling --}}
-					<h1 class="hx-h1">
-						<span class="block">I build, teach and film</span>
-						<span class="block">the whole
-							<span class="hx-frame" style="--hx-ar:16/9">
-								<i></i><i></i><i></i><i></i>
-								<span class="hx-word">process</span>
-								<span class="hx-ratio">16:9</span>
-							</span>
-						</span>
-						<span class="block text-silver">— Swarnil Singhai</span>
-					</h1>
-
-					<p class="mt-5 max-w-xl animate-fade-in text-[15px] leading-relaxed text-silver" style="animation-delay:.4s">
-						{{@site.description}} Videos, projects, courses and travel diaries — made while actually doing the work, not just theorizing about it.
-					</p>
-
-					<div class="mt-8 flex flex-wrap items-center gap-3 animate-fade-up" style="animation-delay:.55s">
-						<a href="{{@site.url}}/videos/" class="btn-primary btn-sm !px-4">{{> "icons/play" class="h-3.5 w-3.5"}} Watch my videos</a>
-						<button type="button" class="btn-ghost btn-sm !px-4" data-modal-open="#subscribe-backdrop">{{> "icons/bell" class="h-3 w-3"}} Subscribe free</button>
-						<span class="mx-1 hidden h-5 w-px bg-line sm:block" aria-hidden="true"></span>
-						<span class="flex items-center gap-0.5">
-							<a href="{{@custom.youtube_url}}" target="_blank" rel="noopener" class="icon-btn" aria-label="YouTube">{{> "icons/youtube"}}</a>
-							<a href="https://github.com/{{@custom.github_repo}}" target="_blank" rel="noopener" class="icon-btn" aria-label="GitHub">{{> "icons/github"}}</a>
-							<a href="https://linkedin.com/in/imswarnil" target="_blank" rel="noopener" class="icon-btn" aria-label="LinkedIn">{{> "icons/linkedin"}}</a>
-							<a href="https://instagram.com/imswarnil" target="_blank" rel="noopener" class="icon-btn" aria-label="Instagram">{{> "icons/instagram"}}</a>
-						</span>
-					</div>
-
-					{{> "home/hero-proof"}}
-				</div>
-
-				{{!-- Media: the main camcorder frame, kept calm — no floating pills --}}
-				<div class="relative lg:col-span-5" id="hero-scene">
-					{{#get "posts" filter="featured:true" limit="1" as |feat|}}
-						{{#if feat}}
-							{{#foreach feat}}
-								{{> "home/hero-frames" frame=feature_image polaroid=@custom.hero_image_alt altText=title}}
-							{{/foreach}}
-						{{else}}
-							{{> "home/hero-frames" frame=@custom.hero_image polaroid=@custom.hero_image_alt altText="Portrait"}}
-						{{/if}}
-					{{/get}}
-				</div>
+			{{!-- ---------- right: the showcase ---------- --}}
+			<div class="hx-stage">
+				{{> "home/hero-showcase"}}
 			</div>
 		</div>
 	</div>
 
-	{{!-- Tag marquee — every public topic, clickable, pauses on hover --}}
-	{{#get "tags" limit="24" include="count.posts" order="count.posts desc" as |topics|}}
-	{{#if topics}}
-	<div class="group/marquee relative mt-14 overflow-hidden border-y border-line bg-mist/50 py-2.5 fade-mask-x sm:mt-16">
-		<div class="animate-marquee flex w-max items-center gap-8 whitespace-nowrap font-mono text-[11px] uppercase tracking-[0.25em] text-silver group-hover/marquee:[animation-play-state:paused]">
-			{{#foreach topics}}
-				<a href="{{url}}" class="transition hover:text-ink hover:underline hover:underline-offset-4">{{name}}</a><span aria-hidden="true">✦</span>
-			{{/foreach}}
-			{{#foreach topics}}
-				<a href="{{url}}" aria-hidden="true" tabindex="-1" class="transition hover:text-ink hover:underline hover:underline-offset-4">{{name}}</a><span aria-hidden="true">✦</span>
-			{{/foreach}}
-		</div>
-	</div>
-	{{/if}}
-	{{/get}}
+	{{!-- The tag marquee is NOT in here. As a child of this 100dvh section it
+	     kept getting pushed under the fold by the hero's own height, so it
+	     renders right after the hero in home.hbs instead — a normal full-width
+	     block that's always on screen, whatever the copy does. --}}
 
 	<script>
 		(function () {
-			/* pointer-following accent glow on the shell */
 			var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+			/* pointer-following accent glow on the shell */
 			var shell = document.getElementById('hero-shell');
 			if (shell && !reduced) {
 				shell.addEventListener('pointermove', function (e) {
@@ -92,6 +85,26 @@
 					shell.style.setProperty('--hx-mx', ((e.clientX - b.left) / b.width * 100) + '%');
 					shell.style.setProperty('--hx-my', ((e.clientY - b.top) / b.height * 100) + '%');
 				});
+			}
+
+			/* the subtitle sharpens once you reach it */
+			var mani = document.getElementById('hx-manifesto');
+			if (mani) {
+				var words = mani.querySelectorAll('span');
+				if (reduced || !('IntersectionObserver' in window)) {
+					words.forEach(function (s) { s.classList.add('is-sharp'); });
+				} else {
+					var io = new IntersectionObserver(function (entries) {
+						entries.forEach(function (e) {
+							if (!e.isIntersecting) return;
+							io.disconnect();
+							words.forEach(function (s, idx) {
+								setTimeout(function () { s.classList.add('is-sharp'); }, 70 * idx + 300);
+							});
+						});
+					}, { threshold: 0.6 });
+					io.observe(mani);
+				}
 			}
 		})();
 	</script>

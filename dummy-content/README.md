@@ -24,6 +24,7 @@ you can import files in any order without duplicating tags.
 | `travel.json` | Trips + travel posts (`#trip` / `#travel`) | sample |
 | `timeline.json` | Timeline / resume events (`#timeline`) | sample |
 | `misc.json` | Changelog, newsletters, snippets, prompts, experiences, bucketlist | sample |
+| `guide.json` | Field guide + its steps (`#guide` / `#guide-content`) — powers `/guide/` | full |
 | `docs.json` | Theme documentation (`#docs`) — powers `/docs/` | full |
 
 ## Import order / dependencies
@@ -31,8 +32,10 @@ you can import files in any order without duplicating tags.
 - **Lessons live inside courses.** A lesson's primary tag is its course's public
   tag, but the course *landing post* is in `course.json`. Import **`course.json`
   and `lesson.json` together** so lessons resolve to a real course page.
-- Every other module (projects, web series, travel) keeps its container **and**
-  its children in the same file — no cross-file dependency.
+- Every other module (projects, web series, travel, **guide**) keeps its
+  container **and** its children in the same file — no cross-file dependency.
+  `guide.json` seeds the `#guide` landing post *and* its `#guide-content` steps,
+  which take the guide's public tag as their primary tag.
 - `navigation.json` only writes the two nav menus. Import it once; it does not
   create posts.
 

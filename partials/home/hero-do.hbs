@@ -1,0 +1,21 @@
+{{!-- "What I do" — the collections, as a strip under the hero copy.
+
+     Deliberately static. This used to run one {{#get}} per collection to print
+     a live post count — seven API round-trips, on every homepage render, to
+     decorate seven links with a number nobody was going to act on. Together
+     with the showcase's queries that was eleven calls in the hero alone, and it
+     is what put the site on the floor. The links are the point; the counts were
+     not worth a request each. --}}
+<div class="hx-do animate-fade-in" style="animation-delay:.7s">
+	<span class="hx-do-label">{{> "icons/sparkle" class="h-3 w-3"}} What I do</span>
+
+	<div class="hx-do-row">
+		<a href="{{@site.url}}/videos/" class="hx-do-item">{{> "icons/film" class="h-4 w-4"}} <span class="hx-do-name">Videos</span></a>
+		<a href="{{@site.url}}/projects/" class="hx-do-item">{{> "icons/terminal" class="h-4 w-4"}} <span class="hx-do-name">Projects</span></a>
+		<a href="{{@site.url}}/courses/" class="hx-do-item">{{> "icons/graduation" class="h-4 w-4"}} <span class="hx-do-name">Courses</span></a>
+		<a href="{{@site.url}}/guide/" class="hx-do-item">{{> "icons/compass" class="h-4 w-4"}} <span class="hx-do-name">Guides</span></a>
+		<a href="{{@site.url}}/travel/" class="hx-do-item">{{> "icons/plane" class="h-4 w-4"}} <span class="hx-do-name">Trips</span></a>
+		<a href="{{@site.url}}/webseries/" class="hx-do-item">{{> "icons/tv" class="h-4 w-4"}} <span class="hx-do-name">Webseries</span></a>
+		<a href="{{@site.url}}/blog/" class="hx-do-item">{{> "icons/pen" class="h-4 w-4"}} <span class="hx-do-name">Blog</span></a>
+	</div>
+</div>

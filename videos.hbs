@@ -20,13 +20,11 @@
 				<h1 class="mt-5 max-w-3xl text-5xl font-black tracking-tight sm:text-7xl animate-fade-up text-balance">Videos</h1>
 				<p class="mt-5 max-w-xl text-lg leading-relaxed text-white/70 animate-fade-in" style="animation-delay:.2s">Tutorials, breakdowns and experiments — filmed, cut and shipped. Grab popcorn.</p>
 				<div class="mt-8 flex flex-wrap items-center gap-3 animate-fade-in" style="animation-delay:.3s">
-					{{#if @custom.youtube_url}}
-						<a href="{{@custom.youtube_url}}?sub_confirmation=1" target="_blank" rel="noopener"
-							class="btn !border-transparent shadow-card transition hover:-translate-y-0.5"
-							style="background:#FF0000;color:#fff">
-							{{> "icons/youtube" class="h-4 w-4"}} Subscribe on YouTube
-						</a>
-					{{/if}}
+					<a href="https://www.youtube.com/@imswarnil?sub_confirmation=1" target="_blank" rel="noopener"
+						class="btn !border-transparent shadow-card transition hover:-translate-y-0.5"
+						style="background:#FF0000;color:#fff">
+						{{> "icons/youtube" class="h-4 w-4"}} Subscribe on YouTube
+					</a>
 					<a href="{{@site.url}}/guestbook/" class="btn-glass">
 						{{> "icons/sparkle" class="h-4 w-4"}} Suggest a topic
 					</a>

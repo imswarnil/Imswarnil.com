@@ -47,7 +47,7 @@
 		<div class="bg-dots pointer-events-none absolute inset-0 fade-mask-b" aria-hidden="true"></div>
 		<div class="container-site relative">
 			<div id="nl-stage" class="mx-auto max-w-4xl">
-				<p class="mb-6 flex items-center justify-center gap-2 kicker">{{> "icons/mail"}} {{#if @custom.newsletter_title}}{{@custom.newsletter_title}}{{else}}The Signal{{/if}} · issue</p>
+				<p class="mb-6 flex items-center justify-center gap-2 kicker">{{> "icons/mail"}} The Signal · issue</p>
 
 				<div id="nl-window" class="mockup-window before:hidden !pt-0 overflow-hidden rounded-2xl border border-line bg-paper shadow-lift">
 					{{!-- mac title bar --}}
@@ -108,7 +108,7 @@
 					<footer class="border-t border-line bg-mist/40 px-6 py-8 sm:px-10">
 						<div class="mx-auto max-w-prose">
 							<p class="kicker">{{> "icons/mail"}} Was this forwarded to you?</p>
-							<p class="mt-2 text-sm leading-relaxed text-silver">Get the next issue of {{#if @custom.newsletter_title}}{{@custom.newsletter_title}}{{else}}The Signal{{/if}} straight from the source — no algorithm in between.</p>
+							<p class="mt-2 text-sm leading-relaxed text-silver">Get the next issue of The Signal straight from the source — no algorithm in between.</p>
 							{{#if @site.members_enabled}}
 							<form data-members-form class="nl-form mt-4 max-w-md">
 								<div class="nl-form-fields flex overflow-hidden rounded-full border border-line bg-paper transition focus-within:border-ink">

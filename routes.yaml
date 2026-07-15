@@ -31,6 +31,22 @@ routes:
     content_type: text/plain
 
 collections:
+  # Guides — same container/child shape as courses. The guide landing post is
+  # tagged #guide; its steps are tagged #guide-content and take the guide's
+  # PUBLIC tag as their primary tag, so they nest under it:
+  #   /guide/{guide-tag}/{step-slug}/
+  # Steps must be listed before /guide/ so the deeper permalink wins.
+  /guide-steps/:
+    permalink: /guide/{primary_tag}/{slug}/
+    filter: tag:hash-guide-content
+    order: published_at asc
+    template: guide-steps
+
+  /guide/:
+    permalink: /guide/{slug}/
+    filter: tag:hash-guide
+    template: guide
+
   # Lessons live INSIDE their course: /courses/{course-tag}/{lesson-slug}/
   # A lesson's FIRST (primary) tag must be the course's public tag.
   /lessons-index/:

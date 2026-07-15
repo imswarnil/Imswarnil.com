@@ -1,0 +1,90 @@
+{{!-- Guide landing page (#guide) — the container post, same role as a course
+     overview: what this guide is, who it's for, and the full route laid out as
+     a stepper you can enter at any point.
+
+     Layout: intro + content in the main column, the stepper sticky on the
+     right (desktop) / stacked below the intro (mobile). The guide's own PUBLIC
+     tag is what its steps hang off. --}}
+<article class="{{post_class}} guide-shell pt-16">
+
+	<header class="relative overflow-hidden border-b border-line py-14 sm:py-16">
+		<div class="bg-pat-grid-wide fade-mask-bloom pointer-events-none absolute inset-0" style="--pat-opacity:1.2" aria-hidden="true"></div>
+		<div class="container-site relative">
+			<nav class="flex flex-wrap items-center gap-2 font-mono text-[10px] uppercase tracking-[0.15em] text-silver" aria-label="Breadcrumb">
+				<a href="{{@site.url}}/guide/" class="transition hover:text-ink">Guides</a>
+				<span aria-hidden="true">/</span>
+				<span class="text-ink">{{title}}</span>
+			</nav>
+
+			<div class="mt-4 grid gap-10 lg:grid-cols-12">
+				<div class="lg:col-span-7">
+					<p class="guide-kicker">{{> "icons/compass" class="h-3 w-3"}} Field guide</p>
+					<h1 class="mt-4 text-4xl font-semibold tracking-tight sm:text-5xl text-balance">{{title}}</h1>
+					{{#if custom_excerpt}}
+					<p class="mt-5 max-w-xl text-lg leading-relaxed text-silver">{{custom_excerpt}}</p>
+					{{/if}}
+
+					<div class="mt-6 flex flex-wrap items-center gap-x-4 gap-y-2 font-mono text-[11px] text-silver">
+						{{#primary_tag}}{{#get "posts" filter="tag:hash-guide-content+tags:{{slug}}" limit="1" as |s|}}
+							<span class="flex items-center gap-1.5">{{> "icons/route" class="h-3.5 w-3.5"}} {{plural pagination.total empty="no steps yet" singular="% step" plural="% steps"}}</span>
+						{{/get}}{{/primary_tag}}
+						<span class="flex items-center gap-1.5">{{> "icons/calendar" class="h-3.5 w-3.5"}} Updated {{date updated_at format="MMM YYYY"}}</span>
+						{{#match visibility "public"}}<span class="flex items-center gap-1.5">{{> "icons/check" class="h-3.5 w-3.5"}} Free to read</span>{{/match}}
+					</div>
+
+					{{#primary_tag}}{{#get "posts" filter="tag:hash-guide-content+tags:{{slug}}" limit="1" order="published_at asc" as |first|}}
+						{{#foreach first}}
+						<a href="{{url}}" class="btn-primary btn-lg mt-7">{{> "icons/play" class="h-3.5 w-3.5"}} Start the guide</a>
+						{{/foreach}}
+					{{/get}}{{/primary_tag}}
+				</div>
+
+				{{#if feature_image}}
+				<div class="lg:col-span-5">
+					<img src="{{img_url feature_image size="1000"}}" width="1000" height="563"
+						alt="{{#if feature_image_alt}}{{feature_image_alt}}{{else}}{{title}}{{/if}}"
+						class="aspect-video w-full rounded-2xl border border-line object-cover shadow-lift" loading="eager" />
+				</div>
+				{{/if}}
+			</div>
+		</div>
+	</header>
+
+	<div class="container-site py-12">
+		<div class="grid gap-10 lg:grid-cols-12 lg:gap-12">
+
+			{{!-- Main column: the guide's own copy --}}
+			<div class="min-w-0 lg:col-span-8">
+				{{#if content}}
+				<section class="gh-content">{{content}}</section>
+				{{/if}}
+
+				{{> "components/adsense" slot="6501428979" layout="in-article" format="fluid"}}
+
+				<footer class="mt-8 flex items-center justify-between border-t border-line pt-6">
+					<a href="{{@site.url}}/guide/" class="btn-ghost">{{> "icons/arrow-right" class="rotate-180"}} All guides</a>
+					{{> "post/share"}}
+				</footer>
+
+				{{#if @site.comments_enabled}}
+				<div class="mt-12">{{> "components/comments" title="Questions about this guide"}}</div>
+				{{/if}}
+			</div>
+
+			{{!-- The route --}}
+			<aside class="lg:col-span-4 lg:sticky lg:top-20 lg:self-start">
+				<div class="rounded-2xl border border-line bg-mist/40 p-5">
+					<p class="kicker !text-[10px]">{{> "icons/route" class="h-3 w-3"}} The route</p>
+					<p class="mt-2 text-xs leading-relaxed text-silver">Walk it start to finish, or jump straight to the part you're stuck on.</p>
+					<div class="mt-4">
+						{{#primary_tag}}{{> "components/guide-stepper" tagSlug=slug active=""}}{{/primary_tag}}
+					</div>
+				</div>
+
+				<div class="mt-5">
+					{{> "components/adsense" slot="7663977887" format="auto" class="!my-0"}}
+				</div>
+			</aside>
+		</div>
+	</div>
+</article>

@@ -1,0 +1,268 @@
+/* ==================================================================
+   The stage — the featured film, held in a viewfinder card.
+
+   Same language as the frame in the headline: accent hairline, four crop
+   marks, a ratio chip. Inside, the tube texture survives from the old CRT
+   (scanlines, VHS tear, chroma bleed) — but the cabinet is gone, because the
+   frame is the chrome now.
+
+   States, as classes on .vf:
+     (default)    still frame + play target
+     .is-live     the tape was started; controls are up
+     .is-rolling  the player reported ready — fade the video over the still
+     .is-paused   stopped by the user or by scrolling away
+     .no-fx       prefers-reduced-motion: no tear, no bleed, no flicker
+   ================================================================== */
+
+@layer components {
+	.vf {
+		position: relative;
+		margin: 0;
+		width: 100%;
+	}
+
+	/* ---- the card ------------------------------------------------------ */
+	.vf-card {
+		position: relative;
+		border: 1.5px solid rgb(var(--accent));
+		border-radius: 14px;
+		background: rgb(var(--accent) / 0.05);
+		padding: 10px;
+	}
+
+	/* viewfinder crop marks, one per corner */
+	.vf-mark {
+		position: absolute;
+		width: 14px;
+		height: 14px;
+		border: 2px solid rgb(var(--ink));
+		pointer-events: none;
+	}
+	.vf-mark:nth-child(1) { top: -2px; left: -2px; border-right: 0; border-bottom: 0; border-top-left-radius: 4px; }
+	.vf-mark:nth-child(2) { top: -2px; right: -2px; border-left: 0; border-bottom: 0; border-top-right-radius: 4px; }
+	.vf-mark:nth-child(3) { bottom: -2px; left: -2px; border-right: 0; border-top: 0; border-bottom-left-radius: 4px; }
+	.vf-mark:nth-child(4) { bottom: -2px; right: -2px; border-left: 0; border-top: 0; border-bottom-right-radius: 4px; }
+
+	/* the ratio readout, pinned to the frame like the headline's chip */
+	.vf-ratio {
+		position: absolute;
+		top: -0.85rem;
+		right: 10px;
+		z-index: 2;
+		padding: 0.1em 0.45em;
+		border-radius: 5px;
+		background: rgb(var(--ink));
+		color: rgb(var(--paper));
+		font-family: theme('fontFamily.mono');
+		font-size: 0.6rem;
+		font-weight: 600;
+		letter-spacing: 0.08em;
+		line-height: 1.5;
+	}
+
+	/* ---- the screen ---------------------------------------------------- */
+	.vf-screen {
+		position: relative;
+		aspect-ratio: 16 / 9;
+		overflow: hidden;
+		border-radius: 7px;
+		background: #050506;
+	}
+	.vf-still,
+	.vf-video {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+	.vf-video {
+		z-index: 1;
+		opacity: 0;
+		transition: opacity 0.5s ease;
+	}
+	.vf.is-rolling .vf-video {
+		opacity: 1;
+	}
+	/* the YouTube iframe the API builds for us */
+	.vf-video iframe {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		border: 0;
+		/* the card is the interface — YouTube's own surface never takes a click */
+		pointer-events: none;
+	}
+
+	/* ---- tube artefacts ------------------------------------------------ */
+	.vf-scanlines {
+		position: absolute;
+		inset: 0;
+		z-index: 2;
+		pointer-events: none;
+		background: repeating-linear-gradient(
+			to bottom,
+			rgb(0 0 0 / 0.14) 0px,
+			rgb(0 0 0 / 0.14) 1px,
+			transparent 1px,
+			transparent 3px
+		);
+	}
+	.vf-glare {
+		position: absolute;
+		inset: 0;
+		z-index: 2;
+		pointer-events: none;
+		background:
+			radial-gradient(120% 80% at 22% 8%, rgb(255 255 255 / 0.09), transparent 42%),
+			radial-gradient(100% 100% at 50% 50%, transparent 58%, rgb(0 0 0 / 0.38) 100%);
+	}
+
+	/* the VHS tracking tear that rips down the picture when the tape starts */
+	.vf-tear {
+		position: absolute;
+		left: -4%;
+		right: -4%;
+		height: 12%;
+		top: -14%;
+		z-index: 3;
+		pointer-events: none;
+		opacity: 0;
+		background: linear-gradient(
+			to bottom,
+			transparent,
+			rgb(255 255 255 / 0.1) 30%,
+			rgb(255 0 90 / 0.14) 50%,
+			rgb(0 220 255 / 0.12) 62%,
+			transparent
+		);
+	}
+	.vf-tear.is-tearing {
+		animation: vfTear 0.9s cubic-bezier(0.4, 0, 0.6, 1) 2;
+	}
+	@keyframes vfTear {
+		0% { opacity: 0; top: -14%; transform: translateX(0) skewX(0deg); }
+		12% { opacity: 1; transform: translateX(-3%) skewX(-6deg); }
+		50% { transform: translateX(3%) skewX(5deg); }
+		88% { opacity: 1; transform: translateX(-1%) skewX(-2deg); }
+		100% { opacity: 0; top: 104%; transform: translateX(0) skewX(0deg); }
+	}
+	/* a hair of VHS chroma bleed while it rolls */
+	.vf.is-rolling:not(.no-fx):not(.is-paused) .vf-screen {
+		animation: vfBleed 3.2s ease-in-out infinite;
+	}
+	@keyframes vfBleed {
+		0%, 100% { filter: saturate(1.06) contrast(1.02); }
+		50% { filter: saturate(1.14) contrast(1.05) hue-rotate(1.5deg); }
+	}
+
+	/* ---- play target --------------------------------------------------- */
+	.vf-play {
+		position: absolute;
+		inset: 0;
+		z-index: 4;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		gap: 9px;
+		background: rgb(0 0 0 / 0.26);
+		transition: opacity 0.35s ease, background-color 0.3s ease;
+		cursor: pointer;
+	}
+	.vf-play:hover { background: rgb(0 0 0 / 0.12); }
+	.vf.is-live .vf-play {
+		opacity: 0;
+		pointer-events: none;
+	}
+	.vf-play-ring {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: clamp(2.75rem, 4.4vw, 3.5rem);
+		height: clamp(2.75rem, 4.4vw, 3.5rem);
+		padding-left: 3px;
+		border-radius: 999px;
+		border: 2px solid rgb(255 255 255 / 0.85);
+		background: rgb(0 0 0 / 0.35);
+		color: #fff;
+		backdrop-filter: blur(3px);
+		transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.4s ease, background-color 0.3s;
+	}
+	.vf-play:hover .vf-play-ring {
+		transform: scale(1.08);
+		background: rgb(0 0 0 / 0.5);
+		box-shadow: 0 0 0 10px rgb(255 255 255 / 0.08);
+	}
+	.vf-play:focus-visible .vf-play-ring {
+		outline: 2px solid #fff;
+		outline-offset: 4px;
+	}
+	.vf-play-label {
+		font-family: theme('fontFamily.mono');
+		font-size: 0.55rem;
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: 0.24em;
+		color: rgb(255 255 255 / 0.9);
+		text-shadow: 0 1px 6px rgb(0 0 0 / 0.8);
+	}
+
+	/* ---- control bar ---------------------------------------------------- */
+	.vf-bar {
+		display: flex;
+		align-items: center;
+		gap: 8px;
+		padding: 8px 2px 1px;
+		min-height: 1.9rem;
+	}
+	.vf-btn {
+		display: inline-flex;
+		flex: none;
+		align-items: center;
+		justify-content: center;
+		width: 1.6rem;
+		height: 1.6rem;
+		border-radius: 999px;
+		border: 1px solid rgb(var(--line));
+		background: rgb(var(--paper));
+		color: rgb(var(--ink));
+		transition: background-color 0.2s, transform 0.2s;
+	}
+	.vf-btn:hover {
+		background: rgb(var(--mist));
+		transform: translateY(-1px);
+	}
+	.vf-state {
+		flex: none;
+		font-family: theme('fontFamily.mono');
+		font-size: 0.55rem;
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: 0.16em;
+		color: rgb(var(--silver));
+	}
+	.vf-title {
+		min-width: 0;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		font-size: 0.72rem;
+		font-weight: 550;
+		color: rgb(var(--ink));
+	}
+	a.vf-title:hover { text-decoration: underline; text-underline-offset: 3px; }
+	.vf-tc {
+		margin-left: auto;
+		flex: none;
+		font-family: theme('fontFamily.mono');
+		font-size: 0.58rem;
+		font-variant-numeric: tabular-nums;
+		color: rgb(var(--silver));
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.vf-screen, .vf-tear { animation: none !important; }
+	}
+}

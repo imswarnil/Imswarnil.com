@@ -1,0 +1,219 @@
+{{!-- Guide step page (#guide-content) — one step of a guide, full width.
+
+     Three columns on xl:
+       left   · table of contents, then ads and widgets
+       centre · the step itself
+       right  · the route (stepper), sticky
+
+     On lg it drops to content + route. On phones everything stacks: route
+     first (so you know where you are), then the step, then the rest — and the
+     route is also reachable from the sticky bar without scrolling back.
+
+     The parent guide is this post's primary (public) tag. --}}
+
+{{!-- Resolve the guide POST's real URL — the tag slug is not the post slug --}}
+{{#primary_tag}}{{#get "posts" filter="tag:hash-guide+tag:{{slug}}" limit="1" as |gg|}}{{#foreach gg}}<span id="guide-post" data-url="{{url}}" hidden></span>{{/foreach}}{{/get}}{{/primary_tag}}
+
+<article class="{{post_class}} guide-shell pt-16">
+
+	{{!-- breadcrumb / step bar --}}
+	<div class="guide-bar">
+		<div class="guide-bar-in">
+			<nav class="flex min-w-0 flex-wrap items-center gap-2 font-mono text-[10px] uppercase tracking-[0.15em] text-silver" aria-label="Breadcrumb">
+				<a href="{{@site.url}}/guide/" class="transition hover:text-ink">Guides</a>
+				<span aria-hidden="true">/</span>
+				{{#primary_tag}}<a href="{{@site.url}}/guide/{{slug}}/" data-guide-link class="truncate transition hover:text-ink">{{name}}</a>{{/primary_tag}}
+			</nav>
+			<span class="ml-auto flex shrink-0 items-center gap-3">
+				<span class="font-mono text-[10px] uppercase tracking-[0.18em] text-silver" id="guide-pos">step</span>
+				{{!-- phones: jump to the route without hunting for it --}}
+				<button type="button" class="btn-ghost btn-sm xl:hidden" data-modal-open="#guide-route-backdrop">{{> "icons/route" class="h-3 w-3"}} Route</button>
+			</span>
+		</div>
+	</div>
+
+	<div class="guide-wrap">
+
+		{{!-- ---------- left: contents, ads, widgets ---------- --}}
+		<aside class="guide-aside guide-aside-left">
+			<div class="guide-sticky">
+				<nav id="toc-wrap" hidden class="guide-card">
+					<p class="kicker !text-[10px]">{{> "icons/book" class="h-3 w-3"}} On this page</p>
+					<nav id="toc-list" class="mt-3 max-h-[42vh] overflow-y-auto no-scrollbar" aria-label="Step contents"></nav>
+				</nav>
+
+				{{> "components/adsense" slot="7663977887" format="auto" class="!my-0"}}
+
+				{{!-- widget: the rest of the guide's shelf --}}
+				<div class="guide-card">
+					<p class="kicker !text-[10px]">{{> "icons/compass" class="h-3 w-3"}} More guides</p>
+					{{#get "posts" filter="tag:hash-guide" limit="3" order="published_at desc" as |more|}}
+						{{#if more.length}}
+						<ul class="mt-3 space-y-2.5">
+							{{#foreach more}}
+							<li>
+								<a href="{{url}}" class="group flex gap-2.5 text-[12.5px] leading-snug">
+									{{> "icons/arrow-right" class="mt-0.5 h-3 w-3 shrink-0 text-silver transition group-hover:text-ink"}}
+									<span class="font-medium text-silver transition group-hover:text-ink">{{title}}</span>
+								</a>
+							</li>
+							{{/foreach}}
+						</ul>
+						{{/if}}
+					{{/get}}
+					<a href="{{@site.url}}/guide/" class="btn-ghost btn-sm mt-4 w-full justify-center !text-[11px]">All guides {{> "icons/arrow-right" class="h-3 w-3"}}</a>
+				</div>
+
+				{{!-- widget: subscribe --}}
+				<div class="guide-card">
+					<p class="kicker !text-[10px]">{{> "icons/bell" class="h-3 w-3"}} Get the next one</p>
+					<p class="mt-2 text-[12.5px] leading-relaxed text-silver">New guides, videos and the occasional lesson learned the hard way.</p>
+					<button type="button" class="btn-primary btn-sm mt-3 w-full justify-center !text-[11px]" data-modal-open="#subscribe-backdrop">{{> "icons/mail" class="h-3 w-3"}} Subscribe free</button>
+				</div>
+			</div>
+		</aside>
+
+		{{!-- ---------- centre: the step ---------- --}}
+		<div class="guide-main">
+			<header class="border-b border-line pb-6">
+				<p class="guide-kicker">{{> "icons/route" class="h-3 w-3"}} <span id="guide-crumb">this step</span></p>
+				<h1 class="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl text-balance">{{title}}</h1>
+				{{#if custom_excerpt}}<p class="mt-3 max-w-2xl leading-relaxed text-silver">{{custom_excerpt}}</p>{{/if}}
+				<p class="mt-4 flex flex-wrap items-center gap-x-3 gap-y-1.5 font-mono text-[11px] text-silver">
+					<span class="flex items-center gap-1.5">{{> "icons/clock" class="h-3.5 w-3.5"}} {{reading_time minute="1 min"}}</span>
+					<span class="flex items-center gap-1.5">{{> "icons/calendar" class="h-3.5 w-3.5"}} {{date published_at format="DD MMM YYYY"}}</span>
+				</p>
+			</header>
+
+			<section class="gh-content py-8">{{content}}</section>
+
+			{{!-- Prev / next — filled from the stepper, stays inside this guide --}}
+			<nav class="grid border-y border-line sm:grid-cols-2 sm:divide-x sm:divide-line" aria-label="Step pagination">
+				<a href="#" data-guide-prev hidden class="group flex items-center gap-3 py-5 pr-4 transition hover:bg-mist/60">
+					{{> "icons/arrow-right" class="shrink-0 rotate-180 text-silver transition group-hover:text-ink"}}
+					<span class="min-w-0">
+						<span class="block font-mono text-[10px] uppercase tracking-[0.2em] text-silver">Previous step</span>
+						<span class="block truncate text-sm font-semibold" data-guide-prev-title></span>
+					</span>
+				</a>
+				<a href="#" data-guide-next hidden class="group flex items-center justify-end gap-3 py-5 text-right transition hover:bg-mist/60 sm:col-start-2 sm:pl-4">
+					<span class="min-w-0">
+						<span class="block font-mono text-[10px] uppercase tracking-[0.2em] text-silver">Next step</span>
+						<span class="block truncate text-sm font-semibold" data-guide-next-title></span>
+					</span>
+					{{> "icons/arrow-right" class="shrink-0 text-silver transition group-hover:text-ink"}}
+				</a>
+				<a href="#" data-guide-done hidden class="group flex w-full items-center justify-center gap-3 py-5 font-semibold transition hover:bg-mist/60 sm:col-span-2">
+					{{> "icons/check" class="h-4 w-4 text-green-600"}} That's the whole route — back to the guide
+				</a>
+			</nav>
+
+			{{> "components/adsense" slot="6501428979" layout="in-article" format="fluid"}}
+
+			<footer class="mt-6 flex items-center justify-between border-t border-line pt-6">
+				{{#primary_tag}}<a href="{{@site.url}}/guide/{{slug}}/" data-guide-link class="btn-ghost">{{> "icons/arrow-right" class="rotate-180"}} Back to {{name}}</a>{{/primary_tag}}
+				{{> "post/share"}}
+			</footer>
+
+			{{#if @site.comments_enabled}}
+			<div class="mt-12">{{> "components/comments" title="Stuck on this step?"}}</div>
+			{{/if}}
+		</div>
+
+		{{!-- ---------- right: the route ---------- --}}
+		<aside class="guide-aside guide-aside-right">
+			<div class="guide-sticky">
+				<div class="guide-card">
+					{{#primary_tag}}
+					<a href="{{@site.url}}/guide/{{slug}}/" data-guide-link class="guide-kicker">{{> "icons/compass" class="h-3 w-3"}} Field guide</a>
+					<a href="{{@site.url}}/guide/{{slug}}/" data-guide-link class="mt-2.5 block text-[15px] font-semibold leading-snug tracking-tight hover:underline hover:underline-offset-4">{{name}}</a>
+					{{/primary_tag}}
+
+					<p class="mt-2 font-mono text-[10px] uppercase tracking-[0.18em] text-silver">
+						<span id="guide-pct">0%</span> walked
+					</p>
+
+					<div class="mt-4 border-t border-line pt-4">
+						{{#primary_tag}}{{> "components/guide-stepper" tagSlug=slug active=../slug}}{{/primary_tag}}
+					</div>
+				</div>
+			</div>
+		</aside>
+	</div>
+</article>
+
+{{!-- phones: the route as a panel --}}
+<div class="fixed inset-0 z-[60] hidden items-start justify-center overflow-y-auto bg-ink/40 p-4 pt-16 backdrop-blur-sm xl:hidden" id="guide-route-backdrop" data-modal>
+	<div class="w-full max-w-md rounded-[2rem] border border-line bg-paper p-6 shadow-lift" role="dialog" aria-modal="true" aria-label="Guide route">
+		<div class="mb-4 flex items-center justify-between gap-3">
+			{{#primary_tag}}<span class="guide-kicker">{{> "icons/route" class="h-3 w-3"}} {{name}}</span>{{/primary_tag}}
+			<button type="button" class="icon-btn shrink-0" data-modal-close aria-label="Close">{{> "icons/close"}}</button>
+		</div>
+		{{#primary_tag}}{{> "components/guide-stepper" tagSlug=slug active=../slug}}{{/primary_tag}}
+	</div>
+</div>
+
+<script>
+	(function () {
+		/* Position in the route — read off the rail, not out of storage. The
+		   stepper partial paints the nodes; this only labels the chrome and
+		   wires prev/next. */
+		var rail = document.querySelector('.guide-aside-right [data-guide-stepper]');
+		if (!rail) return;
+		var steps = [].slice.call(rail.querySelectorAll('.guide-step'));
+		var current = rail.getAttribute('data-active');
+		var idx = steps.findIndex(function (li) { return li.getAttribute('data-step-slug') === current; });
+		if (idx < 0) return;
+
+		var pct = Math.round(((idx + 1) / steps.length) * 100);
+		var pctEl = document.getElementById('guide-pct');
+		if (pctEl) pctEl.textContent = pct + '%';
+		var pos = document.getElementById('guide-pos');
+		if (pos) pos.textContent = 'step ' + (idx + 1) + ' of ' + steps.length;
+		var crumb = document.getElementById('guide-crumb');
+		if (crumb) crumb.textContent = 'Step ' + (idx + 1) + ' of ' + steps.length;
+
+		function fill(sel, li, titleSel) {
+			document.querySelectorAll(sel).forEach(function (a) {
+				if (!li) { a.remove(); return; }
+				a.href = li.querySelector('.guide-step-link').href;
+				a.hidden = false;
+				var t = titleSel && a.querySelector(titleSel);
+				if (t) t.textContent = li.querySelector('.guide-step-title').textContent.trim();
+			});
+		}
+		fill('[data-guide-prev]', idx > 0 ? steps[idx - 1] : null, '[data-guide-prev-title]');
+		var isLast = idx === steps.length - 1;
+		fill('[data-guide-next]', !isLast ? steps[idx + 1] : null, '[data-guide-next-title]');
+
+		/* the guide POST url, resolved server-side (tag slug != post slug) */
+		var gp = document.getElementById('guide-post');
+		if (gp) {
+			var url = gp.getAttribute('data-url');
+			document.querySelectorAll('[data-guide-link]').forEach(function (a) { a.href = url; });
+			if (isLast) {
+				document.querySelectorAll('[data-guide-done]').forEach(function (a) { a.href = url; a.hidden = false; });
+			}
+		}
+
+		/* keep the current step in view in a long rail (desktop only) */
+		var mq = window.matchMedia ? window.matchMedia('(min-width: 1280px)') : null;
+		if (mq && mq.matches) {
+			var box = rail.closest('.guide-sticky');
+			var cur = steps[idx];
+			if (box && box.scrollHeight > box.clientHeight) {
+				box.scrollTop = Math.max(0, cur.offsetTop - box.clientHeight / 2);
+			}
+		}
+
+		/* the TOC card only exists if main.js found headings to put in it */
+		var tocList = document.getElementById('toc-list');
+		var tocWrap = document.getElementById('toc-wrap');
+		if (tocList && tocWrap) {
+			var check = setInterval(function () {
+				if (tocList.children.length) { tocWrap.hidden = false; clearInterval(check); }
+			}, 200);
+			setTimeout(function () { clearInterval(check); }, 3000);
+		}
+	})();
+</script>

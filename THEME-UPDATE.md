@@ -2,6 +2,142 @@
 
 Running record of what's done and what's left. Master backlog lives in CLAUDE.md.
 
+## 2026-07-16 — hero rebuilt (square → film) · homepage un-crashed · guide full-width
+
+### Done
+- **The homepage was crashing — this is why.** The hero had grown to **11
+  `{{#get}}` calls**: seven in `home/hero-do` (one per collection, purely to
+  print a post count), three in the showcase (project/series/trip) and one for
+  tags. Eleven API round-trips to paint a hero. Now **2**: one for the film, one
+  for the tags. `hero-do` is static markup — the links were the point, the
+  counts were not worth a request each.
+- **Hero, final shape.** Left: who I am, the "Cut the chaos" subtitle (blurred
+  until read, then sharpens word by word), CTAs, and What I do. Right: a
+  **square 1:1 frame** — dummy still (`assets/images/hero-square.svg`, 1000×1000),
+  an icon, and the quote *"Life looks better when you make something people love
+  — because what you make is who you are"*, revealed word by word. **"Watch my
+  story"** below it reshapes the frame **1:1 → 16:9** and plays the film in the
+  same frame. The film is the featured `#trip`, else the newest, else the
+  theme's own fallback still.
+- **Nothing is fetched from YouTube until you press play**, and playback has
+  real play/pause (iframe API) plus pause-on-scroll-away.
+- **Grid**: reverted to centre-lit, dissolving to nothing before the corners
+  (`.fade-mask-bloom`), on hairline rules at 82px cells (`.bg-pat-grid-wide`).
+  The earlier "corners lit" reading was wrong — the grid was simply invisible
+  because `-z-10` had it behind `<body>`'s background.
+- **Tag marquee**: full-width looping strip, tag icon when the tag has a
+  `feature_image`, else `#`, with post counts and "View all tags". It renders
+  *after* the hero and the hero reserves `3.5rem` for it — a 100dvh hero puts
+  anything following it exactly one pixel under the fold, which is why it was
+  invisible no matter where it sat in the DOM.
+- **Guide**: full-width three-column step page — contents/ads/widgets left, step
+  centre, route right, sticky, with the route in a panel on phones. The stepper
+  now fills **positionally**: on step 5, steps 1–4 are ticked and 5 is current,
+  for everyone. It used to key off `localStorage`, so the rail was empty until
+  you'd personally walked it.
+- **Deleted**: `hero-chat.hbs` + its CSS (the chat-hero experiment),
+  `hero-proof.hbs`, `crt.css`, `icons/ef.hbs`, `icons/tag-cloud.hbs`, and the
+  spec-sheet / work-personal-toggle / tag-cloud / marquee-toggle CSS.
+
+### Gotchas found the hard way — don't undo these
+- `{{#if film}}` is **truthy for an empty `{{#get}}` result**. Test
+  `{{#if film.length}}` or the `{{else}}` never fires and the block ships empty.
+- **Never pass `link=url` to a partial.** `{{url}}` is a helper, not a property;
+  a hash param can't call it, it throws, and a throwing partial makes Handlebars
+  **discard the whole enclosing block silently**. Call partials inside
+  `{{#foreach}}` and let them read the context.
+- **Don't nest `{{#get}}` inside another `{{#get}}`'s `{{else}}`** — the async
+  helper can't resolve it and renders nothing.
+- **Don't declare `{{#*inline}}` inside a `{{#get}}`** — it breaks its own
+  registration and the block renders nothing.
+- `{{#get "tags"}}` applies `limit` **before** internal `#hash` tags are dropped
+  (and `{{#foreach}}` drops them), so always `filter="visibility:public"`.
+  Never `count.posts:>0` — NQL can't filter that aggregate and returns nothing.
+- A class with `display:flex` **out-specifies the `[hidden]` UA rule** — always
+  pair it with `.thing[hidden] { display: none }`.
+- Media-query overrides of same-specificity base rules **must come after them**.
+
+### Left
+- `/guide/` and `/docs/` 404 locally until `routes.yaml` is re-uploaded; the
+  guide layout is therefore **unverified in a browser**.
+- Narrow-viewport screenshots were unreliable (headless ignored the meta
+  viewport); responsive rules are reasoned, not visually confirmed.
+
+## 2026-07-15 — settings purged to 1 · hero CRT/VHS + spec sheet · /guide module · width unified · ad opt-out
+
+### Done
+- **Custom settings cut from 17 → 1.** Only `color_scheme` survives, freeing 19
+  of Ghost's 20 slots. Every other setting's value is now hardcoded in the
+  templates (~100 references across 20 files):
+  `job_title` → *Salesforce Engineer*, `workplace` → *EF Education First*
+  (`https://www.ef.com`), plus the YouTube/Topmate/GitHub/sponsor-email/
+  newsletter/footer/webseries values at their previous defaults.
+  `{{#if @custom.x}}` wrappers were **removed, not just re-pointed** — left in
+  place they'd have silently gone false and hidden their content.
+- **Web push dropped from the theme**: `onesignal_app_id` setting, the
+  `default.hbs` init and the `sw.hbs` importScripts/`{{#unless}}` split are gone.
+  The generic VAPID push handlers stay. Wire push via code injection instead —
+  this also clears the OneSignal wrong-domain console error in the backlog.
+- **Ads always on + honest opt-out.** `enable_adsense`/`adsense_publisher_id`
+  are gone; publisher `ca-pub-1291242080282540` is hardcoded and the loader only
+  ships for logged-out visitors (`{{#unless @member}}`). Every unit now carries
+  a quiet **"Remove this ad"** control (`components/ad-optout`) opening
+  `components/ad-optout-modal` — the pitch is "this ad pays for the work; become
+  a member to switch them off", with a Portal signup CTA. Units made responsive
+  (`w-full max-w-full`, `display:block`).
+- **Hero rebuilt.**
+  - *Corner grid*: new `.fade-mask-edges` (inverse of `fade-mask-corners`) —
+    texture in the four corners, dissolving toward the centre. The old
+    `-z-10` on the pattern layer was dropping it **behind `<body>`'s background**,
+    which is why no grid was visible at all; flow order handles it now.
+  - *Identity*: the cramped badge row is gone. Role / Company / Based in / From /
+    Also now live in a labelled `.hx-spec` sheet (camera-metadata style) with EF,
+    Salesforce, 🇭🇺 and 🇮🇳 icons.
+  - *Quote*: animated "Cut the chaos." — rule sweeps, words stagger up, full stop
+    drops.
+  - *Media*: the blinking REC HUD and crop-mark frame above the video are gone.
+    In their place a **CRT set** (`components/crt.css`): powers on when scrolled
+    into view (line → bloom → picture, flash, scanlines, mains flicker, power
+    LED), camcorder OSD (STOP/▶ PLAY · SP · timecode · VHS), and a **play button**
+    that runs a VHS tracking tear + chroma bleed before injecting the embed.
+    All YouTube chrome disabled (`controls/disablekb/fs/rel/iv_load_policy=0/3`)
+    and the iframe is `pointer-events:none`, so the set never breaks character.
+    **Nothing is requested from YouTube until you press play** — the hero is off
+    the critical path. 16:9 throughout; the fallback still (`assets/images/
+    hero-fallback.svg`, 1280×720) is always painted underneath.
+  - *Stats*: icons + arrow per stat, labels wrap instead of ellipsing
+    ("shots fi…" told the reader nothing), 3-up only from `sm`.
+  - *Ticker*: replaced the text-only tag marquee with `home/hero-ticker` —
+    icon links to every destination; the duplicated loop copy is `aria-hidden`
+    **and** `tabindex="-1"` so links aren't in the tab order twice.
+- **Site + navbar widths unified.** New `--w-site` (71rem) / `--gutter`
+  (1.25→2rem) tokens drive `.container-site`; the navbar now sits in a real
+  `.container-site` (the `!px-0` override is gone) and `.nav-shell` fills it.
+  The island no longer shrinks to `max-w-5xl` (64rem vs the column's 71rem —
+  that mismatch was the misalignment); only its surface changes on scroll.
+- **New `/guide` module** — container/child shape, mirroring course/lesson:
+  `#guide` landing post + `#guide-content` steps taking the guide's public tag as
+  their primary tag → `/guide/{guide-tag}/{step-slug}/`. Ships `guide.hbs`
+  (index), `guide-steps.hbs`, `partials/post/guide.hbs`,
+  `partials/post/guide-step.hbs` (**fixed vertical stepper**: sticky rail, nodes
+  tick off, rail fills to your position, prev/next never leave the guide),
+  `components/guide-stepper`, `components/guide.css`, dispatcher entries, a big
+  `home/guide.hbs` homepage section styled alongside the lesson/course blocks,
+  and `dummy-content/guide.json` — **the Bangalore Job Seeker's Guide**, 8 steps
+  (runway → rent → documents → resume → channels → the loop → the offer → first
+  30 days). Ads responsive throughout (in-article + square rail).
+
+### Left / notes
+- **`routes.yaml` must be re-uploaded** (Ghost Admin → Settings → Labs → Routes)
+  before `/guide/` resolves — Ghost reads routes from its own settings, not the
+  theme folder. `/docs/` is 404 locally for the same reason.
+- **Restart Ghost** so the new `.hbs` files register (templates map is cached).
+- Import `dummy-content/guide.json` to populate the guide.
+- Untouched from the master backlog: navbar height/icons, contextual navbar,
+  logo/favicon, theme-switch cycle + sounds, Top-10 rename, portfolio/webseries
+  sections, per-collection layouts, page transitions, resume/about/contact/404,
+  remaining Lighthouse items.
+
 ## 2026-07-13 — modular demo content · /docs module · preloader out · lazy skeletons · 404 + hero + subscribe polish
 
 ### Done

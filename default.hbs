@@ -8,9 +8,7 @@
 	<link rel="preload" href="{{asset "vendors/Geist-Variable.woff2"}}" as="font" type="font/woff2" crossorigin />
 	<link rel="preload" href="{{asset "built/screen.css"}}" as="style" />
 	<link rel="stylesheet" href="{{asset "built/screen.css"}}" />
-	{{#if @custom.enable_adsense}}
 	<link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin />
-	{{/if}}
 	<link rel="preconnect" href="https://www.youtube-nocookie.com" />
 	<link rel="preconnect" href="https://i.ytimg.com" crossorigin />
 	<link rel="preconnect" href="https://cdn.coverr.co" />
@@ -45,9 +43,10 @@
 		})();
 	</script>
 
-	{{#if @custom.enable_adsense}}
+	{{!-- Ads are ad-free for signed-in members — the loader only ships for logged-out visitors. --}}
+	{{#unless @member}}
 	<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1291242080282540" crossorigin="anonymous"></script>
-	{{/if}}
+	{{/unless}}
 
 	{{> "components/json-ld"}}
 	{{ghost_head}}
@@ -85,6 +84,7 @@
 	{{> "components/footer"}}
 
 	{{> "components/rail-ads"}}
+	{{#unless @member}}{{> "components/ad-optout-modal"}}{{/unless}}
 
 	<script src="{{asset "built/main.js"}}" defer></script>
 	<script>
@@ -108,21 +108,8 @@
 			});
 		}
 	</script>
-	{{#if @custom.onesignal_app_id}}
-	{{!-- Web push via OneSignal, using the theme's own /sw/ worker (custom
-	     integration). Remove any old OneSignal snippet from code injection. --}}
-	<script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
-	<script>
-		window.OneSignalDeferred = window.OneSignalDeferred || [];
-		OneSignalDeferred.push(function (OneSignal) {
-			OneSignal.init({
-				appId: '{{@custom.onesignal_app_id}}',
-				serviceWorkerPath: 'sw/',
-				serviceWorkerParam: { scope: '/' }
-			});
-		});
-	</script>
-	{{/if}}
+	{{!-- Web push is not wired into the theme. Add a OneSignal (or other) snippet
+	     via Ghost Admin → Settings → Code injection if you want it back. --}}
 
 	{{ghost_foot}}
 </body>

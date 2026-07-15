@@ -1,23 +1,25 @@
 {{!-- Corner rail ads — fixed skyscrapers in the side gutters left free by the
-     max-w-5xl content column. Only on 2xl+ (≥1536px: 1024px content + 160px ad
-     + gutter per side), only when AdSense is enabled, never for signed-in
-     members (they browse ad-free). Uses the vertical-responsive slot; the
-     guarded push in main.js initializes each ins exactly once. --}}
+     content column. Only on 2xl+ (≥1536px: content + 160px ad + gutter per
+     side), never for signed-in members (they browse ad-free). Uses the
+     vertical-responsive slot; the guarded push in main.js initializes each ins
+     exactly once. --}}
 {{#unless @member}}
-{{#if @custom.enable_adsense}}
-	<aside class="fixed left-3 top-24 z-30 hidden w-40 2xl:block" aria-hidden="true">
+	<aside class="fixed left-3 top-24 z-30 hidden w-40 2xl:block">
 		<p class="mb-1 text-center font-mono text-[9px] uppercase tracking-[0.3em] text-silver">Ad</p>
 		<ins class="adsbygoogle block h-[600px] w-40 overflow-hidden rounded-xl border border-line bg-mist/40"
-			data-ad-client="{{#if @custom.adsense_publisher_id}}{{@custom.adsense_publisher_id}}{{else}}ca-pub-1291242080282540{{/if}}"
+			style="display:block"
+			data-ad-client="ca-pub-1291242080282540"
 			data-ad-slot="3487917390"
 			data-ad-format="vertical"></ins>
+		{{> "components/ad-optout" class="pt-1.5 !pb-0"}}
 	</aside>
-	<aside class="fixed right-3 top-24 z-30 hidden w-40 2xl:block" aria-hidden="true">
+	<aside class="fixed right-3 top-24 z-30 hidden w-40 2xl:block">
 		<p class="mb-1 text-center font-mono text-[9px] uppercase tracking-[0.3em] text-silver">Ad</p>
 		<ins class="adsbygoogle block h-[600px] w-40 overflow-hidden rounded-xl border border-line bg-mist/40"
-			data-ad-client="{{#if @custom.adsense_publisher_id}}{{@custom.adsense_publisher_id}}{{else}}ca-pub-1291242080282540{{/if}}"
+			style="display:block"
+			data-ad-client="ca-pub-1291242080282540"
 			data-ad-slot="3487917390"
 			data-ad-format="vertical"></ins>
+		{{> "components/ad-optout" class="pt-1.5 !pb-0"}}
 	</aside>
-{{/if}}
 {{/unless}}

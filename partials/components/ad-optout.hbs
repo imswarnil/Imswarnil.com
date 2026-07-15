@@ -1,0 +1,10 @@
+{{!-- "Remove this ad" affordance shown under every ad unit for logged-out
+     visitors. Opens the membership pitch modal (components/ad-optout-modal,
+     included once in default.hbs). Members never see ads at all, so this
+     partial is always rendered inside an {{#unless @member}} block.
+     Param: class — extra layout classes (e.g. "justify-end"). --}}
+<div class="flex items-center justify-center gap-2 pb-2 {{class}}">
+	<button type="button" class="ad-optout" data-modal-open="#ad-optout-backdrop">
+		{{> "icons/close" class="h-3 w-3"}} Remove this ad
+	</button>
+</div>

@@ -1,6 +1,9 @@
 {{!< default}}
 
 {{> "home/hero"}}
+{{!-- Sits outside the hero on purpose: inside that 100dvh section it was
+     forever being pushed under the fold. --}}
+{{> "home/hero-ticker"}}
 {{> "home/latest"}}
 {{> "home/now"}}
 {{> "home/webseries"}}
@@ -8,6 +11,7 @@
 <div class="container-site">{{> "components/adsense" slot="8939839370" format="auto"}}</div>
 
 {{> "home/blog"}}
+{{> "home/guide"}}
 {{> "home/portfolio"}}
 {{> "home/experiences"}}
 {{> "home/courses"}}

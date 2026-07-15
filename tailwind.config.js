@@ -11,7 +11,7 @@ module.exports = {
 		// given template doesn't reference them yet.
 		'bg-pat-dots', 'bg-pat-dots-dense', 'bg-pat-pin-dots', 'bg-pat-polka',
 		'bg-pat-grid', 'bg-pat-grid-fine', 'bg-pat-grid-paper', 'bg-pat-graph-paper',
-		'bg-pat-graph-dashboard', 'bg-pat-diagonal',
+		'bg-pat-graph-dashboard', 'bg-pat-diagonal', 'bg-pat-grid-wide',
 	],
 	darkMode: 'class',
 	theme: {

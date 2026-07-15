@@ -8,25 +8,21 @@
        3487917390 vertical-responsive       7663977887 square-responsive
        9130894804 in-feed       6808134701 multiplex-h   3375031396 multiplex-v
        9619442326 medium-square 2712169578 large-skyscraper
-     Renders only when "Enable AdSense" theme setting is on; placeholder otherwise.
-     Signed-in members browse AD-FREE — the subscribe pitch promises it. --}}
+     Signed-in members browse AD-FREE — the subscribe pitch promises it, so the
+     whole unit is wrapped in {{#unless @member}}. Logged-out visitors get a
+     "Remove this ad" link that opens the membership pitch. --}}
 {{#unless @member}}
-{{#if @custom.enable_adsense}}
-	<div class="ad-unit my-10 overflow-hidden rounded-2xl border border-line bg-mist/40 text-center {{class}}">
+	<div class="ad-unit my-10 w-full max-w-full overflow-hidden rounded-2xl border border-line bg-mist/40 text-center {{class}}">
 		<p class="pt-2 font-mono text-[10px] uppercase tracking-[0.3em] text-silver">Advertisement</p>
-		<ins class="adsbygoogle block"
-			data-ad-client="{{#if @custom.adsense_publisher_id}}{{@custom.adsense_publisher_id}}{{else}}ca-pub-1291242080282540{{/if}}"
+		<ins class="adsbygoogle block w-full"
+			style="display:block"
+			data-ad-client="ca-pub-1291242080282540"
 			data-ad-slot="{{#if slot}}{{slot}}{{else}}8939839370{{/if}}"
 			{{#if layout}}data-ad-layout="{{layout}}"{{/if}}
 			{{#if layoutKey}}data-ad-layout-key="{{layoutKey}}"{{/if}}
 			data-ad-format="{{#if format}}{{format}}{{else}}auto{{/if}}"
 			data-full-width-responsive="true"></ins>
 		{{!-- push happens once per ins in main.js (guarded) — avoids double-push TagError --}}
+		{{> "components/ad-optout"}}
 	</div>
-{{else}}
-	<div class="my-10 flex flex-col items-center justify-center gap-2 rounded-2xl border border-dashed border-line bg-cross py-10 {{class}}" aria-hidden="true">
-		<p class="font-mono text-[10px] uppercase tracking-[0.3em] text-silver">Ad placeholder</p>
-		<p class="text-xs text-silver/70">Enable AdSense in theme settings</p>
-	</div>
-{{/if}}
 {{/unless}}

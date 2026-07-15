@@ -1,0 +1,61 @@
+{{!-- Tag marquee — the strip along the bottom of the hero.
+
+     Tags carry their own icon when one is set: Ghost gives every tag a
+     feature_image, so a tag with an image shows it; the rest fall back to a
+     "#". That's the "icon if the tag has an icon" rule, and it needs no
+     mapping table that would rot the moment a tag is renamed.
+
+     filter="visibility:public" is load-bearing. {{#get}} applies `limit` to ALL
+     tags and {{#foreach}} then silently drops internal #hash ones — which have
+     the biggest post counts (#lesson, #course, #video…). Unfiltered, limit=14
+     fetched 14 and rendered a handful. Filtering in the query means what we ask
+     for is what we show.
+     Don't add count.posts:>0 — NQL can't filter on that aggregate and the whole
+     query silently returns nothing.
+
+     The loop is written out twice on purpose: an {{#*inline}} partial declared
+     inside this async {{#get}} breaks its own registration and the rail renders
+     nothing at all. Copy #2 is aria-hidden AND tabindex="-1" so the tags aren't
+     announced or tab-stopped twice. --}}
+{{#get "tags" filter="visibility:public" limit="14" include="count.posts" order="count.posts desc" as |topics|}}
+{{#if topics}}
+<nav class="hx-strip" aria-label="Topics">
+	<div class="group/strip hx-strip-view fade-mask-x">
+		<div class="hx-strip-track group-hover/strip:[animation-play-state:paused]">
+
+			<div class="hx-strip-group">
+				{{#foreach topics}}
+				<a href="{{url}}" class="hx-chip">
+					{{#if feature_image}}
+						<img src="{{img_url feature_image size="100"}}" width="20" height="20" alt="" loading="lazy" class="hx-chip-img" />
+					{{else}}
+						<span class="hx-chip-hash" aria-hidden="true">#</span>
+					{{/if}}
+					<span class="hx-chip-name">{{name}}</span>
+					<span class="hx-chip-n">{{count.posts}}</span>
+				</a>
+				<span class="hx-chip-star" aria-hidden="true">✳</span>
+				{{/foreach}}
+			</div>
+
+			<div class="hx-strip-group" aria-hidden="true">
+				{{#foreach topics}}
+				<a href="{{url}}" class="hx-chip" tabindex="-1">
+					{{#if feature_image}}
+						<img src="{{img_url feature_image size="100"}}" width="20" height="20" alt="" loading="lazy" class="hx-chip-img" />
+					{{else}}
+						<span class="hx-chip-hash">#</span>
+					{{/if}}
+					<span class="hx-chip-name">{{name}}</span>
+					<span class="hx-chip-n">{{count.posts}}</span>
+				</a>
+				<span class="hx-chip-star">✳</span>
+				{{/foreach}}
+			</div>
+		</div>
+	</div>
+
+	<a href="{{@site.url}}/tags/" class="hx-strip-all">View all tags {{> "icons/arrow-right" class="h-3 w-3"}}</a>
+</nav>
+{{/if}}
+{{/get}}

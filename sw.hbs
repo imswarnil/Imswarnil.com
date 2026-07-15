@@ -2,10 +2,6 @@
      Root scope needs `Service-Worker-Allowed: /` on this response — set it at
      the proxy/CDN (see theme-customize.txt §PWA). Registration in default.hbs
      fails gracefully until that header exists. --}}
-{{#if @custom.onesignal_app_id}}
-// OneSignal push — merged into this worker (custom-integration mode)
-importScripts('https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.sw.js');
-{{/if}}
 // Swarnil service worker — offline support + runtime caching + push
 // Bump VERSION on breaking asset changes; assets are stale-while-revalidate
 // so normal deploys self-heal on the next visit anyway.
@@ -128,9 +124,8 @@ self.addEventListener('fetch', (event) => {
 	}
 });
 
-{{#unless @custom.onesignal_app_id}}
-// Generic Web Push handlers (only when OneSignal isn't managing push —
-// its imported worker ships its own). Works with any VAPID-based sender.
+// Generic Web Push handlers. Works with any VAPID-based sender. If you wire up
+// a provider that ships its own worker, importScripts it above instead.
 self.addEventListener('push', (event) => {
 	let data = {};
 	try { data = event.data ? event.data.json() : {}; } catch (e) {
@@ -159,4 +154,3 @@ self.addEventListener('notificationclick', (event) => {
 		})
 	);
 });
-{{/unless}}

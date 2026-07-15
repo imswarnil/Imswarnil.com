@@ -2,9 +2,23 @@
 
 Tailwind-based Ghost theme. Tag-driven collections (routes.yaml), demo content in
 the `dummy-content/` folder (one Ghost-import file per module + navigation.json +
-docs.json; see dummy-content/README.md), build via `npm run build`, validate via `npx gscan .`,
+docs.json + guide.json; see dummy-content/README.md), build via `npm run build`, validate via `npx gscan .`,
 release via `npm run zip`. Local Ghost runs at localhost:2368 (templates map is
 cached — new .hbs files need a Ghost restart).
+
+## Theme settings — hard rule
+Ghost allows a maximum of **20 custom settings**. As of 2026-07-15 the theme
+ships exactly **one**: `color_scheme`. Everything else (job title, workplace,
+social URLs, sponsor email, AdSense publisher, hero media) is **hardcoded in the
+templates on purpose** — do not reintroduce a custom setting without asking.
+Identity values in use: Salesforce Engineer · EF Education First
+(https://www.ef.com) · Budapest, Hungary · from India.
+
+## Widths
+`--w-site` (71rem) and `--gutter` in `tailwind.css` `:root` are the single source
+of truth for horizontal rhythm. `.container-site` and `.nav-shell` both derive
+from them so the nav island's edges line up with the content column. Don't
+hardcode a max-width in either.
 
 ## Master backlog (from Swarnil, 2026-07-06) — DO NOT DROP ITEMS
 Track progress in THEME-UPDATE.md. Items below are the source of truth.
@@ -56,8 +70,8 @@ Track progress in THEME-UPDATE.md. Items below are the source of truth.
 - [ ] Theme modes should follow each brand's full design system (type, radii, components) — not just colors. (Claude/YouTube/Salesforce currently barely differ.)
 
 ### Content / data
-- [ ] Rewrite import.json with generic realistic names: "Project Name — 1", "Course Name — 1", "Episode 1", "Trip — 1", "X-Skill" etc. All video embeds use https://www.youtube.com/watch?v=ecOkmTD7KhU. Include travel demo content.
-- [ ] theme-update.md: running log of done/left.
+- [x] Rewrite import.json with generic realistic names: "Project Name — 1", "Course Name — 1", "Episode 1", "Trip — 1", "X-Skill" etc. All video embeds use https://www.youtube.com/watch?v=ecOkmTD7KhU. Include travel demo content.
+- [x] theme-update.md: running log of done/left.
 
 ### Performance / SEO (Lighthouse: perf 64 — fix, don't skip)
 - [ ] Render-blocking CSS (~760ms): screen.css (320ms) + Ghost's public/cards.min.css (490ms) — defer/inline strategy.
@@ -65,6 +79,6 @@ Track progress in THEME-UPDATE.md. Items below are the source of truth.
 - [ ] Improve image delivery (635KiB): explicit width/height on imgs, responsive sizes.
 - [ ] Reduce unused CSS (18KiB) / unused JS (472KiB — mostly third-party ads/OneSignal).
 - [ ] Forced reflow + 8 long main-thread tasks + non-composited animation — audit JS/animations.
-- [ ] Console errors: (1) OneSignal "Can only be used on https://imswarnil.com" — site code-injection config, fix domain; (2) BigBuckBunny.mp4 403 — replace fallback hero video URL; (3) adsbygoogle.push() double-push TagError — push guard needed.
+- [x] Console errors: (1) OneSignal "Can only be used on https://imswarnil.com" — site code-injection config, fix domain; (2) BigBuckBunny.mp4 403 — replace fallback hero video URL; (3) adsbygoogle.push() double-push TagError — push guard needed.
 - [ ] llms.txt fails agentic-browsing audit: needs H1 + links. Ghost routes reject dotted paths → serve /llms/ + redirect llms.txt (like ads.txt).
 - [ ] Overall: fast, reusable components, keep SEO 100.

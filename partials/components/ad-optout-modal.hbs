@@ -1,0 +1,33 @@
+{{!-- Membership pitch shown when a logged-out visitor taps "Remove this ad".
+     Honest framing: the ad is what pays for the work; membership is the way to
+     switch it off and support it directly. Included once, from default.hbs. --}}
+<div class="fixed inset-0 z-[60] hidden items-center justify-center overflow-y-auto bg-ink/40 p-4 py-8 backdrop-blur-sm" id="ad-optout-backdrop" data-modal>
+	<div class="relative w-full max-w-lg rounded-3xl border border-line bg-paper p-6 shadow-lift sm:p-8" role="dialog" aria-modal="true" aria-labelledby="ad-optout-title">
+		<div class="mb-5 flex items-start justify-between gap-4">
+			<p class="kicker">{{> "icons/heart" class="h-3 w-3"}} About that ad</p>
+			<button type="button" class="icon-btn shrink-0" data-modal-close aria-label="Close">{{> "icons/close"}}</button>
+		</div>
+
+		<h2 id="ad-optout-title" class="text-xl font-semibold tracking-tight sm:text-2xl text-balance">That ad is what keeps this free.</h2>
+		<p class="mt-3 text-sm leading-relaxed text-silver">I'd love to say the videos, courses and guides here fund themselves. They don't — ads do. It's a small amount per visit, and it's the only reason none of this sits behind a paywall.</p>
+		<p class="mt-3 text-sm leading-relaxed text-silver">If you'd rather read without them, become a member. Ads switch off everywhere the moment you're signed in, and you'd be supporting the work directly instead of a middleman.</p>
+
+		<div class="mt-6 rounded-2xl border border-line bg-mist/40 p-4">
+			<p class="kicker !text-[10px]">{{> "icons/star" class="h-3 w-3"}} What membership gets you</p>
+			<ul class="mt-3 space-y-2 text-[13px] leading-snug">
+				<li class="flex gap-2">{{> "icons/check" class="mt-0.5 h-3.5 w-3.5 shrink-0 text-silver"}} <span><strong class="font-semibold">Zero ads</strong> — every page, every device.</span></li>
+				<li class="flex gap-2">{{> "icons/zap" class="mt-0.5 h-3.5 w-3.5 shrink-0 text-silver"}} <span><strong class="font-semibold">Early access &amp; uncut versions</strong> before YouTube.</span></li>
+				<li class="flex gap-2">{{> "icons/lock" class="mt-0.5 h-3.5 w-3.5 shrink-0 text-silver"}} <span><strong class="font-semibold">Members-only lessons, guides &amp; posts</strong> unlock.</span></li>
+				<li class="flex gap-2">{{> "icons/heart" class="mt-0.5 h-3.5 w-3.5 shrink-0 text-silver"}} <span><strong class="font-semibold">You keep this site alive</strong> — a real way to support me.</span></li>
+			</ul>
+		</div>
+
+		{{#if @site.members_enabled}}
+		<div class="mt-6 flex flex-col gap-2 sm:flex-row">
+			<a href="#/portal/signup" data-portal="signup" class="btn-primary w-full justify-center sm:flex-1">{{> "icons/star" class="h-4 w-4"}} Become a member</a>
+			<a href="#/portal/signin" data-portal="signin" class="btn-ghost w-full justify-center sm:w-auto">Already a member?</a>
+		</div>
+		{{/if}}
+		<button type="button" class="mx-auto mt-4 block font-mono text-[10px] uppercase tracking-[0.18em] text-silver transition hover:text-ink" data-modal-close>No thanks — keep the ads, I'll live</button>
+	</div>
+</div>
