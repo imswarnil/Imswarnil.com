@@ -4,7 +4,6 @@
 @import './components/media.css';
 @import './components/sections.css';
 /* modules — self-contained features with their own layout + JS hooks */
-@import './modules/cursor.css';
 @import './modules/toc.css';
 @import './modules/rail.css';
 @import './modules/guide.css';
@@ -971,10 +970,20 @@ form[data-members-form].loading button[type='submit'] {
 .hx {
 	--px: 0;
 	--py: 0;
+	/* The hero is a DARK video zone in every theme mode: override the palette
+	   locally so all children (HUD, badge, reel, borders, grid) render
+	   white-on-dark automatically, then the black scrim carries the copy. */
+	--ink: 245 245 247;
+	--paper: 12 12 14;
+	--mist: 38 38 44;
+	--line: 92 94 104;
+	--silver: 178 180 188;
+	--pattern: 255 255 255;
 	position: relative;
 	display: flex;
 	flex-direction: column;
 	overflow: hidden;
+	color: rgb(var(--ink));
 	/* NOT 4.25rem: the .nav-spacer div already clears the fixed navbar (the
 	   hero starts at y=72, not y=0). Padding the navbar's height AGAIN put a
 	   140px dead band above the eyebrow and pushed the tag strip 9px under
@@ -995,7 +1004,7 @@ form[data-members-form].loading button[type='submit'] {
    and stays on the compositor. --px/--py are set by the hero pointermove. */
 #hx-grid { transition: translate 0.4s ease-out; translate: calc(var(--px) * 14px) calc(var(--py) * 14px); }
 .hx-viewfinder { transition: translate 0.4s ease-out; translate: calc(var(--px) * 7px) calc(var(--py) * 7px); }
-.hx-screen { transition: translate 0.45s ease-out; translate: calc(var(--px) * -12px) calc(var(--py) * -9px); }
+.hx-photo { transition: translate 0.45s ease-out; translate: calc(var(--px) * -12px) calc(var(--py) * -9px); }
 
 /* ---- Lens light-sweep — one diagonal bloom across the frame on load -- */
 .hx-sweep { z-index: 2; overflow: hidden; }
@@ -1027,11 +1036,11 @@ form[data-members-form].loading button[type='submit'] {
 	z-index: 0;
 	overflow: hidden;
 	pointer-events: none;
-	opacity: 0.42;
-	filter: grayscale(0.35) contrast(1.02);
-	/* extra parallax travel; scaled up so the shift never reveals an edge */
-	translate: calc(var(--px) * 22px) calc(var(--py) * 18px);
-	scale: 1.1;
+	background: #000;
+	/* the video is the star now — near full strength, gentle parallax */
+	opacity: 1;
+	translate: calc(var(--px) * 18px) calc(var(--py) * 14px);
+	scale: 1.08;
 	transition: translate 0.5s ease-out;
 }
 .hx-bg-poster {
@@ -1043,14 +1052,15 @@ form[data-members-form].loading button[type='submit'] {
 	transition: opacity 0.8s ease;
 }
 .hx-bg.is-playing .hx-bg-poster { opacity: 0; }
+/* black overlay — dark enough for white copy, but the video reads through */
 .hx-bg-scrim {
 	z-index: 0;
 	background:
-		linear-gradient(to right, rgb(var(--paper)) 0%, rgb(var(--paper) / 0.72) 40%, rgb(var(--paper) / 0.42) 72%, rgb(var(--paper) / 0.6) 100%),
-		linear-gradient(to bottom, rgb(var(--paper) / 0.55), transparent 26%, transparent 66%, rgb(var(--paper) / 0.7));
+		linear-gradient(to right, rgb(0 0 0 / 0.82) 0%, rgb(0 0 0 / 0.62) 45%, rgb(0 0 0 / 0.5) 100%),
+		linear-gradient(to bottom, rgb(0 0 0 / 0.5) 0%, rgb(0 0 0 / 0.25) 30%, rgb(0 0 0 / 0.35) 70%, rgb(0 0 0 / 0.72) 100%);
 }
 @media (prefers-reduced-motion: reduce) {
-	#hx-grid, .hx-viewfinder, .hx-screen, .hx-bg { translate: none; }
+	#hx-grid, .hx-viewfinder, .hx-photo, .hx-bg { translate: none; }
 	.hx-sweep::before { animation: none; display: none; }
 }
 
@@ -1084,11 +1094,61 @@ form[data-members-form].loading button[type='submit'] {
 	align-items: center;
 	min-width: 0;
 }
-.hx-screen {
+/* Right: a still portrait in a viewfinder frame (moving picture = bg video) */
+.hx-photo {
+	position: relative;
 	width: 100%;
-	max-width: 46rem;
-	min-width: 0;
+	max-width: 30rem;
 	margin: 0 auto;
+	aspect-ratio: 1 / 1;
+	border: 1.5px solid rgb(var(--accent));
+	border-radius: 16px;
+	overflow: hidden;
+	background: #0a0a0c;
+	box-shadow: 0 30px 80px -30px rgb(0 0 0 / 0.8);
+}
+.hx-photo-img {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+/* viewfinder crop marks on the frame corners */
+.hx-photo-mark {
+	position: absolute;
+	width: 16px;
+	height: 16px;
+	border: 2px solid rgb(255 255 255 / 0.85);
+	z-index: 2;
+}
+.hx-photo-mark:nth-child(2) { top: 10px; left: 10px; border-right: 0; border-bottom: 0; }
+.hx-photo-mark:nth-child(3) { top: 10px; right: 10px; border-left: 0; border-bottom: 0; }
+.hx-photo-mark:nth-child(4) { bottom: 10px; left: 10px; border-right: 0; border-top: 0; }
+.hx-photo-mark:nth-child(5) { bottom: 10px; right: 10px; border-left: 0; border-top: 0; }
+.hx-photo-cap {
+	position: absolute;
+	inset: auto 0 0 0;
+	z-index: 2;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 8px;
+	padding: 12px 14px;
+	background: linear-gradient(to top, rgb(0 0 0 / 0.72), transparent);
+	font-size: 0.82rem;
+	font-weight: 650;
+	color: #fff;
+}
+.hx-photo-cap > span:first-child { display: inline-flex; align-items: center; gap: 7px; }
+.hx-photo-ar {
+	padding: 0.15rem 0.5rem;
+	border-radius: 999px;
+	background: rgb(255 255 255 / 0.16);
+	font-family: theme('fontFamily.mono');
+	font-size: 0.56rem;
+	font-weight: 700;
+	letter-spacing: 0.12em;
 }
 
 /* availability badge — the modern "I'm around" pill */
@@ -1225,9 +1285,8 @@ form[data-members-form].loading button[type='submit'] {
 @keyframes hxHudIn { to { opacity: 1; } }
 .hx-hud-tl { left: calc(var(--gutter) + var(--hx-mark, clamp(16px, 1.8vw, 26px)) + 12px); }
 .hx-hud-tr { right: calc(var(--gutter) + var(--hx-mark, clamp(16px, 1.8vw, 26px)) + 12px); }
-/* bottom HUD sits on the lower frame line */
-.hx-hud-bl { top: auto; bottom: 0; transform: translateY(50%); left: calc(var(--gutter) + var(--hx-mark, clamp(16px, 1.8vw, 26px)) + 12px); }
-.hx-hud-br { top: auto; bottom: 0; transform: translateY(50%); right: calc(var(--gutter) + var(--hx-mark, clamp(16px, 1.8vw, 26px)) + 12px); }
+.hx-hud-tl { left: calc(var(--gutter) + clamp(16px, 1.8vw, 26px) + 12px); }
+.hx-hud-tr { right: calc(var(--gutter) + clamp(16px, 1.8vw, 26px) + 12px); }
 .hx-hud-rec {
 	display: inline-flex;
 	align-items: center;
@@ -1245,219 +1304,13 @@ form[data-members-form].loading button[type='submit'] {
 .hx-hud-tc { color: rgb(var(--silver)); font-variant-numeric: tabular-nums; }
 .hx-hud-dim { margin-left: 3px; opacity: 0.55; }
 
-/* battery pip */
-.hx-batt {
-	position: relative;
-	display: inline-flex;
-	align-items: center;
-	width: 20px;
-	height: 10px;
-	padding: 1.5px;
-	border: 1px solid rgb(var(--silver) / 0.7);
-	border-radius: 2px;
-}
-.hx-batt::after {
-	content: '';
-	position: absolute;
-	right: -3px;
-	top: 50%;
-	transform: translateY(-50%);
-	width: 2px;
-	height: 4px;
-	border-radius: 0 1px 1px 0;
-	background: rgb(var(--silver) / 0.7);
-}
-.hx-batt i { height: 100%; border-radius: 1px; background: #22c55e; }
-
-/* live audio meter — a few bars bouncing on staggered beats */
-.hx-meter { display: inline-flex; align-items: flex-end; gap: 2px; height: 11px; }
-.hx-meter i {
-	width: 2px;
-	height: 100%;
-	transform-origin: bottom;
-	border-radius: 1px;
-	background: rgb(var(--accent));
-	animation: hxMeter 0.9s ease-in-out infinite;
-}
-.hx-meter i:nth-child(2) { animation-delay: 0.12s; animation-duration: 0.7s; }
-.hx-meter i:nth-child(3) { animation-delay: 0.24s; animation-duration: 1.1s; }
-.hx-meter i:nth-child(4) { animation-delay: 0.06s; animation-duration: 0.8s; }
-.hx-meter i:nth-child(5) { animation-delay: 0.3s; animation-duration: 1s; }
-@keyframes hxMeter {
-	0%, 100% { transform: scaleY(0.3); opacity: 0.7; }
-	50% { transform: scaleY(1); opacity: 1; }
-}
-
 @media (prefers-reduced-motion: reduce) {
 	.hx-vf-mark, .hx-hud { animation: none; opacity: 1; }
-	.hx-hud-rec i, .hx-meter i { animation: none; }
-}
-/* tablet/mobile: shed the busiest HUD readouts, keep the essentials */
-@media (max-width: 1023px) {
-	.hx-hud-bl, .hx-hud-br { display: none; }
+	.hx-hud-rec i { animation: none; }
 }
 @media (max-width: 639px) {
 	.hx-hud { display: none; }
-	.hx-guides { display: none; }
-	.hx-vf-mark { border-color: rgb(var(--ink) / 0.35); }
-}
-
-/* ---- rule-of-thirds guides — faint, behind the content ------------- */
-.hx-guides { position: absolute; inset: 0; }
-.hx-guide-v, .hx-guide-h { position: absolute; background: rgb(var(--ink) / 0.06); }
-.hx-guide-v { top: 0; bottom: 0; width: 1px; }
-.hx-guide-h { left: 0; right: 0; height: 1px; }
-
-/* ---- REEL: the newest posts across every collection ---------------- */
-.hx-reel {
-	width: 100%;
-	max-width: var(--w-site);
-	margin: 0 auto;
-}
-.hx-reel-head {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	gap: 12px;
-	margin-bottom: 16px;
-}
-.hx-reel-label {
-	display: inline-flex;
-	align-items: center;
-	gap: 6px;
-	font-family: theme('fontFamily.mono');
-	font-size: 0.56rem;
-	font-weight: 700;
-	text-transform: uppercase;
-	letter-spacing: 0.18em;
-	color: rgb(var(--silver));
-}
-.hx-reel-label svg { flex: none; }
-.hx-reel-more {
-	display: inline-flex;
-	align-items: center;
-	gap: 5px;
-	font-family: theme('fontFamily.mono');
-	font-size: 0.56rem;
-	font-weight: 700;
-	text-transform: uppercase;
-	letter-spacing: 0.14em;
-	color: rgb(var(--silver));
-	transition: gap 0.2s, color 0.2s;
-}
-.hx-reel-more:hover { gap: 8px; color: rgb(var(--ink)); }
-.hx-reel-track {
-	display: flex;
-	gap: 10px;
-	overflow-x: auto;
-	padding-bottom: 4px;
-	scrollbar-width: none;
-	scroll-snap-type: x proximity;
-	-webkit-overflow-scrolling: touch;
-	overscroll-behavior-x: contain;
-	touch-action: pan-x pan-y;
-}
-.hx-reel-track::-webkit-scrollbar { display: none; }
-.hx-cell {
-	position: relative;
-	flex: 0 0 auto;
-	width: clamp(9.5rem, 15vw, 12.5rem);
-	aspect-ratio: 16 / 9;
-	overflow: hidden;
-	border: 1px solid rgb(var(--line));
-	border-radius: 0.7rem;
-	background: rgb(var(--mist) / 0.5);
-	scroll-snap-align: start;
-	transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
-}
-.hx-cell:hover {
-	border-color: rgb(var(--accent));
-	transform: translateY(-3px);
-	box-shadow: 0 12px 26px -14px rgb(var(--ink) / 0.5);
-}
-.hx-cell-img {
-	position: absolute;
-	inset: 0;
-	width: 100%;
-	height: 100%;
-	object-fit: cover;
-	transition: transform 0.45s ease;
-}
-.hx-cell:hover .hx-cell-img { transform: scale(1.07); }
-/* lettered slate for posts with no feature image */
-.hx-cell-slate {
-	position: absolute;
-	inset: 0;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	background:
-		radial-gradient(80% 80% at 30% 20%, rgb(var(--accent) / 0.16), transparent 70%),
-		linear-gradient(135deg, rgb(var(--mist)), rgb(var(--paper)));
-}
-.hx-cell-glyph {
-	font-family: theme('fontFamily.mono');
-	font-size: 2.6rem;
-	font-weight: 700;
-	line-height: 1;
-	color: rgb(var(--ink) / 0.16);
-}
-/* the readability shade under the title */
-.hx-cell-shade {
-	position: absolute;
-	inset: auto 0 0 0;
-	z-index: 1;
-	height: 62%;
-	background: linear-gradient(to top, rgb(0 0 0 / 0.82), transparent);
-}
-/* topic / collection chip */
-.hx-cell-tag {
-	position: absolute;
-	top: 6px;
-	left: 6px;
-	z-index: 2;
-	max-width: calc(100% - 12px);
-	padding: 2px 7px;
-	border-radius: 999px;
-	background: rgb(0 0 0 / 0.55);
-	-webkit-backdrop-filter: blur(4px);
-	backdrop-filter: blur(4px);
-	font-family: theme('fontFamily.mono');
-	font-size: 0.5rem;
-	font-weight: 700;
-	text-transform: uppercase;
-	letter-spacing: 0.1em;
-	color: #fff;
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
-}
-.hx-cell-title {
-	position: absolute;
-	inset: auto 0 0 0;
-	z-index: 2;
-	padding: 8px;
-	font-size: 0.72rem;
-	font-weight: 650;
-	line-height: 1.25;
-	letter-spacing: -0.01em;
-	color: #fff;
-	overflow: hidden;
-	display: -webkit-box;
-	-webkit-line-clamp: 2;
-	line-clamp: 2;
-	-webkit-box-orient: vertical;
-}
-.hx-cell-empty {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	gap: 6px;
-	width: auto;
-	padding: 0 1rem;
-	aspect-ratio: auto;
-	font-size: 0.8rem;
-	color: rgb(var(--silver));
+	.hx-vf-mark { border-color: rgb(255 255 255 / 0.4); }
 }
 
 /* actions row under the headline */
@@ -1689,7 +1542,7 @@ form[data-members-form].loading button[type='submit'] {
 	.hx-h1 { margin: 0; font-size: clamp(2rem, 3vw, 3rem); }
 	.hx-meta { justify-content: flex-start; }
 	.hx-cta { justify-content: flex-start; }
-	.hx-screen .sc-stage { max-height: min(48dvh, 26rem); }
+	.hx-photo { margin: 0 0 0 auto; max-width: 26rem; }
 }
 
 /* Short laptops: ease the spacing back a little so the hero doesn't run too
@@ -1697,9 +1550,9 @@ form[data-members-form].loading button[type='submit'] {
 @media (min-height: 700px) and (max-height: 1020px) {
 	.hx-h1 { font-size: clamp(1.75rem, 3.2vw, 2.5rem); }
 	.hx-inner { gap: clamp(28px, 4.2vh, 52px); padding-top: clamp(20px, 3vw, 40px); padding-bottom: clamp(20px, 3vw, 40px); }
-	.hx-screen .sc-stage { max-height: min(40dvh, 22rem); }
+	.hx-photo { max-width: 22rem; }
 	@media (min-width: 1024px) {
-		.hx-screen .sc-stage { max-height: min(46dvh, 25rem); }
+		.hx-photo { max-width: 24rem; }
 	}
 }
 

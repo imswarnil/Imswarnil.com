@@ -3,7 +3,12 @@
      Duration badge fills in from internal #duration-* tags via site JS. --}}
 <article class="video-card group relative shrink-0 {{class}}">
 	<a href="{{url}}" class="block" aria-label="Watch: {{title}}">
-		<div class="relative aspect-video overflow-hidden rounded-xl border border-line bg-mist shadow-card transition-all duration-300 group-hover:shadow-lift">
+		{{!-- data-video-card-media on the FRAME (always) so every card hover-plays
+		     a muted reel of its own first YouTube embed — with a feature image it
+		     mounts over the poster; without one main.js also paints the thumbnail
+		     from the video id. main.js reads the id from the template below. --}}
+		<div class="relative aspect-video overflow-hidden rounded-xl border border-line bg-mist shadow-card transition-all duration-300 group-hover:shadow-lift" data-video-card-media>
+			<template data-video-src>{{content}}</template>
 			{{#if feature_image}}
 				<img src="{{img_url feature_image size="600"}}"
 					srcset="{{img_url feature_image size="300"}} 300w, {{img_url feature_image size="600"}} 600w, {{img_url feature_image size="1000"}} 1000w"
@@ -13,12 +18,7 @@
 					class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
 				<div class="skeleton absolute inset-0"></div>
 			{{else}}
-				{{!-- No feature image → main.js pulls this post's first YouTube id from
-				     the template, paints its thumbnail and hover-previews the reel. --}}
-				<div class="video-fallback" data-video-card-media>
-					<template data-video-src>{{content}}</template>
-					<div class="bg-dots absolute inset-0 flex items-center justify-center" data-ph>{{> "icons/film" class="text-silver"}}</div>
-				</div>
+				<div class="bg-dots absolute inset-0 flex items-center justify-center" data-ph>{{> "icons/film" class="text-silver"}}</div>
 			{{/if}}
 			<div class="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-transparent" aria-hidden="true"></div>
 			<span class="absolute inset-0 flex items-center justify-center" aria-hidden="true">

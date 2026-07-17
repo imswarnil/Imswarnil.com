@@ -22,31 +22,14 @@
 	{{!-- a lens light-sweep, once, on load --}}
 	<div class="hx-sweep pointer-events-none absolute inset-0" aria-hidden="true"></div>
 
-	{{!-- viewfinder chrome + camera HUD, sized to the content column --}}
+	{{!-- viewfinder chrome — corner marks + a minimal REC/aspect HUD --}}
 	<div class="hx-viewfinder" aria-hidden="true">
 		<i class="hx-vf-mark"></i><i class="hx-vf-mark"></i><i class="hx-vf-mark"></i><i class="hx-vf-mark"></i>
-
-		{{!-- faint rule-of-thirds guides --}}
-		<div class="hx-guides">
-			<span class="hx-guide-v" style="left:33.33%"></span>
-			<span class="hx-guide-v" style="left:66.66%"></span>
-			<span class="hx-guide-h" style="top:33.33%"></span>
-			<span class="hx-guide-h" style="top:66.66%"></span>
-		</div>
-
 		<div class="hx-hud hx-hud-tl">
 			<span class="hx-hud-rec"><i></i> REC</span>
 			<span class="hx-hud-tc" id="hx-tc">00:00:00:00</span>
 		</div>
-		<div class="hx-hud hx-hud-tr">
-			<span>16:9 · 24<span class="hx-hud-dim">FPS</span></span>
-			<span class="hx-batt"><i style="width:72%"></i></span>
-		</div>
-		<div class="hx-hud hx-hud-bl">
-			<span>ISO 400 · f/2.8 · 1/50</span>
-			<span class="hx-meter" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
-		</div>
-		<div class="hx-hud hx-hud-br">4K <span class="hx-hud-dim">CDNG</span></div>
+		<div class="hx-hud hx-hud-tr">16:9 · 24<span class="hx-hud-dim">FPS</span></div>
 	</div>
 
 	<div class="hx-inner" id="hero-shell">
@@ -88,39 +71,16 @@
 				</div>
 			</div>
 
-			<div class="hx-screen hx-enter-screen">
-				{{> "home/hero-showcase"}}
-			</div>
-		</div>
-
-		{{!-- ============ REEL: the newest posts, any collection ============
-		     ONE {{#get}} on purpose — the latest published across everything
-		     (videos, blog, projects, courses …). Each cell leads with the post's
-		     feature image; without one it falls back to a lettered slate. A
-		     topic chip names the collection/subject. --}}
-		<div class="hx-reel hx-enter" style="--d:.7s">
-			<div class="hx-reel-head">
-				<span class="hx-reel-label">{{> "icons/sparkle" class="h-3 w-3"}} Latest across the site</span>
-				<a href="{{@site.url}}/archive/" class="hx-reel-more">All posts {{> "icons/arrow-right" class="h-3 w-3"}}</a>
-			</div>
-			<div class="hx-reel-track">
-				{{#get "posts" limit="8" order="published_at desc" include="tags" as |latest|}}
-					{{#foreach latest}}
-					<a href="{{url}}" class="hx-cell" aria-label="{{title}}">
-						{{#if feature_image}}
-							<img src="{{img_url feature_image size="600"}}" width="320" height="180" loading="lazy" decoding="async" alt="" class="hx-cell-img" />
-						{{else}}
-							<span class="hx-cell-slate"><span class="hx-cell-glyph" data-avatar-initial="{{title}}"></span></span>
-						{{/if}}
-						<span class="hx-cell-shade" aria-hidden="true"></span>
-						{{#primary_tag}}<span class="hx-cell-tag">{{name}}</span>{{/primary_tag}}
-						<span class="hx-cell-title">{{title}}</span>
-					</a>
-					{{/foreach}}
-				{{else}}
-					<a href="{{@site.url}}/archive/" class="hx-cell hx-cell-empty">Nothing published yet — browse the archive {{> "icons/arrow-right" class="h-3 w-3"}}</a>
-				{{/get}}
-			</div>
+			{{!-- Right: a still portrait in a viewfinder frame (the moving picture
+			     is the background video now). --}}
+			<figure class="hx-photo hx-enter-screen">
+				<img src="{{asset "images/hero-square.svg"}}" width="1000" height="1000" fetchpriority="high" decoding="async" alt="Swarnil Singhai" class="hx-photo-img" />
+				<i class="hx-photo-mark"></i><i class="hx-photo-mark"></i><i class="hx-photo-mark"></i><i class="hx-photo-mark"></i>
+				<figcaption class="hx-photo-cap">
+					<span>{{> "icons/film" class="h-3.5 w-3.5"}} Swarnil</span>
+					<span class="hx-photo-ar">1:1</span>
+				</figcaption>
+			</figure>
 		</div>
 	</div>
 
