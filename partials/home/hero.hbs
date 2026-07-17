@@ -1,32 +1,41 @@
 {{!-- Hero — "The Director's Viewfinder".
 
-     The whole theme is a filmmaker's OS ("frame the process, cut the noise";
-     viewfinder frames everywhere). So the hero IS a viewfinder: crop-mark
-     brackets at the corners, a live REC timecode and an aspect/fps readout as
-     camera HUD, a filmic grain wash, and a headline that wipes in like a cut.
-
-     Composition:
-       LEFT  · badge → headline (morphing frame) → one credits-style meta line
-               → primary actions + socials
-       RIGHT · the film screen (home/hero-showcase): a still that opens 1:1→16:9
-               and plays, with real play/pause/unmute controls
-
-     The tag marquee renders AFTER this section (home.hbs) and the hero reserves
-     its height, so the strip lands on the fold. --}}
+     The whole theme is a filmmaker's OS. So the hero IS a viewfinder, dressed
+     with real camera chrome:
+       · four crop-mark brackets + faint rule-of-thirds guides
+       · a live REC timecode (top-left) and aspect/fps + battery (top-right)
+       · exposure readout + a live audio meter (bottom-left), resolution (br)
+     Content: badge → headline (morphing frame) → credits meta → actions, beside
+     the film screen; then a REEL — a filmstrip of recent work (one {{#get}}). --}}
 <section class="hx" id="hero">
-	{{!-- lit grid, then a filmic grain wash, both dissolving before the corners --}}
 	<div class="bg-pat-grid-wide fade-mask-bloom pointer-events-none absolute inset-0" style="--pat-opacity:1.7" aria-hidden="true"></div>
 	<div class="hx-grain pointer-events-none absolute inset-0" aria-hidden="true"></div>
 
-	{{!-- viewfinder chrome: four crop brackets + the camera HUD, sized to the
-	     content column so the framing lands on the reading measure --}}
+	{{!-- viewfinder chrome + camera HUD, sized to the content column --}}
 	<div class="hx-viewfinder" aria-hidden="true">
 		<i class="hx-vf-mark"></i><i class="hx-vf-mark"></i><i class="hx-vf-mark"></i><i class="hx-vf-mark"></i>
+
+		{{!-- faint rule-of-thirds guides --}}
+		<div class="hx-guides">
+			<span class="hx-guide-v" style="left:33.33%"></span>
+			<span class="hx-guide-v" style="left:66.66%"></span>
+			<span class="hx-guide-h" style="top:33.33%"></span>
+			<span class="hx-guide-h" style="top:66.66%"></span>
+		</div>
+
 		<div class="hx-hud hx-hud-tl">
 			<span class="hx-hud-rec"><i></i> REC</span>
 			<span class="hx-hud-tc" id="hx-tc">00:00:00:00</span>
 		</div>
-		<div class="hx-hud hx-hud-tr">16:9 · 24<span class="hx-hud-fps">FPS</span></div>
+		<div class="hx-hud hx-hud-tr">
+			<span>16:9 · 24<span class="hx-hud-dim">FPS</span></span>
+			<span class="hx-batt"><i style="width:72%"></i></span>
+		</div>
+		<div class="hx-hud hx-hud-bl">
+			<span>ISO 400 · f/2.8 · 1/50</span>
+			<span class="hx-meter" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+		</div>
+		<div class="hx-hud hx-hud-br">4K <span class="hx-hud-dim">CDNG</span></div>
 	</div>
 
 	<div class="hx-inner" id="hero-shell">
@@ -37,8 +46,6 @@
 					Swarnil Singhai — open to interesting work
 				</p>
 
-				{{!-- Three EXPLICIT lines, each wiping in like a film cut. The frame
-				     owns line 2, so an aspect-ratio morph can never re-wrap it. --}}
 				<h1 class="hx-h1">
 					<span class="hx-line" style="--d:.15s"><span class="hx-line-in">Life looks better when you</span></span>
 					<span class="hx-line" style="--d:.28s"><span class="hx-line-in">frame the
@@ -51,7 +58,6 @@
 					<span class="hx-line" style="--d:.41s"><span class="hx-line-in">and cut the <span class="hx-noise">noise</span>.</span></span>
 				</h1>
 
-				{{!-- identity, set like film credits --}}
 				<p class="hx-meta hx-enter" style="--d:.5s">
 					{{> "icons/salesforce" class="h-3.5 w-3.5"}}
 					<span>Salesforce Engineer at <a href="https://www.ef.com" target="_blank" rel="noopener">EF Education First</a></span>
@@ -71,9 +77,36 @@
 				</div>
 			</div>
 
-			{{!-- the film screen --}}
 			<div class="hx-screen hx-enter-screen">
 				{{> "home/hero-showcase"}}
+			</div>
+		</div>
+
+		{{!-- ============ REEL: recent work as a filmstrip ============
+		     ONE {{#get}} on purpose. Each cell links to a recent video; the
+		     thumbnail is the post's feature image, else a labelled slate. --}}
+		<div class="hx-reel hx-enter" style="--d:.7s">
+			<span class="hx-reel-label">{{> "icons/film" class="h-3 w-3"}} Recent reel</span>
+			<div class="hx-reel-track">
+				{{#get "posts" filter="tag:hash-video" limit="6" order="published_at desc" as |reel|}}
+					{{#foreach reel}}
+					<a href="{{url}}" class="hx-cell" aria-label="{{title}}">
+						{{#if feature_image}}
+							<img src="{{img_url feature_image size="600"}}" width="320" height="180" loading="lazy" decoding="async" alt="" class="hx-cell-img" />
+						{{else}}
+							<span class="hx-cell-slate">{{> "icons/play" class="h-3.5 w-3.5"}}</span>
+						{{/if}}
+						<span class="hx-cell-no">{{@number}}</span>
+						<span class="hx-cell-title">{{title}}</span>
+					</a>
+					{{/foreach}}
+				{{else}}
+					<a href="{{@site.url}}/videos/" class="hx-cell hx-cell-empty">Browse the library {{> "icons/arrow-right" class="h-3 w-3"}}</a>
+				{{/get}}
+				<a href="{{@site.url}}/videos/" class="hx-cell hx-cell-all">
+					<span>All videos</span>
+					{{> "icons/arrow-right" class="h-4 w-4"}}
+				</a>
 			</div>
 		</div>
 	</div>
@@ -82,14 +115,13 @@
 		(function () {
 			var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-			/* ---------- headline frame: word + aspect ratio morph together ------
-			   ONE pass through the list, then it rests on "process". */
+			/* headline frame: word + aspect ratio morph together, one pass */
 			var STOPS = [
 				{ w: 'art', ar: '4/5', label: '4:5' },
 				{ w: 'story', ar: '2/3', label: '2:3' },
 				{ w: 'build', ar: '4/3', label: '4:3' },
 				{ w: 'trip', ar: '21/9', label: '2.39:1' },
-				{ w: 'process', ar: '16/9', label: '16:9' } /* rest here */
+				{ w: 'process', ar: '16/9', label: '16:9' }
 			];
 			var frame = document.getElementById('hx-frame');
 			var word = document.getElementById('hx-word');
@@ -109,23 +141,21 @@
 				}, 2200);
 			}
 
-			/* ---------- live REC timecode: HH:MM:SS:FF at 24fps ----------------
-			   Writes ~12×/sec (throttled), only when the string changes — cheap.
-			   Frozen under reduced-motion so it isn't distracting. */
+			/* live REC timecode HH:MM:SS:FF @ 24fps — ~12 writes/sec, only on change */
 			var tcEl = document.getElementById('hx-tc');
 			if (tcEl && !reduced) {
 				var start = null, last = '';
 				function pad(n) { return (n < 10 ? '0' : '') + n; }
-				function frame2(t) {
+				function tick(t) {
 					if (start === null) start = t;
 					var e = (t - start) / 1000;
 					var ff = Math.floor((e % 1) * 24);
 					var s = Math.floor(e) % 60, m = Math.floor(e / 60) % 60, h = Math.floor(e / 3600);
 					var str = pad(h) + ':' + pad(m) + ':' + pad(s) + ':' + pad(ff);
 					if (str !== last) { tcEl.textContent = str; last = str; }
-					setTimeout(function () { requestAnimationFrame(frame2); }, 80);
+					setTimeout(function () { requestAnimationFrame(tick); }, 80);
 				}
-				requestAnimationFrame(frame2);
+				requestAnimationFrame(tick);
 			}
 		})();
 	</script>
