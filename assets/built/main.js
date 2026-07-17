@@ -2,6 +2,57 @@
 (function () {
 	'use strict';
 
+	/* ---------- AF cursor: a site-wide autofocus reticle ----------------
+	   Replaces the native pointer with a camera-style focus reticle: neutral
+	   while moving, green "lock" over clickable targets or when the pointer
+	   rests, hidden over text fields (so the caret shows). One rAF-throttled
+	   pointermove sets `translate` only — compositor-friendly. Fine-pointer +
+	   non-reduced-motion only. */
+	(function () {
+		var mm = window.matchMedia;
+		if (!mm || !mm('(hover: hover) and (pointer: fine)').matches) return;
+		if (mm('(prefers-reduced-motion: reduce)').matches) return;
+
+		var cur = document.createElement('div');
+		cur.className = 'af-cursor';
+		cur.setAttribute('aria-hidden', 'true');
+		cur.innerHTML = '<i></i><i></i><i></i><i></i><span class="af-cursor-dot"></span><span class="af-cursor-tag">AF·LOCK</span>';
+		document.body.appendChild(cur);
+		document.documentElement.classList.add('af-on');
+
+		var CLICK = 'a,button,[role="button"],summary,label[for],.icon-btn,[data-modal-open],[data-modal-close],[data-dropdown-toggle],[data-set-mode],[data-mode-cycle],input[type="submit"],input[type="button"]';
+		var TEXT = 'input:not([type="submit"]):not([type="button"]):not([type="checkbox"]):not([type="radio"]),textarea,select,[contenteditable="true"]';
+		var raf = null, ev = null, idleT = null;
+
+		function paint() {
+			raf = null;
+			cur.style.translate = ev.clientX + 'px ' + ev.clientY + 'px';
+		}
+		document.addEventListener('pointermove', function (e) {
+			if (e.pointerType && e.pointerType !== 'mouse') return;
+			ev = e;
+			cur.classList.add('is-on');
+			var t = e.target;
+			var overText = t && t.closest && t.closest(TEXT);
+			if (overText) {
+				cur.classList.remove('is-on', 'is-lock');
+			} else if (t && t.closest && t.closest(CLICK)) {
+				cur.classList.add('is-lock');
+				clearTimeout(idleT);
+			} else {
+				cur.classList.remove('is-lock');
+				clearTimeout(idleT);
+				idleT = setTimeout(function () { cur.classList.add('is-lock'); }, 400);
+			}
+			if (!raf) raf = requestAnimationFrame(paint);
+		}, { passive: true });
+
+		document.addEventListener('pointerdown', function () { cur.classList.add('is-press'); }, { passive: true });
+		document.addEventListener('pointerup', function () { cur.classList.remove('is-press'); }, { passive: true });
+		document.addEventListener('mouseleave', function () { cur.classList.remove('is-on'); });
+		window.addEventListener('blur', function () { cur.classList.remove('is-on'); });
+	})();
+
 	/* ---------- Theme mode switcher (6 modes) ---------- */
 	var DARK_MODES = { dark: 1, netflix: 1 };
 	function setMode(mode) {

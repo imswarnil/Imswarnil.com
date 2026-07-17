@@ -4,6 +4,7 @@
 @import './components/media.css';
 @import './components/sections.css';
 /* modules — self-contained features with their own layout + JS hooks */
+@import './modules/cursor.css';
 @import './modules/toc.css';
 @import './modules/rail.css';
 @import './modules/guide.css';
@@ -1015,56 +1016,42 @@ form[data-members-form].loading button[type='submit'] {
 	to { left: 130%; opacity: 0; }
 }
 
-/* ---- Autofocus reticle — follows the cursor, locks green when it rests */
-.hx-af {
+/* ---- Parallax background video ------------------------------------
+   A dimmed showreel behind the grid; the [data-yt-bg] facade in main.js
+   mounts the muted iframe after idle. Grayscaled + low-opacity so it reads
+   as ambient motion, not a second screen competing with the showcase. The
+   scrim is theme-aware (rgb(var(--paper))) so copy stays legible either mode. */
+.hx-bg {
 	position: absolute;
-	top: 0;
-	left: 0;
-	z-index: 6;
-	width: 30px;
-	height: 30px;
-	margin: -15px 0 0 -15px;
+	inset: 0;
+	z-index: 0;
+	overflow: hidden;
 	pointer-events: none;
-	opacity: 0;
-	transition: translate 0.16s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.3s ease;
-	color: rgb(var(--ink) / 0.5);
+	opacity: 0.42;
+	filter: grayscale(0.35) contrast(1.02);
+	/* extra parallax travel; scaled up so the shift never reveals an edge */
+	translate: calc(var(--px) * 22px) calc(var(--py) * 18px);
+	scale: 1.1;
+	transition: translate 0.5s ease-out;
 }
-.hx-af.is-on { opacity: 1; }
-.hx-af i {
+.hx-bg-poster {
 	position: absolute;
-	width: 8px;
-	height: 8px;
-	border: 1.5px solid currentColor;
-	transition: color 0.2s;
+	inset: 0;
+	height: 100%;
+	width: 100%;
+	object-fit: cover;
+	transition: opacity 0.8s ease;
 }
-.hx-af i:nth-child(1) { top: 0; left: 0; border-right: 0; border-bottom: 0; }
-.hx-af i:nth-child(2) { top: 0; right: 0; border-left: 0; border-bottom: 0; }
-.hx-af i:nth-child(3) { bottom: 0; left: 0; border-right: 0; border-top: 0; }
-.hx-af i:nth-child(4) { bottom: 0; right: 0; border-left: 0; border-top: 0; }
-.hx-af-tag {
-	position: absolute;
-	top: 50%;
-	left: calc(100% + 5px);
-	transform: translateY(-50%);
-	font-family: theme('fontFamily.mono');
-	font-size: 0.5rem;
-	font-weight: 700;
-	letter-spacing: 0.12em;
-	opacity: 0;
-	transition: opacity 0.2s;
-}
-/* focus locked: the brackets snap in and go green, with a quick confirm pulse */
-.hx-af.is-locked { color: #22c55e; animation: hxAfLock 0.35s ease; }
-.hx-af.is-locked .hx-af-tag { opacity: 1; }
-@keyframes hxAfLock {
-	0% { transform: scale(1.35); }
-	60% { transform: scale(0.94); }
-	100% { transform: scale(1); }
+.hx-bg.is-playing .hx-bg-poster { opacity: 0; }
+.hx-bg-scrim {
+	z-index: 0;
+	background:
+		linear-gradient(to right, rgb(var(--paper)) 0%, rgb(var(--paper) / 0.72) 40%, rgb(var(--paper) / 0.42) 72%, rgb(var(--paper) / 0.6) 100%),
+		linear-gradient(to bottom, rgb(var(--paper) / 0.55), transparent 26%, transparent 66%, rgb(var(--paper) / 0.7));
 }
 @media (prefers-reduced-motion: reduce) {
-	#hx-grid, .hx-viewfinder, .hx-screen { translate: none; }
+	#hx-grid, .hx-viewfinder, .hx-screen, .hx-bg { translate: none; }
 	.hx-sweep::before { animation: none; display: none; }
-	.hx-af { display: none; }
 }
 
 /* The statement+screen row, centred in the hero. Splits to two columns at lg. */
