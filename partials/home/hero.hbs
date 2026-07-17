@@ -82,31 +82,33 @@
 			</div>
 		</div>
 
-		{{!-- ============ REEL: recent work as a filmstrip ============
-		     ONE {{#get}} on purpose. Each cell links to a recent video; the
-		     thumbnail is the post's feature image, else a labelled slate. --}}
+		{{!-- ============ REEL: the newest posts, any collection ============
+		     ONE {{#get}} on purpose — the latest published across everything
+		     (videos, blog, projects, courses …). Each cell leads with the post's
+		     feature image; without one it falls back to a lettered slate. A
+		     topic chip names the collection/subject. --}}
 		<div class="hx-reel hx-enter" style="--d:.7s">
-			<span class="hx-reel-label">{{> "icons/film" class="h-3 w-3"}} Recent reel</span>
+			<div class="hx-reel-head">
+				<span class="hx-reel-label">{{> "icons/sparkle" class="h-3 w-3"}} Latest across the site</span>
+				<a href="{{@site.url}}/archive/" class="hx-reel-more">All posts {{> "icons/arrow-right" class="h-3 w-3"}}</a>
+			</div>
 			<div class="hx-reel-track">
-				{{#get "posts" filter="tag:hash-video" limit="6" order="published_at desc" as |reel|}}
-					{{#foreach reel}}
+				{{#get "posts" limit="8" order="published_at desc" include="tags" as |latest|}}
+					{{#foreach latest}}
 					<a href="{{url}}" class="hx-cell" aria-label="{{title}}">
 						{{#if feature_image}}
 							<img src="{{img_url feature_image size="600"}}" width="320" height="180" loading="lazy" decoding="async" alt="" class="hx-cell-img" />
 						{{else}}
-							<span class="hx-cell-slate">{{> "icons/play" class="h-3.5 w-3.5"}}</span>
+							<span class="hx-cell-slate"><span class="hx-cell-glyph" data-avatar-initial="{{title}}"></span></span>
 						{{/if}}
-						<span class="hx-cell-no">{{@number}}</span>
+						<span class="hx-cell-shade" aria-hidden="true"></span>
+						{{#primary_tag}}<span class="hx-cell-tag">{{name}}</span>{{/primary_tag}}
 						<span class="hx-cell-title">{{title}}</span>
 					</a>
 					{{/foreach}}
 				{{else}}
-					<a href="{{@site.url}}/videos/" class="hx-cell hx-cell-empty">Browse the library {{> "icons/arrow-right" class="h-3 w-3"}}</a>
+					<a href="{{@site.url}}/archive/" class="hx-cell hx-cell-empty">Nothing published yet — browse the archive {{> "icons/arrow-right" class="h-3 w-3"}}</a>
 				{{/get}}
-				<a href="{{@site.url}}/videos/" class="hx-cell hx-cell-all">
-					<span>All videos</span>
-					{{> "icons/arrow-right" class="h-4 w-4"}}
-				</a>
 			</div>
 		</div>
 	</div>
