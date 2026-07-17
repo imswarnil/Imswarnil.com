@@ -17,7 +17,7 @@
 
 	<div class="hx-inner" id="hero-shell">
 
-		{{!-- ============ TOP: statement + screen ============ --}}
+		{{!-- ============ statement + screen ============ --}}
 		<div class="hx-top">
 			<div class="hx-lede">
 				<p class="hx-badge hx-enter" style="--d:0s">
@@ -40,7 +40,15 @@
 					<span class="block">and cut the <span class="hx-noise">noise</span>.</span>
 				</h1>
 
-				<div class="hx-cta hx-enter" style="--d:.16s">
+				{{!-- one quiet line of identity: role · company · where --}}
+				<p class="hx-meta hx-enter" style="--d:.16s">
+					{{> "icons/salesforce" class="h-3.5 w-3.5"}}
+					<span>Salesforce Engineer at <a href="https://www.ef.com" target="_blank" rel="noopener">EF Education First</a></span>
+					<span class="hx-meta-dot" aria-hidden="true"></span>
+					<span>{{> "icons/map-pin" class="h-3.5 w-3.5"}} Budapest</span>
+				</p>
+
+				<div class="hx-cta hx-enter" style="--d:.24s">
 					<a href="{{@site.url}}/videos/" class="btn-primary btn-sm !px-4">{{> "icons/play" class="h-3.5 w-3.5"}} Watch my videos</a>
 					<a href="{{@site.url}}/resume/" class="btn-ghost btn-sm !px-4">{{> "icons/briefcase" class="h-3 w-3"}} Resume</a>
 					<span class="hx-social">
@@ -56,52 +64,6 @@
 			<div class="hx-screen hx-enter-screen">
 				{{> "home/hero-showcase"}}
 			</div>
-		</div>
-
-		{{!-- ============ BAND: the information, as cards ============ --}}
-		<div class="hx-band">
-
-			{{!-- WORK — where I am now --}}
-			<div class="hx-tile hx-enter" style="--d:.24s">
-				<p class="hx-tile-k">{{> "icons/salesforce" class="h-3 w-3"}} Currently</p>
-				<p class="hx-tile-lead">Salesforce Engineer</p>
-				<p class="hx-tile-sub">
-					<a href="https://www.ef.com" target="_blank" rel="noopener">EF Education First</a>
-				</p>
-				<p class="hx-tile-meta">
-					<span>{{> "icons/flag-hu" class="h-3 w-3"}} Budapest</span>
-					<span>{{> "icons/flag-in" class="h-3 w-3"}} from India</span>
-				</p>
-			</div>
-
-			{{!-- STATS — what I make, in numbers. Hardcoded on purpose (live
-			     counts cost one {{#get}} each; that's what crashed the old hero). --}}
-			<nav class="hx-tile hx-tile-stats hx-enter" style="--d:.3s" aria-label="What I make, in numbers">
-				<p class="hx-tile-k">{{> "icons/sparkle" class="h-3 w-3"}} What I make</p>
-				<div class="hx-stats">
-					<a href="{{@site.url}}/videos/" class="hx-stat"><strong>100+</strong><span>{{> "icons/film" class="h-3 w-3"}} Videos</span></a>
-					<a href="{{@site.url}}/courses/" class="hx-stat"><strong>30+</strong><span>{{> "icons/graduation" class="h-3 w-3"}} Lessons</span></a>
-					<a href="{{@site.url}}/projects/" class="hx-stat"><strong>12+</strong><span>{{> "icons/terminal" class="h-3 w-3"}} Projects</span></a>
-					<a href="{{@site.url}}/timeline/" class="hx-stat"><strong>5+</strong><span>{{> "icons/briefcase" class="h-3 w-3"}} Yrs</span></a>
-				</div>
-			</nav>
-
-			{{!-- SUBSCRIBE — the newsletter, captured right here --}}
-			{{#if @site.members_enabled}}
-			<div class="hx-tile hx-tile-sub-card hx-enter" style="--d:.36s">
-				<p class="hx-tile-k">{{> "icons/mail" class="h-3 w-3"}} Newsletter</p>
-				<p class="hx-tile-lead">Get the next one.</p>
-				<form data-members-form class="hx-form">
-					<input type="email" name="email" required data-members-email placeholder="you@example.com" aria-label="Email address" class="hx-form-input" />
-					<button type="submit" class="btn-primary btn-sm shrink-0" aria-label="Subscribe">{{> "icons/arrow-right" class="h-3.5 w-3.5"}}</button>
-				</form>
-				<p class="hx-form-note">
-					<span data-members-success hidden class="text-green-600">Check your inbox to confirm — welcome aboard.</span>
-					<span data-members-error hidden class="text-red-500">That email didn't take — try again?</span>
-					<span>New videos, guides and write-ups. No spam.</span>
-				</p>
-			</div>
-			{{/if}}
 		</div>
 	</div>
 

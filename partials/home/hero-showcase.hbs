@@ -38,10 +38,10 @@
 			{{#get "posts" filter="tag:hash-trip" limit="1" order="featured desc,published_at desc" as |film|}}
 				{{#if film.length}}
 					{{#foreach film}}
-						{{> "home/hero-frames" isFilm=true kicker="Now playing · Trip"}}
+						{{> "home/hero-frames" isFilm=true kicker="Now playing"}}
 					{{/foreach}}
 				{{else}}
-					{{> "home/hero-frames" kicker="Now playing · Showreel"}}
+					{{> "home/hero-frames" kicker="Now playing"}}
 				{{/if}}
 			{{/get}}
 		</div>

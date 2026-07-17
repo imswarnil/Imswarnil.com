@@ -988,8 +988,7 @@ form[data-members-form].loading button[type='submit'] {
 	}
 }
 
-/* Two zones stacked: the statement+screen row (hx-top), then the info band
-   (hx-band). The top row splits into two columns at lg. */
+/* The statement+screen row, centred in the hero. Splits to two columns at lg. */
 .hx-inner {
 	position: relative;
 	isolation: isolate;
@@ -1053,62 +1052,32 @@ form[data-members-form].loading button[type='submit'] {
 }
 .hx-social { display: inline-flex; align-items: center; gap: 2px; }
 
-/* ---- BAND: information as a horizontal bento of cards -------------- */
-.hx-band {
-	display: grid;
-	grid-template-columns: minmax(0, 1fr);
-	gap: 12px;
-	width: 100%;
-}
-.hx-tile {
+/* one quiet identity line: role · company · location */
+.hx-meta {
 	display: flex;
-	flex-direction: column;
-	gap: 6px;
-	padding: clamp(14px, 1.4vw, 18px);
-	border: 1px solid rgb(var(--line));
-	border-radius: 1rem;
-	background: rgb(var(--mist) / 0.4);
-	text-align: left;
-	transition: border-color 0.25s, background-color 0.25s;
-}
-.hx-tile:hover { border-color: rgb(var(--silver) / 0.5); }
-.hx-tile-k {
-	display: inline-flex;
+	flex-wrap: wrap;
 	align-items: center;
-	gap: 6px;
-	font-family: theme('fontFamily.mono');
-	font-size: 0.56rem;
-	font-weight: 700;
-	text-transform: uppercase;
-	letter-spacing: 0.16em;
+	justify-content: center;
+	gap: 6px 10px;
+	margin-top: clamp(14px, 2vh, 20px);
+	font-size: 0.85rem;
 	color: rgb(var(--silver));
 }
-.hx-tile-k svg { flex: none; }
-.hx-tile-lead {
-	font-size: 1.05rem;
-	font-weight: 650;
-	letter-spacing: -0.01em;
-	color: rgb(var(--ink));
-}
-.hx-tile-sub { font-size: 0.85rem; color: rgb(var(--silver)); }
-.hx-tile-sub a {
+.hx-meta > svg { flex: none; color: rgb(var(--silver)); }
+.hx-meta span { display: inline-flex; align-items: center; gap: 5px; }
+.hx-meta span svg { flex: none; }
+.hx-meta a {
 	color: rgb(var(--ink));
 	border-bottom: 1px solid rgb(var(--line));
 	transition: border-color 0.2s;
 }
-.hx-tile-sub a:hover { border-bottom-color: rgb(var(--ink)); }
-.hx-tile-meta {
-	display: flex;
-	flex-wrap: wrap;
-	gap: 6px 14px;
-	margin-top: auto;
-	padding-top: 8px;
-	font-size: 0.72rem;
-	color: rgb(var(--silver));
+.hx-meta a:hover { border-bottom-color: rgb(var(--ink)); }
+.hx-meta-dot {
+	width: 3px;
+	height: 3px;
+	border-radius: 999px;
+	background: rgb(var(--silver) / 0.6);
 }
-.hx-tile-meta span { display: inline-flex; align-items: center; gap: 5px; }
-.hx-tile-meta svg { flex: none; }
-.hx-tile-sub-card .hx-form-note { margin-top: auto; padding-top: 4px; }
 
 /* ---- Load choreography: each row rises in on its own beat ------- */
 .hx-enter {
@@ -1129,62 +1098,6 @@ form[data-members-form].loading button[type='submit'] {
 @media (prefers-reduced-motion: reduce) {
 	.hx-enter, .hx-enter-screen { animation: none; }
 }
-
-/* ---- Newsletter form — lives in the subscribe tile ------------------- */
-.hx-form { display: flex; gap: 8px; margin-top: 4px; }
-.hx-form-input {
-	flex: 1;
-	min-width: 0;
-	padding: 0.45rem 0.75rem;
-	border: 1px solid rgb(var(--line));
-	border-radius: 0.7rem;
-	background: rgb(var(--paper));
-	font-size: 0.85rem;
-	color: rgb(var(--ink));
-	outline: none;
-	transition: border-color 0.2s;
-}
-.hx-form-input::placeholder { color: rgb(var(--silver) / 0.7); }
-.hx-form-input:focus { border-color: rgb(var(--ink)); }
-form.hx-form.loading button { opacity: 0.6; pointer-events: none; }
-.hx-form-note {
-	margin-top: 6px;
-	font-size: 0.68rem;
-	line-height: 1.45;
-	color: rgb(var(--silver));
-}
-
-/* ---- The numbers — four stats inside the stats tile ------------------ */
-.hx-stats {
-	display: grid;
-	grid-template-columns: repeat(4, minmax(0, 1fr));
-	gap: 10px 8px;
-	margin-top: 4px;
-}
-.hx-stat { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
-.hx-stat strong {
-	font-size: clamp(1.15rem, 1.5vw, 1.5rem);
-	font-weight: 650;
-	letter-spacing: -0.02em;
-	line-height: 1;
-	color: rgb(var(--ink));
-	transition: color 0.2s;
-}
-.hx-stat > span {
-	display: inline-flex;
-	align-items: center;
-	gap: 4px;
-	font-family: theme('fontFamily.mono');
-	font-size: 0.55rem;
-	font-weight: 600;
-	text-transform: uppercase;
-	letter-spacing: 0.1em;
-	color: rgb(var(--silver));
-	transition: color 0.2s;
-}
-.hx-stat > span svg { flex: none; }
-.hx-stat:hover strong { color: rgb(var(--accent)); }
-.hx-stat:hover > span { color: rgb(var(--ink)); }
 
 /* actions row under the headline */
 .hx-cta {
@@ -1386,9 +1299,9 @@ form.hx-form.loading button { opacity: 0.6; pointer-events: none; }
 	from { opacity: 0; transform: translateY(45%); filter: blur(4px); }
 	to { opacity: 1; transform: translateY(0); filter: blur(0); }
 }
-/* Desktop: the statement sits LEFT of the screen, and the info band becomes a
-   3-up bento row. MUST sit after every .hx-* base rule above — media queries
-   add no specificity, so a later base rule would silently win. */
+/* Desktop: the statement sits LEFT of the screen. MUST sit after every .hx-*
+   base rule above — media queries add no specificity, so a later base rule
+   would silently win. */
 @media (min-width: 1024px) {
 	.hx-top {
 		/* the statement gets the slightly larger half; the screen is the proof */
@@ -1397,30 +1310,23 @@ form.hx-form.loading button { opacity: 0.6; pointer-events: none; }
 	}
 	.hx-lede { align-items: flex-start; }
 	.hx-h1 { margin: 0; font-size: clamp(2rem, 3vw, 3rem); }
+	.hx-meta { justify-content: flex-start; }
 	.hx-cta { justify-content: flex-start; }
-	/* the information band spreads into three cards side by side */
-	.hx-band { grid-template-columns: 1fr 1.3fr 1fr; }
-	.hx-screen .sc-stage { max-height: min(46dvh, 24rem); }
+	.hx-screen .sc-stage { max-height: min(48dvh, 26rem); }
 }
 
-/* Tablet: statement stacks over screen, but the band already goes 3-up so the
-   info reads as a row, not a pile. */
-@media (min-width: 640px) and (max-width: 1023px) {
-	.hx-band { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-}
-
-/* Short laptops: the screen gives ground first so statement + band + strip all
-   clear the fold. */
+/* Short laptops: the screen gives ground first so the statement + strip clear
+   the fold. */
 @media (min-height: 700px) and (max-height: 1020px) {
 	.hx-h1 { font-size: clamp(1.7rem, 3.2vw, 2.4rem); }
 	.hx-inner { gap: clamp(16px, 2.2vh, 26px); }
-	.hx-screen .sc-stage { max-height: min(34dvh, 19rem); }
+	.hx-screen .sc-stage { max-height: min(38dvh, 21rem); }
 	@media (min-width: 1024px) {
-		.hx-screen .sc-stage { max-height: min(40dvh, 22rem); }
+		.hx-screen .sc-stage { max-height: min(44dvh, 24rem); }
 	}
 }
 
-/* Mobile: calmer, single-column band. */
+/* Mobile: calmer hero. */
 @media (max-width: 639px) {
 	.hx-h1 { font-size: clamp(1.55rem, 7.4vw, 2rem); }
 	.hx-badge { font-size: 0.66rem; }

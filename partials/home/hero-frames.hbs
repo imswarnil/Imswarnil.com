@@ -60,11 +60,6 @@
 				<span data-icon-sound hidden>{{> "icons/volume" class="h-3.5 w-3.5"}}</span>
 			</button>
 			<span class="vf-state" id="vf-state">{{#if kicker}}{{kicker}}{{else}}Now playing{{/if}}</span>
-			{{#if isFilm}}
-				<a href="{{url}}" class="vf-title">{{title}} {{> "icons/arrow-up-right" class="h-3 w-3"}}</a>
-			{{else}}
-				<span class="vf-title">The showreel</span>
-			{{/if}}
 			<span class="vf-tc" id="vf-tc">0:00</span>
 		</div>
 	</div>
