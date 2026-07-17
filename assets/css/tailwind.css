@@ -970,20 +970,10 @@ form[data-members-form].loading button[type='submit'] {
 .hx {
 	--px: 0;
 	--py: 0;
-	/* The hero is a DARK video zone in every theme mode: override the palette
-	   locally so all children (HUD, badge, reel, borders, grid) render
-	   white-on-dark automatically, then the black scrim carries the copy. */
-	--ink: 245 245 247;
-	--paper: 12 12 14;
-	--mist: 38 38 44;
-	--line: 92 94 104;
-	--silver: 178 180 188;
-	--pattern: 255 255 255;
 	position: relative;
 	display: flex;
 	flex-direction: column;
 	overflow: hidden;
-	color: rgb(var(--ink));
 	/* NOT 4.25rem: the .nav-spacer div already clears the fixed navbar (the
 	   hero starts at y=72, not y=0). Padding the navbar's height AGAIN put a
 	   140px dead band above the eyebrow and pushed the tag strip 9px under
@@ -992,10 +982,9 @@ form[data-members-form].loading button[type='submit'] {
 }
 @media (min-height: 700px) {
 	.hx {
-		/* Give the hero room to breathe: it's at least a near-full screen, but
-		   the generous internal spacing can push it taller and let the tag strip
-		   sit just past the fold — a deliberate trade for air over cramming. */
-		min-height: min(calc(100dvh - 7rem), 66rem);
+		/* Medium band, not a full-screen takeover: tall enough to hold the
+		   statement + image + sign-up with air, capped so it never sprawls. */
+		min-height: min(88dvh, 50rem);
 	}
 }
 
@@ -1032,16 +1021,16 @@ form[data-members-form].loading button[type='submit'] {
    scrim is theme-aware (rgb(var(--paper))) so copy stays legible either mode. */
 .hx-bg {
 	position: absolute;
-	inset: 0;
+	/* oversized so the scroll-parallax translate never reveals an edge */
+	top: -20%;
+	left: 0;
+	right: 0;
+	height: 140%;
 	z-index: 0;
 	overflow: hidden;
 	pointer-events: none;
 	background: #000;
-	/* the video is the star now — near full strength, gentle parallax */
-	opacity: 1;
-	translate: calc(var(--px) * 18px) calc(var(--py) * 14px);
-	scale: 1.08;
-	transition: translate 0.5s ease-out;
+	will-change: transform;
 }
 .hx-bg-poster {
 	position: absolute;
@@ -1056,9 +1045,16 @@ form[data-members-form].loading button[type='submit'] {
 .hx-bg-scrim {
 	z-index: 0;
 	background:
-		linear-gradient(to right, rgb(0 0 0 / 0.82) 0%, rgb(0 0 0 / 0.62) 45%, rgb(0 0 0 / 0.5) 100%),
-		linear-gradient(to bottom, rgb(0 0 0 / 0.5) 0%, rgb(0 0 0 / 0.25) 30%, rgb(0 0 0 / 0.35) 70%, rgb(0 0 0 / 0.72) 100%);
+		linear-gradient(to right, rgb(0 0 0 / 0.82) 0%, rgb(0 0 0 / 0.6) 48%, rgb(0 0 0 / 0.46) 100%),
+		linear-gradient(to bottom, rgb(0 0 0 / 0.5) 0%, rgb(0 0 0 / 0.22) 32%, rgb(0 0 0 / 0.3) 68%, rgb(0 0 0 / 0.6) 100%);
 }
+/* bottom blend — the hero melts into the page below it */
+.hx-bg-blend {
+	z-index: 1;
+	height: 30%;
+	background: linear-gradient(to bottom, transparent, rgb(var(--page-bg, 250 250 250)) 96%);
+}
+.dark .hx-bg-blend { --page-bg: 9 9 11; }
 @media (prefers-reduced-motion: reduce) {
 	#hx-grid, .hx-viewfinder, .hx-photo, .hx-bg { translate: none; }
 	.hx-sweep::before { animation: none; display: none; }
@@ -1119,7 +1115,7 @@ form[data-members-form].loading button[type='submit'] {
 	position: absolute;
 	width: 16px;
 	height: 16px;
-	border: 2px solid rgb(255 255 255 / 0.85);
+	border: 2px solid rgb(var(--ink) / 0.45);
 	z-index: 2;
 }
 .hx-photo-mark:nth-child(2) { top: 10px; left: 10px; border-right: 0; border-bottom: 0; }
@@ -1320,7 +1316,51 @@ form[data-members-form].loading button[type='submit'] {
 	align-items: center;
 	justify-content: center;
 	gap: 12px;
-	margin-top: clamp(24px, 3.4vh, 36px);
+	margin-top: clamp(22px, 3vh, 32px);
+}
+
+/* ---- the personality caption --------------------------------------- */
+.hx-cap {
+	margin-top: clamp(16px, 2.2vh, 22px);
+	max-width: 38rem;
+	font-size: clamp(0.95rem, 1.3vw, 1.1rem);
+	line-height: 1.6;
+	color: rgb(var(--silver));
+}
+.hx-cap em {
+	font-style: normal;
+	font-weight: 600;
+	color: rgb(var(--ink));
+}
+
+/* ---- Newsletter — a plain inline field near the actions ------------ */
+.hx-form {
+	display: flex;
+	gap: 8px;
+	width: 100%;
+	max-width: 26rem;
+	margin-top: clamp(16px, 2vh, 20px);
+}
+.hx-form-input {
+	flex: 1;
+	min-width: 0;
+	padding: 0.5rem 0.85rem;
+	border: 1px solid rgb(var(--line));
+	border-radius: 0.7rem;
+	background: rgb(var(--paper));
+	font-size: 0.88rem;
+	color: rgb(var(--ink));
+	outline: none;
+	transition: border-color 0.2s;
+}
+.hx-form-input::placeholder { color: rgb(var(--silver) / 0.75); }
+.hx-form-input:focus { border-color: rgb(var(--ink)); }
+form.hx-form.loading button { opacity: 0.6; pointer-events: none; }
+.hx-form-note {
+	margin-top: 8px;
+	font-size: 0.7rem;
+	line-height: 1.45;
+	color: rgb(var(--silver));
 }
 
 /* ---- Below-the-fold home sections: don't render until near view ----

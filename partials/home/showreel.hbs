@@ -1,0 +1,43 @@
+{{!-- Showreel band — a medium-height cinematic video that MOVES on scroll,
+     sitting directly below the hero. The heavy iframe is lazy ([data-yt-bg],
+     mounted by main.js after idle); the poster is the first paint. The inner
+     media layer is oversized and parallaxes via the inline scroll handler. --}}
+<section class="showreel" id="home-showreel" aria-label="Showreel">
+	<div class="showreel-media" id="showreel-media" data-yt-bg="ecOkmTD7KhU" aria-hidden="true">
+		<img src="{{asset "images/hero-fallback.svg"}}" width="1280" height="720" alt="" class="showreel-poster" />
+	</div>
+	<div class="showreel-scrim" aria-hidden="true"></div>
+
+	<div class="showreel-inner container-site">
+		<p class="showreel-k">{{> "icons/film" class="h-3.5 w-3.5"}} Showreel · 2026</p>
+		<h2 class="showreel-title">A year of building, filming and shipping.</h2>
+		<p class="showreel-sub">Marketing systems, courses, side-projects and the occasional trip — cut down to the parts worth keeping.</p>
+		<div class="showreel-cta">
+			<a href="https://www.youtube.com/@imswarnil" target="_blank" rel="noopener" class="btn-primary btn-sm">{{> "icons/youtube" class="h-3.5 w-3.5"}} Watch on YouTube</a>
+			<a href="{{@site.url}}/videos/" class="btn-ghost btn-sm !text-white !border-white/30 hover:!bg-white/10">All videos {{> "icons/arrow-right" class="h-3.5 w-3.5"}}</a>
+		</div>
+	</div>
+
+	<script>
+		(function () {
+			var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+			var sec = document.getElementById('home-showreel');
+			var media = document.getElementById('showreel-media');
+			if (!sec || !media || reduced) return;
+			var raf = null;
+			function onScroll() {
+				if (raf) return;
+				raf = requestAnimationFrame(function () {
+					raf = null;
+					var r = sec.getBoundingClientRect();
+					if (r.bottom < 0 || r.top > window.innerHeight) return; /* off-screen */
+					/* -1 (section entering) .. 1 (leaving); media drifts opposite */
+					var progress = (r.top + r.height / 2 - window.innerHeight / 2) / window.innerHeight;
+					media.style.transform = 'translate3d(0,' + (progress * 18).toFixed(1) + '%,0)';
+				});
+			}
+			window.addEventListener('scroll', onScroll, { passive: true });
+			onScroll();
+		})();
+	</script>
+</section>

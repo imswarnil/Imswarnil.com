@@ -381,3 +381,91 @@
 		.pf-sheet { transition: none; }
 	}
 }
+
+/* ==================================================================
+   Showreel band — a medium-height video that moves on scroll, below
+   the hero. The media layer is oversized so the parallax translate
+   never reveals an edge; the iframe is lazily mounted by main.js.
+   ================================================================== */
+@layer components {
+	.showreel {
+		position: relative;
+		height: clamp(20rem, 46vh, 30rem);
+		overflow: hidden;
+		background: #000;
+		isolation: isolate;
+	}
+	.showreel-media {
+		position: absolute;
+		top: -18%;
+		left: 0;
+		right: 0;
+		height: 136%;
+		overflow: hidden;
+		pointer-events: none;
+		will-change: transform;
+	}
+	.showreel-poster {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		opacity: 0.7;
+		transition: opacity 0.8s ease;
+	}
+	.showreel-media.is-playing .showreel-poster { opacity: 0; }
+	.showreel-scrim {
+		position: absolute;
+		inset: 0;
+		z-index: 1;
+		background:
+			linear-gradient(to right, rgb(0 0 0 / 0.78) 0%, rgb(0 0 0 / 0.45) 55%, rgb(0 0 0 / 0.35) 100%),
+			linear-gradient(to bottom, rgb(0 0 0 / 0.4), transparent 40%, rgb(0 0 0 / 0.55));
+	}
+	.showreel-inner {
+		position: relative;
+		z-index: 2;
+		display: flex;
+		height: 100%;
+		flex-direction: column;
+		justify-content: center;
+		gap: 12px;
+		color: #fff;
+	}
+	.showreel-k {
+		display: inline-flex;
+		align-items: center;
+		gap: 7px;
+		font-family: theme('fontFamily.mono');
+		font-size: 0.58rem;
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: 0.18em;
+		color: rgb(255 255 255 / 0.75);
+	}
+	.showreel-k svg { flex: none; }
+	.showreel-title {
+		max-width: 24ch;
+		font-size: clamp(1.6rem, 3.4vw, 2.6rem);
+		font-weight: 660;
+		line-height: 1.1;
+		letter-spacing: -0.03em;
+		text-wrap: balance;
+	}
+	.showreel-sub {
+		max-width: 46ch;
+		font-size: clamp(0.9rem, 1.2vw, 1.05rem);
+		line-height: 1.55;
+		color: rgb(255 255 255 / 0.82);
+	}
+	.showreel-cta {
+		margin-top: 8px;
+		display: flex;
+		flex-wrap: wrap;
+		gap: 10px;
+	}
+	@media (prefers-reduced-motion: reduce) {
+		.showreel-media { transform: none !important; }
+	}
+}

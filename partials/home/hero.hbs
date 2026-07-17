@@ -1,26 +1,15 @@
-{{!-- Hero — "The Director's Viewfinder".
+{{!-- Home hero — a dark, medium-height cinematic band.
 
-     The whole theme is a filmmaker's OS. So the hero IS a viewfinder, dressed
-     with real camera chrome:
-       · four crop-mark brackets + faint rule-of-thirds guides
-       · a live REC timecode (top-left) and aspect/fps + battery (top-right)
-       · exposure readout + a live audio meter (bottom-left), resolution (br)
-     Content: badge → headline (morphing frame) → credits meta → actions, beside
-     the film screen; then a REEL — a filmstrip of recent work (one {{#get}}). --}}
+     Composition:
+       LEFT  · badge → a personal caption about life + who I am → work details
+               → actions → newsletter sign-up
+       RIGHT · a still portrait in a viewfinder frame
+     Behind it all: a medium background video that parallaxes and blends into
+     the page as you scroll. The tag marquee renders after this (home.hbs). --}}
 <section class="hx" id="hero">
-	{{!-- Parallax background video: a dimmed showreel behind everything, held
-	     by the lazy [data-yt-bg] facade (main.js mounts the muted iframe after
-	     idle, never under reduced-motion — so LCP is the poster, not the embed).
-	     A theme-aware scrim keeps the copy readable in light AND dark. --}}
-	<div class="hx-bg" id="hx-bg" data-yt-bg="ecOkmTD7KhU" aria-hidden="true">
-		<img src="{{asset "images/hero-fallback.svg"}}" width="1280" height="720" alt="" class="hx-bg-poster" />
-	</div>
-	<div class="hx-bg-scrim pointer-events-none absolute inset-0" aria-hidden="true"></div>
-
-	<div class="bg-pat-grid-wide fade-mask-bloom pointer-events-none absolute inset-0" id="hx-grid" style="--pat-opacity:1.7" aria-hidden="true"></div>
+	{{!-- Grid background effect --}}
+	<div class="bg-pat-grid-wide fade-mask-bloom pointer-events-none absolute inset-0" id="hx-grid" style="--pat-opacity:1.9" aria-hidden="true"></div>
 	<div class="hx-grain pointer-events-none absolute inset-0" aria-hidden="true"></div>
-	{{!-- a lens light-sweep, once, on load --}}
-	<div class="hx-sweep pointer-events-none absolute inset-0" aria-hidden="true"></div>
 
 	{{!-- viewfinder chrome — corner marks + a minimal REC/aspect HUD --}}
 	<div class="hx-viewfinder" aria-hidden="true">
@@ -40,26 +29,23 @@
 					Swarnil Singhai — open to interesting work
 				</p>
 
-				<h1 class="hx-h1">
-					<span class="hx-line" style="--d:.15s"><span class="hx-line-in">Life looks better when you</span></span>
-					<span class="hx-line" style="--d:.28s"><span class="hx-line-in">frame the
-						<span class="hx-frame" id="hx-frame" style="--hx-ar:16/9">
-							<i></i><i></i><i></i><i></i>
-							<span class="hx-word" id="hx-word">process</span>
-							<span class="hx-ratio" id="hx-ratio">16:9</span>
-						</span>
-						&nbsp;—</span></span>
-					<span class="hx-line" style="--d:.41s"><span class="hx-line-in">and cut the <span class="hx-noise">noise</span>.</span></span>
-				</h1>
+				<h1 class="hx-h1 hx-enter" style="--d:.1s">Life's better when you<br>make things.</h1>
 
-				<p class="hx-meta hx-enter" style="--d:.5s">
+				{{!-- the caption: who I am, in one warm breath --}}
+				<p class="hx-cap hx-enter" style="--d:.2s">
+					Engineer by training, filmmaker by obsession, teacher by accident. I build
+					Salesforce systems that scale — then turn everyday moments into videos,
+					courses and side-projects worth keeping. <em>Curiosity is the whole personality.</em>
+				</p>
+
+				<p class="hx-meta hx-enter" style="--d:.3s">
 					{{> "icons/salesforce" class="h-3.5 w-3.5"}}
 					<span>Salesforce Engineer at <a href="https://www.ef.com" target="_blank" rel="noopener">EF Education First</a></span>
 					<span class="hx-meta-dot" aria-hidden="true"></span>
-					<span>{{> "icons/map-pin" class="h-3.5 w-3.5"}} Budapest</span>
+					<span>{{> "icons/map-pin" class="h-3.5 w-3.5"}} Budapest · from India</span>
 				</p>
 
-				<div class="hx-cta hx-enter" style="--d:.58s">
+				<div class="hx-cta hx-enter" style="--d:.4s">
 					<a href="{{@site.url}}/videos/" class="btn-primary btn-sm !px-4">{{> "icons/play" class="h-3.5 w-3.5"}} Watch my videos</a>
 					<a href="{{@site.url}}/resume/" class="btn-ghost btn-sm !px-4">{{> "icons/briefcase" class="h-3 w-3"}} Resume</a>
 					<span class="hx-social">
@@ -69,10 +55,22 @@
 						<a href="https://instagram.com/imswarnil" target="_blank" rel="noopener" class="icon-btn" aria-label="Instagram">{{> "icons/instagram"}}</a>
 					</span>
 				</div>
+
+				{{!-- newsletter: a plain inline field right under the actions --}}
+				{{#if @site.members_enabled}}
+				<form data-members-form class="hx-form hx-enter" style="--d:.5s">
+					<input type="email" name="email" required data-members-email placeholder="Your email — get the next one" aria-label="Email address" class="hx-form-input" />
+					<button type="submit" class="btn-primary btn-sm shrink-0">{{> "icons/arrow-right" class="h-3.5 w-3.5"}} Subscribe</button>
+				</form>
+				<p class="hx-form-note hx-enter" style="--d:.5s">
+					<span data-members-success hidden class="text-green-600">Check your inbox to confirm — welcome aboard.</span>
+					<span data-members-error hidden class="text-red-500">That email didn't take — try again?</span>
+					<span>New videos, guides and write-ups. No spam.</span>
+				</p>
+				{{/if}}
 			</div>
 
-			{{!-- Right: a still portrait in a viewfinder frame (the moving picture
-			     is the background video now). --}}
+			{{!-- Right: a still portrait in a viewfinder frame --}}
 			<figure class="hx-photo hx-enter-screen">
 				<img src="{{asset "images/hero-square.svg"}}" width="1000" height="1000" fetchpriority="high" decoding="async" alt="Swarnil Singhai" class="hx-photo-img" />
 				<i class="hx-photo-mark"></i><i class="hx-photo-mark"></i><i class="hx-photo-mark"></i><i class="hx-photo-mark"></i>
@@ -82,61 +80,12 @@
 				</figcaption>
 			</figure>
 		</div>
+
 	</div>
 
 	<script>
 		(function () {
 			var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-			/* headline frame: word + aspect ratio morph together, one pass */
-			var STOPS = [
-				{ w: 'art', ar: '4/5', label: '4:5' },
-				{ w: 'story', ar: '2/3', label: '2:3' },
-				{ w: 'build', ar: '4/3', label: '4:3' },
-				{ w: 'trip', ar: '21/9', label: '2.39:1' },
-				{ w: 'process', ar: '16/9', label: '16:9' }
-			];
-			var frame = document.getElementById('hx-frame');
-			var word = document.getElementById('hx-word');
-			var chip = document.getElementById('hx-ratio');
-			if (frame && !reduced) {
-				var i = -1;
-				var timer = setInterval(function () {
-					i++;
-					if (i >= STOPS.length) return clearInterval(timer);
-					var s = STOPS[i];
-					word.style.animation = 'none';
-					void word.offsetWidth;
-					word.textContent = s.w;
-					word.style.animation = '';
-					frame.style.setProperty('--hx-ar', s.ar);
-					chip.textContent = s.label;
-				}, 2200);
-			}
-
-			/* ---------- cursor parallax: layers drift on their own depth -------
-			   ONE rAF-throttled pointermove writing only two CSS custom props
-			   (consumed by compositor-friendly `translate`). The AF reticle is now
-			   a site-wide custom cursor in main.js, not per-hero. */
-			var hero = document.getElementById('hero');
-			var fine = window.matchMedia && window.matchMedia('(hover: hover) and (pointer: fine)').matches;
-			if (hero && fine && !reduced) {
-				var raf = null, ev = null;
-				hero.addEventListener('pointermove', function (e) {
-					ev = e;
-					if (raf) return;
-					raf = requestAnimationFrame(function () {
-						raf = null;
-						var b = hero.getBoundingClientRect();
-						hero.style.setProperty('--px', ((ev.clientX - b.left) / b.width - 0.5).toFixed(3));
-						hero.style.setProperty('--py', ((ev.clientY - b.top) / b.height - 0.5).toFixed(3));
-					});
-				});
-				hero.addEventListener('pointerleave', function () {
-					hero.style.setProperty('--px', 0);
-					hero.style.setProperty('--py', 0);
-				});
-			}
 
 			/* live REC timecode HH:MM:SS:FF @ 24fps — ~12 writes/sec, only on change */
 			var tcEl = document.getElementById('hx-tc');

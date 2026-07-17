@@ -24,9 +24,12 @@
 			<div class="container-site">
 				<div class="flex w-max gap-5 pr-8">
 					{{#foreach videos}}
-					<article class="group w-[17rem] shrink-0 snap-start sm:w-[20rem]" data-videos-card>
+					<article class="video-card group w-[17rem] shrink-0 snap-start sm:w-[20rem]" data-videos-card>
 						<a href="{{url}}" class="block" aria-label="Watch: {{title}}">
-							<div class="relative aspect-video overflow-hidden rounded-2xl border border-line bg-mist shadow-card transition-all duration-300 group-hover:shadow-lift">
+							{{!-- data-video-card-media + content template → main.js hover-plays a
+							     muted reel of this post's first YouTube embed --}}
+							<div class="relative aspect-video overflow-hidden rounded-2xl border border-line bg-mist shadow-card transition-all duration-300 group-hover:shadow-lift" data-video-card-media>
+								<template data-video-src>{{content}}</template>
 								{{#if feature_image}}
 									<img src="{{img_url feature_image size="600"}}"
 										srcset="{{img_url feature_image size="300"}} 300w, {{img_url feature_image size="600"}} 600w, {{img_url feature_image size="1000"}} 1000w"
