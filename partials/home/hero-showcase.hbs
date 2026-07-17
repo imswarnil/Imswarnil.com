@@ -12,19 +12,24 @@
 
 	<div class="sc-stage" id="sc-stage" style="--sc-ar:1/1" data-ratio="1:1">
 
-		{{!-- 1 · the square: still + quote --}}
+		{{!-- 1 · the poster: still + one glassy play control, nothing else.
+		     The long quote used to live here and collided with the play button;
+		     the headline already carries the message, so the poster just needs
+		     to look like a film waiting to be played. --}}
 		<div class="sc-slide sc-story is-active" id="sc-story">
 			<img src="{{asset "images/hero-square.svg"}}" width="1000" height="1000"
 				fetchpriority="high" decoding="async" alt="Swarnil, framed" class="sc-story-img" />
+			<span class="sc-scrim" aria-hidden="true"></span>
 
-			<div class="sc-quote">
-				<span class="sc-quote-icon" aria-hidden="true">{{> "icons/film" class="h-4 w-4"}}</span>
-				<blockquote class="sc-quote-text" id="sc-quote">
-					<span>Life</span> <span>looks</span> <span>better</span> <span>when</span> <span>you</span>
-					<span>make</span> <span>something</span> <span>people</span> <span>love</span> <span>—</span>
-					<span>because</span> <span>what</span> <span>you</span> <span>make</span>
-					<span>is</span> <span>who</span> <span>you</span> <span>are.</span>
-				</blockquote>
+			{{!-- play, centred on the frame like a real player --}}
+			<button type="button" class="sc-play" id="sc-watch" aria-label="Play — my story, the frame opens 1:1 to 16:9">
+				<span class="sc-play-ring" aria-hidden="true">{{> "icons/play" class="h-6 w-6"}}</span>
+			</button>
+
+			{{!-- lower-third caption, clear of the button --}}
+			<div class="sc-caption">
+				<span class="sc-caption-title">{{> "icons/film" class="h-3.5 w-3.5"}} Watch my story</span>
+				<span class="sc-caption-meta">1:1 → 16:9</span>
 			</div>
 		</div>
 
@@ -42,11 +47,6 @@
 		</div>
 	</div>
 
-	<button type="button" class="sc-watch" id="sc-watch">
-		<span class="sc-watch-ring" aria-hidden="true">{{> "icons/play" class="h-3.5 w-3.5"}}</span>
-		<span class="sc-watch-label">Watch my story</span>
-		<span class="sc-watch-meta" aria-hidden="true">1:1 → 16:9</span>
-	</button>
 </div>
 
 <script>
@@ -57,27 +57,7 @@
 		var watch = document.getElementById('sc-watch');
 		var story = document.getElementById('sc-story');
 		var film = sc.querySelector('.sc-film');
-		var quote = document.getElementById('sc-quote');
 		var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-		/* the quote pulls sharp once you're looking at it */
-		if (quote) {
-			var words = quote.querySelectorAll('span');
-			if (reduced || !('IntersectionObserver' in window)) {
-				words.forEach(function (s) { s.classList.add('is-sharp'); });
-			} else {
-				var io = new IntersectionObserver(function (entries) {
-					entries.forEach(function (e) {
-						if (!e.isIntersecting) return;
-						io.disconnect();
-						words.forEach(function (s, i) {
-							setTimeout(function () { s.classList.add('is-sharp'); }, 55 * i + 250);
-						});
-					});
-				}, { threshold: 0.4 });
-				io.observe(quote);
-			}
-		}
 
 		/* square → widescreen, then roll the tape in the same frame */
 		var opened = false;

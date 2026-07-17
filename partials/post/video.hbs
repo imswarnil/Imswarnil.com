@@ -88,8 +88,13 @@
 					</button>
 				</div>
 			</div>
-			<aside id="vd-chapters-slot" class="hidden overflow-y-auto border-line px-3 py-2 lg:block lg:max-h-[calc((100vw*0.7)*9/16)] lg:border-l">
-				<p class="px-2 pb-2 pt-1 font-mono text-[10px] uppercase tracking-[0.25em] text-silver">{{> "icons/clock" class="inline h-3 w-3"}} Chapters — tap to jump</p>
+			{{!-- Chapters rail. Mobile: a CAPPED scrollable list right under the
+			     player (it used to unhide with no height limit, so a 30-row
+			     chapter table shoved the title a screen down — which read as
+			     "timestamps don't work on mobile"). Desktop: right column,
+			     matching the player's height. --}}
+			<aside id="vd-chapters-slot" class="hidden max-h-72 overflow-y-auto overscroll-contain border-t border-line px-3 py-2 lg:max-h-[calc((100vw*0.7)*9/16)] lg:border-l lg:border-t-0">
+				<p class="sticky top-0 z-10 bg-paper px-2 pb-2 pt-1 font-mono text-[10px] uppercase tracking-[0.25em] text-silver">{{> "icons/clock" class="h-3 w-3"}} Chapters — tap to jump</p>
 			</aside>
 		</div>
 	</div>

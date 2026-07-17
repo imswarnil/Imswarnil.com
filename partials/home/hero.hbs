@@ -1,110 +1,139 @@
-{{!-- Hero — one cinematic screen.
+{{!-- Hero — a statement + a screen, over an information band.
 
-       left  · who I am, and the two things I want you to do
-       right · the showcase: "Life looks better when you frame the [X] … and cut
-               the [Y]", where the frame actually reshapes to each thing and
-               comes to rest on the film (home/hero-showcase)
-       below · what I do, then the tag marquee on the fold --}}
+     The old design stacked six blocks in one tall left column and read as a
+     crowded list. This splits the hero into two zones:
+
+       TOP   · the statement (name → morphing headline → primary actions)
+               beside the film screen (home/hero-showcase)
+       BAND  · a horizontal bento of three cards — WORK (where I am now),
+               STATS (what I make, in numbers), SUBSCRIBE (the newsletter form).
+               Information spreads sideways into cards instead of piling up.
+
+     The tag marquee renders AFTER this section (home.hbs) and the hero reserves
+     its height, so the strip lands on the fold. --}}
 <section class="hx" id="hero">
-	{{!-- Grid: lit in the middle, dissolving to nothing before it reaches any
-	     corner, so it blends into the page instead of ending on an edge.
-	     NOT -z-10: the section sets no stacking context, so a negative z-index
-	     drops this behind <body>'s background and the grid vanishes entirely. --}}
+	{{!-- Grid: lit in the middle, dissolving before the corners. --}}
 	<div class="bg-pat-grid-wide fade-mask-bloom pointer-events-none absolute inset-0" style="--pat-opacity:1.9" aria-hidden="true"></div>
 
 	<div class="hx-inner" id="hero-shell">
-		<div class="hx-grid">
 
-			{{!-- ---------- left: who ---------- --}}
-			<div class="hx-copy">
-				<p class="hx-eyebrow animate-fade-in">
-					<span>Hi, I'm Swarnil</span>
-					<span class="hx-eyebrow-tail">documenting the process</span>
+		{{!-- ============ TOP: statement + screen ============ --}}
+		<div class="hx-top">
+			<div class="hx-lede">
+				<p class="hx-badge hx-enter" style="--d:0s">
+					<span class="hx-badge-dot" aria-hidden="true"></span>
+					Swarnil Singhai — open to interesting work
 				</p>
 
-				<h1 class="hx-h1">
-					<span class="block">I build, teach</span>
-					<span class="block">and film it all.</span>
+				{{!-- Three EXPLICIT lines. The frame owns line 2, so an aspect-ratio
+				     morph can never re-wrap the headline. --}}
+				<h1 class="hx-h1 hx-enter" style="--d:.08s">
+					<span class="block">Life looks better when you</span>
+					<span class="block">frame the
+						<span class="hx-frame" id="hx-frame" style="--hx-ar:16/9">
+							<i></i><i></i><i></i><i></i>
+							<span class="hx-word" id="hx-word">process</span>
+							<span class="hx-ratio" id="hx-ratio">16:9</span>
+						</span>
+						&nbsp;—
+					</span>
+					<span class="block">and cut the <span class="hx-noise">noise</span>.</span>
 				</h1>
 
-				{{!-- the subtitle: out of focus until you reach it, then it pulls sharp
-				     word by word — the line is about editing, so it edits itself --}}
-				<p class="hx-manifesto" id="hx-manifesto">
-					<span>Cut</span> <span>the</span> <span>chaos.</span>
-					<span>Everything</span> <span>here</span> <span>is</span> <span>the</span>
-					<span>part</span> <span>that</span> <span>survived</span> <span>the</span> <span>edit.</span>
-				</p>
-
-				<p class="hx-who animate-fade-in" style="animation-delay:.4s">
-					{{> "icons/salesforce" class="h-3.5 w-3.5"}} Salesforce Engineer at
-					<a href="https://www.ef.com" target="_blank" rel="noopener">EF Education First</a>
-					<span class="hx-who-sep" aria-hidden="true">·</span>
-					{{> "icons/flag-hu" class="h-3.5 w-3.5"}} Budapest
-					<span class="hx-who-sep" aria-hidden="true">·</span>
-					{{> "icons/flag-in" class="h-3.5 w-3.5"}} from India
-					<span class="hx-who-sep" aria-hidden="true">·</span>
-					{{> "icons/youtube" class="h-3.5 w-3.5"}} <a href="https://www.youtube.com/@imswarnil" target="_blank" rel="noopener">I make videos</a>
-				</p>
-
-				<div class="hx-cta animate-fade-up" style="animation-delay:.55s">
+				<div class="hx-cta hx-enter" style="--d:.16s">
 					<a href="{{@site.url}}/videos/" class="btn-primary btn-sm !px-4">{{> "icons/play" class="h-3.5 w-3.5"}} Watch my videos</a>
 					<a href="{{@site.url}}/resume/" class="btn-ghost btn-sm !px-4">{{> "icons/briefcase" class="h-3 w-3"}} Resume</a>
-					<button type="button" class="btn-ghost btn-sm !px-4" data-modal-open="#subscribe-backdrop">{{> "icons/bell" class="h-3 w-3"}} Subscribe</button>
-					<span class="mx-1 hidden h-5 w-px bg-line sm:block" aria-hidden="true"></span>
-					<span class="flex items-center gap-0.5">
+					<span class="hx-social">
 						<a href="https://www.youtube.com/@imswarnil" target="_blank" rel="noopener" class="icon-btn" aria-label="YouTube">{{> "icons/youtube"}}</a>
 						<a href="https://github.com/imswarnil" target="_blank" rel="noopener" class="icon-btn" aria-label="GitHub">{{> "icons/github"}}</a>
 						<a href="https://linkedin.com/in/imswarnil" target="_blank" rel="noopener" class="icon-btn" aria-label="LinkedIn">{{> "icons/linkedin"}}</a>
+						<a href="https://instagram.com/imswarnil" target="_blank" rel="noopener" class="icon-btn" aria-label="Instagram">{{> "icons/instagram"}}</a>
 					</span>
 				</div>
-
-				{{> "home/hero-do"}}
 			</div>
 
-			{{!-- ---------- right: the showcase ---------- --}}
-			<div class="hx-stage">
+			{{!-- the film screen --}}
+			<div class="hx-screen hx-enter-screen">
 				{{> "home/hero-showcase"}}
 			</div>
 		</div>
-	</div>
 
-	{{!-- The tag marquee is NOT in here. As a child of this 100dvh section it
-	     kept getting pushed under the fold by the hero's own height, so it
-	     renders right after the hero in home.hbs instead — a normal full-width
-	     block that's always on screen, whatever the copy does. --}}
+		{{!-- ============ BAND: the information, as cards ============ --}}
+		<div class="hx-band">
+
+			{{!-- WORK — where I am now --}}
+			<div class="hx-tile hx-enter" style="--d:.24s">
+				<p class="hx-tile-k">{{> "icons/salesforce" class="h-3 w-3"}} Currently</p>
+				<p class="hx-tile-lead">Salesforce Engineer</p>
+				<p class="hx-tile-sub">
+					<a href="https://www.ef.com" target="_blank" rel="noopener">EF Education First</a>
+				</p>
+				<p class="hx-tile-meta">
+					<span>{{> "icons/flag-hu" class="h-3 w-3"}} Budapest</span>
+					<span>{{> "icons/flag-in" class="h-3 w-3"}} from India</span>
+				</p>
+			</div>
+
+			{{!-- STATS — what I make, in numbers. Hardcoded on purpose (live
+			     counts cost one {{#get}} each; that's what crashed the old hero). --}}
+			<nav class="hx-tile hx-tile-stats hx-enter" style="--d:.3s" aria-label="What I make, in numbers">
+				<p class="hx-tile-k">{{> "icons/sparkle" class="h-3 w-3"}} What I make</p>
+				<div class="hx-stats">
+					<a href="{{@site.url}}/videos/" class="hx-stat"><strong>100+</strong><span>{{> "icons/film" class="h-3 w-3"}} Videos</span></a>
+					<a href="{{@site.url}}/courses/" class="hx-stat"><strong>30+</strong><span>{{> "icons/graduation" class="h-3 w-3"}} Lessons</span></a>
+					<a href="{{@site.url}}/projects/" class="hx-stat"><strong>12+</strong><span>{{> "icons/terminal" class="h-3 w-3"}} Projects</span></a>
+					<a href="{{@site.url}}/timeline/" class="hx-stat"><strong>5+</strong><span>{{> "icons/briefcase" class="h-3 w-3"}} Yrs</span></a>
+				</div>
+			</nav>
+
+			{{!-- SUBSCRIBE — the newsletter, captured right here --}}
+			{{#if @site.members_enabled}}
+			<div class="hx-tile hx-tile-sub-card hx-enter" style="--d:.36s">
+				<p class="hx-tile-k">{{> "icons/mail" class="h-3 w-3"}} Newsletter</p>
+				<p class="hx-tile-lead">Get the next one.</p>
+				<form data-members-form class="hx-form">
+					<input type="email" name="email" required data-members-email placeholder="you@example.com" aria-label="Email address" class="hx-form-input" />
+					<button type="submit" class="btn-primary btn-sm shrink-0" aria-label="Subscribe">{{> "icons/arrow-right" class="h-3.5 w-3.5"}}</button>
+				</form>
+				<p class="hx-form-note">
+					<span data-members-success hidden class="text-green-600">Check your inbox to confirm — welcome aboard.</span>
+					<span data-members-error hidden class="text-red-500">That email didn't take — try again?</span>
+					<span>New videos, guides and write-ups. No spam.</span>
+				</p>
+			</div>
+			{{/if}}
+		</div>
+	</div>
 
 	<script>
 		(function () {
 			var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-			/* pointer-following accent glow on the shell */
-			var shell = document.getElementById('hero-shell');
-			if (shell && !reduced) {
-				shell.addEventListener('pointermove', function (e) {
-					var b = shell.getBoundingClientRect();
-					shell.style.setProperty('--hx-mx', ((e.clientX - b.left) / b.width * 100) + '%');
-					shell.style.setProperty('--hx-my', ((e.clientY - b.top) / b.height * 100) + '%');
-				});
-			}
-
-			/* the subtitle sharpens once you reach it */
-			var mani = document.getElementById('hx-manifesto');
-			if (mani) {
-				var words = mani.querySelectorAll('span');
-				if (reduced || !('IntersectionObserver' in window)) {
-					words.forEach(function (s) { s.classList.add('is-sharp'); });
-				} else {
-					var io = new IntersectionObserver(function (entries) {
-						entries.forEach(function (e) {
-							if (!e.isIntersecting) return;
-							io.disconnect();
-							words.forEach(function (s, idx) {
-								setTimeout(function () { s.classList.add('is-sharp'); }, 70 * idx + 300);
-							});
-						});
-					}, { threshold: 0.6 });
-					io.observe(mani);
-				}
+			/* ---------- headline frame: word + aspect ratio morph together ------
+			   ONE pass through the list, then it rests on "process". */
+			var STOPS = [
+				{ w: 'art', ar: '4/5', label: '4:5' },
+				{ w: 'story', ar: '2/3', label: '2:3' },
+				{ w: 'build', ar: '4/3', label: '4:3' },
+				{ w: 'trip', ar: '21/9', label: '2.39:1' },
+				{ w: 'process', ar: '16/9', label: '16:9' } /* rest here */
+			];
+			var frame = document.getElementById('hx-frame');
+			var word = document.getElementById('hx-word');
+			var chip = document.getElementById('hx-ratio');
+			if (frame && !reduced) {
+				var i = -1;
+				var timer = setInterval(function () {
+					i++;
+					if (i >= STOPS.length) return clearInterval(timer);
+					var s = STOPS[i];
+					word.style.animation = 'none';
+					void word.offsetWidth;
+					word.textContent = s.w;
+					word.style.animation = '';
+					frame.style.setProperty('--hx-ar', s.ar);
+					chip.textContent = s.label;
+				}, 2200);
 			}
 		})();
 	</script>

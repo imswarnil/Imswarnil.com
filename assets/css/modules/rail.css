@@ -1,0 +1,30 @@
+/* ==================================================================
+   Sticky rail — ONE treatment for every sidebar on the site.
+
+   Replaces the ad-hoc `sticky top-20/24/28 space-y-6/8` wrappers that
+   gave every template a different offset and widget rhythm. Widgets
+   inside are evenly spaced (one gap value), the rail sticks below the
+   navbar at lg+, and a rail taller than the viewport scrolls inside
+   itself instead of pinning its overflow off-screen.
+   ================================================================== */
+
+@layer components {
+	.rail-sticky {
+		display: flex;
+		min-width: 0;
+		flex-direction: column;
+		gap: 1.5rem; /* equal distance between every widget */
+	}
+	@media (min-width: 1024px) {
+		.rail-sticky {
+			position: sticky;
+			top: 6rem; /* clears the floating nav island */
+			align-self: flex-start; /* required for sticky inside grid/flex */
+			max-height: calc(100dvh - 7.5rem);
+			overflow-y: auto;
+			overscroll-behavior: contain;
+			scrollbar-width: none;
+		}
+		.rail-sticky::-webkit-scrollbar { display: none; }
+	}
+}

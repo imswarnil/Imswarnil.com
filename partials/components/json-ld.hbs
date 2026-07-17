@@ -98,6 +98,23 @@
 {{!-- Author pages: Ghost's own ghost_head already emits Person/profile metadata,
      and gscan forbids author.* paths in partials — so no extra block here. --}}
 
+{{!-- Everything else — custom collection indexes (/blog/, /videos/,
+     /projects/, …) and custom routes (/tags/, /resume/): none of the contexts
+     above match ({{#is "index"}} is false for routes.yaml collections too),
+     so without this inverse branch they emitted NO schema at all. --}}
+{{#is "home, post, page, tag, author"}}{{else}}
+<script type="application/ld+json">
+{
+	"@context": "https://schema.org",
+	"@type": "CollectionPage",
+	"name": "{{meta_title}}",
+	"description": "{{meta_description}}",
+	"isPartOf": { "@type": "WebSite", "@id": "{{@site.url}}/#website" },
+	"publisher": { "@id": "{{@site.url}}/#person" }
+}
+</script>
+{{/is}}
+
 {{#is "post"}}
 {{#post}}
 <script type="application/ld+json">

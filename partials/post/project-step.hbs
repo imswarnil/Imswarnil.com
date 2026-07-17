@@ -36,7 +36,7 @@
 		<div class="grid gap-10 lg:grid-cols-[300px_minmax(0,1fr)]">
 
 			{{!-- Build-log rail: every step of THIS project, start→ship --}}
-			<aside class="lg:sticky lg:top-24 lg:self-start">
+			<aside class="rail-sticky">
 				<p class="kicker">{{> "icons/pen" class="h-3.5 w-3.5"}} Build log</p>
 				{{#primary_tag}}
 				{{#get "posts" filter="tag:hash-project-detail+tags:{{slug}}" order="published_at asc" limit="50" include="tags" as |steps|}}

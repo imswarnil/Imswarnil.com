@@ -14,12 +14,16 @@
 {{!-- Resolve the guide POST's real URL — the tag slug is not the post slug --}}
 {{#primary_tag}}{{#get "posts" filter="tag:hash-guide+tag:{{slug}}" limit="1" as |gg|}}{{#foreach gg}}<span id="guide-post" data-url="{{url}}" hidden></span>{{/foreach}}{{/get}}{{/primary_tag}}
 
-<article class="{{post_class}} guide-shell pt-16">
+{{!-- No pt-16: the site navbar is hidden on step pages (guide.css) and the
+     guide bar sits at the very top as the only chrome. --}}
+<article class="{{post_class}} guide-shell">
 
-	{{!-- breadcrumb / step bar --}}
+	{{!-- breadcrumb / step bar — the page chrome on step pages --}}
 	<div class="guide-bar">
 		<div class="guide-bar-in">
 			<nav class="flex min-w-0 flex-wrap items-center gap-2 font-mono text-[10px] uppercase tracking-[0.15em] text-silver" aria-label="Breadcrumb">
+				<a href="{{@site.url}}" class="flex items-center gap-1.5 transition hover:text-ink" aria-label="Back to the site">{{> "icons/home" class="h-3 w-3"}} Swarnil</a>
+				<span aria-hidden="true">/</span>
 				<a href="{{@site.url}}/guide/" class="transition hover:text-ink">Guides</a>
 				<span aria-hidden="true">/</span>
 				{{#primary_tag}}<a href="{{@site.url}}/guide/{{slug}}/" data-guide-link class="truncate transition hover:text-ink">{{name}}</a>{{/primary_tag}}
@@ -30,6 +34,8 @@
 				<button type="button" class="btn-ghost btn-sm xl:hidden" data-modal-open="#guide-route-backdrop">{{> "icons/route" class="h-3 w-3"}} Route</button>
 			</span>
 		</div>
+		{{!-- fills as you walk the route --}}
+		<i class="guide-bar-progress" id="guide-progressbar" aria-hidden="true"></i>
 	</div>
 
 	<div class="guide-wrap">
@@ -37,10 +43,10 @@
 		{{!-- ---------- left: contents, ads, widgets ---------- --}}
 		<aside class="guide-aside guide-aside-left">
 			<div class="guide-sticky">
-				<nav id="toc-wrap" hidden class="guide-card">
-					<p class="kicker !text-[10px]">{{> "icons/book" class="h-3 w-3"}} On this page</p>
-					<nav id="toc-list" class="mt-3 max-h-[42vh] overflow-y-auto no-scrollbar" aria-label="Step contents"></nav>
-				</nav>
+				{{!-- the one toc module; main.js builds + unhides it. (The old
+				     #toc-wrap markup here used ids main.js never looked for, so
+				     the guide TOC simply never populated.) --}}
+				{{> "components/toc" title="On this step"}}
 
 				{{> "components/adsense" slot="7663977887" format="auto" class="!my-0"}}
 
@@ -134,7 +140,10 @@
 					</p>
 
 					<div class="mt-4 border-t border-line pt-4">
-						{{#primary_tag}}{{> "components/guide-stepper" tagSlug=slug active=../slug}}{{/primary_tag}}
+						{{!-- primary_tag.slug as a PATH, not via a {{#primary_tag}} block: `../slug`
+     inside a partial hash never resolved, so data-active was always empty and
+     the route showed 0% for everyone. --}}
+{{> "components/guide-stepper" tagSlug=primary_tag.slug active=slug}}
 					</div>
 				</div>
 			</div>
@@ -149,7 +158,10 @@
 			{{#primary_tag}}<span class="guide-kicker">{{> "icons/route" class="h-3 w-3"}} {{name}}</span>{{/primary_tag}}
 			<button type="button" class="icon-btn shrink-0" data-modal-close aria-label="Close">{{> "icons/close"}}</button>
 		</div>
-		{{#primary_tag}}{{> "components/guide-stepper" tagSlug=slug active=../slug}}{{/primary_tag}}
+		{{!-- primary_tag.slug as a PATH, not via a {{#primary_tag}} block: `../slug`
+     inside a partial hash never resolved, so data-active was always empty and
+     the route showed 0% for everyone. --}}
+{{> "components/guide-stepper" tagSlug=primary_tag.slug active=slug}}
 	</div>
 </div>
 
@@ -168,6 +180,8 @@
 		var pct = Math.round(((idx + 1) / steps.length) * 100);
 		var pctEl = document.getElementById('guide-pct');
 		if (pctEl) pctEl.textContent = pct + '%';
+		var barFill = document.getElementById('guide-progressbar');
+		if (barFill) barFill.style.width = pct + '%';
 		var pos = document.getElementById('guide-pos');
 		if (pos) pos.textContent = 'step ' + (idx + 1) + ' of ' + steps.length;
 		var crumb = document.getElementById('guide-crumb');
@@ -206,14 +220,5 @@
 			}
 		}
 
-		/* the TOC card only exists if main.js found headings to put in it */
-		var tocList = document.getElementById('toc-list');
-		var tocWrap = document.getElementById('toc-wrap');
-		if (tocList && tocWrap) {
-			var check = setInterval(function () {
-				if (tocList.children.length) { tocWrap.hidden = false; clearInterval(check); }
-			}, 200);
-			setTimeout(function () { clearInterval(check); }, 3000);
-		}
 	})();
 </script>

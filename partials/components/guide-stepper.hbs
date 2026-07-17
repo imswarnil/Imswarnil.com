@@ -13,7 +13,10 @@
      a fact about the page, so the page decides it. --}}
 {{#get "posts" filter="tag:hash-guide-content+tags:{{tagSlug}}" limit="50" order="published_at asc" as |steps|}}
 	{{#if steps.length}}
-	<ol class="guide-stepper" data-guide-stepper{{#if active}} data-active="{{active}}"{{/if}}>
+	{{!-- ../active: hash params live on the partial's root context, and the
+	     {{#get}} frame does not inherit them — plain {{active}} rendered empty
+	     here, which left data-active off and the route stuck at 0%. --}}
+	<ol class="guide-stepper" data-guide-stepper{{#if ../active}} data-active="{{../active}}"{{/if}}>
 		{{#foreach steps}}
 		<li class="guide-step" data-step-slug="{{slug}}">
 			<a href="{{url}}" class="guide-step-link">

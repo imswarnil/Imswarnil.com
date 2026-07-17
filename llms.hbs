@@ -16,6 +16,16 @@
 - [Resume]({{@site.url}}/resume/): professional experience
 - [Contact]({{@site.url}}/contact/): how to reach me
 
+## Recent posts
+
+{{#get "posts" limit="20" order="published_at desc" as |recent|}}
+{{#foreach recent}}
+{{!-- triple-stache: this renders as text/plain, so HTML-entity escaping
+     would leave literal &amp; in the markdown --}}
+- [{{{title}}}]({{url absolute="true"}}){{#if custom_excerpt}}: {{{custom_excerpt}}}{{/if}}
+{{/foreach}}
+{{/get}}
+
 ## Feeds
 
 - [RSS]({{@site.url}}/rss/): full-content feed of all posts

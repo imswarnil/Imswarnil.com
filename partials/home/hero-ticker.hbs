@@ -19,7 +19,7 @@
      announced or tab-stopped twice. --}}
 {{#get "tags" filter="visibility:public" limit="14" include="count.posts" order="count.posts desc" as |topics|}}
 {{#if topics}}
-<nav class="hx-strip" aria-label="Topics">
+<nav class="hx-strip" id="topics" aria-label="Topics">
 	<div class="group/strip hx-strip-view fade-mask-x">
 		<div class="hx-strip-track group-hover/strip:[animation-play-state:paused]">
 

@@ -86,7 +86,7 @@
 
 			{{!-- Sidebar: full episode queue, current highlighted client-side --}}
 			<aside class="lg:col-span-4">
-				<div class="sticky top-28">
+				<div class="rail-sticky">
 					<p class="kicker mb-4">{{> "icons/play"}} Next episodes</p>
 					{{#foreach tags visibility="public" limit="1"}}
 					{{#get "posts" filter="tag:hash-episode+tag:{{slug}}" order="published_at asc" limit="50" include="tags" as |eps|}}

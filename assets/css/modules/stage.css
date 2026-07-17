@@ -148,13 +148,11 @@
 		88% { opacity: 1; transform: translateX(-1%) skewX(-2deg); }
 		100% { opacity: 0; top: 104%; transform: translateX(0) skewX(0deg); }
 	}
-	/* a hair of VHS chroma bleed while it rolls */
-	.vf.is-rolling:not(.no-fx):not(.is-paused) .vf-screen {
-		animation: vfBleed 3.2s ease-in-out infinite;
-	}
-	@keyframes vfBleed {
-		0%, 100% { filter: saturate(1.06) contrast(1.02); }
-		50% { filter: saturate(1.14) contrast(1.05) hue-rotate(1.5deg); }
+	/* a hair of VHS chroma bleed while it rolls — STATIC. Animating filter
+	   re-rasterizes the whole screen every frame for as long as the tape
+	   rolls; the moving 1.5° hue wobble wasn't worth a pinned CPU core. */
+	.vf.is-rolling:not(.no-fx) .vf-screen {
+		filter: saturate(1.1) contrast(1.03);
 	}
 
 	/* ---- play target --------------------------------------------------- */

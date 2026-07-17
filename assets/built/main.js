@@ -228,7 +228,7 @@
 				var a = document.createElement('a');
 				a.href = '#' + h.id;
 				a.textContent = h.textContent;
-				a.className = 'toc-link' + (h.tagName === 'H3' ? ' pl-8' : '');
+				a.className = 'toc-link' + (h.tagName === 'H3' ? ' toc-h3' : '');
 				tocList.appendChild(a);
 			});
 			if ('IntersectionObserver' in window) {
@@ -236,9 +236,16 @@
 					function (entries) {
 						entries.forEach(function (en) {
 							if (en.isIntersecting) {
+								var active = null;
 								tocList.querySelectorAll('.toc-link').forEach(function (l) {
-									l.classList.toggle('is-active', l.getAttribute('href') === '#' + en.target.id);
+									var on = l.getAttribute('href') === '#' + en.target.id;
+									l.classList.toggle('is-active', on);
+									if (on) active = l;
 								});
+								/* keep the current link visible inside a scrolling toc */
+								if (active && tocList.scrollHeight > tocList.clientHeight) {
+									tocList.scrollTop = Math.max(0, active.offsetTop - tocList.clientHeight / 2);
+								}
 							}
 						});
 					},

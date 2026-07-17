@@ -132,7 +132,7 @@
 			</div>
 
 			{{!-- ============ Right sidebar ============ --}}
-			<aside class="space-y-6">
+			<aside class="rail-sticky">
 				{{!-- About box, GitHub-style --}}
 				<div class="card-surface p-6 !transform-none">
 					<p class="kicker">About</p>
@@ -161,7 +161,7 @@
 
 				{{!-- TOC (moved to #toc-mobile-slot on small screens) --}}
 				<div id="toc-desktop-slot">
-					{{> "post/toc"}}
+					{{> "components/toc"}}
 				</div>
 
 				{{> "components/adsense" slot="3487917390" format="auto" class="!my-0"}}

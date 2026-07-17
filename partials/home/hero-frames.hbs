@@ -48,11 +48,16 @@
 			</button>
 		</div>
 
-		{{!-- controls: always reachable once it's rolling --}}
+		{{!-- controls: real play/pause + unmute, reachable once it's rolling --}}
 		<div class="vf-bar">
 			<button type="button" class="vf-btn" id="vf-toggle" aria-label="Pause" hidden>
 				<span data-icon-pause>{{> "icons/pause" class="h-3.5 w-3.5"}}</span>
 				<span data-icon-play hidden>{{> "icons/play" class="h-3 w-3"}}</span>
+			</button>
+			{{!-- autoplay is forced-muted by browsers; one tap turns sound on --}}
+			<button type="button" class="vf-btn vf-btn-sound" id="vf-sound" aria-label="Unmute" hidden>
+				<span data-icon-muted>{{> "icons/volume-x" class="h-3.5 w-3.5"}}</span>
+				<span data-icon-sound hidden>{{> "icons/volume" class="h-3.5 w-3.5"}}</span>
 			</button>
 			<span class="vf-state" id="vf-state">{{#if kicker}}{{kicker}}{{else}}Now playing{{/if}}</span>
 			{{#if isFilm}}
@@ -74,12 +79,21 @@
 		var slot = document.getElementById('vf-video');
 		var tear = document.getElementById('vf-tear');
 		var bar = document.getElementById('vf-toggle');
+		var sound = document.getElementById('vf-sound');
 		var state = document.getElementById('vf-state');
 		var tc = document.getElementById('vf-tc');
 		var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 		if (reduced) root.classList.add('no-fx');
 
-		var player = null, ready = false, playing = false, secs = 0, timer = null;
+		var player = null, ready = false, playing = false, muted = true, secs = 0, timer = null;
+
+		function setMuted(on) {
+			muted = on;
+			if (!sound) return;
+			sound.setAttribute('aria-label', on ? 'Unmute' : 'Mute');
+			sound.querySelector('[data-icon-muted]').hidden = !on;
+			sound.querySelector('[data-icon-sound]').hidden = on;
+		}
 
 		function pad(n) { return (n < 10 ? '0' : '') + n; }
 		function tick() { secs++; tc.textContent = Math.floor(secs / 60) + ':' + pad(secs % 60); }
@@ -122,6 +136,7 @@
 				setTimeout(function () { tear.classList.remove('is-tearing'); }, 900);
 			}
 			bar.hidden = false;
+			if (sound) { sound.hidden = false; setMuted(true); }
 
 			var mount = document.createElement('div');
 			slot.appendChild(mount);
@@ -156,6 +171,22 @@
 			if (playing) player.pauseVideo();
 			else player.playVideo();
 		});
+
+		/* unmute/mute — the tap IS the user gesture browsers require for sound */
+		if (sound) {
+			sound.addEventListener('click', function () {
+				if (!ready || !player) return;
+				if (muted) {
+					player.unMute();
+					if (player.setVolume) player.setVolume(100);
+					if (!playing && player.playVideo) player.playVideo();
+					setMuted(false);
+				} else {
+					player.mute();
+					setMuted(true);
+				}
+			});
+		}
 
 		/* Stop the tape when it scrolls away — nobody wants audio-less video
 		   burning battery behind them. */

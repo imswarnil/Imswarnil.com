@@ -2,6 +2,125 @@
 
 Running record of what's done and what's left. Master backlog lives in CLAUDE.md.
 
+## 2026-07-17 — hero finished (title card) · Chrome hang fixed · perf 0.97→1.0 · JSON-LD everywhere · llms
+
+### Done
+- **Chrome "hang" root-caused and fixed — three compounding causes:**
+  1. `hero.hbs` still ran a `pointermove` handler writing `--hx-mx/--hx-my`
+     on the hero shell, but nothing consumed those vars any more. Every
+     mouse move invalidated style for the whole hero subtree — the tab froze
+     while the cursor crossed the hero. Handler removed.
+  2. The homepage rendered all ~20 sections / 2.5k nodes up front. Home
+     sections (`#home-*`) now carry `content-visibility: auto` +
+     `contain-intrinsic-size: auto 44rem` — offscreen sections are skipped
+     entirely. Local Lighthouse main-thread work: **4.2s → 0.9s**
+     (Rendering 710→114ms, Style & Layout 647→175ms); perf score
+     **0.97 → 1.00**, LCP 1.1s → 0.5s.
+  3. `vfBleed` animated `filter:` on the hero video screen infinitely while
+     rolling — a full re-rasterize every frame for a 1.5° hue wobble. Now a
+     static `saturate(1.1) contrast(1.03)`. (The one-shot `vfTear` stays.)
+- **Hero fold math was double-counting the navbar.** The `.nav-spacer` div
+  already clears the fixed navbar (the hero starts at y=72), but `.hx` padded
+  another `4.25rem` for it AND budgeted `100dvh` from y=0 — a 140px dead band
+  above the eyebrow and the tag strip landing 9px *below* the fold, which is
+  why it "never rendered". Now: `padding-top: .75rem`, `min-height:
+  min(calc(100dvh - 8rem), 64rem)` (spacer 4.5rem + strip 3.5rem). Strip sits
+  on the fold at 1440×900, animates (its `hxMarquee` keyframes live in
+  tailwind.css now, not the never-emitted Tailwind `marquee` utility).
+- **Headline no longer re-wraps while the frame morphs.** `.hx-card` was
+  capped at 52rem, so "frame the [X] — and cut the noise." broke to a third
+  line on the wide ratios and the whole hero jumped every 2.2s. Card cap is
+  64rem (reading-measure caps stay on the manifesto); headline is a stable
+  two lines at desktop.
+- **Mobile eyebrow kept the wrong span.** `nth-of-type(n+2)` counted the name
+  span, hiding the role tail it was meant to keep. Now `> span:nth-of-type(n+3)`
+  — name + role show, geography drops.
+- **JSON-LD on every page type.** Custom collection indexes (/blog/, /videos/,
+  /projects/, …) and custom routes matched none of home/post/page/tag/author
+  and emitted no schema. `json-ld.hbs` now has an inverse branch emitting
+  `CollectionPage` (name/description/isPartOf/publisher). Verified valid JSON
+  on /blog/, /videos/, /tags/.
+- **llms**: `/llms/` (H1 + link list, text/plain) now also lists the 20 most
+  recent posts (unescaped titles — no `&amp;` in the markdown). `llms.txt →
+  /llms/` redirect already in redirects.yaml; **upload routes.yaml +
+  redirects.yaml in Ghost Admin for it to work live**.
+- gscan: compatible with Ghost 6.x, no warnings surfaced.
+
+### Later same day — hero back to two columns
+- **Layout**: copy left / screen right at `lg+` (`.hx-grid`, copy gets the
+  1.05fr half); below `lg` it stays the centered stacked title card.
+- **Information rendering**: identity eyebrow → three explicit headline lines
+  (the frame owns line 2, so ratio morphs can never re-wrap the headline) →
+  manifesto → CTAs (socials drop to their own row in the column; the divider
+  hides at `lg`) → **"What I make"**: hairline, mono label on its own line,
+  then the six collections as quiet iconified links. Still static — the links
+  are the information, no `{{#get}}` counts.
+- **Cascade gotcha, now documented in the file**: the `lg` override block must
+  sit AFTER every `.hx-*` base rule — media queries add no specificity, and the
+  first attempt was silently swallowed by base rules later in the file.
+- Stage caps: side-by-side `min(52dvh, 26rem)`, short-laptop compact block
+  splits by width (34dvh stacked / 46dvh two-col). Strip verified on the fold
+  at 1440×900 (828–868px), clean at 1024×768 and 390×844.
+
+### Later — site-wide modules pass (toc · rails · kicker · video · guide · projects · CSS folders)
+- **CSS reorganised**: `assets/css/{components,modules,pages}/` —
+  components (buttons/media/sections), modules (toc/rail/guide/stage/showcase),
+  pages (home/collections). Imports in tailwind.css are grouped and commented.
+- **One TOC module** (`components/toc.hbs` + `modules/toc.css`): replaces four
+  divergent TOC markups (post/toc.hbs, doc.hbs, lesson.hbs, guide-step's
+  #toc-wrap — which used ids main.js never targeted, so guide TOCs never
+  populated at all). Scrollspy keeps the active link centred in a scrolling
+  list. Sticky comes from the rail it sits in.
+- **One sticky rail** (`modules/rail.css` `.rail-sticky`): replaces the ad-hoc
+  `sticky top-20/24/28 space-y-6/8` wrappers in article, changelog, trip,
+  episode, project, project-step, archive, timeline, products. Equal 1.5rem
+  gaps between widgets, self-scrolls when taller than the viewport.
+- **Kicker labels inline everywhere**: `.kicker` is now inline-flex, so the
+  icon sits on the same line as the text ("Products I use to make videos" et
+  al used to stack icon-above-text wherever a template forgot to bolt flex on).
+- **Video page**: chapters rail on mobile is a capped (max-h-72) scrollable
+  list under the player with a sticky header — it used to unhide unbounded,
+  shoving the title a screen down. Desktop unchanged; inline `.vd-ts`
+  timestamp buttons still cover list/paragraph-format timestamps.
+- **Guide step pages are player chrome now**: site navbar + spacer hidden
+  (rule kept OUTSIDE @layer — `tag-hash-guide-content` only exists at runtime,
+  inside the layer Tailwind purges it), guide bar at top with home link and a
+  Ghost-style progress hairline that fills with the route. Rails slimmed
+  17/20rem → 13.5/17rem; the step column takes the difference. FIXED a dead
+  stepper: `active=../slug` (and any hash param read inside `{{#get}}`) never
+  resolved, so data-active was empty and every guide showed 0% — now
+  `active=slug` + `{{../active}}` inside the block; verified "step 1 of 8 ·
+  13%", current node ringed, bar fills.
+- **Projects**: sidebar rides `.rail-sticky`; repo cards were already
+  GitHub-styled (social strip, mono slug, language dots, meta row) — kept.
+- Hero polish: larger headline/manifesto at lg (clamp 3vw/3rem), tighter
+  eyebrow; strip still on the fold (828–868 @ 1440×900). gscan clean.
+
+### Hero redesigned — bento, not a stacked column
+- The tall left column (badge → headline → manifesto → CTA → form → stats, six
+  bordered blocks) read as a crowded list. Restructured into two zones:
+  **TOP** = statement (availability badge → morphing headline → Watch/Resume +
+  socials) beside the film screen; **BAND** = a 3-up bento of cards —
+  *Currently* (Salesforce Engineer @ EF · Budapest · from India), *What I make*
+  (the four stats), *Newsletter* (the subscribe form). Information spreads
+  sideways into cards instead of piling up. Stacks to one column on mobile.
+- **Screen**: the long quote that collided with the play button is gone; the
+  poster is now a clean still + one glassy centred play control (three welcome
+  pulses, then rests) + a lower-third caption clear of the button.
+- **Real player controls**: the film bar now has play/pause AND a working
+  unmute/mute toggle (new `icons/volume`,`volume-x`; the tap is the user
+  gesture browsers require for sound). Verified 1:1→16:9 morph + both controls
+  appear on play.
+- Staged load animation: badge → headline → actions → cards rise in on their
+  own beats; screen scales in. Strip still on the fold (828–868 @ 1440×900).
+
+### Left (from the master backlog)
+- Render-blocking CSS (Ghost's cards.min.css) — needs a defer/inline strategy.
+- Live-site third-party weight (ads/OneSignal 472KiB unused JS) — the remaining
+  gap between local perf 1.0 and the live 64 score is code-injection config,
+  not theme code.
+- Image delivery (responsive sizes on content imgs), cache lifetimes (server).
+
 ## 2026-07-16 — hero rebuilt (square → film) · homepage un-crashed · guide full-width
 
 ### Done

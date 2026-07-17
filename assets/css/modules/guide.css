@@ -37,13 +37,15 @@
 	@media (min-width: 1024px) {
 		.guide-wrap {
 			/* step + route */
-			grid-template-columns: minmax(0, 1fr) 19rem;
+			grid-template-columns: minmax(0, 1fr) 17rem;
 		}
 	}
 	@media (min-width: 1280px) {
 		.guide-wrap {
-			/* contents + step + route */
-			grid-template-columns: 17rem minmax(0, 1fr) 20rem;
+			/* contents + step + route. Rails deliberately slim (13.5/17rem,
+			   down from 17/20) — the step is the point; the content column
+			   takes what the rails gave up. */
+			grid-template-columns: 13.5rem minmax(0, 1fr) 17rem;
 		}
 	}
 
@@ -107,14 +109,25 @@
 		background: rgb(var(--mist) / 0.4);
 	}
 
-	/* ---- the bar under the navbar -------------------------------------- */
+	/* ---- the guide bar — top of the page on steps ----------------------- */
 	.guide-bar {
 		position: sticky;
-		top: 3.75rem;
+		top: 0;
 		z-index: 30;
 		border-bottom: 1px solid rgb(var(--line));
 		background: rgb(var(--paper) / 0.85);
 		backdrop-filter: blur(10px);
+	}
+	/* Ghost-editor-style progress: a hairline that fills left→right along the
+	   bar's bottom edge as you advance through the route (width set by JS). */
+	.guide-bar-progress {
+		position: absolute;
+		left: 0;
+		bottom: -1px;
+		height: 2px;
+		width: 0;
+		background: var(--guide-rail, rgb(var(--accent)));
+		transition: width 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 	}
 	.guide-bar-in {
 		display: flex;
@@ -266,4 +279,13 @@
 			transition: none;
 		}
 	}
+}
+
+/* Step pages are a reading room: the site navbar goes away and the guide bar
+   IS the chrome (breadcrumb, position, exit). OUTSIDE @layer components on
+   purpose — `tag-hash-guide-content` only exists at runtime via body_class,
+   so inside the layer Tailwind treats it as unused and purges it. */
+body.tag-hash-guide-content #site-header,
+body.tag-hash-guide-content #nav-spacer {
+	display: none;
 }

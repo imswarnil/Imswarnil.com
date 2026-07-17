@@ -1,0 +1,46 @@
+/* ==================================================================
+   Table of contents — ONE module for every page that has one.
+
+   Markup comes from partials/components/toc.hbs; the list itself is
+   built client-side by main.js from the h2/h3 in .gh-content, which
+   also runs the scrollspy (IntersectionObserver toggles .is-active).
+   Sticky positioning belongs to the RAIL the toc sits in (.rail-sticky
+   or a template's own sticky wrapper) — the module only styles the box.
+   ================================================================== */
+
+@layer components {
+	.toc {
+		padding: 1.25rem;
+		border: 1px solid rgb(var(--line));
+		border-radius: 1rem;
+		background: rgb(var(--mist) / 0.4);
+	}
+
+	.toc-list {
+		margin-top: 0.75rem;
+		max-height: min(55vh, 26rem);
+		overflow-y: auto;
+		overscroll-behavior: contain;
+		scrollbar-width: none;
+	}
+	.toc-list::-webkit-scrollbar { display: none; }
+
+	.toc-link {
+		display: block;
+		padding: 0.3rem 0.5rem 0.3rem 0.875rem;
+		border-left: 2px solid rgb(var(--line));
+		font-size: 0.8125rem;
+		line-height: 1.4;
+		color: rgb(var(--silver));
+		transition: color 0.2s, border-color 0.2s, background-color 0.2s;
+	}
+	.toc-link:hover { color: rgb(var(--ink)); }
+	.toc-link.is-active {
+		border-color: rgb(var(--accent));
+		background: rgb(var(--accent) / 0.06);
+		color: rgb(var(--ink));
+		font-weight: 550;
+	}
+	/* h3 entries nest one level deeper */
+	.toc-link.toc-h3 { padding-left: 1.75rem; font-size: 0.78rem; }
+}

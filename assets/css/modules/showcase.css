@@ -103,7 +103,11 @@
 	.sc-stage {
 		position: relative;
 		aspect-ratio: var(--sc-ar, 16/9);
-		max-height: min(52dvh, 26rem);
+		/* Budgeted against the title card ABOVE it, not the whole viewport:
+		   eyebrow + headline + tagline + CTAs + marquee leave roughly 40dvh for
+		   the screen on a 900px laptop. 52dvh fit the old side-by-side layout
+		   and pushed this straight through the fold in the stacked one. */
+		max-height: min(38dvh, 21rem);
 		margin: 0 auto;
 		border: 1.5px solid rgb(var(--accent));
 		border-radius: 14px;
@@ -182,96 +186,101 @@
 		height: 100%;
 		object-fit: cover;
 	}
-	.sc-quote {
+	/* a soft scrim so the play control and caption stay legible on any still */
+	.sc-scrim {
 		position: absolute;
-		inset: auto 0 0 0;
-		display: flex;
-		flex-direction: column;
-		gap: 9px;
-		padding: clamp(14px, 2vw, 20px);
-		background: linear-gradient(to top, rgb(0 0 0 / 0.82) 30%, transparent);
-		text-align: left;
-	}
-	.sc-quote-icon {
-		display: inline-flex;
-		align-items: center;
-		justify-content: center;
-		width: 1.75rem;
-		height: 1.75rem;
-		border-radius: 999px;
-		background: rgb(255 255 255 / 0.14);
-		border: 1px solid rgb(255 255 255 / 0.3);
-		color: #fff;
-		backdrop-filter: blur(4px);
-	}
-	.sc-quote-text {
-		margin: 0;
-		font-size: clamp(0.85rem, 1.35vw, 1.05rem);
-		font-weight: 600;
-		line-height: 1.4;
-		letter-spacing: -0.01em;
-		color: #fff;
-		text-shadow: 0 1px 10px rgb(0 0 0 / 0.5);
-	}
-	/* revealed word by word, like the subtitle — blur is only ever run once
-	   per word, on a short transition, so it stays cheap */
-	.sc-quote-text span {
-		display: inline-block;
-		filter: blur(4px);
-		opacity: 0.35;
-		transition: filter 0.45s ease, opacity 0.45s ease;
-	}
-	.sc-quote-text span.is-sharp {
-		filter: blur(0);
-		opacity: 1;
+		inset: 0;
+		z-index: 2;
+		background:
+			radial-gradient(60% 60% at 50% 42%, rgb(0 0 0 / 0.12), transparent 70%),
+			linear-gradient(to top, rgb(0 0 0 / 0.6) 0%, transparent 46%);
+		transition: opacity 0.4s ease;
 	}
 
-	/* ---- "Watch my story" ----------------------------------------------- */
-	.sc-watch {
-		display: inline-flex;
-		align-items: center;
-		gap: 9px;
-		width: 100%;
-		margin-top: 12px;
-		padding: 8px 10px;
-		border: 1px solid rgb(var(--line));
-		border-radius: 999px;
-		background: rgb(var(--paper) / 0.8);
-		transition: border-color 0.22s, background-color 0.22s, transform 0.22s, opacity 0.3s;
-	}
-	.sc-watch:hover {
-		border-color: rgb(var(--ink));
-		background: rgb(var(--paper));
-		transform: translateY(-1px);
-	}
-	.sc-watch-ring {
-		display: inline-flex;
-		flex: none;
+	/* ---- Play, centred on the frame — one clean glassy control ---------- */
+	.sc-play {
+		position: absolute;
+		inset: 0;
+		z-index: 3;
+		display: flex;
 		align-items: center;
 		justify-content: center;
-		width: 1.85rem;
-		height: 1.85rem;
-		padding-left: 2px;
+		width: 100%;
+		cursor: pointer;
+		border: 0;
+		background: transparent;
+	}
+	.sc-play-ring {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: clamp(3.25rem, 5vw, 4.25rem);
+		height: clamp(3.25rem, 5vw, 4.25rem);
+		padding-left: 4px;
 		border-radius: 999px;
-		background: rgb(var(--ink));
-		color: rgb(var(--paper));
+		border: 1.5px solid rgb(255 255 255 / 0.85);
+		background: rgb(0 0 0 / 0.32);
+		color: #fff;
+		-webkit-backdrop-filter: blur(6px);
+		backdrop-filter: blur(6px);
+		box-shadow: 0 10px 40px -12px rgb(0 0 0 / 0.7);
+		transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.3s, box-shadow 0.3s;
+		/* three welcome pulses on load, then it rests — not an infinite loop */
+		animation: scPulse 2.2s ease-out 1.3s 3;
 	}
-	.sc-watch-label {
+	.sc-play:hover .sc-play-ring,
+	.sc-play:focus-visible .sc-play-ring {
+		transform: scale(1.08);
+		background: rgb(var(--accent));
+		border-color: rgb(var(--accent));
+		box-shadow: 0 12px 46px -12px rgb(var(--accent) / 0.75);
+	}
+	.sc-play:focus-visible { outline: none; }
+	@keyframes scPulse {
+		0% { box-shadow: 0 10px 40px -12px rgb(0 0 0 / 0.7), 0 0 0 0 rgb(255 255 255 / 0.4); }
+		70%, 100% { box-shadow: 0 10px 40px -12px rgb(0 0 0 / 0.7), 0 0 0 16px rgb(255 255 255 / 0); }
+	}
+
+	/* ---- Lower-third caption — clear of the button --------------------- */
+	.sc-caption {
+		position: absolute;
+		inset: auto 0 0 0;
+		z-index: 3;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 10px;
+		padding: clamp(12px, 1.8vw, 18px);
+	}
+	.sc-caption-title {
+		display: inline-flex;
+		align-items: center;
+		gap: 7px;
 		font-size: 0.82rem;
-		font-weight: 600;
-		color: rgb(var(--ink));
+		font-weight: 650;
+		letter-spacing: -0.01em;
+		color: #fff;
+		text-shadow: 0 1px 10px rgb(0 0 0 / 0.6);
 	}
-	.sc-watch-meta {
-		margin-left: auto;
-		padding-right: 6px;
+	.sc-caption-meta {
+		flex: none;
+		padding: 0.15rem 0.5rem;
+		border-radius: 999px;
+		background: rgb(255 255 255 / 0.16);
+		-webkit-backdrop-filter: blur(4px);
+		backdrop-filter: blur(4px);
 		font-family: theme('fontFamily.mono');
-		font-size: 0.55rem;
+		font-size: 0.56rem;
 		font-weight: 700;
-		letter-spacing: 0.14em;
-		color: rgb(var(--silver));
+		letter-spacing: 0.12em;
+		color: #fff;
 	}
-	/* once the tape is rolling the button has nothing left to offer */
-	.sc[data-state='film'] .sc-watch {
+	@media (prefers-reduced-motion: reduce) {
+		.sc-play-ring { animation: none; }
+	}
+	/* once the tape is rolling the poster chrome steps aside */
+	.sc[data-state='film'] .sc-scrim,
+	.sc[data-state='film'] .sc-caption {
 		opacity: 0;
 		pointer-events: none;
 	}
@@ -311,15 +320,12 @@
 			max-height: none;
 			max-width: 32rem;
 		}
-		.sc-watch { max-width: 32rem; margin-left: auto; margin-right: auto; }
 	}
 	@media (max-width: 639px) {
-		.sc-quote-text { font-size: 0.82rem; }
-		.sc-watch-meta { display: none; }
+		.sc-caption-title { font-size: 0.75rem; }
 	}
 
 	@media (prefers-reduced-motion: reduce) {
 		.sc-stage, .sc-slide { transition: none; }
-		.sc-quote-text span { filter: none; opacity: 1; }
 	}
 }

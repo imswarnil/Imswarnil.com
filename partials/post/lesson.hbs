@@ -139,10 +139,7 @@
 			     has no headings and the TOC stays hidden. --}}
 			<div class="py-8 lg:flex lg:items-start lg:gap-10">
 				{{!-- auto-TOC: "On this page" (built from h2/h3 by main.js) --}}
-				<aside id="toc" hidden class="mb-8 rounded-2xl border border-line bg-mist/40 p-5 lg:order-2 lg:mb-0 lg:sticky lg:top-20 lg:w-72 lg:shrink-0">
-					<p class="kicker !text-[10px]">{{> "icons/book" class="h-3 w-3"}} On this page</p>
-					<nav id="toc-list" class="mt-3 max-h-[65vh] overflow-y-auto no-scrollbar" aria-label="Lesson contents"></nav>
-				</aside>
+				{{> "components/toc" class="mb-8 lg:order-2 lg:mb-0 lg:sticky lg:top-20 lg:w-72 lg:shrink-0"}}
 
 				<div class="min-w-0 lg:order-1 lg:flex-1">
 					<section class="gh-content video-theater">
