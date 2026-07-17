@@ -8,8 +8,17 @@
      Content: badge → headline (morphing frame) → credits meta → actions, beside
      the film screen; then a REEL — a filmstrip of recent work (one {{#get}}). --}}
 <section class="hx" id="hero">
-	<div class="bg-pat-grid-wide fade-mask-bloom pointer-events-none absolute inset-0" style="--pat-opacity:1.7" aria-hidden="true"></div>
+	<div class="bg-pat-grid-wide fade-mask-bloom pointer-events-none absolute inset-0" id="hx-grid" style="--pat-opacity:1.7" aria-hidden="true"></div>
 	<div class="hx-grain pointer-events-none absolute inset-0" aria-hidden="true"></div>
+	{{!-- a lens light-sweep, once, on load --}}
+	<div class="hx-sweep pointer-events-none absolute inset-0" aria-hidden="true"></div>
+
+	{{!-- autofocus reticle — tracks the cursor, snaps to a green "lock" when you
+	     stop moving (like a camera pulling focus). Desktop, fine-pointer only. --}}
+	<div class="hx-af" id="hx-af" aria-hidden="true">
+		<i></i><i></i><i></i><i></i>
+		<span class="hx-af-tag">AF</span>
+	</div>
 
 	{{!-- viewfinder chrome + camera HUD, sized to the content column --}}
 	<div class="hx-viewfinder" aria-hidden="true">
@@ -141,6 +150,43 @@
 					frame.style.setProperty('--hx-ar', s.ar);
 					chip.textContent = s.label;
 				}, 2200);
+			}
+
+			/* ---------- cursor parallax + autofocus reticle -------------------
+			   ONE rAF-throttled pointermove. It only writes CSS custom props and
+			   one element transform (both compositor-friendly), so it can't stall
+			   the main thread the way the old per-move style-invalidation did. */
+			var hero = document.getElementById('hero');
+			var af = document.getElementById('hx-af');
+			var fine = window.matchMedia && window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+			if (hero && fine && !reduced) {
+				var raf = null, ev = null, lockT = null;
+				hero.addEventListener('pointermove', function (e) {
+					ev = e;
+					if (af) {
+						af.classList.add('is-on');
+						af.classList.remove('is-locked');
+						clearTimeout(lockT);
+						lockT = setTimeout(function () { af.classList.add('is-locked'); }, 200);
+					}
+					if (raf) return;
+					raf = requestAnimationFrame(function () {
+						raf = null;
+						var b = hero.getBoundingClientRect();
+						var x = (ev.clientX - b.left) / b.width - 0.5;
+						var y = (ev.clientY - b.top) / b.height - 0.5;
+						hero.style.setProperty('--px', x.toFixed(3));
+						hero.style.setProperty('--py', y.toFixed(3));
+						{{!-- set `translate` (not transform): the lock pulse animates
+					     transform:scale, so keeping them separate lets both apply --}}
+					if (af) af.style.translate = (ev.clientX - b.left) + 'px ' + (ev.clientY - b.top) + 'px';
+					});
+				});
+				hero.addEventListener('pointerleave', function () {
+					hero.style.setProperty('--px', 0);
+					hero.style.setProperty('--py', 0);
+					if (af) { af.classList.remove('is-on', 'is-locked'); clearTimeout(lockT); }
+				});
 			}
 
 			/* live REC timecode HH:MM:SS:FF @ 24fps — ~12 writes/sec, only on change */

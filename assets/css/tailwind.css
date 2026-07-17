@@ -968,6 +968,8 @@ form[data-members-form].loading button[type='submit'] {
    the marquee's height — a full-height hero puts the strip one pixel below
    the fold, which is why it used to be invisible. */
 .hx {
+	--px: 0;
+	--py: 0;
 	position: relative;
 	display: flex;
 	flex-direction: column;
@@ -985,6 +987,84 @@ form[data-members-form].loading button[type='submit'] {
 		   sit just past the fold — a deliberate trade for air over cramming. */
 		min-height: min(calc(100dvh - 7rem), 66rem);
 	}
+}
+
+/* ---- Cursor parallax: layers drift on their own depth ---------------
+   `translate` (not `transform`) so it composes with the entrance transforms
+   and stays on the compositor. --px/--py are set by the hero pointermove. */
+#hx-grid { transition: translate 0.4s ease-out; translate: calc(var(--px) * 14px) calc(var(--py) * 14px); }
+.hx-viewfinder { transition: translate 0.4s ease-out; translate: calc(var(--px) * 7px) calc(var(--py) * 7px); }
+.hx-screen { transition: translate 0.45s ease-out; translate: calc(var(--px) * -12px) calc(var(--py) * -9px); }
+
+/* ---- Lens light-sweep — one diagonal bloom across the frame on load -- */
+.hx-sweep { z-index: 2; overflow: hidden; }
+.hx-sweep::before {
+	content: '';
+	position: absolute;
+	top: -30%;
+	bottom: -30%;
+	left: -30%;
+	width: 28%;
+	background: linear-gradient(100deg, transparent, rgb(var(--accent) / 0.12) 45%, rgb(255 255 255 / 0.14) 50%, transparent);
+	transform: skewX(-16deg);
+	animation: hxSweep 1.5s cubic-bezier(0.4, 0, 0.2, 1) 0.35s 1 both;
+}
+@keyframes hxSweep {
+	from { left: -30%; opacity: 0; }
+	20% { opacity: 1; }
+	to { left: 130%; opacity: 0; }
+}
+
+/* ---- Autofocus reticle — follows the cursor, locks green when it rests */
+.hx-af {
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 6;
+	width: 30px;
+	height: 30px;
+	margin: -15px 0 0 -15px;
+	pointer-events: none;
+	opacity: 0;
+	transition: translate 0.16s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.3s ease;
+	color: rgb(var(--ink) / 0.5);
+}
+.hx-af.is-on { opacity: 1; }
+.hx-af i {
+	position: absolute;
+	width: 8px;
+	height: 8px;
+	border: 1.5px solid currentColor;
+	transition: color 0.2s;
+}
+.hx-af i:nth-child(1) { top: 0; left: 0; border-right: 0; border-bottom: 0; }
+.hx-af i:nth-child(2) { top: 0; right: 0; border-left: 0; border-bottom: 0; }
+.hx-af i:nth-child(3) { bottom: 0; left: 0; border-right: 0; border-top: 0; }
+.hx-af i:nth-child(4) { bottom: 0; right: 0; border-left: 0; border-top: 0; }
+.hx-af-tag {
+	position: absolute;
+	top: 50%;
+	left: calc(100% + 5px);
+	transform: translateY(-50%);
+	font-family: theme('fontFamily.mono');
+	font-size: 0.5rem;
+	font-weight: 700;
+	letter-spacing: 0.12em;
+	opacity: 0;
+	transition: opacity 0.2s;
+}
+/* focus locked: the brackets snap in and go green, with a quick confirm pulse */
+.hx-af.is-locked { color: #22c55e; animation: hxAfLock 0.35s ease; }
+.hx-af.is-locked .hx-af-tag { opacity: 1; }
+@keyframes hxAfLock {
+	0% { transform: scale(1.35); }
+	60% { transform: scale(0.94); }
+	100% { transform: scale(1); }
+}
+@media (prefers-reduced-motion: reduce) {
+	#hx-grid, .hx-viewfinder, .hx-screen { translate: none; }
+	.hx-sweep::before { animation: none; display: none; }
+	.hx-af { display: none; }
 }
 
 /* The statement+screen row, centred in the hero. Splits to two columns at lg. */
