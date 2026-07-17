@@ -44,5 +44,4 @@
 		<path d="M333 0V1000M667 0V1000M0 333H1000M0 667H1000" />
 	</g>
 
-	<text x="500" y="936" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, monospace" font-size="21" letter-spacing="10" fill="#fafafa" opacity="0.8">FRAME 1:1</text>
 </svg>

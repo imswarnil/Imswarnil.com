@@ -1099,6 +1099,92 @@ form[data-members-form].loading button[type='submit'] {
 	.hx-enter, .hx-enter-screen { animation: none; }
 }
 
+/* ---- Filmic grain wash — subtle speckle for cinematic depth --------- */
+.hx-grain {
+	z-index: 0;
+	opacity: 0.05;
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+	mix-blend-mode: multiply;
+}
+.dark .hx-grain { mix-blend-mode: screen; opacity: 0.07; }
+
+/* ---- Viewfinder chrome — the hero framed like a shot ----------------
+   Four crop-mark brackets + a camera HUD (REC + live timecode, aspect/fps),
+   sized to the content column so the framing lands on the reading measure. */
+.hx-viewfinder {
+	position: absolute;
+	z-index: 1;
+	left: 0;
+	right: 0;
+	top: clamp(1rem, 3.5vh, 3rem);
+	bottom: clamp(1rem, 3.5vh, 3rem);
+	width: 100%;
+	max-width: var(--w-site);
+	margin: 0 auto;
+	padding: 0 var(--gutter);
+	pointer-events: none;
+}
+.hx-vf-mark {
+	position: absolute;
+	width: clamp(16px, 1.8vw, 26px);
+	height: clamp(16px, 1.8vw, 26px);
+	border: 1.5px solid rgb(var(--ink) / 0.5);
+	opacity: 0;
+	animation: hxMarkIn 0.6s ease 0.7s both;
+}
+.hx-vf-mark:nth-child(1) { top: 0; left: var(--gutter); border-right: 0; border-bottom: 0; }
+.hx-vf-mark:nth-child(2) { top: 0; right: var(--gutter); border-left: 0; border-bottom: 0; }
+.hx-vf-mark:nth-child(3) { bottom: 0; left: var(--gutter); border-right: 0; border-top: 0; }
+.hx-vf-mark:nth-child(4) { bottom: 0; right: var(--gutter); border-left: 0; border-top: 0; }
+@keyframes hxMarkIn {
+	from { opacity: 0; transform: scale(1.4); }
+	to { opacity: 1; transform: none; }
+}
+.hx-hud {
+	position: absolute;
+	top: 0;
+	transform: translateY(-50%);
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	font-family: theme('fontFamily.mono');
+	font-size: 0.56rem;
+	font-weight: 700;
+	letter-spacing: 0.18em;
+	text-transform: uppercase;
+	color: rgb(var(--silver));
+	opacity: 0;
+	animation: hxHudIn 0.6s ease 0.9s both;
+}
+@keyframes hxHudIn { to { opacity: 1; } }
+.hx-hud-tl { left: calc(var(--gutter) + clamp(16px, 1.8vw, 26px) + 12px); }
+.hx-hud-tr { right: calc(var(--gutter) + clamp(16px, 1.8vw, 26px) + 12px); }
+.hx-hud-rec {
+	display: inline-flex;
+	align-items: center;
+	gap: 5px;
+	color: rgb(var(--ink));
+}
+.hx-hud-rec i {
+	width: 6px;
+	height: 6px;
+	border-radius: 999px;
+	background: #ef4444;
+	animation: hxRec 1.4s steps(1) infinite;
+}
+@keyframes hxRec { 50% { opacity: 0.25; } }
+.hx-hud-tc { color: rgb(var(--silver)); font-variant-numeric: tabular-nums; }
+.hx-hud-fps { margin-left: 3px; opacity: 0.55; }
+@media (prefers-reduced-motion: reduce) {
+	.hx-vf-mark, .hx-hud { animation: none; opacity: 1; }
+	.hx-hud-rec i { animation: none; }
+}
+/* mobile: keep the corner marks, drop the HUD text so it stays calm */
+@media (max-width: 639px) {
+	.hx-hud { display: none; }
+	.hx-vf-mark { border-color: rgb(var(--ink) / 0.35); }
+}
+
 /* actions row under the headline */
 .hx-cta {
 	display: flex;
@@ -1213,11 +1299,27 @@ form[data-members-form].loading button[type='submit'] {
 
 .hx-h1 {
 	margin: 0 auto;
-	font-size: clamp(1.85rem, 4vw, 3.3rem);
-	font-weight: 600;
-	line-height: 1.12;
-	letter-spacing: -0.03em;
+	font-size: clamp(1.95rem, 4.1vw, 3.5rem);
+	font-weight: 640;
+	line-height: 1.1;
+	letter-spacing: -0.035em;
 	text-wrap: balance;
+}
+/* each headline line rises in on its own beat, blur clearing like a rack
+   focus pulling sharp — a film cut, not a slide. No overflow mask, so the
+   frame's floating ratio chip on line 2 is never clipped. */
+.hx-line { display: block; }
+.hx-line-in {
+	display: block;
+	animation: hxLineIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+	animation-delay: var(--d, 0s);
+}
+@keyframes hxLineIn {
+	from { opacity: 0; transform: translateY(0.55em); filter: blur(6px); }
+	to { opacity: 1; transform: none; filter: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+	.hx-line-in { animation: none; }
 }
 /* morphing aspect-ratio frame with viewfinder crop marks */
 
