@@ -1692,6 +1692,15 @@ body.page-resume #nav-spacer {
 .err-glitch::before { transform: translate(-3px, 0); color: rgb(var(--accent)); clip-path: inset(20% 0 40% 0); animation: errGlitch 2.4s steps(3) infinite; }
 .err-glitch::after { transform: translate(3px, 0); color: rgb(var(--silver)); clip-path: inset(60% 0 10% 0); animation: errGlitch 1.9s steps(2) infinite reverse; }
 @keyframes errGlitch { 30% { clip-path: inset(10% 0 70% 0); } 60% { clip-path: inset(50% 0 20% 0); } }
+/* 404 crew scene: spinning reel · hunting magnifier · snapping clapperboard */
+.err-reel { animation: errSpin 7s linear infinite; transform-origin: 50% 50%; }
+@keyframes errSpin { to { transform: rotate(360deg); } }
+.err-hunt { display: inline-block; animation: errFloat 3.4s ease-in-out infinite; }
+.err-clap-top { transform-box: fill-box; transform-origin: 9px 33px; animation: errSnap 3.4s ease-in-out infinite; }
+@keyframes errSnap { 0%, 76%, 100% { transform: rotate(0); } 84% { transform: rotate(-22deg); } 91% { transform: rotate(0); } }
+.err-strip { display: flex; justify-content: center; gap: 4px; }
+.err-strip i { width: 26px; height: 20px; border: 2px solid rgb(var(--line)); border-radius: 3px; }
+.err-strip i:nth-child(odd) { background: rgb(var(--mist)); }
 
 /* Side rail ads on tag pages (xl+ only) */
 .rail-ad {
@@ -1719,7 +1728,8 @@ body.page-resume #nav-spacer {
 [data-theme='claude'] .card-surface { border-radius: 1rem; box-shadow: none; }
 
 @media (prefers-reduced-motion: reduce) {
-	.err-art, .err-glitch::before, .err-glitch::after { animation: none; }
+	.err-art, .err-glitch::before, .err-glitch::after,
+	.err-reel, .err-hunt, .err-clap-top { animation: none; }
 }
 
 /* Video preview cards: play on hover */

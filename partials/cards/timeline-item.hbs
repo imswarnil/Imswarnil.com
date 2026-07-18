@@ -1,55 +1,45 @@
-{{!-- Timeline entry. Rendered inside {{#foreach posts}} — uses @odd to
-     alternate sides across the center spine on lg+. Deep-linkable via
-     id="tl-{slug}" (used by /resume "view on timeline" links). --}}
+{{!-- Timeline entry — a minimal calendar card: full-width image, a tear-off
+     calendar leaf, title + one-line note. No clock. Rendered inside
+     {{#foreach posts}} — @odd alternates sides across the spine on lg+.
+     Deep-linkable via id="tl-{slug}". The image parallaxes on scroll
+     (data-tl-parallax, wired in timeline.hbs). --}}
 <li id="tl-{{slug}}" data-year="{{date published_at format="YYYY"}}" class="tl-item reveal relative pl-12 sm:pl-16 lg:grid lg:grid-cols-[minmax(0,1fr)_5.5rem_minmax(0,1fr)] lg:items-start lg:pl-0 {{class}}">
-	{{!-- Node on the spine: icon picked from the entry's internal event tag --}}
-	<span class="tl-dot absolute left-[1.4rem] top-8 z-10 flex h-10 w-10 -translate-x-1/2 items-center justify-center rounded-full border border-line bg-paper shadow-card transition-all duration-300 lg:static lg:col-start-2 lg:row-start-1 lg:mt-8 lg:translate-x-0 lg:justify-self-center">
+	{{!-- Node on the spine: icon from the entry's internal event tag --}}
+	<span class="tl-dot absolute left-[1.4rem] top-7 z-10 flex h-9 w-9 -translate-x-1/2 items-center justify-center rounded-full border border-line bg-paper shadow-card transition-all duration-300 lg:static lg:col-start-2 lg:row-start-1 lg:mt-7 lg:translate-x-0 lg:justify-self-center">
 		<span class="tl-dot-icon text-silver transition-colors duration-300">
-			{{#has tag="#event-company-change"}}{{> "icons/briefcase"}}
-			{{else has tag="#event-milestone"}}{{> "icons/trophy"}}
-			{{else has tag="#event-relocation"}}{{> "icons/map-pin"}}
-			{{else has tag="#event-education"}}{{> "icons/graduation"}}
-			{{else has tag="#event-award"}}{{> "icons/medal"}}
-			{{else}}{{> "icons/star"}}{{/has}}
+			{{#has tag="#event-company-change"}}{{> "icons/briefcase" class="h-4 w-4"}}
+			{{else has tag="#event-milestone"}}{{> "icons/trophy" class="h-4 w-4"}}
+			{{else has tag="#event-relocation"}}{{> "icons/map-pin" class="h-4 w-4"}}
+			{{else has tag="#event-education"}}{{> "icons/graduation" class="h-4 w-4"}}
+			{{else has tag="#event-award"}}{{> "icons/medal" class="h-4 w-4"}}
+			{{else}}{{> "icons/star" class="h-4 w-4"}}{{/has}}
 		</span>
 	</span>
 
 	{{!-- Card — column 1 (left) for even entries, column 3 (right) for odd --}}
 	<div class="lg:row-start-1 {{#if @odd}}lg:col-start-3{{else}}lg:col-start-1{{/if}}">
-		<a href="{{url}}" class="tl-card group block rounded-2xl border border-line bg-paper p-6 shadow-card transition hover:-translate-y-1 hover:shadow-lift sm:p-7">
+		<a href="{{url}}" class="tl-card group block overflow-hidden rounded-2xl border border-line bg-paper shadow-card transition hover:-translate-y-1 hover:shadow-lift">
 			{{#if feature_image}}
-				<img src="{{img_url feature_image size="600"}}" alt="{{title}}" loading="lazy" class="mb-5 h-44 w-full rounded-xl border border-line object-cover" />
+				<div class="tl-media relative aspect-[16/9] overflow-hidden bg-mist">
+					<img src="{{img_url feature_image size="800"}}" alt="{{title}}" loading="lazy" class="tl-media-img absolute inset-x-0 -top-[10%] h-[120%] w-full object-cover" data-tl-parallax />
+				</div>
 			{{/if}}
-			{{!-- schedule row: tear-off calendar leaf + analog clock set to publish time --}}
-			<div class="flex items-center gap-4">
-				<span class="tl-cal shrink-0 overflow-hidden rounded-xl border border-line bg-paper text-center shadow-card" aria-hidden="true">
-					<span class="block bg-[#ef4444] px-3 py-0.5 font-mono text-[9px] font-bold uppercase tracking-[0.2em] text-white">{{date published_at format="MMM"}}</span>
-					<span class="block px-3 pt-1 text-2xl font-black leading-none tracking-tight">{{date published_at format="DD"}}</span>
-					<span class="block px-3 pb-1 font-mono text-[9px] text-silver">{{date published_at format="YYYY"}}</span>
+			<div class="flex items-start gap-3 p-4">
+				{{!-- tear-off calendar leaf --}}
+				<span class="tl-cal shrink-0 overflow-hidden rounded-lg border border-line bg-paper text-center leading-none shadow-card" aria-hidden="true">
+					<span class="block bg-accent px-2.5 py-1 font-mono text-[8px] font-bold uppercase tracking-[0.18em] text-on-accent">{{date published_at format="MMM"}}</span>
+					<span class="block px-2.5 pt-1.5 text-xl font-black tracking-tight">{{date published_at format="DD"}}</span>
+					<span class="block px-2.5 pb-1 font-mono text-[8px] text-silver">{{date published_at format="YYYY"}}</span>
 				</span>
-				<span class="min-w-0 flex-1">
-					<time class="block font-mono text-xs uppercase tracking-widest text-silver" datetime="{{date published_at format="YYYY-MM-DD"}}">{{date published_at format="dddd"}}</time>
-					<span class="mt-0.5 block font-mono text-[10px] uppercase tracking-[0.15em] text-silver/70">logged {{date published_at format="h:mm A"}}</span>
-				</span>
-				<span class="tl-clock shrink-0" data-clock="{{date published_at format="HH:mm"}}" aria-hidden="true">
-					<svg viewBox="0 0 40 40" class="h-11 w-11">
-						<circle cx="20" cy="20" r="18" fill="none" stroke="rgb(var(--line))" stroke-width="2" />
-						<g stroke="rgb(var(--silver))" stroke-width="1.5" stroke-linecap="round">
-							<line x1="20" y1="4.5" x2="20" y2="7.5" /><line x1="35.5" y1="20" x2="32.5" y2="20" />
-							<line x1="20" y1="35.5" x2="20" y2="32.5" /><line x1="4.5" y1="20" x2="7.5" y2="20" />
-						</g>
-						<line class="tl-hh" x1="20" y1="20" x2="20" y2="12.5" stroke="rgb(var(--ink))" stroke-width="2.4" stroke-linecap="round" />
-						<line class="tl-mh" x1="20" y1="20" x2="20" y2="9" stroke="rgb(var(--silver))" stroke-width="1.8" stroke-linecap="round" />
-						<line class="tl-sh" x1="20" y1="23" x2="20" y2="8" stroke="#ef4444" stroke-width="1" stroke-linecap="round" />
-						<circle cx="20" cy="20" r="1.6" fill="#ef4444" />
-					</svg>
-				</span>
-			</div>
-			<h3 class="mt-2.5 text-xl font-semibold tracking-tight sm:text-2xl">{{title}}</h3>
-			<p class="mt-2.5 text-sm leading-relaxed text-silver sm:text-[0.95rem]">{{custom_excerpt}}{{^custom_excerpt}}{{excerpt words="36"}}{{/custom_excerpt}}</p>
-			<div class="mt-5 flex flex-wrap items-center gap-2">
-				{{#primary_tag}}<span class="chip">{{name}}</span>{{/primary_tag}}
-				<span class="ml-auto inline-flex items-center gap-1.5 text-xs font-medium text-silver transition group-hover:text-ink">Read the story {{> "icons/arrow-right"}}</span>
+				<div class="min-w-0">
+					<time class="font-mono text-[10px] uppercase tracking-[0.15em] text-silver" datetime="{{date published_at format="YYYY-MM-DD"}}">{{date published_at format="ddd · DD MMM YYYY"}}</time>
+					<h3 class="mt-1 line-clamp-2 text-base font-semibold leading-snug tracking-tight sm:text-lg">{{title}}</h3>
+					<p class="mt-1 line-clamp-2 text-[13px] leading-relaxed text-silver">{{custom_excerpt}}{{^custom_excerpt}}{{excerpt words="22"}}{{/custom_excerpt}}</p>
+					<div class="mt-2.5 flex flex-wrap items-center gap-2">
+						{{#primary_tag}}<span class="chip !py-0.5 !text-[10px]">{{name}}</span>{{/primary_tag}}
+						<span class="ml-auto inline-flex items-center gap-1 text-[11px] font-medium text-silver transition group-hover:text-ink">Read {{> "icons/arrow-right" class="h-3 w-3"}}</span>
+					</div>
+				</div>
 			</div>
 		</a>
 	</div>

@@ -16,20 +16,5 @@
 
 	{{> "components/adsense" slot="7663977887" format="auto" class="mx-auto max-w-2xl"}}
 
-	{{!-- Peek at the snippets shelf --}}
-	{{#get "posts" filter="tag:hash-snippet" order="published_at desc" limit="3" include="tags" as |snippets|}}
-		{{#if snippets}}
-		<section class="mt-14">
-			<div class="flex items-center justify-between gap-4">
-				<p class="kicker">{{> "icons/code"}} Code snippets</p>
-				<a href="{{@site.url}}/snippets/" class="btn-ghost btn-sm">All snippets {{> "icons/arrow-right" class="h-3.5 w-3.5"}}</a>
-			</div>
-			<div class="mt-4 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-				{{#foreach snippets}}{{> "cards/snippet"}}{{/foreach}}
-			</div>
-		</section>
-		{{/if}}
-	{{/get}}
-
 	{{> "components/pagination"}}
 </section>

@@ -22,6 +22,27 @@
 					</li>
 					{{> "cards/timeline-item"}}
 				{{/foreach}}
+
+				{{!-- Origin: where the whole story began --}}
+				<li class="tl-year relative scroll-mt-32 pl-12 sm:pl-16 lg:pl-0 lg:text-center" data-year="1996">
+					<span class="tl-year-text relative z-[1] bg-paper px-3 lg:px-6">1996</span>
+				</li>
+				<li class="tl-item relative pl-12 sm:pl-16 lg:grid lg:grid-cols-[minmax(0,1fr)_5.5rem_minmax(0,1fr)] lg:items-start lg:pl-0" data-year="1996">
+					<span class="tl-dot absolute left-[1.4rem] top-7 z-10 flex h-9 w-9 -translate-x-1/2 items-center justify-center rounded-full border border-line bg-accent text-on-accent shadow-card lg:static lg:col-start-2 lg:row-start-1 lg:mt-7 lg:translate-x-0 lg:justify-self-center">
+						{{> "icons/heart" class="h-4 w-4"}}
+					</span>
+					<div class="lg:row-start-1 lg:col-start-1">
+						<div class="tl-card rounded-2xl border border-line bg-mist/40 p-6 text-center lg:text-left">
+							<span class="tl-cal inline-flex flex-col overflow-hidden rounded-lg border border-line bg-paper text-center leading-none shadow-card" aria-hidden="true">
+								<span class="bg-accent px-3 py-1 font-mono text-[9px] font-bold uppercase tracking-[0.18em] text-on-accent">Jul</span>
+								<span class="px-3 pt-1.5 text-2xl font-black tracking-tight">15</span>
+								<span class="px-3 pb-1 font-mono text-[9px] text-silver">1996</span>
+							</span>
+							<h3 class="mt-4 text-xl font-bold tracking-tight sm:text-2xl">My journey started</h3>
+							<p class="mt-2 text-sm leading-relaxed text-silver">15 July 1996 — I was born. Everything after this is just commits on top. 🎬</p>
+						</div>
+					</div>
+				</li>
 			</ol>
 			<div class="mx-auto max-w-2xl">{{> "components/pagination"}}</div>
 		</div>
@@ -68,27 +89,13 @@
 	.tl-pulse .tl-card { border-color: rgb(var(--accent) / 0.55); }
 	.tl-yearnav-link.is-active { background-color: rgb(var(--mist)); color: rgb(var(--ink)); }
 
-	/* Schedule chrome: calendar leaf lifts with the card; clock hands sweep
-	   into place once set (JS below), second hand ticks on the active entry */
+	/* Calendar leaf tilts a touch with the card on hover */
 	.tl-cal { transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
 	.tl-card:hover .tl-cal { transform: rotate(-4deg) scale(1.05); }
-	.tl-hh, .tl-mh {
-		transform-origin: 20px 20px;
-		transition: transform 1.1s cubic-bezier(0.16, 1, 0.3, 1);
-	}
-	.tl-sh {
-		transform-origin: 20px 20px;
-		opacity: 0;
-		transition: opacity 0.3s ease;
-	}
-	.tl-item.is-active .tl-sh {
-		opacity: 1;
-		animation: tl-tick 60s steps(60) infinite;
-	}
-	@keyframes tl-tick { to { transform: rotate(360deg); } }
+	/* Parallax image inside the card frame */
+	.tl-media-img { transition: transform 0.1s linear; will-change: transform; }
 	@media (prefers-reduced-motion: reduce) {
-		.tl-sh { animation: none !important; }
-		.tl-hh, .tl-mh { transition: none; }
+		.tl-media-img { transform: none !important; }
 	}
 </style>
 
@@ -121,17 +128,20 @@
 			}
 		});
 
-		/* --- Analog clocks: set hands to each entry's publish time. Hands start
-		   at 12 and sweep into position via the CSS transition. --- */
-		requestAnimationFrame(function () {
-			Array.prototype.slice.call(list.querySelectorAll('[data-clock]')).forEach(function (c) {
-				var t = (c.getAttribute('data-clock') || '').split(':');
-				var h = parseInt(t[0], 10) || 0, m = parseInt(t[1], 10) || 0;
-				var hh = c.querySelector('.tl-hh'), mh = c.querySelector('.tl-mh');
-				if (hh) hh.style.transform = 'rotate(' + ((h % 12) * 30 + m * 0.5) + 'deg)';
-				if (mh) mh.style.transform = 'rotate(' + (m * 6) + 'deg)';
+		/* --- Parallax: card images drift within their frame as they scroll --- */
+		var reduceMo = matchMedia('(prefers-reduced-motion: reduce)').matches;
+		var imgs = reduceMo ? [] : Array.prototype.slice.call(list.querySelectorAll('[data-tl-parallax]'));
+		function parallax() {
+			var vh = window.innerHeight;
+			imgs.forEach(function (img) {
+				var frame = img.parentElement;
+				var r = frame.getBoundingClientRect();
+				if (r.bottom < 0 || r.top > vh) return; /* off-screen */
+				/* -1 (entering) .. 1 (leaving); image drifts opposite, ±9% */
+				var p = (r.top + r.height / 2 - vh / 2) / vh;
+				img.style.transform = 'translateY(' + (-p * 9).toFixed(2) + '%)';
 			});
-		});
+		}
 
 		/* --- Scroll-driven active node: item nearest viewport center --- */
 		var items = Array.prototype.slice.call(list.querySelectorAll('.tl-item'));
@@ -159,7 +169,7 @@
 			fill.style.height = Math.max(0, Math.min(mid - r.top, r.height)) + 'px';
 		}
 		var origSetActive = setActive;
-		setActive = function () { origSetActive(); setFill(); };
+		setActive = function () { origSetActive(); setFill(); parallax(); };
 
 		function queue() { if (!ticking) { ticking = true; requestAnimationFrame(setActive); } }
 		window.addEventListener('scroll', queue, { passive: true });

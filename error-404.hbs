@@ -7,26 +7,37 @@
 
 	<div class="container-site relative text-center">
 
-		{{!-- Illustration: a lost frame on a tripod, wandering (parallax on move) --}}
-		<div class="relative mx-auto mb-4 h-28 w-full max-w-md text-silver" data-depth="16" aria-hidden="true">
-			<span class="err-art absolute left-[12%] top-2" style="animation-delay:.3s">
-				<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="9" width="18" height="12" rx="2"/><path d="M3 9l2-5 16 2-1 3M8.5 4.7L7 9M14 5.4L12.4 9"/></svg>
+		{{!-- Illustration: a little film crew hunting for the lost page — a
+		     spinning reel, a searching magnifier, and a snapping clapperboard.
+		     Each layer parallaxes on pointer move (data-depth). --}}
+		<div class="err-scene relative mx-auto mb-6 flex h-32 w-full max-w-lg items-end justify-center gap-5 text-silver sm:gap-8" aria-hidden="true">
+			{{!-- spinning film reel --}}
+			<svg class="err-reel" data-depth="24" width="86" height="86" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="3.5">
+				<circle cx="50" cy="50" r="46" />
+				<circle cx="50" cy="50" r="9" fill="currentColor" stroke="none" />
+				<g fill="currentColor" stroke="none">
+					<circle cx="50" cy="17" r="7.5" /><circle cx="79" cy="33.5" r="7.5" /><circle cx="79" cy="66.5" r="7.5" />
+					<circle cx="50" cy="83" r="7.5" /><circle cx="21" cy="66.5" r="7.5" /><circle cx="21" cy="33.5" r="7.5" />
+				</g>
+			</svg>
+			{{!-- magnifier, hunting --}}
+			<span class="err-hunt text-ink" data-depth="10">
+				<svg width="76" height="76" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7" /><path d="M21 21l-4.35-4.35" /><path d="M8.5 10.5h.01M13.5 10.5h.01M9 13.7c.8.7 3.2.7 4 0" /></svg>
 			</span>
-			<span class="err-art absolute right-[14%] top-6" style="animation-delay:.9s">
-				<svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="2"/><path d="M7 2v20M17 2v20M2 7h5M2 17h5M17 7h5M17 17h5"/></svg>
-			</span>
-			<span class="err-art absolute left-[4%] top-10 hidden sm:inline-block" style="animation-delay:1.4s">
-				<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/><circle cx="12" cy="12" r="3"/></svg>
-			</span>
-			<span class="err-art absolute left-1/2 top-0 -translate-x-1/2 text-ink">
-				<svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/><path d="M8.5 10.5h.01M13.5 10.5h.01M9 13.5c.8.7 3.2.7 4 0"/></svg>
-			</span>
-			<span class="absolute bottom-0 left-1/2 h-px w-40 -translate-x-1/2 bg-line"></span>
+			{{!-- snapping clapperboard --}}
+			<svg class="err-clap" data-depth="18" width="82" height="82" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round">
+				<g class="err-clap-top"><path d="M9 33 L91 22" stroke-width="15" stroke="currentColor" stroke-linecap="round" /></g>
+				<rect x="9" y="41" width="82" height="50" rx="4" />
+				<path d="M9 58 H91" opacity=".5" />
+			</svg>
 		</div>
+
+		{{!-- filmstrip divider --}}
+		<div class="err-strip mx-auto mb-6" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
 
 		<p class="err-glitch rank-number mx-auto !text-transparent" data-text="404" data-depth="8" style="-webkit-text-stroke: 2px rgb(var(--silver) / .5)">404</p>
 		<h1 class="mt-4 text-3xl font-semibold tracking-tight sm:text-4xl" id="err-title">Cropped out of existence.</h1>
-		<p class="mx-auto mt-4 max-w-md leading-relaxed text-silver">This page was noise, so it got the director's-cut treatment: cut. Or you typed the URL from memory — bold move, respect.</p>
+		<p class="mx-auto mt-4 max-w-md leading-relaxed text-silver">I build dashboards by day and film things by night — this page, apparently, is neither. It got the director's-cut treatment: cut. Or you typed the URL from memory — bold move, respect.</p>
 		<p class="mx-auto mt-2 max-w-md font-mono text-[11px] uppercase tracking-[0.2em] text-silver/70" id="err-excuse">rolling excuse reel…</p>
 		<div class="mt-8 flex flex-wrap justify-center gap-3">
 			<a href="{{@site.url}}" class="btn-primary">{{> "icons/arrow-right" class="rotate-180"}} Back home</a>
