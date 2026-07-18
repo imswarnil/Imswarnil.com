@@ -13,6 +13,37 @@
 		<div class="bg-grid absolute inset-0 bg-mist/60" style="z-index:-1"></div>
 		<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-black/30"></div>
 	</div>
+
+	{{!-- Right-hand illustration: a wireframe globe with animated flight paths
+	     (dots travel the arcs, cities pulse). Decorative; lg+ only. --}}
+	<div class="tv-globe" aria-hidden="true">
+		<svg viewBox="0 0 400 400" fill="none">
+			<circle class="tv-g-rim" cx="200" cy="200" r="150" />
+			<g class="tv-g-grid">
+				<ellipse cx="200" cy="200" rx="100" ry="150" />
+				<ellipse cx="200" cy="200" rx="52" ry="150" />
+				<line x1="200" y1="50" x2="200" y2="350" />
+				<ellipse cx="200" cy="200" rx="150" ry="100" />
+				<ellipse cx="200" cy="200" rx="150" ry="52" />
+				<line x1="50" y1="200" x2="350" y2="200" />
+			</g>
+			<g class="tv-g-routes">
+				<path class="tv-route" d="M120 150 Q 210 65 300 160" />
+				<path class="tv-route" style="animation-delay:-1s" d="M155 272 Q 250 200 300 160" />
+				<path class="tv-route" style="animation-delay:-2s" d="M120 150 Q 200 255 282 268" />
+			</g>
+			<g class="tv-g-planes">
+				<circle class="tv-plane" r="4" style="offset-path:path('M120 150 Q 210 65 300 160')" />
+				<circle class="tv-plane" r="4" style="offset-path:path('M155 272 Q 250 200 300 160');animation-delay:-1.6s" />
+				<circle class="tv-plane" r="4" style="offset-path:path('M120 150 Q 200 255 282 268');animation-delay:-3s" />
+			</g>
+			<g class="tv-g-pins">
+				<circle cx="120" cy="150" r="4" /><circle cx="300" cy="160" r="4" />
+				<circle cx="155" cy="272" r="4" /><circle cx="282" cy="268" r="4" />
+			</g>
+		</svg>
+	</div>
+
 	<div class="container-site relative pb-14 pt-44">
 		<p class="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.3em] text-white/80 animate-fade-in">{{> "icons/map-pin" class="h-3.5 w-3.5"}} boarding pass, no return date</p>
 		<h1 class="mt-4 max-w-3xl text-4xl font-black tracking-tight text-white sm:text-6xl text-balance animate-fade-up">Travel</h1>

@@ -222,3 +222,68 @@
 		color: rgb(var(--silver));
 	}
 }
+
+/* ==================================================================
+   /travel hero — wireframe globe with animated flight paths (travel.hbs).
+   Decorative; sits on the right of the dark hero, lg+ only. Colours are
+   fixed light tones because the hero is always dark (video + scrim).
+   ================================================================== */
+.tv-globe {
+	position: absolute;
+	right: clamp(-5rem, 1vw, 3rem);
+	top: 46%;
+	z-index: 0;
+	width: min(42vw, 30rem);
+	aspect-ratio: 1;
+	transform: translateY(-50%);
+	opacity: 0.9;
+	pointer-events: none;
+	animation: tvGlobeFloat 9s ease-in-out infinite;
+}
+@media (max-width: 1023px) {
+	.tv-globe { display: none; }
+}
+.tv-globe svg { width: 100%; height: 100%; overflow: visible; }
+.tv-g-rim { stroke: rgb(255 255 255 / 0.22); stroke-width: 1.5; }
+.tv-g-grid { stroke: rgb(255 255 255 / 0.14); stroke-width: 1; }
+.tv-g-routes .tv-route {
+	stroke: rgb(125 211 252 / 0.9); /* sky-300 */
+	stroke-width: 2;
+	stroke-linecap: round;
+	stroke-dasharray: 5 9;
+	filter: drop-shadow(0 0 4px rgb(125 211 252 / 0.5));
+	animation: tvDash 2.6s linear infinite;
+}
+.tv-plane {
+	fill: #fde68a; /* amber-200 */
+	filter: drop-shadow(0 0 5px rgb(253 224 138 / 0.9));
+	offset-rotate: 0deg;
+	animation: tvTravel 4.2s linear infinite;
+}
+.tv-g-pins circle {
+	fill: #fbbf24; /* amber-400 */
+	transform-box: fill-box;
+	transform-origin: center;
+	animation: tvPin 2.4s ease-out infinite;
+}
+.tv-g-pins circle:nth-child(2) { animation-delay: 0.6s; }
+.tv-g-pins circle:nth-child(3) { animation-delay: 1.2s; }
+.tv-g-pins circle:nth-child(4) { animation-delay: 1.8s; }
+@keyframes tvDash { to { stroke-dashoffset: -140; } }
+@keyframes tvTravel {
+	0% { offset-distance: 0%; opacity: 0; }
+	8% { opacity: 1; }
+	92% { opacity: 1; }
+	100% { offset-distance: 100%; opacity: 0; }
+}
+@keyframes tvPin {
+	0%, 100% { transform: scale(1); opacity: 0.95; }
+	50% { transform: scale(1.7); opacity: 0.4; }
+}
+@keyframes tvGlobeFloat {
+	0%, 100% { transform: translateY(-50%); }
+	50% { transform: translateY(calc(-50% - 12px)); }
+}
+@media (prefers-reduced-motion: reduce) {
+	.tv-globe, .tv-route, .tv-plane, .tv-g-pins circle { animation: none; }
+}
