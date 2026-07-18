@@ -14,8 +14,14 @@
 	--pattern: 18 28 45;
 	--ghost-accent-color: #f22f46;
 }
-[data-theme='twilio'] body {
-	font-family: var(--gh-font-body, 'Helvetica Neue', Helvetica, Arial, 'Geist', sans-serif);
+/* Force the brand font over any Ghost-admin font when this mode is active */
+[data-theme='twilio'] body,
+[data-theme='twilio'] h1,
+[data-theme='twilio'] h2,
+[data-theme='twilio'] h3,
+[data-theme='twilio'] .section-title,
+[data-theme='twilio'] .btn {
+	font-family: 'Helvetica Neue', Helvetica, Arial, 'Geist', sans-serif !important;
 }
 [data-theme='twilio'] h1,
 [data-theme='twilio'] h2,

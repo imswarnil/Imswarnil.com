@@ -14,12 +14,13 @@
 	--pattern: 61 57 41;
 	--ghost-accent-color: #c15f3c;
 }
+/* Force the editorial serif over any Ghost-admin heading font in this mode */
 [data-theme='claude'] h1,
 [data-theme='claude'] h2,
 [data-theme='claude'] h3,
 [data-theme='claude'] .section-title,
 [data-theme='claude'] .hh-name {
-	font-family: var(--gh-font-heading, 'Georgia', 'Times New Roman', serif);
+	font-family: 'Georgia', 'Times New Roman', serif !important;
 	letter-spacing: -0.01em;
 	font-weight: 600;
 }

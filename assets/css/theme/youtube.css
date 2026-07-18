@@ -15,8 +15,14 @@
 	--pattern: 0 0 0;
 	--ghost-accent-color: #ff0000;
 }
-[data-theme='youtube'] body {
-	font-family: var(--gh-font-body, 'Roboto', 'Geist', system-ui, Arial, sans-serif);
+/* Force Roboto (Material) over any Ghost-admin font when this mode is active */
+[data-theme='youtube'] body,
+[data-theme='youtube'] h1,
+[data-theme='youtube'] h2,
+[data-theme='youtube'] h3,
+[data-theme='youtube'] .section-title,
+[data-theme='youtube'] .btn {
+	font-family: 'Roboto', 'Geist', system-ui, Arial, sans-serif !important;
 }
 [data-theme='youtube'] h1,
 [data-theme='youtube'] h2,

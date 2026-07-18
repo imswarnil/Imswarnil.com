@@ -87,13 +87,14 @@
 				<i class="hh-shot-corner hh-c-tr" aria-hidden="true"></i>
 				<i class="hh-shot-corner hh-c-bl" aria-hidden="true"></i>
 				<i class="hh-shot-corner hh-c-br" aria-hidden="true"></i>
-				<figcaption class="hh-shot-cap">My Story</figcaption>
 				<button type="button" class="hh-shot-x" data-story-close aria-label="Close video">{{> "icons/close" class="h-5 w-5"}}</button>
 				<button type="button" class="hh-shot-play" data-story-open aria-label="Play my story">
 					{{> "icons/play" class="h-5 w-5"}}
 					<span class="hh-shot-play-ring" aria-hidden="true"></span>
 				</button>
 			</div>
+			{{!-- caption sits BELOW the frame, revealed while playing --}}
+			<figcaption class="hh-shot-cap">My Story</figcaption>
 		</figure>
 	</div>
 

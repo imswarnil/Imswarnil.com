@@ -15,8 +15,14 @@
 	--pattern: 255 255 255;
 	--ghost-accent-color: #e50914;
 }
-[data-theme='netflix'] body {
-	font-family: var(--gh-font-body, 'Helvetica Neue', Helvetica, Arial, 'Geist', sans-serif);
+/* Force the brand font over any Ghost-admin font when this mode is active */
+[data-theme='netflix'] body,
+[data-theme='netflix'] h1,
+[data-theme='netflix'] h2,
+[data-theme='netflix'] h3,
+[data-theme='netflix'] .section-title,
+[data-theme='netflix'] .btn {
+	font-family: 'Helvetica Neue', Helvetica, Arial, 'Geist', sans-serif !important;
 }
 [data-theme='netflix'] h1,
 [data-theme='netflix'] h2,

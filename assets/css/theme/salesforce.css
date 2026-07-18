@@ -17,8 +17,14 @@
 	--ghost-accent-color: #0176d3;
 	--slds-radius: 0.25rem; /* border-radius-medium */
 }
-[data-theme='salesforce'] body {
-	font-family: var(--gh-font-body, 'Salesforce Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif);
+/* Force the brand font over any Ghost-admin font when this mode is active */
+[data-theme='salesforce'] body,
+[data-theme='salesforce'] h1,
+[data-theme='salesforce'] h2,
+[data-theme='salesforce'] h3,
+[data-theme='salesforce'] .section-title,
+[data-theme='salesforce'] .btn {
+	font-family: 'Salesforce Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif !important;
 }
 [data-theme='salesforce'] h1,
 [data-theme='salesforce'] h2,

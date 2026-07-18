@@ -15,8 +15,14 @@
 	--pattern: 17 17 17;
 	--ghost-accent-color: #2563eb;
 }
-[data-theme='neubrutal'] body {
-	font-family: var(--gh-font-body, 'Geist', 'Arial Black', system-ui, sans-serif);
+/* Force the brutalist font over any Ghost-admin font when this mode is active */
+[data-theme='neubrutal'] body,
+[data-theme='neubrutal'] h1,
+[data-theme='neubrutal'] h2,
+[data-theme='neubrutal'] h3,
+[data-theme='neubrutal'] .section-title,
+[data-theme='neubrutal'] .btn {
+	font-family: 'Geist', 'Arial Black', system-ui, sans-serif !important;
 }
 
 /* Big, shouty, uppercase headings */

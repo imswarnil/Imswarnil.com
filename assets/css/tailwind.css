@@ -14,7 +14,17 @@
 @import './pages/collections.css';
 /* layout — page-specific structural overrides (loaded last so they win) */
 @import './layout/home.css';
-/* theme — branded design systems, each keyed on [data-theme='…'] */
+/* theme — branded design systems, each keyed on [data-theme='…'].
+   ADD A NEW THEME "x" in 5 steps:
+     1. assets/css/theme/x.css  — tokens + fonts (use !important on font) +
+        component overrides, all under [data-theme='x'].
+     2. @import it below.
+     3. default.hbs boot script — add 'x' to MODES, and to BRANDED if it should
+        NOT inherit Ghost's admin accent (i.e. owns its palette).
+     4. assets/built/main.js — add 'x' to MODES + a MODE_META entry (label,
+        glyph); add to DARK_MODES there + in default.hbs if it's dark.
+     5. package.json custom.color_scheme.options — add "X" so it's pickable as
+        the site default in Ghost Admin → Design. */
 @import './theme/salesforce.css';
 @import './theme/youtube.css';
 @import './theme/netflix.css';
