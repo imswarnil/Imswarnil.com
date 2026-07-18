@@ -681,13 +681,12 @@
 }
 
 /* ------------------------------------------------------------------
-   Player chrome — lesson & episode pages replace the global navbar
-   (body_class carries tag-hash-lesson / tag-hash-episode)
+   Player chrome — lesson & series-overview pages replace the global
+   navbar. Episode pages KEEP the main navbar (episode below it, queue
+   on the right) per request, so tag-hash-episode is NOT hidden here.
 ------------------------------------------------------------------- */
 body.tag-hash-lesson #site-header,
 body.tag-hash-lesson #nav-spacer,
-body.tag-hash-episode #site-header,
-body.tag-hash-episode #nav-spacer,
 body.tag-hash-webseries #site-header,
 body.tag-hash-webseries #nav-spacer {
 	display: none;

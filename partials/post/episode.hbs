@@ -3,24 +3,13 @@
      any {{#get}} block (inside one, post context breaks → "undefined").
      Episode numbers are filled client-side from the queue. --}}
 
-{{!-- Player chrome: replaces the global navbar (hidden via body.tag-hash-episode CSS) --}}
-<div class="player-bar" id="episode-bar">
-	<a href="{{@site.url}}/webseries/{{primary_tag.slug}}/" data-container-link class="icon-btn shrink-0 tooltip tooltip-bottom" data-tip="Back to series" aria-label="Close episode">{{> "icons/close"}}</a>
-	<div class="min-w-0 flex-1">
-		<p class="truncate font-mono text-[9px] uppercase tracking-[0.2em] text-silver">{{primary_tag.name}} · <span data-ep-pos>episode</span></p>
-		<p class="truncate text-sm font-semibold leading-tight">{{title}}</p>
-	</div>
-	<div class="flex shrink-0 items-center gap-1">
-		<a href="#" data-nav-prev hidden class="icon-btn tooltip tooltip-bottom hidden sm:inline-flex" data-tip="Previous episode" aria-label="Previous episode"><span class="rotate-180">{{> "icons/arrow-right"}}</span></a>
-		<button type="button" class="icon-btn tooltip tooltip-bottom hidden sm:inline-flex" data-tip="Theater fullscreen" id="episode-bar-max" aria-label="Fullscreen">{{> "icons/maximize"}}</button>
-		<a href="#" data-nav-next hidden class="btn-primary btn-sm">Next ep {{> "icons/arrow-right" class="h-3.5 w-3.5"}}</a>
-	</div>
-</div>
+{{!-- Episode pages keep the site's main navbar (no custom player bar); the
+     player sits just below it, with the episode queue on the right. --}}
 
 {{!-- resolve the series POST's real URL (tag slug ≠ post slug) --}}
 {{#foreach tags visibility="public" limit="1"}}{{#get "posts" filter="tag:hash-webseries+tag:{{slug}}" limit="1" as |ss|}}{{#foreach ss}}<span id="container-post" data-url="{{url}}" hidden></span>{{/foreach}}{{/get}}{{/foreach}}
 
-<article class="{{post_class}} pt-14">
+<article class="{{post_class}}">
 
 	{{!-- Full-bleed theater player --}}
 	<div class="w-full" style="background:#08080a;">
@@ -87,7 +76,7 @@
 			{{!-- Sidebar: full episode queue, current highlighted client-side --}}
 			<aside class="lg:col-span-4">
 				<div class="rail-sticky">
-					<p class="kicker mb-4">{{> "icons/play"}} Next episodes</p>
+					<p class="kicker mb-4">{{> "icons/tv"}} Episodes · {{primary_tag.name}}</p>
 					{{#foreach tags visibility="public" limit="1"}}
 					{{#get "posts" filter="tag:hash-episode+tag:{{slug}}" order="published_at asc" limit="50" include="tags" as |eps|}}
 					<ol class="max-h-[70vh] space-y-2 overflow-y-auto pr-1" id="episode-queue">
@@ -101,7 +90,10 @@
 								</span>
 								<span class="min-w-0">
 									<span class="line-clamp-2 text-[13px] font-medium leading-snug">{{title}}</span>
-									<span class="ep-now mt-0.5 hidden font-mono text-[10px] uppercase tracking-widest text-silver">Now playing</span>
+									<span class="ep-now mt-1 hidden inline-flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-widest" style="color:rgb(var(--accent))">
+										<span class="relative flex h-1.5 w-1.5"><span class="absolute inline-flex h-full w-full animate-ping rounded-full opacity-70" style="background:rgb(var(--accent))"></span><span class="relative inline-flex h-1.5 w-1.5 rounded-full" style="background:rgb(var(--accent))"></span></span>
+										Now playing
+									</span>
 								</span>
 							</a>
 						</li>

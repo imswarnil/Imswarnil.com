@@ -37,7 +37,7 @@
 				</button>
 
 				{{!-- Theme: tap toggles light/dark, long-press reveals all modes --}}
-				<button type="button" id="mode-cycle" data-mode-cycle class="icon-btn" aria-label="Switch theme mode" aria-haspopup="true"></button>
+				<button type="button" id="mode-cycle" data-mode-cycle class="icon-btn" aria-label="Switch theme mode" aria-haspopup="true"><span class="mode-glyph"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3v18a9 9 0 0 0 0-18Z" fill="currentColor" stroke="none"/></svg></span></button>
 
 				{{#if @site.members_enabled}}
 					{{#if @member}}
