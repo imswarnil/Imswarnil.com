@@ -1,0 +1,55 @@
+/* ==================================================================
+   Twilio — clean white, navy ink, Twilio red.
+   Soft radii, light card shadows, Helvetica-ish sans. Keyed on
+   [data-theme='twilio']; unlayered so it wins over base components.
+   ================================================================== */
+[data-theme='twilio'] {
+	--ink: 18 28 45; /* #121c2d */
+	--paper: 255 255 255;
+	--mist: 244 244 246;
+	--line: 225 227 234;
+	--silver: 96 107 133;
+	--accent: 242 47 70; /* #f22f46 */
+	--on-accent: 255 255 255;
+	--pattern: 18 28 45;
+	--ghost-accent-color: #f22f46;
+}
+[data-theme='twilio'] body {
+	font-family: var(--gh-font-body, 'Helvetica Neue', Helvetica, Arial, 'Geist', sans-serif);
+}
+[data-theme='twilio'] h1,
+[data-theme='twilio'] h2,
+[data-theme='twilio'] h3,
+[data-theme='twilio'] .section-title {
+	font-weight: 700;
+	letter-spacing: -0.015em;
+	color: rgb(var(--ink));
+}
+[data-theme='twilio'] .btn,
+[data-theme='twilio'] .chip {
+	border-radius: 0.375rem;
+}
+[data-theme='twilio'] .btn {
+	font-weight: 600;
+}
+[data-theme='twilio'] .btn-primary {
+	background: rgb(var(--accent));
+}
+[data-theme='twilio'] .btn-primary:hover {
+	opacity: 1;
+	background: rgb(204 32 51);
+}
+[data-theme='twilio'] .card-surface {
+	border-radius: 0.5rem;
+	box-shadow: 0 1px 4px rgb(18 28 45 / 0.08);
+}
+[data-theme='twilio'] .card-surface:hover {
+	box-shadow: 0 6px 18px rgb(18 28 45 / 0.12);
+}
+[data-theme='twilio'] .nav-shell.is-island {
+	border-radius: 0.6rem;
+	box-shadow: 0 2px 10px rgb(18 28 45 / 0.08);
+}
+[data-theme='twilio'] .kicker {
+	color: rgb(var(--accent));
+}

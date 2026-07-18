@@ -1,0 +1,76 @@
+/* ==================================================================
+   Netflix — cinematic black + red.
+   Near-black surfaces, signature red, heavy Helvetica, small radii,
+   posters that pop + scale on hover. Keyed on [data-theme='netflix']
+   (also carries the .dark class). Unlayered so it wins over base.
+   ================================================================== */
+[data-theme='netflix'] {
+	--ink: 255 255 255;
+	--paper: 20 20 20; /* #141414 */
+	--mist: 31 31 31;
+	--line: 51 51 51;
+	--silver: 179 179 179;
+	--accent: 229 9 20; /* #e50914 */
+	--on-accent: 255 255 255;
+	--pattern: 255 255 255;
+	--ghost-accent-color: #e50914;
+}
+[data-theme='netflix'] body {
+	font-family: var(--gh-font-body, 'Helvetica Neue', Helvetica, Arial, 'Geist', sans-serif);
+}
+[data-theme='netflix'] h1,
+[data-theme='netflix'] h2,
+[data-theme='netflix'] h3,
+[data-theme='netflix'] .section-title {
+	font-weight: 800;
+	letter-spacing: -0.01em;
+	color: #fff;
+}
+
+/* Posters/cards: flat dark tiles that scale + lift on hover, Netflix-style */
+[data-theme='netflix'] .card-surface {
+	border: 0;
+	border-radius: 4px;
+	background: rgb(35 35 35);
+	box-shadow: none;
+}
+[data-theme='netflix'] .card-surface:hover {
+	transform: scale(1.04);
+	box-shadow: 0 12px 32px rgb(0 0 0 / 0.6);
+	z-index: 2;
+}
+
+/* Buttons: square, bold; primary red, ghost = translucent gray */
+[data-theme='netflix'] .btn {
+	border-radius: 4px;
+	font-weight: 700;
+}
+[data-theme='netflix'] .btn-primary {
+	background: rgb(var(--accent));
+}
+[data-theme='netflix'] .btn-primary:hover {
+	opacity: 1;
+	background: rgb(245 12 22);
+}
+[data-theme='netflix'] .btn-ghost {
+	border: 0;
+	background: rgb(109 109 110 / 0.5);
+	color: #fff;
+	backdrop-filter: none;
+}
+[data-theme='netflix'] .btn-ghost:hover {
+	background: rgb(109 109 110 / 0.4);
+}
+[data-theme='netflix'] .chip {
+	border: 0;
+	border-radius: 4px;
+	background: rgb(51 51 51);
+	color: rgb(229 229 229);
+}
+[data-theme='netflix'] .nav-shell.is-island {
+	background: rgb(20 20 20 / 0.92);
+	border-color: rgb(51 51 51);
+}
+[data-theme='netflix'] .kicker {
+	color: rgb(var(--accent));
+}

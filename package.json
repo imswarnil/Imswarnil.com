@@ -55,9 +55,9 @@
 			"color_scheme": {
 				"type": "select",
 				"options": [
-					"System",
 					"Light",
 					"Dark",
+					"System",
 					"Salesforce",
 					"YouTube",
 					"Netflix",
@@ -65,7 +65,7 @@
 					"Twilio",
 					"Neubrutal"
 				],
-				"default": "System",
+				"default": "Light",
 				"description": "Default theme mode. Visitors can still switch."
 			}
 		}

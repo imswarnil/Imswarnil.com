@@ -24,22 +24,45 @@
 	<meta name="apple-mobile-web-app-title" content="{{@site.title}}" />
 	{{#if @site.icon}}<link rel="apple-touch-icon" href="{{img_url @site.icon size="300" absolute="true"}}" />{{/if}}
 
-	{{!-- Flash-free theme mode boot: light | dark | salesforce | youtube | netflix | claude --}}
+	{{!-- Flash-free theme mode boot. Default is Light (custom.color_scheme).
+	     Ghost's admin accent colour drives --accent in the neutral modes
+	     (light/dark/system) ONLY — the branded modes (salesforce/youtube/
+	     netflix/claude/twilio/neubrutal) keep their own full design system,
+	     so window.__applyAccent clears the inline accent for those. main.js
+	     calls this same helper on every mode switch. --}}
 	<script>
 		(function () {
 			var MODES = ['light', 'dark', 'salesforce', 'youtube', 'netflix', 'claude', 'twilio', 'neubrutal'];
 			var DARK_MODES = { dark: 1, netflix: 1 };
+			var BRANDED = { salesforce: 1, youtube: 1, netflix: 1, claude: 1, twilio: 1, neubrutal: 1 };
 			var pref = localStorage.getItem('swarnil-mode');
 			var fallback = '{{@custom.color_scheme}}'.toLowerCase();
 			var mode =
 				MODES.indexOf(pref) > -1 ? pref
+				: fallback === 'system' ? (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
 				: MODES.indexOf(fallback) > -1 ? fallback
-				: matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+				: 'light';
 			var root = document.documentElement;
 			root.setAttribute('data-theme', mode);
 			root.classList.toggle('dark', !!DARK_MODES[mode]);
-			// Video-hero index pages get the glass navbar (flash-free)
 			if (/^\/(videos|webseries|travel)\/(page\/\d+\/)?$/.test(location.pathname)) root.classList.add('nav-glass');
+
+			var ACCENT = '{{@site.accent_color}}';
+			window.__applyAccent = function (m) {
+				var st = root.style;
+				if (BRANDED[m]) { /* branded modes own their palette */
+					st.removeProperty('--accent'); st.removeProperty('--on-accent'); st.removeProperty('--ghost-accent-color');
+					return;
+				}
+				var hex = (ACCENT || '').replace('#', '');
+				if (hex.length === 3) hex = hex.replace(/(.)/g, '$1$1');
+				var r = parseInt(hex.slice(0, 2), 16), g = parseInt(hex.slice(2, 4), 16), b = parseInt(hex.slice(4, 6), 16);
+				if (isNaN(r) || isNaN(g) || isNaN(b)) { st.removeProperty('--accent'); st.removeProperty('--on-accent'); return; }
+				st.setProperty('--accent', r + ' ' + g + ' ' + b);
+				st.setProperty('--on-accent', (0.2126 * r + 0.7152 * g + 0.0722 * b) > 150 ? '9 9 11' : '250 250 250');
+				st.setProperty('--ghost-accent-color', '#' + hex);
+			};
+			window.__applyAccent(mode);
 		})();
 	</script>
 
@@ -50,28 +73,6 @@
 
 	{{> "components/json-ld"}}
 	{{ghost_head}}
-
-	{{!-- Brand override: when an accent color is set in Ghost Admin → Design,
-	     it wins over every theme mode's own accent. Inline styles on <html>
-	     out-rank all stylesheet rules, so --accent (utilities), --on-accent
-	     (contrast-picked) and --ghost-accent-color (portal/comments/sodo)
-	     follow the admin setting in all 8 modes. Fonts already follow admin:
-	     body/headings use var(--gh-font-body/--gh-font-heading) first. --}}
-	{{#if @site.accent_color}}
-	<script>
-		(function () {
-			var hex = '{{@site.accent_color}}'.replace('#', '');
-			if (hex.length === 3) hex = hex.replace(/(.)/g, '$1$1');
-			var r = parseInt(hex.slice(0, 2), 16), g = parseInt(hex.slice(2, 4), 16), b = parseInt(hex.slice(4, 6), 16);
-			if (isNaN(r) || isNaN(g) || isNaN(b)) return;
-			var st = document.documentElement.style;
-			st.setProperty('--accent', r + ' ' + g + ' ' + b);
-			/* readable text on top of the accent: pick ink or paper by luminance */
-			st.setProperty('--on-accent', (0.2126 * r + 0.7152 * g + 0.0722 * b) > 150 ? '9 9 11' : '250 250 250');
-			st.setProperty('--ghost-accent-color', '#' + hex);
-		})();
-	</script>
-	{{/if}}
 </head>
 
 <body class="{{body_class}} min-h-screen bg-paper text-ink">

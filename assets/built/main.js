@@ -9,6 +9,9 @@
 		root.setAttribute('data-theme', mode);
 		root.classList.toggle('dark', !!DARK_MODES[mode]);
 		localStorage.setItem('swarnil-mode', mode);
+		/* neutral modes inherit Ghost's admin accent; branded modes keep their
+		   own palette (helper defined in default.hbs) */
+		if (window.__applyAccent) window.__applyAccent(mode);
 		markActiveMode();
 	}
 	function markActiveMode() {
@@ -439,7 +442,7 @@
 		var meta = MODE_META[currentMode()] || MODE_META.light;
 		cycleBtns.forEach(function (btn) {
 			btn.innerHTML = '<span class="mode-glyph">' + meta.glyph + '</span>';
-			btn.setAttribute('aria-label', 'Theme: ' + currentMode() + ' — tap to toggle, hold for all modes');
+			btn.setAttribute('aria-label', 'Theme: ' + currentMode() + ' — click to choose a theme');
 		});
 	}
 	function applyMode(mode) {
@@ -478,18 +481,14 @@
 		modePop.classList.add('is-open');
 	}
 	function closePop() { if (modePop) modePop.classList.remove('is-open'); }
+	/* Click opens the dropdown of all themes; hover highlights, click selects.
+	   (Was: tap = light/dark, long-press = menu.) */
 	cycleBtns.forEach(function (btn) {
-		var pressTimer = null, longPressed = false;
-		btn.addEventListener('pointerdown', function () {
-			longPressed = false;
-			pressTimer = setTimeout(function () { longPressed = true; openPop(btn); }, 500);
-		});
-		btn.addEventListener('pointerup', function () { clearTimeout(pressTimer); });
-		btn.addEventListener('pointerleave', function () { clearTimeout(pressTimer); });
-		btn.addEventListener('contextmenu', function (e) { e.preventDefault(); });
-		btn.addEventListener('click', function () {
-			if (longPressed) { longPressed = false; return; } /* long-press opened the menu */
-			applyMode(currentMode() === 'light' ? 'dark' : 'light');
+		btn.setAttribute('aria-haspopup', 'menu');
+		btn.addEventListener('click', function (e) {
+			e.stopPropagation();
+			if (modePop && modePop.classList.contains('is-open')) { closePop(); }
+			else { openPop(btn); }
 		});
 	});
 	paintCycle();

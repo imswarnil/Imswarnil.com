@@ -1,107 +1,209 @@
-{{!-- Home hero — a dark, medium-height cinematic band.
+{{!-- Home hero — greeting-led, two columns.
 
-     Composition:
-       LEFT  · badge → a personal caption about life + who I am → work details
-               → actions → newsletter sign-up
-       RIGHT · a still portrait in a viewfinder frame
-     Behind it all: a medium background video that parallaxes and blends into
-     the page as you scroll. The tag marquee renders after this (home.hbs). --}}
-<section class="hx" id="hero">
-	{{!-- Grid background effect --}}
-	<div class="bg-pat-grid-wide fade-mask-bloom pointer-events-none absolute inset-0" id="hx-grid" style="--pat-opacity:1.9" aria-hidden="true"></div>
-	<div class="hx-grain pointer-events-none absolute inset-0" aria-hidden="true"></div>
+     LEFT  · availability badge → a BIG multilingual greeting that swaps word +
+             font on a squiggly hand-drawn underline → who I am → a wry one-liner
+             → the description → two "moves" (Twilio→EF, India→Budapest) →
+             two CTAs → newsletter (expands from an icon) + search.
+     RIGHT · the publication cover in a viewfinder frame (falls back to the
+             packaged portrait when no cover is set).
+     Styles: assets/css/layout/home.css (.hh-*). --}}
+<section class="hh" id="hero">
+	{{!-- drafting-grid + grain, same ambient treatment as before --}}
+	<div class="bg-pat-grid-wide fade-mask-bloom pointer-events-none absolute inset-0" style="--pat-opacity:1.7" aria-hidden="true"></div>
+	<div class="hh-grain pointer-events-none absolute inset-0" aria-hidden="true"></div>
 
-	{{!-- viewfinder chrome — corner marks + a minimal REC/aspect HUD --}}
-	<div class="hx-viewfinder" aria-hidden="true">
-		<i class="hx-vf-mark"></i><i class="hx-vf-mark"></i><i class="hx-vf-mark"></i><i class="hx-vf-mark"></i>
-		<div class="hx-hud hx-hud-tl">
-			<span class="hx-hud-rec"><i></i> REC</span>
-			<span class="hx-hud-tc" id="hx-tc">00:00:00:00</span>
-		</div>
-		<div class="hx-hud hx-hud-tr">16:9 · 24<span class="hx-hud-dim">FPS</span></div>
-	</div>
+	<div class="hh-inner container-site">
+		<div class="hh-copy">
+			<p class="hh-badge hh-in" style="--d:0s">
+				<span class="hh-badge-dot" aria-hidden="true"></span>
+				Open to GTM Engineer role
+			</p>
 
-	<div class="hx-inner" id="hero-shell">
-		<div class="hx-top">
-			<div class="hx-lede">
-				<p class="hx-badge hx-enter" style="--d:0s">
-					<span class="hx-badge-dot" aria-hidden="true"></span>
-					Swarnil Singhai — open to interesting work
-				</p>
-
-				<h1 class="hx-h1 hx-enter" style="--d:.1s">Life's better when you<br>make things.</h1>
-
-				{{!-- the caption: who I am, in one warm breath --}}
-				<p class="hx-cap hx-enter" style="--d:.2s">
-					Engineer by training, filmmaker by obsession, teacher by accident. I build
-					Salesforce systems that scale — then turn everyday moments into videos,
-					courses and side-projects worth keeping. <em>Curiosity is the whole personality.</em>
-				</p>
-
-				<p class="hx-meta hx-enter" style="--d:.3s">
-					{{> "icons/salesforce" class="h-3.5 w-3.5"}}
-					<span>Salesforce Engineer at <a href="https://www.ef.com" target="_blank" rel="noopener">EF Education First</a></span>
-					<span class="hx-meta-dot" aria-hidden="true"></span>
-					<span>{{> "icons/map-pin" class="h-3.5 w-3.5"}} Budapest · from India</span>
-				</p>
-
-				<div class="hx-cta hx-enter" style="--d:.4s">
-					<a href="{{@site.url}}/videos/" class="btn-primary btn-sm !px-4">{{> "icons/play" class="h-3.5 w-3.5"}} Watch my videos</a>
-					<a href="{{@site.url}}/resume/" class="btn-ghost btn-sm !px-4">{{> "icons/briefcase" class="h-3 w-3"}} Resume</a>
-					<span class="hx-social">
-						<a href="https://www.youtube.com/@imswarnil" target="_blank" rel="noopener" class="icon-btn" aria-label="YouTube">{{> "icons/youtube"}}</a>
-						<a href="https://github.com/imswarnil" target="_blank" rel="noopener" class="icon-btn" aria-label="GitHub">{{> "icons/github"}}</a>
-						<a href="https://linkedin.com/in/imswarnil" target="_blank" rel="noopener" class="icon-btn" aria-label="LinkedIn">{{> "icons/linkedin"}}</a>
-						<a href="https://instagram.com/imswarnil" target="_blank" rel="noopener" class="icon-btn" aria-label="Instagram">{{> "icons/instagram"}}</a>
-					</span>
-				</div>
-
-				{{!-- newsletter: a plain inline field right under the actions --}}
-				{{#if @site.members_enabled}}
-				<form data-members-form class="hx-form hx-enter" style="--d:.5s">
-					<input type="email" name="email" required data-members-email placeholder="Your email — get the next one" aria-label="Email address" class="hx-form-input" />
-					<button type="submit" class="btn-primary btn-sm shrink-0">{{> "icons/arrow-right" class="h-3.5 w-3.5"}} Subscribe</button>
-				</form>
-				<p class="hx-form-note hx-enter" style="--d:.5s">
-					<span data-members-success hidden class="text-green-600">Check your inbox to confirm — welcome aboard.</span>
-					<span data-members-error hidden class="text-red-500">That email didn't take — try again?</span>
-					<span>New videos, guides and write-ups. No spam.</span>
-				</p>
-				{{/if}}
+			{{!-- BIG greeting: JS cycles the word + font; the squiggle redraws --}}
+			<div class="hh-greet hh-in" style="--d:.06s" aria-label="Hello, I'm Swarnil">
+				<span class="hh-greet-stage" aria-hidden="true">
+					<span class="hh-greet-word" id="hh-greet-word">Hi</span>
+					<svg class="hh-greet-line" viewBox="0 0 300 18" preserveAspectRatio="none" aria-hidden="true">
+						<path id="hh-greet-path" class="hh-greet-path" d="M4 11 C 40 3, 70 3, 104 10 S 168 17, 200 9 S 262 3, 296 10" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
+					</svg>
+				</span>
+				<span class="hh-greet-wave" aria-hidden="true">👋</span>
 			</div>
 
-			{{!-- Right: a still portrait in a viewfinder frame --}}
-			<figure class="hx-photo hx-enter-screen">
-				<img src="{{asset "images/hero-square.svg"}}" width="1000" height="1000" fetchpriority="high" decoding="async" alt="Swarnil Singhai" class="hx-photo-img" />
-				<i class="hx-photo-mark"></i><i class="hx-photo-mark"></i><i class="hx-photo-mark"></i><i class="hx-photo-mark"></i>
-				<figcaption class="hx-photo-cap">
-					<span>{{> "icons/film" class="h-3.5 w-3.5"}} Swarnil</span>
-					<span class="hx-photo-ar">1:1</span>
-				</figcaption>
-			</figure>
+			<h1 class="hh-name hh-in" style="--d:.12s">
+				I'm <span class="hh-name-hi">Swarnil</span> — Salesforce Engineer <span class="hh-amp">&amp;</span> Creator.
+			</h1>
+
+			<p class="hh-quip hh-in" style="--d:.18s">
+				I build systems by day and document the chaos by night — half engineer, half film crew. <span aria-hidden="true">🎥</span>
+			</p>
+
+			<p class="hh-desc hh-in" style="--d:.24s">
+				I love making things. By day I do <strong>CRM Analytics</strong> in the Salesforce
+				ecosystem — and I'm aiming for a <strong>GTM Engineer</strong> role next. By night I
+				make YouTube videos, write blogs, build Ghost themes and curate the odd webseries.
+				I like being on the other side of the lens too: recording moments, documenting the
+				journey, journaling a life worth rewatching.
+			</p>
+
+			{{!-- Role + location --}}
+			<div class="hh-moves hh-in" style="--d:.3s">
+				<a class="hh-move hh-move-job" href="https://www.ef.com" target="_blank" rel="noopener" title="Salesforce Engineer at EF Education First">
+					{{> "icons/briefcase" class="hh-move-arrow h-4 w-4"}}
+					<span class="hh-move-text">Salesforce Engineer @</span>
+					<span class="hh-move-logo hh-move-logo-ef">{{> "icons/companies/ef" class="h-3.5 w-auto"}}</span>
+				</a>
+				<span class="hh-move hh-move-plain">
+					<span class="hh-move-logo hh-move-logo-now">{{> "icons/map-pin" class="h-4 w-4"}}</span>
+					<span class="hh-move-text">Budapest, Hungary</span>
+				</span>
+			</div>
+
+			{{!-- Actions: two CTAs + social handles --}}
+			<div class="hh-actions hh-in" style="--d:.36s">
+				<a href="{{@site.url}}/about/" class="btn-primary btn-sm !px-4">{{> "icons/book" class="h-3.5 w-3.5"}} Read my story</a>
+				<a href="{{@site.url}}/projects/" class="btn-ghost btn-sm !px-4">{{> "icons/code" class="h-3.5 w-3.5"}} View my projects</a>
+				<span class="hh-social">
+					<a href="https://www.youtube.com/@imswarnil" target="_blank" rel="noopener" class="hh-social-link" aria-label="YouTube">{{> "icons/youtube" class="h-4 w-4"}}</a>
+					<a href="https://github.com/imswarnil" target="_blank" rel="noopener" class="hh-social-link" aria-label="GitHub">{{> "icons/github" class="h-4 w-4"}}</a>
+					<a href="https://linkedin.com/in/imswarnil" target="_blank" rel="noopener" class="hh-social-link" aria-label="LinkedIn">{{> "icons/linkedin" class="h-4 w-4"}}</a>
+					<a href="https://instagram.com/imswarnil" target="_blank" rel="noopener" class="hh-social-link" aria-label="Instagram">{{> "icons/instagram" class="h-4 w-4"}}</a>
+				</span>
+			</div>
 		</div>
 
+		{{!-- Square photo in its own right column. The play badge reshapes THIS
+		     frame into a 16:9 player right here (in place — no modal). --}}
+		<figure class="hh-shot hh-in-frame" id="hh-shot">
+			<div class="hh-shot-inner" id="hh-shot-inner">
+				{{#if @site.cover_image}}
+					<img class="hh-shot-img" src="{{img_url @site.cover_image size="1200"}}" width="1000" height="1000" fetchpriority="high" decoding="async" alt="Swarnil Singhai" />
+				{{else}}
+					<img class="hh-shot-img" src="{{asset "images/hero-square.svg"}}" width="1000" height="1000" fetchpriority="high" decoding="async" alt="Swarnil Singhai" />
+				{{/if}}
+				<div class="hh-shot-video" id="hh-shot-video" aria-hidden="true"></div>
+				<span class="hh-shot-frame" aria-hidden="true"></span>
+				<i class="hh-shot-corner hh-c-tl" aria-hidden="true"></i>
+				<i class="hh-shot-corner hh-c-tr" aria-hidden="true"></i>
+				<i class="hh-shot-corner hh-c-bl" aria-hidden="true"></i>
+				<i class="hh-shot-corner hh-c-br" aria-hidden="true"></i>
+				<figcaption class="hh-shot-cap">My Story</figcaption>
+				<button type="button" class="hh-shot-x" data-story-close aria-label="Close video">{{> "icons/close" class="h-5 w-5"}}</button>
+				<button type="button" class="hh-shot-play" data-story-open aria-label="Play my story">
+					{{> "icons/play" class="h-5 w-5"}}
+					<span class="hh-shot-play-ring" aria-hidden="true"></span>
+				</button>
+			</div>
+		</figure>
 	</div>
 
 	<script>
 		(function () {
 			var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-			/* live REC timecode HH:MM:SS:FF @ 24fps — ~12 writes/sec, only on change */
-			var tcEl = document.getElementById('hx-tc');
-			if (tcEl && !reduced) {
-				var start = null, last = '';
-				function pad(n) { return (n < 10 ? '0' : '') + n; }
-				function tick(t) {
-					if (start === null) start = t;
-					var e = (t - start) / 1000;
-					var ff = Math.floor((e % 1) * 24);
-					var s = Math.floor(e) % 60, m = Math.floor(e / 60) % 60, h = Math.floor(e / 3600);
-					var str = pad(h) + ':' + pad(m) + ':' + pad(s) + ':' + pad(ff);
-					if (str !== last) { tcEl.textContent = str; last = str; }
-					setTimeout(function () { requestAnimationFrame(tick); }, 80);
+			/* ---- Multilingual greeting: swap word + font on a beat, redraw the
+			   squiggle each time. One rAF-free timer, only touching one node. --- */
+			var wordEl = document.getElementById('hh-greet-word');
+			var pathEl = document.getElementById('hh-greet-path');
+			if (wordEl) {
+				var GREETS = [
+					{ t: 'Hi',      f: "'Geist', system-ui, sans-serif" },
+					{ t: 'Hola',    f: "Georgia, 'Times New Roman', serif" },
+					{ t: 'Szia',    f: "'Comic Sans MS', 'Brush Script MT', cursive" },
+					{ t: 'Bonjour', f: "'Brush Script MT', 'Segoe Script', cursive" },
+					{ t: 'नमस्ते',    f: "'Nirmala UI', system-ui, sans-serif" },
+					{ t: 'Ciao',    f: "'Courier New', ui-monospace, monospace" },
+					{ t: 'Hallo',   f: "Impact, 'Haettenschweiler', sans-serif" }
+				];
+				var i = 0;
+				function show(n) {
+					var g = GREETS[n];
+					wordEl.style.fontFamily = g.f;
+					wordEl.firstChild ? (wordEl.firstChild.nodeValue = g.t) : (wordEl.textContent = g.t);
+					if (reduced) return;
+					/* replay the entrance + squiggle draw */
+					wordEl.classList.remove('is-swap'); void wordEl.offsetWidth; wordEl.classList.add('is-swap');
+					if (pathEl) { pathEl.classList.remove('is-draw'); void wordEl.offsetWidth; pathEl.classList.add('is-draw'); }
 				}
-				requestAnimationFrame(tick);
+				show(0);
+				/* slower, calmer cadence than before */
+				if (!reduced) {
+					setInterval(function () { i = (i + 1) % GREETS.length; show(i); }, 3600);
+				}
+			}
+
+			/* ---- Story: the frame becomes a fixed, screen-centred 16:9 player and
+			   EXPANDS from its own centre (scale up) — it does not travel across
+			   the screen. The copy dims behind it. ✕ / Esc collapse it back. --- */
+			var hero = document.getElementById('hero');
+			var shot = document.getElementById('hh-shot');
+			var shotInner = document.getElementById('hh-shot-inner');
+			var shotVideo = document.getElementById('hh-shot-video');
+			if (hero && shot && shotInner && shotVideo) {
+				var STORY_ID = 'ecOkmTD7KhU';
+				var OPEN = 'opacity .4s ease, transform .55s cubic-bezier(.16,1,.3,1)';
+				var playing = false, lastFocus = null;
+				function clearTween() {
+					shotInner.style.transition = ''; shotInner.style.transform = ''; shotInner.style.opacity = '';
+				}
+				function openStory() {
+					if (playing) return;
+					playing = true;
+					lastFocus = document.activeElement;
+					shotVideo.innerHTML = '<iframe src="https://www.youtube-nocookie.com/embed/' + STORY_ID +
+						'?autoplay=1&rel=0&modestbranding=1&playsinline=1" title="My Story" ' +
+						'allow="autoplay; encrypted-media; fullscreen" allowfullscreen></iframe>';
+					hero.classList.add('is-story');   /* dim the copy */
+					shot.classList.add('is-playing');  /* → fixed, screen-centred 16:9 */
+					if (reduced) { shot.classList.add('is-shown'); return; }
+					/* start small at centre, then expand out */
+					shotInner.style.transition = 'none';
+					shotInner.style.transform = 'scale(0.72)';
+					shotInner.style.opacity = '0';
+					requestAnimationFrame(function () {
+						requestAnimationFrame(function () {
+							shotInner.style.transition = OPEN;
+							shotInner.style.transform = 'scale(1)';
+							shotInner.style.opacity = '1';
+							shot.classList.add('is-shown');
+						});
+					});
+					var x = shot.querySelector('.hh-shot-x');
+					if (x) setTimeout(function () { x.focus(); }, 220);
+				}
+				function finishClose() {
+					shot.classList.remove('is-playing', 'is-shown');
+					hero.classList.remove('is-story');
+					clearTween();
+					shotVideo.innerHTML = ''; /* stop the video */
+					playing = false;
+					var p = shot.querySelector('.hh-shot-play');
+					if (p) p.focus();
+				}
+				function closeStory() {
+					if (!playing) return;
+					if (reduced) { finishClose(); return; }
+					var settled = false;
+					function onEnd(e) {
+						if (e.propertyName !== 'transform') return;
+						settled = true; shotInner.removeEventListener('transitionend', onEnd); finishClose();
+					}
+					shotInner.addEventListener('transitionend', onEnd);
+					shot.classList.remove('is-shown');
+					shotInner.style.transition = OPEN;
+					shotInner.style.transform = 'scale(0.72)';
+					shotInner.style.opacity = '0';
+					setTimeout(function () { if (!settled) { shotInner.removeEventListener('transitionend', onEnd); finishClose(); } }, 650);
+				}
+				document.querySelectorAll('[data-story-open]').forEach(function (b) {
+					b.addEventListener('click', openStory);
+				});
+				document.querySelectorAll('[data-story-close]').forEach(function (b) {
+					b.addEventListener('click', closeStory);
+				});
+				document.addEventListener('keydown', function (e) {
+					if (e.key === 'Escape' && playing) closeStory();
+				});
 			}
 		})();
 	</script>

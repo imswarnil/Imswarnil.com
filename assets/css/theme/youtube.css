@@ -1,0 +1,70 @@
+/* ==================================================================
+   YouTube — Material Design flavour.
+   Roboto, YouTube red, white surfaces, Material elevation shadows,
+   pill buttons + tonal "text" buttons, 12px card radius. Keyed on
+   [data-theme='youtube']; unlayered so it wins over base components.
+   ================================================================== */
+[data-theme='youtube'] {
+	--ink: 15 15 15;
+	--paper: 255 255 255;
+	--mist: 249 249 249;
+	--line: 229 229 229;
+	--silver: 96 96 96;
+	--accent: 255 0 0; /* #ff0000 */
+	--on-accent: 255 255 255;
+	--pattern: 0 0 0;
+	--ghost-accent-color: #ff0000;
+}
+[data-theme='youtube'] body {
+	font-family: var(--gh-font-body, 'Roboto', 'Geist', system-ui, Arial, sans-serif);
+}
+[data-theme='youtube'] h1,
+[data-theme='youtube'] h2,
+[data-theme='youtube'] h3,
+[data-theme='youtube'] .section-title {
+	font-weight: 700;
+	letter-spacing: -0.01em;
+}
+
+/* Material cards: no border, soft double-elevation shadow, 12px radius */
+[data-theme='youtube'] .card-surface {
+	border: 0;
+	border-radius: 12px;
+	box-shadow: 0 1px 2px rgb(0 0 0 / 0.1), 0 1px 3px rgb(0 0 0 / 0.08);
+}
+[data-theme='youtube'] .card-surface:hover {
+	transform: none;
+	box-shadow: 0 2px 6px rgb(0 0 0 / 0.16), 0 4px 12px rgb(0 0 0 / 0.12);
+}
+
+/* Material buttons: pill; primary = brand red; ghost = tonal YouTube-blue text */
+[data-theme='youtube'] .btn {
+	border-radius: 999px;
+	font-weight: 600;
+}
+[data-theme='youtube'] .btn-primary {
+	background: rgb(var(--accent));
+}
+[data-theme='youtube'] .btn-ghost {
+	border: 0;
+	background: rgb(0 0 0 / 0.05);
+	color: rgb(6 95 212); /* YT link blue */
+	backdrop-filter: none;
+}
+[data-theme='youtube'] .btn-ghost:hover {
+	background: rgb(6 95 212 / 0.1);
+}
+[data-theme='youtube'] .chip {
+	border: 0;
+	border-radius: 8px; /* YT filter chip */
+	background: rgb(0 0 0 / 0.05);
+	color: rgb(15 15 15);
+	font-weight: 500;
+}
+[data-theme='youtube'] .chip:hover {
+	background: rgb(0 0 0 / 0.1);
+}
+[data-theme='youtube'] .nav-shell.is-island {
+	border-radius: 12px;
+	box-shadow: 0 1px 2px rgb(0 0 0 / 0.1), 0 2px 6px rgb(0 0 0 / 0.08);
+}

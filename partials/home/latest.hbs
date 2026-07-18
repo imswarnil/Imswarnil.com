@@ -16,7 +16,7 @@
 		     Snap + arrow paging + progress make the rail actually navigable. --}}
 		<div class="no-scrollbar mt-10 snap-x snap-proximity overflow-x-auto pb-6 [touch-action:pan-x_pan-y] [overscroll-behavior-x:contain]" id="latest-rail" data-rank-track data-hscroll>
 			<div class="container-site">
-				<div class="flex w-max items-end gap-8 pr-8 sm:gap-12" data-reveal-stagger="70">
+				<div class="flex w-max items-end gap-8 pl-4 pr-8 sm:gap-12 sm:pl-8" data-reveal-stagger="70">
 					{{#foreach latest}}
 					<article class="rank-row-card group snap-start">
 						<span class="rank-number" aria-hidden="true">{{@number}}</span>

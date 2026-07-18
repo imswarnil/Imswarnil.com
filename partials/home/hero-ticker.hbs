@@ -19,7 +19,11 @@
      announced or tab-stopped twice. --}}
 {{#get "tags" filter="visibility:public" limit="14" include="count.posts" order="count.posts desc" as |topics|}}
 {{#if topics}}
-<nav class="hx-strip" id="topics" aria-label="Topics">
+<nav class="hx-strip hx-strip-reverse hx-strip-roomy" id="topics" aria-label="Topics">
+	<span class="hx-strip-lead">
+		<span class="hx-strip-lead-dot" aria-hidden="true"></span>
+		Open to GTM Engineer role
+	</span>
 	<div class="group/strip hx-strip-view fade-mask-x">
 		<div class="hx-strip-track group-hover/strip:[animation-play-state:paused]">
 

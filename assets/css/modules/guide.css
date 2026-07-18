@@ -281,11 +281,5 @@
 	}
 }
 
-/* Step pages are a reading room: the site navbar goes away and the guide bar
-   IS the chrome (breadcrumb, position, exit). OUTSIDE @layer components on
-   purpose — `tag-hash-guide-content` only exists at runtime via body_class,
-   so inside the layer Tailwind treats it as unused and purges it. */
-body.tag-hash-guide-content #site-header,
-body.tag-hash-guide-content #nav-spacer {
-	display: none;
-}
+/* Step pages keep the site's main navbar (the old standalone guide bar was
+   removed). The breadcrumb/progress now live inline in the content. */

@@ -1,0 +1,88 @@
+/* ==================================================================
+   Neubrutal — cream paper, HARD black borders, chunky offset shadows,
+   big shouty uppercase type, cobalt accent. A full brutalist system,
+   not just colours. Keyed on [data-theme='neubrutal']; unlayered so it
+   wins over base components.
+   ================================================================== */
+[data-theme='neubrutal'] {
+	--ink: 17 17 17;
+	--paper: 255 251 235; /* cream */
+	--mist: 255 241 194; /* butter */
+	--line: 17 17 17; /* borders are BLACK */
+	--silver: 87 83 78;
+	--accent: 37 99 235; /* cobalt */
+	--on-accent: 255 255 255;
+	--pattern: 17 17 17;
+	--ghost-accent-color: #2563eb;
+}
+[data-theme='neubrutal'] body {
+	font-family: var(--gh-font-body, 'Geist', 'Arial Black', system-ui, sans-serif);
+}
+
+/* Big, shouty, uppercase headings */
+[data-theme='neubrutal'] h1,
+[data-theme='neubrutal'] h2,
+[data-theme='neubrutal'] h3,
+[data-theme='neubrutal'] .section-title {
+	font-weight: 900;
+	text-transform: uppercase;
+	letter-spacing: -0.02em;
+}
+[data-theme='neubrutal'] h1,
+[data-theme='neubrutal'] .hh-name {
+	font-weight: 900;
+}
+[data-theme='neubrutal'] .section-title {
+	font-size: clamp(1.85rem, 4.2vw, 3rem);
+}
+[data-theme='neubrutal'] .kicker {
+	font-weight: 800;
+	color: rgb(var(--ink));
+}
+
+/* Hard-edged cards with a solid offset shadow that deepens on hover */
+[data-theme='neubrutal'] .card-surface,
+[data-theme='neubrutal'] .nav-shell.is-island,
+[data-theme='neubrutal'] .player-bar {
+	border: 2px solid rgb(17 17 17);
+	border-radius: 0.6rem;
+	box-shadow: 4px 4px 0 rgb(17 17 17);
+}
+[data-theme='neubrutal'] .card-surface:hover {
+	transform: translate(-2px, -2px);
+	box-shadow: 6px 6px 0 rgb(17 17 17);
+}
+
+/* Chunky buttons that press into the page */
+[data-theme='neubrutal'] .btn {
+	border: 2px solid rgb(17 17 17);
+	border-radius: 0.6rem;
+	box-shadow: 3px 3px 0 rgb(17 17 17);
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 0.01em;
+}
+[data-theme='neubrutal'] .btn:hover {
+	transform: translate(-1px, -1px);
+	box-shadow: 4px 4px 0 rgb(17 17 17);
+	opacity: 1;
+}
+[data-theme='neubrutal'] .btn:active {
+	transform: translate(2px, 2px);
+	box-shadow: 1px 1px 0 rgb(17 17 17);
+}
+[data-theme='neubrutal'] .btn-primary {
+	background: rgb(var(--accent));
+	color: #fff;
+}
+[data-theme='neubrutal'] .btn-ghost {
+	background: rgb(255 241 194);
+	color: rgb(17 17 17);
+	backdrop-filter: none;
+}
+[data-theme='neubrutal'] .chip {
+	border: 2px solid rgb(17 17 17);
+	border-radius: 0.5rem;
+	font-weight: 700;
+	background: #fff;
+}

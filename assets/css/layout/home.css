@@ -1,0 +1,551 @@
+/* ==================================================================
+   Home hero (.hh-*) — greeting-led, two columns. Imported after
+   pages/home.css so the showreel + ticker overrides here win.
+   All colours flow through the theme tokens (--ink/--paper/--silver/
+   --line/--accent/--mist) so every mode + light/dark is covered.
+   Markup: partials/home/hero.hbs · showreel.hbs · hero-ticker.hbs
+   ================================================================== */
+
+/* ---- Section shell ------------------------------------------------- */
+.hh {
+	position: relative;
+	overflow: hidden;
+	display: flex;
+	align-items: center;
+	padding-block: clamp(1rem, 3vh, 2rem);
+}
+/* One screen: fill the viewport below the fixed navbar so the hero reads as a
+   single title card, no scrolling to reach the fold. */
+@media (min-width: 1024px) {
+	.hh { min-height: calc(100svh - 4.75rem); }
+}
+
+/* filmic grain wash (mirrors the old hero's speckle) */
+.hh-grain {
+	z-index: 0;
+	opacity: 0.05;
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+	mix-blend-mode: multiply;
+}
+.dark .hh-grain { mix-blend-mode: screen; opacity: 0.07; }
+
+.hh-inner {
+	position: relative;
+	z-index: 1;
+	width: 100%;
+	display: grid;
+	grid-template-columns: minmax(0, 1fr);
+	align-items: center;
+	gap: clamp(2rem, 5vw, 3.75rem);
+}
+@media (min-width: 1024px) {
+	.hh-inner { grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.82fr); }
+}
+
+.hh-copy {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	min-width: 0;
+	max-width: 44rem;
+	text-align: left;
+}
+
+/* ---- Availability badge ------------------------------------------- */
+.hh-badge {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	padding: 0.34rem 0.8rem 0.34rem 0.68rem;
+	border: 1px solid rgb(var(--line));
+	border-radius: 999px;
+	background: rgb(var(--mist) / 0.6);
+	font-size: 0.72rem;
+	font-weight: 550;
+	color: rgb(var(--silver));
+}
+.hh-badge-dot {
+	width: 8px;
+	height: 8px;
+	border-radius: 999px;
+	background: #22c55e;
+	animation: hhLive 2.4s ease-out infinite;
+}
+@keyframes hhLive {
+	0% { box-shadow: 0 0 0 0 rgb(34 197 94 / 0.5); }
+	70%, 100% { box-shadow: 0 0 0 7px rgb(34 197 94 / 0); }
+}
+
+/* ---- BIG multilingual greeting ------------------------------------ */
+.hh-greet {
+	display: flex;
+	align-items: flex-end;
+	gap: 0.35em;
+	margin-top: clamp(0.6rem, 1.6vh, 1.1rem);
+	line-height: 1;
+	color: rgb(var(--ink));
+}
+.hh-greet-stage {
+	position: relative;
+	display: inline-block;
+	padding-bottom: 0.16em;
+	animation: hhWobble 7.5s ease-in-out infinite;
+}
+.hh-greet-word {
+	display: inline-block;
+	font-size: clamp(1.7rem, 4.2vw, 2.9rem);
+	font-weight: 800;
+	letter-spacing: -0.03em;
+	color: rgb(var(--accent));
+	will-change: transform, filter, opacity;
+}
+.hh-greet-word.is-swap { animation: hhSwap 0.95s cubic-bezier(0.16, 1, 0.3, 1); }
+/* hand-drawn squiggle beneath the greeting; redraws on each swap */
+.hh-greet-line {
+	position: absolute;
+	left: -2%;
+	bottom: -0.06em;
+	width: 104%;
+	height: 0.34em;
+	overflow: visible;
+	color: rgb(var(--accent) / 0.85);
+	pointer-events: none;
+}
+.hh-greet-path { stroke-dasharray: 340; stroke-dashoffset: 0; }
+.hh-greet-path.is-draw { animation: hhDraw 1.15s cubic-bezier(0.65, 0, 0.35, 1) 0.05s both; }
+.hh-greet-wave {
+	font-size: clamp(1.3rem, 3vw, 2rem);
+	transform-origin: 70% 80%;
+	animation: hhWave 3.4s ease-in-out infinite;
+}
+@keyframes hhWobble {
+	0%, 100% { transform: rotate(-1deg) translateY(0); }
+	50% { transform: rotate(1.1deg) translateY(-2px); }
+}
+@keyframes hhSwap {
+	from { opacity: 0; transform: translateY(0.22em) rotate(-2deg); filter: blur(6px); }
+	to { opacity: 1; transform: none; filter: none; }
+}
+@keyframes hhDraw {
+	from { stroke-dashoffset: 340; }
+	to { stroke-dashoffset: 0; }
+}
+@keyframes hhWave {
+	0%, 60%, 100% { transform: rotate(0deg); }
+	10%, 30% { transform: rotate(16deg); }
+	20% { transform: rotate(-8deg); }
+	40% { transform: rotate(10deg); }
+}
+
+/* ---- Name · quip · description ------------------------------------ */
+.hh-name {
+	margin-top: clamp(0.5rem, 1.4vh, 1rem);
+	font-size: clamp(1.3rem, 2.2vw, 1.8rem);
+	font-weight: 680;
+	line-height: 1.18;
+	letter-spacing: -0.02em;
+	color: rgb(var(--ink));
+}
+.hh-name-hi { color: rgb(var(--accent)); }
+.hh-amp { font-family: Georgia, 'Times New Roman', serif; font-style: italic; font-weight: 500; }
+
+.hh-quip {
+	margin-top: 0.5rem;
+	font-size: clamp(0.95rem, 1.3vw, 1.08rem);
+	font-weight: 500;
+	color: rgb(var(--ink) / 0.82);
+}
+.hh-quip span { white-space: nowrap; }
+
+.hh-desc {
+	margin-top: 0.6rem;
+	max-width: 40rem;
+	font-size: clamp(0.9rem, 1.1vw, 1rem);
+	line-height: 1.6;
+	color: rgb(var(--silver));
+}
+.hh-desc strong { color: rgb(var(--ink)); font-weight: 650; }
+
+/* ---- Two "moves": company marks + arrow --------------------------- */
+.hh-moves {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.6rem 0.9rem;
+	margin-top: clamp(0.7rem, 1.6vh, 1.1rem);
+}
+.hh-move {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.5rem;
+	padding: 0.4rem 0.8rem;
+	border: 1px solid rgb(var(--line));
+	border-radius: 999px;
+	background: rgb(var(--mist) / 0.5);
+	font-size: 0.8rem;
+	color: rgb(var(--silver));
+}
+.hh-move-logo {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	color: rgb(var(--silver));
+}
+.hh-move-logo-now { color: rgb(var(--ink)); }
+/* EF: full logo art on a white block — clip to a tidy tile, matched to the
+   Twilio mark's height (h-4 ≈ 16px). The SVG is ~1.43:1, so width follows. */
+.hh-move-logo-ef {
+	display: inline-flex;
+	align-items: center;
+	height: 0.88rem;
+	padding: 0 2px;
+	border-radius: 3px;
+	background: #fff;
+	line-height: 0;
+	overflow: hidden;
+}
+.hh-move-logo-ef svg { height: 0.88rem; width: auto; }
+.hh-move-arrow { color: rgb(var(--silver) / 0.75); flex: none; }
+.hh-move-text { display: inline-flex; align-items: center; gap: 0.3rem; }
+.hh-move-strong { color: rgb(var(--ink)); font-weight: 700; }
+
+/* the role chip is a link to EF */
+.hh-move-job {
+	color: rgb(var(--ink));
+	transition: border-color 0.2s ease, background 0.2s ease;
+}
+.hh-move-job .hh-move-arrow { color: rgb(var(--accent)); }
+.hh-move-job:hover { border-color: rgb(var(--ink) / 0.4); background: rgb(var(--mist) / 0.8); }
+
+/* ---- Actions: two CTAs + social handles --------------------------- */
+.hh-actions {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 0.7rem;
+	margin-top: clamp(1rem, 2.2vh, 1.6rem);
+}
+.hh-social {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.25rem;
+	margin-left: 0.15rem;
+}
+.hh-social-link {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 2.4rem;
+	height: 2.4rem;
+	border-radius: 999px;
+	color: rgb(var(--silver));
+	transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+.hh-social-link:hover {
+	background: rgb(var(--ink));
+	color: rgb(var(--paper));
+	transform: translateY(-2px);
+}
+
+/* ---- Photo in its own right column. Resting: a transparent, frameless image
+   (best with a cut-out PNG). Play: THIS frame FLIP-expands to a bigger 16:9
+   player that overlaps the copy on its left — a heavy left shadow makes the
+   text read as tucked behind it. The copy stays put. ---------------------- */
+.hh-shot {
+	position: relative;
+	z-index: 1;
+	width: 100%;
+	max-width: 30rem;
+	margin: 0 auto; /* phones: centred under the copy */
+	aspect-ratio: 1 / 1; /* reserves the resting square; the cell keeps its size */
+	animation: hhFade 1s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both;
+}
+@media (min-width: 1024px) {
+	.hh-shot { margin: 0 0 0 auto; max-width: 32rem; } /* align right in its column */
+}
+.hh-shot-inner {
+	position: absolute;
+	inset: 0;
+	border-radius: 24px;
+	overflow: hidden;
+	/* the "amazing frame": faint tinted glass + a soft accent ring + depth */
+	background:
+		linear-gradient(160deg, rgb(var(--mist) / 0.5), transparent 55%),
+		radial-gradient(120% 90% at 50% 108%, rgb(var(--accent) / 0.14), transparent 60%);
+	box-shadow:
+		inset 0 0 0 1px rgb(var(--line)),
+		inset 0 0 0 4px rgb(var(--paper) / 0.55),
+		inset 0 0 0 5px rgb(var(--accent) / 0.28),
+		0 34px 80px -38px rgb(0 0 0 / 0.6);
+}
+.hh-shot-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; object-position: bottom center; }
+/* dashed inner guide + corner viewfinder brackets — the camera-frame flourish */
+.hh-shot-frame {
+	position: absolute;
+	inset: 14px;
+	z-index: 2;
+	border-radius: 14px;
+	border: 1px dashed rgb(var(--accent) / 0.35);
+	pointer-events: none;
+}
+.hh-shot-corner {
+	position: absolute;
+	width: 22px;
+	height: 22px;
+	z-index: 3;
+	border: 2.5px solid rgb(var(--accent) / 0.9);
+	pointer-events: none;
+}
+.hh-c-tl { top: 14px; left: 14px; border-right: 0; border-bottom: 0; border-radius: 8px 0 0 0; }
+.hh-c-tr { top: 14px; right: 14px; border-left: 0; border-bottom: 0; border-radius: 0 8px 0 0; }
+.hh-c-bl { bottom: 14px; left: 14px; border-right: 0; border-top: 0; border-radius: 0 0 0 8px; }
+.hh-c-br { bottom: 14px; right: 14px; border-left: 0; border-top: 0; border-radius: 0 0 8px 0; }
+
+/* play badge — centred over the framed image */
+.hh-shot-play {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+	z-index: 4;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 3.6rem;
+	height: 3.6rem;
+	padding-left: 0.18rem; /* optically centre the triangle */
+	border-radius: 999px;
+	background: rgb(var(--accent));
+	color: rgb(var(--on-accent));
+	box-shadow: 0 10px 30px -6px rgb(0 0 0 / 0.5);
+	cursor: pointer;
+	transition: transform 0.25s ease;
+}
+.hh-shot-play:hover { transform: translate(-50%, -50%) scale(1.09); }
+.hh-shot-play-ring {
+	position: absolute;
+	inset: 0;
+	border-radius: 999px;
+	border: 2px solid rgb(var(--accent));
+	animation: hhPing 2.4s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+@keyframes hhPing {
+	0% { transform: scale(1); opacity: 0.7; }
+	70%, 100% { transform: scale(1.5); opacity: 0; }
+}
+@keyframes hhFade { from { opacity: 0; } to { opacity: 1; } }
+
+@media (prefers-reduced-motion: reduce) {
+	.hh-shot, .hh-shot-play-ring { animation: none; }
+}
+
+/* ==================================================================
+   Story: the frame FLIP-animates from its column to the centre of the
+   screen; the hero copy dims down (opacity) behind it. No modal.
+   ================================================================== */
+/* the copy dims + steps back; the photo frame is a sibling, so it stays lit */
+.hh.is-story .hh-copy {
+	transition: opacity 0.45s ease, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), filter 0.45s ease;
+	opacity: 0.12;
+	transform: scale(0.98);
+	filter: blur(2px);
+	pointer-events: none;
+}
+
+/* playing: the frame becomes a fixed, centred 16:9 player (height-capped so it
+   never runs full-height); the FLIP tween in JS animates it here from column. */
+.hh-shot.is-playing { z-index: 60; }
+.hh-shot.is-playing .hh-shot-inner {
+	position: fixed;
+	inset: 0;
+	margin: auto; /* dead-centre in the viewport */
+	width: min(56rem, 90vw);
+	height: auto;
+	max-width: calc((82vh) * 16 / 9);
+	aspect-ratio: 16 / 9;
+	z-index: 60;
+	transform-origin: center center; /* expand from its own centre, no travel */
+	border-radius: 14px;
+	background: #000;
+	box-shadow: 0 40px 120px -30px rgb(0 0 0 / 0.85), 0 0 0 1px rgb(255 255 255 / 0.06);
+}
+.hh-shot.is-playing .hh-shot-frame,
+.hh-shot.is-playing .hh-shot-corner,
+.hh-shot.is-playing .hh-shot-play { opacity: 0; pointer-events: none; }
+.hh-shot.is-playing .hh-shot-img { object-fit: cover; opacity: 0; transition: opacity 0.3s ease; }
+
+/* the video + controls, revealed once the frame lands centre */
+.hh-shot-video { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; transition: opacity 0.35s ease 0.15s; }
+.hh-shot-video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.hh-shot.is-shown .hh-shot-video { opacity: 1; }
+.hh-shot-x {
+	position: absolute;
+	top: 0.7rem;
+	right: 0.7rem;
+	z-index: 4;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 2.5rem;
+	height: 2.5rem;
+	border-radius: 999px;
+	background: rgb(0 0 0 / 0.5);
+	color: #fff;
+	opacity: 0;
+	pointer-events: none;
+	transition: opacity 0.3s ease, background 0.2s ease, transform 0.2s ease;
+}
+.hh-shot-x:hover { background: rgb(0 0 0 / 0.8); transform: rotate(90deg); }
+.hh-shot.is-shown .hh-shot-x { opacity: 1; pointer-events: auto; }
+.hh-shot-cap {
+	position: absolute;
+	inset: auto 0 0 0;
+	z-index: 3;
+	margin: 0;
+	padding: 2.4rem 1.2rem 1rem;
+	text-align: left;
+	background: linear-gradient(to top, rgb(0 0 0 / 0.72), transparent);
+	font-family: var(--gh-font-heading, 'Geist', sans-serif);
+	font-size: clamp(1.1rem, 1.9vw, 1.6rem);
+	font-weight: 680;
+	letter-spacing: -0.02em;
+	color: #fff;
+	opacity: 0;
+	pointer-events: none;
+	transition: opacity 0.3s ease 0.15s;
+}
+.hh-shot.is-shown .hh-shot-cap { opacity: 1; }
+
+@media (prefers-reduced-motion: reduce) {
+	.hh.is-story .hh-copy { transition: opacity 0.2s ease; transform: none; filter: none; }
+}
+
+/* ---- Entrance choreography ---------------------------------------- */
+.hh-in {
+	animation: hhIn 0.65s cubic-bezier(0.16, 1, 0.3, 1) both;
+	animation-delay: var(--d, 0s);
+}
+@keyframes hhIn {
+	from { opacity: 0; transform: translateY(16px); filter: blur(3px); }
+	to { opacity: 1; transform: none; filter: none; }
+}
+.hh-in-frame { animation: hhInFrame 0.85s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both; }
+@keyframes hhInFrame {
+	from { opacity: 0; transform: scale(0.965) translateY(14px); }
+	to { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.hh-in, .hh-in-frame, .hh-greet-stage, .hh-greet-wave, .hh-greet-word.is-swap,
+	.hh-greet-path.is-draw, .hh-badge-dot { animation: none; }
+	.hh-in, .hh-in-frame { opacity: 1; transform: none; filter: none; }
+}
+
+/* ==================================================================
+   Showreel overrides — taller band + dead-centre vibrating quote
+   ================================================================== */
+/* Large, cinematic band — the video does the talking */
+.showreel-tall { height: clamp(34rem, 96vh, 56rem); }
+.showreel-scrim-center {
+	background:
+		radial-gradient(120% 100% at 50% 50%, transparent 0%, rgb(0 0 0 / 0.3) 55%, rgb(0 0 0 / 0.66) 100%),
+		linear-gradient(to bottom, rgb(0 0 0 / 0.5), rgb(0 0 0 / 0.15) 30%, rgb(0 0 0 / 0.6));
+}
+.showreel-quote {
+	position: absolute;
+	inset: 0;
+	z-index: 2;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 0.5rem;
+	margin: 0;
+	padding: 2rem var(--gutter);
+	text-align: center;
+	color: #fff;
+}
+/* oversized decorative quote mark, sitting just above the line */
+.showreel-mark {
+	font-family: Georgia, 'Times New Roman', serif;
+	font-size: clamp(3.5rem, 9vw, 6.5rem);
+	line-height: 0.4;
+	color: rgb(255 255 255 / 0.35);
+	margin-bottom: 0.1em;
+}
+.showreel-line {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	justify-content: center;
+	gap: 0.08em 0.3em;
+	max-width: 18ch;
+	margin: 0;
+	font-family: 'Brush Script MT', 'Segoe Script', 'Comic Sans MS', cursive;
+	font-size: clamp(2.4rem, 7vw, 5.4rem);
+	font-weight: 600;
+	line-height: 1.06;
+	letter-spacing: 0.01em;
+	text-shadow: 0 4px 30px rgb(0 0 0 / 0.6);
+}
+/* the words breathe — a slow, smooth float, not a jitter */
+.showreel-shake {
+	display: inline-block;
+	transform-origin: center;
+	animation: hhFloat 5.5s ease-in-out infinite;
+	animation-delay: calc(var(--i, 0) * -0.9s);
+	will-change: transform;
+}
+.showreel-shake:last-child { color: #ffe08a; }
+@keyframes hhFloat {
+	0%, 100% { transform: translateY(0) rotate(-1deg); }
+	50% { transform: translateY(-4px) rotate(1deg); }
+}
+.showreel-cite {
+	margin-top: 0.9rem;
+	font-family: theme('fontFamily.mono');
+	font-size: clamp(0.62rem, 1vw, 0.72rem);
+	font-weight: 600;
+	letter-spacing: 0.18em;
+	text-transform: uppercase;
+	color: rgb(255 255 255 / 0.7);
+}
+.showreel-quote .showreel-cta { justify-content: center; margin-top: 1.4rem; }
+@media (prefers-reduced-motion: reduce) {
+	.showreel-shake { animation: none; }
+}
+
+/* ==================================================================
+   Tag marquee — reverse loop + roomier spacing (hero-ticker.hbs)
+   ================================================================== */
+.hx-strip-reverse .hx-strip-track { animation-direction: reverse; }
+.hx-strip-roomy .hx-strip-group { gap: 26px; padding-right: 26px; }
+.hx-strip-roomy .hx-chip { gap: 8px; font-size: 0.82rem; }
+.hx-strip-roomy .hx-chip-star { font-size: 0.7rem; margin: 0 4px; }
+
+/* Pinned announcement at the head of the marquee */
+.hx-strip-lead {
+	flex: none;
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	align-self: stretch;
+	padding: 0 16px 0 var(--gutter);
+	margin-right: 8px;
+	border-right: 1px solid rgb(var(--line));
+	background: rgb(var(--paper) / 0.6);
+	font-size: 0.72rem;
+	font-weight: 650;
+	white-space: nowrap;
+	color: rgb(var(--ink));
+}
+.hx-strip-lead-dot {
+	width: 8px;
+	height: 8px;
+	flex: none;
+	border-radius: 999px;
+	background: #22c55e;
+	animation: hhLive 2.4s ease-out infinite;
+}
+@media (max-width: 639px) {
+	.hx-strip-lead { font-size: 0.68rem; padding-right: 12px; }
+}
