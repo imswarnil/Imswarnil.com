@@ -3,7 +3,8 @@
    Soft, editorial, generous radii. Keyed on [data-theme='claude'];
    unlayered so it wins over base components.
    ================================================================== */
-[data-theme='claude'] {
+/* html[...] outranks :root / .dark so the brand palette wins regardless of order */
+html[data-theme='claude'] {
 	--ink: 61 57 41; /* warm near-black */
 	--paper: 250 249 245; /* ivory */
 	--mist: 240 238 230; /* pampas */

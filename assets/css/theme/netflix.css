@@ -4,7 +4,8 @@
    posters that pop + scale on hover. Keyed on [data-theme='netflix']
    (also carries the .dark class). Unlayered so it wins over base.
    ================================================================== */
-[data-theme='netflix'] {
+/* html[...] outranks :root / .dark so the brand palette wins regardless of order */
+html[data-theme='netflix'] {
 	--ink: 255 255 255;
 	--paper: 20 20 20; /* #141414 */
 	--mist: 31 31 31;

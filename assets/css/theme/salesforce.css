@@ -5,7 +5,9 @@
    take on SLDS shape + weight. Keyed on [data-theme='salesforce'];
    unlayered so it wins over the base component classes.
    ================================================================== */
-[data-theme='salesforce'] {
+/* html[...] outranks :root / .dark so the brand palette wins regardless of
+   source order in the built stylesheet. */
+html[data-theme='salesforce'] {
 	--ink: 8 7 7; /* SLDS gray-12 */
 	--paper: 243 243 243; /* app background */
 	--mist: 255 255 255; /* cards are white */

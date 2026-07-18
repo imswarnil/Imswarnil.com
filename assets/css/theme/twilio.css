@@ -3,7 +3,8 @@
    Soft radii, light card shadows, Helvetica-ish sans. Keyed on
    [data-theme='twilio']; unlayered so it wins over base components.
    ================================================================== */
-[data-theme='twilio'] {
+/* html[...] outranks :root / .dark so the brand palette wins regardless of order */
+html[data-theme='twilio'] {
 	--ink: 18 28 45; /* #121c2d */
 	--paper: 255 255 255;
 	--mist: 244 244 246;

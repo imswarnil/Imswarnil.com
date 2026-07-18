@@ -449,7 +449,7 @@
 		setMode(mode);
 		paintCycle();
 		if (modePop) paintPop();
-		if (MODE_SOUNDS[mode]) { try { MODE_SOUNDS[mode](); } catch (e) {} }
+		/* sound on theme switch removed per request */
 	}
 	function paintPop() {
 		if (!modePop) return;

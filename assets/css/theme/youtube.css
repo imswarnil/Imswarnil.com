@@ -4,7 +4,8 @@
    pill buttons + tonal "text" buttons, 12px card radius. Keyed on
    [data-theme='youtube']; unlayered so it wins over base components.
    ================================================================== */
-[data-theme='youtube'] {
+/* html[...] outranks :root / .dark so the brand palette wins regardless of order */
+html[data-theme='youtube'] {
 	--ink: 15 15 15;
 	--paper: 255 255 255;
 	--mist: 249 249 249;

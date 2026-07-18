@@ -4,7 +4,8 @@
    not just colours. Keyed on [data-theme='neubrutal']; unlayered so it
    wins over base components.
    ================================================================== */
-[data-theme='neubrutal'] {
+/* html[...] outranks :root / .dark so the brand palette wins regardless of order */
+html[data-theme='neubrutal'] {
 	--ink: 17 17 17;
 	--paper: 255 251 235; /* cream */
 	--mist: 255 241 194; /* butter */
