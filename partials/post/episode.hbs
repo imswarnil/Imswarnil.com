@@ -11,15 +11,17 @@
 
 <article class="{{post_class}}">
 
-	{{!-- Full-bleed theater player --}}
-	<div class="w-full" style="background:#08080a;">
-		<div id="episode-stage" class="relative w-full" style="background:#08080a;">
-			<div id="episode-player" class="relative w-full" style="aspect-ratio:16/9; max-height:85vh;">
-				{{!-- iframe injected here: first YouTube embed found in the body --}}
+	{{!-- Player: edge-to-edge on mobile, inside the content column on desktop --}}
+	<div class="w-full bg-[#08080a] lg:bg-transparent lg:pt-8">
+		<div class="mx-auto w-full lg:max-w-[74rem] lg:px-8 xl:px-10">
+			<div id="episode-stage" class="relative w-full overflow-hidden lg:rounded-2xl lg:border lg:border-line lg:shadow-card" style="background:#08080a;">
+				<div id="episode-player" class="relative w-full" style="aspect-ratio:16/9; max-height:85vh;">
+					{{!-- iframe injected here: first YouTube embed found in the body --}}
+				</div>
+				<button id="episode-maximize" type="button" class="icon-btn absolute bottom-4 right-4 z-10 !border-white/20 !bg-black/60 !text-white backdrop-blur transition hover:!bg-black/80" data-tip="Maximize" aria-label="Maximize player">
+					{{> "icons/maximize"}}
+				</button>
 			</div>
-			<button id="episode-maximize" type="button" class="icon-btn absolute bottom-4 right-4 z-10 !border-white/20 !bg-black/60 !text-white backdrop-blur transition hover:!bg-black/80" data-tip="Maximize" aria-label="Maximize player">
-				{{> "icons/maximize"}}
-			</button>
 		</div>
 	</div>
 
@@ -41,6 +43,13 @@
 					<span class="flex items-center gap-1.5">{{> "icons/calendar"}} {{date published_at format="DD MMM YYYY"}}</span>
 					{{#primary_author}}<span class="flex items-center gap-1.5">{{> "icons/user"}} {{name}}</span>{{/primary_author}}
 				</div>
+
+				{{!-- Chapters (video TOC) — built by JS from timestamps in the body,
+				     e.g. a list "0:00 Intro", "2:15 Setup". Click seeks the player. --}}
+				<nav class="toc mt-6" id="episode-chapters" hidden aria-label="Chapters">
+					<p class="kicker !text-[10px]">{{> "icons/clock" class="h-3 w-3"}} Chapters</p>
+					<nav class="toc-list" id="episode-chapters-list"></nav>
+				</nav>
 
 				<section class="gh-content mt-8" id="episode-content">
 					{{content}}
@@ -146,7 +155,13 @@
 		if (!src) {
 			src = 'https://www.youtube-nocookie.com/embed/ecOkmTD7KhU?rel=0&modestbranding=1';
 		}
+		var isYT = /youtube(?:-nocookie)?\.com\/embed\//.test(src);
+		/* YouTube: enable the JS API so chapters can seek without a reload */
+		if (isYT && src.indexOf('enablejsapi') === -1) {
+			src += (src.indexOf('?') > -1 ? '&' : '?') + 'enablejsapi=1&origin=' + encodeURIComponent(location.origin);
+		}
 		var iframe = document.createElement('iframe');
+		iframe.id = 'episode-yt-iframe';
 		iframe.src = src;
 		iframe.title = 'Episode player';
 		iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen');
@@ -154,6 +169,72 @@
 		iframe.setAttribute('frameborder', '0');
 		iframe.className = 'absolute inset-0 h-full w-full';
 		player.appendChild(iframe);
+
+		/* ----- Chapters (video TOC): parse "M:SS Title" / "H:MM:SS Title" lines
+		   from the body → a clickable list that seeks the player, and → JSON-LD
+		   Clip parts. Author them as a list or paragraph anywhere in the post. -- */
+		function hms(t) {
+			var s = t % 60, m = Math.floor(t / 60) % 60, h = Math.floor(t / 3600);
+			var mm = (h && m < 10 ? '0' : '') + m, ss = (s < 10 ? '0' : '') + s;
+			return (h ? h + ':' : '') + mm + ':' + ss;
+		}
+		var CH = [];
+		if (content) {
+			var RE = /^\s*(?:(\d{1,2}):)?(\d{1,2}):(\d{2})\s*[-–—:.)\]]*\s*(.+?)\s*$/;
+			content.querySelectorAll('li, p').forEach(function (n) {
+				var m = (n.textContent || '').match(RE);
+				if (!m) return;
+				var sec = (m[1] ? +m[1] * 3600 : 0) + (+m[2]) * 60 + (+m[3]);
+				if (m[4]) CH.push({ sec: sec, label: m[4] });
+			});
+			/* de-dupe + sort */
+			var seen = {};
+			CH = CH.filter(function (c) { if (seen[c.sec]) return false; seen[c.sec] = 1; return true; })
+			       .sort(function (a, b) { return a.sec - b.sec; });
+		}
+
+		var ytPlayer = null;
+		function seek(sec) {
+			if (ytPlayer && ytPlayer.seekTo) { ytPlayer.seekTo(sec, true); if (ytPlayer.playVideo) ytPlayer.playVideo(); }
+			else { /* fallback: reload the iframe at the timestamp */
+				var u = src.split('#')[0];
+				iframe.src = u + (u.indexOf('?') > -1 ? '&' : '?') + 'start=' + sec + '&autoplay=1';
+			}
+			if (stage && stage.scrollIntoView) stage.scrollIntoView({ behavior: 'smooth', block: 'start' });
+		}
+		if (CH.length >= 2) {
+			var list = document.getElementById('episode-chapters-list');
+			CH.forEach(function (c) {
+				var a = document.createElement('button');
+				a.type = 'button';
+				a.className = 'toc-link toc-link-h2 flex w-full items-start gap-2 text-left';
+				var t = document.createElement('span');
+				t.className = 'shrink-0 font-mono text-[11px] tabular-nums text-accent';
+				t.textContent = hms(c.sec);
+				var lb = document.createElement('span');
+				lb.textContent = c.label;
+				a.appendChild(t); a.appendChild(lb);
+				a.addEventListener('click', function () { seek(c.sec); });
+				list.appendChild(a);
+			});
+			var box = document.getElementById('episode-chapters');
+			if (box) box.hidden = false;
+
+			/* YouTube IFrame API → seek without reloading */
+			if (isYT) {
+				var boot = function () { try { ytPlayer = new YT.Player('episode-yt-iframe'); } catch (e) {} };
+				if (window.YT && window.YT.Player) { boot(); }
+				else {
+					var prev = window.onYouTubeIframeAPIReady;
+					window.onYouTubeIframeAPIReady = function () { if (prev) prev(); boot(); };
+					if (!document.getElementById('yt-iframe-api')) {
+						var s = document.createElement('script');
+						s.id = 'yt-iframe-api'; s.src = 'https://www.youtube.com/iframe_api';
+						document.head.appendChild(s);
+					}
+				}
+			}
+		}
 
 		/* ----- Fullscreen toggles ----- */
 		function toggleFullscreen() {
@@ -218,6 +299,16 @@
 				if (m && (m[1] || m[2])) data.duration = 'PT' + (m[1] ? m[1] + 'H' : '') + (m[2] ? m[2] + 'M' : '');
 				if (epNumber) data.episodeNumber = epNumber;
 				if (curl && data.partOfSeries) data.partOfSeries.url = new URL(curl, location.origin).href;
+				/* chapters → schema.org Clip parts (video "key moments") */
+				if (CH.length) {
+					var base = data.url || location.href;
+					data.hasPart = CH.map(function (c, i) {
+						var part = { '@type': 'Clip', 'name': c.label, 'startOffset': c.sec,
+							'url': base + (base.indexOf('?') > -1 ? '&' : '?') + 't=' + c.sec };
+						if (CH[i + 1]) part.endOffset = CH[i + 1].sec;
+						return part;
+					});
+				}
 				script.textContent = JSON.stringify(data);
 			} catch (e) { /* leave as-is */ }
 		}
