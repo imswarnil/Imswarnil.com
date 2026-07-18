@@ -1,0 +1,144 @@
+{{!-- Combined auth — Sign in + Create account as tabs, two columns.
+     LEFT  · a fixed illustration + "how it works" steps + what you'll receive.
+     RIGHT · a card with a tab switch over the two members forms.
+     Param: tab = "signin" | "signup" (default active tab; also honours the
+     #signin / #signup hash). Ghost Portal toggles .success/.error on each
+     form; main.js mirrors that onto the [data-members-success/error] children,
+     so those must stay inside their form. --}}
+<section class="relative overflow-hidden py-12 sm:py-16">
+	<div class="bg-grid fade-mask-b pointer-events-none absolute inset-0" aria-hidden="true"></div>
+
+	<div class="container-site relative">
+		{{#if @member}}
+			{{!-- already signed in --}}
+			<div class="card-surface mx-auto w-full max-w-md p-8 text-center shadow-lift sm:p-10">
+				<div class="mb-6 flex justify-center">{{> "components/logo"}}</div>
+				<p class="kicker justify-center">{{> "icons/check"}} Signed in</p>
+				<h1 class="mt-3 text-2xl font-semibold tracking-tight">You're already in{{#if @member.name}}, {{@member.name}}{{/if}}</h1>
+				<p class="mt-3 text-sm leading-relaxed text-silver">Manage your subscription and newsletters from your account.</p>
+				<div class="mt-6 flex flex-col gap-3">
+					<a href="#/portal/account" class="btn btn-primary w-full justify-center" data-portal="account">{{> "icons/user"}} My account</a>
+					<a href="{{@site.url}}/membership/" class="btn-ghost justify-center">See membership {{> "icons/arrow-right"}}</a>
+				</div>
+			</div>
+		{{else}}
+			{{#if @site.members_enabled}}
+			<div class="grid items-start gap-10 lg:grid-cols-12 lg:gap-14">
+
+				{{!-- ---------- LEFT: illustration + steps + newsletters ---------- --}}
+				<div class="lg:col-span-6 lg:sticky lg:top-24">
+					<p class="kicker animate-fade-in">{{> "icons/sparkle"}} Join the loop</p>
+					<h1 class="mt-3 max-w-md text-3xl font-semibold tracking-tight sm:text-4xl text-balance animate-fade-up">One inbox seat, zero algorithms.</h1>
+					<p class="mt-4 max-w-md text-[15px] leading-relaxed text-silver animate-fade-in" style="animation-delay:.1s">Create a free account to get new videos, guides and write-ups straight to your inbox — and switch the ads off while you read.</p>
+
+					{{!-- fixed envelope illustration --}}
+					<div class="auth-scene relative mt-8 hidden sm:block" aria-hidden="true">
+						<svg viewBox="0 0 260 190" class="w-60">
+							<g class="auth-letter">
+								<rect x="62" y="26" width="136" height="96" rx="8" class="fill-paper stroke-ink" stroke-width="2.5" />
+								<line x1="80" y1="50" x2="180" y2="50" class="stroke-ink" stroke-width="3.5" stroke-linecap="round" />
+								<line x1="80" y1="66" x2="164" y2="66" class="stroke-silver" stroke-width="3" stroke-linecap="round" />
+								<line x1="80" y1="80" x2="172" y2="80" class="stroke-silver" stroke-width="3" stroke-linecap="round" />
+							</g>
+							<path d="M40 90 h180 v66 a10 10 0 0 1 -10 10 h-160 a10 10 0 0 1 -10 -10 Z" class="fill-mist stroke-ink" stroke-width="2.5" stroke-linejoin="round" />
+							<path d="M40 92 l90 52 90 -52" fill="none" class="stroke-ink" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+							<path d="M44 164 l64 -38 M216 164 l-64 -38" fill="none" class="stroke-silver" stroke-width="2" stroke-linecap="round" />
+						</svg>
+						<span class="auth-spark absolute -left-5 top-4 text-accent">{{> "icons/sparkle"}}</span>
+						<span class="auth-spark auth-spark-2 absolute right-2 top-0 text-silver">{{> "icons/sparkle"}}</span>
+					</div>
+
+					{{!-- how it works --}}
+					<ol class="mt-8 space-y-3">
+						<li class="flex items-start gap-3"><span class="auth-step">1</span><span class="text-sm leading-relaxed"><strong class="font-semibold">Drop your email.</strong> <span class="text-silver">No passwords — ever.</span></span></li>
+						<li class="flex items-start gap-3"><span class="auth-step">2</span><span class="text-sm leading-relaxed"><strong class="font-semibold">Pick what lands in your inbox.</strong> <span class="text-silver">The newsletters below (change them anytime).</span></span></li>
+						<li class="flex items-start gap-3"><span class="auth-step">3</span><span class="text-sm leading-relaxed"><strong class="font-semibold">Click the magic link.</strong> <span class="text-silver">You're in — ads off, replies on.</span></span></li>
+					</ol>
+
+					{{!-- what you'll receive (illustrative) --}}
+					<div class="mt-7 rounded-2xl border border-line bg-mist/40 p-5">
+						<p class="kicker !text-[10px]">{{> "icons/mail" class="h-3 w-3"}} Newsletters you'll get</p>
+						<ul class="mt-3 space-y-2.5">
+							<li class="auth-nl"><span class="auth-nl-check">{{> "icons/check" class="h-3.5 w-3.5"}}</span><span><strong class="font-semibold">The Signal</strong><span class="block text-xs text-silver">Engineering notes, Salesforce &amp; CRM Analytics field reports.</span></span></li>
+							<li class="auth-nl"><span class="auth-nl-check">{{> "icons/check" class="h-3.5 w-3.5"}}</span><span><strong class="font-semibold">Studio notes</strong><span class="block text-xs text-silver">New videos, courses and behind-the-scenes of what I'm building.</span></span></li>
+							<li class="auth-nl"><span class="auth-nl-check">{{> "icons/check" class="h-3.5 w-3.5"}}</span><span><strong class="font-semibold">Field logs</strong><span class="block text-xs text-silver">Travel, experiments and the occasional detour worth documenting.</span></span></li>
+						</ul>
+						<p class="mt-3 font-mono text-[10px] uppercase tracking-[0.16em] text-silver/70">Fine-tune anytime in your account</p>
+					</div>
+				</div>
+
+				{{!-- ---------- RIGHT: tabbed forms ---------- --}}
+				<div class="lg:col-span-6">
+					<div class="card-surface mx-auto w-full max-w-md p-6 shadow-lift sm:p-8" id="auth-card" data-auth-default="{{#if tab}}{{tab}}{{else}}signin{{/if}}">
+						<div class="mb-6 flex justify-center">{{> "components/logo"}}</div>
+
+						{{!-- tab switch --}}
+						<div class="mb-6 grid grid-cols-2 gap-1 rounded-full border border-line bg-mist/50 p-1" role="tablist" aria-label="Sign in or create account">
+							<button type="button" class="auth-tab" role="tab" data-auth-tab="signin" aria-selected="false">Sign in</button>
+							<button type="button" class="auth-tab" role="tab" data-auth-tab="signup" aria-selected="false">Create account</button>
+						</div>
+
+						{{!-- SIGN IN --}}
+						<div class="auth-panel" data-auth-panel="signin" role="tabpanel">
+							<form data-members-form="signin">
+								<label for="auth-signin-email" class="mb-2 block font-mono text-[11px] uppercase tracking-[0.2em] text-silver">Email address</label>
+								<input id="auth-signin-email" data-members-email type="email" required placeholder="you@example.com" autocomplete="email"
+									class="w-full rounded-xl border border-line bg-paper px-4 py-3 text-sm text-ink placeholder:text-silver/60 focus:border-ink focus:outline-none" />
+								<button type="submit" class="btn btn-primary mt-3 w-full justify-center">{{> "icons/mail"}} Send login link</button>
+								<p data-members-success hidden class="mt-4 rounded-xl border border-line bg-mist px-4 py-3 text-sm text-ink">{{> "icons/check" class="mr-1 inline h-4 w-4 text-accent"}} Check your inbox — a login link is on its way.</p>
+								<p data-members-error hidden class="mt-4 rounded-xl border border-line bg-mist px-4 py-3 text-sm text-red-500">That didn't work — try again?</p>
+							</form>
+						</div>
+
+						{{!-- SIGN UP --}}
+						<div class="auth-panel" data-auth-panel="signup" role="tabpanel" hidden>
+							<form data-members-form="signup">
+								<label for="auth-signup-name" class="mb-2 block font-mono text-[11px] uppercase tracking-[0.2em] text-silver">Name</label>
+								<input id="auth-signup-name" data-members-name type="text" placeholder="Your name" autocomplete="name"
+									class="mb-4 w-full rounded-xl border border-line bg-paper px-4 py-3 text-sm text-ink placeholder:text-silver/60 focus:border-ink focus:outline-none" />
+								<label for="auth-signup-email" class="mb-2 block font-mono text-[11px] uppercase tracking-[0.2em] text-silver">Email address</label>
+								<input id="auth-signup-email" data-members-email type="email" required placeholder="you@example.com" autocomplete="email"
+									class="w-full rounded-xl border border-line bg-paper px-4 py-3 text-sm text-ink placeholder:text-silver/60 focus:border-ink focus:outline-none" />
+								<button type="submit" class="btn btn-primary mt-3 w-full justify-center">{{> "icons/zap"}} Create free account</button>
+								<p data-members-success hidden class="mt-4 rounded-xl border border-line bg-mist px-4 py-3 text-sm text-ink">{{> "icons/check" class="mr-1 inline h-4 w-4 text-accent"}} Check your inbox to confirm — welcome aboard.</p>
+								<p data-members-error hidden class="mt-4 rounded-xl border border-line bg-mist px-4 py-3 text-sm text-red-500">That didn't work — try again?</p>
+							</form>
+							<p class="mt-5 text-center text-xs text-silver">Want the paid perks? <a href="{{@site.url}}/membership/" class="font-medium text-ink underline decoration-line underline-offset-4 transition hover:decoration-ink">See membership</a></p>
+						</div>
+
+						<p class="mt-7 border-t border-line pt-5 text-center font-mono text-[10px] uppercase tracking-[0.22em] text-silver">Magic link · no passwords</p>
+					</div>
+				</div>
+			</div>
+			{{else}}
+				<div class="card-surface mx-auto w-full max-w-md p-8 text-center shadow-lift sm:p-10">
+					<div class="mb-6 flex justify-center">{{> "components/logo"}}</div>
+					<h1 class="text-2xl font-semibold tracking-tight">Accounts aren't enabled</h1>
+					<p class="mt-3 text-sm leading-relaxed text-silver">Memberships aren't turned on for this site right now — but you can still follow along.</p>
+					<a href="{{@site.url}}/rss/" class="btn-primary mt-6 w-full justify-center">{{> "icons/rss"}} Follow via RSS</a>
+				</div>
+			{{/if}}
+		{{/if}}
+	</div>
+
+	<script>
+		(function () {
+			var card = document.getElementById('auth-card');
+			if (!card) return;
+			var tabs = card.querySelectorAll('[data-auth-tab]');
+			var panels = card.querySelectorAll('[data-auth-panel]');
+			function show(name) {
+				tabs.forEach(function (t) {
+					var on = t.getAttribute('data-auth-tab') === name;
+					t.classList.toggle('is-active', on);
+					t.setAttribute('aria-selected', on ? 'true' : 'false');
+				});
+				panels.forEach(function (p) { p.hidden = p.getAttribute('data-auth-panel') !== name; });
+				if (history.replaceState) history.replaceState(null, '', '#' + name);
+			}
+			tabs.forEach(function (t) { t.addEventListener('click', function () { show(t.getAttribute('data-auth-tab')); }); });
+			var hash = (location.hash || '').replace('#', '');
+			show(hash === 'signup' || hash === 'signin' ? hash : (card.getAttribute('data-auth-default') || 'signin'));
+		})();
+	</script>
+</section>

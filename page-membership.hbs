@@ -1,0 +1,154 @@
+{{!< default}}
+
+{{!-- Membership — auto-used by Ghost for the Page with slug "membership".
+     Create a Page titled "Membership" in Ghost Admin, then restart Ghost
+     (templates map is cached). Tiers are pulled LIVE from Ghost; if none are
+     configured a "become a member" pitch shows instead. No custom settings. --}}
+{{#post}}
+<article class="{{post_class}}">
+
+	{{!-- ---------- Hero ---------- --}}
+	<header class="relative overflow-hidden border-b border-line py-14 sm:py-20">
+		<div class="bg-grid fade-mask-b pointer-events-none absolute inset-0" aria-hidden="true"></div>
+		<div class="container-site relative">
+			<nav class="mb-3 flex items-center gap-1.5 font-mono text-[10px] font-semibold uppercase tracking-[0.16em] text-silver" aria-label="Breadcrumb">
+				<a href="{{@site.url}}" class="inline-flex items-center gap-1 transition hover:text-ink">{{> "icons/home" class="h-3 w-3"}} Home</a>
+				{{> "icons/arrow-right" class="h-2.5 w-2.5 opacity-40"}}
+				<span class="text-ink">Membership</span>
+			</nav>
+			<p class="kicker animate-fade-in">{{> "icons/star"}} Membership</p>
+			<h1 class="mt-3 max-w-3xl text-4xl font-semibold tracking-tight sm:text-5xl text-balance animate-fade-up">{{title}}</h1>
+			<p class="mt-5 max-w-xl text-lg leading-relaxed text-silver animate-fade-in" style="animation-delay:.15s">{{#if custom_excerpt}}{{custom_excerpt}}{{else}}Back the work directly and unlock the good stuff — ad-free reading, early &amp; uncut videos, and members-only lessons. No algorithm in the middle.{{/if}}</p>
+			{{#if @site.members_enabled}}
+			<div class="mt-8 flex flex-wrap items-center gap-3 animate-fade-in" style="animation-delay:.25s">
+				<a href="#/portal/signup" data-portal="signup" class="btn-primary">{{> "icons/star" class="h-4 w-4"}} Become a member</a>
+				<a href="#tiers" class="btn-ghost">See the tiers {{> "icons/chevron-down"}}</a>
+			</div>
+			{{/if}}
+		</div>
+	</header>
+
+	{{!-- Optional Page body content (renders above the tiers if the Page has any) --}}
+	{{#if content}}
+	<section class="container-site py-10">
+		<div class="gh-content mx-auto max-w-2xl">{{content}}</div>
+	</section>
+	{{/if}}
+
+	{{!-- ---------- Tiers ---------- --}}
+	<section id="tiers" class="border-y border-line bg-mist/40 py-14 sm:py-16">
+		<div class="container-site">
+			<p class="kicker">Plans</p>
+			<h2 class="section-title mt-2">Pick your seat</h2>
+			<p class="mt-3 max-w-xl text-silver">Start free, upgrade whenever. Cancel anytime — it's a magic-link account, no passwords.</p>
+
+			{{#if @site.members_enabled}}
+				{{#get "tiers" limit="12" include="monthly_price,yearly_price,benefits" as |tiers|}}
+					{{#if tiers}}
+					<div class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3" data-reveal-stagger="80">
+						{{#foreach tiers}}
+						<div class="card-surface reveal relative flex flex-col p-7 {{#match type "paid"}}border-ink shadow-lift{{/match}}">
+							{{#match type "paid"}}<span class="chip absolute -top-3 left-6 !border-ink !bg-ink !text-paper">Most popular</span>{{/match}}
+							<p class="kicker">{{#match type "paid"}}{{> "icons/star"}}{{else}}{{> "icons/mail"}}{{/match}} {{name}}</p>
+							<p class="mt-4 text-4xl font-semibold tracking-tight">
+								{{#match type "paid"}}{{price monthly_price currency=currency}}<span class="ml-1 text-sm font-normal text-silver">/ mo</span>{{else}}Free{{/match}}
+							</p>
+							{{#if description}}<p class="mt-2 text-sm leading-relaxed text-silver">{{description}}</p>{{/if}}
+							{{#if benefits}}
+							<ul class="mt-5 space-y-2.5 text-sm text-silver">
+								{{#foreach benefits}}
+								<li class="flex gap-2">{{> "icons/check" class="mt-0.5 h-4 w-4 shrink-0 text-accent"}} <span>{{.}}</span></li>
+								{{/foreach}}
+							</ul>
+							{{/if}}
+							<div class="mt-auto pt-6">
+								{{#match type "paid"}}
+								<a href="#/portal/signup/{{id}}/monthly" data-portal="signup/{{id}}/monthly" class="btn-primary w-full justify-center">{{> "icons/star" class="h-3.5 w-3.5"}} Choose {{name}}</a>
+								{{else}}
+								<a href="#/portal/signup/free" data-portal="signup/free" class="btn-ghost w-full justify-center">Create free account {{> "icons/arrow-right" class="h-3.5 w-3.5"}}</a>
+								{{/match}}
+							</div>
+						</div>
+						{{/foreach}}
+					</div>
+					{{else}}
+					{{!-- smart fallback: members on, but no tiers configured --}}
+					<div class="card-surface mt-8 flex flex-col items-center gap-4 p-10 text-center">
+						<p class="max-w-md text-silver">A free account already gets you ad-free reading, comments and the newsletter. Paid tiers are on the way.</p>
+						<a href="#/portal/signup" data-portal="signup" class="btn-primary">{{> "icons/star" class="h-4 w-4"}} Create free account</a>
+					</div>
+					{{/if}}
+				{{/get}}
+			{{else}}
+			<div class="card-surface mt-8 p-10 text-center text-silver">Memberships aren't enabled on this site right now — <a href="{{@site.url}}/rss/" class="font-medium text-ink underline decoration-line underline-offset-4">follow via RSS</a> instead.</div>
+			{{/if}}
+		</div>
+	</section>
+
+	{{!-- ---------- Why become a member ---------- --}}
+	<section class="container-site py-14 sm:py-16">
+		<p class="kicker">Why join</p>
+		<h2 class="section-title mt-2">What membership actually gets you</h2>
+		<div class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4" data-reveal-stagger="70">
+			<div class="card-surface reveal p-6">
+				<span class="pub-ico">{{> "icons/close" class="h-5 w-5"}}</span>
+				<h3 class="mt-4 text-base font-semibold">Zero ads</h3>
+				<p class="mt-1.5 text-sm leading-relaxed text-silver">Signed in, the whole site goes ad-free — clean reading, every page.</p>
+			</div>
+			<div class="card-surface reveal p-6">
+				<span class="pub-ico">{{> "icons/zap" class="h-5 w-5"}}</span>
+				<h3 class="mt-4 text-base font-semibold">Early &amp; uncut</h3>
+				<p class="mt-1.5 text-sm leading-relaxed text-silver">Videos and write-ups before YouTube — and the longer, uncut versions.</p>
+			</div>
+			<div class="card-surface reveal p-6">
+				<span class="pub-ico">{{> "icons/lock" class="h-5 w-5"}}</span>
+				<h3 class="mt-4 text-base font-semibold">Members-only</h3>
+				<p class="mt-1.5 text-sm leading-relaxed text-silver">Locked lessons, posts and files unlock for members.</p>
+			</div>
+			<div class="card-surface reveal p-6">
+				<span class="pub-ico">{{> "icons/heart" class="h-5 w-5"}}</span>
+				<h3 class="mt-4 text-base font-semibold">Keep it alive</h3>
+				<p class="mt-1.5 text-sm leading-relaxed text-silver">You fund the work directly — no sponsor gets a say in what I make.</p>
+			</div>
+		</div>
+	</section>
+
+	{{!-- ---------- FAQ ---------- --}}
+	<section class="container-site pb-14">
+		<div class="mx-auto max-w-2xl">
+			<h2 class="section-title text-center">Questions, answered</h2>
+			<div class="mt-6 divide-y divide-line rounded-2xl border border-line">
+				<details class="collapse collapse-arrow group">
+					<summary class="collapse-title text-[15px] font-semibold">How do I sign in — is there a password?</summary>
+					<div class="collapse-content text-sm leading-relaxed text-silver">No passwords, ever. You get a magic link by email each time — click it and you're in.</div>
+				</details>
+				<details class="collapse collapse-arrow group">
+					<summary class="collapse-title text-[15px] font-semibold">Can I cancel anytime?</summary>
+					<div class="collapse-content text-sm leading-relaxed text-silver">Yes — manage or cancel from your account in a couple of clicks. No emails to send, no hoops.</div>
+				</details>
+				<details class="collapse collapse-arrow group">
+					<summary class="collapse-title text-[15px] font-semibold">What's free vs paid?</summary>
+					<div class="collapse-content text-sm leading-relaxed text-silver">A free account gets ad-free reading, comments and the newsletter. Paid tiers add early/uncut videos and members-only lessons and posts.</div>
+				</details>
+			</div>
+		</div>
+	</section>
+
+	{{!-- ---------- Closing CTA band ---------- --}}
+	{{#if @site.members_enabled}}
+	<section class="container-site pb-16">
+		<div class="relative overflow-hidden rounded-[2rem] border border-line bg-ink p-10 text-center text-paper shadow-lift sm:p-12">
+			<div class="bg-dots pointer-events-none absolute inset-0 opacity-20" aria-hidden="true"></div>
+			<div class="relative">
+				<h2 class="text-2xl font-semibold tracking-tight sm:text-3xl">Own your seat in the loop</h2>
+				<p class="mx-auto mt-3 max-w-md text-sm opacity-70">Join free in ten seconds, or back the work and unlock the extras. Either way, the algorithm's out of it.</p>
+				<div class="mt-6 flex flex-wrap items-center justify-center gap-3">
+					<a href="#/portal/signup" data-portal="signup" class="btn bg-paper text-ink hover:opacity-90 !px-7 !py-3">{{> "icons/star" class="h-4 w-4"}} Become a member</a>
+					<a href="#/portal/signin" data-portal="signin" class="btn border border-paper/30 text-paper hover:bg-paper/10 !px-7 !py-3">Already a member? Sign in</a>
+				</div>
+			</div>
+		</div>
+	</section>
+	{{/if}}
+</article>
+{{/post}}
