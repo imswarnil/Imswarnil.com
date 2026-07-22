@@ -80,7 +80,7 @@
 			<div class="mt-6 grid gap-5 md:grid-cols-2 xl:grid-cols-3" id="home-projects-grid" data-reveal-stagger="90">
 				{{#foreach projects}}
 				<div class="home-project" data-skills="{{#foreach tags visibility="internal"}}{{slug}} {{/foreach}}">
-					{{> "cards/project"}}
+					{{> "project/card"}}
 				</div>
 				{{/foreach}}
 			</div>

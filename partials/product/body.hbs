@@ -50,12 +50,12 @@
 
 				<footer class="mt-10 flex items-center justify-between border-t border-line pt-6">
 					<a href="{{@site.url}}/products/" class="btn-ghost">{{> "icons/arrow-right" class="rotate-180"}} All products</a>
-					{{> "post/share"}}
+					{{> "utility/share"}}
 				</footer>
 
 				{{#if @site.comments_enabled}}
 				<section class="mt-12 border-t border-line pt-10">
-					{{> "components/comments" title="Questions about this?"}}
+					{{> "utility/comments" title="Questions about this?"}}
 				</section>
 				{{/if}}
 			</div>
@@ -95,7 +95,7 @@
 					</dl>
 				</div>
 
-				{{> "components/adsense" slot="7663977887" format="auto"}}
+				{{> "utility/adsense" slot="7663977887" format="auto"}}
 
 				{{!-- Related products: same #group-* section when determinable, else any product --}}
 				<div class="card-surface p-5">

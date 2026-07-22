@@ -24,17 +24,17 @@
 
 			<footer class="mt-10 flex flex-wrap items-center justify-between gap-3 border-t border-line pt-6">
 				<a href="{{@site.url}}/experiences/" class="btn-ghost btn-sm">{{> "icons/arrow-right" class="h-3.5 w-3.5 rotate-180"}} All moments</a>
-				{{> "post/share"}}
+				{{> "utility/share"}}
 			</footer>
 
-			{{#if @site.comments_enabled}}<section class="mt-12 border-t border-line pt-10">{{> "components/comments" title="Were you there?"}}</section>{{/if}}
+			{{#if @site.comments_enabled}}<section class="mt-12 border-t border-line pt-10">{{> "utility/comments" title="Were you there?"}}</section>{{/if}}
 		</div>
 
 		{{#get "posts" filter="tag:hash-experience+id:-{{id}}" limit="3" include="tags" as |more|}}
 			{{#if more}}
 			<section class="mx-auto mt-16 max-w-6xl border-t border-line pt-12">
 				<p class="kicker mb-6">{{> "icons/star" class="h-3.5 w-3.5"}} More moments</p>
-				<div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">{{#foreach more}}{{> "cards/experience"}}{{/foreach}}</div>
+				<div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">{{#foreach more}}{{> "experience/card"}}{{/foreach}}</div>
 			</section>
 			{{/if}}
 		{{/get}}

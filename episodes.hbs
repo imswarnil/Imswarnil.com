@@ -2,7 +2,7 @@
 
 {{!-- Rarely-surfaced index of every episode, grouped by series.
      Each group links to its series page at /webseries/{series-slug}/. --}}
-{{> "components/collection-header" kicker="Now streaming" title="Episodes" desc="Every episode, grouped by series. Head to a series page for the full experience."}}
+{{> "utility/collection-header" kicker="Now streaming" title="Episodes" desc="Every episode, grouped by series. Head to a series page for the full experience."}}
 
 <section class="container-site py-12">
 	<div class="mx-auto max-w-3xl space-y-14">
@@ -18,7 +18,7 @@
 							{{#if eps}}
 								<ol class="mt-5 space-y-3">
 									{{#foreach eps}}
-										<li>{{> "cards/episode" num=@number}}</li>
+										<li>{{> "webseries/episode-card" num=@number}}</li>
 									{{/foreach}}
 								</ol>
 							{{else}}

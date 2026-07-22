@@ -1,6 +1,6 @@
 {{!< default}}
 
-{{> "components/collection-header" kicker="The workbench" title="Projects" desc="Things I've designed, built and shipped — from marketing systems to weekend hacks."}}
+{{> "utility/collection-header" kicker="The workbench" title="Projects" desc="Things I've designed, built and shipped — from marketing systems to weekend hacks."}}
 
 <section class="container-site py-12">
 
@@ -11,7 +11,7 @@
 			<p class="kicker">{{> "icons/star"}} Pinned</p>
 			<div class="mt-4 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
 				{{#foreach pinned}}
-					{{> "cards/project"}}
+					{{> "project/card"}}
 				{{/foreach}}
 			</div>
 		</div>
@@ -21,13 +21,13 @@
 	<p class="kicker">{{> "icons/repo"}} All repositories</p>
 	<div class="mt-4 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
 		{{#foreach posts}}
-			{{> "cards/project"}}
+			{{> "project/card"}}
 		{{/foreach}}
 	</div>
 
-	{{> "components/adsense" slot="7663977887" format="auto" class="mx-auto max-w-2xl"}}
+	{{> "utility/adsense" slot="7663977887" format="auto" class="mx-auto max-w-2xl"}}
 
-	{{> "components/pagination"}}
+	{{> "utility/pagination"}}
 </section>
 
 {{!-- Derived project links + skill chips.

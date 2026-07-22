@@ -1,17 +1,17 @@
 {{!< default}}
 
 {{!-- /experiences — life "moments": memorable things I've lived, photo + story. --}}
-{{> "components/collection-header" kicker="Moments worth keeping" title="Experiences" desc="Not a résumé — the moments. Talks given, places lived, first-times and small wins."}}
+{{> "utility/collection-header" kicker="Moments worth keeping" title="Experiences" desc="Not a résumé — the moments. Talks given, places lived, first-times and small wins."}}
 
 <section class="container-site py-12">
 	<div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3" data-reveal-stagger="70">
 		{{#foreach posts}}
-			{{> "cards/experience"}}
+			{{> "experience/card"}}
 		{{else}}
 			<p class="col-span-full py-10 text-center text-silver">Moments land here — tag posts <code class="rounded bg-mist px-1.5 py-0.5 font-mono text-xs">#experience</code>.</p>
 		{{/foreach}}
 	</div>
 
-	{{> "components/adsense" slot="7663977887" format="auto" class="mx-auto mt-10 max-w-2xl"}}
-	{{> "components/pagination"}}
+	{{> "utility/adsense" slot="7663977887" format="auto" class="mx-auto mt-10 max-w-2xl"}}
+	{{> "utility/pagination"}}
 </section>

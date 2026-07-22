@@ -1,8 +1,8 @@
 {{!-- AdSense unit — parameterized. Usage:
-       {{> "components/adsense" slot="8939839370" format="auto"}}
-       {{> "components/adsense" slot="6501428979" layout="in-article" format="fluid"}}
-       {{> "components/adsense" slot="9130894804" format="fluid" layoutKey="-6t+ed+2i-1n-4w"}}  (in-feed)
-       {{> "components/adsense" slot="6808134701" format="autorelaxed"}}                        (multiplex)
+       {{> "utility/adsense" slot="8939839370" format="auto"}}
+       {{> "utility/adsense" slot="6501428979" layout="in-article" format="fluid"}}
+       {{> "utility/adsense" slot="9130894804" format="fluid" layoutKey="-6t+ed+2i-1n-4w"}}  (in-feed)
+       {{> "utility/adsense" slot="6808134701" format="autorelaxed"}}                        (multiplex)
      Slots (publisher ca-pub-1291242080282540):
        6501428979 in-article    8939839370 horizontal-responsive
        3487917390 vertical-responsive       7663977887 square-responsive
@@ -23,6 +23,6 @@
 			data-ad-format="{{#if format}}{{format}}{{else}}auto{{/if}}"
 			data-full-width-responsive="true"></ins>
 		{{!-- push happens once per ins in main.js (guarded) — avoids double-push TagError --}}
-		{{> "components/ad-optout"}}
+		{{> "utility/ad-optout"}}
 	</div>
 {{/unless}}

@@ -4,7 +4,7 @@
      Each card shows the guide plus the first few steps of its route, so the
      shape of the thing is visible before you commit to it. --}}
 
-{{> "components/collection-header" kicker="Field guides" title="Guides" desc="Long, opinionated walkthroughs of things I've actually done — laid out as a route you can walk one step at a time."}}
+{{> "utility/collection-header" kicker="Field guides" title="Guides" desc="Long, opinionated walkthroughs of things I've actually done — laid out as a route you can walk one step at a time."}}
 
 <section class="container-site py-12">
 	{{#if posts}}
@@ -41,7 +41,7 @@
 
 					{{!-- first steps of the route --}}
 					<div class="mt-5 border-t border-line pt-5">
-						{{> "components/guide-stepper" tagSlug=slug active=""}}
+						{{> "guide/stepper" tagSlug=slug active=""}}
 					</div>
 					{{/primary_tag}}
 
@@ -58,10 +58,10 @@
 	</div>
 
 	<div class="mx-auto mt-12 max-w-4xl">
-		{{> "components/adsense" slot="8939839370" format="auto"}}
+		{{> "utility/adsense" slot="8939839370" format="auto"}}
 	</div>
 
-	{{> "components/pagination"}}
+	{{> "utility/pagination"}}
 	{{else}}
 	<p class="rounded-2xl border border-dashed border-line p-12 text-center text-sm text-silver">
 		Tag a post <code class="rounded bg-mist px-1.5 py-0.5 font-mono text-xs">#guide</code> to open the first field guide.

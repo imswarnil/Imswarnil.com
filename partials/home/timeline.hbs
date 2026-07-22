@@ -34,7 +34,7 @@
 					<ol class="tl-spine relative space-y-8">
 						<span class="tl-fill" aria-hidden="true"></span>
 						{{#foreach moments}}
-							{{> "cards/timeline-item"}}
+							{{> "timeline/card"}}
 						{{/foreach}}
 					</ol>
 					{{else}}
@@ -43,7 +43,7 @@
 						<ol class="tl-spine relative space-y-8">
 							<span class="tl-fill" aria-hidden="true"></span>
 							{{#foreach fallback}}
-								{{> "cards/timeline-item"}}
+								{{> "timeline/card"}}
 							{{/foreach}}
 						</ol>
 						{{else}}

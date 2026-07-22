@@ -36,24 +36,24 @@
 <section class="container-site py-12">
 	<div class="flex gap-8">
 		<aside class="rail-ad" aria-hidden="true">
-			{{> "components/adsense" slot="2712169578" format="auto" class="!my-0"}}
+			{{> "utility/adsense" slot="2712169578" format="auto" class="!my-0"}}
 		</aside>
 
 		<div class="min-w-0 flex-1">
 			<div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3" data-reveal-stagger="70">
 				{{#foreach posts}}
-					{{> "cards/blog"}}
+					{{> "blog/card"}}
 					{{#match @number 6}}
-						{{> "components/adsense" slot="9130894804" format="fluid" layoutKey="-6t+ed+2i-1n-4w" class="!my-0 sm:col-span-2 lg:col-span-3"}}
+						{{> "utility/adsense" slot="9130894804" format="fluid" layoutKey="-6t+ed+2i-1n-4w" class="!my-0 sm:col-span-2 lg:col-span-3"}}
 					{{/match}}
 				{{/foreach}}
 			</div>
-			{{> "components/pagination"}}
-			{{> "components/adsense" slot="8939839370" format="auto"}}
+			{{> "utility/pagination"}}
+			{{> "utility/adsense" slot="8939839370" format="auto"}}
 		</div>
 
 		<aside class="rail-ad" aria-hidden="true">
-			{{> "components/adsense" slot="3487917390" format="auto" class="!my-0"}}
+			{{> "utility/adsense" slot="3487917390" format="auto" class="!my-0"}}
 		</aside>
 	</div>
 	<p class="mt-4 text-center"><a href="{{@site.url}}/tags/" class="btn-ghost">{{> "icons/sparkle" class="h-3.5 w-3.5"}} All topics</a></p>

@@ -1,0 +1,49 @@
+{{!-- Post body dispatcher — the internal (#) tag decides which single-post
+     layout renders. Caller MUST already be inside a post context
+     ({{#post}} … {{/post}}); post.hbs is the primary caller. Kept as its own
+     partial so a page/section can embed a fully-rendered post body too. --}}
+{{#has tag="#reel"}}
+	{{> "video/reel"}}
+{{else has tag="#shorts"}}
+	{{> "video/reel"}}
+{{else has tag="#video"}}
+	{{> "video/body"}}
+{{else has tag="#course"}}
+	{{> "course/body"}}
+{{else has tag="#guide-content"}}
+	{{> "guide/step"}}
+{{else has tag="#guide"}}
+	{{> "guide/body"}}
+{{else has tag="#webseries"}}
+	{{> "webseries/body"}}
+{{else has tag="#lesson"}}
+	{{> "course/lesson"}}
+{{else has tag="#episode"}}
+	{{> "webseries/episode"}}
+{{else has tag="#trip"}}
+	{{> "travel/trip"}}
+{{else has tag="#travel"}}
+	{{> "travel/body"}}
+{{else has tag="#project-detail"}}
+	{{> "project/step"}}
+{{else has tag="#project"}}
+	{{> "project/body"}}
+{{else has tag="#product"}}
+	{{> "product/body"}}
+{{else has tag="#prompt"}}
+	{{> "prompt/body"}}
+{{else has tag="#snippet"}}
+	{{> "snippet/body"}}
+{{else has tag="#experience"}}
+	{{> "experience/body"}}
+{{else has tag="#docs"}}
+	{{> "docs/body"}}
+{{else has tag="#newsletter"}}
+	{{> "newsletter/body"}}
+{{else has tag="#changelog"}}
+	{{> "changelog/body"}}
+{{else has tag="#shop"}}
+	{{> "shop/body"}}
+{{else}}
+	{{> "blog/body"}}
+{{/has}}

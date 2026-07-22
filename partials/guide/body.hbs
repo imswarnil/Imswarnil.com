@@ -59,15 +59,15 @@
 				<section class="gh-content">{{content}}</section>
 				{{/if}}
 
-				{{> "components/adsense" slot="6501428979" layout="in-article" format="fluid"}}
+				{{> "utility/adsense" slot="6501428979" layout="in-article" format="fluid"}}
 
 				<footer class="mt-8 flex items-center justify-between border-t border-line pt-6">
 					<a href="{{@site.url}}/guide/" class="btn-ghost">{{> "icons/arrow-right" class="rotate-180"}} All guides</a>
-					{{> "post/share"}}
+					{{> "utility/share"}}
 				</footer>
 
 				{{#if @site.comments_enabled}}
-				<div class="mt-12">{{> "components/comments" title="Questions about this guide"}}</div>
+				<div class="mt-12">{{> "utility/comments" title="Questions about this guide"}}</div>
 				{{/if}}
 			</div>
 
@@ -77,12 +77,12 @@
 					<p class="kicker !text-[10px]">{{> "icons/route" class="h-3 w-3"}} The route</p>
 					<p class="mt-2 text-xs leading-relaxed text-silver">Walk it start to finish, or jump straight to the part you're stuck on.</p>
 					<div class="mt-4">
-						{{#primary_tag}}{{> "components/guide-stepper" tagSlug=slug active=""}}{{/primary_tag}}
+						{{#primary_tag}}{{> "guide/stepper" tagSlug=slug active=""}}{{/primary_tag}}
 					</div>
 				</div>
 
 				<div class="mt-5">
-					{{> "components/adsense" slot="7663977887" format="auto" class="!my-0"}}
+					{{> "utility/adsense" slot="7663977887" format="auto" class="!my-0"}}
 				</div>
 			</aside>
 		</div>

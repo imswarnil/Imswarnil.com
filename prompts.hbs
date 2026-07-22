@@ -2,19 +2,19 @@
 
 {{!-- /prompts — LLM-chat styled prompt library (#prompt). Snippets moved to
      their own /snippets/ collection. --}}
-{{> "components/collection-header" kicker="The prompt library" title="Prompts" desc="Prompts I actually reuse. Copy, tweak, ship."}}
+{{> "utility/collection-header" kicker="The prompt library" title="Prompts" desc="Prompts I actually reuse. Copy, tweak, ship."}}
 
 <section class="container-site py-12">
 
 	<div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3" data-reveal-stagger="60">
 		{{#foreach posts}}
-			{{> "cards/prompt"}}
+			{{> "prompt/card"}}
 		{{else}}
 			<p class="col-span-full py-10 text-center text-silver">Prompts land here — tag posts <code class="rounded bg-mist px-1.5 py-0.5 font-mono text-xs">#prompt</code>.</p>
 		{{/foreach}}
 	</div>
 
-	{{> "components/adsense" slot="7663977887" format="auto" class="mx-auto max-w-2xl"}}
+	{{> "utility/adsense" slot="7663977887" format="auto" class="mx-auto max-w-2xl"}}
 
-	{{> "components/pagination"}}
+	{{> "utility/pagination"}}
 </section>

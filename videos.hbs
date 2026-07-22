@@ -110,7 +110,7 @@
 				</div>
 			</div>
 			<div class="reels-rail no-scrollbar mt-6 fade-mask-x" data-hscroll>
-				{{#foreach reels}}{{> "cards/reel"}}{{/foreach}}
+				{{#foreach reels}}{{> "video/reel-card"}}{{/foreach}}
 			</div>
 		</section>
 		{{/if}}
@@ -123,9 +123,9 @@
 	<div class="grid gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3" data-reveal-stagger="60">
 		{{#foreach posts from="2"}}
 			{{#has tag="hash-reel, hash-shorts"}}{{else}}
-				{{> "cards/video"}}
+				{{> "video/card"}}
 				{{#has number="nth:3"}}
-					{{> "components/adsense" slot="9130894804" format="fluid" layoutKey="-6t+ed+2i-1n-4w" class="!my-0 self-center sm:col-span-2 lg:col-span-3"}}
+					{{> "utility/adsense" slot="9130894804" format="fluid" layoutKey="-6t+ed+2i-1n-4w" class="!my-0 self-center sm:col-span-2 lg:col-span-3"}}
 				{{/has}}
 			{{/has}}
 		{{else}}
@@ -133,8 +133,8 @@
 		{{/foreach}}
 	</div>
 
-	{{> "components/pagination"}}
+	{{> "utility/pagination"}}
 
 	{{!-- Work-with-me band --}}
-	<div class="mt-14">{{> "components/collab-cta"}}</div>
+	<div class="mt-14">{{> "utility/collab-cta"}}</div>
 </section>

@@ -74,7 +74,7 @@
 					{{content}}
 				</section>
 
-				{{> "components/adsense" slot="6501428979" layout="in-article" format="fluid"}}
+				{{> "utility/adsense" slot="6501428979" layout="in-article" format="fluid"}}
 
 				{{!-- Prev / next within this project (filled from the rail by JS) --}}
 				<nav class="mt-10 grid border-y border-line sm:grid-cols-2 sm:divide-x sm:divide-line" aria-label="Build-log pagination">
@@ -97,11 +97,11 @@
 
 				<footer class="mt-6 flex items-center justify-between border-t border-line pt-6">
 					{{#primary_tag}}{{#get "posts" filter="tag:hash-project+tag:{{slug}}" limit="1" as |proj|}}{{#foreach proj}}<a href="{{url}}" class="btn-ghost">{{> "icons/arrow-right" class="rotate-180"}} Back to {{title}}</a>{{/foreach}}{{/get}}{{/primary_tag}}
-					{{> "post/share"}}
+					{{> "utility/share"}}
 				</footer>
 
 				{{#if @site.comments_enabled}}
-				<section class="mt-12 border-t border-line pt-10">{{> "components/comments" title="Notes & questions"}}</section>
+				<section class="mt-12 border-t border-line pt-10">{{> "utility/comments" title="Notes & questions"}}</section>
 				{{/if}}
 			</div>
 		</div>

@@ -39,9 +39,9 @@
 				{{!-- the one toc module; main.js builds + unhides it. (The old
 				     #toc-wrap markup here used ids main.js never looked for, so
 				     the guide TOC simply never populated.) --}}
-				{{> "components/toc" title="On this step"}}
+				{{> "utility/toc" title="On this step"}}
 
-				{{> "components/adsense" slot="7663977887" format="auto" class="!my-0"}}
+				{{> "utility/adsense" slot="7663977887" format="auto" class="!my-0"}}
 
 				{{!-- widget: the rest of the guide's shelf --}}
 				<div class="guide-card">
@@ -107,15 +107,15 @@
 				</a>
 			</nav>
 
-			{{> "components/adsense" slot="6501428979" layout="in-article" format="fluid"}}
+			{{> "utility/adsense" slot="6501428979" layout="in-article" format="fluid"}}
 
 			<footer class="mt-6 flex items-center justify-between border-t border-line pt-6">
 				{{#primary_tag}}<a href="{{@site.url}}/guide/{{slug}}/" data-guide-link class="btn-ghost">{{> "icons/arrow-right" class="rotate-180"}} Back to {{name}}</a>{{/primary_tag}}
-				{{> "post/share"}}
+				{{> "utility/share"}}
 			</footer>
 
 			{{#if @site.comments_enabled}}
-			<div class="mt-12">{{> "components/comments" title="Stuck on this step?"}}</div>
+			<div class="mt-12">{{> "utility/comments" title="Stuck on this step?"}}</div>
 			{{/if}}
 		</div>
 
@@ -136,7 +136,7 @@
 						{{!-- primary_tag.slug as a PATH, not via a {{#primary_tag}} block: `../slug`
      inside a partial hash never resolved, so data-active was always empty and
      the route showed 0% for everyone. --}}
-{{> "components/guide-stepper" tagSlug=primary_tag.slug active=slug}}
+{{> "guide/stepper" tagSlug=primary_tag.slug active=slug}}
 					</div>
 				</div>
 			</div>
@@ -154,7 +154,7 @@
 		{{!-- primary_tag.slug as a PATH, not via a {{#primary_tag}} block: `../slug`
      inside a partial hash never resolved, so data-active was always empty and
      the route showed 0% for everyone. --}}
-{{> "components/guide-stepper" tagSlug=primary_tag.slug active=slug}}
+{{> "guide/stepper" tagSlug=primary_tag.slug active=slug}}
 	</div>
 </div>
 

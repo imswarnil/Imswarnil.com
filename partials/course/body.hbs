@@ -191,7 +191,7 @@
 						<p class="mt-2 text-sm text-silver">Everything used to record, edit and ship this course. Affiliate links keep the lessons free.</p>
 						<div class="mt-5 grid gap-4 sm:grid-cols-2" data-reveal-stagger="80">
 							{{#foreach gear}}
-								{{> "cards/product-mini"}}
+								{{> "product/card-mini"}}
 							{{/foreach}}
 						</div>
 					</section>
@@ -200,7 +200,7 @@
 
 				{{!-- Ad --}}
 				<section class="py-4">
-					{{> "components/adsense" slot="6501428979" layout="in-article" format="fluid"}}
+					{{> "utility/adsense" slot="6501428979" layout="in-article" format="fluid"}}
 				</section>
 			</div>
 
@@ -254,11 +254,11 @@
 							</ul>
 
 							<div class="mt-4 border-t border-line pt-3">
-								{{> "post/share"}}
+								{{> "utility/share"}}
 							</div>
 						</div>
 					</div>
-					{{> "components/adsense" slot="3487917390" format="auto" class="!my-6 hidden lg:block"}}
+					{{> "utility/adsense" slot="3487917390" format="auto" class="!my-6 hidden lg:block"}}
 				</div>
 			</aside>
 		</div>
@@ -299,7 +299,7 @@
 				{{#if related}}
 				<div class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
 					{{#foreach related}}
-						{{> "cards/course"}}
+						{{> "course/card"}}
 					{{/foreach}}
 				</div>
 				{{else}}
@@ -313,7 +313,7 @@
 	{{#if @site.comments_enabled}}
 	<section class="py-12">
 		<div class="container-site"><div class="mx-auto max-w-3xl">
-			{{> "components/comments" title="Discussion"}}
+			{{> "utility/comments" title="Discussion"}}
 		</div></div>
 	</section>
 	{{/if}}

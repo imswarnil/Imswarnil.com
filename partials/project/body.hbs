@@ -53,7 +53,7 @@
 					{{content}}
 				</section>
 
-				{{> "components/adsense" slot="6501428979" layout="in-article" format="fluid"}}
+				{{> "utility/adsense" slot="6501428979" layout="in-article" format="fluid"}}
 
 				{{!-- Build log: #project-detail steps, start → ship, with overall span --}}
 				{{#foreach tags visibility="public" limit="1"}}
@@ -115,7 +115,7 @@
 
 				<footer class="mt-10 flex items-center justify-between border-t border-line pt-6">
 					<a href="{{@site.url}}/projects/" class="btn-ghost">{{> "icons/arrow-right" class="rotate-180"}} All projects</a>
-					{{> "post/share"}}
+					{{> "utility/share"}}
 				</footer>
 
 				{{!-- Issues & feedback (comments, GitHub-issue vibe) --}}
@@ -125,7 +125,7 @@
 					<h2 class="section-title mt-2">Issues &amp; feedback</h2>
 					<p class="mt-2 max-w-xl text-sm leading-relaxed text-silver">Found a bug? Have a feature request? Open an issue below — no GitHub account required, and yes, I actually triage these.</p>
 					<div class="mt-6">
-						{{> "components/comments" title="Issues & feedback"}}
+						{{> "utility/comments" title="Issues & feedback"}}
 					</div>
 				</section>
 				{{/if}}
@@ -161,10 +161,10 @@
 
 				{{!-- TOC (moved to #toc-mobile-slot on small screens) --}}
 				<div id="toc-desktop-slot">
-					{{> "components/toc"}}
+					{{> "utility/toc"}}
 				</div>
 
-				{{> "components/adsense" slot="3487917390" format="auto" class="!my-0"}}
+				{{> "utility/adsense" slot="3487917390" format="auto" class="!my-0"}}
 			</aside>
 		</div>
 
@@ -195,7 +195,7 @@
 			<h2 class="section-title mt-2">Related projects</h2>
 			<div class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
 				{{#foreach related}}
-					{{> "cards/project"}}
+					{{> "project/card"}}
 				{{/foreach}}
 			</div>
 		</div>

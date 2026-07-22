@@ -117,7 +117,7 @@
 				{{content}}
 			</section>
 
-			{{> "components/adsense" slot="6501428979" layout="in-article" format="fluid"}}
+			{{> "utility/adsense" slot="6501428979" layout="in-article" format="fluid"}}
 
 			{{!-- Gear: #product posts tagged #product-video = "kit I use for videos" --}}
 			{{#get "posts" filter="tag:hash-product+tag:hash-product-video" limit="4" include="tags" as |gear|}}
@@ -126,7 +126,7 @@
 					<p class="kicker">{{> "icons/cart" class="h-3.5 w-3.5"}} Products I use to make videos</p>
 					<div class="mt-5 grid gap-4 sm:grid-cols-2" data-reveal-stagger="80">
 						{{#foreach gear}}
-							{{> "cards/product-mini"}}
+							{{> "product/card-mini"}}
 						{{/foreach}}
 					</div>
 				</section>
@@ -139,7 +139,7 @@
 				<section class="mt-12 border-t border-line pt-10">
 					<p class="kicker">{{> "icons/graduation" class="h-3.5 w-3.5"}} Go deeper — full course</p>
 					<div class="mt-5 grid gap-4 sm:grid-cols-2" data-reveal-stagger="80">
-						{{#foreach vcourses}}{{> "cards/course"}}{{/foreach}}
+						{{#foreach vcourses}}{{> "course/card"}}{{/foreach}}
 					</div>
 				</section>
 				{{/if}}
@@ -182,7 +182,7 @@
 			</section>
 
 			{{!-- Sponsor / collab --}}
-			<div class="mt-8">{{> "components/collab-cta" compact=true}}</div>
+			<div class="mt-8">{{> "utility/collab-cta" compact=true}}</div>
 
 			<footer class="mt-8 flex flex-wrap gap-2 border-t border-line pt-6">
 				{{#foreach tags visibility="public"}}<a href="{{url}}" class="chip transition hover:border-ink hover:text-ink">{{name}}</a>{{/foreach}}
@@ -190,7 +190,7 @@
 
 			{{#if @site.comments_enabled}}
 				<section class="mt-12 border-t border-line pt-10">
-					{{> "components/comments" title="Comments"}}
+					{{> "utility/comments" title="Comments"}}
 				</section>
 			{{/if}}
 		</div>
@@ -202,7 +202,7 @@
 					<p class="kicker mb-8">{{> "icons/play" class="h-3.5 w-3.5"}} Up next</p>
 					<div class="grid gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
 						{{#foreach related}}
-							{{> "cards/video"}}
+							{{> "video/card"}}
 						{{/foreach}}
 					</div>
 					<div class="mt-10 text-center">

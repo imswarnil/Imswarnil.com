@@ -332,6 +332,27 @@
 	}
 	.kicker svg { @apply shrink-0; }
 
+	/* Archive "browse by type" — pure-CSS filter, no JS (see archive.hbs).
+	   Each chip is a same-page anchor that targets itself; :has(:target)
+	   reveals only rows whose data-type matches. Browsers without :has()
+	   simply show every row (graceful, non-blocking fallback). */
+	.archive-wrap:has(.atab:target) .arow { display: none; }
+	.archive-wrap:has(#at-all:target) .arow,
+	.archive-wrap:has(#at-article:target)    .arow[data-type="article"],
+	.archive-wrap:has(#at-video:target)      .arow[data-type="video"],
+	.archive-wrap:has(#at-course:target)     .arow[data-type="course"],
+	.archive-wrap:has(#at-series:target)     .arow[data-type="series"],
+	.archive-wrap:has(#at-project:target)    .arow[data-type="project"],
+	.archive-wrap:has(#at-product:target)    .arow[data-type="product"],
+	.archive-wrap:has(#at-newsletter:target) .arow[data-type="newsletter"],
+	.archive-wrap:has(#at-timeline:target)   .arow[data-type="timeline"],
+	.archive-wrap:has(#at-changelog:target)  .arow[data-type="changelog"],
+	.archive-wrap:has(#at-shop:target)       .arow[data-type="shop"],
+	.archive-wrap:has(#at-travel:target)     .arow[data-type="travel"] { display: block; }
+	.atab { scroll-margin-top: 6rem; }
+	.atab:target,
+	.archive-wrap:not(:has(.atab:target)) .atab-all { @apply !border-ink !bg-ink !text-paper; }
+
 	.section-title {
 		@apply text-2xl font-semibold tracking-tight sm:text-3xl;
 	}

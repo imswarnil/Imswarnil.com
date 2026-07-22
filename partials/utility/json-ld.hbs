@@ -120,7 +120,7 @@
 <script type="application/ld+json">
 {
 	"@context": "https://schema.org",
-	"@type": "{{#has tag="#video"}}VideoObject{{else has tag="#course"}}Course{{else has tag="#project"}}CreativeWork{{else has tag="#product"}}Review{{else has tag="#episode"}}TVEpisode{{else has tag="#webseries"}}TVSeries{{else}}Article{{/has}}",
+	"@type": "{{#has tag="#video"}}VideoObject{{else has tag="#reel"}}VideoObject{{else has tag="#shorts"}}VideoObject{{else has tag="#course"}}Course{{else has tag="#lesson"}}LearningResource{{else has tag="#project"}}CreativeWork{{else has tag="#product"}}Review{{else has tag="#shop"}}Product{{else has tag="#episode"}}TVEpisode{{else has tag="#webseries"}}TVSeries{{else has tag="#trip"}}TouristTrip{{else has tag="#travel"}}TouristAttraction{{else has tag="#prompt"}}TechArticle{{else has tag="#snippet"}}TechArticle{{else has tag="#experience"}}CreativeWork{{else has tag="#changelog"}}Article{{else has tag="#newsletter"}}Article{{else}}Article{{/has}}",
 	"headline": "{{title}}",
 	"name": "{{title}}",
 	"description": "{{custom_excerpt}}{{^custom_excerpt}}{{excerpt words="40"}}{{/custom_excerpt}}",
@@ -164,8 +164,17 @@
 	"itemListElement": [
 		{ "@type": "ListItem", "position": 1, "name": "Home", "item": "{{@site.url}}" },
 		{{#has tag="#video"}}{ "@type": "ListItem", "position": 2, "name": "Videos", "item": "{{@site.url}}/videos/" },{{/has}}
+		{{#has tag="#reel"}}{ "@type": "ListItem", "position": 2, "name": "Videos", "item": "{{@site.url}}/videos/" },{{/has}}
 		{{#has tag="#project"}}{ "@type": "ListItem", "position": 2, "name": "Projects", "item": "{{@site.url}}/projects/" },{{/has}}
 		{{#has tag="#course"}}{ "@type": "ListItem", "position": 2, "name": "Courses", "item": "{{@site.url}}/courses/" },{{/has}}
+		{{#has tag="#lesson"}}{ "@type": "ListItem", "position": 2, "name": "Courses", "item": "{{@site.url}}/courses/" },{{/has}}
+		{{#has tag="#webseries"}}{ "@type": "ListItem", "position": 2, "name": "Web series", "item": "{{@site.url}}/webseries/" },{{/has}}
+		{{#has tag="#episode"}}{ "@type": "ListItem", "position": 2, "name": "Web series", "item": "{{@site.url}}/webseries/" },{{/has}}
+		{{#has tag="#trip"}}{ "@type": "ListItem", "position": 2, "name": "Travel", "item": "{{@site.url}}/travel/" },{{/has}}
+		{{#has tag="#travel"}}{ "@type": "ListItem", "position": 2, "name": "Travel", "item": "{{@site.url}}/travel/" },{{/has}}
+		{{#has tag="#newsletter"}}{ "@type": "ListItem", "position": 2, "name": "Newsletters", "item": "{{@site.url}}/newsletters/" },{{/has}}
+		{{#has tag="#changelog"}}{ "@type": "ListItem", "position": 2, "name": "Changelog", "item": "{{@site.url}}/changelog/" },{{/has}}
+		{{#has tag="#shop"}}{ "@type": "ListItem", "position": 2, "name": "Shop", "item": "{{@site.url}}/shop/" },{{/has}}
 		{{#has tag="#blog"}}{ "@type": "ListItem", "position": 2, "name": "Blog", "item": "{{@site.url}}/blog/" },{{/has}}
 		{ "@type": "ListItem", "position": 3, "name": "{{title}}", "item": "{{url absolute="true"}}" }
 	]

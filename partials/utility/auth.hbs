@@ -12,7 +12,7 @@
 		{{#if @member}}
 			{{!-- already signed in --}}
 			<div class="card-surface mx-auto w-full max-w-md p-8 text-center shadow-lift sm:p-10">
-				<div class="mb-6 flex justify-center">{{> "components/logo"}}</div>
+				<div class="mb-6 flex justify-center">{{> "utility/logo"}}</div>
 				<p class="kicker justify-center">{{> "icons/check"}} Signed in</p>
 				<h1 class="mt-3 text-2xl font-semibold tracking-tight">You're already in{{#if @member.name}}, {{@member.name}}{{/if}}</h1>
 				<p class="mt-3 text-sm leading-relaxed text-silver">Manage your subscription and newsletters from your account.</p>
@@ -70,7 +70,7 @@
 				{{!-- ---------- RIGHT: tabbed forms ---------- --}}
 				<div class="lg:col-span-6">
 					<div class="card-surface mx-auto w-full max-w-md p-6 shadow-lift sm:p-8" id="auth-card" data-auth-default="{{#if tab}}{{tab}}{{else}}signin{{/if}}">
-						<div class="mb-6 flex justify-center">{{> "components/logo"}}</div>
+						<div class="mb-6 flex justify-center">{{> "utility/logo"}}</div>
 
 						{{!-- tab switch --}}
 						<div class="mb-6 grid grid-cols-2 gap-1 rounded-full border border-line bg-mist/50 p-1" role="tablist" aria-label="Sign in or create account">
@@ -112,7 +112,7 @@
 			</div>
 			{{else}}
 				<div class="card-surface mx-auto w-full max-w-md p-8 text-center shadow-lift sm:p-10">
-					<div class="mb-6 flex justify-center">{{> "components/logo"}}</div>
+					<div class="mb-6 flex justify-center">{{> "utility/logo"}}</div>
 					<h1 class="text-2xl font-semibold tracking-tight">Accounts aren't enabled</h1>
 					<p class="mt-3 text-sm leading-relaxed text-silver">Memberships aren't turned on for this site right now — but you can still follow along.</p>
 					<a href="{{@site.url}}/rss/" class="btn-primary mt-6 w-full justify-center">{{> "icons/rss"}} Follow via RSS</a>

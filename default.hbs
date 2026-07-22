@@ -6,7 +6,6 @@
 	<title>{{meta_title}}</title>
 
 	<link rel="preload" href="{{asset "vendors/Geist-Variable.woff2"}}" as="font" type="font/woff2" crossorigin />
-	<link rel="preload" href="{{asset "built/screen.css"}}" as="style" />
 	<link rel="stylesheet" href="{{asset "built/screen.css"}}" />
 	<link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin />
 	<link rel="preconnect" href="https://www.youtube-nocookie.com" />
@@ -71,21 +70,21 @@
 	<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1291242080282540" crossorigin="anonymous"></script>
 	{{/unless}}
 
-	{{> "components/json-ld"}}
+	{{> "utility/json-ld"}}
 	{{ghost_head}}
 </head>
 
 <body class="{{body_class}} min-h-screen bg-paper text-ink">
-	{{> "components/navbar"}}
+	{{> "navigation/navbar"}}
 
 	<main id="site-main" class="relative">
 		{{{body}}}
 	</main>
 
-	{{> "components/footer"}}
+	{{> "utility/footer"}}
 
-	{{> "components/rail-ads"}}
-	{{#unless @member}}{{> "components/ad-optout-modal"}}{{/unless}}
+	{{> "utility/rail-ads"}}
+	{{#unless @member}}{{> "utility/ad-optout-modal"}}{{/unless}}
 
 	<script src="{{asset "built/main.js"}}" defer></script>
 	<script>

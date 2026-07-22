@@ -4,7 +4,7 @@
 	{{#if exps}}
 	<section class="reveal relative py-16" id="home-experiences">
 		<div class="container-site">
-			{{> "components/section-head"
+			{{> "utility/section-head"
 				kicker="Lived, not listed"
 				title="Experiences"
 				sub="Talks, treks, launches and the occasional beautiful failure — the stories behind the CV."
@@ -14,7 +14,7 @@
 			<div class="container-site">
 				<div class="flex w-max snap-x gap-5 pr-8" data-reveal-stagger="80">
 					{{#foreach exps}}
-					{{> "cards/experience" class="w-[18rem] shrink-0 snap-start sm:w-[20rem]"}}
+					{{> "experience/card" class="w-[18rem] shrink-0 snap-start sm:w-[20rem]"}}
 					{{/foreach}}
 				</div>
 			</div>

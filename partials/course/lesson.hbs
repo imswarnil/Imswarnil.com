@@ -8,7 +8,7 @@
      Left: logo + course · middle: progress · right: github, theme, ✕ close. --}}
 <div class="lesson-topbar" id="lesson-bar">
 	<div class="lesson-topbar-row">
-		{{> "components/logo"}}
+		{{> "utility/logo"}}
 		{{#primary_tag}}
 		<span class="hidden h-5 w-px shrink-0 bg-line sm:block" aria-hidden="true"></span>
 		<a href="{{@site.url}}/courses/{{slug}}/" data-container-link class="hidden min-w-0 truncate text-[13px] font-semibold tracking-tight hover:underline hover:underline-offset-4 sm:block">{{name}}</a>
@@ -39,7 +39,7 @@
 <div class="fixed inset-0 z-[60] hidden items-start justify-center overflow-y-auto bg-ink/40 p-4 pt-16 backdrop-blur-sm" id="lesson-menu-backdrop" data-modal>
 	<div class="w-full max-w-md rounded-[2rem] border border-line bg-paper p-6 shadow-lift" role="dialog" aria-modal="true" aria-label="Course navigation">
 		<div class="mb-5 flex items-center justify-between">
-			{{> "components/logo"}}
+			{{> "utility/logo"}}
 			<button type="button" class="icon-btn" data-modal-close aria-label="Close">{{> "icons/close"}}</button>
 		</div>
 		{{#primary_tag}}
@@ -139,7 +139,7 @@
 			     has no headings and the TOC stays hidden. --}}
 			<div class="py-8 lg:flex lg:items-start lg:gap-10">
 				{{!-- auto-TOC: "On this page" (built from h2/h3 by main.js) --}}
-				{{> "components/toc" class="mb-8 lg:order-2 lg:mb-0 lg:sticky lg:top-20 lg:w-72 lg:shrink-0"}}
+				{{> "utility/toc" class="mb-8 lg:order-2 lg:mb-0 lg:sticky lg:top-20 lg:w-72 lg:shrink-0"}}
 
 				<div class="min-w-0 lg:order-1 lg:flex-1">
 					<section class="gh-content video-theater">
@@ -167,16 +167,16 @@
 						</button>
 					</nav>
 
-					{{> "components/adsense" slot="6501428979" layout="in-article" format="fluid"}}
+					{{> "utility/adsense" slot="6501428979" layout="in-article" format="fluid"}}
 
 					<footer class="mt-6 flex items-center justify-between border-t border-line pt-6">
 						{{#primary_tag}}<a href="{{@site.url}}/courses/{{slug}}/" data-container-link class="btn-ghost">{{> "icons/arrow-right" class="rotate-180"}} Back to {{name}}</a>{{/primary_tag}}
-						{{> "post/share"}}
+						{{> "utility/share"}}
 					</footer>
 
 					{{#if @site.comments_enabled}}
 					<div class="mt-12">
-						{{> "components/comments" title="Discussion"}}
+						{{> "utility/comments" title="Discussion"}}
 					</div>
 					{{/if}}
 				</div>

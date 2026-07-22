@@ -73,11 +73,11 @@
 					</a>
 				</nav>
 
-				{{> "components/adsense" slot="8939839370" format="auto"}}
+				{{> "utility/adsense" slot="8939839370" format="auto"}}
 
 				{{#if @site.comments_enabled}}
 					<section class="mt-12 border-t border-line pt-10">
-						{{> "components/comments" title="Comments"}}
+						{{> "utility/comments" title="Comments"}}
 					</section>
 				{{/if}}
 			</div>
@@ -111,7 +111,7 @@
 					{{/get}}
 					{{/foreach}}
 					<a href="{{@site.url}}/webseries/{{primary_tag.slug}}/" data-container-link class="btn btn-ghost mt-5 w-full">{{> "icons/film"}} Series overview</a>
-					{{> "components/adsense" slot="3487917390" format="auto" class="!my-4"}}
+					{{> "utility/adsense" slot="3487917390" format="auto" class="!my-4"}}
 				</div>
 			</aside>
 		</div>

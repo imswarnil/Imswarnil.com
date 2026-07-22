@@ -38,19 +38,19 @@
 
 			<div class="mt-8 flex flex-wrap items-center justify-between gap-3 border-t border-line pt-6">
 				<a href="{{@site.url}}/prompts/" class="btn-ghost btn-sm">{{> "icons/arrow-right" class="h-3.5 w-3.5 rotate-180"}} All prompts</a>
-				{{> "post/share"}}
+				{{> "utility/share"}}
 			</div>
 
 			{{#get "posts" filter="tag:hash-prompt+id:-{{id}}" limit="3" include="tags" as |more|}}
 				{{#if more}}
 				<section class="mt-14 border-t border-line pt-10">
 					<p class="kicker mb-5">{{> "icons/sparkle" class="h-3.5 w-3.5"}} More prompts</p>
-					<div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">{{#foreach more}}{{> "cards/prompt"}}{{/foreach}}</div>
+					<div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">{{#foreach more}}{{> "prompt/card"}}{{/foreach}}</div>
 				</section>
 				{{/if}}
 			{{/get}}
 
-			{{#if @site.comments_enabled}}<section class="mt-12 border-t border-line pt-10">{{> "components/comments" title="Improvements & variations"}}</section>{{/if}}
+			{{#if @site.comments_enabled}}<section class="mt-12 border-t border-line pt-10">{{> "utility/comments" title="Improvements & variations"}}</section>{{/if}}
 		</div>
 	</div>
 

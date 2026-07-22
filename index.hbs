@@ -1,13 +1,13 @@
 {{!< default}}
 
 {{!-- Fallback listing — rarely hit (routes send traffic to /blog, /archive etc.) --}}
-{{> "components/collection-header" kicker="Index" title="Latest posts"}}
+{{> "utility/collection-header" kicker="Index" title="Latest posts"}}
 
 <section class="container-site py-12">
 	<div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
 		{{#foreach posts}}
-			{{> "cards/blog"}}
+			{{> "blog/card"}}
 		{{/foreach}}
 	</div>
-	{{> "components/pagination"}}
+	{{> "utility/pagination"}}
 </section>

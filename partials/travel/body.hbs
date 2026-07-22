@@ -25,7 +25,7 @@
 
 	<div class="container-site py-12">
 		<div class="mx-auto max-w-prose">
-			{{> "components/toc" class="mb-8"}}
+			{{> "utility/toc" class="mb-8"}}
 			<section class="gh-content">
 				{{content}}
 			</section>
@@ -52,15 +52,15 @@
 				{{/next_post}}
 			</nav>
 
-			{{> "components/adsense" slot="6501428979" layout="in-article" format="fluid"}}
+			{{> "utility/adsense" slot="6501428979" layout="in-article" format="fluid"}}
 
 			<footer class="mt-6 flex items-center justify-between border-t border-line pt-6">
 				{{#primary_tag}}<a href="{{@site.url}}/travel/{{slug}}/" data-container-link class="btn-ghost">{{> "icons/arrow-right" class="rotate-180"}} Back to {{name}}</a>{{/primary_tag}}
-				{{> "post/share"}}
+				{{> "utility/share"}}
 			</footer>
 
 			{{#if @site.comments_enabled}}
-			<div class="mt-12">{{> "components/comments" title="Postcards"}}</div>
+			<div class="mt-12">{{> "utility/comments" title="Postcards"}}</div>
 			{{/if}}
 		</div>
 	</div>

@@ -4,7 +4,7 @@
      the rail filters client-side by the internal #group-* tag baked into data-groups.
      New groups: add a button here — cards pick up their group chip automatically. --}}
 
-{{> "components/collection-header" kicker="The toolkit" title="Things I use" desc="Hardware, software and services I actually pay for — reviewed honestly, filtered neatly."}}
+{{> "utility/collection-header" kicker="The toolkit" title="Things I use" desc="Hardware, software and services I actually pay for — reviewed honestly, filtered neatly."}}
 
 <section class="container-site py-12">
 	<div class="grid gap-10 lg:grid-cols-[14rem_minmax(0,1fr)]">
@@ -21,7 +21,7 @@
 				<button type="button" class="filter-link shrink-0" data-filter="other">{{> "icons/check" class="h-3.5 w-3.5"}} Everything else</button>
 			</nav>
 			<p class="mt-4 hidden font-mono text-[10px] uppercase tracking-[0.2em] text-silver lg:block" id="product-count"></p>
-			<div class="mt-6 hidden lg:block">{{> "components/adsense" slot="3487917390" format="auto" class="!my-0"}}</div>
+			<div class="mt-6 hidden lg:block">{{> "utility/adsense" slot="3487917390" format="auto" class="!my-0"}}</div>
 		</aside>
 
 		{{!-- Product wall — compact cards --}}
@@ -31,7 +31,7 @@
 				<div class="grid grid-cols-2 gap-4 xl:grid-cols-3" id="product-grid" data-reveal-stagger="50">
 					{{#foreach items}}
 					<div class="product-item" data-groups="{{#foreach tags visibility="internal"}}{{slug}} {{/foreach}}">
-						{{> "cards/product" class="product-mini"}}
+						{{> "product/card" class="product-mini"}}
 					</div>
 					{{/foreach}}
 				</div>
@@ -40,7 +40,7 @@
 				<p class="rounded-2xl border border-dashed border-line p-10 text-center text-sm text-silver">Tag posts with <code class="rounded bg-mist px-1.5 py-0.5 font-mono text-xs">#product</code> to stock the shelves.</p>
 				{{/if}}
 			{{/get}}
-			{{> "components/adsense" slot="6808134701" format="autorelaxed"}}
+			{{> "utility/adsense" slot="6808134701" format="autorelaxed"}}
 		</div>
 	</div>
 </section>

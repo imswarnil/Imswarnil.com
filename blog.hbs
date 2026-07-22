@@ -45,9 +45,9 @@
 
 	<div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
 		{{#foreach posts from="2"}}
-			{{> "cards/blog" class="reveal"}}
+			{{> "blog/card" class="reveal"}}
 			{{#match @number "=" 5}}
-				{{> "components/adsense" slot="9130894804" format="fluid" layoutKey="-6t+ed+2i-1n-4w" class="!my-0 sm:col-span-2"}}
+				{{> "utility/adsense" slot="9130894804" format="fluid" layoutKey="-6t+ed+2i-1n-4w" class="!my-0 sm:col-span-2"}}
 			{{/match}}
 		{{/foreach}}
 	</div>
@@ -55,5 +55,5 @@
 		<p class="py-16 text-center text-silver">No posts yet — tag a post <code class="rounded bg-mist px-1.5 py-0.5 font-mono text-xs">#blog</code> to see it here.</p>
 	{{/posts}}
 
-	{{> "components/pagination"}}
+	{{> "utility/pagination"}}
 </div>

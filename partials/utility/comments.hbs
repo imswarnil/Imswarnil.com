@@ -3,7 +3,7 @@
      at init. The inline script below runs during parse (before the deferred
      comments-ui bundle executes) and rewrites those attributes to match the
      active theme mode, so avatars/buttons/links follow the switcher.
-     Usage: {{> "components/comments" title="Discussion"}} --}}
+     Usage: {{> "utility/comments" title="Discussion"}} --}}
 <div class="comments-shell rounded-2xl border border-line bg-mist/30 p-5 sm:p-7">
 	{{#if title}}
 		{{comments title=title count=true}}

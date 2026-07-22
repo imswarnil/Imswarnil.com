@@ -1,30 +1,37 @@
 {{!< default}}
 
-{{> "components/collection-header" kicker="Everything" title="The Archive" desc="Every post on this site in one stream — articles, videos, courses, projects and more."}}
+{{> "utility/collection-header" kicker="Everything" title="The Archive" desc="Every post on this site in one stream — articles, videos, courses, projects and more."}}
 
-<div class="container-site py-12">
+{{!-- Browse-by-type is a PURE-CSS filter (no JS): each chip is a same-page
+     anchor that targets itself, and `.archive-wrap:has(#at-x:target)` below
+     shows only the matching rows. The list is rendered ONCE via #get. --}}
+<div class="container-site py-12 archive-wrap">
 	<div class="grid gap-12 lg:grid-cols-12">
 		{{!-- Filter sidebar --}}
 		<aside class="lg:col-span-3">
 			<div class="rail-sticky">
 				<div>
 					<p class="kicker">Browse by type</p>
-					<nav class="mt-4 flex flex-wrap gap-2 lg:flex-col lg:items-start" aria-label="Collections">
-						<a href="{{@site.url}}/archive/" class="chip !border-ink !bg-ink !text-paper">All posts</a>
-						<a href="{{@site.url}}/blog/" class="chip transition hover:border-ink hover:text-ink">Articles</a>
-						<a href="{{@site.url}}/videos/" class="chip transition hover:border-ink hover:text-ink">Videos</a>
-						<a href="{{@site.url}}/courses/" class="chip transition hover:border-ink hover:text-ink">Courses</a>
-						<a href="{{@site.url}}/webseries/" class="chip transition hover:border-ink hover:text-ink">Web series</a>
-						<a href="{{@site.url}}/projects/" class="chip transition hover:border-ink hover:text-ink">Projects</a>
-						<a href="{{@site.url}}/products/" class="chip transition hover:border-ink hover:text-ink">Products</a>
-						<a href="{{@site.url}}/newsletters/" class="chip transition hover:border-ink hover:text-ink">Newsletters</a>
-						<a href="{{@site.url}}/timeline/" class="chip transition hover:border-ink hover:text-ink">Timeline</a>
-						<a href="{{@site.url}}/changelog/" class="chip transition hover:border-ink hover:text-ink">Changelog</a>
-						<a href="{{@site.url}}/shop/" class="chip transition hover:border-ink hover:text-ink">Shop</a>
+					<nav class="mt-4 flex flex-wrap gap-2 lg:flex-col lg:items-start" aria-label="Filter by collection">
+						<a id="at-all"        href="#at-all"        class="atab atab-all chip transition hover:border-ink hover:text-ink">All posts</a>
+						<a id="at-article"    href="#at-article"    class="atab chip transition hover:border-ink hover:text-ink">Articles</a>
+						<a id="at-video"      href="#at-video"      class="atab chip transition hover:border-ink hover:text-ink">Videos</a>
+						<a id="at-course"     href="#at-course"     class="atab chip transition hover:border-ink hover:text-ink">Courses</a>
+						<a id="at-series"     href="#at-series"     class="atab chip transition hover:border-ink hover:text-ink">Web series</a>
+						<a id="at-project"    href="#at-project"    class="atab chip transition hover:border-ink hover:text-ink">Projects</a>
+						<a id="at-product"    href="#at-product"    class="atab chip transition hover:border-ink hover:text-ink">Products</a>
+						<a id="at-newsletter" href="#at-newsletter" class="atab chip transition hover:border-ink hover:text-ink">Newsletters</a>
+						<a id="at-timeline"   href="#at-timeline"   class="atab chip transition hover:border-ink hover:text-ink">Timeline</a>
+						<a id="at-changelog"  href="#at-changelog"  class="atab chip transition hover:border-ink hover:text-ink">Changelog</a>
+						<a id="at-shop"       href="#at-shop"       class="atab chip transition hover:border-ink hover:text-ink">Shop</a>
+						<a id="at-travel"     href="#at-travel"     class="atab chip transition hover:border-ink hover:text-ink">Travel</a>
 					</nav>
+					<p class="mt-4 text-xs text-silver">
+						Filtering happens in-page — no reload. Or open a full collection from the <a href="{{@site.url}}/" class="underline hover:text-ink">menu</a>.
+					</p>
 				</div>
 				<div class="hidden lg:block">
-					{{> "components/adsense" slot="7663977887"}}
+					{{> "utility/adsense" slot="7663977887"}}
 				</div>
 			</div>
 		</aside>
@@ -34,10 +41,11 @@
 		     posts across every collection with a #get instead. --}}
 		<div class="lg:col-span-9">
 			{{#get "posts" filter="slug:-hero" include="tags" order="published_at desc" limit="100" as |archive|}}
-			<p class="mb-4 font-mono text-xs uppercase tracking-[0.2em] text-silver">{{plural archive.length empty="No posts yet" singular="% post" plural="% posts"}}</p>
+			<p class="mb-4 font-mono text-xs uppercase tracking-[0.2em] text-silver">{{plural archive.length empty="No posts yet" singular="% post" plural="% posts"}} · pick a type to filter</p>
 			<ol id="archive-list" class="divide-y divide-line border-y border-line">
 				{{#foreach archive}}
-				<li class="group">
+				{{!-- one bucket per row, matched by the CSS filter above --}}
+				<li class="arow group" data-type="{{#has tag="#video"}}video{{else has tag="#course"}}course{{else has tag="#lesson"}}course{{else has tag="#webseries"}}series{{else has tag="#episode"}}series{{else has tag="#project-detail"}}project{{else has tag="#project"}}project{{else has tag="#product"}}product{{else has tag="#newsletter"}}newsletter{{else has tag="#changelog"}}changelog{{else has tag="#timeline"}}timeline{{else has tag="#shop"}}shop{{else has tag="#trip"}}travel{{else has tag="#travel"}}travel{{else}}article{{/has}}">
 					<a href="{{url}}" class="flex items-center gap-4 py-4 sm:gap-6">
 						{{!-- thumbnail --}}
 						<span class="relative block aspect-[16/10] w-24 shrink-0 overflow-hidden rounded-xl border border-line bg-mist sm:w-32">

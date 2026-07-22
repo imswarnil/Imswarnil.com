@@ -36,19 +36,19 @@
 					{{content}}
 				</section>
 
-				{{> "components/adsense" slot="6501428979" layout="in-article" format="fluid"}}
+				{{> "utility/adsense" slot="6501428979" layout="in-article" format="fluid"}}
 
 				{{!-- Tags + share --}}
 				<footer class="mt-10 flex flex-wrap items-center justify-between gap-4 border-t border-line pt-8">
 					<div class="flex flex-wrap gap-2">
 						{{#foreach tags visibility="public"}}<a href="{{url}}" class="chip transition hover:border-ink hover:text-ink">{{name}}</a>{{/foreach}}
 					</div>
-					{{> "post/share"}}
+					{{> "utility/share"}}
 				</footer>
 
 				{{#if @site.comments_enabled}}
 					<section class="mt-12 border-t border-line pt-10">
-						{{> "components/comments" title="Join the discussion"}}
+						{{> "utility/comments" title="Join the discussion"}}
 					</section>
 				{{/if}}
 			</div>
@@ -56,7 +56,7 @@
 			{{!-- Common sidebar — same structure as post/article --}}
 			<aside class="hidden lg:col-span-4 lg:block">
 				<div class="rail-sticky">
-					{{> "components/toc"}}
+					{{> "utility/toc"}}
 
 					{{!-- Author card --}}
 					{{#primary_author}}
@@ -88,12 +88,12 @@
 					{{/if}}
 
 					{{!-- Vertical skyscraper ad --}}
-					{{> "components/adsense" slot="3487917390" format="auto"}}
+					{{> "utility/adsense" slot="3487917390" format="auto"}}
 
 					{{!-- Share --}}
 					<div class="card-surface p-6 !transform-none">
 						<p class="kicker mb-4">{{> "icons/arrow-up-right"}} Spread the word</p>
-						{{> "post/share"}}
+						{{> "utility/share"}}
 					</div>
 
 					{{!-- Popular tags --}}
@@ -111,7 +111,7 @@
 	</div>
 </article>
 
-{{> "post/related"}}
+{{> "utility/related"}}
 
 <script>
 	(function () {

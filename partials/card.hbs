@@ -1,0 +1,21 @@
+{{!-- Card dispatcher — renders the right collection card for a post based on its
+     internal (#) tag. Use inside a {{#foreach}} over MIXED-type posts:
+        {{#foreach posts}}{{> card}}{{/foreach}}
+     Single-type collection loops may still include their card directly
+     (e.g. {{> "video/card"}}) — same partial, just explicit. Falls back to the
+     blog card for plain articles and any unrecognised type. --}}
+{{#has tag="#video"}}{{> "video/card"}}
+{{else has tag="#reel"}}{{> "video/reel-card"}}
+{{else has tag="#shorts"}}{{> "video/reel-card"}}
+{{else has tag="#course"}}{{> "course/card"}}
+{{else has tag="#episode"}}{{> "webseries/episode-card"}}
+{{else has tag="#project"}}{{> "project/card"}}
+{{else has tag="#product"}}{{> "product/card"}}
+{{else has tag="#prompt"}}{{> "prompt/card"}}
+{{else has tag="#snippet"}}{{> "snippet/card"}}
+{{else has tag="#experience"}}{{> "experience/card"}}
+{{else has tag="#changelog"}}{{> "changelog/card"}}
+{{else has tag="#timeline"}}{{> "timeline/card"}}
+{{else has tag="#shop"}}{{> "shop/card"}}
+{{else}}{{> "blog/card"}}
+{{/has}}

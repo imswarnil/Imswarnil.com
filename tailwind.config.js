@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-	content: ['./*.hbs', './partials/**/*.hbs', './assets/built/main.js'],
+	content: ['./*.hbs', './partials/**/*.hbs', './assets/js/**/*.js'],
 	// Button variants/sizes are a public API of the theme — always ship them,
 	// even the ones not yet referenced by a template (@layer components is purged).
 	safelist: [

@@ -1,6 +1,6 @@
 {{!< default}}
 
-{{> "components/collection-header" kicker="The classroom" title="Courses" desc="Structured, self-paced series of lessons. Start anywhere, finish everywhere."}}
+{{> "utility/collection-header" kicker="The classroom" title="Courses" desc="Structured, self-paced series of lessons. Start anywhere, finish everywhere."}}
 
 <section class="container-site py-12">
 
@@ -53,15 +53,15 @@
 	<div id="course-grid" class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
 		{{#foreach posts}}
 			{{#unless featured}}
-				{{> "cards/course"}}
+				{{> "course/card"}}
 			{{/unless}}
 		{{/foreach}}
 	</div>
 	<p id="course-filter-empty" class="hidden py-10 text-center text-sm text-silver">No courses match this filter yet.</p>
 
-	{{> "components/adsense" slot="9130894804" format="fluid" layoutKey="-6t+ed+2i-1n-4w"}}
+	{{> "utility/adsense" slot="9130894804" format="fluid" layoutKey="-6t+ed+2i-1n-4w"}}
 
-	{{> "components/pagination"}}
+	{{> "utility/pagination"}}
 </section>
 
 {{!-- Gear shelf --}}
@@ -73,7 +73,7 @@
 			<h2 class="section-title mt-2">Products I use to make courses</h2>
 			<div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
 				{{#foreach gear}}
-					{{> "cards/product"}}
+					{{> "product/card"}}
 				{{/foreach}}
 			</div>
 		</div>
@@ -87,7 +87,7 @@
 				<h2 class="section-title mt-2">Products I use to make courses</h2>
 				<div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
 					{{#foreach gearfallback}}
-						{{> "cards/product"}}
+						{{> "product/card"}}
 					{{/foreach}}
 				</div>
 			</div>

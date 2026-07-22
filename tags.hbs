@@ -2,7 +2,7 @@
 
 {{!-- /tags — every public topic as a mosaic. Tags with images get big photo
      tiles; the busiest tags span wider. Everything links through. --}}
-{{> "components/collection-header" kicker="The index" title="Browse by topic" desc="Every public tag on the site — the busy ones loud, the quiet ones patient. They all lead somewhere."}}
+{{> "utility/collection-header" kicker="The index" title="Browse by topic" desc="Every public tag on the site — the busy ones loud, the quiet ones patient. They all lead somewhere."}}
 
 <section class="container-site py-12">
 	{{#get "tags" limit="100" include="count.posts" order="count.posts desc" as |tags|}}
@@ -33,5 +33,5 @@
 		{{/if}}
 	{{/get}}
 
-	{{> "components/adsense" slot="8939839370" format="auto"}}
+	{{> "utility/adsense" slot="8939839370" format="auto"}}
 </section>

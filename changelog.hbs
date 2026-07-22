@@ -1,14 +1,14 @@
 {{!< default}}
 
-{{> "components/collection-header" kicker="Ship log" title="Changelog" desc="What changed on this site and in my systems — shipped, fixed, improved."}}
+{{> "utility/collection-header" kicker="Ship log" title="Changelog" desc="What changed on this site and in my systems — shipped, fixed, improved."}}
 
 <section class="container-site py-12">
 	<ol class="mx-auto max-w-3xl">
 		{{#foreach posts}}
-			{{> "cards/changelog-item"}}
+			{{> "changelog/card"}}
 		{{/foreach}}
 	</ol>
-	<div class="mx-auto max-w-3xl">{{> "components/pagination"}}</div>
+	<div class="mx-auto max-w-3xl">{{> "utility/pagination"}}</div>
 </section>
 
 {{!-- Extract a version chip (v1.2 / 1.2.3 …) from titles that contain one --}}

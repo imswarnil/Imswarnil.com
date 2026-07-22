@@ -61,7 +61,7 @@
 				{{/get}}
 				{{/foreach}}
 
-				{{> "components/adsense" slot="6501428979" layout="in-article" format="fluid"}}
+				{{> "utility/adsense" slot="6501428979" layout="in-article" format="fluid"}}
 			</div>
 
 			<aside class="lg:col-span-5">
@@ -83,7 +83,7 @@
 						</div>
 						{{/if}}
 					{{/get}}
-					{{> "components/adsense" slot="3487917390" format="auto" class="!my-0"}}
+					{{> "utility/adsense" slot="3487917390" format="auto" class="!my-0"}}
 				</div>
 			</aside>
 		</div>
@@ -91,7 +91,7 @@
 
 	{{#if @site.comments_enabled}}
 	<section class="container-site pb-16">
-		<div class="mx-auto max-w-3xl">{{> "components/comments" title="Postcards"}}</div>
+		<div class="mx-auto max-w-3xl">{{> "utility/comments" title="Postcards"}}</div>
 	</section>
 	{{/if}}
 

@@ -1,6 +1,6 @@
 {{!< default}}
 
-{{> "components/collection-header" kicker="Every corner of the site" title="Visual sitemap" desc="The whole site as one tree — every collection, all of its posts with thumbnails, plus pages and topics."}}
+{{> "utility/collection-header" kicker="Every corner of the site" title="Visual sitemap" desc="The whole site as one tree — every collection, all of its posts with thumbnails, plus pages and topics."}}
 
 <style>
 	/* Self-contained tree — no daisyUI. Theme-aware via CSS vars. */
@@ -99,24 +99,24 @@
 	<div class="sm-wrap mx-auto max-w-4xl">
 		{{!-- Root node --}}
 		<div class="sm-root">
-			{{> "components/logo"}}
+			{{> "utility/logo"}}
 		</div>
 
 		<ul class="sm-tree">
-			{{> "components/sitemap-branch" name="Blog"        route="/blog/"        filter="tag:hash-blog"}}
-			{{> "components/sitemap-branch" name="Videos"      route="/videos/"      filter="tag:hash-video"}}
-			{{> "components/sitemap-branch" name="Courses"     route="/courses/"     filter="tag:hash-course"}}
-			{{> "components/sitemap-branch" name="Webseries"   route="/webseries/"   filter="tag:hash-webseries"}}
-			{{> "components/sitemap-branch" name="Projects"    route="/projects/"    filter="tag:hash-project"}}
-			{{> "components/sitemap-branch" name="Products"    route="/products/"    filter="tag:hash-product"}}
-			{{> "components/sitemap-branch" name="Timeline"    route="/timeline/"    filter="tag:hash-timeline"}}
-			{{> "components/sitemap-branch" name="Changelog"   route="/changelog/"   filter="tag:hash-changelog"}}
-			{{> "components/sitemap-branch" name="Newsletters" route="/newsletters/" filter="tag:hash-newsletter"}}
-			{{> "components/sitemap-branch" name="Shop"        route="/shop/"        filter="tag:hash-shop"}}
-			{{> "components/sitemap-branch" name="Travel"      route="/travel/"      filter="tag:hash-trip"}}
-			{{> "components/sitemap-branch" name="Prompts"     route="/prompts/"     filter="tag:hash-prompt"}}
-			{{> "components/sitemap-branch" name="Snippets"    route="/snippets/"    filter="tag:hash-snippet"}}
-			{{> "components/sitemap-branch" name="Experiences" route="/experiences/" filter="tag:hash-experience"}}
+			{{> "utility/sitemap-branch" name="Blog"        route="/blog/"        filter="tag:hash-blog"}}
+			{{> "utility/sitemap-branch" name="Videos"      route="/videos/"      filter="tag:hash-video"}}
+			{{> "utility/sitemap-branch" name="Courses"     route="/courses/"     filter="tag:hash-course"}}
+			{{> "utility/sitemap-branch" name="Webseries"   route="/webseries/"   filter="tag:hash-webseries"}}
+			{{> "utility/sitemap-branch" name="Projects"    route="/projects/"    filter="tag:hash-project"}}
+			{{> "utility/sitemap-branch" name="Products"    route="/products/"    filter="tag:hash-product"}}
+			{{> "utility/sitemap-branch" name="Timeline"    route="/timeline/"    filter="tag:hash-timeline"}}
+			{{> "utility/sitemap-branch" name="Changelog"   route="/changelog/"   filter="tag:hash-changelog"}}
+			{{> "utility/sitemap-branch" name="Newsletters" route="/newsletters/" filter="tag:hash-newsletter"}}
+			{{> "utility/sitemap-branch" name="Shop"        route="/shop/"        filter="tag:hash-shop"}}
+			{{> "utility/sitemap-branch" name="Travel"      route="/travel/"      filter="tag:hash-trip"}}
+			{{> "utility/sitemap-branch" name="Prompts"     route="/prompts/"     filter="tag:hash-prompt"}}
+			{{> "utility/sitemap-branch" name="Snippets"    route="/snippets/"    filter="tag:hash-snippet"}}
+			{{> "utility/sitemap-branch" name="Experiences" route="/experiences/" filter="tag:hash-experience"}}
 
 			{{!-- Topics (tags) --}}
 			<li class="sm-branch">

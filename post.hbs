@@ -1,52 +1,5 @@
 {{!< default}}
 
-{{!-- Post dispatcher — the internal tag decides which layout renders --}}
-{{#post}}
-	{{#has tag="#reel"}}
-		{{> "post/reel"}}
-	{{else has tag="#shorts"}}
-		{{> "post/reel"}}
-	{{else has tag="#video"}}
-		{{> "post/video"}}
-	{{else has tag="#course"}}
-		{{> "post/course"}}
-	{{else has tag="#guide-content"}}
-		{{> "post/guide-step"}}
-	{{else has tag="#guide"}}
-		{{> "post/guide"}}
-	{{else has tag="#webseries"}}
-		{{> "post/series"}}
-	{{else has tag="#lesson"}}
-		{{> "post/lesson"}}
-	{{else has tag="#episode"}}
-		{{> "post/episode"}}
-	{{else has tag="#trip"}}
-		{{> "post/trip"}}
-	{{else has tag="#travel"}}
-		{{> "post/travel"}}
-	{{else has tag="#project-detail"}}
-		{{> "post/project-step"}}
-	{{else has tag="#project"}}
-		{{> "post/project"}}
-	{{else has tag="#product"}}
-		{{> "post/product"}}
-	{{else has tag="#prompt"}}
-		{{> "post/prompt"}}
-	{{else has tag="#snippet"}}
-		{{> "post/snippet"}}
-	{{else has tag="#experience"}}
-		{{> "post/experience"}}
-	{{else has tag="#docs"}}
-		{{> "post/doc"}}
-	{{else has tag="#newsletter"}}
-		{{> "post/newsletter"}}
-	{{else has tag="#changelog"}}
-		{{> "post/changelog"}}
-	{{else has tag="#shop"}}
-		{{> "post/shop"}}
-	{{else has tag="#timeline"}}
-		{{> "post/article"}}
-	{{else}}
-		{{> "post/article"}}
-	{{/has}}
-{{/post}}
+{{!-- Every single post routes through the body dispatcher, which picks the
+     layout from the post's internal (#) tag. See partials/post-body.hbs. --}}
+{{#post}}{{> post-body}}{{/post}}

@@ -82,7 +82,7 @@
 				{{content}}
 			</section>
 
-			{{> "components/adsense" slot="8939839370" format="auto"}}
+			{{> "utility/adsense" slot="8939839370" format="auto"}}
 
 			{{!-- Episode list --}}
 			<section id="episodes" class="scroll-mt-28">
@@ -92,7 +92,7 @@
 					{{#if eps}}
 						<ol class="mt-6 space-y-3" id="episode-list">
 							{{#foreach eps}}
-								<li class="reveal">{{> "cards/episode" num=@number}}</li>
+								<li class="reveal">{{> "webseries/episode-card" num=@number}}</li>
 							{{/foreach}}
 						</ol>
 					{{else}}
@@ -109,18 +109,18 @@
 						<h2 class="section-title">Products used to make this webseries</h2>
 						<div class="mt-6 grid gap-4 sm:grid-cols-2">
 							{{#foreach gear}}
-								{{> "cards/product-mini"}}
+								{{> "product/card-mini"}}
 							{{/foreach}}
 						</div>
 					</section>
 				{{/if}}
 			{{/get}}
 
-			{{> "components/adsense" slot="6808134701" format="autorelaxed"}}
+			{{> "utility/adsense" slot="6808134701" format="autorelaxed"}}
 
 			{{#if @site.comments_enabled}}
 				<section class="mt-12 border-t border-line pt-10">
-					{{> "components/comments" title="Comments"}}
+					{{> "utility/comments" title="Comments"}}
 				</section>
 			{{/if}}
 		</div>

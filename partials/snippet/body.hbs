@@ -37,14 +37,14 @@
 
 			<div class="mt-8 flex flex-wrap items-center justify-between gap-3 border-t border-line pt-6">
 				<a href="{{@site.url}}/prompts/" class="btn-ghost btn-sm">{{> "icons/arrow-right" class="h-3.5 w-3.5 rotate-180"}} All snippets</a>
-				{{> "post/share"}}
+				{{> "utility/share"}}
 			</div>
 
 			{{#get "posts" filter="tag:hash-snippet+id:-{{id}}" limit="3" include="tags" as |more|}}
 				{{#if more}}
 				<section class="mt-14 border-t border-line pt-10">
 					<p class="kicker mb-5">{{> "icons/code" class="h-3.5 w-3.5"}} More snippets</p>
-					<div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">{{#foreach more}}{{> "cards/snippet"}}{{/foreach}}</div>
+					<div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">{{#foreach more}}{{> "snippet/card"}}{{/foreach}}</div>
 				</section>
 				{{/if}}
 			{{/get}}

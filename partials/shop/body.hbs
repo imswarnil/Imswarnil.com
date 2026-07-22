@@ -33,11 +33,11 @@
 					{{content}}
 				</section>
 
-				{{> "components/adsense" slot="7663977887" format="auto"}}
+				{{> "utility/adsense" slot="7663977887" format="auto"}}
 
 				<footer class="mt-10 flex items-center justify-between border-t border-line pt-6">
 					<a href="{{@site.url}}/shop/" class="btn-ghost">{{> "icons/arrow-right" class="rotate-180"}} All goodies</a>
-					{{> "post/share"}}
+					{{> "utility/share"}}
 				</footer>
 			</div>
 
@@ -77,7 +77,7 @@
 	</div>
 </article>
 
-{{> "post/related"}}
+{{> "utility/related"}}
 
 {{#match visibility "public"}}
 <script>

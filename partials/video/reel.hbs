@@ -52,7 +52,7 @@
 						<a href="{{@site.url}}/contact/" class="btn-ghost btn-sm">{{> "icons/mic" class="h-3.5 w-3.5"}} Send feedback</a>
 					</div>
 				</div>
-				<div class="mt-6">{{> "components/collab-cta" compact=true}}</div>
+				<div class="mt-6">{{> "utility/collab-cta" compact=true}}</div>
 			</div>
 		</div>
 
@@ -62,7 +62,7 @@
 			<section class="mt-16 border-t border-line pt-10">
 				<p class="kicker mb-6">{{> "icons/play" class="h-3.5 w-3.5"}} More shorts</p>
 				<div class="reels-rail no-scrollbar fade-mask-x" data-hscroll>
-					{{#foreach more}}{{> "cards/reel"}}{{/foreach}}
+					{{#foreach more}}{{> "video/reel-card"}}{{/foreach}}
 				</div>
 			</section>
 			{{/if}}
