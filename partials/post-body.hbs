@@ -1,49 +1,35 @@
-{{!-- Post body dispatcher — the internal (#) tag decides which single-post
-     layout renders. Caller MUST already be inside a post context
-     ({{#post}} … {{/post}}); post.hbs is the primary caller. Kept as its own
-     partial so a page/section can embed a fully-rendered post body too. --}}
-{{#has tag="#reel"}}
-	{{> "video/reel"}}
-{{else has tag="#shorts"}}
-	{{> "video/reel"}}
-{{else has tag="#video"}}
-	{{> "video/body"}}
-{{else has tag="#course"}}
-	{{> "course/body"}}
-{{else has tag="#guide-content"}}
-	{{> "guide/step"}}
-{{else has tag="#guide"}}
-	{{> "guide/body"}}
-{{else has tag="#webseries"}}
-	{{> "webseries/body"}}
-{{else has tag="#lesson"}}
-	{{> "course/lesson"}}
-{{else has tag="#episode"}}
-	{{> "webseries/episode"}}
-{{else has tag="#trip"}}
-	{{> "travel/trip"}}
-{{else has tag="#travel"}}
-	{{> "travel/body"}}
-{{else has tag="#project-detail"}}
-	{{> "project/step"}}
-{{else has tag="#project"}}
-	{{> "project/body"}}
-{{else has tag="#product"}}
-	{{> "product/body"}}
-{{else has tag="#prompt"}}
-	{{> "prompt/body"}}
-{{else has tag="#snippet"}}
-	{{> "snippet/body"}}
-{{else has tag="#experience"}}
-	{{> "experience/body"}}
-{{else has tag="#docs"}}
-	{{> "docs/body"}}
-{{else has tag="#newsletter"}}
-	{{> "newsletter/body"}}
-{{else has tag="#changelog"}}
-	{{> "changelog/body"}}
-{{else has tag="#shop"}}
-	{{> "shop/body"}}
-{{else}}
-	{{> "blog/body"}}
-{{/has}}
+{{!-- Single post/page layout. Use inside {{#post}} … {{/post}}. --}}
+<article class="mx-auto max-w-3xl px-4 py-10">
+	<header class="mb-8">
+		{{#if primary_tag}}
+			<a href="{{primary_tag.url}}" class="text-xs font-medium uppercase tracking-wide text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100">{{primary_tag.name}}</a>
+		{{/if}}
+
+		<h1 class="mt-2 text-3xl font-semibold leading-tight tracking-tight sm:text-4xl">{{title}}</h1>
+
+		{{#if custom_excerpt}}
+			<p class="mt-3 text-lg leading-relaxed text-zinc-600 dark:text-zinc-400">{{custom_excerpt}}</p>
+		{{/if}}
+
+		<p class="mt-4 text-sm text-zinc-500">
+			{{#primary_author}}<a href="{{url}}" class="hover:underline">{{name}}</a> &middot; {{/primary_author}}
+			<time datetime="{{date format="YYYY-MM-DD"}}">{{date format="D MMMM YYYY"}}</time> &middot; {{reading_time}}
+		</p>
+	</header>
+
+	{{#if feature_image}}
+		<img src="{{img_url feature_image size="l"}}" alt="{{#if feature_image_alt}}{{feature_image_alt}}{{else}}{{title}}{{/if}}" class="mb-8 w-full rounded-lg" width="1000" height="563" />
+	{{/if}}
+
+	<div class="prose prose-zinc max-w-none dark:prose-invert">
+		{{content}}
+	</div>
+
+	{{#if tags}}
+		<footer class="mt-10 flex flex-wrap gap-2 border-t border-zinc-200 pt-6 dark:border-zinc-800">
+			{{#foreach tags}}
+				<a href="{{url}}" class="rounded border border-zinc-200 px-2 py-0.5 text-xs text-zinc-600 hover:bg-zinc-100 dark:border-zinc-800 dark:text-zinc-400 dark:hover:bg-zinc-800">{{name}}</a>
+			{{/foreach}}
+		</footer>
+	{{/if}}
+</article>

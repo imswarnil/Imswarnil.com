@@ -1,28 +1,19 @@
 {{!< default}}
 
 {{#post}}
-<article class="{{post_class}}">
-	{{#match @page.show_title_and_feature_image}}
-	<header class="relative overflow-hidden border-b border-line py-16">
-		<div class="bg-grid pointer-events-none absolute inset-0 fade-mask-b" aria-hidden="true"></div>
-		<div class="container-site relative text-center">
-			<h1 class="mx-auto max-w-3xl text-4xl font-semibold tracking-tight sm:text-5xl text-balance">{{title}}</h1>
-			{{#if custom_excerpt}}<p class="mx-auto mt-5 max-w-xl text-lg text-silver">{{custom_excerpt}}</p>{{/if}}
-		</div>
-	</header>
-	{{/match}}
+	<article class="mx-auto max-w-3xl px-4 py-10">
+		{{#if @page.show_title_and_feature_image}}
+			<header class="mb-8">
+				<h1 class="text-3xl font-semibold leading-tight tracking-tight sm:text-4xl">{{title}}</h1>
+			</header>
 
-	<div class="container-site py-12">
-		<div class="mx-auto max-w-prose">
-			{{#match @page.show_title_and_feature_image}}
 			{{#if feature_image}}
-				<img src="{{img_url feature_image size="1600"}}" alt="{{title}}" class="mb-10 w-full rounded-3xl border border-line shadow-card" />
+				<img src="{{img_url feature_image size="l"}}" alt="{{#if feature_image_alt}}{{feature_image_alt}}{{else}}{{title}}{{/if}}" class="mb-8 w-full rounded-lg" width="1000" height="563" />
 			{{/if}}
-			{{/match}}
-			<section class="gh-content">
-				{{content}}
-			</section>
+		{{/if}}
+
+		<div class="prose prose-zinc max-w-none dark:prose-invert">
+			{{content}}
 		</div>
-	</div>
-</article>
+	</article>
 {{/post}}

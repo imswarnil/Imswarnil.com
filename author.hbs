@@ -1,30 +1,6 @@
 {{!< default}}
 
 {{#author}}
-<header class="relative overflow-hidden border-b border-line py-16">
-	<div class="bg-grid pointer-events-none absolute inset-0 fade-mask-b" aria-hidden="true"></div>
-	<div class="container-site relative flex flex-col items-start gap-6 sm:flex-row sm:items-center">
-		{{#if profile_image}}
-			<img src="{{img_url profile_image size="300"}}" alt="{{name}}" class="h-24 w-24 rounded-3xl border border-line object-cover shadow-card" />
-		{{/if}}
-		<div>
-			<p class="kicker">Author</p>
-			<h1 class="mt-2 text-4xl font-semibold tracking-tight">{{name}}</h1>
-			{{#if bio}}<p class="mt-3 max-w-xl text-silver">{{bio}}</p>{{/if}}
-			<div class="mt-4 flex gap-2">
-				{{#if website}}<a href="{{website}}" class="chip hover:border-ink hover:text-ink" target="_blank" rel="noopener">Website</a>{{/if}}
-				{{#if twitter}}<a href="{{social_url type="twitter"}}" class="chip hover:border-ink hover:text-ink" target="_blank" rel="noopener">X / Twitter</a>{{/if}}
-			</div>
-		</div>
-	</div>
-</header>
+	{{> page-header title=name description=bio}}
 {{/author}}
-
-<section class="container-site py-12">
-	<div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-		{{#foreach posts}}
-			{{> "blog/card"}}
-		{{/foreach}}
-	</div>
-	{{> "utility/pagination"}}
-</section>
+{{> list}}

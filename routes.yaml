@@ -7,28 +7,12 @@
 routes:
   /:
     template: home
-  # NOTE: Ghost rejects route paths containing dots (/sw.js/, /manifest.json/,
-  # /ads.txt/ all 404) — extension-less paths below. ads.txt is handled via
-  # redirects.yaml instead (see theme-customize.txt §4).
-  /sw/:
-    template: sw
-    content_type: application/javascript
-  /manifest/:
-    template: manifest
-    content_type: application/json
-  /offline/:
-    template: offline
   /signin/:
     template: signin
   /signup/:
     template: signup
-  /sitemap-visual/:
-    template: sitemap-visual
   /tags/:
     template: tags
-  /llms/:
-    template: llms
-    content_type: text/plain
 
 collections:
   # Guides — same container/child shape as courses. The guide landing post is

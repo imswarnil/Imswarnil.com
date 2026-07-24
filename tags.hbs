@@ -1,37 +1,13 @@
 {{!< default}}
 
-{{!-- /tags — every public topic as a mosaic. Tags with images get big photo
-     tiles; the busiest tags span wider. Everything links through. --}}
-{{> "utility/collection-header" kicker="The index" title="Browse by topic" desc="Every public tag on the site — the busy ones loud, the quiet ones patient. They all lead somewhere."}}
+{{> page-header title="Tags" description="Every public tag on the site."}}
 
-<section class="container-site py-12">
-	{{#get "tags" limit="100" include="count.posts" order="count.posts desc" as |tags|}}
-		{{#if tags}}
-		<div class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4" data-reveal-stagger="45">
-			{{#foreach tags}}
-			<a href="{{url}}" class="tagtile group relative overflow-hidden rounded-2xl border border-line shadow-card transition-all duration-300 hover:-translate-y-1 hover:shadow-lift {{#if @first}}col-span-2 row-span-2{{else}}{{#match @number 2}}sm:col-span-2{{/match}}{{/if}}">
-				{{#if feature_image}}
-					<img src="{{img_url feature_image size="600"}}" width="600" height="400" alt="" loading="lazy" class="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
-					<span class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-black/10" aria-hidden="true"></span>
-				{{else}}
-					<span class="bg-dots absolute inset-0 bg-mist transition group-hover:bg-mist/70" aria-hidden="true"></span>
-					<span class="pointer-events-none absolute -right-3 -top-5 font-mono font-black leading-none {{#if @first}}text-[7rem]{{else}}text-[4.5rem]{{/if}} text-ink/[0.05]" aria-hidden="true">#</span>
-				{{/if}}
-				<span class="relative flex h-full {{#if @first}}min-h-[14rem]{{else}}min-h-[8.5rem]{{/if}} flex-col justify-end p-4 sm:p-5">
-					<strong class="{{#if @first}}text-2xl{{else}}text-[15px]{{/if}} font-bold leading-snug tracking-tight {{#if feature_image}}text-white [text-shadow:0_2px_8px_rgb(0_0_0/.5)]{{/if}}">{{name}}</strong>
-					{{#if description}}<span class="mt-1 line-clamp-2 text-[12px] leading-relaxed {{#if feature_image}}text-white/75{{else}}text-silver{{/if}}">{{description}}</span>{{/if}}
-					<span class="mt-2 flex items-center justify-between font-mono text-[10px] uppercase tracking-[0.15em] {{#if feature_image}}text-white/60{{else}}text-silver{{/if}}">
-						<span>{{plural count.posts empty="no posts, yet" singular="% post" plural="% posts"}}</span>
-						<span class="flex items-center gap-1 font-semibold opacity-0 transition group-hover:opacity-100">Explore {{> "icons/arrow-right" class="h-3 w-3"}}</span>
-					</span>
-				</span>
-			</a>
+<section class="mx-auto max-w-5xl px-4 py-10">
+	{{#get "tags" limit="100" include="count.posts" as |all_tags|}}
+		<div class="flex flex-wrap gap-2">
+			{{#foreach all_tags}}
+				<a href="{{url}}" class="rounded-md border border-zinc-200 px-3 py-1.5 text-sm hover:bg-zinc-100 dark:border-zinc-800 dark:hover:bg-zinc-800">{{name}} <span class="text-zinc-500">{{count.posts}}</span></a>
 			{{/foreach}}
 		</div>
-		{{else}}
-		<p class="rounded-2xl border border-dashed border-line p-10 text-center text-sm text-silver">No public tags yet. Tag something. Anything. Please.</p>
-		{{/if}}
 	{{/get}}
-
-	{{> "utility/adsense" slot="8939839370" format="auto"}}
 </section>

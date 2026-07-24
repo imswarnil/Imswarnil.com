@@ -1,15 +1,4 @@
 {{!< default}}
 
-{{> "utility/collection-header" kicker="The shop" title="Digital goodies" desc="Templates, presets, packs and tools I've made — some free, some premium. Download and build faster."}}
-
-<section class="container-site py-12">
-	<div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-		{{#foreach posts}}
-			{{> "shop/card"}}
-		{{/foreach}}
-	</div>
-
-	{{> "utility/adsense" slot="7663977887" format="auto"}}
-
-	{{> "utility/pagination"}}
-</section>
+{{> page-header title="Shop" description="Things for sale."}}
+{{> list}}

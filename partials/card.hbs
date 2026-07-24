@@ -1,21 +1,24 @@
-{{!-- Card dispatcher — renders the right collection card for a post based on its
-     internal (#) tag. Use inside a {{#foreach}} over MIXED-type posts:
-        {{#foreach posts}}{{> card}}{{/foreach}}
-     Single-type collection loops may still include their card directly
-     (e.g. {{> "video/card"}}) — same partial, just explicit. Falls back to the
-     blog card for plain articles and any unrecognised type. --}}
-{{#has tag="#video"}}{{> "video/card"}}
-{{else has tag="#reel"}}{{> "video/reel-card"}}
-{{else has tag="#shorts"}}{{> "video/reel-card"}}
-{{else has tag="#course"}}{{> "course/card"}}
-{{else has tag="#episode"}}{{> "webseries/episode-card"}}
-{{else has tag="#project"}}{{> "project/card"}}
-{{else has tag="#product"}}{{> "product/card"}}
-{{else has tag="#prompt"}}{{> "prompt/card"}}
-{{else has tag="#snippet"}}{{> "snippet/card"}}
-{{else has tag="#experience"}}{{> "experience/card"}}
-{{else has tag="#changelog"}}{{> "changelog/card"}}
-{{else has tag="#timeline"}}{{> "timeline/card"}}
-{{else has tag="#shop"}}{{> "shop/card"}}
-{{else}}{{> "blog/card"}}
-{{/has}}
+{{!-- Post card. Use inside a {{#foreach posts}} loop. --}}
+<article class="flex flex-col overflow-hidden rounded-lg border border-zinc-200 dark:border-zinc-800">
+	{{#if feature_image}}
+		<a href="{{url}}" class="block aspect-[16/9] overflow-hidden bg-zinc-100 dark:bg-zinc-900">
+			<img src="{{img_url feature_image size="m"}}" alt="{{#if feature_image_alt}}{{feature_image_alt}}{{else}}{{title}}{{/if}}" class="h-full w-full object-cover" loading="lazy" width="600" height="338" />
+		</a>
+	{{/if}}
+
+	<div class="flex flex-1 flex-col gap-2 p-4">
+		{{#if primary_tag}}
+			<a href="{{primary_tag.url}}" class="text-xs font-medium uppercase tracking-wide text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100">{{primary_tag.name}}</a>
+		{{/if}}
+
+		<h2 class="text-lg font-semibold leading-snug">
+			<a href="{{url}}" class="hover:underline">{{title}}</a>
+		</h2>
+
+		<p class="text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">{{excerpt words="22"}}</p>
+
+		<p class="mt-auto pt-2 text-xs text-zinc-500">
+			<time datetime="{{date format="YYYY-MM-DD"}}">{{date format="D MMM YYYY"}}</time> &middot; {{reading_time}}
+		</p>
+	</div>
+</article>

@@ -1,0 +1,18 @@
+{{!-- Site header. Menu comes from Ghost Admin → Settings → Navigation. --}}
+<header class="sticky top-0 z-50 border-b border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-950">
+	<nav class="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-4 px-4 py-3">
+		<a href="{{@site.url}}" class="text-base font-semibold tracking-tight">{{@site.title}}</a>
+
+		<div class="flex flex-wrap items-center gap-4">
+			{{navigation}}
+
+			{{#if @site.members_enabled}}
+				{{#if @member}}
+					<a href="#/portal/account" class="text-sm text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100">Account</a>
+				{{else}}
+					<a href="#/portal/signup" class="rounded-md bg-zinc-900 px-3 py-1.5 text-sm font-medium text-white hover:bg-zinc-700 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-300">Subscribe</a>
+				{{/if}}
+			{{/if}}
+		</div>
+	</nav>
+</header>

@@ -1,28 +1,4 @@
 {{!< default}}
 
-{{> "utility/collection-header" kicker="Ship log" title="Changelog" desc="What changed on this site and in my systems — shipped, fixed, improved."}}
-
-<section class="container-site py-12">
-	<ol class="mx-auto max-w-3xl">
-		{{#foreach posts}}
-			{{> "changelog/card"}}
-		{{/foreach}}
-	</ol>
-	<div class="mx-auto max-w-3xl">{{> "utility/pagination"}}</div>
-</section>
-
-{{!-- Extract a version chip (v1.2 / 1.2.3 …) from titles that contain one --}}
-<script>
-	(function () {
-		document.querySelectorAll('[data-log-title]').forEach(function (title) {
-			var m = title.textContent.match(/\bv?\d+\.\d+(\.\d+)?\b/i);
-			if (!m) return;
-			var item = title.closest('li');
-			var slot = item && item.querySelector('[data-log-version]');
-			if (slot) {
-				slot.textContent = m[0];
-				slot.classList.remove('hidden');
-			}
-		});
-	})();
-</script>
+{{> page-header title="Changelog" description="What changed and when."}}
+{{> list}}

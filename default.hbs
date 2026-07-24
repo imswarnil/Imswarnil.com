@@ -5,111 +5,20 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<title>{{meta_title}}</title>
 
-	<link rel="preload" href="{{asset "vendors/Geist-Variable.woff2"}}" as="font" type="font/woff2" crossorigin />
 	<link rel="stylesheet" href="{{asset "built/screen.css"}}" />
-	<link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin />
-	<link rel="preconnect" href="https://www.youtube-nocookie.com" />
-	<link rel="preconnect" href="https://i.ytimg.com" crossorigin />
-	<link rel="preconnect" href="https://cdn.coverr.co" />
-
 	<link rel="icon" href="{{asset "favicon.svg"}}" type="image/svg+xml" />
 
-	{{!-- PWA --}}
-	<link rel="manifest" href="{{@site.url}}/manifest/" />
-	<meta name="theme-color" content="#fafafa" media="(prefers-color-scheme: light)" />
-	<meta name="theme-color" content="#09090b" media="(prefers-color-scheme: dark)" />
-	<meta name="apple-mobile-web-app-capable" content="yes" />
-	<meta name="apple-mobile-web-app-status-bar-style" content="default" />
-	<meta name="apple-mobile-web-app-title" content="{{@site.title}}" />
-	{{#if @site.icon}}<link rel="apple-touch-icon" href="{{img_url @site.icon size="300" absolute="true"}}" />{{/if}}
-
-	{{!-- Flash-free theme mode boot. Default is Light (custom.color_scheme).
-	     Ghost's admin accent colour drives --accent in the neutral modes
-	     (light/dark/system) ONLY — the branded modes (salesforce/youtube/
-	     netflix/claude/twilio/neubrutal) keep their own full design system,
-	     so window.__applyAccent clears the inline accent for those. main.js
-	     calls this same helper on every mode switch. --}}
-	<script>
-		(function () {
-			var MODES = ['light', 'dark', 'salesforce', 'youtube', 'netflix', 'claude', 'twilio', 'neubrutal'];
-			var DARK_MODES = { dark: 1, netflix: 1 };
-			var BRANDED = { salesforce: 1, youtube: 1, netflix: 1, claude: 1, twilio: 1, neubrutal: 1 };
-			var pref = localStorage.getItem('swarnil-mode');
-			var fallback = '{{@custom.color_scheme}}'.toLowerCase();
-			var mode =
-				MODES.indexOf(pref) > -1 ? pref
-				: fallback === 'system' ? (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
-				: MODES.indexOf(fallback) > -1 ? fallback
-				: 'light';
-			var root = document.documentElement;
-			root.setAttribute('data-theme', mode);
-			root.classList.toggle('dark', !!DARK_MODES[mode]);
-			if (/^\/(videos|webseries|travel)\/(page\/\d+\/)?$/.test(location.pathname)) root.classList.add('nav-glass');
-
-			var ACCENT = '{{@site.accent_color}}';
-			window.__applyAccent = function (m) {
-				var st = root.style;
-				if (BRANDED[m]) { /* branded modes own their palette */
-					st.removeProperty('--accent'); st.removeProperty('--on-accent'); st.removeProperty('--ghost-accent-color');
-					return;
-				}
-				var hex = (ACCENT || '').replace('#', '');
-				if (hex.length === 3) hex = hex.replace(/(.)/g, '$1$1');
-				var r = parseInt(hex.slice(0, 2), 16), g = parseInt(hex.slice(2, 4), 16), b = parseInt(hex.slice(4, 6), 16);
-				if (isNaN(r) || isNaN(g) || isNaN(b)) { st.removeProperty('--accent'); st.removeProperty('--on-accent'); return; }
-				st.setProperty('--accent', r + ' ' + g + ' ' + b);
-				st.setProperty('--on-accent', (0.2126 * r + 0.7152 * g + 0.0722 * b) > 150 ? '9 9 11' : '250 250 250');
-				st.setProperty('--ghost-accent-color', '#' + hex);
-			};
-			window.__applyAccent(mode);
-		})();
-	</script>
-
-	{{!-- Ads are ad-free for signed-in members — the loader only ships for logged-out visitors. --}}
-	{{#unless @member}}
-	<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1291242080282540" crossorigin="anonymous"></script>
-	{{/unless}}
-
-	{{> "utility/json-ld"}}
 	{{ghost_head}}
 </head>
 
-<body class="{{body_class}} min-h-screen bg-paper text-ink">
-	{{> "navigation/navbar"}}
+<body class="{{body_class}} flex min-h-screen flex-col bg-white text-zinc-900 antialiased dark:bg-zinc-950 dark:text-zinc-100">
+	{{> navbar}}
 
-	<main id="site-main" class="relative">
+	<main class="flex-1">
 		{{{body}}}
 	</main>
 
-	{{> "utility/footer"}}
-
-	{{> "utility/rail-ads"}}
-	{{#unless @member}}{{> "utility/ad-optout-modal"}}{{/unless}}
-
-	<script src="{{asset "built/main.js"}}" defer></script>
-	<script>
-		// PWA: register the worker served at /sw/ with root scope. Root scope
-		// needs a `Service-Worker-Allowed: /` header on the /sw/ response — set
-		// at the proxy/CDN (theme-customize.txt §PWA); until then registration
-		// fails gracefully and the site just works without offline support.
-		if ('serviceWorker' in navigator) {
-			window.addEventListener('load', function () {
-				// Heal the legacy broken /sw.js/ registration (dot-routes 404 in
-				// Ghost, so that worker could never update).
-				navigator.serviceWorker.getRegistrations().then(function (regs) {
-					regs.forEach(function (r) {
-						var sw = r.active || r.waiting || r.installing;
-						if (sw && sw.scriptURL.indexOf('/sw.js') !== -1) r.unregister();
-					});
-				}).catch(function () {});
-				navigator.serviceWorker.register('/sw/', { scope: '/' }).catch(function (err) {
-					console.info('PWA offline support inactive (needs Service-Worker-Allowed: / header on /sw/):', err.message);
-				});
-			});
-		}
-	</script>
-	{{!-- Web push is not wired into the theme. Add a OneSignal (or other) snippet
-	     via Ghost Admin → Settings → Code injection if you want it back. --}}
+	{{> footer}}
 
 	{{ghost_foot}}
 </body>
