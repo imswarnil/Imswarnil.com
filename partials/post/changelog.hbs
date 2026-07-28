@@ -1,0 +1,15 @@
+{{!-- Changelog entry: version, date, what changed. --}}
+<article class="container-prose section">
+	<div class="release release-current" style="border-bottom:0;padding-top:0">
+		<div class="release__meta">
+			<span class="release__ver"><span class="dot dot-sm dot-live"></span> {{title}}</span>
+			<span class="release__date">{{date format="D MMM YYYY"}}</span>
+		</div>
+		<div>
+			{{#if custom_excerpt}}<p class="t-lead u-mb-4">{{custom_excerpt}}</p>{{/if}}
+			{{> post-body}}
+		</div>
+	</div>
+
+	{{> util/pager}}
+</article>

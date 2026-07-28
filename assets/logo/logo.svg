@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 48" role="img" aria-label="Swarnil">
+	<!-- The wordmark. The dot over the i is a tittle, and the tittle is the
+	     record light — so it stays vermilion in both themes; only the ink flips. -->
+	<style>
+		.ink { fill: #101017; }
+		@media (prefers-color-scheme: dark) { .ink { fill: #f8f8fa; } }
+	</style>
+	<text class="ink" x="0" y="35" font-family="'Space Grotesk','Inter',system-ui,sans-serif"
+	      font-size="34" font-weight="700" letter-spacing="-1.4">Swarn</text>
+	<text class="ink" x="103" y="35" font-family="'Space Grotesk','Inter',system-ui,sans-serif"
+	      font-size="34" font-weight="700" letter-spacing="-1.4">ı</text>
+	<text class="ink" x="113" y="35" font-family="'Space Grotesk','Inter',system-ui,sans-serif"
+	      font-size="34" font-weight="700" letter-spacing="-1.4">l</text>
+	<circle cx="108" cy="10" r="4.4" fill="#f04e2e"/>
+</svg>

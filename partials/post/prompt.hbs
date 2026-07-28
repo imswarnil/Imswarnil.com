@@ -1,0 +1,29 @@
+{{!-- Prompt: shown as the conversation it is. The body's first code block is
+     the prompt itself; everything after is the answer. --}}
+<article class="container-prose section">
+	<header class="stack u-mb-8">
+		<span class="eyebrow">Prompt</span>
+		<h1 class="t-h1">{{title}}</h1>
+		{{#if custom_excerpt}}<p class="t-lead">{{custom_excerpt}}</p>{{/if}}
+		{{> util/meta}}
+	</header>
+
+	<div class="chat u-mb-8">
+		<div class="chat__turn chat__turn-you">
+			<span class="chat__who">You</span>
+			<div class="chat__bubble">
+				{{#if custom_excerpt}}{{custom_excerpt}}{{else}}{{title}}{{/if}}
+			</div>
+		</div>
+
+		<div class="chat__turn">
+			<span class="chat__who"><span class="dot dot-sm dot-live"></span> Assistant</span>
+			<div class="chat__bubble">
+				{{> post-body}}
+			</div>
+		</div>
+	</div>
+
+	{{> util/tags}}
+	{{> util/share}}
+</article>

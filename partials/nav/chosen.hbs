@@ -1,0 +1,8 @@
+{{!-- The site-wide choice, in one place so navbar.hbs doesn't repeat it on both
+      sides of its tag test. Ghost gives the select back as its label, so the
+      strings here have to match package.json's `options` exactly. --}}
+{{#match @custom.navbar_style "Island"}}{{> nav/bar}}
+{{else match @custom.navbar_style "Full width"}}{{> nav/bar shell="nav-shell-full"}}
+{{else match @custom.navbar_style "Full width, hides on scroll down"}}{{> nav/bar shell="nav-shell-full nav-shell-reveal"}}
+{{else}}{{> nav/bar shell="nav-shell-morph"}}
+{{/match}}

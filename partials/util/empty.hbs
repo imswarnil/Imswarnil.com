@@ -1,0 +1,7 @@
+{{!-- Honest empty state. Params: title, body (both optional). --}}
+<div class="empty">
+	<span class="eyebrow">Nothing here yet</span>
+	<p class="empty__title">{{#if title}}{{title}}{{else}}This shelf is still being filled{{/if}}</p>
+	<p class="empty__body">{{#if body}}{{body}}{{else}}New work lands most weeks — the newsletter is the fastest way to hear about it.{{/if}}</p>
+	<a class="btn btn-soft" href="#/portal/signup">Notify me</a>
+</div>

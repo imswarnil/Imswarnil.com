@@ -1,0 +1,8 @@
+{{!-- Public tags as chips. Internal (#) tags are dropped by {{#foreach}}. --}}
+{{#if tags}}
+	<div class="cluster u-mt-10">
+		{{#foreach tags}}
+			<a class="chip" href="{{url}}">{{name}}</a>
+		{{/foreach}}
+	</div>
+{{/if}}

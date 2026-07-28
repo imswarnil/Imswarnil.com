@@ -1,0 +1,11 @@
+{{!-- The slate line under a title: date · reading time · author.
+     Params: none — reads the current post context. --}}
+<p class="t-slate u-flex u-items-center u-wrap u-gap-2">
+	<time datetime="{{date format="YYYY-MM-DD"}}">{{date format="D MMM YYYY"}}</time>
+	<span aria-hidden="true">·</span>
+	<span>{{reading_time}}</span>
+	{{#if primary_author}}
+		<span aria-hidden="true">·</span>
+		<span>{{primary_author.name}}</span>
+	{{/if}}
+</p>

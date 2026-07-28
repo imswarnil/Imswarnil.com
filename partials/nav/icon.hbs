@@ -1,0 +1,40 @@
+{{!-- ═════════════════════════════════════════════════════════════════════════
+     NAV ICON
+     Ghost menu labels are user-defined, so the slug is all we get. This maps
+     the slugs a creator site actually uses onto the sprite, and renders
+     NOTHING for anything else — an icon keyed blindly to an arbitrary slug
+     leaves a hole beside every item we did not anticipate.
+
+     Add a row to extend it. Only usable inside {{#foreach navigation}}.
+     ══════════════════════════════════════════════════════════════════════ --}}
+{{#match slug "blog"}}<svg class="icon" aria-hidden="true"><use href="#i-pen"/></svg>{{/match}}
+{{#match slug "writing"}}<svg class="icon" aria-hidden="true"><use href="#i-pen"/></svg>{{/match}}
+{{#match slug "posts"}}<svg class="icon" aria-hidden="true"><use href="#i-pen"/></svg>{{/match}}
+{{#match slug "videos"}}<svg class="icon" aria-hidden="true"><use href="#i-camera"/></svg>{{/match}}
+{{#match slug "video"}}<svg class="icon" aria-hidden="true"><use href="#i-camera"/></svg>{{/match}}
+{{#match slug "courses"}}<svg class="icon" aria-hidden="true"><use href="#i-book"/></svg>{{/match}}
+{{#match slug "course"}}<svg class="icon" aria-hidden="true"><use href="#i-book"/></svg>{{/match}}
+{{#match slug "learn"}}<svg class="icon" aria-hidden="true"><use href="#i-book"/></svg>{{/match}}
+{{#match slug "guides"}}<svg class="icon" aria-hidden="true"><use href="#i-book"/></svg>{{/match}}
+{{#match slug "guide"}}<svg class="icon" aria-hidden="true"><use href="#i-book"/></svg>{{/match}}
+{{#match slug "docs"}}<svg class="icon" aria-hidden="true"><use href="#i-book"/></svg>{{/match}}
+{{#match slug "projects"}}<svg class="icon" aria-hidden="true"><use href="#i-code"/></svg>{{/match}}
+{{#match slug "project"}}<svg class="icon" aria-hidden="true"><use href="#i-code"/></svg>{{/match}}
+{{#match slug "snippets"}}<svg class="icon" aria-hidden="true"><use href="#i-code"/></svg>{{/match}}
+{{#match slug "travel"}}<svg class="icon" aria-hidden="true"><use href="#i-plane"/></svg>{{/match}}
+{{#match slug "trips"}}<svg class="icon" aria-hidden="true"><use href="#i-plane"/></svg>{{/match}}
+{{#match slug "topics"}}<svg class="icon" aria-hidden="true"><use href="#i-tag"/></svg>{{/match}}
+{{#match slug "tags"}}<svg class="icon" aria-hidden="true"><use href="#i-tag"/></svg>{{/match}}
+{{#match slug "newsletters"}}<svg class="icon" aria-hidden="true"><use href="#i-mail"/></svg>{{/match}}
+{{#match slug "newsletter"}}<svg class="icon" aria-hidden="true"><use href="#i-mail"/></svg>{{/match}}
+{{#match slug "contact"}}<svg class="icon" aria-hidden="true"><use href="#i-mail"/></svg>{{/match}}
+{{#match slug "timeline"}}<svg class="icon" aria-hidden="true"><use href="#i-clock"/></svg>{{/match}}
+{{#match slug "changelog"}}<svg class="icon" aria-hidden="true"><use href="#i-clock"/></svg>{{/match}}
+{{#match slug "archive"}}<svg class="icon" aria-hidden="true"><use href="#i-clock"/></svg>{{/match}}
+{{#match slug "web-series"}}<svg class="icon" aria-hidden="true"><use href="#i-play"/></svg>{{/match}}
+{{#match slug "webseries"}}<svg class="icon" aria-hidden="true"><use href="#i-play"/></svg>{{/match}}
+{{#match slug "series"}}<svg class="icon" aria-hidden="true"><use href="#i-play"/></svg>{{/match}}
+{{#match slug "shop"}}<svg class="icon" aria-hidden="true"><use href="#i-bag"/></svg>{{/match}}
+{{#match slug "products"}}<svg class="icon" aria-hidden="true"><use href="#i-bag"/></svg>{{/match}}
+{{#match slug "search"}}<svg class="icon" aria-hidden="true"><use href="#i-search"/></svg>{{/match}}
+{{#match slug "github"}}<svg class="icon" aria-hidden="true"><use href="#i-github"/></svg>{{/match}}

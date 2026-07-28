@@ -1,0 +1,13 @@
+{{!-- Experience: a moment — photo first, story second. --}}
+<article class="container-prose section">
+	<header class="stack u-mb-8">
+		<span class="eyebrow"><svg class="icon" aria-hidden="true"><use href="#i-heart"/></svg> Experience</span>
+		<h1 class="t-h1">{{title}}</h1>
+		{{> util/meta}}
+	</header>
+
+	{{> util/feature-image bleed=true}}
+	{{> post-body}}
+	{{> util/tags}}
+	{{> util/pager}}
+</article>

@@ -1,0 +1,15 @@
+{{!-- Video stage. Nothing is requested from YouTube until the reader asks:
+     the poster paints first and the embed is injected on click (main.js). --}}
+<div class="frame frame-ink u-ratio-video u-relative u-overflow-hidden" data-surface="inverse" data-player>
+	{{#if feature_image}}
+		<img src="{{img_url feature_image size="xl"}}" alt="{{title}}"
+		     class="u-object-cover u-w-full u-h-full" width="1600" height="900" fetchpriority="high" />
+	{{else}}
+		<span class="pattern pattern-grid u-absolute u-inset-0" aria-hidden="true"></span>
+	{{/if}}
+
+	<button class="play u-absolute" type="button" aria-label="Play {{title}}"
+	        style="inset:0;margin:auto;width:max-content;height:max-content">
+		<span class="play__disc"></span>
+	</button>
+</div>

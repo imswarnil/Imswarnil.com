@@ -1,24 +1,46 @@
-{{!-- Post card. Use inside a {{#foreach posts}} loop. --}}
-<article class="flex flex-col overflow-hidden rounded-lg border border-zinc-200 dark:border-zinc-800">
+{{!-- The collection card. One skeleton; the collection's own tag picks the
+     device. Use inside {{#foreach posts}}. --}}
+<article class="c
+	{{#has tag="hash-video"}}c-video{{/has}}
+	{{#has tag="hash-blog"}}c-blog{{/has}}
+	{{#has tag="hash-project"}}c-project{{/has}}
+	{{#has tag="hash-course"}}c-course{{/has}}
+	{{#has tag="hash-webseries"}}c-series{{/has}}
+	{{#has tag="hash-episode"}}c-episode{{/has}}
+	{{#has tag="hash-newsletter"}}c-newsletter{{/has}}
+	{{#has tag="hash-snippet"}}c-snippet{{/has}}
+	{{#has tag="hash-prompt"}}c-prompt{{/has}}
+	{{#has tag="hash-trip"}}c-trip{{/has}}
+	{{#has tag="hash-travel"}}c-travel{{/has}}
+	{{#has tag="hash-experience"}}c-experience{{/has}}
+	{{#has tag="hash-guide"}}c-guide{{/has}}">
+
 	{{#if feature_image}}
-		<a href="{{url}}" class="block aspect-[16/9] overflow-hidden bg-zinc-100 dark:bg-zinc-900">
-			<img src="{{img_url feature_image size="m"}}" alt="{{#if feature_image_alt}}{{feature_image_alt}}{{else}}{{title}}{{/if}}" class="h-full w-full object-cover" loading="lazy" width="600" height="338" />
-		</a>
+		<div class="c__media">
+			<img src="{{img_url feature_image size="m"}}"
+			     srcset="{{img_url feature_image size="s"}} 300w, {{img_url feature_image size="m"}} 600w, {{img_url feature_image size="l"}} 1000w"
+			     sizes="(min-width: 62rem) 19rem, 100vw"
+			     alt="{{#if feature_image_alt}}{{feature_image_alt}}{{else}}{{title}}{{/if}}"
+			     class="object-cover" loading="lazy" width="600" height="338" />
+		</div>
 	{{/if}}
 
-	<div class="flex flex-1 flex-col gap-2 p-4">
+	<div class="c__body">
 		{{#if primary_tag}}
-			<a href="{{primary_tag.url}}" class="text-xs font-medium uppercase tracking-wide text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100">{{primary_tag.name}}</a>
+			<p class="c__meta"><span class="dot dot-sm"></span> {{primary_tag.name}}</p>
 		{{/if}}
 
-		<h2 class="text-lg font-semibold leading-snug">
-			<a href="{{url}}" class="hover:underline">{{title}}</a>
-		</h2>
+		<h2 class="c__title"><a class="c__link" href="{{url}}">{{title}}</a></h2>
 
-		<p class="text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">{{excerpt words="22"}}</p>
+		{{#if custom_excerpt}}
+			<p class="c__excerpt">{{custom_excerpt}}</p>
+		{{else}}
+			<p class="c__excerpt">{{excerpt words="22"}}</p>
+		{{/if}}
+	</div>
 
-		<p class="mt-auto pt-2 text-xs text-zinc-500">
-			<time datetime="{{date format="YYYY-MM-DD"}}">{{date format="D MMM YYYY"}}</time> &middot; {{reading_time}}
-		</p>
+	<div class="c__foot">
+		<time datetime="{{date format="YYYY-MM-DD"}}">{{date format="D MMM YYYY"}}</time>
+		<span>{{reading_time}}</span>
 	</div>
 </article>

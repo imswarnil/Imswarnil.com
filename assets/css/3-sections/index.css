@@ -1,0 +1,9 @@
+/* =============================================================================
+   SITE SECTIONS
+   Layer 5 of the design system: the full-width bands a page is built from —
+   page headers, heroes, stat grids, CTA bands and the footer. Imported
+   wholesale; a band the site needs but the system lacks is a gap in the
+   system, and it gets fixed there.
+   ========================================================================== */
+
+@import url('creator-design-system/src/5-sections/index.css');

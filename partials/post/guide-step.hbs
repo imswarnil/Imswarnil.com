@@ -1,0 +1,36 @@
+{{!-- Guide step: the route rides the rail and shows where you are. --}}
+<div class="container section">
+	{{#if primary_tag}}
+		{{> util/breadcrumb parent=primary_tag.name parentUrl=primary_tag.url}}
+	{{/if}}
+
+	<div class="grid-rail-left u-mt-6">
+		<aside class="rail">
+			{{#if primary_tag}}
+				{{#get "posts" filter="tag:hash-guide-content+primary_tag:{{primary_tag.slug}}" limit="100" order="published_at asc" as |steps|}}
+					<div class="rail__block">
+						<h2 class="rail__title">{{steps.length}} steps</h2>
+						<ol class="buildlog">
+							{{#foreach steps}}
+								<li class="buildlog__step">
+									<span class="buildlog__node">{{@number}}</span>
+									<a class="buildlog__link" href="{{url}}">{{title}}</a>
+								</li>
+							{{/foreach}}
+						</ol>
+					</div>
+				{{/get}}
+			{{/if}}
+		</aside>
+
+		<div>
+			<header class="stack u-mb-8">
+				<span class="eyebrow">Step</span>
+				<h1 class="t-h1">{{title}}</h1>
+				{{> util/meta}}
+			</header>
+			{{> post-body}}
+			{{> util/pager}}
+		</div>
+	</div>
+</div>

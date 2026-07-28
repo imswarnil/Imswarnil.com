@@ -1,0 +1,14 @@
+{{!-- Snippet: the code is the point. --}}
+<article class="container-prose section">
+	<header class="stack u-mb-8">
+		<span class="eyebrow"><svg class="icon" aria-hidden="true"><use href="#i-code"/></svg> Snippet</span>
+		<h1 class="t-h1">{{title}}</h1>
+		{{#if custom_excerpt}}<p class="t-lead">{{custom_excerpt}}</p>{{/if}}
+		{{> util/meta}}
+	</header>
+
+	{{> post-body}}
+	{{> util/tags}}
+	{{> util/share}}
+	{{> util/pager}}
+</article>

@@ -1,0 +1,19 @@
+{{!-- Travel story: the photograph leads, the prose follows. --}}
+{{#if feature_image}}
+	<div class="u-relative u-overflow-hidden" style="height:min(70dvh,36rem)">
+		<img src="{{img_url feature_image size="xl"}}" alt="{{title}}"
+		     class="u-object-cover u-w-full u-h-full" width="1600" height="900" fetchpriority="high" />
+	</div>
+{{/if}}
+
+<article class="container-prose section">
+	<header class="stack u-mb-8">
+		{{#if primary_tag}}<a class="eyebrow" href="{{primary_tag.url}}">{{primary_tag.name}}</a>{{/if}}
+		<h1 class="t-h1">{{title}}</h1>
+		{{> util/meta}}
+	</header>
+
+	{{> post-body}}
+	{{> util/tags}}
+	{{> util/pager}}
+</article>

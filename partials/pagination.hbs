@@ -1,15 +1,15 @@
-{{#if pagination.pages}}
-	<nav class="mt-10 flex items-center justify-between border-t border-zinc-200 pt-6 text-sm dark:border-zinc-800" aria-label="Pagination">
+{{#if pagination.total}}
+	<nav class="pagination" aria-label="Pagination">
 		{{#if prev}}
-			<a href="{{page_url prev}}" class="rounded-md border border-zinc-300 px-3 py-1.5 hover:bg-zinc-100 dark:border-zinc-700 dark:hover:bg-zinc-800">Newer</a>
+			<a class="btn btn-ghost btn-sm fx-shift" href="{{page_url prev}}"><span class="fx-shift__icon">←</span> Newer</a>
 		{{else}}
 			<span></span>
 		{{/if}}
 
-		<span class="text-zinc-500">Page {{page}} of {{pages}}</span>
+		<span class="pagination__pages">Page {{page}} of {{pages}}</span>
 
 		{{#if next}}
-			<a href="{{page_url next}}" class="rounded-md border border-zinc-300 px-3 py-1.5 hover:bg-zinc-100 dark:border-zinc-700 dark:hover:bg-zinc-800">Older</a>
+			<a class="btn btn-ghost btn-sm fx-shift" href="{{page_url next}}">Older <span class="fx-shift__icon">→</span></a>
 		{{else}}
 			<span></span>
 		{{/if}}

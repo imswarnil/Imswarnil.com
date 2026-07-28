@@ -1,4 +1,320 @@
 {{!< default}}
+{{!-- ═════════════════════════════════════════════════════════════════════════
+     /travel — the collection page, built on the design system's travel
+     collection (Creator Design System → collection/travel).
 
-{{> page-header title="Travel" description="Trips."}}
-{{> list}}
+     What the system calls things, and what they are here:
+
+       group   a region   →  a COUNTRY   (#country-*)
+       place   a country  →  a TRIP      (a post tagged #trip)
+       facet   a filter   →  a CATEGORY  (#travel-category-*) or a country
+       post    a post     →  a travel story (#travel)
+
+     There is no city level in this theme's tags, so the "spots" row the system
+     offers is left out rather than filled with invented data.
+
+     The wiring is all data attributes read by assets/js/collection.js:
+     data-group on the buttons, data-of / data-region on everything beneath,
+     data-tags for the facets. Internal tag slugs ARE the ids — that is why the
+     facets carry `hash-…` values, and why the visible labels are trimmed of
+     their prefix in main.js rather than in Handlebars, which cannot slice a
+     string. With JS blocked every list simply shows in full, which is the
+     right fallback for a page whose job is listing places.
+     ══════════════════════════════════════════════════════════════════════ --}}
+
+<section class="container u-mt-6">
+	<div class="col-hero">
+		{{> util/travel-art}}
+
+		<div class="col-hero__in">
+			<span class="col-hero__eyebrow">
+				<svg class="icon icon-sm" aria-hidden="true"><use href="#i-plane"/></svg>
+				The travel collection
+			</span>
+
+			<h1 class="col-hero__title">Every road I have been down, <em>in order</em>.</h1>
+
+			<p class="col-hero__lead">
+				Trips shot like episodes — itineraries, real budgets and what the brochure
+				did not say. Start with a country, narrow to a trip, then read it in order.
+			</p>
+
+			<div class="col-search">
+				<button class="col-search__field" type="button" data-ghost-search
+				        aria-label="Search the site">
+					<svg class="icon icon-sm" aria-hidden="true"><use href="#i-search"/></svg>
+					<span>Where do you want to go?</span>
+				</button>
+				<a class="btn btn-ghost btn-pill" href="#trips">Latest trip →</a>
+			</div>
+
+			<div class="col-meta">
+				{{#get "posts" filter="tag:hash-travel" limit="1"}}
+					<div><span class="col-meta__n">{{pagination.total}}</span><span class="col-meta__l">stories</span></div>
+				{{/get}}
+				{{#get "posts" filter="tag:hash-trip" limit="1"}}
+					<div><span class="col-meta__n">{{pagination.total}}</span><span class="col-meta__l">trips</span></div>
+				{{/get}}
+				{{!-- length, not pagination.total: Ghost counts a tag nobody has used yet,
+				      and a country with no posts is not a country I have been to. --}}
+				{{#get "tags" visibility="all" filter="slug:~^'hash-country'" limit="100" as |countries|}}
+					<div><span class="col-meta__n">{{countries.length}}</span><span class="col-meta__l">countries</span></div>
+				{{/get}}
+				{{#get "tags" visibility="all" filter="slug:~^'hash-travel-category'" limit="100" as |kinds|}}
+					<div><span class="col-meta__n">{{kinds.length}}</span><span class="col-meta__l">kinds of trip</span></div>
+				{{/get}}
+			</div>
+		</div>
+	</div>
+</section>
+
+
+<div data-collection>
+
+	{{!-- The widest cut there is. Regions if the site has any (#region-europe),
+	      countries if it does not — the row is the same either way, and a site
+	      that never leaves one continent should not have to invent one. --}}
+	{{#get "tags" visibility="all" filter="slug:~^'hash-region'" limit="100" include="count.posts" order="count.posts desc" as |regions|}}
+		<section class="container section-sm">
+			<div class="row-between u-mb-5">
+				<div>
+					<h2 class="t-h3">{{#if regions}}Regions{{else}}Countries{{/if}}</h2>
+					<p class="t-subtle u-mt-2" style="max-width:var(--measure-lead)">
+						Pick one and everything below narrows to it.
+					</p>
+				</div>
+			</div>
+
+			<div class="col-groups">
+				{{#if regions}}
+					{{#foreach regions visibility="all"}}
+						<button class="col-group" type="button" data-group="{{slug}}" aria-pressed="false">
+							<span class="col-group__ico">
+								<svg class="icon" aria-hidden="true"><use href="#i-plane"/></svg>
+							</span>
+							<span>
+								<span class="col-group__name" data-trim="#region-">{{name}}</span>
+								<span class="col-group__n">{{count.posts}} posts</span>
+							</span>
+						</button>
+					{{/foreach}}
+				{{else}}
+					{{#get "tags" visibility="all" filter="slug:~^'hash-country'" limit="100" include="count.posts" order="count.posts desc" as |countries|}}
+						{{#foreach countries visibility="all"}}
+							<button class="col-group" type="button" data-group="{{slug}}" aria-pressed="false">
+								<span class="col-group__ico">
+									<svg class="icon" aria-hidden="true"><use href="#i-plane"/></svg>
+								</span>
+								<span>
+									<span class="col-group__name" data-trim="#country-">{{name}}</span>
+									<span class="col-group__n">{{count.posts}} posts</span>
+								</span>
+							</button>
+						{{/foreach}}
+					{{/get}}
+				{{/if}}
+			</div>
+		</section>
+	{{/get}}
+
+	<section class="container section-sm">
+		<div class="col-layout">
+
+			<aside class="col-layout__side">
+				<div class="col-facets">
+					<div class="col-facets__group">
+						<span class="col-facets__title">Filtering</span>
+						<p class="t-small u-fg-subtle" data-filter-state>Everywhere</p>
+						<button class="btn btn-quiet btn-sm" type="button" data-filter-reset hidden>
+							Clear filters
+						</button>
+					</div>
+
+					<div class="col-facets__group">
+						<span class="col-facets__title">Kind of trip</span>
+						{{#get "tags" visibility="all" filter="slug:~^'hash-travel-category'" limit="100" include="count.posts" as |kinds|}}
+							{{#foreach kinds visibility="all"}}
+								<label class="col-facet">
+									<input type="checkbox" data-facet="{{slug}}" />
+									<svg class="icon icon-sm" aria-hidden="true"><use href="#i-tag"/></svg>
+									<span data-trim="#travel-category-">{{name}}</span>
+									<span class="col-facet__n">{{count.posts}}</span>
+								</label>
+							{{/foreach}}
+						{{/get}}
+					</div>
+
+					<div class="col-facets__group">
+						<span class="col-facets__title">Countries</span>
+						{{#get "tags" visibility="all" filter="slug:~^'hash-country'" limit="100" include="count.posts" as |places|}}
+							{{#foreach places visibility="all"}}
+								<label class="col-facet">
+									<input type="checkbox" data-facet="{{slug}}" />
+									<svg class="icon icon-sm" aria-hidden="true"><use href="#i-plane"/></svg>
+									<span data-trim="#country-">{{name}}</span>
+									<span class="col-facet__n">{{count.posts}}</span>
+								</label>
+							{{/foreach}}
+						{{/get}}
+					</div>
+				</div>
+			</aside>
+
+			<div>
+				{{!-- Trips: the containers. A trip's country is its group, its
+				      categories are its facets. --}}
+				<div class="row-between u-mb-5">
+					<div>
+						<h2 class="t-h3">Trips</h2>
+						<p class="t-subtle u-mt-2" style="max-width:var(--measure-lead)">
+							Each one is a body of work with a first post, a last post and an order.
+						</p>
+					</div>
+				</div>
+
+				<div class="col-places">
+					{{#get "posts" filter="tag:hash-trip" limit="100" include="tags" order="published_at desc"}}
+						{{#foreach posts}}
+							<a class="col-place" href="{{url}}"
+							   data-place="{{primary_tag.slug}}"
+							   data-of="{{#foreach tags visibility="internal"}}{{slug}} {{/foreach}}"
+							   data-tags="{{#foreach tags visibility="internal"}}{{slug}} {{/foreach}}">
+								<span class="col-place__media">
+									{{#if feature_image}}
+										<img src="{{img_url feature_image size="m"}}" alt="" loading="lazy"
+										     width="600" height="450" />
+									{{else}}
+										<span class="col-ph" aria-hidden="true"></span>
+									{{/if}}
+									<span class="col-place__tag">{{date published_at format="YYYY"}}</span>
+								</span>
+								<span class="col-place__body">
+									<span class="col-place__name">{{title}}</span>
+									<span class="col-place__note">{{excerpt words="20"}}</span>
+								</span>
+								<span class="col-place__foot">
+									<span>{{date published_at format="MMM YYYY"}}</span>
+									<span>{{reading_time}}</span>
+								</span>
+							</a>
+						{{/foreach}}
+					{{/get}}
+					<p class="col-empty" data-empty-for="[data-place]" hidden>
+						No trip matches that combination.
+					</p>
+				</div>
+
+				{{!-- Cities: the narrowest cut, and the one people search for. Each
+				      chip belongs to the trip that went there, which is both its
+				      link and — for the filters — its parent. Absent tags mean an
+				      absent section rather than an empty one. --}}
+				{{#get "tags" visibility="all" filter="slug:~^'hash-city'" limit="100" as |cities|}}
+					{{#if cities}}
+						<div class="u-mt-10">
+							<div class="row-between u-mb-5">
+								<div><h2 class="t-h3">Cities</h2></div>
+							</div>
+							<div class="col-spots">
+								{{#foreach cities visibility="all" as |city|}}
+									{{#get "posts" filter="tag:{{city.slug}}+tag:hash-trip" limit="1" include="tags" as |host|}}
+										{{#foreach host}}
+											<a class="col-spot" href="{{url}}"
+											   data-spot="{{city.slug}}"
+											   data-of="{{primary_tag.slug}}"
+											   data-tags="{{#foreach tags visibility="internal"}}{{slug}} {{/foreach}}">
+												<span data-trim="#city-">{{city.name}}</span>
+												<span class="col-spot__n">{{#get "posts" filter="tag:{{city.slug}}+tag:hash-travel" limit="1"}}{{pagination.total}}{{/get}}</span>
+											</a>
+										{{/foreach}}
+									{{/get}}
+								{{/foreach}}
+								<p class="col-empty" data-empty-for="[data-spot]" hidden>
+									No city under that filter yet.
+								</p>
+							</div>
+						</div>
+					{{/if}}
+				{{/get}}
+
+				{{!-- The one to start with. --}}
+				<div class="u-mt-10" id="trips">
+					{{#get "posts" filter="tag:hash-trip" limit="1" include="tags" order="published_at desc" as |latest|}}
+						{{#foreach latest}}
+							<div class="row-between u-mb-5"><div><h2 class="t-h3">Latest trip</h2></div></div>
+							<a class="col-series" href="{{url}}">
+								<span class="col-series__media">
+									{{#if feature_image}}
+										<img src="{{img_url feature_image size="l"}}" alt="" loading="lazy"
+										     width="1000" height="560" />
+									{{else}}
+										<span class="col-ph" data-tall aria-hidden="true"></span>
+									{{/if}}
+								</span>
+								<span class="col-series__body">
+									<span class="col-hero__eyebrow" style="color:var(--fg-faint)">
+										<svg class="icon icon-sm" aria-hidden="true"><use href="#i-plane"/></svg>
+										Latest trip
+									</span>
+									<span class="col-series__title">{{title}}</span>
+									<span class="t-small u-fg-subtle">{{excerpt words="28"}}</span>
+									<span class="col-series__stats">
+										<span>
+											<svg class="icon icon-sm" aria-hidden="true"><use href="#i-book"/></svg>
+											{{primary_tag.name}}
+										</span>
+										<span>
+											<svg class="icon icon-sm" aria-hidden="true"><use href="#i-clock"/></svg>
+											{{date published_at format="MMM YYYY"}}
+										</span>
+										<span>
+											<svg class="icon icon-sm" aria-hidden="true"><use href="#i-book"/></svg>
+											{{reading_time}}
+										</span>
+									</span>
+								</span>
+							</a>
+						{{/foreach}}
+					{{/get}}
+				</div>
+
+				{{!-- Every story, narrowed by whatever is selected above. --}}
+				<div class="u-mt-10">
+					<div class="row-between u-mb-5"><div><h2 class="t-h3">All travel stories</h2></div></div>
+
+					<div class="col-posts">
+						{{#get "posts" filter="tag:hash-travel" limit="100" include="tags" order="published_at desc"}}
+							{{#foreach posts}}
+								<a class="col-post-row" href="{{url}}" data-post
+								   data-of="{{primary_tag.slug}}"
+								   data-region="{{#foreach tags visibility="internal"}}{{slug}} {{/foreach}}"
+								   data-tags="{{#foreach tags visibility="internal"}}{{slug}} {{/foreach}}">
+									<span class="col-post-row__thumb">
+										{{#if feature_image}}
+											<img src="{{img_url feature_image size="s"}}" alt="" loading="lazy"
+											     width="300" height="225" />
+										{{else}}
+											<span class="col-ph" aria-hidden="true"></span>
+										{{/if}}
+									</span>
+									<span class="col-post-row__body">
+										<span class="col-post-row__title">{{title}}</span>
+										<span class="col-post-row__note">{{primary_tag.name}}</span>
+									</span>
+									<span class="col-post-row__meta">
+										<span>{{reading_time}}</span>
+										<span>{{date published_at format="MMM YYYY"}}</span>
+									</span>
+								</a>
+							{{/foreach}}
+						{{/get}}
+						<p class="col-empty" data-empty-for="[data-post]" hidden>
+							No stories match. Try clearing a filter.
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</div>
+
+<script src="{{asset "js/collection.js"}}" defer></script>

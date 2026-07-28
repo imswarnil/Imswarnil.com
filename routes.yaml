@@ -13,7 +13,6 @@ routes:
     template: signup
   /tags/:
     template: tags
-
 collections:
   # Guides — same container/child shape as courses. The guide landing post is
   # tagged #guide; its steps are tagged #guide-content and take the guide's

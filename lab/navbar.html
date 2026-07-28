@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>Navbar — lab</title>
+
+	<link rel="preconnect" href="https://fonts.googleapis.com" />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+	<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+
+	<link rel="stylesheet" href="../assets/built/screen.css" />
+	<link rel="stylesheet" href="./_lab.css" />
+	<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml" />
+
+	<script>
+		(function () {
+			try {
+				var t = localStorage.getItem('swarnil-theme');
+				if (!t) { t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'; }
+				document.documentElement.setAttribute('data-theme', t);
+			} catch (e) {}
+		})();
+	</script>
+</head>
+
+<body data-lab="navbar.html">
+
+	<div class="lab-canvas" id="lab-canvas">
+
+		<!-- Mirrors partials/nav/bar.hbs. The shell classes are what
+		     partials/navbar.hbs picks per page; swap them below. -->
+		<header class="nav-shell nav-progress nav-shell-morph" data-scroll-at="24" id="preview-shell">
+			<div class="nav-stack">
+
+				<nav class="nav-bar nav-bar-center nav-collapse" aria-label="Main">
+					<a class="logo-responsive" href="#" aria-label="Swarnil — home">
+						<span class="logo__full logo logo-sm">Swarn<span class="logo__i">ı<i class="logo__tittle"></i></span>l</span>
+						<span class="logo__abbr logo logo-sm logo-short">S<span class="logo__i">ı<i class="logo__tittle"></i></span>l</span>
+						<span class="logo__mark logo-s" style="--logo-size:1.25rem">S</span>
+					</a>
+
+					<div class="nav-links" data-nav-links>
+						<span class="nav-item"><a class="nav-link nav-videos" href="#"><svg class="icon" aria-hidden="true"><use href="#i-camera"/></svg>Videos</a></span>
+						<span class="nav-item"><a class="nav-link nav-blog" href="#"><svg class="icon" aria-hidden="true"><use href="#i-pen"/></svg>Blog</a></span>
+						<span class="nav-item"><a class="nav-link nav-projects" href="#" aria-current="page"><svg class="icon" aria-hidden="true"><use href="#i-code"/></svg>Projects</a></span>
+						<span class="nav-item"><a class="nav-link nav-courses" href="#"><svg class="icon" aria-hidden="true"><use href="#i-book"/></svg>Courses</a></span>
+						<span class="nav-item"><a class="nav-link nav-travel" href="#"><svg class="icon" aria-hidden="true"><use href="#i-plane"/></svg>Travel</a></span>
+
+						<details class="nav-menu nav-menu-hover nav-menu-grow nav-more" data-nav-more hidden>
+							<summary class="nav-link">More</summary>
+							<div class="nav-menu__panel" data-nav-more-panel></div>
+						</details>
+					</div>
+
+					<div class="nav-actions cluster-sm">
+						<button class="icon-box icon-box-round icon-box-sm" type="button" data-theme-toggle
+						        aria-label="Switch between light and dark">
+							<svg class="icon icon-sm" aria-hidden="true" data-theme-icon="light"><use href="#i-sun"/></svg>
+							<svg class="icon icon-sm hidden" aria-hidden="true" data-theme-icon="dark"><use href="#i-moon"/></svg>
+						</button>
+
+						<a class="nav-gh" href="#" aria-label="GitHub">
+							<svg class="icon" aria-hidden="true"><use href="#i-github"/></svg>
+						</a>
+
+						<a class="btn btn-primary btn-sm btn-pill" href="#">Subscribe</a>
+
+						<button class="nav-burger nav-burger-rec nav-burger-pinned" type="button"
+						        data-panel-toggle aria-expanded="false" aria-label="Browse everything">
+							<span class="nav-burger__box"><span class="nav-burger__bars"></span></span>
+							<span class="u-sr-only">Menu</span>
+						</button>
+					</div>
+				</nav>
+
+				<div class="nav-panel">
+					<div class="nav-panel__in">
+						<div class="nav-panel__links nav-panel__links-split">
+							<span class="nav-panel__label">Watch</span>
+							<a class="nav-panel__link" href="#"><span class="nav-panel__name"><svg class="icon" aria-hidden="true"><use href="#i-camera"/></svg>Videos</span></a>
+							<a class="nav-panel__link" href="#"><span class="nav-panel__name"><svg class="icon" aria-hidden="true"><use href="#i-play"/></svg>Web series</span></a>
+
+							<span class="nav-panel__label">Learn</span>
+							<a class="nav-panel__link" href="#"><span class="nav-panel__name"><svg class="icon" aria-hidden="true"><use href="#i-book"/></svg>Courses</span></a>
+							<a class="nav-panel__link" href="#"><span class="nav-panel__name"><svg class="icon" aria-hidden="true"><use href="#i-code"/></svg>Snippets</span></a>
+
+							<span class="nav-panel__label">Read</span>
+							<a class="nav-panel__link" href="#"><span class="nav-panel__name"><svg class="icon" aria-hidden="true"><use href="#i-pen"/></svg>Blog</span></a>
+							<a class="nav-panel__link" href="#"><span class="nav-panel__name"><svg class="icon" aria-hidden="true"><use href="#i-mail"/></svg>Newsletters</span></a>
+
+							<span class="nav-panel__label">Build &amp; road</span>
+							<a class="nav-panel__link" href="#"><span class="nav-panel__name"><svg class="icon" aria-hidden="true"><use href="#i-plane"/></svg>Travel</span></a>
+							<a class="nav-panel__link" href="#"><span class="nav-panel__name"><svg class="icon" aria-hidden="true"><use href="#i-tag"/></svg>Topics</span></a>
+						</div>
+
+						<aside class="nav-panel__aside">
+							<span class="nav-panel__label">Latest</span>
+							<a class="nav-panel__link" href="#">Post Name — 1</a>
+
+							<span class="nav-panel__label">Newsletter</span>
+							<p class="t-small u-fg-subtle">One email a week — what shipped, what broke.</p>
+							<form class="nav-panel__cta" onsubmit="return false">
+								<input class="input" type="email" name="email" placeholder="you@domain.com"
+								       aria-label="Email address" required />
+								<button class="btn btn-primary btn-sm" type="submit">Subscribe</button>
+							</form>
+						</aside>
+					</div>
+				</div>
+			</div>
+		</header>
+
+		<!-- Enough page to actually scroll, so the behaviours are visible. -->
+		<main class="container section" id="main">
+			<h1 class="t-h1">Scroll me</h1>
+			<p class="t-lead measure-lead">
+				The bar's behaviour changes past 24px — that's <code>data-scroll-at</code>,
+				read by the design system's <code>nav.js</code>.
+			</p>
+			<p class="measure" style="margin-top: 4rem">Filler starts here.</p>
+		</main>
+		<div style="height: 220vh"></div>
+
+	</div>
+
+	<div class="lab-spec">
+		<h2>Behaviour</h2>
+		<p>
+			<button class="lab-btn" type="button" data-shell="">island (sticky pill)</button>
+			<button class="lab-btn" type="button" data-shell="nav-shell-full">full width</button>
+			<button class="lab-btn" type="button" data-shell="nav-shell-morph" aria-pressed="true">island on scroll</button>
+			<button class="lab-btn" type="button" data-shell="nav-shell-full nav-shell-reveal">hide on scroll</button>
+			<button class="lab-btn" type="button" data-shell="nav-shell-fixed">island, pinned</button>
+		</p>
+		<p>
+			Same five values <code>partials/navbar.hbs</code> chooses between, from the
+			<code>navbar_style</code> setting or a <code>#navbar-*</code> tag on the post.
+		</p>
+	</div>
+
+	<script src="./_lab.js" defer></script>
+	<script>
+		document.querySelectorAll('[data-shell]').forEach((b) => {
+			b.addEventListener('click', () => {
+				document.getElementById('preview-shell').className =
+					('nav-shell nav-progress ' + b.dataset.shell).trim();
+				document.querySelectorAll('[data-shell]').forEach((o) =>
+					o.setAttribute('aria-pressed', String(o === b))
+				);
+			});
+		});
+	</script>
+</body>
+</html>

@@ -1,0 +1,74 @@
+{{!-- Travel's own art: the globe turns, the flight line draws itself, the palm
+     leans in. Decoration only — aria-hidden, and it stops dead under
+     prefers-reduced-motion (see the design system's collection/travel.css).
+     Lifted from the Creator Design System's travel collection. --}}
+<svg class="col-hero__art" viewBox="0 0 1200 520" preserveAspectRatio="xMaxYMid slice"
+       aria-hidden="true" focusable="false">
+    <defs>
+      <radialGradient id="trv-sky" cx="30%" cy="20%" r="90%">
+        <stop offset="0%" stop-color="#1b2030"/>
+        <stop offset="55%" stop-color="#0e1119"/>
+        <stop offset="100%" stop-color="#08080c"/>
+      </radialGradient>
+      <linearGradient id="trv-sea" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#1d3a4a"/>
+        <stop offset="100%" stop-color="#0b1520"/>
+      </linearGradient>
+      <clipPath id="trv-ball"><circle cx="905" cy="250" r="150"/></clipPath>
+    </defs>
+
+    <rect width="1200" height="520" fill="url(#trv-sky)"/>
+
+    <!-- stars -->
+    <g fill="#fff">
+      <circle class="trv-star" cx="660" cy="70" r="1.6" style="animation-delay:0s"/>
+      <circle class="trv-star" cx="760" cy="40" r="1.2" style="animation-delay:.6s"/>
+      <circle class="trv-star" cx="820" cy="96" r="1.7" style="animation-delay:1.2s"/>
+      <circle class="trv-star" cx="700" cy="50" r="1.2" style="animation-delay:1.8s"/>
+      <circle class="trv-star" cx="1050" cy="70" r="1.5" style="animation-delay:2.4s"/>
+      <circle class="trv-star" cx="700" cy="150" r="1.1" style="animation-delay:3s"/>
+      <circle class="trv-star" cx="1130" cy="180" r="1.3" style="animation-delay:1.5s"/>
+    </g>
+
+    <!-- the globe: a lit ball, a turning grid, one continent hint -->
+    <circle cx="905" cy="250" r="150" fill="#11161f"/>
+    <circle cx="905" cy="250" r="150" fill="none" stroke="#ffffff" stroke-opacity=".22"/>
+    <g clip-path="url(#trv-ball)">
+      <g class="trv-globe__grid" style="transform-origin:905px 250px">
+        <g fill="none" stroke="#ffffff" stroke-opacity=".14">
+          <ellipse cx="905" cy="250" rx="52" ry="150"/>
+          <ellipse cx="905" cy="250" rx="104" ry="150"/>
+          <ellipse cx="905" cy="250" rx="148" ry="150"/>
+        </g>
+        <path d="M790 210q60-28 118-6t120-10" fill="none" stroke="#f04e2e" stroke-opacity=".55" stroke-width="2"/>
+        <path d="M800 300q70 26 130 4t118 6" fill="none" stroke="#ffffff" stroke-opacity=".12" stroke-width="2"/>
+      </g>
+      <g fill="none" stroke="#ffffff" stroke-opacity=".14">
+        <path d="M755 200h300M755 250h300M755 300h300"/>
+      </g>
+    </g>
+
+    <!-- the flight: an arc that draws itself, with the plane riding the end -->
+    <path class="trv-route" d="M700 336C752 252 800 200 862 196"
+          fill="none" stroke="#f04e2e" stroke-width="2.5"
+          stroke-linecap="round" stroke-dasharray="260"/>
+    <circle cx="700" cy="336" r="5" fill="#f04e2e"/>
+    <g class="trv-plane" transform="translate(838 176) rotate(18) scale(1.5)">
+      <path d="M20 5 4 11.5l5.5 2M20 5l-3.5 14-3-6.5M20 5 9.5 13.5v4.2l3-3.7"
+            fill="none" stroke="#fff" stroke-width="1.5"
+            stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+
+    <!-- the shore -->
+    <path d="M0 430c120 18 260 22 420 12s300-26 420-14 240 24 360 18v74H0Z" fill="url(#trv-sea)"/>
+    <path d="M0 448c140 16 280 18 430 8s310-22 430-12 220 20 340 16" fill="none"
+          stroke="#ffffff" stroke-opacity=".12"/>
+
+    <!-- the palm, leaning in from the edge -->
+    <g class="trv-palm" style="transform-origin:1108px 474px" stroke="#ffffff"
+       stroke-opacity=".45" fill="none" stroke-width="3" stroke-linecap="round">
+      <path d="M1108 474c-4-40-2-70 8-96"/>
+      <path d="M1116 378c-26-14-48-10-64 6M1116 378c26-16 50-12 66 6M1116 378c-14-26-10-48 4-64M1116 378c22-20 46-22 62-12"/>
+    </g>
+    <ellipse cx="1108" cy="476" rx="32" ry="6" fill="#000" opacity=".35"/>
+  </svg>

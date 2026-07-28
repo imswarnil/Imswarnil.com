@@ -1,0 +1,26 @@
+{{!-- Docs page: sections left, prose centre. --}}
+<div class="container section">
+	<div class="grid-rail-left">
+		<aside class="rail">
+			{{#get "posts" filter="tag:hash-docs" limit="100" order="published_at asc" as |pages|}}
+				<div class="rail__block">
+					<h2 class="rail__title">Documentation</h2>
+					<div class="footer__links">
+						{{#foreach pages}}<a href="{{url}}">{{title}}</a>{{/foreach}}
+					</div>
+				</div>
+			{{/get}}
+		</aside>
+
+		<div>
+			<header class="stack u-mb-8">
+				<span class="eyebrow">Docs</span>
+				<h1 class="t-h1">{{title}}</h1>
+				{{#if custom_excerpt}}<p class="t-lead">{{custom_excerpt}}</p>{{/if}}
+			</header>
+
+			{{> post-body}}
+			{{> util/pager}}
+		</div>
+	</div>
+</div>

@@ -1,0 +1,26 @@
+{{!-- Short / reel: the vertical frame is the whole page. --}}
+<div class="container-narrow section">
+	<div class="u-mx-auto" style="max-width:22rem">
+		<div class="frame frame-ink u-ratio-story u-relative u-overflow-hidden" data-surface="inverse">
+			{{#if feature_image}}
+				<img src="{{img_url feature_image size="l"}}" alt="{{title}}"
+				     class="u-object-cover u-w-full u-h-full" width="720" height="1280" />
+			{{else}}
+				<span class="pattern pattern-grid u-absolute u-inset-0" aria-hidden="true"></span>
+			{{/if}}
+			<button class="play u-absolute" type="button" aria-label="Play {{title}}"
+			        style="inset:0;margin:auto;width:max-content;height:max-content">
+				<span class="play__disc"></span>
+			</button>
+		</div>
+	</div>
+
+	<header class="stack u-mt-6 u-text-center">
+		<span class="eyebrow">Short</span>
+		<h1 class="t-h2">{{title}}</h1>
+		{{> util/meta}}
+	</header>
+
+	<div class="u-mt-8">{{> post-body}}</div>
+	{{> util/tags}}
+</div>

@@ -1,0 +1,33 @@
+{{!-- Web series: a cinematic billboard, then the episodes. --}}
+<section class="container section-sm">
+	<div class="hero-band hero-band-media pattern pattern-scanline" data-surface="inverse">
+		{{#if feature_image}}
+			<div class="hero-band__media">
+				<img src="{{img_url feature_image size="xl"}}" alt="{{title}}" width="1600" height="900" />
+			</div>
+		{{/if}}
+		<span class="hero__eyebrow"><span class="dot dot-sm dot-live"></span> Web series</span>
+		<h1 class="hero__title">{{title}}</h1>
+		{{#if custom_excerpt}}<p class="hero__lead">{{custom_excerpt}}</p>{{/if}}
+	</div>
+</section>
+
+<div class="container-prose section-sm">{{> post-body}}</div>
+
+{{#if primary_tag}}
+	{{#get "posts" filter="tag:hash-episode+primary_tag:{{primary_tag.slug}}" limit="100" order="published_at asc" as |eps|}}
+		{{#if eps}}
+			<section class="container section">
+				<div class="sec-head-row">
+					<div>
+						<span class="sec-head-row__kicker">{{eps.length}} episodes</span>
+						<h2 class="sec-head-row__title">Every episode</h2>
+					</div>
+				</div>
+				<div class="deck-c">
+					{{#foreach eps}}{{> card}}{{/foreach}}
+				</div>
+			</section>
+		{{/if}}
+	{{/get}}
+{{/if}}

@@ -2,6 +2,1125 @@
 
 Running record of what's done and what's left. Master backlog lives in CLAUDE.md.
 
+## 2026-07-28 — course and lesson, on the system's course collection
+
+### The course page (`partials/post/course.hbs`)
+Hero over the feature image (lessons · level · last updated), then the course's
+own words, then **the curriculum in the main column** — never the rail, which
+the backlog is explicit about. The rail carries the ask: start lesson one, who
+teaches it, and the gear the course was made with. A certificate band closes
+the page.
+
+### The lesson page (`partials/post/lesson.hbs`)
+A real player. Video stage left, **playlist on the right**, a stage bar under
+the video with previous / next / mark-complete, and the lesson itself below in
+two tabs — Overview and Notes. A tab strip with one tab would be a costume, so
+there are exactly two real panels.
+
+Behaviour is the system's `collection.js` (vendored by `npm run build:js`):
+`M` marks complete, `N`/`P` move, the progress bar and every module count
+redraw from the ticked rows. Nothing is stored — Ghost has no per-member lesson
+progress, and localStorage would be a persistence trick pretending to be a
+feature. Verified: mark complete → "Completed", 1 of 50, 2%.
+
+### `dummy-content/course-lesson.json` — with the helper tags
+2 courses, 16 lessons, 13 tags. Courses **and** their lessons in one file, so
+there is no cross-file import order to remember.
+
+| Helper | What it does |
+| --- | --- |
+| `#module-01` … `#module-04` | groups lessons; the **description** carries the name ("Foundations"), because a slug that sorts beats a slug that reads and Handlebars cannot slice a string |
+| `#level-beginner` / `-intermediate` / `-advanced` | the hero's level cell (the existing Java demo already used this one) |
+| `#free` | a lesson that is a free preview — shows a Free chip in the curriculum |
+| `#track-craft` | the family a course belongs to; the description names it |
+
+Both layouts **degrade**: no `#module-*` tags means one flat list, which is why
+the existing 50-lesson Java course still renders correctly.
+
+### Ghost things worth remembering
+- **`@root.post` resolves at any depth** — `../` counts a different number of
+  levels per branch, and inside three nested `{{#get}}` blocks that is
+  unmaintainable. Measured: `../` reaches the get's own context, `../../` the
+  post.
+- **…but gscan rejects `@root` as a helper *argument*.** It is fine inside a
+  filter string, and an error inside `{{#match id @root.post.id}}`. So marking
+  the current row in the playlist moved to main.js, which compares paths — and
+  runs before collection.js, which reads the same `aria-current`.
+- `{{#get}}` renders its block even with zero results, so `{{#if}}` inside it
+  is the way to branch.
+
+### One bug in the system
+`.col-hero__art` assumed drawn art, which is dark by construction. Over an
+uploaded photograph the headline was legible only on whichever half of the
+picture happened to be dark. There is a scrim now — and it sits at `z-index: 0`
+rather than `-1`, because two negative children paint in DOM order and the art
+comes second, so a scrim at `-1` would have been a scrim *under* the picture.
+
+## 2026-07-28 — real travel demo data, and a homepage that breathes
+
+### `dummy-content/travel.json` — Vienna, Austria, central Europe
+Rewritten from "Trip Name — 1" to somewhere that exists. 4 trips, 12 stories,
+23 tags:
+
+- **Trips**: Vienna in Winter · Austria by Rail · Three Capitals · Goa, Off Season
+- **Regions** `#region-europe`, `#region-asia` — a level this theme did not
+  have before
+- **Countries** `#country-austria`, `-czechia`, `-hungary`, `-india`
+- **Cities** `#city-vienna`, `-salzburg`, `-hallstatt`, `-prague`, `-budapest`,
+  `-goa` — also new
+- **Kinds** `#travel-category-city`, `-food`, `-mountains`, `-museum`, `-beach`
+
+Every story's primary tag is its trip's public tag, so the permalinks come out
+as `/travel/vienna-in-winter/kaffeehaus-rules/`. Validated before shipping: no
+orphan `posts_tags`, no duplicate ids or slugs, every primary tag public, every
+mobiledoc parses.
+
+**Importing**: Ghost Admin → Settings → Import. The old demo trips
+(`trip-name-1`…) have different slugs and will survive the import — delete them
+first if you want only the new set.
+
+### /travel now has all three levels
+- The top row is **regions** when `#region-*` tags exist and **countries** when
+  they do not, so the page works before and after the import without a second
+  template.
+- A **Cities** row appears the moment `#city-*` tags do. Each chip belongs to
+  the trip that went there, which is both its link and — for the filters — its
+  parent. No tags, no section: absent rather than empty.
+
+### Homepage
+- **The headline was 112px** and ran to six lines in a half-width column; the
+  eye had to re-find the left edge on every one of them. A split hero now takes
+  the next step down the scale with a measure in `ch`: **60px, three lines**,
+  and the whole hero fits above the fold (627px → 471px).
+- **Two sections together produced a 192px hole** — 96px of bottom padding
+  meeting 96px of top. Neighbouring sections now drop the leading padding, so
+  the rhythm between them is one section's worth rather than two. The page went
+  from 3510px to 2827px without losing anything. `.section-standalone` puts the
+  padding back for a section that paints its own surface.
+
+Both fixes are in the design system, so every page gets them: /travel tightened
+up the same way.
+
+## 2026-07-28 — /travel rebuilt on the system's travel collection
+
+`travel.hbs` was a page header and a generic list. It is now the design
+system's travel collection (Creator-Design-System → `collection/travel`),
+wired to this site's tags.
+
+### How the system's vocabulary maps onto Ghost
+| system | here | tag |
+| --- | --- | --- |
+| group (region) | country | `#country-*` |
+| place (country) | **trip** | a post tagged `#trip` |
+| facet | kind of trip, or country | `#travel-category-*`, `#country-*` |
+| post | travel story | `#travel` |
+
+The system's third level — cities — has no tag in this theme, so that row is
+left out rather than filled with invented data.
+
+### Done
+- **The hero**: the globe turning, the flight line drawing itself, the palm
+  leaning in (`partials/util/travel-art.hbs`, decoration only — aria-hidden and
+  dead under `prefers-reduced-motion`), over the counts, the search and a jump
+  to the latest trip. Search opens Ghost's own search (`data-ghost-search`)
+  rather than pretending to be a second index.
+- **Filtering that actually narrows**: pick a country and the trips and the
+  stories both follow; tick a kind of trip and everything narrows again. It is
+  `assets/js/collection.js` from the system, vendored by `npm run build:js`,
+  reading `data-group` / `data-of` / `data-region` / `data-tags`. With JS
+  blocked every list shows in full — the right fallback for a page whose job is
+  listing places.
+- **Trips, latest trip and every story** as the system's `col-place`,
+  `col-series` and `col-post-row`, with real feature images (and the system's
+  placeholder where a post has none).
+- **CSS**: `collection.css` + `travel.css` imported into `2-components`.
+
+### Ghost things worth remembering
+- **`{{#foreach}}` skips internal tags** unless you say `visibility="all"`.
+  Every country and category tag here is internal, so the lists rendered empty
+  until that was added — silently, with no error.
+- **`{{#get "tags"}}` needs `visibility="all"` too**, or it returns nothing
+  while `pagination.total` still reports a number.
+- **`count.posts:>0` is not a usable filter** on tags. Not needed either: Ghost
+  already omits a tag no post carries — which is why the hero counts read
+  `{{countries.length}}` rather than `pagination.total`, or it would claim a
+  country I have never posted from.
+- **Handlebars cannot slice a string**, so `#country-hungary` is trimmed to
+  "Hungary" in main.js via `data-trim`. Worst case the script never runs and
+  the raw tag shows — ugly, still true.
+
+### Two bugs fixed in the system
+- **`.col-place__media > *` stretched the corner chip** to the full size of the
+  card, since the chip is absolutely positioned and got `width/height: 100%`.
+  Now `:not(.col-place__tag)`.
+- **The filter crumb printed raw facet ids** ("hash-travel-category-beach").
+  `collection.js` now reads the label back off the checkbox, so it says
+  "India → Beach". It also accepts a **list** in `data-of` / `data-region` — a
+  trip can cross a border, and here a post carries all its internal tags at
+  once.
+
+## 2026-07-27 (phase 5d) — nothing at the top
+
+At rest the default bar is now **fully transparent, full width**: no surface,
+no blur, no hairline, no progress line — just the links sitting over the page.
+Everything the island is made of (background, blur, border, radius, shadow and
+the progress ring) fades in together over `--dur-4` as the page moves, so the
+island assembles itself rather than a divider appearing first.
+
+Verified at rest: shell and bar backgrounds `rgba(0,0,0,0)`, border width 0,
+progress ring `opacity: 0`.
+
+## 2026-07-27 (phase 5c) — flat means flat
+
+- **No border in the full-width states.** The island earns its outline by
+  floating; a bar that fills the window does not, and a full-bleed hairline is
+  just a seam across the page. `.nav-shell-full` now carries `border: 0`, and
+  the morph bar has no hairline at rest either. The background does the
+  separating.
+- **The progress border follows suit.** A masked ring makes sense around an
+  island, but across a flat bar it would draw a rectangle over the whole window
+  — a border where the design asked for none. Flat, the same gradient collapses
+  to one line along the bottom edge: still the border, still the progress, no
+  box.
+- **The island's own width is untouched** — 1200px, contents at x=189, exactly
+  where the full-width bar puts them. Measured in both states.
+
+## 2026-07-27 (phase 5b) — the island moves, the logo doesn't
+
+The first cut of the morph slid the wordmark and the controls inwards by ~21px
+as the bar contracted, which reads as the whole bar shuffling rather than an
+island forming.
+
+The alignment padding now lives on the **shell**, which gives up exactly one
+gutter on scroll, while the **bar** takes the same gutter back. The sum is
+constant at every frame of the transition, so the contents hold one x and only
+the island — its surface, its edges, its shadow — animates. At rest the shell
+is the surface (full-bleed, blurred); once scrolled the surface hands over to
+the bar as a pill. Both are addressed through `:is(… > .nav-bar, … > .nav-stack
+> .nav-bar)` so the rules survive the second row.
+
+## 2026-07-27 (phase 5) — the bar picks its own behaviour
+
+### Done
+- **The submenu row is gone.** On a lesson it was rendering as a broken strip
+  above the page ("← CourseLesson Java ✕") outside the island. `nav/context.hbs`
+  and `nav/context-pick.hbs` are deleted and the call is out of `nav/bar.hbs`;
+  the bar now holds exactly two rows, the menu and the panel.
+- **Four behaviours, one setting.** Ghost Admin → Design → Site-wide → **Navbar
+  style**:
+  - *Full width, island on scroll* (**default**) — a plain bar across the page
+    at rest that draws itself into the island once you move
+  - *Full width* — sticky, always the same
+  - *Full width, hides on scroll down* — leaves going down, returns going up
+  - *Island* — the floating pill from the first pixel
+- **A post or page overrides it** with `#navbar-normal`, `#navbar-island`,
+  `#navbar-morph`, `#navbar-reveal` or `#navbar-fixed`. The tag always wins;
+  `partials/nav/chosen.hbs` holds the site-wide choice so navbar.hbs doesn't
+  repeat it on both branches.
+- **`navbar_style` is the theme's second custom setting** (of Ghost's 20). The
+  first is `color_scheme`.
+
+### Four bugs in the system, all found by wiring this up
+- **`.nav-progress` re-declared `position: relative` on the shell**, which
+  overrode `.nav-shell`'s `sticky` — the navbar scrolled away with the page on
+  every variant. The shell is always positioned already; the declaration is
+  deleted.
+- **Everything addressed as `> .nav-bar` had stopped matching**: the bar moved
+  inside `.nav-stack` when the island grew a second row, so the morph variant
+  and the progress border were both silently half-applied. Those rules now use
+  `:is(… > .nav-bar, … > .nav-stack > .nav-bar)`.
+- **"Full width" was constraining the whole bar**, so its hairline stopped
+  1200px in and it read as an island with square corners. The surface now goes
+  edge to edge and only the contents are pulled in, with
+  `padding-inline: max(var(--gutter), calc((100% - var(--w-site)) / 2))`.
+- **`.nav-shell-auto` is `fixed`**, which takes the bar out of the flow and
+  hides the first screenful underneath it. Added **`.nav-shell-reveal`**: the
+  same hide-on-the-way-down behaviour, sticky, so no spacer is needed. That is
+  what the "hides on scroll down" setting uses.
+
+## 2026-07-27 (phase 4) — one way into everything
+
+### Done
+- **The last two dropdowns are gone.** `partials/navigation.hbs` still had
+  `{{> nav/submenu}}` calls for Web series and Projects; both are deleted, so
+  every bar link is now a plain link with no exceptions. Ghost had also cached
+  the already-deleted partial — a `ghost restart` was needed before the change
+  showed. Verified in the browser: 0 carets, 0 submenu nodes.
+- **The burger sits at the end of the menu, at every width**, and it opens the
+  full panel. The nine-dot app-grid button is deleted — two controls for one
+  menu was one too many. New system class: `.nav-collapse .nav-burger-pinned`
+  keeps it visible where the collapse rules would otherwise hide it.
+- **The panel can no longer run off the screen.** `.nav-panel__in` is capped at
+  `calc(100dvh - var(--nav-h) - var(--space-10))` and scrolls inside itself
+  with `overscroll-behavior: contain`. Measured open: island bottom 744px in a
+  771px viewport.
+- **Two columns of links** (`.nav-panel__links-split`, ≥48rem) so all fourteen
+  destinations are on screen at once instead of behind a scroll.
+- **Subscribe lives in the panel**, in a sunken aside next to the latest post:
+  a line about what the email is, an input and the button (`.nav-panel__aside`,
+  `.nav-panel__cta`).
+
+### Two more bugs in the system
+- **The panel would not open at all.** `nav.js` set `data-open` on the nearest
+  `.nav-shell`, but the CSS only reacted to `.nav-shell[data-open] > .nav-panel`
+  — and in a multi-row island the panel is a row of the **stack**, not the
+  shell, so the child combinator could never match. `nav.js` now targets
+  `.nav-stack` first and falls back to the shell; the CSS lists both parents
+  explicitly (a descendant selector would let an outer island open an inner
+  one's panel).
+- **Panel labels drifted to the far right.** `.nav-panel__link` is
+  `space-between` — it expects label-left, meta-right — so leading with an icon
+  pushed the text away from it. Icon and label are now wrapped together in
+  `.nav-panel__name`, which also gives the active row a coloured icon.
+
+## 2026-07-27 (phase 3) — the theme now uses the SYSTEM's navbar module
+
+The design system's Navbar page had moved well past what the theme was doing.
+The theme was rebuilt against it rather than the other way round.
+
+### Done
+- **Collection dropdowns are gone.** A dropdown listing six posts is a partial
+  feed pretending to be navigation. Every bar link is now a plain link; where
+  you are *inside* something is the submenu row's job, and everything the site
+  publishes is the panel's job.
+- **`.nav-stack`** — one island holding up to three rows: the site menu
+  (always), the submenu row (only inside a container), and the in-place panel.
+  **The site menu is never swapped out any more**, so the way out is always
+  where the reader left it.
+- **The submenu row** (`nav/context.hbs`) is one design with knobs, not a class
+  per collection: `data-tone` (paper · ink), `data-density`, `--pos-prefix`
+  ('DAY ', 'EP.'), `--value`. `nav/context-pick.hbs` chooses it with the same
+  most-specific-first order as post.hbs.
+- **Behaviour is the system's `nav.js`**, vendored to `assets/js/nav.js` by a
+  new `npm run build:js` and loaded before main.js. Scroll state, hover intent,
+  the panel and the row's hide/show are all its job; main.js keeps only the
+  Ghost-shaped parts (active-link prefix matching, the six-item overflow,
+  reading progress).
+- **The border IS the progress bar** — `.nav-progress` on the shell, painted
+  from `--progress`. No second strip under the bar.
+- **`.nav-panel`** is the mobile/app-grid menu: the island grows in place and
+  nothing covers the page. The centred modal and the full-screen sheet are
+  deleted.
+- **`.nav-burger-rec`** — the record light unfolding into a play head.
+- **Variants are now four positions**, not ten skins: island (default) ·
+  `#navbar-fixed` · `#navbar-morph` · `#navbar-auto`. Shape and alignment are
+  decided once in `nav/bar.hbs`.
+
+### Two bugs found — one mine, one in the system
+- **Mine:** I had earlier added a `.nav-progress` that was an absolutely
+  positioned *child element*; the system later defined `.nav-progress` as a
+  *shell modifier*. Both were in the same file, mine last — so the shell
+  collapsed to 2px and **the entire navbar vanished**. My version is deleted;
+  the documented one stands.
+- **In the system:** `.nav-panel { grid-template-rows: 0fr }` leaves the
+  track's *minimum* at `auto`, and `min-height: 0` only zeroes the content
+  box — so the panel's own 40px of padding stayed on screen while closed.
+  Now `minmax(0, 0fr)` / `minmax(0, 1fr)`, and it collapses to nothing.
+- Also fixed: `{{#post}}` nested inside `{{#post}}` made Handlebars silently
+  discard the submenu row. The partial is called unwrapped — on non-post pages
+  its tag tests simply never match.
+
+## 2026-07-27 (phase 2e) — the bar, arranged
+
+### Done
+- **Links are centred**, mark left, controls right (`.nav-bar-center`, a
+  3-column grid whose side columns can shrink to zero).
+- **Six items max, and it now actually fits.** `main.js` caps the bar at six
+  and then keeps stowing from the end until the row fits, so a long menu
+  becomes "More" instead of wrapping the Subscribe button onto a second line.
+- **Real submenus, only where they mean something.** Courses · Web series ·
+  Projects · Travel list what is *inside* them, fetched live via
+  `partials/nav/submenu.hbs`. **Videos and Blog do not** — they are flat
+  collections, so a dropdown of six posts is a partial feed; those labels
+  link straight to the collection.
+- **Secondary navigation went back to the footer**, where it belongs. Using
+  it as the bar's "More" was wrong.
+- **App-grid launcher** before the theme switcher — nine dots, the middle one
+  the record light — opening the full menu.
+- **One menu modal for both jobs**: the app grid on desktop and the burger on
+  mobile open the same centred `<dialog>` with the whole site in **five
+  columns** (Watch · Learn · Read · Build · Road), full-screen below 40rem.
+  The old full-screen sheet is deleted.
+- **The bar's bottom edge is the reading progress rail** — invisible until
+  something sets `--value`, so it never shows on a page with nothing to
+  measure.
+- **The wordmark stays "Swarnil" at every width** in the bar; the abbreviated
+  marks remain for places with genuinely no room.
+
+### Three bugs made and fixed inside this pass
+- Wrapping every nav item in `<details>` made the browser render its default
+  **"Details"** label on every item without a `<summary>`, and hid the link.
+  Only the caret and panel live in the disclosure now.
+- The overflow test measured `.nav-links`, which sits in a grid column that
+  sizes to its own content — so it never reported an overflow and never
+  trimmed. It measures the **bar**.
+- Closed dropdown panels painted as pale ghost boxes beside the carets: an
+  absolutely positioned child escapes the `content-visibility` a closed
+  `<details>` applies. Now hidden explicitly.
+
+## 2026-07-27 (phase 2d) — nav icons back, submenu, logo & cover
+
+### Done
+- **Icons are back in the nav — and they can't leave holes.** They vanished
+  when the menu moved to `{{navigation}}`, because I'd dropped them: an icon
+  keyed blindly to a user-defined slug leaves a gap beside every item we did
+  not anticipate. New `partials/nav/icon.hbs` maps **31 slugs** a creator site
+  actually uses onto the sprite via `{{#match}}` and renders *nothing* for
+  anything else. Audited theme-wide afterwards: 16 symbols, 16 referenced,
+  **zero missing, zero unused** (`i-heart` and `i-bag` were added; `products`
+  and `shop` now use the bag).
+- **Submenu.** Ghost's menus are flat, so the *secondary* menu becomes the
+  submenu: a `.nav-menu` dropdown labelled "More" in the bar, and its own
+  section in the mobile sheet. Anything you put in Settings → Navigation
+  (secondary) lands there instead of crowding the bar.
+- **The `*` beside GitHub is gone.** It was a `★` placeholder waiting on a
+  star count that a user profile can't supply, so it never became a number.
+  The chip is icon-only and square now, and the dead fetch is out of main.js.
+- **Active state, when a link has an icon.** The dot plus an icon were two
+  marks competing for one job — the icon now *is* the marker (accent, full
+  opacity) and the dot stands down via `:has()`. Icon-less bars keep the dot.
+- **`assets/logo/`** — `logo.svg` (wordmark) and `logo-mark.svg` (the S with
+  the tittle on its shoulder), both flipping ink with `prefers-color-scheme`
+  while the record light stays vermilion, plus a README. `partials/logo.hbs`
+  now prefers **Ghost's publication logo** when set and falls back to the
+  markup mark.
+- **The hero uses the publication cover.** `home.hbs` takes
+  `{{@site.cover_image}}` first (the owner's own choice), then the newest
+  post's image, then the grid pattern — so the frame never collapses.
+  Note: `logo`, `cover_image` and `icon` are all empty in your Ghost right
+  now, so the fallbacks are what render until you set them under
+  Settings → Publication → Brand.
+
+## 2026-07-27 (phase 2c) — four real bugs, found and fixed
+
+### 1 · Tailwind's `.container` was overriding the system's
+**This was the navbar-width bug.** Tailwind ships its own `.container`, and
+`@tailwind components` loads *after* the design system — so content sat in
+Tailwind's 1280px breakpoint container while the nav sat in the system's
+1200px one. The bar looked 40px inset on every page. Fixed by disabling the
+core plugin (`corePlugins: { container: false }`): the system owns container
+widths, Tailwind is utilities only. Measured after: bar and page header both
+start at 188px and are both 1136px wide.
+
+### 2 · Two play icons
+`.play__disc::before` already draws the triangle in CSS, and the markup added
+an `<svg><use href="#i-play">` inside it — so every player showed two. The
+SVG is gone from `util/player.hbs` and `post/reel.hbs`; the component draws
+its own glyph.
+
+### 3 · Dark mode was dead
+The theme-toggle script used to live inside the old `partials/navbar.hbs`,
+which phase 2 replaced with a dispatcher — so the button rendered but nothing
+listened. Moved into `assets/js/main.js`, where it belongs; verified the
+attribute flips and persists to localStorage.
+
+### 4 · The navigation was never hardcoded
+Checked Ghost's own database rather than guessing:
+`settings.navigation` = Blog · Videos · Courses · Projects · Travel · Topics —
+exactly what the site was rendering. The labels happened to match the
+fallback, which is why it read as hardcoded. **The fallback is now deleted
+from `nav/bar.hbs` and `nav/sheet.hbs`**: the bar renders `{{navigation}}` and
+nothing else, so whatever appears is unambiguously Ghost's. Change it in
+Settings → Navigation and the bar changes.
+
+### Also
+- **`navbar_style` custom setting removed** from package.json — the theme is
+  back to **zero** custom settings. Bar style is chosen only by an internal
+  tag (`#navbar-ghost`, `#navbar-inverse`, …), defaulting to the island.
+
+## 2026-07-27 (phase 2b) — navigation actually works, and it is one bar
+
+### The bug, finally understood
+`{{#foreach navigation}}` **only works inside `./partials/navigation.hbs`**.
+Ghost documents this explicitly: "A navigation loop will not work in other
+partial templates or theme files." Every loop I had written lived in
+`partials/nav/site.hbs`, so it silently rendered nothing — and the hardcoded
+fallback took over. Ghost's navigation had been set correctly the whole time.
+
+### Done
+- **`partials/navigation.hbs` is the real template now** — the only place the
+  loop belongs. It handles both menus via `isSecondary`, and gives every item a
+  `nav-{{slug}}` class so a single item can be targeted from CSS. Callers use
+  `{{navigation}}` and `{{navigation type="secondary"}}`. The fallback is
+  guarded by `{{#if @site.navigation}}`, the global Ghost exposes everywhere.
+- **One unified bar.** The 12 per-collection bars are deleted; `partials/nav/`
+  is now just `bar.hbs` + `sheet.hbs`. A single bar, one skin at a time.
+- **Ten variants** in the system (`33-navbar.css`): island · flush · full ·
+  wide · centered · stacked · inverse · ghost · bordered · compact. `nav-s-*`
+  on the shell owns position and width, `nav-v-*` on the bar owns the skin —
+  the markup never restructures between them.
+- **Selectable two ways**: Ghost Admin → Design → **Navbar style**
+  (a new `navbar_style` select in package.json — the theme's 2nd custom
+  setting of 20), overridden per post/page by an internal tag
+  `#navbar-island … #navbar-compact`. The tag wins.
+- **A proper GitHub mark** — `i-github` added to the sprite and used by
+  `.nav-gh`, which now has an inverse twin for the ink bars.
+- Ghost restarted so the new partials and the setting register.
+
+### Needs owner action
+- Point the GitHub link in `partials/nav/bar.hbs` at your real profile.
+- Pick a default in Ghost Admin → Design → Navbar style (defaults to island).
+
+## 2026-07-27 (phase 2) — the navigation module, wired
+
+### Done
+- **`partials/navbar.hbs` is a dispatcher**, mirroring post.hbs: inside a
+  container module the site bar is *replaced* by that module's chrome. Same
+  most-specific-first order, for the same reason.
+- **12 contextual bars in `partials/nav/`** — lesson · course · episode ·
+  series · guide · guide-step · travel · trip · project · project-step · docs ·
+  video. Each closes back to its own container (a lesson closes to its course,
+  not to the site), and the players carry prev/next plus a progress rail.
+- **`nav/site.hbs`** — Ghost navigation first, the theme's iconified menu only
+  when the admin setting is empty, plus theme toggle, **GitHub chip**, member
+  button and the burger.
+- **`nav/sheet.hbs`** — the full-screen mobile menu as a real `<dialog>`:
+  iris open, scanline, rows racking into focus, Escape and focus trap free.
+- **Active state finally works.** Ghost's `current` only matches exact URLs, so
+  `/courses/java/lesson-1/` left "Courses" unlit. `main.js` now marks the
+  **longest matching path prefix** — and defers entirely when Ghost already
+  marked something.
+- **`.nav-gh`** added to the system (33-navbar.css) with an inverse twin for
+  the ink bars.
+- **Reading progress**: `[data-nav-progress]` measures `.content` and fills the
+  rail, so lessons and build-log steps show position with nothing stored
+  server-side.
+- **`dummy-content/navigation.json` rewritten** to match the real routes —
+  primary: Blog · Videos · Courses · Projects · Travel · Topics; secondary:
+  Web series · Guides · Docs · Products · Timeline · Changelog · Newsletters ·
+  Archive.
+
+### Two bugs found while building it
+- The generated bars printed their own Handlebars comments as page text:
+  Python's `str.format()` collapsed `{{!-- --}}` into `{!-- --}`, which
+  Handlebars treats as literal text, not a comment.
+- Switching to Ghost-only navigation emptied the menu, because the admin
+  setting was never imported. The fallback is back, and it is now documented
+  in the partial that importing `navigation.json` replaces it.
+
+### Needs owner action
+- **Import `dummy-content/navigation.json`** (or set Settings → Navigation) to
+  replace the fallback with your own menu.
+- Point the GitHub chip in `partials/nav/site.hbs` at your real profile/repo.
+
+## 2026-07-27 — the design system left home
+
+`assets/design-system/` is **gone from this repo**. It is now a standalone
+open-source project at `~/Projects/Creator-Design-System` (git initialised,
+one commit, **not pushed**), and this theme consumes it as a package.
+See `DESIGN-SYSTEM.md` for the contract.
+
+### The new project
+- `src/` six layers + `index.css` entry · `icons/` 27 SVGs · `dist/` bundles
+- **npm package**: per-layer `exports`, `files`, `style`/`main`, CDN-ready via
+  jsDelivr/unpkg, `prepublishOnly` build.
+- **GitHub Pages**: `docs/` is the site root; `build.py` mirrors `src/`,
+  `icons/` and `dist/` into it so every path is web-root relative and works
+  identically locally and deployed. Workflow builds and deploys on push.
+- **Open source**: MIT, CONTRIBUTING (the six rules a change must keep),
+  CODE_OF_CONDUCT, CHANGELOG, issue forms (bug / component request), PR
+  template with a principles checklist, FUNDING.yml, CI that lints, builds and
+  **fails if the docs are stale**.
+- **New pages**: a real marketing **landing page** (animated viewfinder SVG,
+  feature grid with icons, npm/CDN/download install tabs, live GitHub star
+  count, sponsor CTA, footer) · **Components explorer** · **Showcase** ·
+  **Templates** · **Sponsor**. The docs Introduction moved to
+  `/introduction.html` so `/` is the landing page.
+- **Showcase & Templates are contribution-driven**: both pages are generated
+  from `showcase/*.json` and `templates/*.json`, so a merged pull request is a
+  published entry — no code change needed.
+- **Preview ⇄ Code on every demo**: each `.demo-tile` gained a toggle that
+  prints its own rendered markup, tidied and copyable — so the docs can never
+  drift from what is actually on screen.
+
+### The theme side
+- Five bridge files now import `creator-design-system/src/<layer>/index.css`;
+  everything else is unchanged and the site renders identically.
+- **Gotcha found and documented**: postcss-import does **not** read a
+  package's `exports` map, so `creator-design-system/foundation` failed to
+  resolve — the imports use real file paths instead.
+- `npm i file:~/Projects/Creator-Design-System` links it, so edits to the
+  system appear here with no publish step.
+- gscan ✓ Ghost 6.x; home, blog, post, course, lesson and tags all verified.
+
+## 2026-07-27 (phase 1c) — one Navbar page, documented properly
+
+- **Merged "Navbar system" into "Navbar" and deleted the extra page.** Adding a
+  second page for the same component was the wrong call: a navbar is one
+  component with many shapes, and splitting it is how someone misses the shape
+  they needed. 123 pages now, one entry in the sidebar.
+- **Rewritten as a usage document**, not a variant gallery — ten numbered
+  sections, each with a live demo, a **copyable markup block**, and a class
+  reference table:
+  1 Anatomy (the three slots + full skeleton) · 2 Alignment (which to pick and
+  why) · 3 The active link (incl. the Ghost `{{#foreach navigation}}` snippet
+  and the longest-prefix JS for fallback menus) · 4 Dropdown · 5 Mega panel ·
+  6 Hamburger · 7 Mobile sheet (markup + the `showModal()` / `close` wiring so
+  the burger always returns to bars) · 8 Responsive collapse · 9 Contextual
+  bars per collection · 10 Do / Don't.
+- Source lives in its own `content_navbar.py` so the page stays editable
+  without hunting through `content_extra.py`.
+
+## 2026-07-27 (phase 1b) — docs search, sidebar contrast, hamburger
+
+### Done
+- **Search across the whole system.** `build.py` now emits
+  `preview/docs/search-index.json` (52KB) covering every page title, group,
+  heading, **class name** (mined from the `.spec` strips and reference
+  tables) and the spec prose — so `.btn`, `kg-bookmark`, `curric` and
+  `iris` all find their page. Sidebar field with `/` to focus, ↑/↓ to move,
+  Enter to open, Esc to clear; matches are highlighted.
+  - Fixed a race while building it: every keystroke kicked off its own
+    `fetch`, and the first one resolved last, rendering the results for a
+    one-character query. Now all keystrokes await one shared promise and the
+    query is re-read when it resolves.
+  - Fixed double-escaping: headings were stored already-escaped and escaped
+    again in JS, so "Hamburger & responsive" rendered as "&amp;amp;".
+- **Sidebar is legible now.** Group headings were `--fg-faint` at `2xs` — too
+  light to scan. They are `--fg-default`, `text-xs`, semibold, and the open
+  group takes a hairline so the eye can find the block it is in. Page links
+  moved `--fg-subtle` → `--fg-muted`; section links stay quiet beneath them.
+- **Hamburger** (`.nav-burger`) — three bars → X from one element and two
+  pseudo-elements, driven by `aria-expanded`. Variants: default, `-squeeze`,
+  `-aperture` (rotates as one, pairs with the sheet's iris), `-bare`,
+  `-labelled`. Plus **`.nav-collapse`**: links above 48rem, burger below, no
+  duplicate markup and no JS. All demoed live on the Navbar system page.
+
+## 2026-07-27 (phase 1) — the navbar SYSTEM, in the design system only
+
+Design-system work only. **No theme templates were touched** — phase 2 wires it.
+
+### Done — `3-components/33-navbar.css` + docs page "Navbar system"
+- **Alignment, made explicit.** Measured first: the island's border already
+  meets the content column edge (both derive from `--w-site` + `--gutter`);
+  what reads as "16px wrong" is the island's *inner padding*, so its links sit
+  inset from the page text. Rather than pick silently there are now three
+  honest options — `.nav-shell` (border-aligned, default), `.nav-shell-flush`
+  (content-aligned, wordmark directly above the page title),
+  `.nav-shell-full` (full-bleed bar). Plus `[data-scrolled]` for the tightened
+  scrolled state.
+- **Active styles**: the dot stays default; `.nav-links-rule` (2px accent
+  underline, for dense/doc bars) and `.nav-links-soft` (sunken wash) added.
+- **`.nav-menu`** — one-level dropdown on a native `<details>`.
+- **`.nav-mega`** — full-width sheet under the island: auto-fit link columns
+  plus one featured cell (a mega menu that is only links is a dropdown in a
+  costume).
+- **`dialog.nav-sheet`** — the mobile menu, and it behaves like a lens:
+  the panel **irises open** from the button corner, a **scanline sweeps** once,
+  and rows **rack into focus** in sequence (blur → sharp, staggered). Real
+  `<dialog>`, so focus trap + ESC are free; every animation is off under
+  `prefers-reduced-motion`.
+- **Contextual bars** — one base `.nav-context` with four slots (close ·
+  where-you-are · actions · progress rail) and per-collection skins:
+  `.nav-lesson` · `.nav-course` · `.nav-guide` · `.nav-episode` (always ink —
+  it is cinema) · `.nav-video` · `.nav-trip` (day counter prefixes itself) ·
+  `.nav-docs` · `.nav-shop`. Geometry is identical across skins so cutting
+  between them never moves the chrome.
+- **The active-state bug is diagnosed and documented**: the theme's fallback
+  menu is a hardcoded list, and a hardcoded list has no Ghost `current`
+  property — so nothing ever received `aria-current` and the dot never
+  appeared. Ghost's own `{{#foreach navigation}}` does expose `current`;
+  phase 2 uses Ghost navigation and matches the path in JS for the fallback.
+
+### Phase 2 (not started)
+Wire the theme to it: Ghost navigation as the source, `aria-current` on load,
+the mobile sheet in `partials/navbar.hbs`, mega panel content, and each post
+layout swapping in its contextual bar.
+
+## 2026-07-27 (later) — post dispatcher + per-collection layouts + partial library
+
+### Done
+- **`post.hbs` is a dispatcher again.** Every post enters one file and its
+  INTERNAL tag picks the layout. Order is deliberate and documented in the
+  file: the most specific tag wins, because a lesson also carries its course's
+  public tag and a reel is also a video. Unknown/plain posts fall through to
+  `post/article`.
+- **21 layouts in `partials/post/`** — article · video · reel · course ·
+  lesson · series · episode · guide · guide-step · trip · travel · project ·
+  project-step · product · prompt · snippet · experience · doc · newsletter ·
+  changelog · shop. Each is built from system components only; the backlog's
+  layout contracts hold (course keeps its curriculum in the MAIN column,
+  episode keeps its list on the RIGHT, lesson/guide-step/project-step put the
+  route rail on the LEFT).
+- **10 shared pieces in `partials/util/`** — meta, feature-image, tags, share,
+  pager, related, breadcrumb, cta, empty, player. Layouts compose these
+  instead of repeating markup.
+- **New system component `32-editorial.css`** (four real gaps found while
+  building the layouts): `.rail` (the sticky sidebar, self-scrolling, unsticks
+  on small screens), `.chat` (prompt conversations — the human turn is
+  accent-washed and right-aligned), `.release` (changelog version + date +
+  body), `.share` (the quiet share row).
+- **Bug fixed in the system: `.grid-rail-left` silently stacked.** It set only
+  `grid-template-columns` and not `display:grid`, so used on its own — as
+  every one of the new left-rail layouts did — it produced one column. Now
+  standalone, carrying its own base properties.
+- **`util/feature-image` bleeds only on request.** `bleed=true` is for prose
+  columns; inside a grid cell a bleeding figure escaped its track (visible on
+  the lesson page). Prose layouts opt in; grid layouts don't.
+- **`assets/js/main.js`** (small, new): copy-link, lazy-image defaults, and a
+  real video facade — the play button moves the post's OWN first embed into
+  the poster frame, so nothing is fetched from YouTube until a reader asks and
+  no video id is hardcoded anywhere.
+- **routes.yaml trimmed** to the shipping set: the internal `/design/` route
+  is gone (and `design.hbs` deleted with it). The docs are still served
+  directly from `/assets/design-system/preview/docs/`.
+- gscan ✓ Ghost 6.x, zero warnings (`limit="all"` → bounded limits across the
+  new partials). All 30 routes + one 404 verified; course, lesson, prompt,
+  blog layouts verified visually.
+
+## 2026-07-27 — the site now RUNS on the Creator Design System
+
+The long-standing "nothing is imported by tailwind.css" item is **closed**. The
+whole theme is built from the system; there is no other CSS.
+
+### Done
+- **All six layers wired** into `assets/css/tailwind.css` via thin bridge files:
+  `0-foundation` (L1 + the site-only chrome/reading/rhythm tokens) ·
+  `1-element` (L2) · `2-components` (L3) · **new `3-sections` (L5)** ·
+  **new `4-utilities` (L6)**. Tailwind is now utilities-only.
+- **NEW component — `31-content.css`** (the real gap): Ghost's `{{content}}`
+  had *no* styling at all. One `.content` wrapper now styles headings, body,
+  links, lists, quotes (incl. `.kg-blockquote-alt`), rules, inline + block
+  code, media, tables, and every Koenig card — bookmark, callout, toggle,
+  button, header, gallery, embed, audio, file, product, signup, plus the
+  `kg-width-wide/full` break-outs.
+- **Named `.content`, not `.prose`, and that was a real bug fix**:
+  `@tailwindcss/typography` owns `.prose` and loads later, so its
+  `--tw-prose-*` colours silently won — headings computed to `#111827`
+  (Tailwind grey-900) on the dark theme, i.e. near-invisible. Renamed the
+  component and **removed the typography plugin** (the system owns long-form
+  now). Built CSS 199KB → 188KB.
+- **New in the system while migrating**: `.hero-sm` (announcement-sized hero,
+  used by sign-in/sign-up/404/error) and the `u-ratio-*` utilities (square,
+  video, wide, portrait, poster, story) so media reserves its box.
+- **Templates rebuilt against the system.** `page-header` → `.page-head`,
+  `footer` → `.footer` (5-column sitemap + "still rolling" sign-off), `home`
+  → `.hero-split` (latest post framed on the stage) + `.sec-head-row` +
+  `.list-group` + `.cta-newsletter`, `post` → `.content` + `.pager` +
+  related deck, 404/error/signin/signup → `.hero-statement.hero-sm`.
+  The 23 collection indexes were **generated from one spec** (kicker, title,
+  real description) rather than hand-repeated.
+- **Inline styles are gone** from every template except two deliberate
+  one-offs — the rule "a template that needs an appearance gets a component,
+  not a style attribute" now actually holds.
+- **routes.yaml**: all 27 collections/routes verified rendering 200; the
+  `/design/` entry now documents that the site is *built from* the system and
+  forwards to its docs.
+- Docs gained a **Long-form content** page (Elements group) documenting
+  `.content`, its card coverage, and why it isn't called `.prose`.
+- gscan: ✓ compatible with Ghost 6.x, zero warnings (the old `limit="all"`
+  warning in tags.hbs fixed too). Verified light + dark on home, blog index,
+  post, 404.
+
+### Left / needs owner action
+- **Upload `routes.yaml`** in Ghost Admin → Settings → Labs → Routes —
+  `/design/` 404s locally until then (Ghost reads routes from its own
+  settings, not the theme folder). Every other route already works.
+- Splitting the design system into its own repo/npm package —
+  see `assets/design-system/instruction.md`.
+
+## 2026-07-26 (fourth pass) — richer Start, Getting started section, group icons (122 pages)
+
+- **Introduction rewritten**: What this is · Why I built it (first person,
+  practical) · Who it's for — and what you can do (four iconed capability
+  cards) · **The four magic values** (Twilio-style house values, creator-cut:
+  1 Press record · 2 Cut the noise · 3 Show the b-roll · 4 One more take) ·
+  the three devices · a Why/How/For-whom table.
+- **New "Getting started" group** after Start: **Installation** (files, layer
+  links, fonts, first render) and **Setup & theming** (token override block,
+  dark-mode wiring, mark swap, launch checklist).
+- **SVG icons on every sidebar group summary** (GROUP_ICONS in build.py).
+  Cache `?v=cds6`.
+
+## 2026-07-26 (third pass) — reorganised for creators: 120 pages, icons library, cutouts, animated home
+
+### Done
+- **Sidebar**: groups are now collapsible `<details>` (chevron summaries), only
+  the active section ships open; the nested TOC keeps its active link scrolled
+  into view (`scrollIntoView` on scrollspy).
+- **New order**: Start (Introduction · Why this system · Principles · Usage) →
+  Foundation (Logo, Color, Typography, Spacing & radius, Elevation, Patterns,
+  **Breakpoints**, Accessibility w/ a plain-language intro) → Elements →
+  **Icons** (Guidelines + Icon set) → **Shape & Cutout** → **Grid & Layout**
+  (Containers, Grid, Columns, Composition, Z-index) → Forms → Components
+  (now incl. **Devices** and **Frames**) → Composites → Sections → Layouts →
+  **Animation & Motion** (basics, text effects, annotations, micro-interactions,
+  section presets, **Logo sting**, **Page transitions**) → Broadcast →
+  **Helpers & Utilities**. "Layout primitives" is gone (renamed Composition
+  under Grid & Layout).
+- **Home**: no more "Frame & Signal" headline — "Made by a creator, for
+  creators" with an **animated SVG viewfinder illustration** (scan line, orbit,
+  typing title bar, blinking REC), reduced-motion safe.
+- **Principles rewritten**: eight illustrated rules (SVG icons), each tied to
+  its enforcement mechanism; new **Why this system** ideology page.
+- **Color page rebuilt**: Primary — signal, Secondary — amber, Neutral — ink,
+  then the semantic variant families; status/notification ramps removed.
+- **Icons are real files now**: `assets/design-system/icons/{ui,creator,media,
+  social}/*.svg` — 27 icons, 24×24, 1.5px stroke, currentColor (auto dark/light),
+  including the creator-only set (rec, viewfinder, slate, take, sting, course,
+  buildlog, trip). Icon set page renders them from the folder.
+- **Cutouts** (`1-foundation/13-cutout.css`): the neo-brutal register —
+  sticker (+accent, pressable), ticket, corner-cut, tab, tape, punch, speech;
+  sizes `.cut-sm/-lg` via `--cut-off`/`--cut-bw`; inverse twins.
+- **Animation pages**: `data-replay*` chips work again (generic restart in
+  preview.js) and demos loop (`body.loop-demos`).
+- **Logo**: tittle smaller (0.15em) and seated tighter; favicon mark redrawn
+  edge-to-edge so it reads at 16px.
+- Ghost had stopped mid-session — restarted (`ghost start` in ~/Imswarnil.com).
+  Cache version bumped to `?v=cds5`.
+
+### Left
+- Wire the live theme to the system (via the package split — instruction.md).
+
+## 2026-07-26 (later) — Creator Design System is THE system: legacy previews absorbed, 116 pages
+
+### Done
+- **The old overview pages are gone.** `preview/index.html`, `elements.html`,
+  `components.html`, `sections.html`, `layouts.html`, `youtube.html`,
+  `social.html` deleted; `preview/` now holds only `docs/`, `preview.css`,
+  `preview.js`. `/design/` (design.hbs) is a redirect to the docs home.
+- **Their content wasn't rewritten — it was extracted.** New
+  `_build/extract.py` split every legacy page's `<section id>` blocks into
+  `_build/fragments/`; build.py assembles them into individual pages
+  (strips the legacy numbered heading, mines its intro as the page lead).
+  116 pages total.
+- **New sections in the sidebar**: Start (Introduction with the Frame & Signal
+  manifesto verbatim · Principles — the rules-of-one, tokens-before-templates,
+  ARIA-state, platform-first, honest-motion, thumbnail-scale · Usage — how
+  plain CSS, SCSS and Tailwind users all build the same UI off the token
+  contract, with a Tailwind theme mapping) · Foundation (Logo, Color,
+  Typefaces, Spacing & radius, **Elevation**, Layout primitives, Patterns,
+  Icons, Shape, Devices, Frames, Accessibility — each its own page) ·
+  **Motion** (basics, **Text effects**, **Annotations**, **Micro-interactions**,
+  **Section presets**, Stings — split out of the old mega-section) ·
+  **Layouts** (an Overview page linking six category pages: Core / Watch /
+  Learn / Build / Road / Pages) · **Broadcast · YouTube** (13 pages, dark
+  default + working Guides toggle) · **Broadcast · Social** (6 pages).
+  Plus Text elements (Content) and Collection cards (Components) rescued from
+  the old elements/components pages.
+- **Sidebar upgrades**: the per-page TOC now **nests under the active page
+  item** (heading ids injected at build, scrollspy highlights); the sidebar
+  **collapses** («, floating ☰ restores, persisted in localStorage); Guides
+  toggle appears only on broadcast pages.
+- `assets/design-system/instruction.md` — how to lift the folder into a
+  standalone repo/npm package/GitHub Pages, with the names checked free on npm
+  (`creator-design-system`, `frame-signal`) and the theme-as-consumer wiring.
+- Verified in Chrome: home (manifesto band), f-logo, m-annotations, yt-thumbs
+  (dark + guides), layouts overview, collapse/reopen, cache-bust `?v=cds4`.
+
+### Left
+- Wire the live theme to the system (now via the future package — see
+  instruction.md); routes.yaml re-upload still pending for /design/.
+
+## 2026-07-26 — Creator Design System: one page per component, Bootstrap-style docs
+
+### Done
+- **The system is now the "Creator Design System"** and the previews are a
+  generated docs site — **68 pages, one per topic**, at
+  `preview/docs/` (`/assets/design-system/preview/docs/index.html`). Grouped
+  sidebar (Start · Layout · Content · Forms · Components · Composites ·
+  Sections · Utilities · More), prev/next **pagination on every page**, theme
+  toggle, favicon, scrollspy. Nothing is mixed — Buttons, Badge, Modal,
+  Syllabus, Marquee etc. each own a page showing every variant.
+- **Generator, not hand-written pages**: `preview/docs/_build/build.py` +
+  `content_*.py` modules. The NAV tree drives sidebar, ordering and pager;
+  adding a page = one content entry + one NAV line. Re-run with
+  `python3 …/_build/build.py`.
+- **New components** (`3-components/28-disclosure.css`, `29-overlay.css`,
+  `30-form-plus.css`): close button, collapse + accordion (native details,
+  exclusive via `name=`), dropdown menus, list group, **carousel** (scroll-snap,
+  scroll-trap-proof), **marquee** (aria-hidden twin, hover-pause,
+  reduced-motion fallback), **modal** + **offcanvas** (real `<dialog>`,
+  data-dialog openers in preview.js), **popover** (Popover API), **range**,
+  **floating labels**, input-group affix text.
+- **Syntax highlighting + copy code** (`2-elements/15-syntax.css`): `.codebox`
+  with lang header, line numbers, line highlight, five token roles (dark +
+  light twins), `[data-copy]` buttons ("Copied" feedback in preview.js), and
+  `.copy-line` for one-liners.
+- **Utilities layer** (`6-utilities/index.css`): `u-`-prefixed (no Tailwind
+  collisions) — display, visibility (+sr-only), flex, float, position,
+  z-ladder, overflow, sizing/measures, margin/padding/gap off the 4px ladder,
+  text, vertical-align, semantic colors/backgrounds, borders/radii, shadows,
+  interactions, responsive display pairs. Each documented on its own page.
+- **All navbar modes documented** on Components → Navbar: default island,
+  collection context (aria-current dot), course player chrome (progress rail),
+  and the always-ink series bar.
+- **Favicon fixed and improved**: `assets/favicon.svg` didn't match the
+  identity — now the `.logo-s` mark (S + vermilion tittle on the shoulder),
+  ink flips with `prefers-color-scheme`. Linked from every preview page and
+  default.hbs (already referenced it).
+- Old overview pages retitled Creator Design System and link to the docs;
+  shared preview assets are version-queried (`?v=cds2`) so updates bust cache.
+- Verified in Chrome: docs home, buttons (all variants incl. icon buttons),
+  navbar modes, code+copy, modal open/close, marquee, utilities. gscan clean.
+
+### Left
+- Still nothing imported by `assets/css/tailwind.css` — wiring the live theme
+  to the system remains the next deliberate step.
+
+## 2026-07-25 — design system, pass 6: sidebar nav, layer 5 sections, composites, layouts map
+
+### Done
+- **Live-site navigation fixed.** Ghost Admin's navigation was empty, so the
+  navbar rendered no items. `partials/navbar.hbs` now falls back to the theme's
+  own iconified menu (Blog · Videos · Projects · Courses · Travel · Topics)
+  whenever admin nav is empty; admin items still win when set. Eight new icons
+  in `partials/icons.hbs` (pen, camera, code, book, plane, clock, tag…).
+- **Preview navigation moved to a left sidebar.** The top bar had run out of
+  room. New fixed `.doc-side` chrome in `preview.css`: pages grouped
+  (System: Foundation / Elements / Components / Sections / Layouts ·
+  Broadcast: YouTube / Social), then this page's section links with a
+  scrollspy (new shared `preview.js`), theme/guides toggles pinned at the
+  bottom. Below 64rem it's a drawer behind a ☰ button in a slim top bar.
+  Applied to all six pages incl. `design.hbs`.
+- **Layer 5 — sections** (`5-sections/`, the pending work): `30-header`
+  (.page-head + .sec-head-row), `31-hero` (statement / split / band incl.
+  media billboard), `32-stats` (hairline stat grid + bare + inverse),
+  `33-cta` (band, newsletter form, polite sponsor strip), `34-footer`
+  (grid + sign-off "still rolling" + inverse twin). Demoed on the new
+  `preview/sections.html`.
+- **Composites** (`3-components/27-composite.css`): `.curriculum` (native
+  `<details>` modules, `.lesson-row` with tick / `[data-done]` /
+  `aria-current` ring / free label, progress in the head), `.ep-panel`
+  (header + self-scrolling `.episode` list), `.buildlog` (▸ start, numbered
+  middles, ✓ ship on a walked rail), `.itinerary` (day chips + stop badges).
+  New section 08 on the Components page; also shown in place on Sections.
+- **Layouts page** (`preview/layouts.html`): every template in routes.yaml as
+  a wireframe — Core / Watch / Learn / Build / Road / Pages, ~26 tiles with
+  the `.wire` mini-language (grey content, accent organ, hatched media, ink
+  inverse) and a one-line contract per layout (e.g. course = curriculum in
+  the MAIN column, episode list on the RIGHT).
+- Verified in Chrome, light + dark, sidebar drawer + scrollspy working;
+  gscan clean (one pre-existing tags.hbs warning).
+
+### Left
+- Still nothing imported by `assets/css/tailwind.css` — wiring the live theme
+  to the system is the next deliberate step.
+- `/design/` 404s locally until routes.yaml is re-uploaded (Ghost Admin →
+  Settings → Labs → Routes); static previews serve fine from
+  `/assets/design-system/preview/`.
+
+## 2026-07-25 — design system, pass 5: the tittle, annotations, stings
+
+### Done
+- **The logo section moved to the front** of the foundation page — it's the
+  first thing the system is, so it's now section 01 and everything renumbered
+  behind it.
+- **The tittle is dead centre over the ı at every size** (`--logo-nudge: 0`),
+  and every wordmark in the system now uses the real mark: the site nav, the
+  broadcast `.yt-mark`, the banner lockup, thumbnails, IG posts, stings. The
+  old "wordmark + separate dot" hack is gone everywhere.
+- **No more "Sı".** A lone dotless ı is a stick and reads as an l, so the
+  compact mark is `.logo-s` — capital S with the tittle moved to its top-right
+  shoulder. Same dot, relocated. Ladder is now Swarnıl → Sıl → S• → •.
+- **`.logo-rec`** — the recorder mark: a bare square with the dot in the
+  top-right corner, no brackets and no box, exactly where a camera puts its REC
+  light. Replaces the old bracketed app icon. `.mark-rec` is its broadcast twin.
+- **`.logo-responsive`** — markup carries full / abbr / mark, CSS picks by
+  width. No JS, no layout shift, accessible name unchanged.
+- **Shape maths, 2D.** Ratio and angle tokens (φ, √2, δ, 16:9, 21:9, 30°, 60°,
+  108°), optical-area corrections, and nine clip-path polygons derived on the
+  unit circle — triangle, rhombus, pentagon, hexagon (flat and pointy), octagon,
+  star, arrow, plus — with conic-gradient progress rings and donuts.
+- **Viewfinder**: the centre focus square is gone. Corners and the rec bug only
+  — a box in the middle fights whatever the frame is showing.
+- **`.book`** — spine gradient plus a striped page edge, which is the whole
+  trick that makes a flat rectangle read as something you can finish. Courses,
+  guides, the resume. `.book-shelf` tilts alternate covers.
+- **Annotations — the hand-drawn layer.** `.an-circle`, `.an-circle-2`,
+  `.an-underline`, `.an-strike`, `.an-box`, `.an-arrow`: an SVG stroke with
+  `pathLength="100"` and an animating dashoffset, so the mark is *drawn* rather
+  than faded and reads as a gesture. The marker `.tx-highlight` was rebuilt with
+  soft ends and a tilt.
+- **Eight micro-interactions** — swipe, wipe, sheen, press, magnet, trace,
+  reveal, swap. All pointer-gated, all one property, none over 200ms.
+- **Five section presets** — cascade, curtain, split, focus, lift; add
+  `.sec-on-scroll` and they fire natively on scroll with no observer.
+- **Five stings** — the *tudum* problem solved five ways: drop (the dot falls,
+  lands, and hands over to the wordmark's own tittle), static, shutter, type,
+  sweep. Every one ends on the identical last frame, which is the entire point
+  of an ident.
+- **Accessibility rewritten** as ten real, demonstrated points: focus, skip
+  link, screen-reader text, a measured contrast table for both themes, target
+  size, colour-is-never-alone, reduced motion + forced colours, form errors
+  wired with `aria-invalid`/`aria-describedby`, state-lives-in-ARIA, and print.
+
+### Left
+- Still nothing imported by `assets/css/tailwind.css`.
+- Layer 4 — sections (hero, stat grid, CTA, empty, lower-third, footer).
+
+## 2026-07-24 — design system, pass 4: identity, expansion, social
+
+### Done — foundation (layer 1 now 13 files)
+- **The tittle.** `09-logo.css`: the dot over a lowercase i is a *tittle*, and
+  the identity is that the tittle IS the record light. The i is set with the
+  dotless ı (U+0131) and the tittle is drawn as an element, so it can be any
+  colour and can pulse. Sizes, lockups (stacked / inline / badge), degradation
+  ladder (Swarnıl → Sıl → Sı → dot), favicon sizes 16→512, clear space, and a
+  documented misuse set. The mark now replaces the old dot-hack everywhere in
+  the previews.
+- **`10-icon.css`** — 24×24 grid, 1.5px stroke, 4 variants (line/solid/duo/
+  ghost), containers, badged icons, and a 12-glyph inline sprite in the page.
+- **`11-shape.css`** — nested-radius maths (inner = outer − padding), 12 shape
+  primitives, 4 dividers, clip/mask helpers.
+- **`12-frame.css`** — window chrome: macOS, VS Code (tabs + gutter + 5 syntax
+  roles), terminal with blinking cursor, browser, phone, camera shutter (6
+  blades), the full viewfinder (thirds, focus box, rec bug), polaroid, filmstrip.
+- **`05-motion.css`** — now 13 animations (added flip, swing, pop, draw, mask
+  wipe, zoom) **plus 12 text effects** (type, chars, words, wave, shine,
+  underline, highlight, gradient, glitch, blur-in, mask-up, flip-chars, and a
+  CSS counter roll). All degrade to a fade under reduced-motion.
+- **`07-pattern.css`** — 28 patterns. Size modifiers now change the LINE WEIGHT
+  as well as the scale; scanline has fine/default/coarse; added iso, plus,
+  stripes, checker, topo, circuit, equaliser, sprocket, matrix, spotlight,
+  ruler, corners, plus the IG and live conic rings.
+- **`01-color.css`** — the maths written down: L* ladder, verified contrast
+  pairs for both themes, the split-complementary hue relationships, the alpha
+  ladder, and elevation-by-light percentages.
+- **`02-typography.css`** — the typeface section: why each face, what its
+  numerals do, fallback policy, numeric styles, optical corrections.
+- **`06-layout.css`** — gap ladder, `.flow` owl, `.grid-2/3/4/6`, `.grid-rail`,
+  `.grid-editorial` (text · wide · full bleed), column-fill, placement helpers.
+- Foundation preview split into its own sections: **Logo · Colour · Type ·
+  Spacing · Radius · Elevation · Motion · Text effects · Layout · Patterns ·
+  Devices · Icons · Shape · Frames · A11y.**
+
+### Done — broadcast (layer 3 now 8 files)
+- **Three layouts × eight categories** instead of twenty hand-drawn thumbnails:
+  `thumb-l-split` / `thumb-l-center` (centre image + centred copy) /
+  `thumb-l-band`, crossed with generic · build · travel · qna · series · vlog ·
+  live · scheduled. Plus the **line effect** (`.thumb-rules`, three weights).
+- New skins: **daily vlog** (date stamp), **scheduled stream** (blue, outlined,
+  dated), **replay** (grey, honest label) — so the three live states never look
+  alike in a grid.
+- **Five live scenes** with real capture-source slots: standby, share-right,
+  share-left, duo, focus (camera full + PiP), all sharing a fixed-height header
+  strip so cutting between them doesn't make the topic jump.
+- **Five title scenes** and **five end screens** (classic, centred, list,
+  newsletter, minimal), all keeping YouTube's element geometry.
+- **Five subscribe styles** (pill, bar, counter, corner bug, card) and **three
+  engagement styles** (bar, vertical stack for Shorts, tiles).
+- **`27-instagram.css`** — 4:5 feed posts with caption-safe insets, five-slide
+  carousel with fixed roles (hook → point ×3 → ask), stories with the platform
+  UI blocked out, profile-grid preview, follow card, handles row, share sheet.
+- **Light twins for every backdrop and frame** (`.yt-light`), plus density
+  modifiers, because a bright feed and a dark grid want opposite artwork.
+
+### Done — previews
+- Four pages now: **Foundation · Elements · YouTube · Social**, sharing one
+  chrome stylesheet and a layer switcher.
+- The YouTube and Social pages carry three toggles: **Theme** (page chrome),
+  **Canvas** (flips every export surface to its light twin) and **Guides**
+  (overlays the safe areas — preview only, never exported).
+
+### Left
+- Still nothing imported by `assets/css/tailwind.css`; the live theme is
+  untouched.
+- Layer 4 — sections (hero, stat grid, CTA, empty, lower-third, footer).
+- Routes for `elements.html` / `youtube.html` / `social.html` (served as theme
+  assets today).
+
+## 2026-07-24 — design system, pass 3: broadcast / YouTube (proposal, not yet wired)
+
+### Done
+- **`assets/design-system/3-broadcast/` — 8 files.** Export assets for the
+  channel, built from the same tokens as the site. Canvases are CSS containers
+  sized in `cqw`, so one element is correct at 120px and at 2560px — there is no
+  separate "export version" to keep in sync.
+- **`20-canvas`** export surfaces (thumb/banner/avatar/scene/short), safe-area
+  overlays, cqw type roles, channel mark, `.yt-export` scaffolding.
+- **`21-thumbnail`** the thumbnail *grammar* (title bottom-left, one accent word,
+  kicker, mark, subject right ~36%, 5.5% safe) plus the five styles — generic,
+  build, travel, Q&A, live. Documented "never" list: no duration, no category
+  chips, no view counts, no second accent, one device only.
+- **`22-series`** five-episode web-series art: fixed wordmark / numeral / title
+  baseline across the set, ghost numeral or chip variant, season ticks, 2:3
+  playlist poster.
+- **`23-scene`** intro opener, title card, points, quote, section break, lower
+  third, end screen (with real YouTube element holes), live stream screen,
+  ticker, BRB.
+- **`24-social`** four subscribe styles (pill / bar / counter / corner bug),
+  engagement row, comment prompt, live chat with host-mod-member roles and
+  pinned rows, website promo strip + card.
+- **`25-brand`** 2560×1440 banner with the 1546×423 safe box and desktop-crop
+  rulers, four avatar marks, player watermark.
+- **`26-backdrop`** 12 backdrops + 9 frames/borders re-cut at broadcast scale
+  (layer 1's web patterns vanish on a 1280px canvas).
+- **Preview at `preview/youtube.html`** with a Guides toggle that overlays every
+  safe area, and a "P1 test" row rendering all five thumbnails at 120px wide.
+
+### Left
+- Still nothing imported by `assets/css/tailwind.css`.
+- Layer 4 — sections (hero, stat grid, CTA, empty, lower-third, footer).
+- No Ghost route for `elements.html` / `youtube.html` yet; both are served as
+  theme assets.
+
+## 2026-07-24 — design system, pass 2: elements (proposal, not yet wired)
+
+### Done
+- **`assets/design-system/2-elements/` — 8 files, ~55KB of CSS, no JS.**
+  `10-button` (6 intents · 3 sizes · icon/pill/block · `[data-loading]` ·
+  `.btn-live` · segmented `.btn-group`) · `11-badge` (badge tones, `.badge-live`,
+  eyebrow, chip w/ counts, avatar + stack, kbd, timecode) · `12-form` (field,
+  label, hint, error-text, input, textarea, select, search, inline group,
+  check/radio/switch, fieldset, form-row) · `13-card` (media/body/title/meta/
+  excerpt/footer, whole-card link, featured/inverse/row/compact/poster/bare,
+  `.deck`) · `14-navigation` (nav island + series/course contexts w/ progress
+  rail, tabs, breadcrumb, pagination, lesson pager, TOC) · `15-table` (table,
+  definition list, rule list, numbered steps) · `16-feedback` (alerts, toast,
+  progress, 5 loading treatments, empty state, CSS tooltip) · `17-media`
+  (player chrome, play disc, poster, episode row, pullquote, figure, code block).
+- **Every value is a `var()`** — no raw hex, no magic numbers anywhere in layer 2.
+  Active states are driven by `aria-current` / `aria-selected` / `aria-pressed`,
+  so the styling and the accessibility tree can't disagree.
+- **Preview split into two pages** sharing one chrome stylesheet
+  (`preview/preview.css`): `preview/index.html` (foundation, generated from
+  `design.hbs`) and `preview/elements.html` (elements), with a layer switcher
+  in the header. Verified in light and dark.
+
+### Left
+- Still nothing imported by `assets/css/tailwind.css` — the live theme is
+  untouched.
+- Layer 3 — sections: hero, stat grid, CTA/newsletter, empty, lower-third, footer.
+- `elements.html` has no Ghost route yet (it's served as a theme asset). Worth a
+  `/design/elements/` route when layer 3 lands.
+
+## 2026-07-24 — design system, pass 1: foundation (proposal, not yet wired)
+
+### Done
+- **`assets/design-system/` created.** New home for the token-first system that
+  the theme will be rebuilt against. Named **"Frame & Signal"**: near-monochrome
+  ink, one rationed accent that means *live*, and three signature devices — the
+  signal dot, the viewfinder frame, the mono "slate" label voice. Inspired by
+  `Design.pdf`, not copied from it: different faces (Space Grotesk / Inter /
+  IBM Plex Mono), a different accent (vermilion `signal`, not the PDF's red),
+  amber instead of gold, and a two-tier token contract.
+- **`1-foundation/` — 10 files, ~1.3k lines of CSS, zero components:**
+  `00-reset` · `01-color` (ink 14 / signal 11 / amber 9 / status ramps, plus the
+  semantic alias layer + light, dark and `[data-surface="inverse"]` themes) ·
+  `02-typography` (3 faces, fluid clamp scale, text *roles* not size utilities) ·
+  `03-space` (4px base, spacing/radius/size/z ladders, container widths, ratios) ·
+  `04-elevation` (5 shadows + surface recipes; dark mode swaps shadow for a lit
+  top edge) · `05-motion` (4-step duration ladder, 14 `fx-*` behaviours, native
+  scroll-driven reveal, full reduced-motion degrade) · `06-layout` (containers,
+  12-col grid, φ split, stack/cluster, canvases with safe areas, the frame
+  device) · `07-pattern` (16 CSS-only backgrounds, no images) · `08-a11y`
+  (focus, skip link, forced-colours, print).
+- **Preview at `/design/`** — `design.hbs` (standalone template, `noindex`) plus
+  a route in `routes.yaml`. It links the foundation CSS **directly**, not
+  through the Tailwind build, so the system is shown unmixed with the current
+  theme. A generated static copy lives at
+  `assets/design-system/preview/index.html` for viewing without a Ghost restart.
+- gscan clean (Ghost 6.x compatible) after the additions.
+
+### Left
+- Nothing in the foundation is imported by `assets/css/tailwind.css` yet — the
+  live theme is untouched by design. Wiring it up is a deliberate next step.
+- `2-components` (buttons, badges, cards, tabs, tables, nav skeletons, forms,
+  loading treatments) and `3-sections` (hero, stat grid, CTA, empty, lower-third).
+- Then: rewrite the `.hbs` templates against the system, and work the master
+  backlog in CLAUDE.md on top of it.
+
 ## 2026-07-17 — hero finished (title card) · Chrome hang fixed · perf 0.97→1.0 · JSON-LD everywhere · llms
 
 ### Done

@@ -1,0 +1,16 @@
+{{!-- The post's feature image. Renders nothing when there is none, so callers
+     never need an {{#if}}.
+     Params: bleed — pass bleed=true ONLY inside a prose column; in a grid cell
+     a bleeding figure escapes its track. --}}
+{{#if feature_image}}
+	<figure class="figure u-mb-8{{#if bleed}} bleed-wide{{/if}}">
+		<img src="{{img_url feature_image size="xl"}}"
+		     srcset="{{img_url feature_image size="m"}} 600w, {{img_url feature_image size="l"}} 1000w, {{img_url feature_image size="xl"}} 1600w"
+		     sizes="{{#if bleed}}(min-width: 71rem) 71rem, 100vw{{else}}(min-width: 64rem) 44rem, 100vw{{/if}}"
+		     alt="{{#if feature_image_alt}}{{feature_image_alt}}{{else}}{{title}}{{/if}}"
+		     width="1600" height="900" />
+		{{#if feature_image_caption}}
+			<figcaption class="figure__caption">{{feature_image_caption}}</figcaption>
+		{{/if}}
+	</figure>
+{{/if}}

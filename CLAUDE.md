@@ -7,8 +7,11 @@ release via `npm run zip`. Local Ghost runs at localhost:2368 (templates map is
 cached — new .hbs files need a Ghost restart).
 
 ## Theme settings — hard rule
-Ghost allows a maximum of **20 custom settings**. As of 2026-07-15 the theme
-ships exactly **one**: `color_scheme`. Everything else (job title, workplace,
+Ghost allows a maximum of **20 custom settings**. As of 2026-07-27 the theme
+ships exactly **two**: `color_scheme` and `navbar_style` (asked for on
+2026-07-27 — how the bar behaves on scroll; a post overrides it with
+`#navbar-normal` / `#navbar-island` / `#navbar-morph` / `#navbar-reveal`).
+Everything else (job title, workplace,
 social URLs, sponsor email, AdSense publisher, hero media) is **hardcoded in the
 templates on purpose** — do not reintroduce a custom setting without asking.
 Identity values in use: Salesforce Engineer · EF Education First

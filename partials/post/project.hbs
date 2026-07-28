@@ -1,0 +1,43 @@
+{{!-- Project: repo-style header, then the build log. --}}
+<div class="container section">
+	<header class="page-head" style="padding-top:0">
+		<span class="page-head__kicker"><svg class="icon" aria-hidden="true"><use href="#i-code"/></svg> Project</span>
+		<h1 class="page-head__title">{{title}}</h1>
+		{{#if custom_excerpt}}<p class="page-head__desc">{{custom_excerpt}}</p>{{/if}}
+	</header>
+
+	<div class="grid-rail u-mt-8">
+		<div>
+			{{> post-body}}
+
+			{{#if primary_tag}}
+				{{#get "posts" filter="tag:hash-project-detail+primary_tag:{{primary_tag.slug}}" limit="100" order="published_at asc" as |steps|}}
+					{{#if steps}}
+						<section class="u-mt-10">
+							<h2 class="t-h3 u-mb-6">Build log</h2>
+							<ol class="buildlog">
+								{{#foreach steps}}
+									<li class="buildlog__step"{{#if @first}} data-kind="start"{{/if}}{{#if @last}} data-kind="ship"{{/if}}>
+										<span class="buildlog__node">{{#unless @first}}{{#unless @last}}{{@number}}{{/unless}}{{/unless}}</span>
+										<a class="buildlog__link" href="{{url}}">{{title}}
+											<span class="buildlog__date">{{date format="D MMM YYYY"}}</span>
+										</a>
+									</li>
+								{{/foreach}}
+							</ol>
+						</section>
+					{{/if}}
+				{{/get}}
+			{{/if}}
+
+			{{> util/share}}
+		</div>
+
+		<aside class="rail">
+			<div class="rail__block">
+				<h2 class="rail__title">Details</h2>
+				{{> util/tags}}
+			</div>
+		</aside>
+	</div>
+</div>

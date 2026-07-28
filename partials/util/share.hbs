@@ -1,0 +1,10 @@
+{{!-- Quiet share row. No brand colours — the system's buttons only. --}}
+<div class="share u-mt-10">
+	<span class="share__label">Share</span>
+	<a class="btn btn-quiet btn-sm" rel="noopener noreferrer" target="_blank"
+	   href="https://x.com/intent/tweet?text={{encode title}}&url={{url absolute="true"}}">X</a>
+	<a class="btn btn-quiet btn-sm" rel="noopener noreferrer" target="_blank"
+	   href="https://www.linkedin.com/sharing/share-offsite/?url={{url absolute="true"}}">LinkedIn</a>
+	<a class="btn btn-quiet btn-sm" href="mailto:?subject={{encode title}}&body={{url absolute="true"}}">Email</a>
+	<button class="btn btn-quiet btn-sm u-ms-auto" type="button" data-copy-url>Copy link</button>
+</div>

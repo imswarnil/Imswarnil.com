@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>Recruiter block — lab</title>
+
+	<link rel="preconnect" href="https://fonts.googleapis.com" />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+	<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+
+	<link rel="stylesheet" href="../assets/built/screen.css" />
+	<link rel="stylesheet" href="./_lab.css" />
+	<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml" />
+
+	<script>
+		(function () {
+			try {
+				var t = localStorage.getItem('swarnil-theme');
+				if (!t) { t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'; }
+				document.documentElement.setAttribute('data-theme', t);
+			} catch (e) {}
+		})();
+	</script>
+</head>
+
+<body data-lab="recruiter.html">
+
+	<div class="lab-canvas" id="lab-canvas">
+
+		<!-- ─────────────────────────────────────────────────────────────────
+		     THE RECRUITER BLOCK
+		     A homepage section for someone who landed here from a CV and has
+		     ninety seconds: what he does, proof it's true, and one way out to
+		     the résumé. Everything else on the page is for readers; this is
+		     the one section that is not.
+
+		     Built from .stats (the proof), .c-experience (the history) and
+		     .chip (the skills). Nothing new — a recruiter block is an
+		     arrangement, not a component.
+		     ───────────────────────────────────────────────────────────── -->
+
+		<section class="container section">
+
+			<div class="sec-head-row">
+				<span class="sec-head-row__kicker">For recruiters</span>
+				<h2 class="sec-head-row__title">The ninety-second version</h2>
+				<a class="sec-head-row__more" href="/resume/">Full résumé
+					<svg class="icon icon-sm" aria-hidden="true"><use href="#i-arrow"/></svg>
+				</a>
+			</div>
+
+			<!-- .split-phi is a grid; adding a .stack here would turn it back
+			     into a column. Rhythm comes from .section, not from stacking. -->
+			<div class="split-phi">
+
+				<div class="stack">
+					<p class="t-lead measure-lead">
+						Salesforce engineer at <strong>EF Education First</strong> in Budapest,
+						building the platforms a few thousand colleagues use every day. From
+						India. I write and film what I learn on the way.
+					</p>
+
+					<div class="cluster-sm">
+						<span class="chip">Apex</span>
+						<span class="chip">LWC</span>
+						<span class="chip">Flow</span>
+						<span class="chip">Integration</span>
+						<span class="chip">CI/CD</span>
+						<span class="chip">JavaScript</span>
+						<span class="chip">Node</span>
+						<span class="chip">CSS architecture</span>
+					</div>
+
+					<div class="cluster">
+						<a class="btn btn-primary" href="/resume/">
+							Read the résumé
+							<svg class="icon icon-sm" aria-hidden="true"><use href="#i-arrow"/></svg>
+						</a>
+						<a class="btn btn-secondary" href="mailto:hello@imswarnil.com">
+							<svg class="icon icon-sm" aria-hidden="true"><use href="#i-mail"/></svg>
+							Email me
+						</a>
+						<a class="btn btn-ghost" href="https://github.com/swarnil" rel="noopener">
+							<svg class="icon icon-sm" aria-hidden="true"><use href="#i-github"/></svg>
+							GitHub
+						</a>
+					</div>
+				</div>
+
+				<!-- The proof. Numbers a claim can be checked against. -->
+				<div class="stats">
+					<div class="stat">
+						<span class="stat__value">6</span>
+						<span class="stat__label">Years shipping</span>
+					</div>
+					<div class="stat">
+						<span class="stat__value">4</span>
+						<span class="stat__label">Certifications</span>
+					</div>
+					<div class="stat stat-live">
+						<span class="stat__value">12</span>
+						<span class="stat__label">Projects live</span>
+						<span class="stat__note">3 open source</span>
+					</div>
+					<div class="stat">
+						<span class="stat__value">80+</span>
+						<span class="stat__label">Videos published</span>
+					</div>
+				</div>
+			</div>
+
+			<hr class="rule" />
+
+			<!-- The history. .c-experience is the borderless card the timeline
+			     and the about page already use — same object, new arrangement. -->
+			<div class="grid-3 gap-6">
+				<article class="c c-experience">
+					<div class="c__body">
+						<span class="c__meta">2023 — now · Budapest</span>
+						<h3 class="c__title">Salesforce Engineer</h3>
+						<p class="c__excerpt">EF Education First. Platform work for a few thousand internal users; integrations, releases, the unglamorous half of a CRM.</p>
+					</div>
+				</article>
+
+				<article class="c c-experience">
+					<div class="c__body">
+						<span class="c__meta">2021 — 2023 · Remote</span>
+						<h3 class="c__title">Consultant</h3>
+						<p class="c__excerpt">Company Name — 2. Delivery across four orgs, mostly untangling what a previous integration had assumed.</p>
+					</div>
+				</article>
+
+				<article class="c c-experience">
+					<div class="c__body">
+						<span class="c__meta">2019 — 2021 · India</span>
+						<h3 class="c__title">Developer</h3>
+						<p class="c__excerpt">Company Name — 3. First production Apex, first on-call, first time a release taught me something a book hadn't.</p>
+					</div>
+				</article>
+			</div>
+
+		</section>
+
+	</div>
+
+	<div class="lab-spec">
+		<h2>Notes</h2>
+		<p>
+			Backlog: <em>“Portfolio section for recruiters: details, skills, experience,
+			CTA to resume.”</em> Composed entirely from existing classes —
+			<code>.sec-head-row</code>, <code>.split-phi</code>, <code>.stats</code> /
+			<code>.stat</code>, <code>.chip</code>, <code>.c-experience</code>,
+			<code>.btn</code>. Nothing was added to the design system for it.
+		</p>
+		<p>
+			Open question: on a phone <code>.split-phi</code> stacks proof under prose,
+			which buries the numbers. Worth trying <code>.stats-bare</code> above the
+			paragraph at small widths.
+		</p>
+	</div>
+
+	<script src="./_lab.js" defer></script>
+</body>
+</html>

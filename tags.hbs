@@ -1,12 +1,18 @@
 {{!< default}}
 
-{{> page-header title="Tags" description="Every public tag on the site."}}
+{{> page-header kicker="Index" title="Tags" description="Everything on the site, grouped. The biggest shelves first."}}
 
-<section class="mx-auto max-w-5xl px-4 py-10">
-	{{#get "tags" limit="100" include="count.posts" as |all_tags|}}
-		<div class="flex flex-wrap gap-2">
+<section class="container section">
+	{{#get "tags" limit="100" filter="visibility:public" include="count.posts" order="count.posts desc" as |all_tags|}}
+		<div class="cluster">
 			{{#foreach all_tags}}
-				<a href="{{url}}" class="rounded-md border border-zinc-200 px-3 py-1.5 text-sm hover:bg-zinc-100 dark:border-zinc-800 dark:hover:bg-zinc-800">{{name}} <span class="text-zinc-500">{{count.posts}}</span></a>
+				{{#if count.posts}}
+					<a class="c c-tag" href="{{url}}">
+						<span class="dot dot-sm{{#unless @first}} dot-muted{{/unless}}"></span>
+						<span class="c__title t-small">{{name}}</span>
+						<span class="c__count">{{count.posts}}</span>
+					</a>
+				{{/if}}
 			{{/foreach}}
 		</div>
 	{{/get}}

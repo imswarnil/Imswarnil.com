@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>Preview — lab</title>
+
+	<link rel="preconnect" href="https://fonts.googleapis.com" />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+	<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+
+	<link rel="stylesheet" href="../assets/built/screen.css" />
+	<link rel="stylesheet" href="./_lab.css" />
+	<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml" />
+
+	<script>
+		(function () {
+			try {
+				var t = localStorage.getItem('swarnil-theme');
+				if (!t) { t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'; }
+				document.documentElement.setAttribute('data-theme', t);
+			} catch (e) {}
+		})();
+	</script>
+</head>
+
+<!-- data-lab must match this file's name — it's how the toolbar finds its entry. -->
+<body data-lab="_template.html">
+
+	<div class="lab-canvas" id="lab-canvas">
+		<!-- ─────────────────────────────────────────────────────────────────
+		     Everything below is what "copy markup" copies, so keep it to the
+		     real thing: design system classes, Ghost-shaped markup, no lab-*.
+		     ───────────────────────────────────────────────────────────── -->
+
+		<section class="container section">
+			<h1 class="t-h1">Component name</h1>
+			<p class="t-lead measure-lead">One line on what this is for.</p>
+
+			<div class="cluster" style="margin-top: 1.5rem">
+				<button class="btn btn-primary" type="button">Primary</button>
+				<button class="btn btn-secondary" type="button">Secondary</button>
+				<button class="btn btn-ghost" type="button">Ghost</button>
+			</div>
+		</section>
+
+	</div>
+
+	<!-- Notes for yourself: which DS classes this leans on, what's still missing. -->
+	<div class="lab-spec">
+		<h2>Notes</h2>
+		<p>
+			Uses <code>.btn</code>, <code>.t-h1</code>, <code>.t-lead</code> from the design
+			system. Nothing new was invented here — if it had to be, it belongs in
+			<code>~/Projects/Creator-Design-System</code> first.
+		</p>
+	</div>
+
+	<script src="./_lab.js" defer></script>
+</body>
+</html>

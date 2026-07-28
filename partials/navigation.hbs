@@ -1,4 +1,33 @@
-{{!-- Markup for the {{navigation}} helper. --}}
-{{#foreach navigation}}
-	<a href="{{url}}" class="text-sm text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100{{#if current}} font-medium text-zinc-900 dark:text-zinc-100{{/if}}">{{label}}</a>
-{{/foreach}}
+{{!-- ═════════════════════════════════════════════════════════════════════════
+     THE NAVIGATION TEMPLATE
+     Ghost loads THIS file whenever a template calls {{navigation}} — and the
+     `{{#foreach navigation}}` loop ONLY works here. Nowhere else.
+
+     Items come from Ghost Admin → Settings → Navigation.
+       {{navigation}}                    → the bar
+       {{navigation type="secondary"}}   → the FOOTER, where it belongs
+
+     Every item is a plain link. A dropdown that lists six posts from a
+     collection is a partial feed pretending to be navigation — where you are
+     INSIDE something is the submenu row's job (nav/context.hbs), and
+     everything the site publishes is the app-grid panel's job.
+     ══════════════════════════════════════════════════════════════════════ --}}
+
+{{#if isSecondary}}
+
+	{{#foreach navigation}}
+		<a class="nav-sec__link nav-{{slug}}" href="{{url}}"{{#if current}} aria-current="page"{{/if}}>{{label}}</a>
+	{{/foreach}}
+
+{{else}}
+
+	{{#foreach navigation}}
+		<span class="nav-item">
+			<a class="nav-link nav-{{slug}}" href="{{url}}"{{#if current}} aria-current="page"{{/if}}>
+				{{> nav/icon}}{{label}}
+			</a>
+
+		</span>
+	{{/foreach}}
+
+{{/if}}

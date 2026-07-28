@@ -1,9 +1,25 @@
-{{!-- Collection/archive header. Params: title, description --}}
-<header class="border-b border-zinc-200 dark:border-zinc-800">
-	<div class="mx-auto max-w-5xl px-4 py-10">
-		<h1 class="text-3xl font-semibold tracking-tight sm:text-4xl">{{title}}</h1>
+{{!-- Collection / archive header — the design system's .page-head.
+     Params: title, description, kicker (optional), count (optional). --}}
+<header class="container">
+	<div class="page-head pattern pattern-grid pattern-lg fade-corners">
+		<span class="page-head__kicker">
+			<span class="dot dot-sm dot-live"></span>
+			{{#if kicker}}{{kicker}}{{else}}{{@site.title}}{{/if}}
+		</span>
+
+		<h1 class="page-head__title">{{title}}</h1>
+
 		{{#if description}}
-			<p class="mt-3 max-w-2xl text-base leading-relaxed text-zinc-600 dark:text-zinc-400">{{description}}</p>
+			<p class="page-head__desc">{{description}}</p>
+		{{/if}}
+
+		{{#if count}}
+			<div class="page-head__meta">
+				<span class="page-head__count"><b>{{count}}</b> published</span>
+				<a class="sec-head-row__more fx-shift" href="{{@site.url}}/archive/">
+					Everything <span class="fx-shift__icon">→</span>
+				</a>
+			</div>
 		{{/if}}
 	</div>
 </header>

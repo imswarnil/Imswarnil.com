@@ -1,9 +1,52 @@
-<footer class="mt-16 border-t border-zinc-200 dark:border-zinc-800">
-	<div class="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-4 px-4 py-8 text-sm text-zinc-500 dark:text-zinc-400">
-		<p>&copy; {{date format="YYYY"}} {{@site.title}}</p>
-		<div class="flex flex-wrap items-center gap-4">
-			{{navigation type="secondary"}}
-			<a href="{{@site.url}}/tags/" class="hover:text-zinc-900 dark:hover:text-zinc-100">Tags</a>
+{{!-- The end credits — the design system's .footer. Brand column, the sitemap,
+     then the sign-off where the dot ends the page the way the navbar opened it. --}}
+<footer class="container footer">
+	<div class="footer__grid">
+		<div class="footer__brand">
+			{{> logo}}
+			<p class="footer__tag">{{@site.description}}</p>
 		</div>
+
+		<div>
+			<h2 class="footer__head">Watch</h2>
+			<div class="footer__links">
+				<a href="{{@site.url}}/videos/">Videos</a>
+				<a href="{{@site.url}}/webseries/">Web series</a>
+			</div>
+		</div>
+
+		<div>
+			<h2 class="footer__head">Learn</h2>
+			<div class="footer__links">
+				<a href="{{@site.url}}/courses/">Courses</a>
+				<a href="{{@site.url}}/guide/">Guides</a>
+				<a href="{{@site.url}}/docs/">Docs</a>
+			</div>
+		</div>
+
+		<div>
+			<h2 class="footer__head">Follow</h2>
+			<div class="footer__links">
+				<a href="{{@site.url}}/blog/">Blog</a>
+				<a href="{{@site.url}}/projects/">Projects</a>
+				<a href="{{@site.url}}/travel/">Travel</a>
+			</div>
+		</div>
+
+		<div>
+			<h2 class="footer__head">More</h2>
+			<div class="footer__links">
+				{{#foreach navigation type="secondary"}}
+					<a href="{{url}}">{{label}}</a>
+				{{/foreach}}
+				<a href="{{@site.url}}/tags/">Tags</a>
+				<a href="{{@site.url}}/archive/">Archive</a>
+			</div>
+		</div>
+	</div>
+
+	<div class="footer__signoff">
+		<span>&copy; {{date format="YYYY"}} {{@site.title}} · Built with Ghost</span>
+		<span class="footer__rec"><span class="dot dot-sm dot-live"></span> still rolling</span>
 	</div>
 </footer>

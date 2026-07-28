@@ -1,0 +1,20 @@
+{{!-- Prev / next within the site. --}}
+<nav class="pager u-mt-10" aria-label="Posts">
+	{{#prev_post}}
+		<a class="pager__item" href="{{url}}">
+			<span class="pager__dir">← Previous</span>
+			<span class="pager__title">{{title}}</span>
+		</a>
+	{{else}}
+		<span></span>
+	{{/prev_post}}
+
+	{{#next_post}}
+		<a class="pager__item pager__item-next" href="{{url}}">
+			<span class="pager__dir">Next →</span>
+			<span class="pager__title">{{title}}</span>
+		</a>
+	{{else}}
+		<span></span>
+	{{/next_post}}
+</nav>

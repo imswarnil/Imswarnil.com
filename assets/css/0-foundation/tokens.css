@@ -1,0 +1,53 @@
+/* =============================================================================
+   SITE TOKENS
+   The bridge between the design system and the theme.
+
+   The design system (assets/design-system/) is the source of truth and the
+   documentation. This file is what the SITE consumes: it imports the
+   foundation, then declares the handful of theme-level tokens that only make
+   sense once there is a real page — nav height, header offsets, the reading
+   column, Ghost's own card widths.
+
+   RULES
+   · No new colour values. No new radii. No new durations. If a value isn't in
+     the design system, it doesn't get invented here — the ladder gets fixed
+     instead, in the system, and everything inherits it.
+   · Everything below is either a var() of a system token or a layout constant
+     that has no meaning inside the design system itself.
+   ========================================================================== */
+
+@import url('creator-design-system/src/1-foundation/index.css');
+
+:root {
+	/* ── Chrome ─────────────────────────────────────────────────────────────
+	   Heights the design system can't know, because they depend on what the
+	   nav actually contains. Everything that offsets against the header reads
+	   these, never a hardcoded number. */
+	--nav-h: 3.5rem;                       /* the island's own height        */
+	--nav-gap: var(--space-3);             /* island ↔ viewport top          */
+	--header-offset: calc(var(--nav-h) + var(--nav-gap) * 2);
+
+	/* ── Reading ────────────────────────────────────────────────────────────
+	   The site's column widths, mapped onto the system's container scale. */
+	--w-article: var(--w-prose);           /* long-form posts and pages      */
+	--w-listing: var(--w-site);            /* collection index pages         */
+	--w-player: var(--w-wide);             /* lesson and episode players     */
+
+	/* ── Rhythm ─────────────────────────────────────────────────────────────
+	   How far apart the big blocks on a page sit. Three values, so a page is
+	   built by choosing one of three, not by nudging margins. */
+	--page-top: var(--section-md);
+	--page-gap: var(--section-md);
+	--page-bottom: var(--section-lg);
+
+	/* ── Ghost integration ──────────────────────────────────────────────────
+	   Ghost injects its own fonts and card widths; these hand them to the
+	   system rather than letting them fight it. */
+	--gh-content-width: var(--w-article);
+	--gh-wide-width: min(var(--w-site), 100vw - var(--gutter) * 2);
+}
+
+/* Ghost editor card widths, expressed in the system's own scale instead of
+   the viewport units gscan's default snippet uses. */
+.kg-width-wide { max-width: var(--gh-wide-width); }
+.kg-width-full { max-width: 100vw; }

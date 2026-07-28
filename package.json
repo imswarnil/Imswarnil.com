@@ -17,19 +17,35 @@
 	"license": "MIT",
 	"scripts": {
 		"dev:css": "tailwindcss -i ./assets/css/tailwind.css -o ./assets/built/screen.css --watch",
-		"dev": "concurrently -n css,sync -c cyan,magenta \"npm:dev:css\" \"npm:dev:sync\"",
+		"dev": "concurrently -n css,sync,lab -c cyan,magenta,yellow \"npm:dev:css\" \"npm:dev:sync\" \"npm:lab\"",
 		"dev:sync": "browser-sync start --proxy localhost:2368 --port 3000 --ui-port 3001 --no-notify --files \"assets/built/screen.css\" \"**/*.hbs\"",
-		"build": "npm run build:css",
+		"lab": "browser-sync start --server . --startPath /lab/ --port 3002 --ui-port 3003 --no-notify --files \"lab/**/*\" \"assets/built/screen.css\" \"assets/js/*.js\"",
+		"ds:sync": "node .claude/skills/design-system/sync.mjs",
+		"build": "npm run ds:sync && npm run build:css && npm run build:js",
 		"build:css": "tailwindcss -i ./assets/css/tailwind.css -o ./assets/built/screen.css --minify",
 		"build:prod": "npm run build",
 		"test": "gscan .",
 		"test:fatal": "gscan . --fatal",
 		"test:verbose": "gscan . --verbose",
 		"clean": "rm -rf dist",
-		"zip": "npm run build && npm run test:fatal && mkdir -p dist && zip -r -X dist/swarnil.zip . -x 'node_modules/*' 'dist/*' '.git/*' '.github/*' '.claude/*' 'dummy-content/*' 'theme-customize.txt' 'instruction.md' 'documentation.md' 'redirects.yaml' '.DS_Store' '.gitignore'",
-		"release": "npm run zip && echo '→ dist/swarnil.zip ready to upload (Ghost Admin → Design → Change theme → Upload)'"
+		"zip": "npm run build && npm run test:fatal && mkdir -p dist && zip -r -X dist/swarnil.zip . -x 'node_modules/*' 'dist/*' '.git/*' '.github/*' '.claude/*' 'lab/*' 'dummy-content/*' 'theme-customize.txt' 'instruction.md' 'documentation.md' 'redirects.yaml' '.DS_Store' '.gitignore'",
+		"release": "npm run zip && echo '→ dist/swarnil.zip ready to upload (Ghost Admin → Design → Change theme → Upload)'",
+		"build:js": "cp node_modules/creator-design-system/src/nav.js assets/js/nav.js && cp node_modules/creator-design-system/collection/collection.js assets/js/collection.js"
 	},
 	"config": {
+		"custom": {
+			"navbar_style": {
+				"type": "select",
+				"options": [
+					"Full width, island on scroll",
+					"Full width",
+					"Full width, hides on scroll down",
+					"Island"
+				],
+				"default": "Full width, island on scroll",
+				"description": "A post can override this with #navbar-normal, #navbar-island or #navbar-reveal."
+			}
+		},
 		"card_assets": true,
 		"posts_per_page": 12,
 		"image_sizes": {
@@ -54,7 +70,6 @@
 		}
 	},
 	"devDependencies": {
-		"@tailwindcss/typography": "^0.5.20",
 		"browser-sync": "^3.0.4",
 		"concurrently": "^10.0.3",
 		"gscan": "^5.0.0",
@@ -65,5 +80,8 @@
 	},
 	"screenshots": {
 		"desktop": "assets/screenshot-desktop.jpg"
+	},
+	"dependencies": {
+		"creator-design-system": "file:../../../../Projects/Creator-Design-System"
 	}
 }

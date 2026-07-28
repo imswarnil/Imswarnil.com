@@ -1,19 +1,24 @@
 {{!< default}}
 
 {{#post}}
-	<article class="mx-auto max-w-3xl px-4 py-10">
+	<article class="container-prose section">
 		{{#if @page.show_title_and_feature_image}}
-			<header class="mb-8">
-				<h1 class="text-3xl font-semibold leading-tight tracking-tight sm:text-4xl">{{title}}</h1>
+			<header class="stack u-mb-8">
+				<h1 class="t-h1">{{title}}</h1>
+				{{#if custom_excerpt}}
+					<p class="t-lead">{{custom_excerpt}}</p>
+				{{/if}}
 			</header>
 
 			{{#if feature_image}}
-				<img src="{{img_url feature_image size="l"}}" alt="{{#if feature_image_alt}}{{feature_image_alt}}{{else}}{{title}}{{/if}}" class="mb-8 w-full rounded-lg" width="1000" height="563" />
+				<figure class="figure bleed-wide u-mb-8">
+					<img src="{{img_url feature_image size="l"}}"
+					     alt="{{#if feature_image_alt}}{{feature_image_alt}}{{else}}{{title}}{{/if}}"
+					     width="1000" height="563" />
+				</figure>
 			{{/if}}
 		{{/if}}
 
-		<div class="prose prose-zinc max-w-none dark:prose-invert">
-			{{content}}
-		</div>
+		{{> post-body}}
 	</article>
 {{/post}}

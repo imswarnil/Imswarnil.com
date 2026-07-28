@@ -1,0 +1,30 @@
+{{!-- Shop item. --}}
+<div class="container section">
+	<div class="grid-2" style="align-items:start;gap:var(--space-10)">
+		<div>
+			{{#if feature_image}}
+				<figure class="figure">
+					<img src="{{img_url feature_image size="l"}}" alt="{{title}}" width="1000" height="1000" class="u-ratio-square u-object-cover" />
+				</figure>
+			{{else}}
+				<div class="pattern pattern-checker u-border u-rounded-lg u-ratio-square"></div>
+			{{/if}}
+		</div>
+
+		<div>
+			<header class="stack u-mb-6">
+				<span class="eyebrow">Shop</span>
+				<h1 class="t-h1">{{title}}</h1>
+				{{#if custom_excerpt}}<p class="t-lead">{{custom_excerpt}}</p>{{/if}}
+			</header>
+
+			{{> post-body}}
+
+			<div class="cluster u-mt-8">
+				<a class="btn btn-primary btn-lg" href="#/portal/signup">Get it</a>
+			</div>
+
+			{{> util/tags}}
+		</div>
+	</div>
+</div>

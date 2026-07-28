@@ -1,0 +1,110 @@
+{{!-- ═════════════════════════════════════════════════════════════════════════
+     THE NAVBAR
+     One bar holding two rows: the site menu, always, and the in-place panel —
+     the full menu, which grows the bar rather than covering the page.
+
+     Links come from Ghost (Settings → Navigation) via partials/navigation.hbs,
+     the only file where the nav loop works. Behaviour — scroll state, hover
+     intent, the panel, the progress border — is nav.js from the design
+     system: every handler only sets an attribute the stylesheet already
+     understands.
+
+     Params: shell — the behaviour classes, chosen in partials/navbar.hbs.
+                     Empty = the sticky island.
+     ══════════════════════════════════════════════════════════════════════ --}}
+<header class="nav-shell nav-progress {{shell}}" data-scroll-at="24">
+	<div class="nav-stack">
+
+		<nav class="nav-bar nav-bar-center nav-collapse" aria-label="Main">
+			{{> logo}}
+
+			<div class="nav-links" data-nav-links>
+				{{navigation}}
+
+				{{!-- Overflow. nav.js is not involved: main.js fills this and
+				      unhides the trigger only if anything had to move. --}}
+				<details class="nav-menu nav-menu-hover nav-menu-grow nav-more" data-nav-more hidden>
+					<summary class="nav-link">More</summary>
+					<div class="nav-menu__panel" data-nav-more-panel></div>
+				</details>
+			</div>
+
+			<div class="nav-actions cluster-sm">
+				<button class="icon-box icon-box-round icon-box-sm" type="button" data-theme-toggle
+				        aria-label="Switch between light and dark">
+					<svg class="icon icon-sm" aria-hidden="true" data-theme-icon="light"><use href="#i-sun"/></svg>
+					<svg class="icon icon-sm hidden" aria-hidden="true" data-theme-icon="dark"><use href="#i-moon"/></svg>
+				</button>
+
+				<a class="nav-gh" href="https://github.com/swarnil" rel="noopener" target="_blank"
+				   aria-label="GitHub">
+					<svg class="icon" aria-hidden="true"><use href="#i-github"/></svg>
+				</a>
+
+				{{#if @site.members_enabled}}
+					{{#if @member}}
+						<a class="btn btn-ghost btn-sm btn-pill" href="#/portal/account">Account</a>
+					{{else}}
+						<a class="btn btn-primary btn-sm btn-pill" href="#/portal/signup">Subscribe</a>
+					{{/if}}
+				{{/if}}
+
+				{{!-- The way into the full menu, at every width. The record light
+				      unfolds into a play head: closed is ready, open is rolling. --}}
+				<button class="nav-burger nav-burger-rec nav-burger-pinned" type="button"
+				        data-panel-toggle aria-expanded="false" aria-label="Browse everything">
+					<span class="nav-burger__box"><span class="nav-burger__bars"></span></span>
+					<span class="u-sr-only">Menu</span>
+				</button>
+			</div>
+		</nav>
+
+		{{!-- Row 2 — the menu, in place. Nothing covers the page. --}}
+		<div class="nav-panel">
+			<div class="nav-panel__in">
+				<div class="nav-panel__links nav-panel__links-split">
+					<span class="nav-panel__label">Watch</span>
+					<a class="nav-panel__link" href="{{@site.url}}/videos/"><span class="nav-panel__name"><svg class="icon" aria-hidden="true"><use href="#i-camera"/></svg>Videos</span></a>
+					<a class="nav-panel__link" href="{{@site.url}}/webseries/"><span class="nav-panel__name"><svg class="icon" aria-hidden="true"><use href="#i-play"/></svg>Web series</span></a>
+
+					<span class="nav-panel__label">Learn</span>
+					<a class="nav-panel__link" href="{{@site.url}}/courses/"><span class="nav-panel__name"><svg class="icon" aria-hidden="true"><use href="#i-book"/></svg>Courses</span></a>
+					<a class="nav-panel__link" href="{{@site.url}}/guide/"><span class="nav-panel__name"><svg class="icon" aria-hidden="true"><use href="#i-book"/></svg>Guides</span></a>
+					<a class="nav-panel__link" href="{{@site.url}}/docs/"><span class="nav-panel__name"><svg class="icon" aria-hidden="true"><use href="#i-book"/></svg>Docs</span></a>
+					<a class="nav-panel__link" href="{{@site.url}}/snippets/"><span class="nav-panel__name"><svg class="icon" aria-hidden="true"><use href="#i-code"/></svg>Snippets</span></a>
+
+					<span class="nav-panel__label">Read</span>
+					<a class="nav-panel__link" href="{{@site.url}}/blog/"><span class="nav-panel__name"><svg class="icon" aria-hidden="true"><use href="#i-pen"/></svg>Blog</span></a>
+					<a class="nav-panel__link" href="{{@site.url}}/newsletters/"><span class="nav-panel__name"><svg class="icon" aria-hidden="true"><use href="#i-mail"/></svg>Newsletters</span></a>
+					<a class="nav-panel__link" href="{{@site.url}}/changelog/"><span class="nav-panel__name"><svg class="icon" aria-hidden="true"><use href="#i-clock"/></svg>Changelog</span></a>
+					<a class="nav-panel__link" href="{{@site.url}}/archive/"><span class="nav-panel__name"><svg class="icon" aria-hidden="true"><use href="#i-clock"/></svg>Archive</span></a>
+
+					<span class="nav-panel__label">Build &amp; road</span>
+					<a class="nav-panel__link" href="{{@site.url}}/projects/"><span class="nav-panel__name"><svg class="icon" aria-hidden="true"><use href="#i-code"/></svg>Projects</span></a>
+					<a class="nav-panel__link" href="{{@site.url}}/products/"><span class="nav-panel__name"><svg class="icon" aria-hidden="true"><use href="#i-bag"/></svg>Products I use</span></a>
+					<a class="nav-panel__link" href="{{@site.url}}/travel/"><span class="nav-panel__name"><svg class="icon" aria-hidden="true"><use href="#i-plane"/></svg>Travel</span></a>
+					<a class="nav-panel__link" href="{{@site.url}}/tags/"><span class="nav-panel__name"><svg class="icon" aria-hidden="true"><use href="#i-tag"/></svg>Topics</span></a>
+				</div>
+
+				<aside class="nav-panel__aside">
+					{{#get "posts" limit="1" include="tags" as |latest|}}
+						{{#foreach latest}}
+							<span class="nav-panel__label">Latest</span>
+							<a class="nav-panel__link" href="{{url}}">{{title}}</a>
+						{{/foreach}}
+					{{/get}}
+
+					{{#if @site.members_enabled}}
+						<span class="nav-panel__label">Newsletter</span>
+						<p class="t-small u-fg-subtle">One email a week — what shipped, what broke.</p>
+						<form class="nav-panel__cta" data-members-form="subscribe">
+							<input class="input" type="email" name="email" placeholder="you@domain.com"
+							       aria-label="Email address" required />
+							<button class="btn btn-primary btn-sm" type="submit">Subscribe</button>
+						</form>
+					{{/if}}
+				</aside>
+			</div>
+		</div>
+	</div>
+</header>

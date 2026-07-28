@@ -1,0 +1,18 @@
+/* =============================================================================
+   SITE COMPONENTS
+   Layer 3 of the design system, imported wholesale — including the collection
+   cards, which are this theme's routes.yaml expressed as CSS.
+
+   If a template needs a component that isn't here, it goes into
+   assets/design-system/3-components/ first and is documented on the
+   Components page. Templates never carry their own CSS.
+   ========================================================================== */
+
+@import url('creator-design-system/src/3-components/index.css');
+
+/* The collection layer: the hero, the facet rail, places, spots, post rows and
+   the widgets a collection page is made of. Travel adds only its own art on
+   top — the globe, the flight line, the palm. */
+@import url('creator-design-system/collection/collection.css');
+@import url('creator-design-system/collection/travel/travel.css');
+@import url('creator-design-system/collection/course/course.css');

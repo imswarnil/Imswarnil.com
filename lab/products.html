@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>Products I use — lab</title>
+
+	<link rel="preconnect" href="https://fonts.googleapis.com" />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+	<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+
+	<link rel="stylesheet" href="../assets/built/screen.css" />
+	<link rel="stylesheet" href="./_lab.css" />
+	<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml" />
+
+	<script>
+		(function () {
+			try {
+				var t = localStorage.getItem('swarnil-theme');
+				if (!t) { t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'; }
+				document.documentElement.setAttribute('data-theme', t);
+			} catch (e) {}
+		})();
+	</script>
+</head>
+
+<body data-lab="products.html">
+
+	<div class="lab-canvas" id="lab-canvas">
+
+		<!-- ─────────────────────────────────────────────────────────────────
+		     PRODUCTS I USE — rail + small cards
+		     The rail is the page's index, not decoration: on /products the
+		     groups are #group-* tags, so the filter is the taxonomy made
+		     visible. Cards shrink to a row (.c-product) because a keyboard
+		     does not need a 16:9 hero.
+		     ───────────────────────────────────────────────────────────── -->
+
+		<div class="container section">
+
+			<header class="page-head page-head-sm">
+				<span class="page-head__kicker">Kit</span>
+				<h1 class="page-head__title">Products I use</h1>
+				<p class="page-head__desc measure-lead">
+					Everything that earns its place — the desk, the camera bag, the
+					software I'd pay for again. Affiliate links where they exist.
+				</p>
+				<span class="page-head__meta"><span class="page-head__count">24 items</span></span>
+			</header>
+
+			<div class="grid-rail-left">
+
+				<!-- The rail. Sticky, because scrolling back up to change a
+				     filter is the fastest way to lose someone. -->
+				<aside class="sticky-rail stack">
+					<div class="field-icon">
+						<svg class="icon icon-sm field-icon__glyph" aria-hidden="true"><use href="#i-search"/></svg>
+						<input class="input input-search" type="search" placeholder="Filter kit" aria-label="Filter products" />
+					</div>
+
+					<div class="rail__block stack-sm">
+						<span class="rail__title">Group</span>
+						<label class="check"><input type="checkbox" checked /><span>Desk</span></label>
+						<label class="check"><input type="checkbox" /><span>Camera</span></label>
+						<label class="check"><input type="checkbox" /><span>Audio</span></label>
+						<label class="check"><input type="checkbox" /><span>Software</span></label>
+						<label class="check"><input type="checkbox" /><span>Travel</span></label>
+					</div>
+
+					<div class="rail__block stack-sm">
+						<span class="rail__title">Verdict</span>
+						<label class="check"><input type="checkbox" /><span>Still using</span></label>
+						<label class="check"><input type="checkbox" /><span>Replaced</span></label>
+					</div>
+
+					<hr class="rule" />
+
+					<label class="switch">
+						<input type="checkbox" checked />
+						<span>Show prices</span>
+					</label>
+				</aside>
+
+				<!-- The list. .deck-c-list is the collection deck in one column;
+				     .c-product turns each card into a row. -->
+				<div class="stack">
+					<div class="cluster-sm">
+						<span class="chip">Desk <span class="chip__count">8</span></span>
+						<button class="chip" type="button">Camera <span class="chip__count">6</span></button>
+						<button class="chip" type="button">Audio <span class="chip__count">4</span></button>
+						<button class="chip" type="button">Software <span class="chip__count">6</span></button>
+					</div>
+
+					<div class="deck-c deck-c-list">
+						<article class="c c-product">
+							<div class="c__thumb"></div>
+							<div class="c__body">
+								<h3 class="c__title"><a class="c__link" href="#">Product Name — 1</a></h3>
+								<span class="c__meta">Desk · 3 years</span>
+							</div>
+							<span class="c__price">€129</span>
+						</article>
+
+						<article class="c c-product">
+							<div class="c__thumb"></div>
+							<div class="c__body">
+								<h3 class="c__title"><a class="c__link" href="#">Product Name — 2</a></h3>
+								<span class="c__meta">Camera · daily</span>
+							</div>
+							<span class="c__price">€899</span>
+						</article>
+
+						<article class="c c-product">
+							<div class="c__thumb"></div>
+							<div class="c__body">
+								<h3 class="c__title"><a class="c__link" href="#">Product Name — 3</a></h3>
+								<span class="c__meta">Audio · replaced twice</span>
+							</div>
+							<span class="c__price">€59</span>
+						</article>
+
+						<article class="c c-product">
+							<div class="c__thumb"></div>
+							<div class="c__body">
+								<h3 class="c__title"><a class="c__link" href="#">Product Name — 4</a></h3>
+								<span class="c__meta">Software · subscription</span>
+							</div>
+							<span class="c__price">€8/mo</span>
+						</article>
+
+						<article class="c c-product">
+							<div class="c__thumb"></div>
+							<div class="c__body">
+								<h3 class="c__title"><a class="c__link" href="#">Product Name — 5</a></h3>
+								<span class="c__meta">Travel · two continents</span>
+							</div>
+							<span class="c__price">€210</span>
+						</article>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+	<div class="lab-spec">
+		<h2>Notes</h2>
+		<p>
+			Backlog: <em>“Products-I-use: smaller cards + fixed sidebar panel filtering
+			by #group-* tags.”</em> Uses <code>.grid-rail-left</code> +
+			<code>.sticky-rail</code> for the panel, <code>.c-product</code> for the row
+			card, <code>.rail__block</code> / <code>.rail__title</code> for the groups.
+		</p>
+		<p>
+			The rail collapses to full width under 68rem — on a phone it stacks above the
+			list, which is wrong for a filter. That's the one thing this preview says
+			needs solving before it becomes <code>products.hbs</code>: probably a
+			<code>&lt;details&gt;</code> around the rail at small widths.
+		</p>
+	</div>
+
+	<script src="./_lab.js" defer></script>
+</body>
+</html>

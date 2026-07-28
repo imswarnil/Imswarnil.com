@@ -1,13 +1,18 @@
-{{!-- Post grid + pagination. Renders the current context's `posts`. --}}
-<section class="mx-auto max-w-5xl px-4 py-10">
+{{!-- Collection index: a deck of the collection's own cards, plus pagination. --}}
+<section class="container section">
 	{{#if posts}}
-		<div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+		<div class="deck-c sec-cascade sec-on-scroll">
 			{{#foreach posts}}
 				{{> card}}
 			{{/foreach}}
 		</div>
 		{{> pagination}}
 	{{else}}
-		<p class="text-sm text-zinc-500">Nothing published here yet.</p>
+		<div class="empty">
+			<span class="eyebrow">Nothing here yet</span>
+			<p class="empty__title">This shelf is still being filled</p>
+			<p class="empty__body">New work lands most weeks — the newsletter is the fastest way to hear about it.</p>
+			<a class="btn btn-soft" href="#/portal/signup">Notify me</a>
+		</div>
 	{{/if}}
 </section>

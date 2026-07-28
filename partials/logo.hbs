@@ -1,0 +1,23 @@
+{{!-- ═════════════════════════════════════════════════════════════════════════
+     THE MARK
+     Two sources, most specific first:
+
+       1. Ghost's publication logo (Settings → Publication → Brand), if set —
+          it is the owner's decision, so it wins.
+       2. The markup mark: the dot over the i is a tittle, and the tittle IS
+          the record light, so the i is the dotless ı (U+0131) and the dot is
+          drawn as an element. It scales and recolours in ways an image
+          cannot, which is why the design system documents this version.
+
+     `assets/logo/logo.svg` ships the same mark as a file, for anywhere that
+     needs an image (og:image, an email signature, a README).
+     ══════════════════════════════════════════════════════════════════════ --}}
+<a class="logo-responsive" href="{{@site.url}}/" aria-label="{{@site.title}} — home">
+	{{#if @site.logo}}
+		<img class="logo__img" src="{{@site.logo}}" alt="{{@site.title}}" height="28" loading="eager" />
+	{{else}}
+		<span class="logo__full logo logo-sm">Swarn<span class="logo__i">ı<i class="logo__tittle"></i></span>l</span>
+		<span class="logo__abbr logo logo-sm logo-short">S<span class="logo__i">ı<i class="logo__tittle"></i></span>l</span>
+		<span class="logo__mark logo-s" style="--logo-size:1.25rem">S</span>
+	{{/if}}
+</a>

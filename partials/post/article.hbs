@@ -1,0 +1,17 @@
+{{!-- Default long-form layout. Every post that isn't a special kind lands here. --}}
+<article class="container-prose section">
+	<header class="stack u-mb-8">
+		{{#if primary_tag}}<a class="eyebrow" href="{{primary_tag.url}}">{{primary_tag.name}}</a>{{/if}}
+		<h1 class="t-h1">{{title}}</h1>
+		{{#if custom_excerpt}}<p class="t-lead">{{custom_excerpt}}</p>{{/if}}
+		{{> util/meta}}
+	</header>
+
+	{{> util/feature-image bleed=true}}
+	{{> post-body}}
+	{{> util/tags}}
+	{{> util/share}}
+	{{> util/pager}}
+</article>
+
+{{> util/related}}

@@ -1,30 +1,149 @@
 {{!< default}}
 
-{{!-- Hero --}}
-<section class="border-b border-zinc-200 dark:border-zinc-800">
-	<div class="mx-auto max-w-5xl px-4 py-16 sm:py-24">
-		<h1 class="max-w-3xl text-4xl font-semibold leading-tight tracking-tight sm:text-5xl">{{@site.title}}</h1>
-		<p class="mt-4 max-w-2xl text-lg leading-relaxed text-zinc-600 dark:text-zinc-400">{{@site.description}}</p>
+{{!-- ══ Hero — copy left, the latest post framed on the right ═══════════ --}}
+<section class="container pattern pattern-grid pattern-lg fade-corners">
+	<div class="hero hero-split">
+		<div>
+			<span class="hero__eyebrow">
+				<span class="dot dot-sm dot-live"></span> Documenting the work
+			</span>
 
-		<div class="mt-8 flex flex-wrap gap-3">
-			<a href="{{@site.url}}/blog/" class="rounded-md bg-zinc-900 px-4 py-2 text-sm font-medium text-white hover:bg-zinc-700 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-300">Read the blog</a>
-			<a href="{{@site.url}}/archive/" class="rounded-md border border-zinc-300 px-4 py-2 text-sm font-medium hover:bg-zinc-100 dark:border-zinc-700 dark:hover:bg-zinc-800">Browse everything</a>
+			<h1 class="hero__title">I build, film it, and <em>write down</em> what I learned.</h1>
+
+			<p class="hero__lead">{{@site.description}}</p>
+
+			<div class="hero__actions">
+				<a class="btn btn-primary btn-lg" href="{{@site.url}}/videos/">
+					<svg class="icon btn__icon" aria-hidden="true"><use href="#i-play"/></svg>
+					Watch the latest
+				</a>
+				<a class="btn btn-secondary btn-lg" href="{{@site.url}}/blog/">Read the blog</a>
+			</div>
+		</div>
+
+		<div class="hero-split__stage">
+			{{!-- The publication cover leads, because it is the owner's own
+			      choice of image. With no cover set, the newest post stands in;
+			      with neither, the grid pattern keeps the frame from collapsing. --}}
+			{{#if @site.cover_image}}
+				<a class="frame frame-ink u-block u-relative u-overflow-hidden u-ratio-video"
+				   href="{{@site.url}}/archive/" data-surface="inverse">
+					<img src="{{img_url @site.cover_image size="xl"}}"
+					     srcset="{{img_url @site.cover_image size="m"}} 600w, {{img_url @site.cover_image size="l"}} 1000w, {{img_url @site.cover_image size="xl"}} 1600w"
+					     sizes="(min-width: 64rem) 34rem, 100vw"
+					     alt="{{@site.title}}" class="u-object-cover u-w-full u-h-full"
+					     width="1600" height="900" fetchpriority="high" />
+				</a>
+				<p class="hero-split__caption">
+					<span>{{@site.title}}</span>
+					<span class="timecode">{{@site.description}}</span>
+				</p>
+			{{else}}
+				{{#get "posts" limit="1" include="tags" as |featured|}}
+					{{#foreach featured}}
+						<a class="frame frame-ink u-block u-relative u-overflow-hidden u-ratio-video"
+						   href="{{url}}" data-surface="inverse">
+							{{#if feature_image}}
+								<img src="{{img_url feature_image size="l"}}" alt="{{title}}"
+								     class="u-object-cover u-w-full u-h-full" width="1000" height="563" />
+							{{else}}
+								<span class="pattern pattern-grid u-absolute u-inset-0" aria-hidden="true"></span>
+							{{/if}}
+						</a>
+						<p class="hero-split__caption">
+							<span>Latest · {{#if primary_tag}}{{primary_tag.name}}{{else}}{{@site.title}}{{/if}}</span>
+							<span class="timecode">{{date format="D MMM"}}</span>
+						</p>
+					{{/foreach}}
+				{{/get}}
+			{{/if}}
 		</div>
 	</div>
 </section>
 
-{{!-- Latest posts --}}
-<section class="mx-auto max-w-5xl px-4 py-10">
-	<h2 class="mb-6 text-xl font-semibold tracking-tight">Latest</h2>
+{{!-- ══ Most recent ═════════════════════════════════════════════════════ --}}
+<section class="container section">
+	<div class="sec-head-row">
+		<div>
+			<span class="sec-head-row__kicker">Fresh this week</span>
+			<h2 class="sec-head-row__title">Most recent</h2>
+		</div>
+		<a class="sec-head-row__more fx-shift" href="{{@site.url}}/archive/">
+			Everything <span class="fx-shift__icon">→</span>
+		</a>
+	</div>
+
 	{{#get "posts" limit="6" include="tags" as |latest|}}
 		{{#if latest}}
-			<div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+			<div class="deck-c sec-cascade sec-on-scroll">
 				{{#foreach latest}}
 					{{> card}}
 				{{/foreach}}
 			</div>
 		{{else}}
-			<p class="text-sm text-zinc-500">Nothing published yet.</p>
+			<div class="empty">
+				<span class="eyebrow">No posts yet</span>
+				<p class="empty__title">The first one is still rendering</p>
+				<a class="btn btn-soft" href="#/portal/signup">Notify me</a>
+			</div>
 		{{/if}}
 	{{/get}}
+</section>
+
+{{!-- ══ What I make ═════════════════════════════════════════════════════ --}}
+<section class="container section">
+	<div class="sec-head-row">
+		<div>
+			<span class="sec-head-row__kicker">The shelves</span>
+			<h2 class="sec-head-row__title">What I make</h2>
+		</div>
+	</div>
+
+	<div class="list-group">
+		<a class="list-group__item" href="{{@site.url}}/videos/">
+			<svg class="icon" aria-hidden="true"><use href="#i-camera"/></svg>
+			<span class="u-weight-semibold">Videos</span>
+			<span class="t-small u-fg-subtle u-grow">Tutorials, build vlogs, and the occasional over-produced answer.</span>
+			<svg class="icon u-shrink-0" aria-hidden="true"><use href="#i-arrow"/></svg>
+		</a>
+		<a class="list-group__item" href="{{@site.url}}/courses/">
+			<svg class="icon" aria-hidden="true"><use href="#i-book"/></svg>
+			<span class="u-weight-semibold">Courses</span>
+			<span class="t-small u-fg-subtle u-grow">Long-form, lesson by lesson, with a syllabus you can finish.</span>
+			<svg class="icon u-shrink-0" aria-hidden="true"><use href="#i-arrow"/></svg>
+		</a>
+		<a class="list-group__item" href="{{@site.url}}/projects/">
+			<svg class="icon" aria-hidden="true"><use href="#i-code"/></svg>
+			<span class="u-weight-semibold">Projects</span>
+			<span class="t-small u-fg-subtle u-grow">Things I built in public, with the build log attached.</span>
+			<svg class="icon u-shrink-0" aria-hidden="true"><use href="#i-arrow"/></svg>
+		</a>
+		<a class="list-group__item" href="{{@site.url}}/travel/">
+			<svg class="icon" aria-hidden="true"><use href="#i-plane"/></svg>
+			<span class="u-weight-semibold">Travel</span>
+			<span class="t-small u-fg-subtle u-grow">Trips shot like episodes — itineraries, budgets, honest notes.</span>
+			<svg class="icon u-shrink-0" aria-hidden="true"><use href="#i-arrow"/></svg>
+		</a>
+	</div>
+</section>
+
+{{!-- ══ The one ask ═════════════════════════════════════════════════════ --}}
+<section class="container section">
+	<div class="cta cta-newsletter pattern pattern-grid" data-surface="inverse">
+		<span class="cta__kicker">
+			<svg class="icon" aria-hidden="true" style="width:1rem;height:1rem"><use href="#i-mail"/></svg>
+			The newsletter
+		</span>
+
+		<h2 class="cta__title">Get the build log in your <em>inbox</em>.</h2>
+
+		<p class="cta__body">One email a week. What shipped, what broke, what I'd do differently.</p>
+
+		<form class="cta-newsletter__form" data-members-form="subscribe">
+			<input class="input" type="email" name="email" placeholder="you@domain.com" aria-label="Email" required />
+			<button class="btn btn-primary" type="submit">Subscribe</button>
+		</form>
+
+		<p class="cta__fine">No spam. Unsubscribe in one click.</p>
+	</div>
 </section>

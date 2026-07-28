@@ -1,18 +1,37 @@
-{{!-- Site header. Menu comes from Ghost Admin → Settings → Navigation. --}}
-<header class="sticky top-0 z-50 border-b border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-950">
-	<nav class="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-4 px-4 py-3">
-		<a href="{{@site.url}}" class="text-base font-semibold tracking-tight">{{@site.title}}</a>
+{{!-- ═════════════════════════════════════════════════════════════════════════
+     WHICH NAVBAR
+     One bar for the whole site. What changes is how it BEHAVES when the reader
+     scrolls — the one difference worth a variant. Shape (centred links, mark
+     left, controls right) is decided once in nav/bar.hbs, never per page.
 
-		<div class="flex flex-wrap items-center gap-4">
-			{{navigation}}
+     Four behaviours, each a class the design system already understands:
 
-			{{#if @site.members_enabled}}
-				{{#if @member}}
-					<a href="#/portal/account" class="text-sm text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100">Account</a>
-				{{else}}
-					<a href="#/portal/signup" class="rounded-md bg-zinc-900 px-3 py-1.5 text-sm font-medium text-white hover:bg-zinc-700 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-300">Subscribe</a>
-				{{/if}}
-			{{/if}}
-		</div>
-	</nav>
-</header>
+       full width        a plain bar across the page, sticky, always there
+       island            the floating pill, sticky from the first pixel
+       island on scroll  full width at rest, drawing itself into the island once
+                         the page has moved  (the default)
+       hide on scroll    full width and sticky, gone on the way down, back on
+                         the way up
+
+     Picked site-wide in Ghost Admin → Design → Site-wide → Navbar style.
+
+     A post or page overrides it with an internal tag — for the landing page
+     that wants no chrome, or the long read that wants the bar out of the way.
+     The tag always beats the setting:
+
+       #navbar-normal · #navbar-island · #navbar-morph · #navbar-reveal
+       #navbar-fixed    (the island, pinned rather than sticky)
+     ══════════════════════════════════════════════════════════════════════ --}}
+{{#is "post, page"}}
+	{{#post}}
+		{{#has tag="#navbar-normal"}}{{> nav/bar shell="nav-shell-full"}}
+		{{else has tag="#navbar-island"}}{{> nav/bar}}
+		{{else has tag="#navbar-morph"}}{{> nav/bar shell="nav-shell-morph"}}
+		{{else has tag="#navbar-reveal"}}{{> nav/bar shell="nav-shell-full nav-shell-reveal"}}
+		{{else has tag="#navbar-fixed"}}{{> nav/bar shell="nav-shell-fixed"}}
+		{{else}}{{> nav/chosen}}
+		{{/has}}
+	{{/post}}
+{{else}}
+	{{> nav/chosen}}
+{{/is}}

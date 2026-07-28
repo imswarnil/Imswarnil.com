@@ -15,13 +15,14 @@ you can import files in any order without duplicating tags.
 |------|---------------|------|
 | `navigation.json` | Primary + secondary nav menus (settings only, no posts) | — |
 | `course.json` | Course landing pages (`#course`) | full |
+| `course-lesson.json` | Two courses **and** their lessons in one file, with the helper internals the layouts read: `#module-01…04` (name in the tag's *description*), `#level-*`, `#free`, `#track-*` | sample |
 | `lesson.json` | All lessons (`#lesson`) — Java + SQL university courses | full |
 | `post.json` | Blog posts (`#blog`) | sample |
 | `video.json` | Videos, reels, shorts (`#video`) | sample |
 | `webseries.json` | Web series + episodes (`#webseries` / `#episode`) | sample |
 | `project.json` | Projects + build-log steps (`#project` / `#project-detail`) | sample |
 | `product.json` | Product recommendations + shop (`#product` / `#shop`) | sample |
-| `travel.json` | Trips + travel posts (`#trip` / `#travel`) | sample |
+| `travel.json` | Trips + travel posts (`#trip` / `#travel`) — Vienna, Austria and central Europe, with `#region-*`, `#country-*` and `#city-*` tags | sample |
 | `timeline.json` | Timeline / resume events (`#timeline`) | sample |
 | `misc.json` | Changelog, newsletters, snippets, prompts, experiences, bucketlist | sample |
 | `guide.json` | Field guide + its steps (`#guide` / `#guide-content`) — powers `/guide/` | full |

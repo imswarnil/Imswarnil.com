@@ -1,0 +1,45 @@
+{{!-- Episode: full-width player, episode list on the RIGHT (backlog rule). --}}
+<div class="container-wide section">
+	{{#if primary_tag}}
+		{{> util/breadcrumb parent=primary_tag.name parentUrl=primary_tag.url}}
+	{{/if}}
+
+	<div class="grid-rail u-mt-6">
+		<div>
+			{{> util/player}}
+
+			<header class="stack u-mt-6 u-mb-8">
+				<span class="eyebrow">Episode</span>
+				<h1 class="t-h1">{{title}}</h1>
+				{{> util/meta}}
+			</header>
+
+			{{> post-body}}
+			{{> util/pager}}
+		</div>
+
+		<aside class="rail">
+			{{#if primary_tag}}
+				{{#get "posts" filter="tag:hash-episode+primary_tag:{{primary_tag.slug}}" limit="100" order="published_at asc" as |eps|}}
+					<div class="ep-panel">
+						<header class="ep-panel__head">
+							<span class="ep-panel__title">{{primary_tag.name}}</span>
+							<span class="ep-panel__count">{{eps.length}} episodes</span>
+						</header>
+						<div class="ep-panel__list">
+							{{#foreach eps}}
+								<a class="episode" href="{{url}}">
+									<span class="episode__thumb pattern pattern-grid pattern-media"></span>
+									<span>
+										<span class="episode__title">{{title}}</span>
+										<span class="episode__meta">{{date format="D MMM YYYY"}}</span>
+									</span>
+								</a>
+							{{/foreach}}
+						</div>
+					</div>
+				{{/get}}
+			{{/if}}
+		</aside>
+	</div>
+</div>

@@ -1,0 +1,16 @@
+{{!-- More from the same primary tag. Silent when there is nothing to show. --}}
+{{#get "posts" filter="id:-{{id}}+primary_tag:{{primary_tag.slug}}" limit="3" include="tags" as |related|}}
+	{{#if related}}
+		<section class="container section">
+			<div class="sec-head-row">
+				<div>
+					<span class="sec-head-row__kicker">Keep going</span>
+					<h2 class="sec-head-row__title">More like this</h2>
+				</div>
+			</div>
+			<div class="deck-c">
+				{{#foreach related}}{{> card}}{{/foreach}}
+			</div>
+		</section>
+	{{/if}}
+{{/get}}

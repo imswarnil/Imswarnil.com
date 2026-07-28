@@ -1,0 +1,44 @@
+{{!-- Trip: the container. Photo hero, then the itinerary as the spine. --}}
+<section class="container section-sm">
+	<div class="hero-band hero-band-media pattern pattern-topo" data-surface="inverse">
+		{{#if feature_image}}
+			<div class="hero-band__media">
+				<img src="{{img_url feature_image size="xl"}}" alt="{{title}}" width="1600" height="900" />
+			</div>
+		{{/if}}
+		<span class="hero__eyebrow"><svg class="icon" aria-hidden="true"><use href="#i-plane"/></svg> Trip</span>
+		<h1 class="hero__title">{{title}}</h1>
+		{{#if custom_excerpt}}<p class="hero__lead">{{custom_excerpt}}</p>{{/if}}
+	</div>
+</section>
+
+<div class="container section">
+	<div class="grid-rail">
+		<div>
+			{{> post-body}}
+
+			{{#if primary_tag}}
+				{{#get "posts" filter="tag:hash-travel+primary_tag:{{primary_tag.slug}}" limit="100" order="published_at asc" as |stories|}}
+					{{#if stories}}
+						<ol class="itinerary u-mt-10">
+							{{#foreach stories}}
+								<li class="itinerary__day">
+									<span class="itinerary__chip"><b>{{@number}}</b><span>day</span></span>
+									<h3 class="itinerary__title"><a class="t-link" href="{{url}}">{{title}}</a></h3>
+									{{#if custom_excerpt}}<p class="itinerary__note">{{custom_excerpt}}</p>{{/if}}
+								</li>
+							{{/foreach}}
+						</ol>
+					{{/if}}
+				{{/get}}
+			{{/if}}
+		</div>
+
+		<aside class="rail">
+			<div class="rail__block">
+				<h2 class="rail__title">This trip</h2>
+				{{> util/tags}}
+			</div>
+		</aside>
+	</div>
+</div>

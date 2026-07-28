@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>Lab — Swarnil theme</title>
+
+	<link rel="preconnect" href="https://fonts.googleapis.com" />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+	<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+
+	<link rel="stylesheet" href="../assets/built/screen.css" />
+	<link rel="stylesheet" href="./_lab.css" />
+	<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml" />
+
+	<script>
+		(function () {
+			try {
+				var t = localStorage.getItem('swarnil-theme');
+				if (!t) { t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'; }
+				document.documentElement.setAttribute('data-theme', t);
+			} catch (e) {}
+		})();
+	</script>
+</head>
+
+<body>
+	<main class="lab-index">
+		<h1>Lab</h1>
+		<p class="lab-lede">
+			Previews built on the theme's own <code>assets/built/screen.css</code> — the same
+			design system, the same build, no separate setup. Design here, then paste the
+			markup into a <code>.hbs</code>.
+		</p>
+
+		<ul class="lab-list" id="lab-list"></ul>
+
+		<p class="lab-lede" style="margin-top: 2.5rem">
+			New preview: copy <code>_template.html</code>, then add a line to
+			<code>_pages.json</code>.
+		</p>
+	</main>
+
+	<script>
+		fetch('./_pages.json')
+			.then((r) => r.json())
+			.then((pages) => {
+				document.getElementById('lab-list').innerHTML = pages
+					.map(
+						(p) => `
+							<li>
+								<a href="./${p.file}">
+									<strong>${p.title}</strong>
+									<span>${p.note || ''}</span>
+									<em class="lab-tag" data-status="${p.status || ''}">${p.status || 'draft'}</em>
+								</a>
+							</li>`
+					)
+					.join('');
+			});
+	</script>
+</body>
+</html>

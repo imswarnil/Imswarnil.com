@@ -1,0 +1,32 @@
+[
+	{
+		"file": "navbar.html",
+		"title": "Navbar",
+		"note": "Five scroll behaviours: island, full, morph, reveal, pinned.",
+		"status": "done"
+	},
+	{
+		"file": "recruiter.html",
+		"title": "Recruiter block",
+		"note": "Homepage section for someone who came from a CV: proof, skills, history, résumé CTA.",
+		"status": "wip"
+	},
+	{
+		"file": "products.html",
+		"title": "Products I use",
+		"note": "Sticky filter rail + row cards, driven by the #group-* tags.",
+		"status": "wip"
+	},
+	{
+		"file": "episode.html",
+		"title": "Episode page",
+		"note": "Full width player with the series list on the right.",
+		"status": "wip"
+	},
+	{
+		"file": "_template.html",
+		"title": "Template",
+		"note": "Copy this file to start a new preview.",
+		"status": "ref"
+	}
+]

@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>Episode page — lab</title>
+
+	<link rel="preconnect" href="https://fonts.googleapis.com" />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+	<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+
+	<link rel="stylesheet" href="../assets/built/screen.css" />
+	<link rel="stylesheet" href="./_lab.css" />
+	<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml" />
+
+	<script>
+		(function () {
+			try {
+				var t = localStorage.getItem('swarnil-theme');
+				if (!t) { t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'; }
+				document.documentElement.setAttribute('data-theme', t);
+			} catch (e) {}
+		})();
+	</script>
+</head>
+
+<body data-lab="episode.html">
+
+	<div class="lab-canvas" id="lab-canvas">
+
+		<!-- ─────────────────────────────────────────────────────────────────
+		     EPISODE PAGE — player left, series on the RIGHT
+		     Full width, because a 16:9 frame squeezed into a reading column is
+		     a video you watch on someone else's terms. The list stays visible
+		     so the next episode is one glance away, never a trip back to the
+		     series page.
+		     ───────────────────────────────────────────────────────────── -->
+
+		<div class="container-wide section-sm">
+			<div class="grid-rail grid-rail-wide">
+
+				<div class="stack">
+					<!-- .player IS the 16:9 box: dark, rounded, its own
+					     color-scheme. .play fills it, .player__bar sits on the
+					     bottom edge. Progress is --value, not a width. -->
+					<div class="player pattern pattern-scanline pattern-media">
+						<button class="play" type="button" aria-label="Play episode 4">
+							<span class="play__disc"></span>
+							<svg class="icon" aria-hidden="true"><use href="#i-play"/></svg>
+						</button>
+
+						<div class="player__bar">
+							<div class="player__rail">
+								<span class="player__played" style="--value: 38%"></span>
+							</div>
+							<span class="player__time">08:12 / 21:40</span>
+						</div>
+					</div>
+
+					<div class="stack-sm">
+						<span class="eyebrow">Series Name — 1 · Episode 4</span>
+						<h1 class="t-h1">Episode Name — 4</h1>
+						<div class="cluster-sm">
+							<span class="badge badge-signal">New</span>
+							<span class="timecode">21:40</span>
+							<span class="t-small t-muted">Filmed in Budapest</span>
+						</div>
+						<p class="t-lead measure-lead">
+							What the episode is about, in the two lines someone reads before
+							deciding to give it twenty minutes.
+						</p>
+					</div>
+
+					<hr class="rule" />
+
+					<div class="cluster">
+						<a class="btn btn-secondary" href="#">
+							<svg class="icon icon-sm" aria-hidden="true"><use href="#i-arrow"/></svg>
+							Previous
+						</a>
+						<a class="btn btn-primary" href="#">
+							Next episode
+							<svg class="icon icon-sm" aria-hidden="true"><use href="#i-arrow"/></svg>
+						</a>
+					</div>
+				</div>
+
+				<!-- The rail: the series, sticky, current row marked with
+				     aria-current — state in the accessibility tree, as the
+				     system insists. -->
+				<aside class="sticky-rail">
+					<div class="ep-panel">
+						<div class="ep-panel__head">
+							<span class="ep-panel__title">Series Name — 1</span>
+							<span class="ep-panel__count">4 / 8</span>
+						</div>
+
+						<div class="ep-panel__list">
+							<a class="episode" href="#">
+								<span class="episode__thumb pattern pattern-grid pattern-media"></span>
+								<span>
+									<span class="episode__title">Episode Name — 1</span>
+									<span class="episode__meta">18:04 · watched</span>
+								</span>
+							</a>
+							<a class="episode" href="#">
+								<span class="episode__thumb pattern pattern-hatch pattern-media"></span>
+								<span>
+									<span class="episode__title">Episode Name — 2</span>
+									<span class="episode__meta">22:31 · watched</span>
+								</span>
+							</a>
+							<a class="episode" href="#">
+								<span class="episode__thumb pattern pattern-dots pattern-media"></span>
+								<span>
+									<span class="episode__title">Episode Name — 3</span>
+									<span class="episode__meta">19:12 · watched</span>
+								</span>
+							</a>
+							<a class="episode" href="#" aria-current="true">
+								<span class="episode__thumb pattern pattern-scanline pattern-media"></span>
+								<span>
+									<span class="episode__title">Episode Name — 4</span>
+									<span class="episode__meta">21:40 · playing</span>
+								</span>
+							</a>
+							<a class="episode" href="#">
+								<span class="episode__thumb pattern pattern-grid pattern-media"></span>
+								<span>
+									<span class="episode__title">Episode Name — 5</span>
+									<span class="episode__meta">24:08</span>
+								</span>
+							</a>
+							<a class="episode" href="#">
+								<span class="episode__thumb pattern pattern-hatch pattern-media"></span>
+								<span>
+									<span class="episode__title">Episode Name — 6</span>
+									<span class="episode__meta">17:55</span>
+								</span>
+							</a>
+						</div>
+					</div>
+				</aside>
+
+			</div>
+		</div>
+
+	</div>
+
+	<div class="lab-spec">
+		<h2>Notes</h2>
+		<p>
+			Backlog: <em>“Episode page: full width, episode list on the RIGHT.”</em>
+			<code>.grid-rail</code> (rail right) + <code>.sticky-rail</code> +
+			<code>.ep-panel</code> with <code>.episode</code> rows.
+			<code>aria-current="true"</code> is what marks the playing row — the design
+			system styles off it, so there is no <code>.is-active</code> to keep in sync.
+		</p>
+		<p>
+			The rail's <code>.ep-panel__list</code> scrolls on its own; at 68rem the whole
+			grid collapses to one column and the list lands under the player, which is the
+			right order for a phone.
+		</p>
+		<p>
+			<code>.player__bar</code> looks missing until you hover the frame — that is the
+			system's doing, not a broken preview: on hover-capable pointers the controls
+			fade out so the picture is the picture.
+		</p>
+		<p>
+			This preview is why <code>.grid-rail-wide</code> (<code>--rail: 24rem</code>)
+			now exists in the design system — at the default 18rem every episode title
+			broke onto two lines.
+		</p>
+	</div>
+
+	<script src="./_lab.js" defer></script>
+</body>
+</html>

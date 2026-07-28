@@ -1,0 +1,8 @@
+{{!-- Trail back up. Params: parent (label), parentUrl. --}}
+<nav class="breadcrumb" aria-label="Breadcrumb">
+	<ol>
+		<li><a href="{{@site.url}}/">Home</a></li>
+		{{#if parent}}<li><a href="{{parentUrl}}">{{parent}}</a></li>{{/if}}
+		<li aria-current="page">{{title}}</li>
+	</ol>
+</nav>

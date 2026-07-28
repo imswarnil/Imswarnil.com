@@ -1,0 +1,27 @@
+{{!-- Product I use: the thing, why it stays, and what it replaced. --}}
+<div class="container section">
+	<div class="grid-2" style="align-items:start;gap:var(--space-10)">
+		<div>
+			{{#if feature_image}}
+				<figure class="figure">
+					<img src="{{img_url feature_image size="l"}}" alt="{{title}}" width="1000" height="1000" class="u-ratio-square u-object-cover" />
+				</figure>
+			{{else}}
+				<div class="pattern pattern-dots u-border u-rounded-lg u-ratio-square"></div>
+			{{/if}}
+		</div>
+
+		<div>
+			<header class="stack u-mb-6">
+				<span class="eyebrow">Product I use</span>
+				<h1 class="t-h1">{{title}}</h1>
+				{{#if custom_excerpt}}<p class="t-lead">{{custom_excerpt}}</p>{{/if}}
+			</header>
+
+			{{> post-body}}
+			{{> util/tags}}
+		</div>
+	</div>
+</div>
+
+{{> util/related}}

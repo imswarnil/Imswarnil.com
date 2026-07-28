@@ -1,31 +1,31 @@
-/* Swarnil — CSS entry point.
-   Default Tailwind only: the three directives, the @tailwindcss/typography
-   plugin (used via `prose` on post content), and the two Ghost editor card
-   widths gscan requires. No custom theme, no custom components.
-   Build: npm run build:css → assets/built/screen.css */
+/* =============================================================================
+   Swarnil — CSS entry point.
+
+   Order matters:
+     0-foundation   tokens, reset, type, motion, patterns  (design system L1)
+     1-element      the atoms                              (design system L2)
+     2-components   buttons, forms, cards, collections, prose (design system L3)
+     3-sections     page headers, heroes, stats, CTA, footer  (design system L5)
+     4-utilities    u-* helpers                               (design system L6)
+     tailwind       utilities only — see the note below
+
+   THE RULE: the design system is the styling. Tailwind is kept for its
+   utilities (spacing overrides in a template, a one-off flex row), never for
+   defining what a thing looks like. A template that needs a new appearance
+   gets a component in the system, not a pile of utility classes.
+
+   Broadcast (L4) is deliberately NOT imported: it ships to YouTube and
+   Instagram, not to the website, and none of it belongs in the site bundle.
+
+   Build: npm run build:css → assets/built/screen.css
+   ========================================================================== */
+
+@import url('./0-foundation/tokens.css');
+@import url('./1-element/index.css');
+@import url('./2-components/index.css');
+@import url('./3-sections/index.css');
+@import url('./4-utilities/index.css');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-@layer base {
-	/* Honour Ghost Admin → Brand → fonts, falling back to Tailwind's stack. */
-	body {
-		font-family: var(--gh-font-body, theme('fontFamily.sans'));
-	}
-
-	h1, h2, h3, h4, h5, h6 {
-		font-family: var(--gh-font-heading, theme('fontFamily.sans'));
-	}
-}
-
-/* Ghost editor card widths — required by gscan. */
-@layer components {
-	.kg-width-wide {
-		max-width: 85vw;
-	}
-
-	.kg-width-full {
-		max-width: 100vw;
-	}
-}

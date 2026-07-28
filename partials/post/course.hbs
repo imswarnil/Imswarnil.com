@@ -1,0 +1,200 @@
+{{!-- ═════════════════════════════════════════════════════════════════════════
+     COURSE — the overview page, built on the design system's course collection.
+
+     The curriculum lives in the MAIN column, never the rail; the rail carries
+     the ask, the facts and the gear. Modules come from `#module-*` internal
+     tags whose DESCRIPTION is the module's name — Handlebars cannot slice a
+     string, and a slug that sorts (`#module-01`) is worth more than a slug
+     that reads. A course with no module tags falls back to one flat list, so
+     older demo content keeps working.
+     ══════════════════════════════════════════════════════════════════════ --}}
+
+<section class="container u-mt-6">
+	<div class="col-hero">
+		{{#if feature_image}}
+			<img class="col-hero__art" src="{{img_url feature_image size="xl"}}" alt=""
+			     width="1600" height="900" />
+		{{else}}
+			<span class="col-hero__art pattern pattern-grid pattern-lg" aria-hidden="true"></span>
+		{{/if}}
+
+		<div class="col-hero__in">
+			<span class="col-hero__eyebrow">
+				<svg class="icon icon-sm" aria-hidden="true"><use href="#i-book"/></svg>
+				Course{{#get "tags" visibility="all" filter="slug:~^'hash-track'" limit="1" as |tracks|}}{{#foreach tracks visibility="all"}} · {{description}}{{/foreach}}{{/get}}
+			</span>
+
+			<h1 class="col-hero__title">{{title}}</h1>
+			{{#if custom_excerpt}}<p class="col-hero__lead">{{custom_excerpt}}</p>{{/if}}
+
+			<div class="col-meta">
+				{{#get "posts" filter="tag:hash-lesson+primary_tag:{{primary_tag.slug}}" limit="1"}}
+					<div><span class="col-meta__n">{{pagination.total}}</span><span class="col-meta__l">lessons</span></div>
+				{{/get}}
+				{{#foreach tags visibility="internal"}}
+					{{#match slug "hash-level-beginner"}}<div><span class="col-meta__n">Beginner</span><span class="col-meta__l">no experience assumed</span></div>{{/match}}
+					{{#match slug "hash-level-intermediate"}}<div><span class="col-meta__n">Middle</span><span class="col-meta__l">some experience assumed</span></div>{{/match}}
+					{{#match slug "hash-level-advanced"}}<div><span class="col-meta__n">Advanced</span><span class="col-meta__l">for people who ship</span></div>{{/match}}
+				{{/foreach}}
+				<div><span class="col-meta__n">{{date published_at format="MMM YYYY"}}</span><span class="col-meta__l">last updated</span></div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<section class="container section-sm">
+	<nav class="col-post__crumbs u-mb-6" aria-label="Breadcrumb">
+		<a href="{{@site.url}}/courses/">Courses</a> <span>/</span> <span>{{title}}</span>
+	</nav>
+
+	<div class="grid-rail grid-rail-wide">
+		<div>
+			{{> post-body}}
+
+			{{!-- The curriculum. Modules if the course has them, one list if not. --}}
+			{{#get "posts" filter="tag:hash-lesson+primary_tag:{{primary_tag.slug}}" limit="100" order="published_at asc" as |lessons|}}
+				{{#if lessons}}
+					<div class="row-between u-mb-5 u-mt-10" id="curriculum">
+						<div>
+							<h2 class="t-h3">The curriculum</h2>
+							<p class="t-subtle u-mt-2" style="max-width:var(--measure-lead)">
+								It has a first and a last. The order is the information.
+							</p>
+						</div>
+					</div>
+
+					<section class="curriculum u-mb-10">
+						<header class="curriculum__head">
+							<span class="curriculum__title">{{title}}</span>
+							<span class="curriculum__meta">{{lessons.length}} lessons</span>
+						</header>
+
+						{{#get "tags" visibility="all" filter="slug:~^'hash-module'" limit="50" order="slug asc" as |modules|}}
+							{{#if modules}}
+								{{#foreach modules visibility="all" as |mod|}}
+									{{#get "posts" filter="tag:hash-lesson+primary_tag:{{@root.post.primary_tag.slug}}+tag:{{mod.slug}}" limit="100" order="published_at asc" as |part|}}
+										{{#if part}}
+											<details class="curriculum__module"{{#if @first}} open{{/if}}>
+												<summary>
+													<span class="curriculum__no" data-trim="#module-">{{mod.name}}</span>
+													<span class="curriculum__module-title">{{mod.description}}</span>
+													<span class="curriculum__count" data-module-count>0/{{part.length}}</span>
+												</summary>
+												<ol class="curriculum__lessons">
+													{{#foreach part}}
+														<li>
+															<a class="lesson-row" href="{{url}}">
+																<span class="lesson-row__tick"></span>
+																<span class="lesson-row__title">{{title}}</span>
+																{{#has tag="#free"}}<span class="lesson-row__free">Free</span>{{/has}}
+																<span class="lesson-row__len">{{reading_time}}</span>
+															</a>
+														</li>
+													{{/foreach}}
+												</ol>
+											</details>
+										{{/if}}
+									{{/get}}
+								{{/foreach}}
+							{{else}}
+								<ol class="curriculum__lessons">
+									{{#foreach lessons}}
+										<li>
+											<a class="lesson-row" href="{{url}}">
+												<span class="lesson-row__tick"></span>
+												<span class="lesson-row__title">{{title}}</span>
+												<span class="lesson-row__len">{{reading_time}}</span>
+											</a>
+										</li>
+									{{/foreach}}
+								</ol>
+							{{/if}}
+						{{/get}}
+					</section>
+
+					<div class="row-between u-mb-5"><div><h2 class="t-h3">When you finish</h2></div></div>
+					<div class="crs-cert pattern pattern-grid pattern-lg pattern-faint u-mb-10">
+						<span class="crs-cert__seal">
+							<svg class="icon" aria-hidden="true"><use href="#i-book"/></svg>
+						</span>
+						<span class="crs-cert__name">{{title}}</span>
+						<span class="crs-cert__rule"></span>
+						<p class="t-subtle" style="max-width:26rem">
+							A page with your name on it and the date you finished. Useful for a
+							manager, and honest about being exactly that.
+						</p>
+						<span class="crs-cert__meta">{{lessons.length}} lessons · issued on completion</span>
+					</div>
+				{{/if}}
+			{{/get}}
+
+			{{> util/share}}
+		</div>
+
+		<aside class="col-rail col-rail-sticky">
+			{{#get "posts" filter="tag:hash-lesson+primary_tag:{{primary_tag.slug}}" limit="1" order="published_at asc" as |first|}}
+				<div class="col-widget col-widget-accent">
+					<span class="col-widget__title">Start</span>
+					<div class="col-offer">
+						<div class="col-offer__price">
+							<span class="col-offer__now">{{#if @member}}Yours{{else}}Free{{/if}}</span>
+						</div>
+						<div class="col-offer__list">
+							{{#get "posts" filter="tag:hash-lesson+primary_tag:{{primary_tag.slug}}" limit="1"}}
+								<span><svg class="icon icon-sm" aria-hidden="true"><use href="#i-book"/></svg><span>{{pagination.total}} lessons</span></span>
+							{{/get}}
+							<span><svg class="icon icon-sm" aria-hidden="true"><use href="#i-clock"/></svg><span>Go at your own pace</span></span>
+							<span><svg class="icon icon-sm" aria-hidden="true"><use href="#i-heart"/></svg><span>Certificate at the end</span></span>
+						</div>
+						{{#foreach first}}
+							<a class="btn btn-primary" href="{{url}}">Start lesson one</a>
+						{{/foreach}}
+					</div>
+				</div>
+			{{/get}}
+
+			<div class="col-widget">
+				<span class="col-widget__title">Taught by</span>
+				{{#primary_author}}
+					<div class="col-author">
+						<span class="col-author__face">
+							{{#if profile_image}}
+								<img src="{{img_url profile_image size="s"}}" alt="{{name}}" width="96" height="96" />
+							{{else}}
+								<span class="col-ph" aria-hidden="true"></span>
+							{{/if}}
+						</span>
+						<span>
+							<span class="col-author__name">{{name}}</span>
+							<span class="col-author__who">{{#if bio}}{{bio}}{{else}}Wrote the thing this course is about.{{/if}}</span>
+						</span>
+					</div>
+				{{/primary_author}}
+			</div>
+
+			{{!-- The backlog is explicit about this: the rail carries the gear the
+			      course was made with, not a second copy of the curriculum. --}}
+			{{#get "posts" filter="tag:hash-product" limit="4" as |gear|}}
+				{{#if gear}}
+					<div class="col-widget">
+						<span class="col-widget__title">Made with</span>
+						<div class="col-mini">
+							{{#foreach gear}}
+								<a class="col-mini__item" href="{{url}}">
+									<span class="col-mini__n">{{number}}</span>
+									<span>
+										<span class="col-mini__title">{{title}}</span>
+										<span class="col-mini__meta">{{primary_tag.name}}</span>
+									</span>
+								</a>
+							{{/foreach}}
+						</div>
+						<div class="col-widget__foot">What I used to make this</div>
+					</div>
+				{{/if}}
+			{{/get}}
+		</aside>
+	</div>
+</section>
+
+<script src="{{asset "js/collection.js"}}" defer></script>

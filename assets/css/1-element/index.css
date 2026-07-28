@@ -1,0 +1,8 @@
+/* =============================================================================
+   SITE ELEMENTS
+   Layer 2 of the design system, imported wholesale. The theme adds nothing
+   here — an atom that the site needs but the system lacks is a gap in the
+   system, and it gets fixed there.
+   ========================================================================== */
+
+@import url('creator-design-system/src/2-elements/index.css');

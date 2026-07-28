@@ -1,0 +1,47 @@
+{{!-- Video: the player leads, notes follow, chapters ride the rail. --}}
+<div class="container section">
+	<div class="grid-rail">
+		<div>
+			{{> util/player}}
+
+			<header class="stack u-mt-6 u-mb-8">
+				<span class="eyebrow"><span class="dot dot-sm dot-live"></span> Video</span>
+				<h1 class="t-h1">{{title}}</h1>
+				{{#if custom_excerpt}}<p class="t-lead">{{custom_excerpt}}</p>{{/if}}
+				{{> util/meta}}
+			</header>
+
+			{{> post-body}}
+			{{> util/tags}}
+			{{> util/share}}
+		</div>
+
+		<aside class="rail">
+			<div class="rail__block">
+				<h2 class="rail__title"><svg class="icon" aria-hidden="true"><use href="#i-clock"/></svg> Chapters</h2>
+				<p class="t-small u-fg-subtle">Timestamps in the notes become jump links.</p>
+			</div>
+
+			{{#get "posts" filter="tag:hash-video+id:-{{id}}" limit="4" as |more|}}
+				{{#if more}}
+					<div class="rail__block">
+						<h2 class="rail__title">More videos</h2>
+						<div class="ep-panel__list">
+							{{#foreach more}}
+								<a class="episode" href="{{url}}">
+									<span class="episode__thumb pattern pattern-grid pattern-media"></span>
+									<span>
+										<span class="episode__title">{{title}}</span>
+										<span class="episode__meta">{{date format="D MMM YYYY"}}</span>
+									</span>
+								</a>
+							{{/foreach}}
+						</div>
+					</div>
+				{{/if}}
+			{{/get}}
+		</aside>
+	</div>
+</div>
+
+{{> util/related}}

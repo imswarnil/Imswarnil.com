@@ -1,0 +1,215 @@
+{{!-- ═════════════════════════════════════════════════════════════════════════
+     LESSON — the course player, built on the design system's course collection.
+
+     Full width, playlist on the RIGHT, and the way out of the course is always
+     in the same place. Behaviour is the system's collection.js:
+
+       [data-player]        the stage it works inside
+       [data-done-toggle]   mark complete (also the M key)
+       [data-step]          prev / next (also P and N)
+       [data-progress]      the bar, redrawn from the ticked rows
+       [data-tabs]          the panel strip below the video
+
+     Nothing is stored. Ghost has no per-member lesson progress, and writing to
+     localStorage would be a persistence trick pretending to be a feature.
+     ══════════════════════════════════════════════════════════════════════ --}}
+
+<div data-player>
+	<section class="container section-sm">
+		<nav class="col-post__crumbs u-mb-6" aria-label="Breadcrumb">
+			<a href="{{@site.url}}/courses/">Courses</a> <span>/</span>
+			{{#if primary_tag}}
+				<a href="{{primary_tag.url}}">{{primary_tag.name}}</a> <span>/</span>
+			{{/if}}
+			<span>{{title}}</span>
+		</nav>
+
+		<div class="col-stage">
+			<div class="col-stage__main">
+				<div class="player">
+					{{#if feature_image}}
+						<img src="{{img_url feature_image size="xl"}}" alt="" width="1600" height="900" />
+					{{else}}
+						<span class="col-ph" data-tall aria-hidden="true"></span>
+					{{/if}}
+					<button class="play" type="button">
+						<span class="play__disc"></span>
+						<span class="u-sr-only">Play the lesson</span>
+					</button>
+				</div>
+
+				<div class="col-stagebar">
+					{{#prev_post in="primary_tag"}}
+						<a class="btn btn-secondary btn-sm" href="{{url}}" data-step="prev">← Previous</a>
+					{{else}}
+						<span class="btn btn-secondary btn-sm" aria-disabled="true" data-step="prev">← Previous</span>
+					{{/prev_post}}
+
+					<div class="col-stagebar__where">
+						<span class="col-stagebar__pos">
+							{{#if primary_tag}}<span>{{primary_tag.name}}</span>{{/if}}
+							{{#foreach tags visibility="internal"}}
+								{{#match slug "hash-free"}}<span>Free preview</span>{{/match}}
+							{{/foreach}}
+							<span>{{reading_time}}</span>
+						</span>
+						<h1 class="t-h3" style="margin:0">{{title}}</h1>
+					</div>
+
+					<span class="cluster" style="gap:var(--space-2)">
+						<button class="btn btn-quiet btn-sm" type="button" data-done-toggle
+						        aria-pressed="false">Mark complete</button>
+						{{#next_post in="primary_tag"}}
+							<a class="btn btn-primary btn-sm" href="{{url}}" data-step="next">Next →</a>
+						{{else}}
+							{{!-- The last lesson still needs somewhere to go, and the only
+							      honest place is back to the course. --}}
+							{{#if primary_tag}}
+								<a class="btn btn-primary btn-sm" href="{{primary_tag.url}}">Finish course</a>
+							{{/if}}
+						{{/next_post}}
+					</span>
+				</div>
+			</div>
+
+			{{!-- The playlist. Same curriculum as the course page, scrolling in
+			      place, with this lesson marked. --}}
+			<aside class="col-stage__side">
+				{{#get "posts" filter="tag:hash-lesson+primary_tag:{{primary_tag.slug}}" limit="100" order="published_at asc" as |lessons|}}
+					<section class="curriculum col-playlist">
+						<header class="curriculum__head">
+							<span class="curriculum__title">{{primary_tag.name}}</span>
+							<span class="curriculum__meta" data-progress-count="{done} of {all}">
+								0 of {{lessons.length}}</span>
+							<div class="progress" role="progressbar" aria-label="Course progress"
+							     aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+								<div class="progress__bar" data-progress style="--value:0%"></div>
+							</div>
+						</header>
+
+						<div class="col-playlist__scroll">
+							{{#get "tags" visibility="all" filter="slug:~^'hash-module'" limit="50" order="slug asc" as |modules|}}
+								{{#if modules}}
+									{{#foreach modules visibility="all" as |mod|}}
+										{{#get "posts" filter="tag:hash-lesson+primary_tag:{{@root.post.primary_tag.slug}}+tag:{{mod.slug}}" limit="100" order="published_at asc" as |part|}}
+											{{#if part}}
+												{{!-- Open the module this lesson is in. One small query beats
+												      counting block depth, and the reader arrives with their
+												      own section already unfolded. --}}
+												{{#get "posts" filter="id:{{@root.post.id}}+tag:{{mod.slug}}" limit="1" as |here|}}
+													<details class="curriculum__module"{{#if here}} open{{/if}}>
+														<summary>
+														<span class="curriculum__no" data-trim="#module-">{{mod.name}}</span>
+														<span class="curriculum__module-title">{{mod.description}}</span>
+														<span class="curriculum__count" data-module-count>0/{{part.length}}</span>
+													</summary>
+													<ol class="curriculum__lessons">
+														{{#foreach part}}
+															<li>
+																<a class="lesson-row" href="{{url}}">
+																	<span class="lesson-row__tick"></span>
+																	<span class="lesson-row__title">{{title}}</span>
+																	<span class="lesson-row__len">{{reading_time}}</span>
+																</a>
+															</li>
+														{{/foreach}}
+													</ol>
+													</details>
+												{{/get}}
+											{{/if}}
+										{{/get}}
+									{{/foreach}}
+								{{else}}
+									<ol class="curriculum__lessons">
+										{{#foreach lessons}}
+											<li>
+												<a class="lesson-row" href="{{url}}">
+													<span class="lesson-row__tick"></span>
+													<span class="lesson-row__title">{{title}}</span>
+													<span class="lesson-row__len">{{reading_time}}</span>
+												</a>
+											</li>
+										{{/foreach}}
+									</ol>
+								{{/if}}
+							{{/get}}
+						</div>
+
+						<div class="col-playlist__foot">
+							<span data-progress-count="{pct}% complete">0% complete</span>
+							<span>{{lessons.length}} lessons</span>
+						</div>
+					</section>
+				{{/get}}
+			</aside>
+		</div>
+
+		{{!-- Below the stage: the lesson itself, and a place to think. Two real
+		      panels — a tab strip with one tab would be a costume. --}}
+		<div class="col-post u-mt-8">
+			<div data-tabs>
+				<div class="tabs" role="tablist" aria-label="About this lesson">
+					<button class="tab" type="button" role="tab" id="t-overview"
+					        aria-controls="p-overview" aria-selected="true">Overview</button>
+					<button class="tab" type="button" role="tab" id="t-notes"
+					        aria-controls="p-notes" aria-selected="false">Notes</button>
+				</div>
+
+				<div class="col-panel" id="p-overview" role="tabpanel" aria-labelledby="t-overview">
+					<span class="col-panel__label">Overview</span>
+					{{> post-body}}
+				</div>
+
+				<div class="col-panel" id="p-notes" role="tabpanel" aria-labelledby="t-notes">
+					<span class="col-panel__label">Notes</span>
+					<form class="col-note" onsubmit="return false">
+						<label class="label" for="note">Your note on this lesson</label>
+						<textarea class="input" id="note" placeholder="What you want to remember."></textarea>
+						<div class="col-note__foot">
+							<span class="col-note__stamp">{{title}}</span>
+							<button class="btn btn-secondary btn-sm" type="submit">Save note</button>
+						</div>
+					</form>
+					<p class="t-small u-fg-subtle u-mt-4" style="max-width:var(--measure-lead)">
+						This keeps nothing. Ghost has no per-member lesson storage, and a note
+						written to localStorage would be gone the moment you opened the course
+						on your phone.
+					</p>
+				</div>
+			</div>
+
+			<aside class="col-post__rail col-rail col-rail-sticky">
+				<div class="col-widget">
+					<span class="col-widget__title">Shortcuts</span>
+					<div class="col-keys">
+						<span class="col-key"><span>Next lesson</span><span class="col-key__combo"><kbd class="kbd">N</kbd></span></span>
+						<span class="col-key"><span>Previous lesson</span><span class="col-key__combo"><kbd class="kbd">P</kbd></span></span>
+						<span class="col-key"><span>Mark complete</span><span class="col-key__combo"><kbd class="kbd">M</kbd></span></span>
+					</div>
+					<div class="col-widget__foot">They do nothing while you are typing</div>
+				</div>
+
+				{{#get "posts" filter="tag:hash-lesson+primary_tag:{{primary_tag.slug}}+id:-{{id}}" limit="4" order="published_at asc" as |up|}}
+					{{#if up}}
+						<div class="col-widget">
+							<span class="col-widget__title">Also in this course</span>
+							<div class="col-mini">
+								{{#foreach up}}
+									<a class="col-mini__item" href="{{url}}">
+										<span class="col-mini__n">{{number}}</span>
+										<span>
+											<span class="col-mini__title">{{title}}</span>
+											<span class="col-mini__meta">{{reading_time}}</span>
+										</span>
+									</a>
+								{{/foreach}}
+							</div>
+						</div>
+					{{/if}}
+				{{/get}}
+			</aside>
+		</div>
+	</section>
+</div>
+
+<script src="{{asset "js/collection.js"}}" defer></script>
