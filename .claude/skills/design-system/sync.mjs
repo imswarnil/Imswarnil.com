@@ -23,7 +23,10 @@ function resolveDs() {
 	if (fs.existsSync(path.join(linked, 'src', 'index.css'))) return fs.realpathSync(linked);
 
 	const pkg = JSON.parse(fs.readFileSync(path.join(THEME, 'package.json'), 'utf8'));
-	const spec = pkg.dependencies?.['creator-design-system'] ?? '';
+	const spec =
+		pkg.devDependencies?.['creator-design-system'] ??
+		pkg.dependencies?.['creator-design-system'] ??
+		'';
 	if (spec.startsWith('file:')) {
 		const p = path.resolve(THEME, spec.slice('file:'.length));
 		if (fs.existsSync(path.join(p, 'src', 'index.css'))) return p;
@@ -33,12 +36,16 @@ function resolveDs() {
 
 const DS = resolveDs();
 if (!DS) {
-	console.error(
-		'design-system sync: cannot find creator-design-system.\n' +
-			'Expected node_modules/creator-design-system or a file: dependency in package.json.\n' +
-			'Fix: npm install (the dep is file:../../../../Projects/Creator-Design-System).'
+	// Not an error. The design system is a local, authoring-time dependency: it
+	// exists on the machine where the CSS is built and nowhere else. A deploy
+	// ships the built stylesheet, so a checkout without the system is a normal
+	// state and must not fail the build.
+	console.warn(
+		'design-system sync: skipped — creator-design-system is not present.\n' +
+			'That is expected on a deploy; the built CSS is committed. To work on the\n' +
+			'system locally, npm install (the dep is file:../../../../Projects/Creator-Design-System).'
 	);
-	process.exit(1);
+	process.exit(0);
 }
 
 const head = (() => {

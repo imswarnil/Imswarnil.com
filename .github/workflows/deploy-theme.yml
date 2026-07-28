@@ -1,5 +1,16 @@
 name: Deploy Ghost Theme
 
+# The deploy ships what is in the repo. It does NOT build.
+#
+# The stylesheet is compiled from the Creator Design System, which is a local
+# authoring-time dependency (`file:../../../../Projects/Creator-Design-System`)
+# and only exists on the machine the CSS is written on. So `assets/built/` is
+# committed, CI has nothing to install and nothing to compile — and the theme
+# that reaches Ghost carries no reference to the design system at all.
+#
+# Run `npm run build` locally and commit assets/built/ whenever you change
+# anything under assets/css/ or the design system itself.
+
 on:
   workflow_dispatch:  # Allows manual triggering
   push:
@@ -8,30 +19,53 @@ on:
       - main
 
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'npm'
+      - name: Fail early if the built CSS is missing
+        run: |
+          test -s assets/built/screen.css || {
+            echo "assets/built/screen.css is missing or empty."
+            echo "Run 'npm run build' locally and commit assets/built/."
+            exit 1
+          }
 
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Build theme
-        run: npm run build
+      # Ghost reads only name/version/config/engines out of package.json. The
+      # authoring fields point at a folder that exists on one laptop, so they
+      # come out of the runner's copy — never out of the repo.
+      - name: Strip authoring-only fields from package.json
+        run: |
+          node -e '
+            const fs = require("fs");
+            const pkg = JSON.parse(fs.readFileSync("package.json", "utf8"));
+            delete pkg.devDependencies;
+            delete pkg.dependencies;
+            delete pkg.scripts;
+            fs.writeFileSync("package.json", JSON.stringify(pkg, null, "\t") + "\n");
+          '
+          rm -f package-lock.json
 
       - name: Validate theme (gscan)
-        run: npx gscan . --fatal
+        run: npx --yes gscan@5 . --fatal
 
       - name: Deploy to Ghost
         uses: TryGhost/action-deploy-theme@v1
         with:
           api-url: ${{ secrets.GHOST_ADMIN_API_URL }}
           api-key: ${{ secrets.GHOST_ADMIN_API_KEY }}
-          exclude: "data.json theme-customize.txt"
+          exclude: >-
+            node_modules
+            .claude
+            dummy-content
+            lab
+            skills
+            data.json
+            theme-customize.txt
+            instruction.md
+            documentation.md
+            DESIGN-SYSTEM.md
+            THEME-UPDATE.md
+            Design.pdf
