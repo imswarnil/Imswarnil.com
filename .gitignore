@@ -28,3 +28,6 @@ dist/
 # rebuild it, so the artefact ships with the theme. Run `npm run build` and
 # commit the result whenever assets/css/ or the system changes.
 assets/built/main.js
+
+# The design-system sync stamp: a timestamp, regenerated on every build.
+.claude/skills/design-system/.sync-stamp
