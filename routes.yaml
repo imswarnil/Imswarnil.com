@@ -1,7 +1,27 @@
 # =============================================================================
-# routes.yaml · Swarnil theme
+# routes.yaml · Swarnil
 # Upload in Ghost Admin → Settings → Labs → Routes.
-# NOTE: Ghost requires trailing slashes on all custom routes.
+#
+# HOW THIS FILE IS ORGANISED
+#
+# Every collection here is one of two shapes:
+#
+#   FLAT       one tag, one level.        #video   → /videos/{slug}/
+#   CONTAINER  a landing post plus its    #course  → /courses/{slug}/
+#              children, nested under it. #lesson  → /courses/{course}/{slug}/
+#
+# A container's children are a separate collection whose permalink starts with
+# the parent's path and uses {primary_tag}. That is why a child's FIRST tag must
+# be the container's PUBLIC tag — Ghost builds the URL from it.
+#
+# ORDER MATTERS. Children are declared before their parent, because Ghost takes
+# the first collection whose permalink matches and the child's is the deeper of
+# the two. Moving a child below its parent silently 404s every child post.
+#
+# Two more rules Ghost enforces:
+#   · every custom route needs a trailing slash
+#   · collections are exclusive — a post belongs to the first one that claims
+#     it, which is why /archive/ (no filter) sits last
 # =============================================================================
 
 routes:
@@ -13,12 +33,12 @@ routes:
     template: signup
   /tags/:
     template: tags
+
 collections:
-  # Guides — same container/child shape as courses. The guide landing post is
-  # tagged #guide; its steps are tagged #guide-content and take the guide's
-  # PUBLIC tag as their primary tag, so they nest under it:
-  #   /guide/{guide-tag}/{step-slug}/
-  # Steps must be listed before /guide/ so the deeper permalink wins.
+  # ── Containers ─────────────────────────────────────────────────────────────
+  # Child first, parent second. Every pair follows the same shape.
+
+  # Guides · #guide-content → #guide
   /guide-steps/:
     permalink: /guide/{primary_tag}/{slug}/
     filter: tag:hash-guide-content
@@ -30,8 +50,7 @@ collections:
     filter: tag:hash-guide
     template: guide
 
-  # Lessons live INSIDE their course: /courses/{course-tag}/{lesson-slug}/
-  # A lesson's FIRST (primary) tag must be the course's public tag.
+  # Courses · #lesson → #course
   /lessons-index/:
     permalink: /courses/{primary_tag}/{slug}/
     filter: tag:hash-lesson
@@ -42,7 +61,7 @@ collections:
     filter: tag:hash-course
     template: courses
 
-  # Episodes live INSIDE their series: /webseries/{series-tag}/{episode-slug}/
+  # Web series · #episode → #webseries
   /episodes-index/:
     permalink: /webseries/{primary_tag}/{slug}/
     filter: tag:hash-episode
@@ -54,13 +73,7 @@ collections:
     filter: tag:hash-webseries
     template: webseries
 
-  /videos/:
-    permalink: /videos/{slug}/
-    filter: tag:hash-video
-    template: videos
-
-  # Project build-logs live INSIDE their project: /projects/{project-tag}/{slug}/
-  # A #project-detail post's FIRST (primary) tag must be the project's public tag.
+  # Projects · #project-detail (the build log) → #project
   /project-steps-index/:
     permalink: /projects/{primary_tag}/{slug}/
     filter: tag:hash-project-detail
@@ -72,10 +85,42 @@ collections:
     filter: tag:hash-project
     template: projects
 
+  # Travel · #travel (a story) → #trip
+  # Countries, cities and kinds ride along as internal tags on both —
+  # #country-austria, #city-vienna, #travel-category-city — and never appear in
+  # a URL. /travel/ reads them to build its filters.
+  /travel-index/:
+    permalink: /travel/{primary_tag}/{slug}/
+    filter: tag:hash-travel
+    order: published_at asc
+    template: travels
+
+  /travel/:
+    permalink: /travel/{slug}/
+    filter: tag:hash-trip
+    template: travel
+
+  # ── Flat collections ───────────────────────────────────────────────────────
+
+  /videos/:
+    permalink: /videos/{slug}/
+    filter: tag:hash-video
+    template: videos
+
+  /blog/:
+    permalink: /blog/{slug}/
+    filter: tag:hash-blog
+    template: blog
+
   /products/:
     permalink: /products/{slug}/
     filter: tag:hash-product
     template: products
+
+  /shop/:
+    permalink: /shop/{slug}/
+    filter: tag:hash-shop
+    template: shop
 
   /timeline/:
     permalink: /timeline/{slug}/
@@ -93,32 +138,6 @@ collections:
     filter: tag:hash-newsletter
     template: newsletters
 
-  /shop/:
-    permalink: /shop/{slug}/
-    filter: tag:hash-shop
-    template: shop
-
-  # Travel: trips are containers (like courses); travel posts live INSIDE their
-  # trip: /travel/{trip-tag}/{post-slug}/. A travel post's FIRST (primary) tag
-  # must be the trip's public tag. Countries/categories ride along as internal
-  # tags: #country-india, #travel-category-beach …
-  /travel-index/:
-    permalink: /travel/{primary_tag}/{slug}/
-    filter: tag:hash-travel
-    order: published_at asc
-    template: travels
-
-  /travel/:
-    permalink: /travel/{slug}/
-    filter: tag:hash-trip
-    template: travel
-
-  /blog/:
-    permalink: /blog/{slug}/
-    filter: tag:hash-blog
-    template: blog
-
-  # Prompts (chat-styled) and code snippets are separate collections
   /prompts/:
     permalink: /prompts/{slug}/
     filter: tag:hash-prompt
@@ -129,20 +148,22 @@ collections:
     filter: tag:hash-snippet
     template: snippets
 
-  # Experiences — life "moments" (photo + story)
+  # Life moments — a photograph and what happened.
   /experiences/:
     permalink: /experiences/{slug}/
     filter: tag:hash-experience
     template: experiences
 
-  # Docs — theme documentation, grouped by docs-* section tags
+  # This theme's own documentation, grouped by its #docs-* section tags.
   /docs/:
     permalink: /docs/{slug}/
     filter: tag:hash-docs
     order: published_at asc
     template: docs
 
-  # Catch-all archive: everything, lazy-loaded
+  # ── Everything else ────────────────────────────────────────────────────────
+  # No filter, so it claims whatever the collections above did not. Must stay
+  # last: a collection declared after this one would never see a post.
   /archive/:
     permalink: /archive/{slug}/
     template: archive

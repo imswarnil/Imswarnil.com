@@ -23,11 +23,11 @@ projectFilesBackup
 
 dist/
 
-# assets/built/screen.css IS committed. It is compiled from the Creator Design
-# System, which is a local authoring-time dependency — the deploy has no way to
-# rebuild it, so the artefact ships with the theme. Run `npm run build` and
-# commit the result whenever assets/css/ or the system changes.
-assets/built/main.js
+# assets/built/ IS committed — screen.css and the minified scripts both. They
+# are compiled from the Creator Design System, a local authoring-time
+# dependency the deploy cannot resolve, so the artefacts ship with the theme.
+# Run `npm run build` and commit the result whenever assets/css/, assets/js/ or
+# the system itself changes.
 
 # The design-system sync stamp: a timestamp, regenerated on every build.
 .claude/skills/design-system/.sync-stamp

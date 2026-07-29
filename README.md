@@ -17,8 +17,8 @@ internal tags, no code required from the publisher.
 
 ```bash
 npm install
-npm run build     # tailwind → assets/built/screen.css (minified)
-npm run test      # gscan validation
+npm run build     # CSS + JS → assets/built/ (both minified)
+npm run dist      # assembles dist/theme — templates minified, gscan clean
 npm run zip       # dist/swarnil.zip, ready to upload
 ```
 
@@ -118,13 +118,29 @@ sitemap at `/sitemap-visual/`.
 
 ## Development
 
-- `npm run dev` — Tailwind watch + BrowserSync proxy of a local Ghost at `localhost:2368`.
-- `npm run build` — minified production CSS.
-- `npm run test` / `npm run test:fatal` — GScan validation.
-- `npm run zip` — builds, validates, and packages `dist/swarnil.zip`.
+- `npm run dev` — Tailwind watch + BrowserSync proxy of a local Ghost at `localhost:2368`, plus the component lab on `:3002`.
+- `npm run build` — CSS through Tailwind and JS through uglify, both minified into `assets/built/`.
+- `npm run dist` — assembles `dist/theme`: every template minified, the built
+  assets, `package.json` without its authoring fields. Ends with gscan.
+- `npm run zip` — the same, packaged as `dist/swarnil.zip`.
+- `npm run test` / `npm run test:fatal` — GScan validation of the source tree.
 
-Tailwind sources live in `assets/css/` (`tailwind.css` + `components/*.css`);
-never edit `assets/built/screen.css` by hand — it is generated.
+### What is source and what is built
+
+| Source | Built | Never edit by hand |
+| --- | --- | --- |
+| `assets/css/**` | `assets/built/screen.css` | the built CSS |
+| `assets/js/**` | `assets/built/js/*.js` | the built JS |
+| `*.hbs`, `partials/**` | `dist/theme/**` | anything under `dist/` |
+
+`assets/built/` is **committed**. The CSS and JS are compiled from the Creator
+Design System — a local `file:` dependency that only exists on the authoring
+machine — so the deploy cannot rebuild them and ships the artefacts instead.
+Run `npm run build` and commit `assets/built/` whenever the sources change.
+
+The deploy (`.github/workflows/deploy-theme.yml`) installs nothing: it runs
+`scripts/build-dist.mjs`, validates `dist/theme` and uploads that. Nothing in
+the shipped theme refers to the design system.
 
 ## Support & documentation
 

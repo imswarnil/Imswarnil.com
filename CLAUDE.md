@@ -2,9 +2,22 @@
 
 Tailwind-based Ghost theme. Tag-driven collections (routes.yaml), demo content in
 the `dummy-content/` folder (one Ghost-import file per module + navigation.json +
-docs.json + guide.json; see dummy-content/README.md), build via `npm run build`, validate via `npx gscan .`,
-release via `npm run zip`. Local Ghost runs at localhost:2368 (templates map is
-cached — new .hbs files need a Ghost restart).
+docs.json + guide.json; see dummy-content/README.md). Local Ghost runs at
+localhost:2368 (templates map is cached — new .hbs files need a Ghost restart).
+
+## Build pipeline — source vs artefact
+`npm run build` → `assets/built/screen.css` (Tailwind, minified) and
+`assets/built/js/*.js` (uglify, minified; sources in `assets/js/`, the design
+system's nav.js/collection.js vendored in by `scripts/build-js.mjs`).
+
+`npm run dist` → `dist/theme`: every template run through
+`scripts/minify-hbs.mjs`, the built assets, `package.json` without its authoring
+fields. `npm run zip` packages it. **That is what deploys** — the workflow
+installs nothing, because `assets/built/` is committed (the design system is a
+local `file:` dep the runner cannot resolve).
+
+So: change `assets/css/` or `assets/js/` → run `npm run build` → commit
+`assets/built/`. Never edit anything under `assets/built/` or `dist/` by hand.
 
 ## Theme settings — hard rule
 Ghost allows a maximum of **20 custom settings**. As of 2026-07-27 the theme

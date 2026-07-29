@@ -16,21 +16,21 @@
 	},
 	"license": "MIT",
 	"scripts": {
-		"dev:css": "tailwindcss -i ./assets/css/tailwind.css -o ./assets/built/screen.css --watch",
 		"dev": "concurrently -n css,sync,lab -c cyan,magenta,yellow \"npm:dev:css\" \"npm:dev:sync\" \"npm:lab\"",
+		"dev:css": "tailwindcss -i ./assets/css/tailwind.css -o ./assets/built/screen.css --watch",
 		"dev:sync": "browser-sync start --proxy localhost:2368 --port 3000 --ui-port 3001 --no-notify --files \"assets/built/screen.css\" \"**/*.hbs\"",
 		"lab": "browser-sync start --server . --startPath /lab/ --port 3002 --ui-port 3003 --no-notify --files \"lab/**/*\" \"assets/built/screen.css\" \"assets/js/*.js\"",
 		"ds:sync": "node .claude/skills/design-system/sync.mjs",
 		"build": "npm run ds:sync && npm run build:css && npm run build:js",
 		"build:css": "tailwindcss -i ./assets/css/tailwind.css -o ./assets/built/screen.css --minify",
-		"build:prod": "npm run build",
+		"build:js": "node scripts/build-js.mjs",
+		"dist": "npm run build && node scripts/build-dist.mjs && npx gscan dist/theme --fatal",
+		"zip": "npm run dist && mkdir -p dist && cd dist/theme && zip -r -X -q ../swarnil.zip . && echo \"→ dist/swarnil.zip\"",
+		"release": "npm run zip && echo \"Upload dist/swarnil.zip: Ghost Admin → Design → Change theme\"",
 		"test": "gscan .",
 		"test:fatal": "gscan . --fatal",
 		"test:verbose": "gscan . --verbose",
-		"clean": "rm -rf dist",
-		"zip": "npm run build && npm run test:fatal && mkdir -p dist && zip -r -X dist/swarnil.zip . -x 'node_modules/*' 'dist/*' '.git/*' '.github/*' '.claude/*' 'lab/*' 'dummy-content/*' 'theme-customize.txt' 'instruction.md' 'documentation.md' 'redirects.yaml' '.DS_Store' '.gitignore'",
-		"release": "npm run zip && echo '→ dist/swarnil.zip ready to upload (Ghost Admin → Design → Change theme → Upload)'",
-		"build:js": "cp node_modules/creator-design-system/src/nav.js assets/js/nav.js && cp node_modules/creator-design-system/collection/collection.js assets/js/collection.js"
+		"clean": "rm -rf dist"
 	},
 	"config": {
 		"custom": {

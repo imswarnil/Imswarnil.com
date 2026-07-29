@@ -1,6 +1,8 @@
 {{!< default}}
+{{!-- The author archive. Ghost puts the author on the page as `author`, so the
+     fields are read off it directly: `{{#author}}` is the deprecated block form
+     and gscan errors on it. Note the prefix — bare `{{name}}` resolves to
+     nothing here, which renders an empty heading rather than a failure. --}}
 
-{{#author}}
-	{{> page-header kicker="Author" title=name description=bio}}
-{{/author}}
+{{> page-header kicker="Author" title=author.name description=author.bio}}
 {{> list}}
