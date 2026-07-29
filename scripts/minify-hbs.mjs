@@ -33,9 +33,11 @@ export function minifyHbs(source) {
 	});
 
 	// 2 · comments: {{!-- … --}}, {{! … }} and <!-- … -->
+	// {{!< layout}} is Ghost's layout-inheritance tag, not a comment, despite
+	// the {{! prefix — stripping it drops the whole default.hbs wrapper.
 	out = out
 		.replace(/\{\{!--[\s\S]*?--\}\}/g, '')
-		.replace(/\{\{![^}]*\}\}/g, '')
+		.replace(/\{\{!(?!<)[^}]*\}\}/g, '')
 		.replace(/<!--(?!\[if)[\s\S]*?-->/g, '');
 
 	// 3 · a line break and its indentation become one space; never nothing

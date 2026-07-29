@@ -29,5 +29,8 @@ dist/
 # Run `npm run build` and commit the result whenever assets/css/, assets/js/ or
 # the system itself changes.
 
-# The design-system sync stamp: a timestamp, regenerated on every build.
-.claude/skills/design-system/.sync-stamp
+# Authoring-only Claude Code material: skills, notes, docs for working on this
+# theme. Ghost never reads it (build-dist.mjs's INCLUDE_DIRS doesn't list it),
+# and it doesn't belong in the public GitHub history — kept locally only.
+.claude/
+skills/
